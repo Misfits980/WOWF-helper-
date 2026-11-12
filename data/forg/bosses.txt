@@ -68,10 +68,10 @@
 가시덩굴 우리|흉포한 아가테로스|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/146/2450.webp
 가시덩굴 우리|눈먼사냥꾼|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/127/4735.webp
 가시덩굴 구릉|투텐카쉬|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/165/7845.webp
-가시덩굴 구릉|게걸먹보|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/184/7864.webp
-가시덩굴 구릉|너덜주둥이|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/118/11382.webp
 가시덩굴 구릉|썩어가는 역병아귀|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/236/6124.webp
 가시덩굴 구릉|불꽃눈 모드레쉬|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/119/8055.webp
+가시덩굴 구릉|게걸먹보|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/184/7864.webp
+가시덩굴 구릉|너덜주둥이|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/118/11382.webp
 가시덩굴 구릉|혹한의 암네나르|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/35/7971.webp
 울다만|레벨로쉬|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/57/5945.webp
 울다만|길 잃은 드워프|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/78/5710.webp

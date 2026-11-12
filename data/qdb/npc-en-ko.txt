@@ -8992,6 +8992,7 @@ Archmage Timear|대마법사 티미어
 Sandra Bartan|산드라 바르탄
 Dalaran Citizen|달라란 시민
 Grenhild Darktalon|그렌힐트 다크탈론
+Brother Romulus|수사 로물루스
 Boarton Shadetotem|보어튼 셰이드토템
 Bruuz|브루즈
 Kackle|캐클
@@ -9003,6 +9004,7 @@ Tortured Soul|괴로워하는 영혼
 Dro'zem the Blasphemous|신성모독자 드로젬
 Incinerator Gar'im|소각자 가림
 Brave Stonetorch|투사 스톤토치
+Ardelle Dralta|아르델 드랄타
 Rix Xizzix|릭스 시직스
 Tokal|토칼
 Orokai|오로카이
@@ -9011,14 +9013,22 @@ Ravaging Tempest|맹렬한 폭풍우
 Skonk|스콩크
 Ancient Fire Elemental|고대 불의 정령
 Amaryllis Webb|아마릴리스 웹
+Hay Weevil|건초 바구미
+Flesh Picker|살점 야금이
 Captain Aransas|선장 아란사스
 Wendel Mathers|윈델 마더스
 Fizbuz Mithril|피즈버즈 미스릴
+Maseara Autumnmoon|마세라 어텀문
 Elrick|엘릭
 Magister Falath|마법학자 팔라스
+Namida Grimtotem|나미다 그림토템
 Pix Xizzix|픽스 시직스
 Blackrock Bootlegger|검은바위부족 밀조장이
+Slack-Jawed Ghoul|벌린턱 구울
+Orthas|오르타스
+Rotting Dwarf Corpse|썩어가는 드워프 시체
 Dockhand|부두 일꾼
+Berdun Cliffbrew|버던 클리프브루
 Reagent Bot|재료 로봇
 Aramis Hammerhand|아라미스 해머핸드
 Frightened Paladin|겁에 질린 성기사
@@ -9055,6 +9065,7 @@ Tordrin Sternblade|토르드린 스턴블레이드
 Nimsy|님시
 Geosculptor Yip|땅조각가 이프
 Lumina Windsinger|루미나 윈드싱어
+Jenna|제나
 Trevan Rol|트레반 롤
 Stormwind Dock Worker|스톰윈드 항구 일꾼
 Yala Windwatcher|얄라 윈드워처
@@ -9132,6 +9143,7 @@ Indari Sunseam|인다리 썬심
 Al'Aketh Stormcaller|알아케스 폭풍소환사
 High Priestess Lorthuna|대여사제 로르투나
 Skypriest Aanders|하늘사제 앤더스
+Archmage Celindra|대마법사 셀린드라
 Mei Francis|메이 프란시스
 Hanaa Nightwind|하나아 나이트윈드
 Peacekeeper Vaaniel|평화감시자 바니엘
@@ -9160,7 +9172,9 @@ Wind Sprite|바람의 요마
 Al'Aketh Stormchaser|알아케스 폭풍추격자
 Al'Aketh Footsoldier|알아케스 보병
 Commander Belguilos|사령관 벨길로스
+Adarien|아다리엔
 Pylon Protector|수정탑 수호자
+Shard Guard|파편 경비병
 Decrepit Pylon Protector|노쇠한 수정탑 수호자
 Al'Aketh Guardian|알아케스 수호자
 Al'Aketh Spiritcaller|알아케스 영혼소환사
@@ -9172,6 +9186,7 @@ Hungry Bandit|굶주린 좀도둑
 Bandit Highwayman|산적 노상강도
 Ferauu the Bludgeon|강타자 페라우
 Remi|레미
+Bandit Henchman|산적 악한
 Fillion Flamebreeze|필리온 플레임브리즈
 Iaadaria Bitterwind|이아다리아 비터윈드
 Umarak|우마라크
@@ -9190,6 +9205,7 @@ Magram Necrokhan|마그람 네크로칸
 Shriekling Fledgling|새끼 괴성조
 Shriekling Matriarch|괴성조 어미
 Dead Cultist|죽은 이교도
+Corpsefeeder|시체먹보
 Ozwin Ironsprocket|오즈윈 아이언스프로킷
 Gelkis Captive|겔키스일족 포로
 Mordent Evenshade|모든트 이븐셰이드
@@ -9197,10 +9213,15 @@ Peacekeeper|평화감시자
 Al'Aketh Pillager|알아케스 약탈자
 Bristleback Nomad|뾰족털일족 유목민
 Bristleback Skullcrusher|뾰족털일족 해골분쇄자
+Kog'thug the Brave|용감한 코그투그
 Bristleback Snortsnout|뾰족털일족 킁킁코
+Frightened Bristleback Child|겁에 질린 뾰족털일족 아이
 Hyusaa Quickbreeze|휴사 퀵브리즈
 Commander Haalien|사령관 할리엔
+Mulara|물라라
 Al'Aketh Attacker|알아케스 공격자
+Hagiak|하기아크
+Rokren|로크렌
 Tom "Half-fish" Wilson|"인간 물고기" 톰 윌슨
 Naeluna Swiftmend|네알루나 스위프트멘드
 Aarnor Galestrike|아르노르 게일스트라이크
@@ -9214,6 +9235,7 @@ Wardrobe|옷장
 Sirocca "Swimmers" Starfeather|"헤엄꾼" 시로카 스타페더
 Vayn Moongaze|베인 문게이즈
 Outcast Scout|추방자 정찰병
+Outcast Marauder|추방자 약탈자
 High Order Mage|고등 마법원 마법사
 Windshaper Shaman|바람구체자 주술사
 Endaria Mistgaze|엔다리아 미스트게이즈
@@ -9223,36 +9245,50 @@ Belandiel Farflight|벨란디엘 파플라이트
 Quel'dora Quickgale|퀠도라 퀵게일
 Desolace Bone Worm|잊혀진 땅 뼈 벌레
 Twilight Shadowmancer|황혼의 망치단 흑마술사
+Rowdy Rose|소란스러운 장미
+Malevolent Marigold|사악한 금잔화
+Mithera|미세라
 Windsong Crawler|바람노래 집게발
 Vulgara the Insatiable|탐욕의 불가라
 Al'Aketh Healer|알아케스 치유사
 Al'Aketh Assassin|알아케스 암살자
 Magister Kirandis|마법학자 키란디스
+Woodwyrd|우드와이어드
+Ball and Chain|족쇄
 Pelluk|펠루크
 Karana|카라나
+Gimashi|기마쉬
 Blind Screecher|눈먼 비명꾼
 Liranne|리란
 Historian Biraxas|역사가 비락사스
 "Badwind" Bennic|"사악한 바람" 베닉
 Magram Guardian|마그람 수호자
 Gelkis Guardian|겔키스일족 수호자
+Father Tuttle|신부 투틀
+Shen'dralas Protector|셴드랄라스 수호자
 Redridge Trapper|붉은마루일족 덫사냥꾼
 Redridge Scout|붉은마루일족 정찰병
 Clugfist|뭉치주먹
 Malevolent Storm|사악한 폭풍
 Rohash|로하시
 Bolder'ok Magus|볼데로크 학자
+Bolder'ok Brute|볼데로크 투사
 Mature Paletusk|성숙한 창백엄니
 Urs'endris|우르센드리스
+Hunter Moore|사냥꾼 무어
 Slydris|슬리드리스
+Powderfuse Bruiser|화약심지 투사
+Grungle|먼지야금이
 Bonegnaw|해골갈갈이
 Innkeeper Zizplink|여관주인 지즈플링크
+Grizzek|그리젝
 Friz Frazzlespark|프리즈 프래즐스파크
 Murloc Tideskimmer|멀록 파도살이
 Snargl|스나글
 Donaal Downbreeze|도나알 다운브리즈
 Thendal Grove Ranger|센달 숲 순찰자
 Grakna|그라크나
+Rog'mar Grunt|로그마 보병
 Damaged Construct|손상된 피조물
 Riaani Nightwind|리아니 나이트윈드
 Shadowgale Shriekling|그늘돌풍 괴성조
@@ -9270,12 +9306,14 @@ Elaine Compton|일레인 콤프턴
 Off-Duty Pack Kodo|비번 짐꾼 코도
 Off-Duty Pack Mule|비번 짐노새
 Okamache|오카마체
+Reginald Holmsby|레지널드 홈스비
 Krom'rosh|크롬로쉬
 Woodworker|목공
 Turner's Mill Lumberjack|터너의 제재소 벌목꾼
 Halligan Turner|핼리건 터너
 Belann Windwood|벨란 윈드우드
 Contemplative Bandit|생각에 잠긴 도적
+Crate of Alchemy Goods|연금술용품 상자
 Crate of Enchanting Supplies|마법부여용품 상자
 Basket of Textile Supplies|직물 용품 바구니
 Duke Anvillaxx|공작 앤빌락스
@@ -9284,6 +9322,7 @@ Gorg|그로그
 Kreza Darkthorn|크레자 다크쏜
 Gur'dok|구르도크
 Kurvelk Shadowhoof|쿠르벨크 섀도후프
+Grik|그릭
 Innkeeper Toka|여관주인 토카
 Tran'gul|트란굴
 Na'zok|나조크
@@ -9298,8 +9337,14 @@ Huey Sunnydale|휴이 서니데일
 Crate of Blacksmithing Goods|대장기술용품 상자
 Dianne Softstep|다이앤 소프트스텝
 Rog'mar Trainee|로그마 훈련생
+Twilight Fanatic|황혼의 광신자
 Twilight Neophyte|황혼의 수련사
+Twilight Champion|황혼의 용사
+Twilight Enforcer|황혼의 집행자
+Overlord Kilgar|대군주 킬가르
+Executioner Morg|집행자 모르그
 Chogg'Zac|초그자크
+Farholde Scout|파홀드 정찰병
 Captured Bandit|붙잡힌 산적
 Malduko Cloudcrush|말두코 클라우드크러시
 Twilight Raider|황혼의 약탈병
@@ -9320,20 +9365,29 @@ Messana Crestwind|메사나 크레스트윈드
 Mendalass Tattermend|멘달라스 태터멘드
 Baelann Favorbreeze|베일란 페이버브리즈
 Zelena Favorbreeze|젤레나 페이버브리즈
+Clobrok|클로브록
 Buzzbeak|윙부리
 Gobam|고밤
 Chub'chob|처브초브
 Jezap Jinglesprocket|제자프 징글스프로킷
 Missionary Jasaan|선교사 자산
+Cavalry Scout Alturin|기병대 정찰병 알투린
+Cavalry Guard|기병대 경비병
 Gretchen Mayberry|그레첸 메이베리
 Zaal Stormshield|자알 스톰실드
+Marshal Ryan|치안대장 라이언
+Alan Sneeks|앨런 스닉스
+Brakkit|브라키트
+Lizi Pinchwhistle|리지 핀치휘슬
 Muggol Breezebeard|머골 브리즈비어드
 Alyce|앨리스
 Ash'alari|아샬라리
 Murache|무라체
 Tephri Thriceforged|테프리 스라이스포지드
 Railee Thriceforged|레일리 스라이스포지드
+Furious Shadowforge Digger|분노한 어둠괴철로 채굴꾼
 Teo Hammerstorm|테오 해머스톰
+Rog'mar Scout|로그마 정찰병
 High Order Apprentice|고등 마법원 수습생
 Windshaper Novice Seer|바람구체자 수습 선견자
 Valreaa Valewind|발레아 베일윈드
@@ -9346,12 +9400,15 @@ Tanis Alderwood|타니스 알더우드
 Deathguard Billmuth|죽음경비병 빌머스
 Deathguard Falgan|죽음경비병 팔간
 Braldir Ashmantle|브랄디르 애시맨틀
+Admiral Lamora|제독 라모라
 Earthen Ring Shaman|대지 고리회 주술사
 Kirin Tor Mage|키린 토 마법사
+Eastsea Buccaneer|동쪽바다 해적단원
+Eastsea Musketeer|동쪽바다 총병
 Eastsea Raider|동쪽바다 약탈병
 Eastsea Bombardier|동쪽바다 폭격수
-Farholde Scout|파홀드 정찰병
 Elegael Thornpaw|엘레게일 쏜포우
+Sergeant Riftan|하사관 리프탄
 Neza Bloodsnout|핏빛코 네자
 Norric Lochthane|노릭 록세인
 Jom-jom|좀좀
@@ -9387,8 +9444,10 @@ Slain Fledgling|죽은 자손
 Darah|다라
 Boramu|보라무
 Kronk|크롱크
+Sootfur|검댕모피
 Ellie Stonebrow|엘리 스톤브로우
 Antonio Bolero|안토니오 볼레로
+Da'grosh|다그로쉬
 Dani'ill|다니일
 Mudfin Oracle|진흙아가미 예언자
 Mudfin Warrior|진흙아가미 전사
@@ -9402,14 +9461,18 @@ High Priestess Mims|고위 여사제 밈스
 Auctioneer Quickcoin|경매인 퀵코인
 Steamwheedle Courier|스팀휘들 급사
 Uninspected Shipment|미검수 화물
+Hungry Crocolisk|굶주린 악어
 Isaac Chan|아이작 챈
+Curly|컬리
 Hurley|헐리
 Gustjumper|돌풍도약꾼
 Musical Gustjumper|선율의 돌풍도약꾼
 Ban'aethal Refugee|반아이탈 피난민
 Ealaane Nimbuswalker|엘라네 님버스워커
 Resaan Nimbuswalker|레산 님버스워커
+Veyric Thunderhame|베이릭 썬더헤임
 Freshwater Crocolisk|민물악어
+Eleanor Holmsby|엘리노어 홈스비
 Rog'mar Poacher|로그마 밀렵꾼
 Wildplains Patriarch|야생평원 우두머리
 Wildplains Huntress|야생평원 사냥꾼
@@ -9420,44 +9483,87 @@ Fuzzle|퍼즐
 Docile Galestrider|온순한 돌풍타조
 Redridge Thug|붉은마루 폭력배
 Ephram Barbaro|에프람 바바로
+Lost Horse|길 잃은 말
+Converted Farmer|전향한 농부
+Plains Coyote|평원 코요테
 High Plains Buzzard|고원 대머리수리
+Watcher Cornelius|감시자 코넬리우스
 Injured Deathguard|상처 입은 죽음경비병
 Tel'daeor the Stormspeaker|폭풍예언자 텔데오르
 Snapbeak the Quick|재빠른 덥썩부리
+Galemender Delanea|돌풍치유사 델라니아
 Rudolph Gelhardt|루돌프 겔하트
 Tarnished Zealot|빛바랜 광신자
 Tarnished Drudge|빛바랜 허드레꾼
 Deathguard Baldren|죽음경비병 발드렌
 Ulric Frostveil|울릭 프로스트베일
+Gul'gash|굴가쉬
+Mika Darby|미카 다비
+Mosh'gra|모쉬그라
+Paige Armstrong|페이지 암스트롱
 Cassandra Wheeler|카산드라 휠러
 Old Fire-Eye|늙은 불꽃눈
 Wharfmaster Whizzbuzz|부두장 위즈버즈
 Fimbo Greasemitz|핌보 그리스미츠
+Gorgegut|협곡포식자
 Farholde Ambusher|파홀드 복병
+Scout Bolain|정찰병 볼레인
+Sentry Denning|보초병 데닝
+Sentry Gellin|보초병 겔린
 Bertrand Ironbrow|베르트랑 아이언브로우
+Sentry Nolan|보초병 놀란
 Ember Bladewhisper|엠버 블레이드위스퍼
 Garen Largo|가렌 라르고
 Bandarion Keep Paladin|반다리온 성채 성기사
 Elder Snow Leopard|늙은 눈표범
 Scoutmaster Vargas|정찰대장 바르가스
 Bloodsnout|핏빛코
+Argo Brinewhistle|아르고 브라인휘슬
 Trapclaw|덫발톱
+Monstrous Threshadon|거대한 트레샤돈
 Maka|마카
+Sadi|사디
+Sergeant Ulka|하사관 울카
+Captain Bentcoin|선장 벤트코인
+Captain Haynes|대장 헤인스
 Whispering Horror|속삭이는 공포
+Wharfmaster Steamfizzle|부두장 스팀피즐
+Slugjaw|민달턱
 Shadowvale Lurcher|휘청거리는 어둠골짜기 괴물
 Venture Co. Agent|투자개발회사 요원
 Shadowvale Mystic|어둠골짜기 비술사
+Gritta Chumwater|그리타 첨워터
+Tallow Sparksocket|탤로 스파크소켓
 Jasper Geartoggle|야스퍼 기어토글
+Mizzy|미지
+Krix|크릭스
+Gilliwigs|길리윅스
+Krikshank|크릭생크
+Dina Mite|디나 마이트
+Melbin Powderfuse|멜빈 파우더퓨즈
+Mia Tanglewrench|미아 탱글렌치
+Rex Hardwire|렉스 하드와이어
+Kor'gar|코가르
 Fizzix Boomshot|피직스 붐샷
+Jazzle Cheapshot|재즐 칩샷
+Shady Smuggler|수상한 밀수업자
+Stitch Pinwizzle|스티치 핀위즐
 Highland Spider|고원 거미
 Highland Lurker|고원 잠복꾼
 Highland Tortoise|고원 거북
+Tazzik|타직
+Sentry Welgrin|보초병 웰그린
+Sentry Rivers|보초병 리버스
 Dudd Fizzlescroll|더드 피즐스크롤
 Clubtoe|몽둥이발
 Twilight Mauler|황혼의 싸움꾼
 Twilight Instigator|황혼의 선동자
 Klunk|클렁크
+Crag'rog|크라그로그
+Ogre Miner|오우거 광부
+Twilight Subjugator|황혼의 통제자
 Twilight Brute|황혼의 투사
+Naluk|날루크
 Walton|월튼
 Terry Longdrink|테리 롱드링크
 Twilight Firecaller|황혼의 불꽃소환사
@@ -9466,8 +9572,11 @@ Webbed Mudsnout Gnoll|거미줄에 휘감긴 진흙주둥이 놀
 Gorgrash|고르그라쉬
 Sister Rowland|수녀 롤랜드
 Roosting Duskbat|둥지 짓는 그늘박쥐
+The Ravenous|굶주린 자
 Corporal Adamore|하사관 애더모어
 Twilight Ritualist|황혼의 의식술사
+Spek|스펙
+Bullets Bigblast|불리츠 빅블라스트
 Brinescale Skirmisher|소금비늘 척후병
 Gelinda Coppergleam|겔린다 코퍼글림
 Tuu'li|툴리
@@ -9479,20 +9588,25 @@ Palah Thunderhoof|팔라 썬더후프
 Hana Lighthoof|하나 라이트후프
 Blademaster Kaijo|검귀 카이조
 Myriaal Mistwake|미리알 미스트웨이크
+Gray Dawnbright|그레이 돈브라이트
 Scaldaron|스칼다론
 Tan'jani|탄자니
 Dorb|도르브
 Glade Viper|공터 살무사
+Ombassa|옴바사
 Picked Carcass|뜯긴 사체
+Madam Swyndle|마님 스윈들
 Low Plains Buzzard|저지대 평원 대머리수리
 Roving Tallstrider|떠도는 타조
 James Battlewing|제임스 배틀윙
 Sleebo Fizzlespout|슬리보 피즐스파우트
 Ghostmaw|유령아귀
+Mister Graphed|그라페드 씨
 Sam Sarsaparilla|샘 사르사파릴라
 Hamur|하무르
 Bal'mog|발모그
 Creeg Bothunk|크리그 보성크
+Krek the Noxious|유독성 크렉
 Sean Guardoff|션 가드오프
 Pherry Leftee|페리 레프티
 Gruga Bloodblade|그루가 블러드블레이드
@@ -9500,6 +9614,7 @@ Rugbul Boomfirst|러그불 붐퍼스트
 Borook Gallfist|보루크 골피스트
 Raan Wildwind|란 와일드윈드
 Bear|곰
+Bristleback Bodyguard|뾰족털일족 경호원
 Yorn Grimtotem|요른 그림토템
 Mazu'kon|마주콘
 Sutara Plainstalker|수타라 평원추적자
@@ -9510,7 +9625,9 @@ Gloomrise Soldier|그늘돋이 병사
 Gnawed Corpse|갉아 먹힌 시체
 Unstable Mana Rift|불안정한 마나 균열
 Magus Olvek|학자 올베크
+Galestrider Handler|돌풍타조 조련사
 Disturbed Ghoul|동요한 구울
+Dead Orc|죽은 오크
 Earthseer Farsen|대지선견자 파르센
 Farsen's Totem|파르센의 토템
 Afadra Dunwall|아파드라 던월
@@ -9537,11 +9654,16 @@ Ridgeshade Creeper|능선그늘 거미
 Ukorsbane|우코스베인
 Halikor|할리코르
 Galestrider Chick|어린 돌풍타조
+Nelanna Keeneye|넬란나 킨아이
+Juvenile Paletusk|어린 창백엄니
+Valiant Watcher|용맹한 감시자
+Warden|감시관
 Pa'zula|파줄라
 Turroc|투로크
 Dark Neophyte|암흑 수련사
 Stormwind Harbor Guard|스톰윈드 항구 경비병
 Hadric Harlson|헨드릭 할슨
+Stormwind Cannoneer|스톰윈드 포병
 Gilbert Gray|길버트 그레이
 Va'xug Firefure|바수그 파이어퓨어
 Sylassa Moonglow|실라사 문글로우
@@ -9557,6 +9679,7 @@ Gur'ak|구라크
 Razormane Berserker|서슬갈기일족 광전사
 Thedda|테다
 Clarence Gillian|클라렌스 길리안
+Margaret Weaver|마가렛 위버
 Walter Mason|월터 메이슨
 Florence Nightshade|플로렌스 나이트셰이드
 Kagil|카길
@@ -9571,15 +9694,18 @@ Sally Swiftwrench|샐리 스위프트렌치
 Emrys Flintbeard|엠리스 플린트비어드
 Black Skeletal Horse|검은색 해골마
 White Ram|흰색 산양
+Quadcopter|쿼드콥터
 Nordun Steadysight|노르둔 스테디사이트
 Ranath Nightstride|라나스 나이트스트라이드
 Manifest Clerk Philmor|적하 사무원 필모어
 Bloodtalon Matriarch|붉은발톱랩터 어미
+Olana Brighthoof|올라나 브라이트후프
 Chakuyak|차쿠야크
 Roy Lewells|로이 르웰스
 Olariaan Swiftburn|올라리안 스위프트번
 Skypriest Faladiel|하늘사제 팔라디엘
 Kuramaa|쿠라마
+Thera Duskwhisper|테라 더스크위스퍼
 Encroaching Soldier|접근하는 병사
 Outraged Pillager|격분한 약탈자
 Razormane Raider|서슬갈기 침략자
@@ -9592,6 +9718,7 @@ Puk|푸크
 Thatog|타토그
 Aka'rai|아카라이
 Mayhoa Skyhoof|메이호아 스카이후프
+Brazier of Offering|공물의 화로
 Plains Prowler|배회하는 초원사자
 Night Elf Courier|나이트 엘프 급사
 Zimmix Sputterspark|지믹스 스퍼터스파크
@@ -9626,6 +9753,9 @@ Nightveiled Rotheap|밤장막 부패무더기
 Venomweb Spitter|맹독 거미줄 살포자
 Farholde Priest|파홀드 사제
 Daggerfang|단도엄니
+Drazzit Dripvalve|드라짓 드립밸브
+Gizzix Grimegurgle|기직스 그림구르글
+Miss Melly|멜리 양
 Qujo|쿠조
 Sylessa Duskwhisper|실레사 더스크위스퍼
 Goaz Warder|고아즈 수호병
@@ -9634,6 +9764,7 @@ Burt Lazlo|버트 라즐로
 Christina Von Stavern|크리스티나 폰 스타번
 Bassbeak|배스비크
 Gragtharr|그라그타르
+Rorschak|로르샤크
 Blightsculler|역병노잡이
 Guard Jameson|경비병 제임슨
 Maddened Rotclaw|광기에 물든 썩은발톱
@@ -9682,13 +9813,16 @@ Lost Knight|방황하는 기사
 Brineshell Clacker|바닷물비늘 딸깍이
 Brineshell Snapper|바닷물비늘 무쇠턱거북
 Unknown|무엇인가
+Gargantuan Plaguebat|가공할 역병박쥐
 Marsh Owl|습지 올빼미
 Moonstrider|달타조
 Giant Moonstrider|거대한 달타조
 Vale Screamer|골짜기 비명꾼
+Marla Bell|말라 벨
 Ol' Sandy|샌디 영감
 Glix Xizzix|글릭스 지직스
 Nuara Tremorhoof|누아라 트레머후프
+Miranda Turner|미란다 터너
 Adelbert Edmunds|아델버트 에드먼즈
 Rickard Hardee|리카드 하디
 Fendaal Windstone|펜달 윈드스톤
@@ -9697,6 +9831,7 @@ Finaida Earthbore|피나이다 어스보어
 Arrgrah Stonewall|아르그라 스톤월
 Talisara Valewind|탈리사라 베일윈드
 High Order Messenger|고등 마법원 전령
+Deepscar Brute|깊은상처 투사
 Coldrasp|서리울음
 Kitzy Werkblaster|키치 워크블래스터
 Temple Highguard|사원 정예경비병
@@ -9705,6 +9840,7 @@ Iron Kingsguard|무쇠 국왕호위병
 An'drak|안드라크
 Evermore|에버모어
 Maximus Warwick|막시무스 워윅
+Culli Springwind|쿨리 스프링윈드
 Pallwick Boneset|폴윅 본셋
 Barrelmaker Ishtar|통 제작자 이슈타르
 Gabbel Shattergale|개블 섀터게일
@@ -9716,9 +9852,13 @@ Vigilant Deathguard|경계 중인 죽음경비병
 Boborus Overvolt|보보러스 오버볼트
 Lyvia Stormsinger|리비아 스톰싱어
 Elril Everlight|엘릴 에버라이트
+Amandriel|아만드리엘
 Ironforge Protector|아이언포지 수호병
 Rayla|레일라
+Furious Astranaar Sentinel|분노한 아스트라나르 파수꾼
+Grom'gol Ravager|그롬골 약탈자
 Lakeshire Protector|레이크샤이어 수호병
+Enraged Stonard Grunt|격노한 스토나드 그런트
 Deathguard Veteran|죽음경비대 역전용사
 Arcane Sentry|비전 파수병
 Teller Rames|출납원 람스
@@ -9749,6 +9889,7 @@ Mountaineer Sunhammer|산악경비대 선해머
 The Condemned One|규탄받은 자
 Wrathvine|분노덩굴
 Stormherald Ukta|폭풍전령 욱타
+Thornstarter Igleg|가시불꽃 이글레그
 Snarlsnout|으르렁코
 Knight of Mourning|애도의 기사
 Ghostfang|유령송곳니
@@ -9775,12 +9916,14 @@ Jelinek Sharpshear|젤리네크 샤프쉬어
 Donovan Steelbeard|도노반 스틸비어드
 Teuren Vineshade|토이렌 바인셰이드
 Edine Sharphorn|에딘 샤프혼
+Je'lu|제루
 Ancelina|안셀리나
 Kyle the Frenzied|광포한 카일
 Ahab Wheathoof|아합 윗후프
 Jamis Nulink|제이미스 널링크
 Gevreka|게브레카
 Xephos Lehparsi|제포스 레파르시
+Cereza Galeforce|세레자 게일포스
 Alyz|알리즈
 Gray Fox|회색 여우
 Krazore|크라조어
@@ -9790,6 +9933,8 @@ Rabid Forest Wolf|광포한 숲늑대
 Botika Montes|보티카 몬테스
 Angie Cilas|앤지 실라스
 Rown Leaftender|로운 리프텐더
+"Reliable" Mike|"믿음직한" 마이크
+Bloodwing Bat|흡혈날개 박쥐
 Foothills Duskbat|구릉지 그늘박쥐
 Abigail Lawson|애비게일 로슨
 Mountaineer Cornelius|산악경비대원 코넬리우스

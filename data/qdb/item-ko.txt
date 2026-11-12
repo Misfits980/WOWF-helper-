@@ -23443,8 +23443,8 @@
 248695|Waylaid Crate: Earthly Artisan Herbs|1|35
 248696|Waylaid Crate: Flowering Artisan Herbs|1|35
 248697|Waylaid Crate: Artisan Ore|1|35
-248698|Waylaid Crate: Artisan Textiles|1|35
-248699|Waylaid Crate: Artisan Curiosities|1|35
+248698|잘못 놓인 보급품: 전문 직물|1|35
+248699|잘못 놓인 보급품: 전문 진귀품|1|35
 248702|잘못 놓인 보급품: 초급 원단|1|10
 248703|잘못 놓인 보급품: 초급 주괴|1|10
 248704|잘못 놓인 보급품: 초급 부품|1|10
@@ -23486,7 +23486,7 @@
 249232|Lesser Eternal Wand|54|49
 249234|Dreambough Wand|48|43
 249237|Greater Eternal Wand|60|55
-249274|Stranglevine|60|
+249274|가시덩굴|60|
 249385|Brilliant Wand|60|55
 249390|Seals of the Sin'dorei|1|1
 249391|황철석|25|
@@ -23501,8 +23501,8 @@
 249409|Cerulean Dye|25|
 249410|Sulfuric Acid|25|
 249424|장미갓|45|
-249425|Bauxite|45|
-249426|Pitchblende|60|
+249425|보크사이트|45|
+249426|역청우란광|60|
 249427|온전한 가죽|25|
 249428|온전한 생가죽|45|
 249429|Pristine Scale|60|
@@ -23574,7 +23574,7 @@
 249692|Head of Varrox Bleakhoof|1|
 249693|Totem of Ursol|1|
 249694|Totem of Ursoc|1|
-249695|Fel-Tainted Flesh|1|
+249695|지옥 마력에 오염된 살점|1|
 249696|Tusks of the Unbroken|1|
 249697|Claws of the Great Bear|1|
 249698|Feathered Charm Necklace|1|47
@@ -23646,8 +23646,8 @@
 250181|Recipe: Raging Raptor Ribs|1|1
 250182|조리법: 곰 브리스켓|1|1
 250183|Recipe: Prehistoric Pulled Raptor|1|1
-250184|Recipe: Raptor Rouladen|1|1
-250185|Recipe: Twice-Spiced Raptor Slice|1|1
+250184|조리법: 랩터 고기말이|1|1
+250185|조리법: 두 번 양념한 랩터 조각|1|1
 250186|Recipe: Giant Scrambled Eggs|1|1
 250187|조리법: 맛있는 랩터 한입요리|1|1
 250188|조리법: 아침 오믈렛|1|1
@@ -23881,7 +23881,7 @@
 250979|Recipe: Greater Spellblasting Potion|1|1
 250980|Recipe: Superior Spellblasting Potion|1|1
 250981|Recipe: Major Spellblasting Potion|1|1
-250982|Recipe: Minor Frenzy Potion|1|1
+250982|조제법: 최하급 광기의 물약|1|1
 250983|조제법: 하급 광기의 물약|1|1
 250984|Recipe: Frenzy Potion|1|1
 250985|Recipe: Greater Frenzy Potion|1|1
@@ -23912,18 +23912,18 @@
 251334|Plans: Glowing Copper Boots|15|
 251335|도면: 순은 장화|25|
 251336|도면: 순은 다리보호구|26|
-251337|Plans: Sterling Silver Gauntlet|26|
-251338|Plans: Sterling Silver Shoulders|27|
+251337|도면: 순은 건틀릿|26|
+251338|도면: 순은 어깨보호구|27|
 251339|Plans: Sterling Silver Breastplate|30|
 251340|도면: 역전용사의 사슬 셔츠|20|
 251341|Plans: Guard's Chain Shirt|20|
 251342|Plans: Protector's Chain Shirt|20|
 251343|Plans: Acolyte's Chain Shirt|20|
-251344|Plans: Crusader's Chain Shirt|20|
+251344|도면: 성전사의 사슬 셔츠|20|
 251345|Plans: Veteran's Chain Leggings|25|
 251346|도면: 경비병의 사슬 다리보호구|25|
 251347|도면: 수호자의 사슬 다리보호구|25|
-251348|Plans: Acolyte's Chain Leggings|25|
+251348|도면: 수행사제의 사슬 다리보호구|25|
 251349|도면: 성전사의 사슬 다리보호구|25|
 251350|도면: 역전용사의 사슬 투구|30|
 251351|Plans: Guard's Chain Helm|30|
@@ -23969,12 +23969,12 @@
 251391|도면: 경화된 황금 견갑|40|
 251392|Plans: Shining Mithril Breastplate|45|
 251393|Plans: Shining Mithril Pauldrons|45|
-251394|Plans: Shining Mithril Boots|45|
+251394|도면: 빛나는 미스릴 장화|45|
 251395|Plans: Shining Mithril Helm|48|
 251396|Plans: Shining Mithril Pants|49|
 251397|Plans: Shining Mithril Gauntlet|49|
-251398|Plans: Officer's Boots|45|
-251399|Plans: Sentinel's Boots|45|
+251398|도면: 장교의 장화|45|
+251399|도면: 파수꾼의 장화|45|
 251400|도면: 보초병의 장화|45|
 251401|도면: 완벽의 장화|45|
 251402|Plans: Justicar's Boots|45|
@@ -24030,13 +24030,13 @@
 251452|Plans: Martyr's Legplates|60|
 251453|Plans: Breastplate of Salvation|60|
 251454|도면: 청동너클|21|
-251455|Plans: Bronze Dory|25|
+251455|도면: 청동 뾰족창|25|
 251456|Plans: Iron Fists|31|
 251457|Plans: Steel Spear|37|
 251458|Plans: Iron Morningstar|38|
 251459|Plans: Mithril Shortsword|41|
 251460|Plans: Mithril Warhammer|43|
-251461|Plans: Mithril Claws|45|
+251461|도면: 미스릴 발톱|45|
 251462|Plans: Mithril Claymore|45|
 251463|Plans: Mithril Stiletto|47|
 251464|Plans: Charged Mithril Battleaxe|48|
@@ -24333,10 +24333,10 @@
 252789|Pattern: Totemic Leather Boots|22|
 252790|Pattern: Stormrider's Leather Boots|22|
 252791|Pattern: Wisdom's Leather Boots|22|
-252792|Pattern: Brawler's Leather Pants|25|
+252792|도안: 싸움꾼의 가죽 바지|25|
 252793|도안: 덫사냥꾼의 가죽 바지|25|
 252794|도안: 파수병의 가죽 바지|25|
-252795|Pattern: Totemic Leather Pants|25|
+252795|도안: 토템술사의 가죽 바지|25|
 252796|도안: 폭풍기수의 가죽 바지|25|
 252797|도안: 지혜의 가죽 바지|25|
 252798|Pattern: Brawler's Leather Hood|25|
@@ -24345,7 +24345,7 @@
 252801|Pattern: Totemic Leather Hood|25|
 252802|Pattern: Stormrider's Leather Hood|25|
 252803|Pattern: Wisdom's Leather Hood|25|
-252804|Pattern: Hillman's Leather Boots|27|
+252804|도안: 산악인의 가죽 장화|27|
 252805|Pattern: Brawler's Leather Tunic|27|
 252806|Pattern: Trapper's Leather Tunic|27|
 252807|Pattern: Defender's Leather Tunic|27|
@@ -24355,8 +24355,8 @@
 252811|Pattern: Mystic Heavy Armor Kit|30|
 252812|Pattern: Forceful Heavy Armor Kit|30|
 252814|도안: 싸움꾼의 가죽 투구|30|
-252815|Pattern: Trapper's Leather Helm|30|
-252816|Pattern: Defender's Leather Helm|30|
+252815|도안: 덫사냥꾼의 가죽 투구|30|
+252816|도안: 파수병의 가죽 투구|30|
 252817|Pattern: Totemic Leather Helm|30|
 252818|Pattern: Stormrider's Leather Helm|30|
 252819|도안: 지혜의 가죽 투구|30|
@@ -24383,10 +24383,10 @@
 252841|Pattern: Skycaller's Leather Gloves|40|
 252842|Pattern: Mender's Leather Gloves|40|
 252843|Pattern: Prowler's Leather Shoes|45|
-252844|Pattern: Skulker's Leather Shoes|45|
+252844|도안: 잠행자의 가죽 신발|45|
 252845|Pattern: Warden's Leather Shoes|45|
 252846|Pattern: Skycaller's Leather Shoes|45|
-252847|Pattern: Mender's Leather Shoes|45|
+252847|도안: 치유사의 가죽 신발|45|
 252848|Pattern: Prowler's Leather Shoulders|47|
 252849|Pattern: Skulker's Leather Shoulder|47|
 252850|Pattern: Warden's Leather Shoulders|47|
@@ -24407,7 +24407,7 @@
 252865|Pattern: Tooled Leather Boots|53|
 252866|Pattern: Blue Suede Gloves|53|
 252867|Pattern: Prowler's Leather Gauntlets|55|
-252868|Pattern: Skulker's Leather Gauntlets|55|
+252868|도안: 잠행자의 가죽 건틀릿|55|
 252869|Pattern: Warden's Leather Gauntlets|55|
 252870|Pattern: Skycaller's Leather Gauntlets|55|
 252871|Pattern: Mender's Leather Gauntlets|55|
@@ -24437,7 +24437,7 @@
 252895|Pattern: Ironfeather Leggings|60|
 252896|도안: 추적자의 쇠사슬 장화|45|
 252897|Pattern: Skycaller's Mail Boots|45|
-252898|Pattern: Skirmisher's Mail Boots|45|
+252898|도안: 척후병의 쇠사슬 장화|45|
 252899|Pattern: Mender's Mail Boots|45|
 252900|Pattern: Stalker's Mail Shoulders|47|
 252901|Pattern: Skycaller's Mail Shoulders|47|
@@ -24602,9 +24602,9 @@
 253977|Filigreed Silky Circlet|30|25
 253978|도안: 세공된 비단결 머리장식|30|1
 253979|Filigreed Flame Circlet|30|25
-253980|Pattern: Filigreed Flame Circlet|30|1
+253980|도안: 세공된 불꽃 머리장식|30|1
 253981|Filigreed Shadow Circlet|30|25
-253982|Pattern: Filigreed Shadow Circlet|30|1
+253982|도안: 세공된 그림자 머리장식|30|1
 253983|Filigreed Pearly Circlet|30|25
 253984|Pattern: Filigreed Pearly Circlet|30|1
 253985|Filigreed Shining Circlet|30|25
@@ -24666,7 +24666,7 @@
 254041|Fiery Cord|45|40
 254042|Pattern: Fiery Cord|45|1
 254043|Black Cord|45|40
-254044|Pattern: Black Cord|45|1
+254044|도안: 검은 장식끈|45|1
 254045|Golden Cord|45|40
 254046|Pattern: Golden Cord|45|1
 254047|Radiant Cord|45|40
@@ -24799,7 +24799,7 @@
 254859|Vicious Hook Talon|60|
 254870|Rudimentary Necromancy Staff|1|1
 254871|Bloody Note|1|
-254877|Namida's Hoof|1|
+254877|나미다의 발굽|1|
 255007|골렘 등가용수철|1|
 255010|허수아비골렘 회전안정기|1|
 255154|망가진 회전안정기|1|
@@ -24821,18 +24821,18 @@
 255721|Leather Tourniquet|36|
 255722|Surgical Tourniquet|58|
 255723|설명서: 상급 치유 물약|31|
-255724|Manual: Clever Poultice|26|
-255725|Manual: Superior Healing Potion|45|
+255724|설명서: 영리한 찜질약|26|
+255725|설명서: 최상급 치유 물약|45|
 255726|Manual: Leather Tourniquet|36|
 255727|설명서: 최상급 찜질약|36|
 255728|설명서: 강한 해독제|36|
 255729|Manual: Major Healing Potion|55|
 255730|Manual: Surgical Tourniquet|58|
 255731|Manual: Powerful Poultice|59|
-255875|Necromantic Garb|1|1
-255878|Tear of Theradras|1|
+255875|강령술사의 의복|1|1
+255878|테라드라스의 눈물|1|
 255941|Gelkis Necromantic Garb|1|1
-255945|Accursed Skull|1|1
+255945|저주받은 해골|1|1
 256036|흙 한 줌|9|
 256037|깎은 풀 조각|9|
 256038|Rage of the Sleeper|66|60
@@ -24840,7 +24840,7 @@
 256044|Iridescent Insect Carapace|1|
 256045|Bloodfly Proboscis|1|
 256057|Draenethyst Crystal|1|
-256058|Uthek's Staff|1|
+256058|우텍의 지팡이|1|
 256061|Uthek's Draenethyst Staff|1|
 256892|Stolen Supplies|1|1
 256935|Simple Leather Satchel|5|4
@@ -24901,7 +24901,7 @@
 257943|Hunter's Simple Cloak|8|4
 257945|훔친 바람석|1|
 258051|Spittle|60|
-258296|Vial of Earth Song Water|1|1
+258296|대지의 노래 물병|1|1
 258323|Missing Mail|60|
 258526|Flight Log|1|
 258530|행운의 미끼|1|
@@ -24911,12 +24911,12 @@
 258771|알아케스 신도의 귀|1|
 258772|바람석 덩어리|1|
 258773|Broken Dart Trap|1|
-258774|Gimashi's Findings|1|
+258774|기마시의 연구 결과|1|
 258882|Worn Greatsword|5|2
 259226|Spectral Iron Ore|1|1
 259229|Vindael's Spectral Pickaxe|1|1
 259268|Bag of Thorn Seeds|1|1
-259357|Burning Keystone|1|1
+259357|불타는 쐐기돌|1|1
 259460|Shield, Lordaeron Guard|1|1
 259461|Partially Digested Collar|1|35
 259846|Wide-Brimmed Fishing Hat|48|
@@ -25342,7 +25342,7 @@
 265476|찢어진 서신|1|9
 265732|Unfilled Brown Waterskin|1|1
 265734|Full Brown Waterskin|1|1
-265738|Sootfur's Pelt|1|
+265738|검댕가죽 모피|1|
 265745|황혼의 서신|1|
 265747|Unfilled Red Waterskin|1|1
 265748|Full Red Waterskin|1|1
@@ -25354,8 +25354,8 @@
 265806|강물풀|1|
 265808|달콤열매|1|
 265810|Treat for Snufflesnout|1|1
-265821|Twilight Key|1|
-265837|Kilgar's Head|1|1
+265821|황혼 열쇠|1|
+265837|킬가르의 머리카락|1|1
 265838|Green Skeletal Horse|60|60
 265839|Dark Skeletal Horse|60|60
 265840|Purple Skeletal Horse|60|60
@@ -25363,17 +25363,17 @@
 266148|Farmers' Mementos|1|
 266154|Lumber Tree Seed|1|
 266156|Fresh Manure|1|
-266157|Jumbo Crawfish Shell|1|
+266157|거대한 가재 껍데기|1|
 266158|Taming Rod|10|
 266161|Tree Sprouting Kit|1|
 266251|Discarded Doll|1|
 266252|Damaged Locket|1|
 266253|Taming Rod|10|
 266254|Taming Rod|10|
-266424|Twilight Page|1|
-266425|Twilight Charm|1|
+266424|황혼의 책장|1|
+266425|황혼의 부적|1|
 266426|Filled Crystal Catalyst|1|
-266427|Field Marshal's Log|1|36
+266427|야전사령관의 기록|1|36
 266428|Marshal Ryan's Crest|50|35
 266433|버려진 소지품|1|
 266434|Resaan's Heirloom|1|
@@ -25388,13 +25388,13 @@
 267003|Ketharas' Filled Vial|1|
 267073|황혼의 손가락뼈|1|1
 267079|Staff of the Mountain|60|
-267086|Eye of Mugg|1|
+267086|머그의 눈|1|
 267087|Head of Zarmok|1|
 267089|Krol'dok Compound Key|1|38
 267090|Semblance of Twilight|44|38
-267091|Cultist Ear|1|
-267104|Tome of Twilight|1|
-267137|Krol'dok Moulding|1|1
+267091|이교도 귀|1|
+267104|황혼의 고서|1|
+267137|크롤도크 거푸집|1|1
 267138|Krol'dok Moulding|1|1
 267178|Wheeler's Steed Feed|1|1
 267223|발자국 탁본|1|1
@@ -25404,7 +25404,7 @@
 267244|Care Package|1|1
 267256|Field Marshal's Log|1|
 267263|Bundle of Lion Pelts|1|1
-267266|Mudfin Murloc Head|1|
+267266|진흙지느러미 멀록 머리|1|
 267272|Taming Rod|10|
 267289|Scarlet Dart Tuber|1|
 267298|Taming Rod|10|
@@ -25436,11 +25436,11 @@
 268341|썩어 문드러진 작살|1|
 268344|바닷물 멀록 눈|1|
 268345|모래 집게발 고기|1|
-268346|Eastsea Powder Keg|1|
+268346|동쪽바다 화약통|1|
 268359|Ott's Masterwork|1|
 268415|흔한 약초 씨앗|5|
 268416|고급 약초 씨앗|20|
-268417|Unusual Herb Seeds|36|
+268417|특이한 약초 씨앗|36|
 268418|Scarce Herb Seeds|46|
 268421|Southern Watch Gnoll Report|1|1
 268422|Velvet of Kala'th's Horn|60|
@@ -25449,11 +25449,11 @@
 268502|Tiny Bronze Whelpling|30|
 268503|Tiny Azure Whelpling|30|
 268505|Remote Explosive Charge|1|1
-268506|Lamora's Loot|1|1
+268506|라모라의 전리품|1|1
 268507|Broken Staff|1|
 268516|Twilight Scouting Report|1|1
 268518|남작의 머리카락|1|
-268520|Lamora's Key|1|1
+268520|라모라의 열쇠|1|1
 268521|Swineherd's Staff|1|
 268535|피투성이 휘장|1|
 268536|건초 묶음|1|
@@ -25469,15 +25469,15 @@
 268581|정찰대장의 눈|1|
 268582|Corrupted Totems|1|
 268586|덫발톱의 집게발|1|
-268632|Beast Entrails|1|
-268633|Sea Monster's Head|1|
+268632|야수 내장|1|
+268633|바다 괴물의 머리|1|
 268646|Amberhall's Soulstone|1|
 268647|Big Ball o' Bait|1|1
-268664|Rotflesh Mushroom|1|
+268664|부패살점 버섯|1|
 268675|Refined Concoction of Cleansing|60|
 268677|Barkskin Purification Tonic|60|1
 268705|Blood and Battle|1|1
-268796|Smuggled Goods|1|1
+268796|밀수된 물품|1|1
 268801|속삭이는 비약의 병|1|
 268805|Tazzik's Sweaty Shirt|1|
 268810|Ruzzgot's Shipment|1|
@@ -25514,7 +25514,7 @@
 269257|해골분쇄자|1|
 269326|NOT USED|1|1
 269327|Edge of Oblivion|1|1
-269351|Executioner's Mace|1|
+269351|집행자의 철퇴|1|
 269501|Elven Chain Wristguards|60|55
 269502|Dwarven Plate|58|53
 269503|Poacher Boots|60|56
@@ -25874,7 +25874,7 @@
 271812|Discarded Circlet|43|1
 271822|Frothing Mug|1|
 271823|Wildflower|1|
-271828|Ghostmaw's Fang|1|
+271828|유령아귀 송곳니|1|
 271870|Lump of Coal|1|40
 271871|Gift of Galloping|60|60
 271872|소각자 가림의 부서진 지팡이 조각|1|
@@ -26449,27 +26449,27 @@
 273028|성물함 어깨덧옷|33|28
 273029|골렘시야 장총|33|28
 273030|힘 조율의 반지|33|28
-273031|Runemender's Seal|32|27
+273031|룬치유사의 인장|32|27
 273032|뼈결속사의 인장|31|25
-273033|Gravespike Repeater|31|26
+273033|무덤쐐기 연발 석궁|31|26
 273034|덧없는 손장갑|32|27
 273035|마나 왜곡 사슬 셔츠|32|27
 273036|무덤매듭 손목띠|31|26
 273037|지옥가지 팔|34|29
 273038|떨어진 지옥껍질 의복|34|29
 273039|역병잎 밧줄|34|29
-273040|Spine of the Devourer|33|28
+273040|포식자의 가시|33|28
 273041|구렁이매듭 요대|33|28
 273042|마나비늘 발보호대|33|28
 273043|마나 집중의 마법봉|32|27
-273044|Violet Sorcerer's Robes|32|27
+273044|보랏빛 마술사의 로브|32|27
 273045|변화하는 마력의 망토|32|27
 273046|수호자의 쌍날검|33|28
 273047|불안정한 수정 어깨보호대|33|28
 273048|Refractory Scaleguards|33|28
 273049|고위 마법학자의 각면 펜던트|35|30
 273050|Blackmaw Pouch|1|
-273051|Violet Sorcerer's Mantle|35|30
+273051|보랏빛 마술사의 어깨보호대|35|30
 273052|묵직한 보주|35|30
 273053|Tendonscraper Dagger|33|28
 273054|연골 성형기|33|28
@@ -26477,7 +26477,7 @@
 273084|은둔의 행복 망토|22|17
 273085|도면: 발효조|25|
 273086|도면: 모루|25|
-273087|Blueprint: Journeyman Campfire|25|
+273087|도면: 수습 모닥불|25|
 273088|뱀눈 만화경|22|17
 273089|구렁이 장식끈|22|17
 273092|Blueprint: Repair Bot|25|
@@ -26488,8 +26488,8 @@
 273101|Blueprint: Expert Campfire|40|
 273102|Blueprint: Cookie's Feast|25|
 273103|도면: 비전 수거기|25|
-273105|Blueprint: Toxin Study|25|
-273106|Blueprint: Greenhouse|25|
+273105|도면: 독소 연구대|25|
+273106|도면: 온실|25|
 273109|Blueprint: Trapper's Workbench|60|
 273112|Blueprint: Alchemy Laboratory|60|
 273113|Blueprint: Master Forge|60|
@@ -26509,7 +26509,7 @@
 273130|Undeath Engine|60|
 273131|Bottled Screams|60|
 273137|스컴의 양동이|22|17
-273141|Blueprint: Fishing Rack|25|
+273141|도면: 낚시 선반|25|
 273164|Tarnished Highfeather Bangle|1|
 273166|Monster - Sword1H, Skyborne (Blue - Glowing)|1|1
 273167|Monster - Staff, Skyborne (White - Glow)|1|1
@@ -26654,7 +26654,7 @@
 273450|Premier Silken Cuffs|60|55
 273455|Template Vellum [DNT]|1|1
 273456|감옥 감시자의 발톱|22|17
-273457|Sorcerer Collar|22|17
+273457|마술사 목줄|22|17
 273458|Enchant Bracer - Inferior Stamina|1|1
 273459|Enchant Chest - Inferior Stamina|1|1
 273460|Enchant Chest - Minor Absorption|1|1
@@ -26837,7 +26837,7 @@
 273642|Ring of the Fallen Soldier|1|
 273643|늑대인간의 파멸 부적|26|21
 273645|눈먼 감시자의 시야|26|21
-273646|Half-Eaten Boots|27|22
+273646|반쯤 먹다 만 장화|27|22
 273647|늑대가죽 다리보호구|26|21
 273654|Crystal Thread Cloak|35|30
 273658|피투성이 양피지|23|23
@@ -27038,8 +27038,8 @@
 274041|Document Box|1|
 274042|협잡의 허리띠|34|29
 274043|방사능 오염 방패|34|29
-274044|Twisted Fire Totem|1|
-274045|Twisted Earth Totem|1|
+274044|뒤틀린 불의 토템|1|
+274045|뒤틀린 대지 토템|1|
 274046|뒤틀린 물 토템|1|
 274047|뒤틀린 바람 토템|1|
 274048|9-60 Battery Pack|34|29
@@ -27053,11 +27053,11 @@
 274149|가시직조 외투|30|25
 274151|Tender Nightsaber Haunch|1|
 274152|루구그의 절단된 머리카락|30|25
-274155|Geomancer Headdress|30|25
+274155|흙점쟁이 머리장식|30|25
 274158|죽음의 예언자 가시|31|26
-274159|Thorncursed Grips|33|27
-274160|Quilrager Throwing Axe|36|31
-274161|Quillord Mail Leggings|34|29
+274159|가시저주의 손장갑|33|27
+274160|가시분노 투척용 도끼|36|31
+274161|가시군주 쇠사슬 다리보호구|34|29
 274162|Venom-dripping Heart|1|
 274163|Vacant Heart|1|
 274165|Eternity Cloth|60|
@@ -27161,15 +27161,15 @@
 274291|광택 나는 해골모자|36|31
 274292|사냥개조련사 부메랑|36|31
 274293|주문절단자 석궁|39|34
-274294|Library Walkers|39|34
+274294|도서관 실내화|39|34
 274295|붉은 빛의 고리|42|37
 274373|Barkskin Purification Tonic|55|
 274379|Rousing Seed Pod|1|60
 274380|Decaying Flesh Bands|42|37
-274381|Coldbringer Spine|43|38
+274381|냉기인도자 가시|43|38
 274383|Kanai's Knife|58|
 274384|Illegible Dogtags|58|
-274385|Abomination Chain|42|37
+274385|누더기골렘 사슬|42|37
 274386|Toy Soldier|58|
 274387|Swiftfeather Arrow|65|60
 274388|Swiftstrike Shot|65|60
@@ -27196,22 +27196,22 @@
 274419|Bear Poking Stick|58|53
 274420|Wisepaw Totem|58|53
 274424|Formula: Enchant Gloves - Lotus Claw|55|
-274425|White Obsidian Wand|44|39
+274425|흰색 흑요석 마법봉|44|39
 274426|Enchant Gloves - Lotus Claw|1|1
 274428|Dark Golem Breastplate|44|39
 274429|Monster Weapon|1|
-274430|Rock Sentinel Slicer|44|39
-274431|Sandstorm Staff|46|41
+274430|바위 파수병 절단도끼|44|39
+274431|모래폭풍 지팡이|46|41
 274432|Stone Keeper Spire|49|44
 274444|Greater Insignia of the Horde|1|
 274445|Greater Insignia of the Alliance|1|
 274460|Monster - Shield, Night Elf Huntress|1|1
 274461|Monster - Glaive, Night Elf Huntress|1|1
-274463|Tattered Note|30|30
+274463|너덜너덜한 쪽지|30|30
 274466|Monster - Polearm, 2H NightElf|1|1
 274480|Monster - Staff, Druid of the Talon|1|1
 274483|The Walks of Shaman|1|
-274484|Axe of Inevitable Ruin|42|37
+274484|피할 수 없는 파멸의 도끼|42|37
 274485|Axe of Lingering Dread|44|39
 274490|Centaur Hoofwarmers|40|35
 274491|Pattern: Centaur Hoofwarmers|44|
@@ -27233,22 +27233,22 @@
 274572|Level 60 Mail Gear|1|
 274573|Level 60 Plate Gear|1|
 274586|Rustleaf Fox Tail|55|
-274598|Bloodslash Axe|39|34
+274598|혈기절단 도끼|39|34
 274599|서약의 결속 팔보호구|39|34
-274600|Berserker Shackles|39|34
-274601|Harpoon of Command|40|35
+274600|광전사의 족쇄|39|34
+274601|지배의 작살|40|35
 274602|소금배 다리보호구|40|35
 274603|공포서리 사브르|40|35
-274604|Frosty Blunderbuss|40|35
-274605|Briny Sash|40|35
+274604|서리 나팔총|40|35
+274605|짠물 장식띠|40|35
 274606|혈기가시 지팡이|41|36
-274607|Viscera Spaulders|41|36
-274608|Maw of Min'loth|42|37
-274609|Serpentbane Crown|42|37
+274607|내장 어깨덮개|41|36
+274608|민로스의 아귀|42|37
+274609|독사파멸 왕관|42|37
 274610|의식결속자의 장갑|42|37
 274611|Robe of the Drowned|40|35
-274612|Waterlogged Burial Shroud|40|35
-274613|Priestess Cloak|40|35
+274612|물에 젖은 장례 수의|40|35
+274613|여사제 망토|40|35
 274614|Knucklebone Ring|41|36
 274615|Heart of the Primeval|40|35
 274616|Aetherstill Spirits|1|
@@ -27364,7 +27364,7 @@
 274961|Brute Slayer Band|40|
 274962|Crocskin Waders|42|38
 274963|Rot-Covered Harpoon|44|
-274964|Mote of Unstable Magic|1|
+274964|불안정한 마법의 티끌|1|
 274966|Silvermoon Shimmerwine|1|
 274968|Premier Senior Sergeant's Insignia|60|55
 274969|Premier Master Sergeant's Insignia|60|55
@@ -27377,7 +27377,7 @@
 274978|Leafre's Ring of Great Resistance|1|1
 274979|Hyjal Silphium|1|
 274981|Rog'mar Report|1|1
-274995|Slavecrusher Scepter|44|39
+274995|노예분쇄자 홀|44|39
 274996|Resistance Breaker Spaulder|44|39
 274997|Chain of Binding|44|39
 274998|Shadowlight Athame|45|40
@@ -27386,11 +27386,11 @@
 275001|Bloodied Gutslicer|45|40
 275002|War Handler's Gaze|45|40
 275003|Worgbinder's Treads|45|40
-275004|Chain of the Corruptor|46|41
+275004|타락자의 사슬|46|41
 275005|Krol'dok Warplate Chest|46|41
-275006|Krol'dok Warplate Helmet|46|41
+275006|크롤도크 전쟁판금 투구|46|41
 275007|Mugg's Jabber|47|42
-275008|Mugg's Crosser|47|42
+275008|머그의 싸움꾼|47|42
 275009|Emblem of Slamming|47|42
 275010|Strongly Scented Hood|47|42
 275011|Thud Hammer|46|36
@@ -27413,7 +27413,7 @@
 275051|Twilight Barrier|46|
 275052|Orc Bone Bow|39|36
 275067|Scroll of Imbue Chillknife|15|5
-275069|Scroll of Rat Familiar|15|5
+275069|쥐 사역마의 두루마리|15|5
 275229|Premier Emboldened Shoulder Seal|65|60
 275238|Premier Emboldened Chest Seal|65|60
 275239|Premier Emboldened Hands Seal|65|60
@@ -27541,7 +27541,7 @@
 275842|화석화된 곤충|1|
 275843|털뭉치|1|
 275851|괴저 수정 파편|1|1
-275864|Putridus Wall|50|45
+275864|타락의 장벽|50|45
 275882|Intercepted Shipment|1|
 275891|드워프 해골|1|
 275892|작은 흑맥주|1|
@@ -27714,7 +27714,7 @@
 276903|Shimmerwine Shanker|52|44
 276904|Shimmerwine Spirits|52|1
 276909|Corrupted Cat Figurine|1|
-276916|The Coldbringer's Eye|1|
+276916|혹한의 눈|1|
 276928|Plans: Cloudy Skyforged Chainmail|1|
 276929|Plans: Cloudy Skyforged Wristguards|1|
 276930|Plans: Cloudy Skyforged Gauntlets|1|
@@ -27910,7 +27910,7 @@
 277132|Harvester Override Signalcaster|15|
 277135|잊힌 로아 우상|10|
 277136|Brooch of the Wardens|1|
-277140|An'she's Radiance|1|
+277140|안쉬의 광휘|1|
 277153|Intricate Filigree|1|
 277154|Corrupted Gemstone|1|
 277158|Wrapped Reading Material|10|
@@ -27938,7 +27938,7 @@
 277210|Pyrewood Signet Ring|25|1
 277211|Dudd's Thinkin' Cap|46|
 277212|Soulwoven Epaulets|45|40
-277213|Dro'zem's Tunic|25|20
+277213|드로젬의 튜닉|25|20
 277214|Crusty Cuffs|35|
 277215|Plain Handwraps|58|
 277216|Cross-Stitched Cord|45|40
@@ -27997,11 +27997,11 @@
 277332|Scuffed Shipping Crate|15|9
 277470|설계도: 허수아비골렘 통제 신호 발생기|15|
 277483|개구리 사역마의 두루마리|25|16
-277484|Scroll of Confuse Beast|25|16
-277485|Scroll of Imbue Frost|25|16
-277486|Scroll of Imbue Striking|25|16
+277484|야수 혼란의 두루마리|25|16
+277485|냉기 주입의 두루마리|25|16
+277486|타격 주입의 두루마리|25|16
 277487|Scroll of Imbue Baleflame|25|16
-277488|Scroll of Imbue Iceknife|25|16
+277488|얼음칼 주입의 두루마리|25|16
 277489|Scroll of Imbue Spark|25|16
 277490|Scroll of the Saber|25|
 277491|Scroll of Rebuke Elemental|40|25
@@ -28025,7 +28025,7 @@
 277515|Dagger of Deals|33|1
 277518|Last Week's Ration|1|1
 277519|Nelanna's Enchanted Jewel|60|60
-277533|Fel Tained Journal|1|1
+277533|Fel Tainted Journal|1|1
 277534|Arena Spoils|1|
 277555|Monster - Shield, Skyborne (Gray)|8|
 277556|Razza's Heart|60|55
@@ -28050,14 +28050,14 @@
 277845|A Reasonably Large Bag|60|1
 277910|Mysticbloom Seed|40|35
 277915|Stonetalon Supply Satchel|1|
-277917|Stonetalon Supply Bundle|1|
+277917|돌발톱 보급품 묶음|1|
 277936|반짝이는 태양석|1|
 277950|Wastewanderer Rations|40|35
 277952|매끈한 바위|10|
 277953|도난당한 화물|1|
 277957|원시 열쇠|1|
 277958|Putrescent Bear Organs|1|
-277959|Putrescent Wolf Organs|1|
+277959|부패한 늑대 장기|1|
 277960|Lavender Kodo|40|40
 277972|Mirrorscale's Wing|1|
 277973|Stag Lord's Bauble|1|
@@ -28099,7 +28099,7 @@
 278160|Twitching Spider Carcass|1|
 278161|Dark Iron Delight|1|
 278162|Pouch of Chipped Hearthstones|1|1
-278186|Brilliantly Polished Bangle|60|
+278186|눈부신 광택이 나는 팔찌|60|
 278191|Desert Debris|60|
 278194|Crate of Radioactive Refuse|10|
 278201|땅거미풀 깍지|1|20
@@ -28113,7 +28113,7 @@
 278403|Explorers' League Mining Helmet|1|
 278404|Pristine Mattock|1|
 278423|Monster - Mining Pick|1|1
-278462|Packaged Tonics|10|
+278462|포장된 강장제|10|
 278468|Premier Grand Marshal's Barricade|65|60
 278469|Premier High Warlord's Barricade|65|60
 278515|무스할레의 도난당한 보급품|1|1
@@ -28147,7 +28147,7 @@
 279041|Corrupted Boots of the Sentinel|65|60
 279042|Corrupted Boots of the Harbinger|65|60
 279045|Thundris' Letter|1|1
-279046|Cracked Crab Pincer|1|
+279046|금이 간 게 집게발|1|
 279048|Alexston's Reply|1|1
 279082|나무옹이일족 토템|1|1
 279171|Diplomatic Satchel|1|
@@ -28265,7 +28265,7 @@
 279591|마레크의 악어 사냥용 손칼|1|
 279595|Menethil Statuette|1|
 279598|Menethil Statuette|1|
-279601|Intact Raptor Hide|1|
+279601|온전한 랩터 통가죽|1|
 279821|카즈 모단 목재|1|1
 279822|카즈 모단 철|1|1
 279824|Kor'kron Battle Gauntlets|55|1
@@ -28345,7 +28345,7 @@
 279930|Saltseer's Helm|42|34
 279931|Lost Researcher's Hood|62|55
 279932|Slime-Resistant Shroud|62|1
-279934|Shed Dark Dragonscale|1|
+279934|떨어진 어두운 용비늘|1|
 279935|Book Bag|1|
 279936|Book Bag|5|1
 279937|Collecting Basket|1|
@@ -28446,7 +28446,7 @@
 280086|Octofinger Gauntlets|57|52
 280087|부드러운 흑호 모피|1|
 280088|Soft Saber Sack|5|4
-280092|Wyrmtail|1|
+280092|용꼬리|1|
 280095|Cryptwalker Bracers|17|10
 280096|Tomb Robber's Gloves|17|10
 280099|Crimson Crate|1|1
@@ -28630,7 +28630,7 @@
 280974|Grovekeeper Chestguard|65|60
 280976|Grovekeeper Pauldrons|65|60
 280977|Grovekeeper Cover|65|60
-281014|Vine-Wrapped Scroll|1|1
+281014|덩굴에 감싸인 두루마리|1|1
 281015|Scroll: DOST OREM|50|1
 281016|Scroll: FORGOT HOOF THUD|50|1
 281017|Scroll: KEEP CLEF FOCI|50|1
@@ -28652,7 +28652,7 @@
 281044|Ceremonial Flint and Tinder|1|
 281046|까마귀 언덕 고서|1|
 281048|개벌꾼 열쇠|1|1
-281052|Ombassa's Hide|1|
+281052|옴바사의 가죽|1|
 281059|Loose Clearcutter Blade|1|5
 281060|Replica Ironforge Air Rifle|1|
 281139|Thunderhorn's Report|1|1
@@ -28840,7 +28840,7 @@
 281896|Surveyor's Gloves|44|39
 281925|Whelpfire Wand|20|15
 281926|Bound Bracers|23|18
-281927|Boulderheart Band|27|22
+281927|바위심장 고리|27|22
 281993|Gnoll Hide Boots|14|9
 282003|Lost Chieftain's Greatsword|41|36
 282004|Flesheater's Scales|45|40
@@ -28922,14 +28922,14 @@
 282653|Dissolved Locket|32|27
 282654|Gnawed Bone|26|21
 282655|수렁 채집장갑|27|22
-282658|Dragonmaw Battle Shroud|32|27
+282658|용아귀 전투 수의|32|27
 282699|Cleansed Water Globe|1|1
 282702|Molok's Masher|41|36
 282703|Needletooth's Needletooth|37|32
 282704|Shadow Council Apprentice's Mantle|41|36
 282705|Ruul's Secondstone|41|36
 282706|Rotting Meat|44|39
-282710|Dun Garok Rifle|30|25
+282710|던 가록 소총|30|25
 282711|Naga Maiden's Gown|35|30
 282712|Libram of Binding|50|50
 282713|Bloodstained Pants|36|31
@@ -29112,7 +29112,7 @@
 285281|Arcanite Blacksmith Hammer|54|49
 285282|Jagged Knives of Defense|18|13
 285283|Serrated Axes|38|33
-285284|Balanced Knives|56|51
+285284|Balanced Knives of the Bandit|56|51
 285285|Schematic: Satchel of Copper Bombs|1|1
 285286|Schematic: Satchel of Bronze Bombs|1|5
 285287|Schematic: Satchel of Iron Bombs|1|10
@@ -29125,7 +29125,7 @@
 285327|Kirin Tor Tabard|1|1
 285328|Taurenbane's Family Cleaver|28|23
 285329|Raptor Hide Cloak|21|16
-285330|Signet of the Zhevra|23|18
+285330|얼룩말의 인장|23|18
 285331|Mark of the Pack Leader|25|20
 285332|Puncturing Spear|24|19
 285338|코도가죽 다리보호대|29|24
@@ -29253,8 +29253,8 @@
 286426|Honorbound Cloak|15|7
 286427|Cloak of the Honored Guest|15|7
 286428|Band of Bossman|45|40
-286429|Big-Belly Belt|45|40
-286430|Toofbreaker|45|40
+286429|불룩배 허리띠|45|40
+286430|투프분쇄기|45|40
 286533|Cheetah Hide Grips|15|10
 286534|Silithid Piercer|26|21
 286535|Sludge-Stained Band|21|16
@@ -29281,12 +29281,12 @@
 286619|Big Basher's Belt|54|49
 286639|Ambassador's Bloodrobes|38|33
 286640|High Priestess's Kilt|59|54
-286646|Gill's Gills|40|35
+286646|길의 아가미|40|35
 286647|고갈된 수정 심장|1|1
 286648|Depleted Crystal Heart|1|1
 286649|Tidebound Dagger|40|35
 286650|Pyromancer's Baton|40|35
-286651|Flamestarter's Signet|40|35
+286651|방화범의 인장|40|35
 286658|Umbral Scaled Belt|40|35
 286662|Deep-Dweller's Grips|40|35
 286724|Verdant Sea Turtle|60|60
@@ -29326,7 +29326,7 @@
 286984|Mark of the Marsh|33|28
 286985|Thicket Bindings|31|26
 286986|Abandoned Leggings|31|26
-286987|Violet Sorcerer's Sandals|33|28
+286987|보랏빛 마술사의 덧신|33|28
 286988|보랏빛 마술사의 다리보호구|34|29
 286989|보랏빛 마술사의 싸개|33|28
 286990|Arcane Remnant Leggings|33|28
@@ -29342,17 +29342,17 @@
 287000|Skin-Flayed Footguards|39|34
 287001|Waterlogged Shoulderpads|41|36
 287002|Risen Sentry's Links|40|35
-287003|Corroded Handguards|39|34
+287003|부식된 손보호대|39|34
 287004|Touch of the Depths|40|35
 287005|Sword of Dismemberment|42|37
 287006|Resurged Axe|40|35
 287007|Stretched Footpads|44|39
 287008|Ogre Magi's Mantle|45|40
-287009|Twilight Enforcer's Legs|44|39
+287009|황혼의 집행자의 다리보호구|44|39
 287010|Outrider's Gloves|44|39
 287011|Guise of Battle|45|40
 287012|Krol'dok Warplate Gauntlets|45|40
-287013|Krol'dok Warplate Legplates|46|41
+287013|크롤도크 전쟁판금 다리갑옷|46|41
 287014|Krol'dok Warplate Pauldrons|46|41
 287015|Supreme Smasher|47|42
 287016|Shadow-Seer Orb|45|40
@@ -29369,6 +29369,7 @@
 287028|Tormented Cuffs|58|53
 287029|Nature Guardian's Legguards|57|52
 287030|Blackmaw Bindings|59|54
+287031|Spearfisher's Waders||
 287032|Den Champion's Binding|57|52
 287033|Furbolg Berserker's Boots|58|53
 287034|Grove Subjugator's Blade|60|55

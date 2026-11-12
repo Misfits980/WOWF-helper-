@@ -15984,6 +15984,8 @@ Waylaid Crate: Flowering Expert Herbs|잘못 놓인 보급품: 만개하는 숙�
 Waylaid Crate: Expert Ore|잘못 놓인 보급품: 숙련 광석
 Waylaid Crate: Expert Textiles|잘못 놓인 보급품: 숙련 직물
 Waylaid Crate: Expert Curiosities|잘못 놓인 보급품: 숙련 진귀품
+Waylaid Crate: Artisan Textiles|잘못 놓인 보급품: 전문 직물
+Waylaid Crate: Artisan Curiosities|잘못 놓인 보급품: 전문 진귀품
 Waylaid Crate: Apprentice Fabrics|잘못 놓인 보급품: 초급 원단
 Waylaid Crate: Apprentice Ingots|잘못 놓인 보급품: 초급 주괴
 Waylaid Crate: Apprentice Parts|잘못 놓인 보급품: 초급 부품
@@ -15993,17 +15995,23 @@ Waylaid Crate: Journeyman Parts|잘못 놓인 보급품: 수습 부품
 Waylaid Crate: Expert Fabrics|잘못 놓인 보급품: 숙련 원단
 Waylaid Crate: Expert Ingots|잘못 놓인 보급품: 숙련 주괴
 Waylaid Crate: Expert Parts|잘못 놓인 보급품: 숙련 부품
+Stranglevine|가시덩굴
 Pyrite|황철석
 Frilled Lichen|주름진 이끼
 Rosecap|장미갓
+Bauxite|보크사이트
+Pitchblende|역청우란광
 Pristine Leather|온전한 가죽
 Pristine Hide|온전한 생가죽
 Formula: Enchant Bracer - Minor Intellect|주문식: 손목보호구 마법부여 - 최하급 지능
+Fel-Tainted Flesh|지옥 마력에 오염된 살점
 Peace Tea|평화의 차
 Recipe: Peace Tea|조리법: 평화의 차
 Recipe: Royal Tea|조리법: 왕실 차
 Recipe: Root Tea|조리법: 뿌리 차
 Recipe: Bear Brisket|조리법: 곰 브리스켓
+Recipe: Raptor Rouladen|조리법: 랩터 고기말이
+Recipe: Twice-Spiced Raptor Slice|조리법: 두 번 양념한 랩터 조각
 Recipe: Tasty Raptor Bites|조리법: 맛있는 랩터 한입요리
 Recipe: Breakfast Omelette|조리법: 아침 오믈렛
 Recipe: Minor Cleric's Elixir|조제법: 최하급 성직자의 비약
@@ -16011,12 +16019,17 @@ Recipe: Minor Mageblood Elixir|조제법: 최하급 마법사의 피 비약
 Recipe: Elixir of Minor Spirit|조제법: 최하급 정신력의 비약
 Recipe: Minor Spellblasting Potion|조제법: 최하급 주문 작렬 물약
 Recipe: Lesser Spellblasting Potion|조제법: 하급 주문 작렬 물약
+Recipe: Minor Frenzy Potion|조제법: 최하급 광기의 물약
 Recipe: Lesser Frenzy Potion|조제법: 하급 광기의 물약
 Plans: Sterling Silver Boots|도면: 순은 장화
 Plans: Sterling Silver Leggings|도면: 순은 다리보호구
+Plans: Sterling Silver Gauntlet|도면: 순은 건틀릿
+Plans: Sterling Silver Shoulders|도면: 순은 어깨보호구
 Plans: Veteran's Chain Shirt|도면: 역전용사의 사슬 셔츠
+Plans: Crusader's Chain Shirt|도면: 성전사의 사슬 셔츠
 Plans: Guard's Chain Leggings|도면: 경비병의 사슬 다리보호구
 Plans: Protector's Chain Leggings|도면: 수호자의 사슬 다리보호구
+Plans: Acolyte's Chain Leggings|도면: 수행사제의 사슬 다리보호구
 Plans: Crusader's Chain Leggings|도면: 성전사의 사슬 다리보호구
 Plans: Veteran's Chain Helm|도면: 역전용사의 사슬 투구
 Plans: Acolyte's Chain Helm|도면: 수행사제의 사슬 투구
@@ -16024,9 +16037,14 @@ Plans: Hard Gold Cuirass|도면: 경화된 황금 흉갑
 Plans: Hard Gold Boots|도면: 경화된 황금 장화
 Plans: Hard Gold Leggings|도면: 경화된 황금 다리보호구
 Plans: Hard Gold Pauldrons|도면: 경화된 황금 견갑
+Plans: Shining Mithril Boots|도면: 빛나는 미스릴 장화
+Plans: Officer's Boots|도면: 장교의 장화
+Plans: Sentinel's Boots|도면: 파수꾼의 장화
 Plans: Warder's Boots|도면: 보초병의 장화
 Plans: Prefect's Boots|도면: 완벽의 장화
 Plans: Brass Knuckles|도면: 청동너클
+Plans: Bronze Dory|도면: 청동 뾰족창
+Plans: Mithril Claws|도면: 미스릴 발톱
 Recipe: Savory Whimsyfin Delight|조리법: 맵싸한 엉뚱지느러미 별미
 Scrawny Ursera Claw|마른 우르세라 발톱
 Signet of Akir|아키르의 인장
@@ -16050,13 +16068,22 @@ Hoarder's Foot|수집꾼의 발
 Stolen Shen'dar Supplies|도난당한 셴다르 보급품
 Pattern: Defender's Leather Armor|도안: 파수병의 가죽 갑옷
 Pattern: Wisdom's Leather Armor|도안: 지혜의 가죽 갑옷
+Pattern: Brawler's Leather Pants|도안: 싸움꾼의 가죽 바지
 Pattern: Trapper's Leather Pants|도안: 덫사냥꾼의 가죽 바지
 Pattern: Defender's Leather Pants|도안: 파수병의 가죽 바지
+Pattern: Totemic Leather Pants|도안: 토템술사의 가죽 바지
 Pattern: Stormrider's Leather Pants|도안: 폭풍기수의 가죽 바지
 Pattern: Wisdom's Leather Pants|도안: 지혜의 가죽 바지
+Pattern: Hillman's Leather Boots|도안: 산악인의 가죽 장화
 Pattern: Brawler's Leather Helm|도안: 싸움꾼의 가죽 투구
+Pattern: Trapper's Leather Helm|도안: 덫사냥꾼의 가죽 투구
+Pattern: Defender's Leather Helm|도안: 파수병의 가죽 투구
 Pattern: Wisdom's Leather Helm|도안: 지혜의 가죽 투구
+Pattern: Skulker's Leather Shoes|도안: 잠행자의 가죽 신발
+Pattern: Mender's Leather Shoes|도안: 치유사의 가죽 신발
+Pattern: Skulker's Leather Gauntlets|도안: 잠행자의 가죽 건틀릿
 Pattern: Stalker's Mail Boots|도안: 추적자의 쇠사슬 장화
+Pattern: Skirmisher's Mail Boots|도안: 척후병의 쇠사슬 장화
 Ripe Stormapple|잘 익은 폭풍사과
 Flutterfly Dust|펄럭날개 가루
 Blood-Stained Bandit Mask|피로 얼룩진 도적 복면
@@ -16075,12 +16102,16 @@ Pattern: Filigreed Pearly Leggings|도안: 세공된 진줏빛 다리보호구
 Pattern: Filigreed Shining Leggings|도안: 세공된 빛나는 다리보호구
 Pattern: Filigreed Pristine Circlet|도안: 세공된 온전한 머리장식
 Pattern: Filigreed Silky Circlet|도안: 세공된 비단결 머리장식
+Pattern: Filigreed Flame Circlet|도안: 세공된 불꽃 머리장식
+Pattern: Filigreed Shadow Circlet|도안: 세공된 그림자 머리장식
 Pattern: Earthen Silk Gloves|도안: 대지의 비단 장갑
+Pattern: Black Cord|도안: 검은 장식끈
 Shriekling Talons|괴성조 갈퀴발톱
 Conqueror's Helm|정복자의 투구
 Carved Centaur Totem|조각한 켄타우로스 토템
 Longshore Murloc Gill|기나긴 해안 멀록 아가미
 Suspicious Industrial Supplies|수상한 공업용 보급품
+Namida's Hoof|나미다의 발굽
 Golem Isospring|골렘 등가용수철
 Harvester Gyrostabilizer|허수아비골렘 회전안정기
 Ruined Gyrostabilizer|망가진 회전안정기
@@ -16091,10 +16122,15 @@ Al'Aketh Windstone Charm|알아케스 바람석 부적
 Mana Sieve|마나 여과기
 Windstone|바람석
 Manual: Greater Healing Potion|설명서: 상급 치유 물약
+Manual: Clever Poultice|설명서: 영리한 찜질약
+Manual: Superior Healing Potion|설명서: 최상급 치유 물약
 Manual: Superior Poultice|설명서: 최상급 찜질약
 Manual: Potent Anti-Venom|설명서: 강한 해독제
+Necromantic Garb|강령술사의 의복
+Accursed Skull|저주받은 해골
 Handful of Dirt|흙 한 줌
 Grass Clippings|깎은 풀 조각
+Uthek's Staff|우텍의 지팡이
 Shriekling Matriarch's Head|괴성조 어미의 머리
 Zephyrseed|서풍씨앗
 Cracked Windstone|금 간 바람석
@@ -16102,9 +16138,12 @@ Lesser Essence of the Four Winds|하급 네 바람의 정수
 Windsong Crawler Meat|바람노래 집게발 고기
 Vulgara's Head|불가라의 머리
 Pilfered Windstone|훔친 바람석
+Vial of Earth Song Water|대지의 노래 물병
 Lucky Lure|행운의 미끼
 Al'Aketh Cultist's Ear|알아케스 신도의 귀
 Windstone Cluster|바람석 덩어리
+Gimashi's Findings|기마시의 연구 결과
+Burning Keystone|불타는 쐐기돌
 Tattered Journal|너덜너덜한 일지
 Barely Legible Journal Entry, Page I|간신히 읽히는 일지: 1쪽
 Barely Legible Journal Entry, Page II|간신히 읽히는 일지: 2쪽
@@ -16136,15 +16175,27 @@ Snargl's Snout|스나글의 주둥이
 Stolen Ore|도둑맞은 광물
 Commander Haalien's Severed Head|사령관 할리엔의 잘린 머리
 Ripped Missive|찢어진 서신
+Sootfur's Pelt|검댕가죽 모피
 Twilight Missive|황혼의 서신
 Chogg's Head|초그의 머리카락
 Zac's Head|자크의 머리카락
 Riverweed|강물풀
 Sweetberry|달콤열매
+Twilight Key|황혼 열쇠
+Kilgar's Head|킬가르의 머리카락
+Jumbo Crawfish Shell|거대한 가재 껍데기
+Twilight Page|황혼의 책장
+Twilight Charm|황혼의 부적
+Field Marshal's Log|야전사령관의 기록
 Abandoned Belongings|버려진 소지품
 Prized Lion Hide|귀한 사자 가죽
 Twilight Finger Bone|황혼의 손가락뼈
+Eye of Mugg|머그의 눈
+Cultist Ear|이교도 귀
+Tome of Twilight|황혼의 고서
+Krol'dok Moulding|크롤도크 거푸집
 Pawprint Tracing|발자국 탁본
+Mudfin Murloc Head|진흙지느러미 멀록 머리
 Fenris Isle Key|펜리스 섬 열쇠
 Gnomeregan Archival Data|놈리건 보관 자료
 Pristine Leopard Pelt|온전한 표범 모피
@@ -16154,9 +16205,13 @@ Galeswept Forestshroom|강풍에 휩쓸린 숲버섯
 Rot-Covered Harpoon|썩어 문드러진 작살
 Saltwater Murloc Eye|바닷물 멀록 눈
 Sand Crawler Meat|모래 집게발 고기
+Eastsea Powder Keg|동쪽바다 화약통
 Commonplace Herb Seeds|흔한 약초 씨앗
 Uncommon Herb Seeds|고급 약초 씨앗
+Unusual Herb Seeds|특이한 약초 씨앗
+Lamora's Loot|라모라의 전리품
 Head of the Baron|남작의 머리카락
+Lamora's Key|라모라의 열쇠
 Bloodied Insignia|피투성이 휘장
 Bundle of Hay|건초 묶음
 Empty Powder Keg|빈 화약통
@@ -16164,9 +16219,14 @@ Crest of Lordaeron|로데론의 문장
 Intact Limbs|온전한 사지
 Scoutmaster's Eye|정찰대장의 눈
 Trapclaw's Pincer|덫발톱의 집게발
+Beast Entrails|야수 내장
+Sea Monster's Head|바다 괴물의 머리
+Rotflesh Mushroom|부패살점 버섯
+Smuggled Goods|밀수된 물품
 Bottle of Whispering Elixir|속삭이는 비약의 병
 Whispering Horror Residue|속삭이는 공포의 잔류물
 Skullbasher|해골분쇄자
+Executioner's Mace|집행자의 철퇴
 Savannah Lion Hide|사바나 사자 가죽
 Trapped Game|덫에 걸린 사냥감
 Bloody Tuft of Fur|피 묻은 털뭉치
@@ -16221,6 +16281,7 @@ Wood Bundle|목재 묶음
 Glade Viper Venom|숲살무사 독
 Intact Tallstrider Beak|온전한 타조 부리
 Plains Buzzard Feather|평원 대머리수리 깃털
+Ghostmaw's Fang|유령아귀 송곳니
 Broken Staff of Incinerator Gar'im|소각자 가림의 부서진 지팡이 조각
 Good Rock|좋은 돌멩이
 Bad Rock|나쁜 돌멩이
@@ -16241,31 +16302,40 @@ Raptor's Gaze|랩터의 시선
 Reliquary Mantle|성물함 어깨덧옷
 Golemsight Long Gun|골렘시야 장총
 Ring of Power Regulation|힘 조율의 반지
+Runemender's Seal|룬치유사의 인장
 Bonebinder's Signet|뼈결속사의 인장
+Gravespike Repeater|무덤쐐기 연발 석궁
 Ephemeral Grips|덧없는 손장갑
 Mana-Warped Chain Shirt|마나 왜곡 사슬 셔츠
 Graveweave Bindings|무덤매듭 손목띠
 Felbough Arm|지옥가지 팔
 Garb of Fallen Felbark|떨어진 지옥껍질 의복
 Blightleaf Rope|역병잎 밧줄
+Spine of the Devourer|포식자의 가시
 Slitherwrap Girdle|구렁이매듭 요대
 Manascale Treads|마나비늘 발보호대
 Wand of Mana Concentration|마나 집중의 마법봉
+Violet Sorcerer's Robes|보랏빛 마술사의 로브
 Drape of Shifting Energy|변화하는 마력의 망토
 Guardian's Dualblade|수호자의 쌍날검
 Unstable Crystalline Shoulderpads|불안정한 수정 어깨보호대
 Archmagister's Faceted Pendant|고위 마법학자의 각면 펜던트
+Violet Sorcerer's Mantle|보랏빛 마술사의 어깨보호대
 Ponderous Orb|묵직한 보주
 Cartilage Shapers|연골 성형기
 Cloak of Hermitic Bliss|은둔의 행복 망토
 Blueprint: Fermenter|도면: 발효조
 Blueprint: Anvil|도면: 모루
+Blueprint: Journeyman Campfire|도면: 수습 모닥불
 Snake Eye Kaleidoscope|뱀눈 만화경
 Slither Cord|구렁이 장식끈
 Blueprint: Tanning Rack|도면: 무두질 선반
 Blueprint: Field Guide|도면: 현장 안내서
 Blueprint: Arcane Salvager|도면: 비전 수거기
+Blueprint: Toxin Study|도면: 독소 연구대
+Blueprint: Greenhouse|도면: 온실
 Skum's Bucket|스컴의 양동이
+Blueprint: Fishing Rack|도면: 낚시 선반
 The Lost Magic of the Runemasters|잃어버린 룬술사의 마법
 Crystalline Silk|수정 비단
 Ogre Loincloth|오우거 헝겊
@@ -16273,9 +16343,11 @@ Bandsaw Wristbands|띠톱 손목띠
 Goblin Hammer|고블린 망치
 Lookie's Spyglass|루키의 망원경
 Cell Keeper's Claws|감옥 감시자의 발톱
+Sorcerer Collar|마술사 목줄
 Blade of Silverlaine|실버레인의 칼날
 Worgenbane Talisman|늑대인간의 파멸 부적
 Blindwatcher's Sight|눈먼 감시자의 시야
+Half-Eaten Boots|반쯤 먹다 만 장화
 Worgpelt Leggings|늑대가죽 다리보호구
 Bloody Parchment|피투성이 양피지
 Executioner Mantle|집행자 어깨덧옷
@@ -16301,6 +16373,8 @@ Fallenroot Longbow|썩은뿌리 장궁
 Twilight Lord Girdle|황혼의 군주 요대
 Skullduggery Belt|협잡의 허리띠
 Irradiated Shield|방사능 오염 방패
+Twisted Fire Totem|뒤틀린 불의 토템
+Twisted Earth Totem|뒤틀린 대지 토템
 Twisted Water Totem|뒤틀린 물 토템
 Twisted Air Totem|뒤틀린 바람 토템
 Schematic: 9-60 Battery Pack|설계도: 9-60 충전지
@@ -16308,7 +16382,11 @@ Thermaplugg Medal of Honor|텔마플러그 명예 훈장
 Sharpened Cutlery|날카로운 식기
 Thornweaver Drape|가시직조 외투
 Roogug's Severed Head|루구그의 절단된 머리카락
+Geomancer Headdress|흙점쟁이 머리장식
 Death Prophet Spine|죽음의 예언자 가시
+Thorncursed Grips|가시저주의 손장갑
+Quilrager Throwing Axe|가시분노 투척용 도끼
+Quillord Mail Leggings|가시군주 쇠사슬 다리보호구
 Dark Iron Map|검은무쇠 지도
 Durgen Dirgehammer's Head|드루겐 더지해머의 머리카락
 Dwarven Heirloom|드워프 가보
@@ -16316,16 +16394,39 @@ Painwalker Buckler|고통방랑자 버클러
 Polished Skullcap|광택 나는 해골모자
 Houndmaster Boomerang|사냥개조련사 부메랑
 Spellsever Crossbow|주문절단자 석궁
+Library Walkers|도서관 실내화
 Band of Crimson Light|붉은 빛의 고리
+Coldbringer Spine|냉기인도자 가시
+Abomination Chain|누더기골렘 사슬
+White Obsidian Wand|흰색 흑요석 마법봉
+Rock Sentinel Slicer|바위 파수병 절단도끼
+Sandstorm Staff|모래폭풍 지팡이
+Axe of Inevitable Ruin|피할 수 없는 파멸의 도끼
+Bloodslash Axe|혈기절단 도끼
 Oathbound Bracers|서약의 결속 팔보호구
+Berserker Shackles|광전사의 족쇄
+Harpoon of Command|지배의 작살
 Brinebelly Leggings|소금배 다리보호구
 Dreadfrost Saber|공포서리 사브르
+Frosty Blunderbuss|서리 나팔총
+Briny Sash|짠물 장식띠
 Bloodspine Staff|혈기가시 지팡이
+Viscera Spaulders|내장 어깨덮개
+Maw of Min'loth|민로스의 아귀
+Serpentbane Crown|독사파멸 왕관
 Ritual-Binder's Gloves|의식결속자의 장갑
+Waterlogged Burial Shroud|물에 젖은 장례 수의
+Priestess Cloak|여사제 망토
 Sandfury Pauldrons|성난모래 견갑
 Farraki Kris|파라키 크리스
 Zealot Plate|광신자의 판금 갑옷
 Scroll of Imbue Lesser Flame|하급 불꽃 주입의 두루마리
+Mote of Unstable Magic|불안정한 마법의 티끌
+Slavecrusher Scepter|노예분쇄자 홀
+Chain of the Corruptor|타락자의 사슬
+Krol'dok Warplate Helmet|크롤도크 전쟁판금 투구
+Mugg's Crosser|머그의 싸움꾼
+Scroll of Rat Familiar|쥐 사역마의 두루마리
 Highly Toxic Strain|고독성 변종
 Raider's Bow|약탈병의 활
 Raider's Battleaxe|약탈병의 전투도끼
@@ -16338,6 +16439,7 @@ Hexed Pendant|사술 걸린 펜던트
 Fossilized Insect|화석화된 곤충
 Tuft of Hair|털뭉치
 Necrotic Crystal Fragment|괴저 수정 파편
+Putridus Wall|타락의 장벽
 Dwarven Skull|드워프 해골
 Short Stout|작은 흑맥주
 Searing Gourd|타오르는 박
@@ -16351,14 +16453,17 @@ Mana Fragment|마나 파편
 Black Tome|검은 고서
 Captain Sander's Lucky Shooter|샌더 선장의 행운총
 Ancient Gurubashi Idol|고대 구루바시 우상
+The Coldbringer's Eye|혹한의 눈
 Zum'rah's Head|줌라의 머리카락
 Bloodtalon Matriarch Eggs|붉은발톱랩터 어미의 알
 Forgotten Loa Idol|잊힌 로아 우상
+An'she's Radiance|안쉬의 광휘
 Fang of Githyiss|기시이스의 송곳니
 Trollbane Conquests|트롤베인 정복기
 The Forsaken Ally|포세이큰 동맹
 Field Accounts of Horde Razings|호드의 파괴 행위 현장 기록
 Cycles of Morality|도덕의 순환
+Dro'zem's Tunic|드로젬의 튜닉
 Faladiel's Heart|팔라디엘의 심장
 Kuramaa's Mask|쿠라마의 가면
 Olgra's Adornments|올그라의 장식
@@ -16367,23 +16472,32 @@ Speargrass Cuttings|창풀 꺾꽂이
 Handful of Complicated Parts|복잡한 부품 한 줌
 Schematic: Harvester Override Signalcaster|설계도: 허수아비골렘 통제 신호 발생기
 Scroll of Frog Familiar|개구리 사역마의 두루마리
+Scroll of Confuse Beast|야수 혼란의 두루마리
+Scroll of Imbue Frost|냉기 주입의 두루마리
+Scroll of Imbue Striking|타격 주입의 두루마리
+Scroll of Imbue Iceknife|얼음칼 주입의 두루마리
 Abandoned Training Weapon|버려진 훈련용 무기
 Dull Storm Orb|희미한 폭풍 보주
 Charged Thunder Lizard Organ|충만한 천둥도마뱀 장기
+Stonetalon Supply Bundle|돌발톱 보급품 묶음
 Glittering Sunstone|반짝이는 태양석
 Smooth Boulder|매끈한 바위
 Stolen Shipment|도난당한 화물
 Primitive Key|원시 열쇠
+Putrescent Wolf Organs|부패한 늑대 장기
 Gozwin's Mechanic's Log|고즈윈의 정비사 일지
 Dark Purple Berries|짙은 보랏빛 열매
 Excavation Tools|발굴 도구
+Brilliantly Polished Bangle|눈부신 광택이 나는 팔찌
 Mirkweed Pods|땅거미풀 깍지
 Surgical Spidersilk|외과용 거미줄
 Duskbat Wing Membrane|그늘박쥐 날개막
 Darkhound Hide|암흑사냥개 가죽
 Vile Fin Murloc Skin|썩은지느러미멀록 가죽
+Packaged Tonics|포장된 강장제
 Mus'hale's Stolen Supplies|무스할레의 도난당한 보급품
 Tremayne Family Blacksmithing Techniques|트레메인 가문 대장기술 비법서
+Cracked Crab Pincer|금이 간 게 집게발
 Gnarlpine Totem|나무옹이일족 토템
 Stormheart's Still-beating Heart|폭풍심장의 살아 맥동하는 심장
 Clouded Water Globe|탁한 물구슬
@@ -16395,12 +16509,15 @@ Sack of Homebrew Hops|수제 맥주 홉 자루
 Grimy Key|때 묻은 열쇠
 Rotheap Innards|썩은무더기 내장
 Marek's Croc-Hunting Knife|마레크의 악어 사냥용 손칼
+Intact Raptor Hide|온전한 랩터 통가죽
 Khaz Modan Timber|카즈 모단 목재
 Khaz Modan Iron|카즈 모단 철
 Nord'el|노르델
+Shed Dark Dragonscale|떨어진 어두운 용비늘
 Dry Branch|마른 가지
 Titanic Keystone|티탄의 쐐기돌
 Soft Nightsaber Pelt|부드러운 흑호 모피
+Wyrmtail|용꼬리
 Razormaw Incisor|칼날아귀 앞니
 Perfect Razormaw Egg|온전한 칼날아귀 알
 Jameson's Training Sword|제임슨의 훈련용 검
@@ -16426,6 +16543,7 @@ Windmistress Gaedress' Amulet|바람의 여군주 게드레스의 아뮬렛
 Witchmother Arysa's Amulet|마녀대모 아리사의 아뮬렛
 Blackrock Supplies|검은바위 보급품
 Stolen Weapon|도난당한 무기
+Vine-Wrapped Scroll|덩굴에 감싸인 두루마리
 Mature Fel Moss|다 자란 지옥이끼
 Mulgore Expansion Plans|멀고어 확장 계획서
 Shredder Operation Instructions|벌목기 조종 설명서
@@ -16434,13 +16552,17 @@ One "Gerenzo", of Stonetalon|일명 돌발톱의 "게렌조"
 Feather of Jai'vhanel|자이바넬의 깃털
 Raven Hill Tome|까마귀 언덕 고서
 Clearcutter Key|개벌꾼 열쇠
+Ombassa's Hide|옴바사의 가죽
 Merrick's Bow|메릭의 활
 Ira's Dagger|아이라의 단검
 Silvia's Sword|실비아의 검
 Grant's Mace|그랜트의 철퇴
 Grant's Shield|그랜트의 방패
 Blisterweed|물집풀
+Boulderheart Band|바위심장 고리
 Bog Pickers|수렁 채집장갑
+Dragonmaw Battle Shroud|용아귀 전투 수의
+Dun Garok Rifle|던 가록 소총
 Durable Bearhide Pauldrons|튼튼한 곰가죽 견갑
 Spider Swarm|거미떼
 Heart of Alterac|알터랙의 심장
@@ -16454,6 +16576,7 @@ Thicket Raptor Hide|덤불 랩터 가죽
 Explorer's Shortsword|탐험가의 쇼트소드
 Thendal Watcher's Boots|센달 감시자의 장화
 Dull Sawblade|무딘 톱날
+Signet of the Zhevra|얼룩말의 인장
 Kodohide Legguards|코도가죽 다리보호대
 Centaur War Chain|켄타우로스 전투 사슬띠
 Alliance Outrunner's Sword|얼라이언스 정찰대 검
@@ -16477,7 +16600,11 @@ Mostly Dry Firewood|거의 마른 땔감
 Coalbeard's Rifle|콜비어드의 소총
 Sunhammer's Rifle|선해머의 소총
 Stoneanvil's Rifle|스톤앤빌의 소총
+Big-Belly Belt|불룩배 허리띠
+Toofbreaker|투프분쇄기
+Gill's Gills|길의 아가미
 Depleted Crystal Heart|고갈된 수정 심장
+Flamestarter's Signet|방화범의 인장
 Bristlebark Bow|뾰족껍질 활
 Ghostfang's Steps|유령송곳니의 발걸음
 Snarlsnout Shooter|으르렁코 발사기
@@ -16487,6 +16614,10 @@ Rotmender's Garb|부패치유사의 예복
 Rotmender's Gloves|부패치유사의 장갑
 Rotmender's Sash|부패치유사의 장식띠
 Death Bindings|죽음의 손목띠
+Violet Sorcerer's Sandals|보랏빛 마술사의 덧신
 Violet Sorcerer's Leggings|보랏빛 마술사의 다리보호구
 Violet Sorcerer's Wraps|보랏빛 마술사의 싸개
+Corroded Handguards|부식된 손보호대
+Twilight Enforcer's Legs|황혼의 집행자의 다리보호구
+Krol'dok Warplate Legplates|크롤도크 전쟁판금 다리갑옷
 Tender Strider Meat|연한 타조 고기

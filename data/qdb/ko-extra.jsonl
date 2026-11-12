@@ -635,7 +635,7 @@
 {"id":4730,"n":"떠내려온 바다 생물","o":"아우버다인에 있는 그웨니스 블리레곤드에게 바다 생물 뼈를 가져가야 합니다.","g":"떠내려온 바다 생물","r":"그웨니스 블리레곤드","wv":1}
 {"id":4731,"n":"떠내려온 바다 거북","o":"아우버다인에 있는 그웨니스 블리레곤드에게 이상한 표식이 된 상자를 가져가야 합니다.","g":"떠내려온 바다 거북","r":"그웨니스 블리레곤드","wv":1}
 {"id":4733,"n":"떠내려온 바다 생물","o":"아우버다인에 있는 그웨니스 블리레곤드에게 바다 생물 뼈를 가져가야 합니다.","g":"떠내려온 바다 생물","r":"그웨니스 블리레곤드","wv":1}
-{"id":87760,"n":"Holy Diver","o":"Find a Stormscale Beastmistress, slay her, and bring back her Rod of Deep Dominion.","g":"그웨니스 블리레곤드","r":"그웨니스 블리레곤드","ft":1}
+{"id":87760,"n":"신성한 잠수부","o":"폭풍비늘 야수조련사를 찾아 처치한 후, 심연의 지배 마법막대를 가져와야 합니다.","g":"그웨니스 블리레곤드","r":"그웨니스 블리레곤드","wv":1}
 {"id":4732,"n":"떠내려온 바다 거북","o":"아우버다인에 있는 그웨니스 블리레곤드에게 바다 거북 잔해를 가져가야 합니다.","g":"떠내려온 바다 거북","r":"그웨니스 블리레곤드","wv":1}
 {"id":89,"n":"영원의 다리","o":"레이크샤이어에 있는 현장감독 오슬로우에게 철제 파이크 5개와 철제 리벳 5개를 가져가야 합니다.","g":"현장감독 오슬로","r":"현장감독 오슬로","wv":1}
 {"id":125,"n":"잃어버린 연장통","o":"레이크샤이어의 현장감독 오슬로가 영원의 호수의 밑바닥에서 그의 연장통을 찾아다 달라고 부탁했습니다.","g":"현장감독 오슬로","r":"현장감독 오슬로","wv":1}
@@ -1083,3 +1083,155 @@
 {"id":7496,"n":"대축제","o":"영웅의 계곡에서 상사 매팅글리를 찾으십시오.","g":"대영주 볼바르 폴드라곤","r":"상사 매팅글리","wv":1}
 {"id":7497,"n":"모험은 이제부터","rr":1,"wv":1}
 {"id":6502,"n":"비룡불꽃 아뮬렛","o":"사령관 드라키사스에게서 검은용 용사의 피를 가져와야 합니다. 드라키사스는 검은바위 첨탑의 승천의 전당 뒤에 있는 알현실에 있습니다.","g":"헬레","r":"헬레","wv":1}
+{"id":89015,"n":"Deadliest Catch","o":"Bring a Mammoth Shark Steak to Berdun Cliffbrew at Talrendis Point in Azshara.","rr":1,"ft":1}
+{"id":90487,"rr":1,"ft":1,"n":"고대정령과의 동맹"}
+{"id":90647,"rr":1,"ft":1,"n":"산의 지팡이 위치·보상"}
+{"id":90702,"n":"파헤쳐진 무덤","o":"Search the area for the grave's missing contents.","rr":1,"ft":1}
+{"id":90750,"rr":1,"ft":1,"n":"일거리 더 없습니까?"}
+{"id":90854,"rr":1,"ft":1,"n":"궂은 날씨를 견딜 튼튼한 가죽"}
+{"id":90865,"rr":1,"ft":1,"n":"감시자의 눈"}
+{"id":91688,"n":"영원의 정상을 향하여","o":"Travel to the Summit of Eternity and speak with the druids about the survivor village.","rr":1,"ft":1}
+{"id":91696,"rr":1,"ft":1,"n":"사냥철"}
+{"id":91697,"rr":1,"ft":1,"n":"장로들과의 만남"}
+{"id":91698,"rr":1,"ft":1,"n":"나무껍질일족 구출"}
+{"id":91754,"rr":1,"ft":1,"n":"흙을 좀 바르면"}
+{"id":91755,"rr":1,"ft":1,"n":"치료의 잎"}
+{"id":91770,"rr":1,"ft":1,"n":"껍질을 파고드는 고통"}
+{"id":91877,"rr":1,"ft":1,"n":"악마사냥꾼을 뒤쫓는 자 위치·보상"}
+{"id":91881,"n":"서부 초소","o":"Meet Sefira Everbright at the outpost.","rr":1,"ft":1}
+{"id":91882,"n":"대연합군","o":"Search Mount Hyjal for remnants of the Grand Alliance.","rr":1,"ft":1}
+{"id":91883,"rr":1,"ft":1,"n":"하늘군주의 창끝"}
+{"id":91907,"rr":1,"ft":1}
+{"id":92008,"rr":1,"ft":1,"n":"최상급 부품 위치·보상"}
+{"id":92009,"rr":1,"ft":1,"n":"상자 배달 대작전"}
+{"id":92011,"rr":1,"ft":1,"n":"잔해 수색 위치·보상"}
+{"id":92014,"n":"여우굴","o":"Return 9 Rustleaf Fox Tails to Johun \"Punchy\" Dillas in Hyjal.","rr":1,"ft":1}
+{"id":92015,"n":"스컹크 방어선","o":"Make skunks leave the area around Johun's equipment without killing them.","rr":1,"ft":1}
+{"id":92016,"rr":1,"ft":1,"n":"뿌리 손보기"}
+{"id":92017,"rr":1,"ft":1,"n":"정화의 바람"}
+{"id":92064,"n":"나무에서 벗어나기","o":"Break the tree branch to free Fenwick Togglespring.","rr":1,"ft":1}
+{"id":92100,"rr":1,"ft":1,"n":"여기만 아니면 어디든"}
+{"id":92101,"n":"유산이 들어 올린 기억 위치·보상","o":"Find the Veteran of the Third War's markings of significance on the Great Lift.","g":"받을 때 주는 아이템 · Embroidered Scabbard","rr":1,"ft":1}
+{"id":92102,"rr":1,"ft":1,"n":"찬사 위치·보상"}
+{"id":92111,"rr":1,"ft":1,"n":"친구와 털가죽"}
+{"id":92147,"rr":1,"ft":1,"n":"높은깃털 도우미"}
+{"id":92169,"rr":1,"ft":1,"n":"서약의 앙갚음"}
+{"id":92171,"rr":1,"ft":1,"n":"높은 곳으로 위치·보상"}
+{"id":92317,"rr":1,"ft":1,"n":"빼앗긴 생명"}
+{"id":92328,"rr":1,"ft":1,"n":"공성의 기술"}
+{"id":92329,"rr":1,"ft":1,"n":"소란스러운 북소리"}
+{"id":92335,"rr":1,"ft":1,"n":"군단 진격로의 재"}
+{"id":92433,"rr":1,"ft":1,"n":"맛있는 요리를 부탁해 위치·보상"}
+{"id":92449,"n":"역병은 이제 끝","o":"Eliminate 3 Forgotten Soldiers and 12 Fleshflay Raveners.","rr":1,"ft":1}
+{"id":92500,"rr":1,"ft":1,"n":"하늘 한 조각"}
+{"id":92533,"rr":1,"ft":1,"n":"뒤틀린 도구"}
+{"id":92591,"n":"최후의 죽음","o":"Use the Survivor's Torch on the Bone Pile, then collect the Reanimator's Amulet.","g":"받을 때 주는 아이템 · Survivor's Torch","rr":1,"ft":1}
+{"id":92593,"n":"쏟아지는 타락 위치·보상","o":"Enter Dae'gun and locate a high vantage point, then report details to Johun.","rr":1,"ft":1}
+{"id":92594,"rr":1,"ft":1,"n":"이 정도면 불쏘시개 맞지"}
+{"id":92612,"rr":1,"ft":1,"n":"달의 숲에서 도움 받기 위치·보상"}
+{"id":92702,"n":"가지 뻗기","o":"Locate a sturdy branch capable of reaching Fenwick Togglespring.","rr":1,"ft":1}
+{"id":92833,"rr":1,"ft":1,"n":"베한의 몰락"}
+{"id":92842,"n":"타향의 사촌","o":"Find the missing cousin somewhere on Mount Hyjal.","r":"Quintus Wainworth","ft":1}
+{"id":92859,"rr":1,"ft":1,"n":"겨울 야생의 장막 위치·보상"}
+{"id":92959,"rr":1,"ft":1,"n":"죽어 가는 고대정령들"}
+{"id":92960,"rr":1,"ft":1,"n":"덧없는 정수 착취"}
+{"id":93127,"rr":1,"ft":1,"n":"정상의 파수꾼"}
+{"id":93197,"rr":1,"ft":1,"n":"연락 복구 위치·보상"}
+{"id":93269,"rr":1,"ft":1,"n":"우편의 정상"}
+{"id":93383,"n":"내용물 주의","o":"Wait until you can safely open the Personal Survival Pack.","rr":1,"ft":1}
+{"id":93406,"rr":1,"ft":1,"n":"해동된 배달품"}
+{"id":93407,"rr":1,"ft":1,"n":"발에 박힌 가시"}
+{"id":93422,"rr":1,"ft":1,"n":"검은가시의 눈과 귀를 막아라"}
+{"id":93444,"rr":1,"ft":1,"n":"야수 유인 위치·보상"}
+{"id":93510,"n":"깨어나는 기억 위치·보상","o":"Find the anchor on Lake Everstill the War Veteran remembers from childhood.","g":"받을 때 주는 아이템 · Embroidered Scabbard","rr":1,"ft":1}
+{"id":93521,"rr":1,"ft":1,"n":"신들에게 맞선 자"}
+{"id":93547,"rr":1,"ft":1,"n":"가시 돋친 해결책"}
+{"id":93551,"rr":1,"ft":1,"n":"찬사 위치·보상"}
+{"id":93567,"rr":1,"ft":1,"n":"끝과 끝이 맞닿는 곳"}
+{"id":93584,"rr":1,"ft":1,"n":"이교도 소탕"}
+{"id":93606,"rr":1,"ft":1,"n":"가시 돋친 사랑과 전쟁"}
+{"id":93615,"rr":1,"ft":1,"n":"어린 고양이 친구들"}
+{"id":93617,"rr":1,"ft":1,"n":"먹잇감과 포식자"}
+{"id":93747,"rr":1,"ft":1,"n":"폭력에서 녹음으로"}
+{"id":93759,"rr":1,"ft":1,"n":"자연이 내린 풍요"}
+{"id":93773,"rr":1,"ft":1,"n":"서약"}
+{"id":93825,"rr":1,"ft":1,"n":"나무껍질에 깃든 축복"}
+{"id":93826,"rr":1,"ft":1,"n":"마른가지일족에게 공포를"}
+{"id":93827,"rr":1,"ft":1,"n":"바람결 수호물"}
+{"id":93831,"rr":1,"ft":1,"n":"달콤발 잼"}
+{"id":93848,"rr":1,"ft":1,"n":"임무 완수"}
+{"id":93925,"rr":1,"ft":1,"n":"브레루파를 위한 구슬"}
+{"id":93952,"rr":1,"ft":1,"n":"힘으로 되찾는 균형"}
+{"id":94504,"rr":1,"ft":1,"n":"나무껍질일족의 첫걸음"}
+{"id":94832,"n":"벨르의 반지","o":"Show the ring to Daythor Brellan.","g":"받을 때 주는 아이템 · Ring of the Fallen Soldier","rr":1,"ft":1}
+{"id":95006,"rr":1,"ft":1,"n":"훔쳐낸 힘"}
+{"id":95027,"n":"비상하는 깃털","o":"Head south into the valley and collect owl feathers from their nests.","rr":1,"ft":1}
+{"id":95218,"n":"늘 하던 일","o":"Speak with Sefira Everbright.","rr":1,"ft":1}
+{"id":95316,"rr":1,"ft":1,"n":"실험의 정석"}
+{"id":95317,"rr":1,"ft":1,"n":"기록 또 기록 또 기록"}
+{"id":95318,"rr":1,"ft":1,"n":"재의 맛"}
+{"id":95319,"rr":1,"ft":1,"n":"수정 수집"}
+{"id":95320,"rr":1,"ft":1,"n":"호기심 가득한 질문"}
+{"id":95378,"rr":1,"ft":1,"n":"히드라의 머리"}
+{"id":95379,"rr":1,"ft":1,"n":"너무나 달콤한 복수"}
+{"id":95380,"rr":1,"ft":1,"n":"풍부한 원천"}
+{"id":95568,"rr":1,"ft":1,"n":"새로운 계절에 심을 씨앗"}
+{"id":95569,"rr":1,"ft":1,"n":"자손에게 희망을"}
+{"id":95611,"rr":1,"ft":1,"n":"경의의 의식"}
+{"id":95766,"rr":1,"ft":1,"n":"깃털 달린 친구"}
+{"id":95769,"rr":1,"ft":1,"n":"해결의 실마리"}
+{"id":95793,"rr":1,"ft":1,"n":"악마의 물결을 막아라"}
+{"id":96003,"rr":1,"ft":1,"n":"악의를 끌어내라"}
+{"id":96025,"rr":1,"ft":1,"n":"까마귀의 비행"}
+{"id":96076,"rr":1,"ft":1,"n":"급구: 고대 엘프 골동품 위치·보상"}
+{"id":96077,"n":"벨르의 반지 위치·보상","o":"Deliver the ring to Michelle Belle at the Lion's Pride Inn in Elwynn Forest.","g":"받을 때 주는 아이템 · Thomas's Ring","rr":1,"ft":1}
+{"id":96131,"rr":1,"ft":1,"n":"늙었지만 오래된 친구"}
+{"id":96145,"rr":1,"ft":1,"n":"날개와 발톱을 넘어 위치·보상"}
+{"id":96209,"rr":1,"ft":1,"n":"고대정령 오로카이"}
+{"id":96252,"rr":1,"ft":1,"n":"빛바랜 보물"}
+{"id":96255,"rr":1,"ft":1,"n":"뒤엉킨 골수"}
+{"id":96262,"rr":1,"ft":1,"n":"까칠까칠한 솔방울"}
+{"id":96296,"rr":1,"ft":1,"n":"악취 나는 타락"}
+{"id":96301,"rr":1,"ft":1,"n":"초강력 세정"}
+{"id":96302,"rr":1,"ft":1,"n":"대대적인 사면"}
+{"id":96303,"rr":1,"ft":1,"n":"기억의 안개"}
+{"id":96321,"rr":1,"ft":1,"n":"죽어가는 신"}
+{"id":96322,"rr":1,"ft":1,"n":"이제는 쓰디쓴 복수"}
+{"id":96379,"rr":1,"ft":1,"n":"국가 기밀"}
+{"id":96435,"rr":1,"ft":1,"n":"마땅한 최후"}
+{"id":96449,"n":"아이오나스의 비밀 은신처","o":"Use the Old Dingy at Menethil Harbor to search for Aeonas.","rr":1,"ft":1}
+{"id":96494,"n":"휘몰아치는 폭풍","o":"Find the Blackthorne reinforcement point at the entrance to Hyjal Summit.","rr":1,"ft":1}
+{"id":96529,"n":"쇼의 거래","o":"Bring the Blackthorne Information to Master Mathias Shaw in Stormwind.","g":"받을 때 주는 아이템 · Blackthorne Documents","rr":1,"ft":1}
+{"id":96550,"rr":1,"ft":1,"n":"전장의 기억"}
+{"id":96558,"rr":1,"ft":1,"n":"병사의 위안"}
+{"id":96559,"n":"보급품 투하","o":"Locate Fenwick Togglespring's Pilot Survival Kit.","rr":1,"ft":1}
+{"id":96602,"rr":1,"ft":1,"n":"더 많은 불안정한 마법"}
+{"id":96674,"n":"길 잃은 양","o":"Capture and return 6 Escaped Sheep.","rr":1,"ft":1}
+{"id":96676,"n":"검은가시 서약단의 실체 위치·보상","o":"Bring the Alliance Equipment to Johun \"Punchy\" Dillas in Hyjal.","g":"받을 때 주는 아이템 · Alliance Equipment","rr":1,"ft":1}
+{"id":96912,"rr":1,"ft":1,"n":"명예의 전장: 1주 차 위치·보상"}
+{"id":96930,"rr":1,"ft":1,"n":"변덕스러운 까마귀"}
+{"id":96931,"rr":1,"ft":1,"n":"등산길 위치·보상"}
+{"id":96939,"rr":1,"ft":1,"n":"생사의 균형 위치·보상"}
+{"id":96957,"rr":1,"ft":1,"n":"뼈도 돌아갈 곳이 있다 위치·보상"}
+{"id":96959,"rr":1,"ft":1,"n":"검귀의 화톳불"}
+{"id":96964,"rr":1,"ft":1,"n":"영리한 생물 위치·보상"}
+{"id":96971,"rr":1,"ft":1,"n":"악마를 속이는 법"}
+{"id":96978,"rr":1,"ft":1,"n":"사나운 사슴"}
+{"id":96979,"rr":1,"ft":1,"n":"신성한 원기 회복 위치·보상"}
+{"id":96983,"rr":1,"ft":1,"n":"야시로의 바람걸음"}
+{"id":96991,"rr":1,"ft":1,"n":"길 찾기 지원 위치·보상"}
+{"id":96992,"n":"재보급 위치·보상","o":"Look through the burned buildings in the Cradle of Tranquility for 6 Metal Brackets and 30 Nails and return to Johun \"Punchy\" Dillas in Hyjal.","rr":1,"ft":1}
+{"id":97009,"rr":1,"ft":1,"n":"비참한 마에리온"}
+{"id":97010,"rr":1,"ft":1,"n":"눈먼 복수"}
+{"id":97327,"n":"검은아귀 주머니","o":"Enter Blackmaw Hold and recover 5 Blackmaw Pouches for Ekkal at the Ruins of Eldarath in Azshara.","g":"Ekkal","r":"Ekkal","ft":1}
+{"id":97490,"rr":1,"ft":1,"n":"우박원한을 잠재워라"}
+{"id":97986,"rr":1,"ft":1,"n":"은빛 심판관 위치·보상"}
+{"id":97987,"n":"스톰윈드 고등 마법원","o":"Speak with Saera Wirraway in Stormwind in The Park.","rr":1,"ft":1}
+{"id":98109,"n":"최첨단 위치·보상","o":"Speak with Adon the high elf northwest of the ruins of Northdale, on the road to Quel'Thalas.","rr":1,"ft":1}
+{"id":98166,"n":"첫 번째 말","o":"Inspect the riding horses to choose your first mount.","rr":1,"ft":1}
+{"id":98898,"rr":1,"ft":1,"n":"검은창 군도의 충돌"}
+{"id":98905,"n":"검은창 군도 전투!","o":"Win a Darkspear Islands battleground and return back to Brelinda McFarry at Northwatch Hold.","rr":1,"ft":1}
+{"id":99205,"n":"바람 타기","o":"Learn the Journeyman Riding skill from Jartsam.","rr":1,"ft":1}
+{"id":99326,"n":"첫 번째 말","o":"Inspect the riding horses to choose your first mount.","rr":1,"ft":1}
+{"id":99435,"rr":1,"ft":1,"n":"대단한 가장무도회"}
+{"id":99670,"rr":1,"ft":1,"n":"제레만에게 돌아가기"}
