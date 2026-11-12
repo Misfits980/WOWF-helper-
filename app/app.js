@@ -398,9 +398,9 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
     return move+'<div class="rt'+(now?' now':past?' past':'')+'"><div class="rl"><span class="lvb '+(now?'lv-y':past?'lv-x':'')+'">'+S.a+'–'+S.b+'</span>'+(now?'<span class="tag gd">지금</span>':'')+'</div><div class="m">'+zs.map(z=>{const [n,d]=cnt(z);return '<button class="zr" data-a="goz" data-k="'+esc(z)+'"><b>'+esc(z)+'</b> '+contTag(z)+'<span class="sub">퀘스트 '+n+'개'+(d?' · '+d+'개 끝냄':'')+'</span></button>'}).join('')+'</div></div>'}).join('');
   h+='<p class="note">⛵ 배 타는 곳: '+BOAT+'</p>';
   return h}
-function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><div class="chips">'+[['route','레벨링 루트'],['zone','지역 퀘스트'],['dg','던전 퀘스트']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
+function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><p class="note">던전 퀘스트는 <button class="more" data-a="tab" data-k="dungeon">🏰 던전 탭</button>에서 던전마다 모아 보여 줘요.</p><div class="chips">'+[['route','레벨링 루트'],['zone','지역 퀘스트']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
   if(qm==='route')return h+routeView(c)+'</div>';
-  if(qm==='dg')return h+dqView(c)+'</div>';
+  if(qm==='dg')ui.qmode='zone';
   const Z=zonesNow(c);
   if(ui.qz&&!Z.find(x=>x.z===ui.qz)){const qs=[];const seen=new Set();for(const S of routeOf(c))for(const q of S.q)if((q.gz||q.sz)===ui.qz&&!seen.has(q.nm)){seen.add(q.nm);qs.push(q)}if(qs.length)Z.unshift({z:ui.qz,q:qs,left:qs.filter(q=>!(c.fq||{})[ui.qz+'|'+q.nm]).length,all:1})}
   if(!Z.length)return h+'<p class="empty-st">레벨 '+L+'에 맞는 퀘스트가 없어요.</p></div>';
@@ -449,10 +449,13 @@ function startTxt(s){if(!s)return '아이템을 주워서 시작';if(/^시작 ·
 function dgItems(c,d){return ITEMS.filter(it=>it.src.some(i=>SRC[i]&&SRC[i].k===0&&SRC[i].dg===d.slug))}
 function dgUps(c,d){const L=c.lv;return dgItems(c,d).filter(it=>usable(it,c)&&it.lv<=Math.max(L,d.hi)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01)}
 const DG_IMG=slug=>'https://forg.gg/images/wow-forever/dungeons/'+slug+'-loading.webp';
-function dgChips(c,cur){const L=c.lv;const lst=DGS.slice().sort((a,b)=>a.fit-b.fit);
-  return '<div class="dchips">'+lst.map(d=>{const inr=L>=d.lo-1&&L<=d.hi;return '<button class="dchip'+(d.slug===cur?' on':'')+(inr?' near':'')+'" data-a="dgo" data-k="'+d.slug+'"><img src="'+DG_IMG(d.slug)+'" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\'dno\',textContent:\'🏰\'}))"><span class="t"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+(inr?' · 지금':'')+'</small></span></button>'}).join('')+'</div>'}
+function dgChips(c,cur){const L=c.lv;
+  const near=DGS.filter(d=>L>=d.lo-1&&L<=d.hi).sort((a,b)=>b.fit-a.fit),up=DGS.filter(d=>d.lo-1>L).sort((a,b)=>a.fit-b.fit),past=DGS.filter(d=>d.hi<L).sort((a,b)=>b.fit-a.fit);
+  const grp=(t,arr)=>arr.length?'<span class="dgl">'+t+'</span>'+arr.map(chip).join(''):'';
+  const chip=d=>{const inr=L>=d.lo-1&&L<=d.hi;return '<button class="dchip'+(d.slug===cur?' on':'')+(inr?' near':'')+'" data-a="dgo" data-k="'+d.slug+'"><img src="'+DG_IMG(d.slug)+'" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\'dno\',textContent:\'🏰\'}))"><span class="t"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+(inr?' · 지금':'')+'</small></span></button>'};
+  return '<div class="dchips">'+grp('지금 레벨',near)+grp('다음 던전',up)+grp('지나간 던전',past)+'</div>'}
 function dungeon(c){const L=c.lv;
-  if(!ui.dg||!DG[ui.dg]){const n=dgNow(L);ui.dg=(n[0]||DGS.slice().sort((a,b)=>Math.abs(a.fit-L)-Math.abs(b.fit-L))[0]).slug}
+  if(!ui.dg||!DG[ui.dg]){const n=dgNow(L).sort((a,b)=>b.fit-a.fit);ui.dg=(n[0]||DGS.slice().sort((a,b)=>Math.abs(a.fit-L)-Math.abs(b.fit-L))[0]).slug}
   return dgChips(c,ui.dg)+dgDetail(c,DG[ui.dg])}
 /* 보스 모습 (wythic.com → 와우헤드 모델 썸네일) */
 const BIMG={};{const nz=x=>String(x||'').replace(/[\s:·,'"!.\-]/g,'').replace(/의/g,'');D_BOSS.split('\n').filter(Boolean).forEach(l=>{const [dn,bn,u]=l.split('|');(BIMG[nz(dn)]=BIMG[nz(dn)]||[]).push({n:nz(bn),u})});

@@ -338,3 +338,7 @@ details.qf summary::-webkit-details-marker{display:none}
 .parch .pre{margin:10px 0 4px;padding:8px 10px;border:1.5px dashed #8a5a10;border-radius:8px;background:rgba(255,236,190,.45);font-size:14px}
 .parch .pre b{color:#5a3200}
 .parch .pre .pbtn.sm{margin-top:6px}
+
+.dchips{align-items:center}
+.dgl{flex:none;writing-mode:vertical-rl;font-size:11px;color:#8b93a0;letter-spacing:1px;padding:4px 0;border-left:1px solid #2e333b;margin-left:2px;padding-left:6px}
+.dchips .dgl:first-child{border-left:0;margin-left:0;padding-left:0}
