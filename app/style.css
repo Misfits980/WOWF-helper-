@@ -834,3 +834,5 @@ body.amfull{overflow:hidden}
 .qf.done .qi.qck{color:var(--good,#6fdc6a);font-weight:800}
 .qstar{font-size:13px;margin-right:2px}
 .zinfo .zg{color:#ffe08a}
+.rb-how{padding:8px 10px;border-radius:10px;border:1px solid #c79a3e;background:rgba(224,184,90,.12)}
+.rb-how b{color:#ffe08a;font-size:13.5px}.rb-how ul{margin:4px 0 0;padding-left:16px;font-size:13px;line-height:1.55;color:#f0e4c6}
