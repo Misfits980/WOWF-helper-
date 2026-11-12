@@ -334,3 +334,7 @@ details.qf summary::-webkit-details-marker{display:none}
 .dhero h2{margin:0;font-size:22px;color:#fff;text-shadow:0 1px 4px #000}
 .dhero small{color:#d9d2c3}
 .dhero:not(:has(img)) .dt{position:static;background:none}
+
+.parch .pre{margin:10px 0 4px;padding:8px 10px;border:1.5px dashed #8a5a10;border-radius:8px;background:rgba(255,236,190,.45);font-size:14px}
+.parch .pre b{color:#5a3200}
+.parch .pre .pbtn.sm{margin-top:6px}

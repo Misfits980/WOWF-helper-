@@ -21,7 +21,8 @@ jobs:
       - run: node tools/forg-leveling.mjs
       - run: node tools/forg-quests.mjs
         timeout-minutes: 60
-      - run: node tools/quest-chain-wowf.mjs
+      - run: node tools/quest-wowf.mjs
+        timeout-minutes: 40
       - run: node tools/quest-rewards.mjs
         timeout-minutes: 40
       - run: node tools/wythic-bosses.mjs

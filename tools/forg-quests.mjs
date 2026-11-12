@@ -21,7 +21,8 @@ function parse(id,h){
   if(iR>=0){const end=txt.findIndex((t,k)=>k>iR&&/지도 · 위치는|^전체 지도|^길 찾기/.test(t));const r=npc(iR,end>0?end:iR+10);o.r=[r.n,r.same?'':r.loc?r.loc[0]:'',r.same?'':r.loc?r.loc[1]:'',r.same?1:0]}
   if(iD>=0&&iR>iD){const T=[];let cur=null;let mode='';
     for(let k=iD+1;k<iR;k++){const t=txt[k];
-      if(TYPES.has(t)&&txt[k+1]&&!TYPES.has(txt[k+1])){cur={t,n:txt[k+1],drop:[],where:''};T.push(cur);k++;mode='';continue}
+      if(TYPES.has(t)){let j=k+1;while(j<iR&&(/^\d+$/.test(txt[j])||/^지도 \d+번 핀$/.test(txt[j])||txt[j]==='·'))j++;const nm=txt[j];
+        if(nm&&j<iR&&!TYPES.has(nm)&&!/^(반납|받기|하기)$/.test(nm)){cur={t,n:nm,drop:[],where:''};T.push(cur);k=j;mode='';continue}}
       if(!cur)continue;
       if(t==='떨구는 몹'||t==='나오는 곳'||t==='주는 곳'){mode='drop';continue}
       if(/^가장 많은 곳/.test(t)){cur.where=(t.match(/\([\d.]+, [\d.]+\)/g)||[]).slice(0,2).join(' ');mode='';continue}
@@ -38,7 +39,8 @@ function parse(id,h){
     const as=[...h.slice(h.indexOf('연계 퀘스트')).matchAll(/href="\/forever\/quest\/(\d+)"/g)].map(x=>+x[1]);let ai=0;rows.forEach(r=>{if(!r[5])r.push(as[ai++]||0);else r.push(+id)});o.ch=rows}}
   return o}
 const out=[];let n=0,skip=0;
-for(const id of ids){if(have.has(id)){out.push(have.get(id));skip++;continue}
+const bad=l=>{try{const o=JSON.parse(l);return (o.t||[]).some(t=>/^\d+$|^(반납|받기|하기)$/.test(t[1]))}catch(e){return true}};
+for(const id of ids){if(have.has(id)&&!bad(have.get(id))){out.push(have.get(id));skip++;continue}
   const h=await get('/forever/quest/'+id);if(!h)continue;try{out.push(JSON.stringify(parse(id,h)));n++}catch(e){console.log('parse fail',id,e.message)}
   if(n%100===0&&n)console.log('fetched',n)}
 fs.writeFileSync(file,out.join('\n')+'\n');console.log('quests',out.length,'new',n,'cached',skip);
