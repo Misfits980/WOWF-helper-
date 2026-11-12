@@ -862,14 +862,14 @@
 1~퀘스트 · 정당한 보상~wh:quest=8936
 1~퀘스트 · 진지한 제안~wh:quest=8911
 1~퀘스트 · An Earnest Proposition~wh:quest=8919
-1~퀘스트 · Anthion's Parting Words~wh:quest=8958
+1~퀘스트 · 안시온의 작별 인사~wh:quest=8958
 1~퀘스트 · 은혜의 보답~wh:quest=9005
 1~퀘스트 · 정당한 보상~wh:quest=8934
 1~퀘스트 · 진지한 제안~wh:quest=8909
 1~퀘스트 · An Earnest Proposition~wh:quest=8916
 1~퀘스트 · 은혜의 보답~wh:quest=9003
 1~퀘스트 · Anthion's Parting Words~wh:quest=9019
-1~퀘스트 · Anthion's Parting Words~wh:quest=8955
+1~퀘스트 · 안시온의 작별 인사~wh:quest=8955
 1~퀘스트 · 안시온의 작별 인사~wh:quest=8954
 1~퀘스트 · An Earnest Proposition~wh:quest=8918
 1~퀘스트 · An Earnest Proposition~wh:quest=10492
