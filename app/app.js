@@ -1126,15 +1126,44 @@ function klass(c){const C=D_CLS[c.cls],sp=specOf(c),L=c.lv,sec=ui.csec;
   h+='<p class="note">출처: forg.gg 직업 가이드(Wowhead·Mobalytics 빌드를 정리한 것). 게임 업데이트로 바뀔 수 있어요.</p>';
   return h+'</div>'}
 
+/* ===== 직업: 특성 칸 (게임 특성 창처럼 3개 트리, 칸·선행 화살표) ===== */
+const TICO=n=>/^\d+$/.test(String(n))?'https://forg.gg/wow/forever/icons/'+n+'.jpg':ICO(n);
+function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const V=ui.tlv==='60'?60:L;
+  const rk=lv=>{const m={};st.forEach(s=>{if(s[0]<=lv)m[s[1]]=Math.max(m[s[1]]||0,s[2])});return m};
+  const R=rk(V),F=rk(60),Rn=rk(L);
+  const T=Object.entries(C.talents);const pts=t=>T.filter(([k,v])=>v[1]===t).reduce((a,[k])=>a+(R[k]||0),0);
+  const finPts=t=>T.filter(([k,v])=>v[1]===t).reduce((a,[k])=>a+(F[k]||0),0);
+  let main=ui.ttree;if(!C.trees.includes(main))main=C.trees.slice().sort((a,b)=>finPts(b)-finPts(a))[0];
+  const P=58,CS=44,O=7;const nowIds=new Set(st.filter(s=>s[0]>=L&&s[0]<=L+1).map(s=>s[1]));
+  let h='<div class="card talsum"><h3><img class="hic" src="img/ui-target.png" alt="">'+esc(sp.name)+' 특성</h3>'
+    +'<p class="note">레벨 '+L+' · 특성 포인트 <b>'+Math.max(0,L-9)+'개</b>'+(L<10?' (10레벨부터 1개씩 생겨요)':'')+' · 가이드대로 찍은 모습</p>'
+    +'<div class="chips seg tlv"><button class="chip'+(V===L?' on':'')+'" data-a="tlv" data-k="now">지금 Lv '+L+'</button><button class="chip'+(V===60?' on':'')+'" data-a="tlv" data-k="60">60 완성</button></div>'
+    +'<div class="chips seg ttabs">'+C.trees.map((t,i)=>'<button class="chip'+(t===main?' on':'')+'" data-a="ttree" data-k="'+esc(t)+'"><img src="'+TICO(C.tic&&C.tic[i])+'" alt="" onerror="this.remove()">'+esc(t)+' <b>'+pts(t)+'</b></button>').join('')+'</div>';
+  h+='<div class="tgr">'+C.trees.map((t,i)=>{const L2=T.filter(([k,v])=>v[1]===t&&v[5]);if(!L2.length)return '';const rows=Math.max(7,...L2.map(([k,v])=>v[5]));const W=4*P,H=rows*P;const pos={};L2.forEach(([k,v])=>pos[k]=v);
+    let svg='';L2.forEach(([k,v])=>{const q=v[7];if(!q||!pos[q[0]])return;const s0=pos[q[0]];const on=(R[q[0]]||0)>=q[1];const col=on?'#e8c06a':'#6b6457';
+      const x1=(s0[6]-1)*P+O+CS/2,y1=(s0[5]-1)*P+O+CS/2,x2=(v[6]-1)*P+O+CS/2,y2=(v[5]-1)*P+O+CS/2;let d,hd;
+      if(s0[6]===v[6]){d='M'+x1+' '+(y1+CS/2)+'V'+(y2-CS/2-6);hd=[x2,y2-CS/2,'v']}
+      else if(s0[5]===v[5]){const dir=x2>x1?1:-1;d='M'+(x1+dir*CS/2)+' '+y1+'H'+(x2-dir*(CS/2+6));hd=[x2-dir*CS/2,y2,dir>0?'r':'l']}
+      else{const dir=x2>x1?1:-1;d='M'+(x1+dir*CS/2)+' '+y1+'H'+x2+'V'+(y2-CS/2-6);hd=[x2,y2-CS/2,'v']}
+      const [hx,hy,o]=hd;const tri=o==='v'?[hx-6,hy-8,hx+6,hy-8,hx,hy]:o==='r'?[hx-8,hy-6,hx-8,hy+6,hx,hy]:[hx+8,hy-6,hx+8,hy+6,hx,hy];
+      svg+='<path d="'+d+'" stroke="'+col+'" stroke-width="3" fill="none"/><polygon points="'+tri.join(',')+'" fill="'+col+'"/>'});
+    let cells=L2.map(([k,v])=>{const r=R[k]||0,f=F[k]||0;const cls=(r?' has':'')+(r>=v[2]?' max':'')+(f>r?' plan':'')+(V===L&&nowIds.has(k)?' now':'')+(ui.tsel===k?' sel':'');
+      return '<button class="tcl'+cls+'" style="left:'+((v[6]-1)*P+O)+'px;top:'+((v[5]-1)*P+O)+'px" data-a="tsel" data-k="'+esc(k)+'" title="'+esc(v[0])+'"><img src="'+TICO(v[3])+'" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'"><span class="trk">'+r+'/'+v[2]+'</span></button>'}).join('');
+    let info='';const sel=ui.tsel&&pos[ui.tsel]?ui.tsel:null;
+    if(sel){const v=C.talents[sel];const lvs=st.filter(s=>s[1]===sel).map(s=>s[0]);const q=v[7]&&C.talents[v[7][0]];
+      info='<div class="tinfo"><div class="tih"><img src="'+TICO(v[3])+'" alt=""><b>'+esc(v[0])+'</b><span class="rk">'+(R[sel]||0)+'/'+v[2]+'</span><button class="x" data-a="tsel" data-k="">✕</button></div>'+(v[4]?'<p>'+esc(v[4])+'</p>':'')
+        +(q?'<p class="mute">선행: '+esc(q[0])+' '+v[7][1]+'포인트</p>':'')
+        +'<p class="tlvs">'+(lvs.length?'📌 가이드: Lv '+lvs.join(', ')+'에 찍어요'+(lvs.every(x=>x<=L)?' · 다 찍음 ✓':''):'가이드에서는 안 찍어요')+'</p></div>'}
+    return '<div class="tt3'+(t===main?' main':'')+'"><div class="tth"><img src="'+TICO(C.tic&&C.tic[i])+'" alt="" onerror="this.remove()"><b>'+esc(t)+'</b><span class="tp">'+pts(t)+'</span></div><div class="tbox" style="width:'+W+'px;height:'+H+'px"><svg width="'+W+'" height="'+H+'">'+svg+'</svg>'+cells+'</div>'+info+'</div>'}).join('')+'</div>';
+  h+='<p class="legend"><span class="lg has"></span>찍음 <span class="lg max"></span>다 찍음 <span class="lg plan"></span>나중에 찍을 것'+(V===L?' <span class="lg now"></span>이번 레벨':'')+' · 칸을 누르면 설명</p>';
+  return h+'</div>'}
 /* ===== 직업: 특성 ===== */
 function talView(c,C,sp,L){const pts=Math.max(0,L-9);const st=sp.steps.filter(s=>s[0]<=60);
   const by=lv=>{const m={};st.filter(s=>s[0]<=lv).forEach(s=>{const t=C.talents[s[1]];if(t)m[t[1]]=(m[t[1]]||0)+1});return m};
   const now=by(L),fin=by(60);
   const row=(s,big)=>{const t=C.talents[s[1]]||[s[1],'',1,'',''];const st_=s[0]<L?'done':s[0]===L?'now':'soon';
     return '<div class="tr2 '+st_+(big?' big':'')+'"><span class="lvb '+lvCls(s[0],L)+'">'+s[0]+'</span><span class="m"><span class="l1"><b>'+esc(t[0])+'</b><span class="rk">'+s[2]+'/'+t[2]+'</span><span class="tt">'+esc(t[1])+'</span>'+(st_==='done'?'<span class="ok">✓</span>':st_==='now'?'<span class="nw">지금</span>':'')+'</span>'+(t[4]?'<span class="d">'+esc(t[4])+'</span>':'')+'</span></div>'};
-  let h='<div class="card talsum"><h3><img class="hic" src="img/ui-target.png" alt="">'+esc(sp.name)+' 특성</h3><p class="note">레벨 '+L+' · 특성 포인트 <b>'+pts+'개</b>'+(L<10?' (10레벨부터 1개씩 생겨요)':'')+'</p>'
-   +'<div class="tbars">'+C.trees.map(t=>{const n=now[t]||0,f=fin[t]||0;return '<div class="tb"><span class="tn">'+esc(t)+'</span><span class="bar"><i style="width:'+(f?Math.round(n/Math.max(f,1)*100):0)+'%"></i></span><span class="tc"><b>'+n+'</b>'+(f?' / '+f:'')+'</span></div>'}).join('')+'</div>'
-   +'<p class="mute src">지금 레벨까지 가이드대로 찍었을 때 / 60레벨 완성</p></div>';
+  let h=talGrid(c,C,sp,L);
   const cur=st.filter(s=>s[0]>=L-1&&s[0]<=L+3);
   if(L>=9&&cur.length)h+='<div class="card"><h3>지금 찍을 특성</h3>'+cur.map(s=>row(s,1)).join('')+'</div>';
   const grp={};st.forEach(s=>{const k=Math.floor(s[0]/10)*10;(grp[k]=grp[k]||[]).push(s)});
@@ -1228,6 +1257,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='ccls'){if(c.cls!==k){c.cls=k;c.spec=D_CLS[k].specs[0].id;c.eq={};save()}rerender(true);return}
   if(a==='spec'){c.spec=k;save();rerender(true);return}
   if(a==='csec'){ui.csec=k;rerender(true);return}
+  if(a==='tlv'){ui.tlv=k;rerender(true);return}
+  if(a==='ttree'){ui.ttree=k;ui.tsel=null;rerender(true);return}
+  if(a==='tsel'){ui.tsel=ui.tsel===k?null:k;rerender(true);return}
   if(a==='goc'){ui.tab='class';ui.csec=k;render();window.scrollTo(0,0);return}
   if(a==='pf'){ui.pf=k;rerender(true);return}
   if(a==='qmode'){ui.qmode=k;rerender(true);return}

@@ -11,9 +11,10 @@ slim = {}
 for cid, c in cls.items():
     used = set(x[1] for s in c['specs'] for x in s['steps'])
     slim[cid] = {
-        'name': c['name'], 'trees': c['trees'],
+        'name': c['name'], 'trees': c['trees'], 'tic': c.get('tic', []),
         'learns': [[l[0], l[1], l[2], l[3], l[4], l[6], (l[7] or '')[:90]] for l in c['learns'] if l[4] in ('', 'alliance', None)],
-        'talents': {k: [v['n'], v['t'], v['max'], v.get('icon', ''), (v.get('d') or '')[:110]] for k, v in c['talents'].items() if k in used},
+        # 특성 칸(게임처럼 줄·칸·선행 화살표)을 그리려고 모든 특성을 넣음: [이름, 트리, 최대, 아이콘, 설명, 줄, 칸, 선행]
+        'talents': {k: [v['n'], v['t'], v['max'], v.get('icon', ''), (v.get('d') or '')[:110], v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
         'specs': [{'id': s['id'], 'name': s['name'], 'icon': s['icon'], 'steps': s['steps'],
                    'rot': [[r['when'], r['txt']] for r in s['rotation']],
                    'early': [[r['when'], r['txt']] for r in s['early']],

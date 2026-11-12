@@ -20,9 +20,9 @@ for(const c of CL){
   const learnsRaw=res(grabVal(t0,'learns')||{},M0);
   const learns=[];for(const [lv,arr] of Object.entries(learnsRaw)){for(const x of (Array.isArray(arr)?arr:[])){if(!x||!x.chip)continue;learns.push([+lv,x.chip.name,x.rank||1,x.first?1:0,x.faction||'',x.only||'',ico(x.chip.icon),String(x.chip.desc||'').replace(/\s+/g,' ').slice(0,160)])}}
   const td=res(grabVal(t0,'talentData')||{},M0);
-  const tal={};(td.trees||[]).forEach(tr=>(tr.talents||[]).forEach(x=>{tal[x.id]={n:x.name,t:tr.name,max:x.maxRank,tier:x.tier,col:x.column,icon:ico(x.icon),d:(x.ranks||[])[ (x.ranks||[]).length-1 ]||''}}));
+  const tal={};(td.trees||[]).forEach(tr=>(tr.talents||[]).forEach(x=>{tal[x.id]={n:x.name,t:tr.name,max:x.maxRank,tier:x.tier,col:x.column,icon:ico(x.icon),d:(x.ranks||[])[ (x.ranks||[]).length-1 ]||'',req:x.requires&&x.requires.talentId?[x.requires.talentId,x.requires.rank||1]:0}}));
   const trees=(td.trees||[]).map(tr=>tr.name);
-  const cls={name:td.className||c,color:td.classColor||'',specs:[],learns,trees,talents:tal};
+  const cls={name:td.className||c,color:td.classColor||'',specs:[],learns,trees,tic:(td.trees||[]).map(tr=>ico(tr.icon)),talents:tal};
   for(const s of specs){
     const t=s===specs[0]?t0:rscText(await get('/forever/classes/'+c+'?spec='+s.id));
     const M=refMap(t);
