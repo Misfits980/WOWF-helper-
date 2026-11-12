@@ -217,7 +217,7 @@
 3~드랍 · 장로비술사 레이저스나웃 (불모의 땅)~
 1~퀘스트 · Rites of the Earthmother~wh:quest=776
 1~퀘스트 · Rites of the Earthmother~wh:quest=14440
-1~퀘스트 · 나무그물거미의 알~wh:quest=917
+1~퀘스트 · 나무그물거미알~wh:quest=917
 1~퀘스트 · Vile Familiars~wh:quest=1499
 1~퀘스트 · Securing the Lines~wh:quest=835
 3~드랍 · 타라곰 (모단 호수)~
