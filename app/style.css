@@ -562,4 +562,6 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .more3>summary{cursor:pointer;font-size:12px;color:var(--mute);margin-top:6px}
 .more3 p{font-size:13px;line-height:1.5;color:#cfc4ad;margin:4px 0 0}
 .rbtns{display:flex;gap:6px;margin:8px 0}
-.gmode{margin:6px 0 8px}
+.gmode{margin:6px 0 8px}.bk2{margin-top:14px}
+.bkb{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.bkta{width:100%;font-size:11px;font-family:ui-monospace,monospace;margin-top:6px;resize:vertical}

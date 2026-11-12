@@ -92,7 +92,13 @@ SRC_TXT = srcs + '\n'
 def js_str(s):
     return json.dumps(s, ensure_ascii=False)
 
+# 자료 파일 내용이 바뀔 때만 새로 받도록 내용 지문을 넣음
+def fp(path):
+    q = ROOT / path
+    return hashlib.md5(q.read_bytes()).hexdigest()[:10] if q.exists() else '0'
+DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json'}.items()}
 data = '\n'.join([
+    'const D_VER=' + json.dumps(DVER) + ';',
     '/* 와포 도우미 자료 — forg.gg 공개 페이지에서 GitHub Actions로 모은 것 (tools/forg-*.mjs) */',
     'const D_ITEMS=' + js_str(ITEMS_TXT) + ';',
     'const D_SRC=' + js_str(SRC_TXT) + ';',
