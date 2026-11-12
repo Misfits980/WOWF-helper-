@@ -245,12 +245,13 @@ function mapView(c){const L=c.lv;
   let qs=o.q.slice().sort((a,b)=>a.lv-b.lv||a.m-b.m||a.id-b.id);
   if(f==='now')qs=qs.filter(can);else if(f==='left')qs=qs.filter(q=>!mqDone(c,q));
   h='<div class="mzh"><button class="btn sm ghost" data-a="mz" data-k="">◀</button><h3>'+esc(o.z)+' <small class="mute">Lv '+o.lo+'–'+o.hi+'</small></h3></div>';
-  h+='<details class="card zinfo"'+(ui.zinfo===false?'':' open')+'><summary>🗺️ 이 지역 정보 · 얻는 장비</summary>'+zoneInfo(c,o.z,{n:5})+'</details>';
+  {const zi=zoneItems(c,o.z);const gN=zi.list.filter(x=>x.g>.01).length;h+='<details class="card zinfo"'+(ui.zinfo?' open':'')+'><summary>🗺️ 이 지역 정보'+(gN?' · <span class="zg">⭐ 좋은 장비 '+gN+'개</span>':' · 얻는 장비')+'</summary>'+(ui.zinfo?zoneInfo(c,o.z,{n:5}):'')+'</details>'}
   h+='<div class="chips seg">'+[['now','지금 할 수 있는 것',nNow],['left','안 끝낸 것',nLeft],['all','전부',o.q.length]].map(x=>'<button class="chip'+(f===x[0]?' on':'')+'" data-a="mf" data-k="'+x[0]+'">'+x[1]+' <span class="n">'+x[2]+'</span></button>').join('')+'</div>';
   if(!qs.length){h+='<p class="empty-st">'+(f==='now'?'레벨 '+L+'에 지금 받을 수 있는 퀘스트가 여기엔 없어요.':'남은 퀘스트가 없어요.')+'</p>';if(f==='now'&&nLeft)h+='<button class="btn ghost full sm" data-a="mf" data-k="left">안 끝낸 퀘스트 '+nLeft+'개 보기</button>';return h}
   /* 연계는 한 묶음, 같은 이름은 한 줄 */
   const zoneIds=new Set(o.q.map(q=>q.id));const shownIds=new Set(qs.map(q=>q.id));const G=[];const seenCh=new Set();
-  for(const q of qs){const root=q._root;const tree=root!=null&&(QKIDS[root]||root!==q.id);if(tree){if(seenCh.has(root))continue;seenCh.add(root);G.push({root,lv:(QDB.get(root)||q).lv,at:q})}else G.push({q,lv:q.lv,at:q})}
+  for(const q of qs){const root=q._root;const tree=root!=null&&(QKIDS[root]||root!==q.id);if(tree){if(seenCh.has(root))continue;seenCh.add(root);
+    const nx=treeIds(root).map(id=>QDB.get(id)).find(x=>x&&zoneIds.has(x.id)&&shownIds.has(x.id)&&!mqDone(c,x)&&qdbOk(c,x));G.push({root,lv:(QDB.get(root)||q).lv,at:nx||q})}else G.push({q,lv:q.lv,at:q})}
   const byNm={};G.forEach(g=>{if(g.q)(byNm[g.q.n]=byNm[g.q.n]||[]).push(g)});
   const G2=G.filter(g=>!g.q||byNm[g.q.n][0]===g);
   /* 마을(거점)별로 묶기 */
@@ -264,15 +265,20 @@ function mapView(c){const L=c.lv;
   h+='<div class="steps">'+hubs.map((H,ix)=>{const k=o.z+'|'+H.n;const open=ui.mhopen[k]!=null?ui.mhopen[k]:(k===firstK);
     const nm=H.n.replace(/ \(\d+, \d+\)$/,'');
     let b='<div class="st'+(open?' open':'')+'"><button class="sh2" data-a="mh" data-k="'+esc(k)+'"><span class="no">'+(H.i>=998?'·':ix+1)+'</span><span class="hn"><b>'+esc(nm)+'</b><span>Lv '+H.lv+'부터</span></span><span class="hc">'+H.cnt+'개</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
-    if(open)b+='<div class="sb">'+H.g.map(g=>{if(!g.q)return chainTree(c,g.root,zoneIds,shownIds);const same=byNm[g.q.n];return mqRow(c,g.q,0,same.length>1?same.length:0)}).join('')+'</div>';
+    if(open)b+='<div class="sb">'+H.g.map(g=>{if(!g.q)return chainTree(c,g.root,zoneIds,shownIds,{hub:H.n,hubOf:x=>hubOf(x)[0]});const same=byNm[g.q.n];return mqRow(c,g.q,0,same.length>1?same.length:0)}).join('')+'</div>';
     return b+'</div>'}).join('')+'</div>';
   if(f==='now'&&nLeft>nNow)h+='<button class="btn ghost full sm more2" data-a="mf" data-k="left">레벨이 안 맞는 퀘스트 '+(nLeft-nNow)+'개 더 보기</button>';
   return h}
 function treeIds(root){const out=[];const st=[root];while(st.length&&out.length<80){const x=st.pop();out.push(x);(QKIDS[x]||[]).slice().reverse().forEach(y=>st.push(y))}return out}
-function chainTree(c,root,zoneIds,shownIds){const L=c.lv;const all=treeIds(root).filter(id=>QDB.get(id)&&qdbOk(c,QDB.get(id)));const n=all.length;
+function chainTree(c,root,zoneIds,shownIds,opt){opt=opt||{};const L=c.lv;const all=treeIds(root).filter(id=>QDB.get(id)&&qdbOk(c,QDB.get(id)));const n=all.length;
   const doneN=all.filter(id=>mqDone(c,QDB.get(id))).length;const lvs=all.map(id=>QDB.get(id).lv).filter(Boolean);
   const nextId=all.find(id=>!mqDone(c,QDB.get(id)));const branchy=all.some(id=>(QKIDS[id]||[]).filter(k=>all.includes(k)).length>1);
-  let h='<div class="chainb"><div class="chh"><span>'+qico('chain')+' 연계 퀘스트 <b>'+n+'개</b>'+(branchy?' · 갈래 있음':'')+'</span><span class="mute">Lv '+Math.min(...lvs)+' → '+Math.max(...lvs)+' · '+doneN+'/'+n+' 끝냄</span></div>';
+  const rootQ=QDB.get(root);ui.chopen=ui.chopen||{};const full=n<=4||!!ui.chopen[root];const pct=n?Math.round(doneN/n*100):0;
+  let h='<div class="chainb'+(full?'':' sum')+'"><div class="chh"><span>'+qico('chain')+' <b>'+esc(rootQ?rootQ.n:'연계')+'</b> 연계 · '+n+'단계'+(branchy?' · 갈래 있음':'')+'</span><span class="mute">Lv '+Math.min(...lvs)+'→'+Math.max(...lvs)+' · '+doneN+'/'+n+'</span></div><div class="chbar"><i style="width:'+pct+'%"></i></div>';
+  const where=x=>{if(!opt.hubOf||!x)return '';const w=opt.hubOf(x);return w&&w!==opt.hub?w.replace(/ \(\d+, \d+\)$/,''):''};
+  if(!full){/* 긴 연계는 다음 단계만 */const nx=nextId!=null?QDB.get(nextId):null;const si=nx?all.indexOf(nextId)+1:0;
+    h+=nx?'<div class="chs cur"><span class="stp">'+si+'</span>'+(zoneIds.has(nx.id)?mqRow(c,nx,1,0,where(nx)):'<button class="awayb" data-a="qopen" data-k="'+nx.id+'">['+(nx.lv||'?')+'] '+esc(nx.n)+'<span>다른 지역 · '+esc(nx.z||'')+' ›</span></button>')+'</div>':'<p class="mute" style="padding:2px 6px">이 연계는 다 끝냈어요 ✓</p>';
+    return h+'<button class="chx" data-a="chx" data-k="'+root+'">전체 '+n+'단계 보기 ⌄</button></div>'}
   const big=n>10;
   const node=(id,step)=>{const x=QDB.get(id);const cls='chs'+(id===nextId?' cur':'')+(mqDone(c,x)?' fin':'');
     const hidden=y=>big&&(!zoneIds.has(y)||(shownIds&&!shownIds.has(y)));
@@ -286,18 +292,19 @@ function chainTree(c,root,zoneIds,shownIds){const L=c.lv;const all=treeIds(root)
       if(ks.length===1)return r0+node(ks[0],st2);
       if(ks.length>1)return r0+'<div class="chfork"><div class="fk">↳ 여기서 '+ks.length+'갈래로 나뉘어요</div>'+ks.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div><div class="chflow">'+node(k,st2)+'</div></div>').join('')+'</div>';
       return r0}
-    const body=zoneIds.has(id)?mqRow(c,x,1):'<button class="awayb" data-a="qopen" data-k="'+id+'">['+(x.lv||'?')+'] '+esc(x.n)+'<span>다른 지역 · '+esc(x.z||'')+' ›</span></button>';
+    const body=zoneIds.has(id)?mqRow(c,x,1,0,where(x)):'<button class="awayb" data-a="qopen" data-k="'+id+'">['+(x.lv||'?')+'] '+esc(x.n)+'<span>다른 지역 · '+esc(x.z||'')+' ›</span></button>';
     let r='<div class="'+cls+(zoneIds.has(id)?'':' away')+'"><span class="stp">'+step+'</span>'+body+'</div>';
     const kids=(QKIDS[id]||[]).filter(k=>all.includes(k));
     if(kids.length===1)r+=node(kids[0],step+1);
     else if(kids.length>1)r+='<div class="chfork"><div class="fk">↳ 여기서 '+kids.length+'갈래로 나뉘어요 (따로따로 받을 수 있어요)</div>'+kids.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div><div class="chflow">'+node(k,step+1)+'</div></div>').join('')+'</div>';
     return r};
-  return h+'<div class="chflow">'+node(root,1)+'</div></div>'}
-function mqRow(c,q,inCh,same){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
+  return h+'<div class="chflow">'+node(root,1)+'</div>'+(n>4?'<button class="chx" data-a="chx" data-k="'+root+'">접기 ⌃</button>':'')+'</div>'}
+function qStar(c,id){const R=RWD.get(id);if(!R)return false;for(const x of [...(R.ch||[]),...(R.fx||[])]){const it=IT.get(x[0]);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>.01)return true}}return false}
+function mqRow(c,q,inCh,same,where){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
   const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
   const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});
-  let sub=taskShort({id:q.id,obj:q.o});if(!sub)sub=(q.o||'').slice(0,40);if(lock)sub='🔒 '+q.m+'레벨부터 · '+sub;
-  return qFold({key:'m'+q.id,lite:1,sub,done:d,lock,lv:q.lv,nm:q.n,body,side:(q.id>=10000?qico('fnew'):'')+(q.cls?qico('cls'):'')+(same?'<span class="lk">같은 퀘 '+same+'개</span>':ch?qico('chain'):'')})}
+  let sub=taskShort({id:q.id,obj:q.o});if(!sub)sub=(q.o||'').slice(0,40);if(lock)sub='🔒 '+q.m+'레벨부터 · '+sub;if(where)sub='📍 '+where+' · '+sub;
+  return qFold({key:'m'+q.id,qd:q.id,lite:1,sub,done:d,lock,lv:q.lv,nm:q.n,body,side:(qStar(c,q.id)?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+(q.id>=10000?qico('fnew'):'')+(q.cls?qico('cls'):'')+(same?'<span class="lk">같은 퀘 '+same+'개</span>':ch?qico('chain'):'')})}
 (window.requestIdleCallback||((f)=>setTimeout(f,1)))(()=>setTimeout(qdbLoad,4000));
 function questById(id){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.id===id)return {q,z:q.gz||q.sz};
   for(const d of DGS)for(const q of d.q)if(q.id===id)return {q:Object.assign({},q,{dg:d}),z:d.ko,dg:d};return null}
@@ -906,7 +913,7 @@ function quest(c){const L=c.lv;const qm=ui.qmode||'route';const q0=(ui.qsrch||''
   ui.qmode='map';return h+mapView(c)+end}
 /* 펼치는 퀘스트 한 줄: 접혀 있을 땐 [레벨] 이름만, 누르면 할 일·위치·연계·보상 */
 function qFold(o){const open=ui.qopen===o.key;
-  return '<details class="qf'+(o.lite?' lite':'')+(o.done?' done':'')+(o.lock?' lock':'')+'"'+(open?' open':'')+' data-k="'+esc(o.key)+'"><summary><span class="qi">'+(o.done?'✓':QMK.g)+'</span><span class="qn">'+(o.lite?'<span class="t1">'+esc(o.nm)+'</span>'+(o.sub?'<span class="t2">'+esc(o.sub)+'</span>':''):'['+o.lv+'] '+esc(o.nm))+'</span>'+(o.lite?'<span class="qlv '+lvCls(o.lv,(me()||{}).lv||1)+'">'+o.lv+'</span>':'')
+  return '<details class="qf'+(o.lite?' lite':'')+(o.done?' done':'')+(o.lock?' lock':'')+'"'+(open?' open':'')+' data-k="'+esc(o.key)+'"><summary><span class="qi'+(o.qd?' qck':'')+'"'+(o.qd?' data-qd="'+o.qd+'" title="눌러서 끝냄 표시"':'')+'>'+(o.done?'✓':QMK.g)+'</span><span class="qn">'+(o.lite?'<span class="t1">'+esc(o.nm)+'</span>'+(o.sub?'<span class="t2">'+esc(o.sub)+'</span>':''):'['+o.lv+'] '+esc(o.nm))+'</span>'+(o.lite?'<span class="qlv '+lvCls(o.lv,(me()||{}).lv||1)+'">'+o.lv+'</span>':'')
    +(o.side?'<span class="qs">'+o.side+'</span>':'')+'<span class="chev">⌄</span></summary>'+o.body+'</details>'}
 function dqCard(c,d,open){const dq=c.dq||{};const done=d.q.filter(q=>dq[q.id]).length;
   return '<details class="card"'+(open?' open':'')+'><summary style="cursor:pointer;list-style:none"><div class="hd"><h3 style="margin:0">'+esc(d.ko)+'</h3><span class="mute" style="font-size:12px">'+done+'/'+d.q.length+' · 권장 '+d.lo+'–'+d.hi+'</span></div></summary>'+dqList(c,d)+'<button class="more" data-a="dgo" data-k="'+d.slug+'">던전 보스·드랍 보기 ›</button></details>'}
@@ -1225,6 +1232,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
   if(a==='dtab'){ui.dtab=k;rerender(true);return}
+  if(a==='chx'){ui.chopen=ui.chopen||{};ui.chopen[k]=!ui.chopen[k];rerender(true);return}
   if(a==='mmgo'){ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=+k;const FO=amFocus(+k);if(FO&&FO.P[0])ui.am={c:FO.P[0].c,z:2.6,cx:FO.P.reduce((a,p)=>a+p.x,0)/FO.P.length,cy:FO.P.reduce((a,p)=>a+p.y,0)/FO.P.length};render();window.scrollTo(0,0);return}
   if(a==='zq'){ui.qmode='map';ui.mz='?|'+k;ui.mf='now';render();window.scrollTo(0,0);return}
   if(a==='dcs'){const dc=document.querySelector('.dchips');if(dc)dc.scrollBy({left:(+k)*dc.clientWidth*.8,behavior:'smooth'});return}
@@ -1284,3 +1292,8 @@ document.addEventListener('wheel',e=>{const dc=e.target.closest&&e.target.closes
 {let dd=null;document.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;const dc=e.target.closest&&e.target.closest('.dchips');if(dc)dd={dc,x:e.clientX,sl:dc.scrollLeft,moved:false}});
  document.addEventListener('pointermove',e=>{if(!dd)return;const dx=e.clientX-dd.x;if(Math.abs(dx)>5){dd.moved=true;dd.dc.classList.add('drag')}if(dd.moved)dd.dc.scrollLeft=dd.sl-dx});
  document.addEventListener('pointerup',()=>{if(dd&&dd.moved){const dc=dd.dc;setTimeout(()=>dc.classList.remove('drag'),0);const stop=ev=>{ev.stopPropagation();ev.preventDefault()};dc.addEventListener('click',stop,{capture:true,once:true});setTimeout(()=>dc.removeEventListener('click',stop,{capture:true}),50)}dd=null})}
+
+/* 퀘스트 줄 왼쪽 ❗ 누르면 바로 끝냄 표시 (펼치지 않고) */
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-qd]');if(!t)return;e.preventDefault();e.stopPropagation();const c=me();if(!c)return;
+  const id=+t.dataset.qd;const q=QDB&&QDB.get(id);c.mq=c.mq||{};if(q&&mqDone(c,q)){delete c.mq[id];if(c.fq)delete c.fq[q.z+'|'+q.n]}else c.mq[id]=1;save();rerender(true);toast(c.mq[id]?'끝냄으로 표시했어요':'끝냄 표시를 뺐어요')},true);
+document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('zinfo')){const was=!!ui.zinfo;ui.zinfo=t.open;if(t.open&&!was)rerender(true)}},true);
