@@ -165,8 +165,19 @@ function mapView(c){const L=c.lv;
   h+='<div class="mzh"><button class="btn sm ghost" data-a="mz" data-k="">◀ 지역 목록</button><h3>'+esc(o.z)+' <small class="mute">Lv '+o.lo+'–'+o.hi+' · '+o.q.length+'개</small></h3></div>';
   h+='<div class="chips">'+[['near','내 레벨 ±4'],['left','안 끝낸 것'],['all','전부']].map(x=>'<button class="chip'+(f===x[0]?' on':'')+'" data-a="mf" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
   if(!qs.length)h+='<p class="empty-st">'+(f==='near'?'이 지역엔 레벨 '+L+' 근처 퀘스트가 없어요. "전부"를 눌러 보세요.':'남은 퀘스트가 없어요.')+'</p>';
-  return h+qs.map(q=>mqRow(c,q)).join('')}
-function mqRow(c,q){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=q._ch;
+  /* 연계 퀘스트는 한 묶음으로: 첫 단계 자리에 놓고 단계 순서대로 */
+  const zoneIds=new Set(o.q.map(q=>q.id));const shownIds=new Set(qs.map(q=>q.id));const G=[];const seenCh=new Set();
+  for(const q of qs){if(q._ch){const root=q._ch[0][6];if(seenCh.has(root))continue;seenCh.add(root);G.push({ch:q._ch,lv:Math.min(...q._ch.map(r=>r[2]||99))})}else G.push({q,lv:q.lv})}
+  G.sort((a,b)=>a.lv-b.lv);
+  return h+G.map(g=>g.q?mqRow(c,g.q):chainBlock(c,g.ch,zoneIds,o.z)).join('')}
+function chainBlock(c,ch,zoneIds,zone){const L=c.lv;const n=ch.length;const doneN=ch.filter(r=>{const x=QDB.get(r[6]);return x&&mqDone(c,x)}).length;
+  const nextI=ch.findIndex(r=>{const x=QDB.get(r[6]);return x&&!mqDone(c,x)});
+  let h='<div class="chainb"><div class="chh"><span>🔗 연계 퀘스트 <b>'+n+'단계</b></span><span class="mute">Lv '+(ch[0][2]||'?')+' → '+(ch[n-1][2]||'?')+' · '+doneN+'/'+n+' 끝냄</span></div>';
+  h+=ch.map((r,i)=>{const x=QDB.get(r[6]);const cls='chs'+(i===nextI?' cur':'')+(x&&mqDone(c,x)?' fin':'');
+    if(x&&zoneIds.has(x.id))return '<div class="'+cls+'"><span class="stp">'+(i+1)+'</span>'+mqRow(c,x,1)+'</div>';
+    return '<div class="'+cls+' away"><span class="stp">'+(i+1)+'</span><button class="awayb" data-a="qopen" data-k="'+r[6]+'">['+(r[2]||'?')+'] '+esc(r[1])+'<span>'+(x&&x.z?'다른 지역 · '+esc(x.z):'다른 곳')+' ›</span></button></div>'}).join('');
+  return h+'</div>'}
+function mqRow(c,q,inCh){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
   const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
   const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});
   return qFold({key:'m'+q.id,done:d,lock,lv:q.lv,nm:q.n,body,side:ch?'<span class="lk">연계</span>':''})}
