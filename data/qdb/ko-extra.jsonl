@@ -1,0 +1,589 @@
+{"id":140,"n":"와우 포에버 샌더 선장의 숨겨진 보물 퀘스트","o":"보물을 얻기 위해 샌더 선장의 보물 상자를 찾아 열어야 합니다.","g":"낡은 단지","r":"Locked Chest"}
+{"id":248,"n":"와우 포에버 자세한 조사 퀘스트","o":"돌망루 요새 옆에 있는 감시탑에 올라가야 합니다.","g":"오래된 사자상","r":"An Empty Jar"}
+{"id":349,"n":"와우 포에버 가시덤불 골짜기의 열병 퀘스트"}
+{"id":351,"n":"와우 포에버 OOX-17/TN 수색 퀘스트","o":"오글소프의 유도 로봇에게 조난 탐지기를 가져가야 합니다.","g":"OOX-17/TN 조난 탐지기","r":"유도 로봇 OOX-17/TN"}
+{"id":417,"n":"와우 포에버 조종사의 복수 퀘스트","o":"썩은발톱을 처치해야 합니다.","g":"A Dwarven Corpse","r":"조종사 해머풋"}
+{"id":419,"n":"와우 포에버 실종된 조종사 퀘스트","o":"조종사 힐델브를 찾아야 합니다.","g":"조종사 해머풋","r":"A Dwarven Corpse"}
+{"id":485,"n":"와우 포에버 OOX-09/HL 수색 퀘스트","o":"해골 바위굴 근처, 동부 내륙지의 강이 시작되는 곳에 추락한 오글소프의 유도 로봇에게 조난 탐지기를 가져가야 합니다.","g":"OOX-09/HL 조난 탐지기","r":"유도 로봇 OOX-09/HL"}
+{"id":490,"n":"와우 포에버 현상 수배: 나무옹이일족 펄볼그 퀘스트","o":"Shayla Nightbreeze on the road outside of Darnassus wants you to bring her 15 Gnarlpine Fangs.","g":"파수꾼 샤일라 나이트브리즈","r":"파수꾼 샤일라 나이트브리즈"}
+{"id":648,"n":"와우 포에버 OOX-17/TN 구출 퀘스트","o":"OOX-17/TN을 스팀휘들 항구까지 호위해 간 후, 무법항에 있는 오글소프 오브노티쿠스에게 보고하십시오.","g":"유도 로봇 OOX-17/TN","r":"오글소프 오브노티쿠스"}
+{"id":836,"n":"와우 포에버 OOX-09/HL 구출 작전 퀘스트","o":"전망대 절벽 너머 해안까지 OOX-09/HL을 호위해 간 후 무법항에 있는 오글소프 오브노티쿠스에게 보고해야 합니다.","g":"유도 로봇 OOX-09/HL","r":"오글소프 오브노티쿠스"}
+{"id":949,"n":"와우 포에버 황혼의망치단 야영지 퀘스트","o":"지배자의 무덤에 있는 황혼의망치단 야영지에서 단서를 찾아야 합니다.","g":"수정점 그릇","r":"Twilight Tome"}
+{"id":950,"n":"와우 포에버 오누에게로의 귀환 퀘스트","o":"오누에게 광기의 양피지 문서를 가져가야 합니다.","g":"Twilight Tome","r":"오누"}
+{"id":1001,"n":"와우 포에버 버즈박스 411 퀘스트","o":"버즈박스 411 근처 깊은 바다에 있는 어둠의해안 트레샤돈에게서 트레샤돈의 눈 3개를 모아야 합니다.","g":"버즈박스 827","r":"Buzzbox 411"}
+{"id":1002,"n":"와우 포에버 버즈박스 323 퀘스트","o":"달표범 송곳니 6개를 모아 버즈박스 323에 넣어야 합니다.","g":"Buzzbox 411","r":"버즈박스 323"}
+{"id":1028,"n":"와우 포에버 레이네의 정화 퀘스트","o":"숨겨진 제단을 찾아 다르톨의 마법봉에 다시 마력을 불어 넣어야 합니다.","g":"셸드린","r":"Hidden Shrine"}
+{"id":1055,"n":"와우 포에버 레이네의 정화 퀘스트","o":"달샘에 있는 셸드린에게 돌아가십시오.","g":"Hidden Shrine","r":"셸드린"}
+{"id":2766,"n":"와우 포에버 OOX-22/FE 수색 퀘스트","o":"거친흉터 골짜기에 있는 오글소프의 유도 로봇에게 조난 탐지기를 가져가야 합니다.","g":"OOX-22/FE 조난 탐지기","r":"유도 로봇 OOX-22/FE"}
+{"id":2767,"n":"와우 포에버 OOX-22/FE 구출! 퀘스트","o":"잊혀진 해안에 있는 부두까지 OOX-22/FE를 호위해 간 후 무법항에 있는 오글소프 오브노티쿠스에게 보고해야 합니다.","g":"유도 로봇 OOX-22/FE","r":"오글소프 오브노티쿠스"}
+{"id":3721,"n":"와우 포에버 선물로 받은 OOX 퀘스트"}
+{"id":4113,"n":"와우 포에버 오염된 노래꽃 퀘스트"}
+{"id":4119,"n":"와우 포에버 오염된 어둠용풀 퀘스트"}
+{"id":4221,"n":"와우 포에버 오염된 바람꽃 퀘스트"}
+{"id":4462,"n":"와우 포에버 오염된 어둠용풀 퀘스트"}
+{"id":4723,"n":"와우 포에버 떠내려온 바다 생물 퀘스트","o":"아우버다인에 있는 그웨니스 블리레곤드에게 바다 생물 뼈를 가져가야 합니다.","g":"Beached Sea Creature","r":"그웨니스 블리레곤드"}
+{"id":5634,"n":"와우 포에버 구원의 기도 퀘스트"}
+{"id":5641,"n":"와우 포에버 응징 퀘스트"}
+{"id":5672,"n":"와우 포에버 엘룬의 은총 퀘스트"}
+{"id":5676,"n":"와우 포에버 비전 역순환 퀘스트"}
+{"id":7026,"n":"와우 포에버 산양 통가죽 고삐 퀘스트"}
+{"id":7386,"n":"와우 포에버 폭풍 수정 묶음 퀘스트"}
+{"id":7402,"n":"와우 포에버 현상 수배: 오크! 퀘스트","o":"알터랙 계곡에 있는 호드 진영의 오크 플레이어를 쓰러뜨리라는 임무를 받았습니다.","g":"Wanted: ORCS!"}
+{"id":7632,"n":"와우 포에버 고대의 잎사귀 퀘스트","o":"단단한 고대의 잎사귀의 주인을 찾아야 합니다. 행운을 빕니다, <name>. 세상은 아주 넓으니까요.","g":"청지기 이그젝큐투스","r":"고대정령 바르투스"}
+{"id":7651,"n":"와우 포에버 마력깃든 토륨 갑옷 III 퀘스트","o":"주인에게 책을 되돌려주십시오.","g":"마력깃든 토륨 갑옷","r":"현자 리드로스"}
+{"id":7677,"n":"와우 포에버 백마 교환 퀘스트","o":"If you bring me your white stallion, I'll trade you for one from the new herd. The new horse will be just as fast as your old one, but have a different look to it. You can look at the swift steeds here to see what it will look like.","g":"케이티 헌터","r":"케이티 헌터"}
+{"id":7736,"n":"와우 포에버 불꽃 융해촉진제 보급품 퀘스트"}
+{"id":7938,"n":"와우 포에버 당신을 기다리는 행운... 퀘스트","o":"서부 몰락지대의 죽음의 폐광으로 가서 당신의 행운을 찾아야 합니다.","g":"세이지의 점괘 #24","r":"Mysterious Deadmines Chest"}
+{"id":7944,"n":"와우 포에버 당신을 기다리는 행운... 퀘스트","o":"불모의 땅에 있는 통곡의 동굴로 가서 당신의 행운을 찾아야 합니다.","g":"세이지의 점괘 #25","r":"Mysterious Wailing Caverns Chest"}
+{"id":8114,"n":"와우 포에버 거점 네 곳 점령 퀘스트","o":"Enter Arathi Basin, capture and control four bases at the same time, and then return to Field Marshal Oslight at Refuge Pointe.","g":"야전사령관 오슬라이트","r":"야전사령관 오슬라이트"}
+{"id":8115,"n":"와우 포에버 거점 다섯 곳 점령 퀘스트","o":"Control 5 bases in Arathi Basin at the same time, then return to Field Marshal Oslight at Refuge Pointe.","g":"야전사령관 오슬라이트","r":"야전사령관 오슬라이트"}
+{"id":8184,"n":"와우 포에버 힘의 문장 퀘스트"}
+{"id":8185,"n":"와우 포에버 자비의 인장 퀘스트"}
+{"id":8186,"n":"와우 포에버 죽음의 은총 퀘스트"}
+{"id":8187,"n":"와우 포에버 매의 부름 퀘스트"}
+{"id":8189,"n":"와우 포에버 총명의 기운 퀘스트"}
+{"id":8190,"n":"와우 포에버 어둠의 마력 퀘스트"}
+{"id":8191,"n":"와우 포에버 예언의 기운 퀘스트"}
+{"id":8192,"n":"와우 포에버 자연의 은총 퀘스트"}
+{"id":8227,"n":"와우 포에버 내트의 줄자 퀘스트","o":"먼지진흙 습지대에 있는 내트 페이글에게 내트의 줄자를 돌려줘야 합니다.","g":"Battered Tackle Box","r":"내트 페이글"}
+{"id":8305,"n":"와우 포에버 잊혀진 오랜 기억 퀘스트","o":"실리더스에서 눈물의 결정의 위치를 찾아 그 안을 응시하십시오.","g":"아나크로노스","r":"Crystalline Tear"}
+{"id":8307,"n":"와우 포에버 사막의 조리법 퀘스트","o":"세나리온 요새 서쪽에 있는 황혼의망치단 주둔지로 가서 미늘벌레 고기 조리법에 대한 정보를 알아내야 합니다.","g":"캘랜드라스","r":"Sandy Cookbook"}
+{"id":8313,"n":"와우 포에버 지식 공유 퀘스트","o":"세나리온 요새 여관에 있는 캘랜드라스에게 찢어낸 조리법 페이지를 가져다 줘야 합니다.","g":"Sandy Cookbook","r":"캘랜드라스"}
+{"id":8383,"n":"와우 포에버 잊지 말자, 알터랙 계곡! 퀘스트"}
+{"id":8384,"n":"와우 포에버 아라시 분지 공격 퀘스트","o":"Bring 3 Arathi Basin Marks of Honor to an Alliance Brigadier General outside the battlegrounds.","g":"얼라이언스 준장","r":"얼라이언스 준장"}
+{"id":8385,"n":"와우 포에버 공동의 노력 퀘스트"}
+{"id":8386,"n":"와우 포에버 전쟁노래 협곡 전투 퀘스트"}
+{"id":8391,"n":"와우 포에버 아라시 분지 공격 퀘스트"}
+{"id":8392,"n":"와우 포에버 아라시 분지 공격 퀘스트"}
+{"id":8397,"n":"와우 포에버 아라시 분지 공격 퀘스트"}
+{"id":8398,"n":"와우 포에버 아라시 분지 공격 퀘스트"}
+{"id":8404,"n":"와우 포에버 전쟁노래 협곡 전투 퀘스트"}
+{"id":8405,"n":"와우 포에버 전쟁노래 협곡 전투 퀘스트"}
+{"id":8406,"n":"와우 포에버 전쟁노래 협곡 전투 퀘스트"}
+{"id":8407,"n":"와우 포에버 전쟁노래 협곡 전투 퀘스트"}
+{"id":8408,"n":"와우 포에버 전쟁노래 협곡 전투 퀘스트"}
+{"id":8466,"n":"와우 포에버 그라즐을 위한 깃털 퀘스트"}
+{"id":8467,"n":"와우 포에버 나피엔을 위한 깃털 퀘스트"}
+{"id":8469,"n":"와우 포에버 살파에게 정기의 구슬 가져다주기 퀘스트"}
+{"id":8501,"n":"와우 포에버 목표: 독침 하이브아쉬 퀘스트","o":"독침 하이브아쉬 30마리를 처치한 후 실리더스 세나리온 요새에 있는 지휘관 마랄리스에게 보고하십시오. 이 임무를 완료하려면 전투 임무 지령 XII를 가져가야 합니다.","g":"전투 임무 지령 XII","r":"지휘관 마랄리스"}
+{"id":8502,"n":"와우 포에버 목표: 일꾼 하이브아쉬 퀘스트","o":"일꾼 하이브아쉬 30마리를 처치해야 한 다음 실리더스 세나리온 요새에 있는 지휘관 마랄리스에게 보고하십시오. 또한, 이 퀘스트를 완료하려면 전투 임무 지령 III도 함께 가져가야 합니다.","g":"전투 임무 지령 III","r":"지휘관 마랄리스"}
+{"id":8519,"n":"와우 포에버 장기판 위의 졸 퀘스트","o":"잊혀진 오랜 기억에 대해 가능한 모든 것을 확인한 후 타나리스의 시간의 동굴에 있는 아나크로노스와 대화하십시오.","g":"Crystalline Tear","r":"아나크로노스"}
+{"id":8536,"n":"와우 포에버 황색 기사단 퀘스트","o":"황색 기사단을 소환하여 해치운 후 세나리온 요새에 있는 보르 와일드메인에게 보고하십시오. 또한, 이 퀘스트를 완료하려면 전술 임무 지령 III도 함께 가져가야 합니다.","g":"전술 임무 지령 III","r":"보르 와일드메인"}
+{"id":8541,"n":"와우 포에버 경비대에 연마석 공급 퀘스트","o":"실리더스의 세나리온 요새에 있는 경비대장 비쉬 코주스에게 강도 높은 연마석, 견고한 연마석, 단단한 연마석을 각각 10개씩 모아서 가져가야 합니다. 이 임무를 완료하려면 병참 임무 지령 III도 함께 가져가야 합니다.","g":"병참 임무 지령 III","r":"비쉬 코주스"}
+{"id":8546,"n":"와우 포에버 호드에 미스릴 주괴 추가 조달! 퀘스트","o":"Bring 20 Mithril Bars to Senior Sergeant T'kelah at the Valley of Spirits in Orgrimmar.","g":"정예수호병 티키라","r":"정예수호병 티키라"}
+{"id":8583,"n":"와우 포에버 호드에 보라 연꽃 추가 조달! 퀘스트","o":"Bring 20 Purple Lotus to Apothecary Jezel at the Valley of Spirits in Orgrimmar.","g":"연금술사 제젤","r":"연금술사 제젤"}
+{"id":8584,"n":"와우 포에버 질문 사절 퀘스트","o":"Narain Soothfancy in Tanaris wants you to speak with Dirge Quikcleave in Gadgetzan.","g":"나라인 수스팬시","r":"더지 퀵클레이브"}
+{"id":8589,"n":"와우 포에버 호드에 질긴 가죽 추가 공급! 퀘스트","o":"Bring 10 Heavy Leather to Skinner Jamani at the Valley of Spirits in Orgrimmar.","g":"무두장이 자마니","r":"무두장이 자마니"}
+{"id":8591,"n":"와우 포에버 호드에 두꺼운 가죽 추가 공급! 퀘스트","o":"Bring 10 Thick Leather to Sergeant Umala at the Valley of Spirits in Orgrimmar.","g":"하사관 우말라","r":"하사관 우말라"}
+{"id":8601,"n":"와우 포에버 호드에 튼튼한 가죽 추가 공급! 퀘스트","o":"Bring 10 Rugged Leather to Doctor Serratus at the Valley of Spirits in Orgrimmar.","g":"의사 세라투스","r":"의사 세라투스"}
+{"id":8608,"n":"와우 포에버 호드에 마법 붕대 추가 조달! 퀘스트","o":"Bring 20 Mageweave Bandages to Lady Callow at the Valley of Spirits in Orgrimmar.","g":"귀부인 칼로","r":"귀부인 칼로"}
+{"id":8610,"n":"와우 포에버 호드에 룬매듭 붕대 추가 조달! 퀘스트","o":"Bring 20 Runecloth Bandages to Stoneguard Clayhoof at the Valley of Spirits in Orgrimmar.","g":"투사 클레이후프","r":"투사 클레이후프"}
+{"id":8614,"n":"와우 포에버 호드에 점박이놀래기 구이 추가 조달! 퀘스트","o":"Bring 20 Spotted Yellowtail to Fisherman Lin'do at the Valley of Spirits in Orgrimmar.","g":"낚시꾼 린도","r":"낚시꾼 린도"}
+{"id":8687,"n":"와우 포에버 목표: 땅꾼 하이브조라 퀘스트","o":"땅꾼 하이브조라 30마리를 해치운 다음 실리더스 세나리온 요새에 있는 지휘관 마랄리스에게 돌아가 보고하십시오. 또한, 이 퀘스트를 완료하려면 전투 임무 지령 VII도 함께 가져가야 합니다.","g":"전투 임무 지령 VII","r":"지휘관 마랄리스"}
+{"id":8738,"n":"와우 포에버 하이브레갈 정찰 보고서 퀘스트","o":"하이브레갈 안에 있는 세나리온 정찰병 란디온과 접선한 후 세나리온 요새에 있는 바람소환사 프라우드혼에게 하이브레갈 정찰 보고서를 가지고 돌아가십시오. 또한, 이 퀘스트를 완료하려면 전술 임무 지령 VII도 함께 가져가야 합니다.","g":"전술 임무 지령 VII","r":"바람소환사 프라우드혼"}
+{"id":8739,"n":"와우 포에버 하이브아쉬 정찰 보고서 퀘스트","o":"하이브아쉬 안에 있는 세나리온 정찰병 잘리나와 접선한 다음 세나리온 요새에 있는 바람소환사 프라우드혼에게 하이브아쉬 정찰 보고서를 가지고 돌아가십시오. 또한, 이 퀘스트를 완료하려면 전술 임무 지령 VIII도 함께 가져가야 합니다.","g":"전술 임무 지령 VIII","r":"바람소환사 프라우드혼"}
+{"id":8743,"n":"와우 포에버 징을 울려라! 퀘스트"}
+{"id":8774,"n":"와우 포에버 목표: 모래무지 하이브레갈 퀘스트","o":"모래무지 하이브레갈 30마리를 처치한 후 실리더스에 있는 지휘관 마랄리스에게 전투 임무 지령 VIII을 가지고 돌아가야 합니다.","g":"전투 임무 지령 VIII","r":"지휘관 마랄리스"}
+{"id":8780,"n":"와우 포에버 전장에 방어구 키트 공급 퀘스트","o":"실리더스의 하이브조라 근처 아이언포지 여단 주둔지에 있는 자넬라 스타우트해머에게 튼튼한 방어구 키트와 고급 방어구 키트를 각각 8개씩 가져가야 합니다. 또한, 이 퀘스트를 완료하려면 병참 임무 지령 VII도 함께 가져가야 합니다.","g":"병참 임무 지령 VII","r":"자넬라 스타우트해머"}
+{"id":8782,"n":"와우 포에버 제복 공급 퀘스트","o":"실리더스 세나리온 요새에 있는 바람소환사 프라우드혼에게 달빛 옷감 1개, 룬무늬 두루마리 2개, 그리고 강철그물 거미줄 1개를 가져가야 합니다. 또한, 이 퀘스트를 완료하려면 병참 임무 지령 VIII도 함께 가져가야 합니다.","g":"병참 임무 지령 VIII","r":"바람소환사 프라우드혼"}
+{"id":8955,"n":"와우 포에버 Anthion's Parting Words 퀘스트","o":"Return to Deliana in Ironforge with a set of Devout Sandals, Devout Skirt and Devout Mantle.","g":"안시온 하몬","r":"델리아나"}
+{"id":8958,"n":"와우 포에버 Anthion's Parting Words 퀘스트","o":"Return to Deliana in Ironforge with a set of Dreadmist Sandals, Dreadmist Leggings and Dreadmist Mantle.","g":"안시온 하몬","r":"델리아나"}
+{"id":9269,"n":"와우 포에버 Atiesh, Greatstaff of the Guardian 퀘스트","o":"Anachronos at the Caverns of Time in Tanaris wants you to take Atiesh, Greatstaff of the Guardian to Stratholme and use it on Consecrated Earth. Defeat the entity that is exorcised from the staff and return to him.","g":"아나크로노스","r":"아나크로노스"}
+{"id":9270,"n":"와우 포에버 Atiesh, Greatstaff of the Guardian 퀘스트","o":"Anachronos at the Caverns of Time in Tanaris wants you to take Atiesh, Greatstaff of the Guardian to Stratholme and use it on Consecrated Earth. Defeat the entity that is exorcised from the staff and return to him.","g":"아나크로노스","r":"아나크로노스"}
+{"id":9271,"n":"와우 포에버 Atiesh, Greatstaff of the Guardian 퀘스트","o":"Anachronos at the Caverns of Time in Tanaris wants you to take Atiesh, Greatstaff of the Guardian to Stratholme and use it on Consecrated Earth. Defeat the entity that is exorcised from the staff and return to him.","g":"아나크로노스","r":"아나크로노스"}
+{"id":65603,"n":"와우 포에버 결속 퀘스트","o":"목재 조각상을 사용하여 인큐버스를 소환해 제압한 후, 어둠의 희생양 선술집에 있는 대흑마법사 게이킨에게 목재 조각상을 가져가야 합니다.","g":"대흑마법사 게이킨","r":"대흑마법사 게이킨"}
+{"id":78088,"n":"와우 포에버 에  퀘스트","o":"Bring the Althalaxx Orb to Delgren the Purifier at Maestra's Post in Ashenvale.","g":"Strange Orb","r":"수호자 델그렌"}
+{"id":78089,"n":"와우 포에버 Advice From Stormwind 퀘스트","o":"Bring the Althalaxx Orb to Katherine the Pure in Stormwind.","g":"수호자 델그렌","r":"성기사 캐서린"}
+{"id":78090,"n":"와우 포에버 A Second Opinion 퀘스트","o":"Find the warlock sanctum within Stormwind and seek advice on the orb.","g":"성기사 캐서린","r":"울슐라 델린"}
+{"id":78092,"n":"와우 포에버 It Must Be Destroyed 퀘스트","o":"Gather 12 Motes of Mannoroth from demons in Ashenvale. Bring them along with the Orb of Althalaxx to the Spear of Mannoroth at Demon Fall Canyon.","g":"울슐라 델린","r":"Spear of Mannoroth"}
+{"id":78093,"n":"와우 포에버 델그렌에게 가기 퀘스트","o":"Return the Orb Shards to Delgren.","g":"Shattered Orb","r":"수호자 델그렌"}
+{"id":78124,"n":"와우 포에버 나르탈라스 연감 퀘스트"}
+{"id":78132,"n":"와우 포에버 Dragonslayer's Helm 퀘스트"}
+{"id":78133,"n":"와우 포에버 Dragonslayer's Shield 퀘스트"}
+{"id":78134,"n":"와우 포에버 Dragonslayer's Lance 퀘스트"}
+{"id":78270,"n":"와우 포에버 고블린 자물쇠따개 퀘스트"}
+{"id":78676,"n":"와우 포에버 The Eye of Bhossca 퀘스트","o":"Find The Eye of Bhossca inside of the Scarlet Monastery. Then, return it to C's dead drop near Pyrewood Village. You must complete the job alone.","g":"Dead Drop","r":"Dead Drop"}
+{"id":79090}
+{"id":79235}
+{"id":79236}
+{"id":79242}
+{"id":79358,"n":"와우 포에버 폭풍과 대지와 불 퀘스트","o":"Collect 5 Twisted Fire Totems, 5 Twisted Earth Totems, 5 Twisted Air Totems, and 5 Twisted Water Totems for Veyric Thunderhame in Arathi Highlands.","g":"Veyric Thunderhame","r":"Veyric Thunderhame"}
+{"id":79482}
+{"id":79492}
+{"id":79535,"n":"와우 포에버 바실리스크: 과연 석화를 두려워해야 하는가? 퀘스트"}
+{"id":79536,"n":"와우 포에버 훌륭한 도서관의 친구 퀘스트"}
+{"id":79731}
+{"id":79939}
+{"id":79940}
+{"id":79946}
+{"id":79948,"n":"와우 포에버 방어 마법의 기초 퀘스트"}
+{"id":79950,"n":"와우 포에버 악마와 나 퀘스트"}
+{"id":79952,"n":"와우 포에버 옳옳옳옳! 퀘스트"}
+{"id":79953,"n":"와우 포에버 A Ludite's Guide to Caring for Your Demonic Pet 퀘스트"}
+{"id":79963}
+{"id":79970}
+{"id":80411}
+{"id":80526}
+{"id":81570}
+{"id":81730}
+{"id":81731}
+{"id":81732}
+{"id":81733}
+{"id":81734}
+{"id":81735}
+{"id":81736}
+{"id":81737}
+{"id":81738}
+{"id":81739}
+{"id":81740}
+{"id":81741}
+{"id":81742}
+{"id":81743}
+{"id":81744}
+{"id":81745}
+{"id":81746}
+{"id":81747}
+{"id":81762}
+{"id":81764}
+{"id":81765}
+{"id":81790}
+{"id":81900}
+{"id":81917}
+{"id":81919}
+{"id":81924}
+{"id":81947,"n":"와우 포에버 핏빛 마술 퀘스트"}
+{"id":81949,"n":"와우 포에버 파도현자의 전설 퀘스트"}
+{"id":81951,"n":"와우 포에버 The Liminal and the Arcane 퀘스트"}
+{"id":81952,"n":"와우 포에버 일상 예의 퀘스트"}
+{"id":81953,"n":"와우 포에버 바위의 설계 퀘스트"}
+{"id":81955,"n":"와우 포에버 금속 정신 퀘스트"}
+{"id":81956,"n":"와우 포에버 창조술사의 전서 퀘스트"}
+{"id":82084}
+{"id":82208,"n":"와우 포에버 Greater Friend of the Library 퀘스트","o":"You will need to hand in 25 books to complete this quest, however you can hand 1 in at any time.","g":"가리온 웬델","r":"가리온 웬델"}
+{"id":83934}
+{"id":84147}
+{"id":84148}
+{"id":84149}
+{"id":84150}
+{"id":84154}
+{"id":84318}
+{"id":84330}
+{"id":84395,"n":"와우 포에버 언데드 감자 퀘스트"}
+{"id":84396,"n":"와우 포에버 마그마와 용암 퀘스트"}
+{"id":84397,"n":"와우 포에버 북부 칼림도어"}
+{"id":84398,"n":"와우 포에버 빛의 연구 퀘스트"}
+{"id":84399,"n":"와우 포에버 콰쾅! 퀘스트"}
+{"id":84400,"n":"와우 포에버 기사와 숙녀 퀘스트"}
+{"id":84401,"n":"와우 포에버 스컬지: 언데드의 위협인가 오해인가? 퀘스트"}
+{"id":84402,"n":"와우 포에버 강령술 기초 퀘스트"}
+{"id":86577}
+{"id":86611}
+{"id":86615}
+{"id":86616}
+{"id":86620}
+{"id":86746}
+{"id":87295}
+{"id":87318,"n":"와우 포에버 길 잃은 두 마음 퀘스트","o":"Search for Corma's partner Essene.","g":"코마 빌라드","r":"Essene Villard"}
+{"id":87492}
+{"id":88757,"n":"와우 포에버 길 잃은 이의 물건들 퀘스트","o":"Bring back Essene's Necklace, Essene's Spellbook, and Essene's Waterskin.","g":"Essene Villard","r":"Essene Villard"}
+{"id":88758,"n":"와우 포에버 길 잃은 이의 안부 퀘스트","o":"Bring Essene's note back to Corma Villard.","g":"Essene Villard","r":"코마 빌라드"}
+{"id":88807}
+{"id":88809}
+{"id":88812}
+{"id":88813}
+{"id":88821}
+{"id":88857}
+{"id":88884}
+{"id":88917}
+{"id":89001}
+{"id":89013}
+{"id":89037}
+{"id":89038}
+{"id":89053}
+{"id":89228}
+{"id":89470}
+{"id":91902}
+{"id":91923}
+{"id":91952}
+{"id":92020}
+{"id":92069}
+{"id":92344}
+{"id":92345}
+{"id":92459,"n":"와우 포에버 키린 토의 친구 퀘스트","o":"Speak to Archmage Celindra in the City of Dalaran.","g":"Image of Archmage Modera","r":"Archmage Celindra"}
+{"id":92479,"n":"와우 포에버 휘갈겨 쓴 편지 퀘스트","o":"Read the Scribbled Letter and speak to Tordrin Stemblade in Northshire Abbey.","g":"치안대장 맥브라이드","r":"토르드린 스턴블레이드"}
+{"id":92755,"n":"와우 포에버 불가사의한 신비주의 퀘스트","o":"Maintain your reputation with the Gelkis, and bring 3 Greater Mystic Essences to Halea in the Gelkis Village in Desolace.","r":"Halea"}
+{"id":92814,"n":"와우 포에버 재봉사가 필요해 퀘스트","o":"Maintain your reputation with the Gelkis, and bring a White Bandit Mask to Molkar in the Gelkis Village in Desolace."}
+{"id":92817,"n":"와우 포에버 가죽 기법 퀘스트","o":"Maintain your reputation with the Gelkis, and bring a Barbaric Harness to Talra in the Gelkis Village in Desolace."}
+{"id":92841,"n":"와우 포에버 뼈의 골짜기 퀘스트","o":"Improve your reputation with the Magram, and locate Orgrul near the Valley of Bones south of Magram Village.","g":"와루그","r":"Orgrul"}
+{"id":92844,"n":"와우 포에버 뼈가 산더미 퀘스트","o":"Maintain your reputation with the Magram, and bring 426 Gently Cursed Bones to Orgrul south of the Magram Village in Desolace.","g":"Orgrul","r":"Orgrul"}
+{"id":92846,"n":"와우 포에버 추방된 강령술사 퀘스트","o":"Maintain your reputation with the Magram, and slay Outcast Necromancers within the Valley of Bones.","g":"Orgrul"}
+{"id":92847,"n":"와우 포에버 타락의 눈물 퀘스트","o":"Maintain your reputation with the Magram, and bring 3 Petrified Bark and 3 Imbued Tears back to Orgrul."}
+{"id":92858}
+{"id":92867,"n":"와우 포에버 Ground to Keep 퀘스트","o":"Defeat the Boulderfist, Syndicate, and Witherbark intruders in Stromgarde Keep and return to Groundskeeper Lomar."}
+{"id":92873,"n":"와우 포에버 가능성 입증 퀘스트","o":"Maintain your reputation with the Magram Clan, then bring 426 Well Cursed Bones from a successful ritual back to Orgrul.","g":"기본 강령술 지팡이"}
+{"id":92893,"n":"와우 포에버 약한 자에게 자비란 없다 퀘스트","o":"Maintain your reputation with the Magram Clan, and slay 5 Gelkis Captives scattered around the Valley of Bones. Return to Orgrul after the task is complete."}
+{"id":92894,"n":"와우 포에버 뼈를 일으켜라 퀘스트","o":"Maintain your reputation with the Magram Clan, and use the Enhanced Necromancy Staff to fully raise undead that are struggling to emerge throughout the Valley of Bones. Return to Orgrul once the Magram army has grown.","g":"강화된 강령술 지팡이"}
+{"id":93034,"n":"와우 포에버 뼈의 골짜기 퀘스트","o":"Improve your reputation with the Gelkis, and locate Nerlokh near the Valley of Bones far east of Gelkis Village.","g":"현자 우텍","r":"Nerlokh"}
+{"id":93035,"n":"와우 포에버 날뛰는 약탈자들 퀘스트","o":"Maintain your reputation with the Gelkis Clan and slay 6 Undead Ravagers, then return to Nerlokh at the southern entrance to Valley of Bones.","g":"Nerlokh","r":"Nerlokh"}
+{"id":93037,"n":"와우 포에버 추방자의 민낯 퀘스트","o":"Maintain your reputation with the Gelkis Clan, and bring 1 Necromantic Garb to Nerlokh at the entrance of the Valley of Bones.","g":"Nerlokh","r":"Nerlokh"}
+{"id":93041,"n":"와우 포에버 진실과 마주할 때 퀘스트","o":"Maintain your reputation with the Gelkis Clan, and bring an Accursed Skull and Gelkis Necromantic Garb to Uthek the Wise in Gelkis Village.","g":"Nerlokh","r":"현자 우텍"}
+{"id":93058,"n":"와우 포에버 동족 구하기 퀘스트","o":"Maintain your reputation with the Gelkis clan, and rescue 5 Gelkis Captives within the Valley of Bones. Return to Nerlokh near the entrance when you are done.","r":"Nerlokh"}
+{"id":93062,"n":"와우 포에버 해골 매장 퀘스트","o":"Maintain your reputation with the Gelkis Clan, and dispel the curses from 8 failed summons throughout the Valley of Bones.","g":"우텍의 드레니시스트 지팡이","r":"Nerlokh"}
+{"id":93066,"n":"와우 포에버 뾰족털일족 은거지 퀘스트","o":"Maintain your reputation with the Magram, and slay quilboar at Bristleback Retreat. Then report to Hagiak at the Magram Front on the other side of Valley of Bones in Desolace.","r":"Hagiak"}
+{"id":93072,"n":"와우 포에버 장기적인 해결책 퀘스트","o":"Maintain your reputation with the Magram clan and slay 2 Outcast Scouts, 6 Outcast Marauders, and 8 Outcast Necromancers then return to Hagiak at the Magram Front."}
+{"id":93125,"n":"와우 포에버 집으로 가는 길 퀘스트","o":"Maintain your reputation with the Gelkis, and escort Rokren out of the Outcast Hideaway. Then inform Nerlokh near the Valley of Bones about what happened."}
+{"id":93129,"n":"와우 포에버 기근의 위협 퀘스트","o":"Maintain your reputation with the Magram, and bring 6 Stolen Supplies back to Hagiak at the Magram Front."}
+{"id":93161}
+{"id":93176,"n":"와우 포에버 내 작은 친구들 퀘스트","o":"Use the items contained in the Entomology Starter Kit to find and catch an Arbor Tarantula, Hay Weevil Specimen, and a Flesh Picker.","g":"Amaryllis Webb","r":"Amaryllis Webb"}
+{"id":93188,"n":"와우 포에버 오르그룰에게 가기 퀘스트","o":"Maintain your reputation with the Magram, and report back to Orgrul near the northern entrance to Valley of Bones."}
+{"id":93196,"n":"와우 포에버 칸 젠 퀘스트","o":"Maintain your reputation with the Magram and perform a necromancy ritual to resurrect Khan Jehn. The ritual site can be found in a tent at the central lake of Magram Village.","g":"궁극의 강령술 지팡이"}
+{"id":93227,"n":"와우 포에버 우정은 살 수 있다: 겔키스 퀘스트","o":"Bring the Totem Tote to the Gelkis Quartermaster at Gelkis Village in the Desolace to significantly increase your reputation with that clan. You must be of at least Neutral standing with the Gelkis Clan Centaur.","g":"대령 펜리가스트","r":"Molkar"}
+{"id":93341}
+{"id":93362}
+{"id":93404}
+{"id":93450}
+{"id":93546}
+{"id":93585,"n":"와우 포에버 내 안의 작은 빛 퀘스트","o":"Escort Father Tuttle to The Harborage.","g":"Father Tuttle"}
+{"id":93594}
+{"id":93601}
+{"id":93604}
+{"id":93678,"n":"와우 포에버 Abridged Notes on Draenethyst 퀘스트","o":"Take Azore's transcribed notes back to Magtoor at the Harborage in Swamp of Sorrows.","g":"아조레의 필사본"}
+{"id":93679}
+{"id":93684}
+{"id":93685}
+{"id":93928,"n":"와우 포에버 생쥐와 우유 퀘스트","o":"Get the mouse a cookie.","g":"쥐","r":"헤멧 네싱워리"}
+{"id":94003,"n":"와우 포에버 하늘파괴자 보루 방패 퀘스트","o":"Reclaim the Skybreaker Bulwark from Zaal Stormshield at the Shrine of Akir.","g":"시나 스카이브레이커","r":"시나 스카이브레이커"}
+{"id":94004,"n":"와우 포에버 장인의 계약서: 오우거 힘의 비약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 오우거 힘의 비약","r":"Sos'mol"}
+{"id":94214,"n":"와우 포에버 장인의 계약서: 암흑 보호 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 암흑 보호 물약","r":"크직스"}
+{"id":94215,"n":"와우 포에버 장인의 계약서: 자유 의지의 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 자유 의지의 물약","r":"Webbed Mudsnout Gnoll"}
+{"id":94217,"n":"와우 포에버 장인의 계약서: 하급 트롤의 피 비약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 하급 트롤의 피 비약","r":"땅딸보 존 미스릴"}
+{"id":94218,"n":"와우 포에버 장인의 계약서: 방어의 비약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 방어의 비약","r":"리즐 브라스볼츠"}
+{"id":94219,"n":"와우 포에버 장인의 계약서: 수중 호흡의 약물 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 수중 호흡의 약물","r":"킥슬"}
+{"id":94220,"n":"와우 포에버 장인의 계약서: 진주장식 단검 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 진주장식 단검"}
+{"id":94221,"n":"와우 포에버 장인의 계약서: 금마법막대 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 금마법막대","r":"Muggol Breezebeard"}
+{"id":94222,"n":"와우 포에버 장인의 계약서: 오색 망치 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 오색 망치","r":"Cowardly Peon"}
+{"id":94223,"n":"와우 포에버 장인의 계약서: 은 해골 열쇠 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 은 해골 열쇠"}
+{"id":94224,"n":"와우 포에버 장인의 계약서: 무거운 청동 철퇴 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 무거운 청동 철퇴"}
+{"id":94225,"n":"와우 포에버 장인의 계약서: 청동 다리보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 청동 다리보호구"}
+{"id":94226,"n":"와우 포에버 장인의 계약서: 녹색 철제 건틀릿 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 녹색 철제 건틀릿"}
+{"id":94227,"n":"와우 포에버 장인의 계약서: 큰 청동 나이프 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 큰 청동 나이프","r":"\"씩씩이\" 존슨"}
+{"id":94228,"n":"와우 포에버 장인의 계약서: 녹색 철제 장화 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 녹색 철제 장화"}
+{"id":94229,"n":"와우 포에버 장인의 계약서: 화려한 망원경 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 화려한 망원경","r":"Alan Sneeks"}
+{"id":94230,"n":"와우 포에버 장인의 계약서: 양 폭탄 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 양 폭탄","r":"Alyce"}
+{"id":94231,"n":"와우 포에버 장인의 계약서: 달빛 라이플 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 달빛 라이플","r":"Grembly"}
+{"id":94232,"n":"와우 포에버 장인의 계약서: 하급 유전자 역결합기 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 하급 유전자 역결합기"}
+{"id":94233,"n":"와우 포에버 장인의 계약서: 연습용 자물쇠 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 연습용 자물쇠","r":"Gorgrash"}
+{"id":94234,"n":"와우 포에버 장인의 계약서: 그림자 고글 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 그림자 고글"}
+{"id":94235,"n":"와우 포에버 장인의 계약서: 노움의 만능 원격조종기 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 노움의 만능 원격조종기","r":"스쿠티"}
+{"id":94236,"n":"와우 포에버 장인의 계약서: 대형 청동 폭탄 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 대형 청동 폭탄"}
+{"id":94237,"n":"와우 포에버 장인의 계약서: 수제 합금 탄환 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 수제 합금 탄환"}
+{"id":94238,"n":"와우 포에버 장인의 계약서: 무거운 가죽공 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 무거운 가죽공"}
+{"id":94239,"n":"와우 포에버 장인의 계약서: 고급 가죽 바지 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 고급 가죽 바지"}
+{"id":94240,"n":"와우 포에버 장인의 계약서: 약초채집가 장갑 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 약초채집가 장갑"}
+{"id":94242,"n":"와우 포에버 장인의 계약서: 좀도둑 장갑 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 좀도둑 장갑"}
+{"id":94243,"n":"와우 포에버 장인의 계약서: 두꺼운 가죽 화살통 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 두꺼운 가죽 화살통","r":"지즈 피직스"}
+{"id":94244,"n":"와우 포에버 장인의 계약서: 암색 가죽 어깨보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 암색 가죽 어깨보호구"}
+{"id":94245,"n":"와우 포에버 장인의 계약서: 야만전사의 장갑 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 야만전사의 장갑"}
+{"id":94246,"n":"와우 포에버 장인의 계약서: 새끼 붉은용 장갑 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 새끼 붉은용 장갑"}
+{"id":94247,"n":"와우 포에버 장인의 계약서: 견습마술사 로브 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 견습마술사 로브","r":"Alan Sneeks"}
+{"id":94248,"n":"와우 포에버 장인의 계약서: 파란색 작업복 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 파란색 작업복","r":"Alyce"}
+{"id":94249,"n":"와우 포에버 장인의 계약서: 감청색 비단 두건 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 감청색 비단 두건","r":"Cowardly Peon"}
+{"id":94250,"n":"와우 포에버 장인의 계약서: 작은 비단 배낭 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 작은 비단 배낭"}
+{"id":94252,"n":"와우 포에버 장인의 계약서: 붉은색 양모 장화 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 붉은색 양모 장화"}
+{"id":94253,"n":"와우 포에버 장인의 계약서: 알록달록한 킬트 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 알록달록한 킬트"}
+{"id":94254,"n":"와우 포에버 장인의 계약서: 상급사제용 로브 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 상급사제용 로브"}
+{"id":94255,"n":"와우 포에버 장인의 계약서: 거미줄 슬리퍼 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 거미줄 슬리퍼","r":"킥슬"}
+{"id":94256,"n":"와우 포에버 장인의 계약서: 냉기 보호 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 냉기 보호 물약","r":"로트윌 베리아투스"}
+{"id":94257,"n":"와우 포에버 장인의 계약서: 하급 투명 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 하급 투명 물약"}
+{"id":94258,"n":"와우 포에버 장인의 계약서: 하급 돌방패 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 하급 돌방패 물약"}
+{"id":94259,"n":"와우 포에버 장인의 계약서: 자연 보호 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 자연 보호 물약"}
+{"id":94260,"n":"와우 포에버 장인의 계약서: 고양이눈 약물 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 고양이눈 약물"}
+{"id":94261,"n":"와우 포에버 장인의 계약서: 상급 분노의 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 상급 분노의 물약"}
+{"id":94262,"n":"와우 포에버 장인의 계약서: 마나 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 마나 물약"}
+{"id":94263,"n":"와우 포에버 장인의 계약서: 화염 보호 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 화염 보호 물약"}
+{"id":94264,"n":"와우 포에버 장인의 계약서: 암흑 기름 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 암흑 기름"}
+{"id":94265,"n":"와우 포에버 장인의 계약서: 고블린 로켓 연료 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 고블린 로켓 연료"}
+{"id":94266,"n":"와우 포에버 장인의 계약서: 민첩의 비약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 민첩의 비약"}
+{"id":94267,"n":"와우 포에버 장인의 계약서: 야생덩굴 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 야생덩굴 물약"}
+{"id":94268,"n":"와우 포에버 장인의 계약서: 강철 판금 투구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 강철 판금 투구"}
+{"id":94269,"n":"와우 포에버 장인의 계약서: 세공된 미스릴 실린더 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 세공된 미스릴 실린더"}
+{"id":94270,"n":"와우 포에버 장인의 계약서: 강철 무기 사슬 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 강철 무기 사슬"}
+{"id":94271,"n":"와우 포에버 장인의 계약서: 화려한 미스릴 어깨보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 화려한 미스릴 어깨보호구"}
+{"id":94272,"n":"와우 포에버 장인의 계약서: 화려한 푸른 도끼 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 화려한 푸른 도끼"}
+{"id":94273,"n":"와우 포에버 장인의 계약서: 달의 강철 브로드소드 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 달의 강철 브로드소드"}
+{"id":94274,"n":"와우 포에버 장인의 계약서: 황금 미늘 코이프 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 황금 미늘 코이프"}
+{"id":94275,"n":"와우 포에버 장인의 계약서: 견고한 숫돌 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 견고한 숫돌"}
+{"id":94276,"n":"와우 포에버 장인의 계약서: 날카로운 미스릴 검 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 날카로운 미스릴 검"}
+{"id":94277,"n":"와우 포에버 장인의 계약서: 진은마법막대 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 진은마법막대"}
+{"id":94278,"n":"와우 포에버 장인의 계약서: 황금 미늘 건틀릿 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 황금 미늘 건틀릿"}
+{"id":94279,"n":"와우 포에버 장인의 계약서: 견고한 미스릴 도끼 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 견고한 미스릴 도끼"}
+{"id":94280,"n":"와우 포에버 장인의 계약서: 소형 기계용 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 소형 기계용"}
+{"id":94281,"n":"와우 포에버 장인의 계약서: 고급 표적 허수아비 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 고급 표적 허수아비"}
+{"id":94282,"n":"와우 포에버 장인의 계약서: 장인의 단안경 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 장인의 단안경"}
+{"id":94283,"n":"와우 포에버 장인의 계약서: 고블린 지뢰 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 고블린 지뢰"}
+{"id":94284,"n":"와우 포에버 장인의 계약서: 고양이눈 고글 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 고양이눈 고글"}
+{"id":94285,"n":"와우 포에버 장인의 계약서: 유동성 제동장치 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 유동성 제동장치"}
+{"id":94286,"n":"와우 포에버 장인의 계약서: 섬광탄 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 섬광탄"}
+{"id":94287,"n":"와우 포에버 장인의 계약서: 화염 고글 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 화염 고글"}
+{"id":94288,"n":"와우 포에버 장인의 계약서: 미스릴 파편 폭탄 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 미스릴 파편 폭탄"}
+{"id":94289,"n":"와우 포에버 장인의 계약서: 자동회전 초정밀조율기 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 자동회전 초정밀조율기"}
+{"id":94290,"n":"와우 포에버 장인의 계약서: 기계 수리 장비 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 기계 수리 장비"}
+{"id":94291,"n":"와우 포에버 장인의 계약서: 검은무쇠 폭탄 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 검은무쇠 폭탄"}
+{"id":94292,"n":"와우 포에버 장인의 계약서: 편한 가죽 모자 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 편한 가죽 모자"}
+{"id":94293,"n":"와우 포에버 장인의 계약서: 수호 망토 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 수호 망토"}
+{"id":94294,"n":"와우 포에버 장인의 계약서: 거무스름한 팔보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 거무스름한 팔보호구"}
+{"id":94295,"n":"와우 포에버 장인의 계약서: 야생 가죽 투구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 야생 가죽 투구"}
+{"id":94296,"n":"와우 포에버 장인의 계약서: 야생 가죽 어깨보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 야생 가죽 어깨보호구"}
+{"id":94297,"n":"와우 포에버 장인의 계약서: 속사 화살통 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 속사 화살통"}
+{"id":94298,"n":"와우 포에버 장인의 계약서: 신속의 장화 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 신속의 장화"}
+{"id":94299,"n":"와우 포에버 장인의 계약서: 밤하늘 어깨보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 밤하늘 어깨보호구"}
+{"id":94300,"n":"와우 포에버 장인의 계약서: 부두교 가면 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 부두교 가면"}
+{"id":94301,"n":"와우 포에버 장인의 계약서: 부두교 로브 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 부두교 로브"}
+{"id":94302,"n":"와우 포에버 장인의 계약서: 거북 껍질 흉갑 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 거북 껍질 흉갑"}
+{"id":94303,"n":"와우 포에버 장인의 계약서: 두꺼운 가죽 탄약주머니 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 두꺼운 가죽 탄약주머니"}
+{"id":94304,"n":"와우 포에버 장인의 계약서: 마법매듭 가방 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 마법매듭 가방"}
+{"id":94305,"n":"와우 포에버 장인의 계약서: 그림자매듭 장갑 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 그림자매듭 장갑"}
+{"id":94306,"n":"와우 포에버 장인의 계약서: 심홍색 비단 로브 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 심홍색 비단 로브"}
+{"id":94307,"n":"와우 포에버 장인의 계약서: 그림자매듭 로브 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 그림자매듭 로브"}
+{"id":94308,"n":"와우 포에버 장인의 계약서: 마력 깃든 마법매듭 가방 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 마력 깃든 마법매듭 가방"}
+{"id":94309,"n":"와우 포에버 장인의 계약서: 별장식 허리띠 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 별장식 허리띠"}
+{"id":94310,"n":"와우 포에버 장인의 계약서: 검은 마법매듭 조끼 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 검은 마법매듭 조끼"}
+{"id":94311,"n":"와우 포에버 장인의 계약서: 붉은 마법매듭 바지 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 붉은 마법매듭 바지"}
+{"id":94312,"n":"와우 포에버 장인의 계약서: 주황색 무도복 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 주황색 무도복"}
+{"id":94313,"n":"와우 포에버 장인의 계약서: 하얀 산적 복면 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 하얀 산적 복면"}
+{"id":94314,"n":"와우 포에버 장인의 계약서: 불매듭 로브 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 숯매듭 로브"}
+{"id":94315,"n":"와우 포에버 장인의 계약서: 대지의 비단 허리띠 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 대지의 비단 허리띠"}
+{"id":94316,"n":"와우 포에버 장인의 계약서: 악마 사냥의 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 악마 사냥의 물약"}
+{"id":94317,"n":"와우 포에버 장인의 계약서: 숙면의 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 숙면의 물약"}
+{"id":94318,"n":"와우 포에버 장인의 계약서: 상급 화염 보호 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 상급 화염 보호 물약"}
+{"id":94319,"n":"와우 포에버 장인의 계약서: 악마 감지의 약물 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 악마 감지의 약물"}
+{"id":94320,"n":"와우 포에버 장인의 계약서: 아서스의 선물 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 아서스의 선물"}
+{"id":94321,"n":"와우 포에버 장인의 계약서: 마력 저항의 영약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 마력 저항의 영약"}
+{"id":94322,"n":"와우 포에버 장인의 계약서: 제한된 무적 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 제한된 무적 물약"}
+{"id":94323,"n":"와우 포에버 장인의 계약서: 일급 회복 물약 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 일급 회복 물약"}
+{"id":94324,"n":"와우 포에버 장인의 계약서: 증류된 화주 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 증류된 화주"}
+{"id":94325,"n":"와우 포에버 장인의 계약서: 찬란하게 빛나는 머리장식 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 찬란하게 빛나는 머리장식"}
+{"id":94326,"n":"와우 포에버 장인의 계약서: 찬란하게 빛나는 허리띠 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 찬란하게 빛나는 허리띠"}
+{"id":94327,"n":"와우 포에버 장인의 계약서: 오크족 전투 다리보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 오크족 전투 다리보호구"}
+{"id":94328,"n":"와우 포에버 장인의 계약서: 미스릴 박차 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 미스릴 박차"}
+{"id":94329,"n":"와우 포에버 장인의 계약서: 황제의 판금 흉갑 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 황제의 판금 흉갑"}
+{"id":94330,"n":"와우 포에버 장인의 계약서: 암흑룬 건틀릿 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 암흑룬 건틀릿"}
+{"id":94331,"n":"와우 포에버 장인의 계약서: 거대한 토륨 전투도끼 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 거대한 토륨 전투도끼"}
+{"id":94332,"n":"와우 포에버 장인의 계약서: 아케이나이트 해골 열쇠 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 아케이나이트 해골 열쇠"}
+{"id":94333,"n":"와우 포에버 장인의 계약서: 흑단 비수 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 흑단 비수"}
+{"id":94334,"n":"와우 포에버 장인의 계약서: 일급 표적 허수아비 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 일급 표적 허수아비"}
+{"id":94335,"n":"와우 포에버 장인의 계약서: 녹색 렌즈 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 녹색 렌즈"}
+{"id":94336,"n":"와우 포에버 장인의 계약서: 감쪽같은 기계개구리 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 감쪽같은 기계개구리"}
+{"id":94337,"n":"와우 포에버 장인의 계약서: 노움 자동경보기 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 노움 자동경보기"}
+{"id":94338,"n":"와우 포에버 장인의 계약서: 고블린 점퍼 케이블 XL 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 고블린 점퍼 케이블 XL"}
+{"id":94339,"n":"와우 포에버 장인의 계약서: 야전수리로봇 74A 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 야전수리로봇 74A"}
+{"id":94340,"n":"와우 포에버 장인의 계약서: 진은 변환기 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 진은 변환기"}
+{"id":94341,"n":"와우 포에버 장인의 계약서: 저격용 조준경 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 저격용 조준경"}
+{"id":94342,"n":"와우 포에버 장인의 계약서: 온순한 기계설인 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 온순한 기계설인"}
+{"id":94343,"n":"와우 포에버 장인의 계약서: 악의의 가죽 바지 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 악의의 가죽 바지"}
+{"id":94344,"n":"와우 포에버 장인의 계약서: 고르독 오우거 위장복 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 고르독 오우거 위장복"}
+{"id":94345,"n":"와우 포에버 장인의 계약서: 화산 가슴보호갑 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 화산 가슴보호갑"}
+{"id":94346,"n":"와우 포에버 장인의 계약서: 룬문자 가죽 머리띠 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 룬문자 가죽 머리띠"}
+{"id":94347,"n":"와우 포에버 장인의 계약서: 악의의 가죽 팔보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 악의의 가죽 팔보호구"}
+{"id":94348,"n":"와우 포에버 장인의 계약서: 키메라 조끼 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 키메라 조끼"}
+{"id":94349,"n":"와우 포에버 장인의 계약서: 두꺼운 전갈 투구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 두꺼운 전갈 투구"}
+{"id":94350,"n":"와우 포에버 장인의 계약서: 룬문자 가죽 팔보호구 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 룬문자 가죽 팔보호구"}
+{"id":94351,"n":"와우 포에버 장인의 계약서: 눈호랑이 장화 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 눈호랑이 장화"}
+{"id":94352,"n":"와우 포에버 장인의 계약서: 마술매듭 터번 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 마술매듭 터번"}
+{"id":94353,"n":"와우 포에버 장인의 계약서: 룬매듭 가방 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 룬매듭 가방"}
+{"id":94354,"n":"와우 포에버 장인의 계약서: 룬매듭 장화 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 룬매듭 장화"}
+{"id":94355,"n":"와우 포에버 장인의 계약서: 턱시도 재킷 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 턱시도 재킷"}
+{"id":94356,"n":"와우 포에버 장인의 계약서: 지옥매듭 장화 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 지옥매듭 장화"}
+{"id":94357,"n":"와우 포에버 장인의 계약서: 세나리온 약초 가방 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 세나리온 약초 가방"}
+{"id":94358,"n":"와우 포에버 장인의 계약서: 그림자매듭 복면 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 그림자매듭 복면"}
+{"id":94359,"n":"와우 포에버 장인의 계약서: 유령매듭 조끼 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 유령매듭 조끼"}
+{"id":94360,"n":"와우 포에버 장인의 계약서: 영혼의 주머니 퀘스트","o":"Acquire the items requested by the customer and deliver them to the location marked on your map. This writ must be in your possession to complete the transaction.","g":"장인의 계약서: 영혼의 주머니"}
+{"id":94467,"n":"와우 포에버 불의 부름 퀘스트","o":"하급 불의 현신을 물리친 다음 희미한 불꽃의 화로에 타오르는 불꽃을 넣어야 합니다.","g":"브랄디르 애시맨틀","r":"Brazier of the Dormant Flame"}
+{"id":94468,"n":"와우 포에버 불의 부름 퀘스트","o":"영원한 불꽃의 횃불을 던 모로에 있는 브루그스 킨들본에게 가져가야 합니다.","g":"Brazier of the Dormant Flame","r":"브루그스 킨들본"}
+{"id":94472,"n":"와우 포에버 대지의 정기 퀘스트","o":"Speak to Teo Hammerstorm for another Earth Sapta.","g":"테오 해머스톰","r":"테오 해머스톰"}
+{"id":94473,"n":"와우 포에버 불의 정기 퀘스트","o":"Speak to Braldir Ashmantle for another Fire Sapta","g":"브랄디르 애시맨틀","r":"브랄디르 애시맨틀"}
+{"id":94479}
+{"id":94493,"n":"와우 포에버 헛된 희생 퀘스트","o":"Speak with Elegael Thornpaw in the northeastern part of Shadowgale Forest.","g":"엘레게일 쏜포우","r":"엘레게일 쏜포우"}
+{"id":94618}
+{"id":94678}
+{"id":94679}
+{"id":94773,"n":"와우 포에버 신성한 은총 퀘스트"}
+{"id":94775,"n":"와우 포에버 신성한 은총 퀘스트","o":"Speak to High Priestess Laurena in Stormwind.","g":"라우르나 모닝라이트","r":"대여사제 로레나"}
+{"id":94776,"n":"와우 포에버 신성한 은총 퀘스트","o":"Speak to High Priestess Laurena in Stormwind.","g":"막산 앤볼","r":"대여사제 로레나"}
+{"id":94777,"n":"와우 포에버 신성한 은총 퀘스트","o":"Speak to High Priestess Laurena in Stormwind.","g":"나라 마이데로스","r":"대여사제 로레나"}
+{"id":94778,"n":"와우 포에버 신성한 은총 퀘스트","o":"Speak to High Priestess Laurena in Stormwind."}
+{"id":94779,"n":"와우 포에버 신성한 은총 퀘스트","o":"Speak to High Priestess Laurena in Stormwind."}
+{"id":94789,"n":"와우 포에버 바람의 부름 퀘스트","o":"Find Veyric Thundervein in Arathi Highlands.","g":"엘드룬 스톰브레이커","r":"Veyric Thunderhame"}
+{"id":94792,"n":"와우 포에버 야수 길들이기 퀘스트","o":"Use the Taming Rod to tame a Rockhide Boar. Practice your skills, then return the Taming Rod to Josephine Carson.","g":"조세핀 카슨","r":"조세핀 카슨"}
+{"id":94793,"n":"와우 포에버 야수 길들이기 퀘스트","o":"Speak to Isaac Chan in Goldshire.","g":"조세핀 카슨","r":"아이작 챈"}
+{"id":94817,"n":"와우 포에버 교란의 섬광 퀘스트"}
+{"id":94818,"n":"와우 포에버 비상 대책 퀘스트"}
+{"id":94820,"n":"와우 포에버 비상 대책 퀘스트","o":"Speak to High Priestess Mims in Ironforge.","g":"여사제 알라시아"}
+{"id":94821,"n":"와우 포에버 교란의 섬광 퀘스트","o":"Speak to High Priestess Mims in Ironforge.","g":"대여사제 로레나","r":"High Priestess Mims"}
+{"id":94822,"n":"와우 포에버 교란의 섬광 퀘스트","o":"Speak to High Priestess Mims in Ironforge.","g":"여사제 조세타","r":"High Priestess Mims"}
+{"id":94823,"n":"와우 포에버 교란의 섬광 퀘스트","o":"Speak to High Priestess Mims in Ironforge.","r":"High Priestess Mims"}
+{"id":94826,"n":"와우 포에버 교란의 섬광 퀘스트","o":"Speak to High Priestess Mims in Ironforge."}
+{"id":94829}
+{"id":94843}
+{"id":94857}
+{"id":94858}
+{"id":94861}
+{"id":94863,"n":"와우 포에버 야수 길들이기 퀘스트","o":"Use the Taming Rod to tame a Gray Forest Wolf. Practice your skills, then return the Taming Rod to Josephine Carson.","g":"조세핀 카슨","r":"조세핀 카슨"}
+{"id":94864,"n":"와우 포에버 야수 길들이기 퀘스트","o":"Use the Taming Rod to tame a Young Forest Bear. Practice your skills, then return the Taming Rod to Josephine Carson.","g":"조세핀 카슨","r":"조세핀 카슨"}
+{"id":94884}
+{"id":94885}
+{"id":94886}
+{"id":94887}
+{"id":94888}
+{"id":94889}
+{"id":94890}
+{"id":94891}
+{"id":94892}
+{"id":94893}
+{"id":94894}
+{"id":94923}
+{"id":94924}
+{"id":94925}
+{"id":94927}
+{"id":94928}
+{"id":94929}
+{"id":94980}
+{"id":94981}
+{"id":94982}
+{"id":94983}
+{"id":94984}
+{"id":94992}
+{"id":94997}
+{"id":94998}
+{"id":94999}
+{"id":95064}
+{"id":95066}
+{"id":95122}
+{"id":95123}
+{"id":95124}
+{"id":95147}
+{"id":95148}
+{"id":95165}
+{"id":95184}
+{"id":95189,"n":"와우 포에버 로데론의 문장 퀘스트","o":"Return the Crest of Lordaeron to Lady Dena Kennedy in Stormwind City.","g":"로데론의 문장","r":"Lady Dena Kennedy"}
+{"id":95194}
+{"id":95196}
+{"id":95198}
+{"id":95260}
+{"id":95261}
+{"id":95262}
+{"id":95264}
+{"id":95267}
+{"id":95293}
+{"id":95294}
+{"id":95296}
+{"id":95312}
+{"id":95321}
+{"id":95322}
+{"id":95325}
+{"id":95326}
+{"id":95327}
+{"id":95329}
+{"id":95383}
+{"id":95426}
+{"id":95472}
+{"id":95511}
+{"id":95561}
+{"id":95562}
+{"id":95613}
+{"id":95615}
+{"id":95642}
+{"id":95643}
+{"id":95753}
+{"id":95798}
+{"id":95799}
+{"id":95816,"n":"와우 포에버 팻말 신청! 퀘스트","o":"Bring the completed form to Elaine Compton in Redridge Mountains.","g":"광고 면허 접수","r":"일레인 콤프턴"}
+{"id":95912}
+{"id":95913}
+{"id":95924}
+{"id":95925}
+{"id":95957}
+{"id":95961}
+{"id":95975}
+{"id":95983}
+{"id":95984}
+{"id":95986}
+{"id":95988}
+{"id":95991}
+{"id":96009}
+{"id":96015}
+{"id":96016,"n":"와우 포에버 폭풍우의 병기 퀘스트","o":"Deliver the Eye of the Tempest to Bath'rah the Windwatcher in Alterac Mountains.","g":"Veyric Thunderhame","r":"바람의감시자 바스라"}
+{"id":96045,"n":"와우 포에버 캠핑 입문: 연금술 퀘스트","o":"Speak with Vosur Brakthel in Ironforge to learn to craft a camping item for your profession once you have shown proficiency in your skill.","g":"보수르 브락셀","r":"보수르 브락셀"}
+{"id":96058,"n":"와우 포에버 캠핑 입문: 기계공학 퀘스트","o":"Speak with Bronk Guzzlegear in Kharanos to learn to craft a camping item for your profession once you have shown proficiency in your skill.","g":"에릭 브라이트해머","r":"브롱크 거즐기어"}
+{"id":96060}
+{"id":96081}
+{"id":96082}
+{"id":96083}
+{"id":96084}
+{"id":96085}
+{"id":96125}
+{"id":96126}
+{"id":96135,"n":"와우 포에버 내 부름에 응하라 퀘스트","o":"Use the Twisted Totems to put an end to the quilboar ritual.","g":"Veyric Thunderhame","r":"Veyric Thunderhame"}
+{"id":96243,"n":"와우 포에버 대지의 부름 퀘스트","o":"Find Teo Hammerstorm in Dun Morogh.","g":"엘드룬 스톰브레이커","r":"테오 해머스톰"}
+{"id":96264,"n":"와우 포에버 정기의 도움 퀘스트","o":"Defeat Charlga Razorflank in Razorfen Kraul and collect information on the quilboar's plans.","g":"Veyric Thunderhame","r":"Veyric Thunderhame"}
+{"id":96339,"n":"와우 포에버 Legacy Reward: Replica Ironforge Air Rifle 퀘스트"}
+{"id":96381}
+{"id":96383,"n":"와우 포에버 Legacy Reward: Spectral Bear Cub 퀘스트"}
+{"id":96438}
+{"id":96603}
+{"id":96609}
+{"id":96772}
+{"id":96782,"n":"와우 포에버 은밀한 회수 작전 퀘스트","o":"Find the Blade of House Perenolde and the Royal Aegis of Perenolde among the ruins of Alterac. Then, bring them to Myrokos Silentform.","r":"미로코스 사일런트폼"}
+{"id":96783,"n":"와우 포에버 잠입 수단 퀘스트","o":"Steal a Syndicate uniform from Northfold Manor to infiltrate Stromgarde Keep.","g":"미로코스 사일런트폼","r":"Syndicate Footlocker"}
+{"id":96784,"n":"와우 포에버 위장의 대가 퀘스트","o":"While disguised as a member of the Syndicate, find someone inside Stromgarde Keep who knows about the secret deal.","g":"Syndicate Footlocker","r":"Anastasia Miller"}
+{"id":96785,"n":"와우 포에버 입도 뻥긋 안 한다 퀘스트","o":"Find something within Stromgarde Keep to convince Anastasia to give up details of the secret deal.","g":"비밀결사대 제복","r":"Anastasia Miller"}
+{"id":96786,"n":"와우 포에버 비밀결사대의 독침 퀘스트","o":"Break up the secret deal, and take the object being traded to the Syndicate. Then, return to Myrokos Silentform at Ravenholdt Manor.","r":"미로코스 사일런트폼"}
+{"id":96796}
+{"id":96797}
+{"id":96798}
+{"id":96799}
+{"id":96811}
+{"id":96812}
+{"id":96833}
+{"id":97005,"n":"와우 포에버 강탈자 촐라루크 퀘스트","o":"Bring Chol'aruk's Head to Bainham in the Barrens.","g":"베인햄","r":"베인햄"}
+{"id":97017}
+{"id":97018}
+{"id":97029}
+{"id":97045}
+{"id":97046}
+{"id":97065,"n":"와우 포에버 맞바꾸기: 키퍼의 천사돔 퀘스트"}
+{"id":97066,"n":"와우 포에버 맞바꾸기: 브로넬의 푸른줄무늬날치 퀘스트"}
+{"id":97067,"n":"와우 포에버 맞바꾸기: 데지안 여왕물고기 퀘스트"}
+{"id":97074}
+{"id":97170}
+{"id":97173}
+{"id":97188}
+{"id":97277,"n":"와우 포에버 그룬드와 고즈윈 퀘스트","o":"북서쪽 언덕에서 그룬드와 고즈윈의 야영지를 찾아야 합니다. 고즈윈의 정비사 일지를 회수하고 눈표범 배회자를 처치해야 합니다.","g":"Grund Drokda","r":"Grund Drokda"}
+{"id":97405}
+{"id":97420,"n":"와우 포에버 절약, 재사용, 재결산 퀘스트","o":"Acquire 5 Drums of Crude Oil from the Venture Co. operations at Lake Nazferiti, then return to Knaz Blunderflame in Stranglethorn Vale."}
+{"id":97530}
+{"id":97540}
+{"id":97617}
+{"id":97939,"n":"와우 포에버 캠핑 입문: 대장기술 퀘스트","o":"Speak with Elisa Steelhand in Auberdine in Darkshore to learn to craft a camping item for your profession once you have shown proficiency in your skill.","g":"리리나 더스크블레이드","r":"엘리사 스틸핸드"}
+{"id":97941,"n":"와우 포에버 캠핑 입문: 기계공학 퀘스트","o":"Speak with Jenna Lemkenilli in Auberdine in Darkshore to learn to craft a camping item for your profession once you have shown proficiency in your skill.","g":"리리나 더스크블레이드","r":"지나 렘케닐리"}
+{"id":98027,"n":"와우 포에버 반짝이는 초승달 목걸이 퀘스트","o":"Deliver the Crescent Necklace to Maliynn in Astranaar.","g":"Gleaming Crescent Pendant","r":"말리인"}
+{"id":98042,"n":"와우 포에버 즐거운 장난도 결국은... 퀘스트","o":"어둠의 해안 지배자의 무덤에서 황혼의망치단 신도나 황혼의망치단 암살단원에게서 유일무이한 눈을 입수한 후, 이를 받<name> 줄 사람을 <name>우버다인에서 찾<name>야 합니다.","g":"Twilight Tome","r":"툰드리스 윈드위버"}
+{"id":98096}
+{"id":98156,"n":"와우 포에버 포장된 온전한 모피 퀘스트","o":"Bring the Package of Pristine Pelts to Kimberly Grant.","g":"온전한 모피 꾸러미","r":"킴블리 그랜트"}
+{"id":98205}
+{"id":98215}
+{"id":98231}
+{"id":98247,"n":"와우 포에버 화물 송장 퀘스트","o":"화물 송장을 붉은마루 산맥 아제로스 상업 관리국 교역 중심지에 있는 인물에게 전달해야 합니다.","g":"화물 송장","r":"마시 베이커"}
+{"id":98300,"n":"와우 포에버 이 소란만큼은 아이 퀘스트","o":"Deliver Howin's Missive to King Magni Bronzebeard in Ironforge.","g":"Howin Kindfeather","r":"국왕 마그니 브론즈비어드"}
+{"id":98417,"n":"와우 포에버 복수의 자취 퀘스트","o":"Maseara Autumnmoon wants you to search west of Forest Song, amongst the Satyrnaar demons. Report any signs of her husband Kurothel upon your return.","g":"Maseara Autumnmoon","r":"Maseara Autumnmoon"}
+{"id":98418,"n":"와우 포에버 나누는 격노 퀘스트","o":"Kill 5 Xavian Rogues, 5 Felsworn, 5 Betrayers, and 5 Hellcallers.","g":"Maseara Autumnmoon","r":"Maseara Autumnmoon"}
+{"id":98462}
+{"id":98896,"n":"와우 포에버 검은창 군도의 충돌 퀘스트"}
+{"id":98897,"n":"와우 포에버 검은창 군도의 충돌 퀘스트","o":"Bring 3 Darkspear Islands Marks of Honor to an Alliance Brigadier General outside the battlegrounds."}
+{"id":98899,"n":"와우 포에버 검은창 군도의 충돌 퀘스트","o":"Bring 3 Darkspear Islands Marks of Honor to an Alliance Brigadier General outside the battlegrounds."}
+{"id":98903,"n":"와우 포에버 검은창 군도 전투! 퀘스트","o":"Win a Darkspear Islands battleground and return back to Brelinda McFarry at Northwatch Hold.","g":"Brelinda McFarry","r":"Brelinda McFarry"}
+{"id":98904,"n":"와우 포에버 The Battle for Darkspear Islands! 퀘스트","o":"Win a Darkspear Islands battleground and return back to Brelinda McFarry at Northwatch Hold."}
+{"id":99192,"n":"와우 포에버 비단 옷감 기부 퀘스트"}
+{"id":99193}
+{"id":99194}
+{"id":99195}

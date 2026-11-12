@@ -979,10 +979,10 @@
 1~퀘스트 · A Thief's Reward~wh:quest=9339
 1~퀘스트 · Blood Elf Spy~wh:quest=9311
 1~퀘스트 · Behomat~wh:quest=10350
-3~드랍 · Eversong Green Keeper (Eversong Woods)~
+3~드랍 · Eversong Green Keeper (영원노래 숲)~
 3~드랍 · 아우로 (Temple of Ahn'Qiraj)~
 1~퀘스트 · The Finest Down~wh:quest=9420
-3~드랍 · Blood Elf Bandit (Azuremyst Isle)~
+3~드랍 · Blood Elf Bandit (하늘안개 섬)~
 1~퀘스트 · Help Tavara~wh:quest=9586
 3~드랍 · Watchkeeper Gargolmar (지옥불 성루)~
 3~드랍 · Omor the Unscarred (지옥불 성루)~
