@@ -11,9 +11,10 @@ const out='data/qdb/items-wowf.jsonl';const done=new Map();
 if(fs.existsSync(out))for(const l of fs.readFileSync(out,'utf8').split('\n'))if(l){const o=JSON.parse(l);done.set(o.id,o)}
 const rw=new Set();for(const l of fs.readFileSync('data/forg/rewards.jsonl','utf8').split('\n')){if(!l)continue;const o=JSON.parse(l);for(const x of [...(o.ch||[]),...(o.fx||[])])rw.add(x[0])}
 const eq=fs.readFileSync('data/qdb/item-equip.txt','utf8').split('\n').filter(Boolean).map(l=>l.split('|'));
-const first=[],later=[];
+const first=[],later=[],effs=[];
+for(const f of ['data/forg/items.txt','data/qdb/items-extra.txt'])if(fs.existsSync(f))for(const l of fs.readFileSync(f,'utf8').split('\n')){const p=l.split('|');if(p[6]==='1'&&!done.has(+p[0]))effs.push(+p[0])}
 for(const p of eq){const id=+p[0];if(have.has(id)||done.has(id))continue;if(rw.has(id)||p[5])first.push(id);else if(id>=200000)later.push(id)}
-const todo=[...first,...later];console.log('할 일',todo.length,'(보상 장비',first.length,')');
+const todo=[...effs,...first,...later];console.log('할 일',todo.length,'(효과 장비',effs.length,'보상 장비',first.length,')');
 const QC={'#9d9d9d':'p','#ffffff':'c','#1eff00':'u','#0070dd':'r','#a335ee':'e','#ff8000':'l'};
 function parseWowf(h,id){const i=h.indexOf('id="item-title"');if(i<0)return null;
   const head=h.slice(i,i+800);const sub=dec((head.match(/<p class="mt-0\.5 text-sm text-muted">([\s\S]*?)<\/p>/)||[])[1]||'');

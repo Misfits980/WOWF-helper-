@@ -12,8 +12,40 @@ WPN = {'warrior': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 13, 15, 16, 18], 'paladin': [0
 ARM = {'warrior': 4, 'paladin': 4, 'hunter': 3, 'shaman': 3, 'rogue': 2, 'druid': 2, 'priest': 1, 'mage': 1, 'warlock': 1}
 RELIC = {7: 'paladin', 8: 'druid', 9: 'shaman'}
 STAT = {'정신력': 'spi', '지능': 'int', '체력': 'sta', '힘': 'str', '민첩성': 'agi', '민첩': 'agi', '주문 공격력': 'sp', '치유량': 'heal', '전투력': 'ap',
-        '방어 숙련도': 'def', '방어숙련': 'def'}
+        '방어 숙련도': 'def', '방어숙련': 'def', '5초당 마나 회복': 'mp5', '방어도': 'armor'}
 SCHOOL = {'화염': 'fire', '냉기': 'frost', '암흑': 'shadow', '비전': 'arcane', '자연': 'nature', '신성': 'holy'}
+
+
+def eff_stats(lines):
+    """착용 효과 글에서 점수로 셀 수 있는 것: 치명타·적중·회피·무기 막기·방패 막기(%), 주문 극대화·주문 적중(%)"""
+    st = {}
+    for t in lines or []:
+        if '착용 효과' not in t:
+            continue
+        b = t.split(':', 1)[-1]
+        m = re.search(r'(\d+(?:\.\d+)?)%만큼 증가|(\d+(?:\.\d+)?)% 증가', b)
+        if not m or '자신에게 걸리는' in b or '감소' in b or '에서 ' in b.split('%')[0][-8:]:
+            continue
+        m = re.search(r'(\d+(?:\.\d+)?)%', b)
+        v = float(m.group(1))
+        k = None
+        if '주문' in b and ('극대화' in b or '치명타' in b):
+            k = 'scrit'
+        elif '주문' in b and '적중' in b:
+            k = 'shit'
+        elif '치명타' in b:
+            k = 'crit'
+        elif '적중' in b:
+            k = 'hit'
+        elif '회피' in b:
+            k = 'dodge'
+        elif '무기 막기' in b:
+            k = 'parry'
+        elif '방패' in b and '막' in b:
+            k = 'blockp'
+        if k:
+            st[k] = st.get(k, 0) + v
+    return st
 
 
 def mask_of(cs, allow):
@@ -117,10 +149,14 @@ def convert(jsonl_text, equip_text, src_index):
                     st['def'] = st.get('def', 0) + v
                 elif v and '방패' in body and '방어' in body:
                     st['block'] = st.get('block', 0) + v
+                elif eff_stats([t]):
+                    pass  # 치명타·적중 등은 eff_stats에서 셈
                 else:
                     eff = True
             elif t.startswith('사용 효과') or t.startswith('적중 시'):
                 eff = True
+        for k, v in eff_stats(o.get('lines')).items():
+            st[k] = st.get(k, 0) + v
         if lo and hi and spd:
             st['dps'] = round((lo + hi) / 2 / spd, 2)
         est = ''

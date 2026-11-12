@@ -59,6 +59,21 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
             si_[label] = len(sl_); sl_.append(label)
         return si_[label]
     have_ = set(int(l.split('|')[0]) for l in items)
+    from items_wowf import eff_stats
+    WREC = {}
+    for l_ in rd(Q / 'items-wowf.jsonl').splitlines():
+        if l_:
+            o_ = json.loads(l_)
+            if not o_.get('none'):
+                WREC[o_['id']] = o_
+    for ix, line in enumerate(items):
+        f = line.split('|')
+        o_ = WREC.get(int(f[0]))
+        if o_ and len(f) > 6:
+            add = eff_stats(o_.get('lines'))
+            if add:
+                f[5] = (f[5] + ' ' if f[5] else '') + ' '.join('%s%s' % (k, ('%g' % v)) for k, v in add.items())
+                items[ix] = '|'.join(f)
     for line in convert(rd(Q / 'items-wowf.jsonl'), rd(Q / 'item-equip.txt'), sidx):
         if int(line.split('|')[0]) not in have_:
             items.append(line)

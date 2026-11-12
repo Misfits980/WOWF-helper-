@@ -557,3 +557,10 @@ ol.route{list-style:none;margin:0;padding:0}
 .src{font-size:11px;margin-top:8px}
 ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .rs .no{align-self:flex-start;margin-top:6px}
+.card.prio{padding:10px 12px}
+.prio .pl{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:8px}
+.prio .pl span{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+.prio .pl span:first-child{border-color:#e2c26b;color:#f2d488}
+.prio .pl i{font-style:normal;font-size:10px;color:var(--mute)}
+.prio .pl em{font-style:normal;color:var(--mute)}
+.prio .note{margin:8px 0 0}
