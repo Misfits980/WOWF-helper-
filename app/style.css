@@ -284,7 +284,7 @@ details.qf summary::-webkit-details-marker{display:none}
 .rt2.best{border-color:#1e7a2a;background:rgba(220,255,210,.6)}
 .rt2.no{opacity:.55}
 .rt2 .rb{position:absolute;top:-8px;right:6px;font-size:10.5px;font-weight:800;background:#1e7a2a;color:#fff;border-radius:6px;padding:0 6px;font-family:-apple-system,sans-serif}
-.rt2 .rb.s{background:#4b8a3a}.rt2 .rb.x{background:#8a6a4a}
+.rt2 .rb.s{background:#4b8a3a}.rt2 .rb.nx{background:#8a6a4a}
 .pex b{color:#24170a}
 .pchain{margin-top:12px;border-top:1px solid rgba(90,60,20,.3);padding-top:8px}
 .pchain summary{font-size:17px;font-weight:900;cursor:pointer;color:#24170a}
