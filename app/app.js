@@ -31,7 +31,7 @@ const SRC=D_SRC.split('\n').filter(Boolean).map(l=>{const [k,label,href]=l.split
   if(o.k===0){o.dg=(href||'').replace('dg:','').split('#')[0];const p=label.split(' · ');o.dn=p[0];o.boss=p.slice(1).join(' · ')}
   if(o.k===1)o.qn=label.replace(/^퀘스트 · /,'');
   return o});
-const ITEMS=D_ITEMS.split('\n').filter(Boolean).map(l=>{const f=l.split('|');const st={};for(const m of (f[5]||'').matchAll(/([a-z]+)([\d.]+)/g))st[m[1]]=+m[2];
+const ITEMS=D_ITEMS.split('\n').filter(Boolean).map(l=>{const f=l.split('|');const st={};for(const tok of (f[5]||'').split(' ')){const m=tok.match(/^(mp5|[a-z]+)(-?[\d.]+)$/);if(m)st[m[1]]=+m[2]}
   return {id:+f[0],lv:parseInt(f[1])||1,est:f[1].endsWith('?'),sl:f[2],cs:f[3],q:f[4]||'c',st,eff:f[6]==='1',src:f[7]?f[7].split(';').map(Number):[],mask:+f[8],ph:f[9]||'',allow:f[10]?f[10].split(','):null,prof:f[11]||'',nm:f[12],ic:f[13]||''}});
 const IT=new Map(ITEMS.map(i=>[i.id,i]));
 const ICO=n=>n?'https://wow.zamimg.com/images/wow/icons/medium/'+String(n).toLowerCase()+'.jpg':'';
@@ -51,6 +51,18 @@ const ROUTE={};{let cur=null,sec=null;for(const l of D_LVL.split('\n')){if(!l)co
   if(l[0]==='#'){const [a,b,z]=l.slice(1).split('|');sec={a:+a,b:+b,z,q:[]};cur.push(sec);continue}
   const f=l.split('|');if(!sec)continue;sec.q.push({lv:+f[0],min:+f[1]||Math.max(1,+f[0]-5),nm:f[2],gz:f[3],gv:f[4],xy:f[5],ch:+f[6]||0,pre:+f[7]||0,obj:f[8]||'',sz:sec.z.split(' · ')[0]})}}
 
+/* ----- 얻을 수 있는 레벨: 아이템 착용 레벨보다 퀘스트·던전 레벨이 높으면 그걸 따른다 ----- */
+{const QMIN={};for(const k in ROUTE)for(const S of ROUTE[k])for(const q of S.q){if(QMIN[q.nm]==null||q.min<QMIN[q.nm])QMIN[q.nm]=q.min}
+ const RW={};DGS.forEach(d=>d.q.forEach(q=>q.rw.forEach(id=>{RW[id]=Math.min(RW[id]??99,Math.max(q.min,d.lo-2))})));
+ const DGKO={};DGS.forEach(d=>DGKO[d.ko]=d);
+ for(const it of ITEMS){let ob=99;
+   if(RW[it.id]!=null)ob=Math.min(ob,RW[it.id]);
+   for(const i of it.src){const s=SRC[i];if(!s)continue;let v=it.lv;
+     if(s.k===0&&DG[s.dg])v=DG[s.dg].lo;
+     else if(s.k===1){const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);if(m&&DGKO[m[1]])v=Math.max(DGKO[m[1]].lo-2,RW[it.id]??0);else if(QMIN[s.qn]!=null)v=QMIN[s.qn]}
+     ob=Math.min(ob,v)}
+   it.ob=Math.max(it.lv,ob===99?it.lv:ob)}}
+
 /* ===================== 저장 ===================== */
 const KEY='wowf2';
 let DB=(()=>{try{const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.list)return o}catch(e){}return {cur:null,list:[]}})();
@@ -68,7 +80,15 @@ function toast(t){const e=document.createElement('div');e.className='toast';e.te
 
 /* ===================== 아이템 계산 ===================== */
 const ci=c=>CL.indexOf(c.cls);
-function usable(it,c){if(!(it.mask&(1<<ci(c))))return false;if(it.allow&&!it.allow.includes(c.cls))return false;return true}
+/* 무기·방어구 숙련 (얼라이언스 기준). 사슬·판금은 40레벨부터 */
+const WPN={warrior:[0,1,2,3,4,5,6,7,8,10,13,15,16,18],paladin:[0,1,4,5,6,7,8],hunter:[0,1,2,3,6,7,8,10,13,15,16,18],rogue:[2,3,4,7,13,15,16,18],priest:[4,10,15,19],shaman:[0,1,4,5,10,13,15],mage:[7,10,15,19],warlock:[7,10,15,19],druid:[4,5,6,10,13,15]};
+const ARM={warrior:[3,4],paladin:[3,4],hunter:[2,3],shaman:[2,3],rogue:[2,2],druid:[2,2],priest:[1,1],mage:[1,1],warlock:[1,1]};
+const SHIELD=new Set(['warrior','paladin','shaman']);
+function profOk(it,cls,lv){const [a,b]=(it.cs||'').split('.').map(Number);
+  if(a===2)return b!==20&&WPN[cls].includes(b);
+  if(a===4){if(b===6)return SHIELD.has(cls);if(b>=1&&b<=4){if(it.sl==='ba')return true;const m=ARM[cls];return b<=(lv>=40?m[1]:m[0])}}
+  return true}
+function usable(it,c,lv){if(!(it.mask&(1<<ci(c))))return false;if(it.allow&&!it.allow.includes(c.cls))return false;return profOk(it,c.cls,Math.max(lv||c.lv,it.lv))}
 function fits(it,slot,c){const S=SLOTS.find(s=>s[0]===slot);if(!S||!S[2].includes(it.sl))return false;
   if(slot==='off'){if(it.sl==='1h'||(it.sl==='oh'&&it.cs!=='4.6'))return DW.has(c.cls);return true}
   return true}
@@ -85,7 +105,7 @@ function bestSlot(it,c){const w=wOf(c);let best=null;
     if(!best||g>best.g)best={s,g,base,empty}}
   return best}
 function srcOk(it,mode){if(mode==='all')return true;if(!it.src.length)return false;return it.src.some(i=>{const s=SRC[i];return s&&s.k!==2&&s.k!==4})}
-function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.lv<=maxLv&&usable(it,c)&&fits(it,slot,c)&&srcOk(it,mode)&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s)}
+function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c)&&srcOk(it,mode)&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s)}
 function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
@@ -93,14 +113,14 @@ function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
     let base=curS;if(slot==='main')base=sc(eqIt(c,'main'),'main',w)+(0);
     if(slot==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h')continue;
     const have=new Set(pair.map(p=>c.eq[p]).filter(Boolean));
-    const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&(minLv==null||x.it.lv>=minLv));
+    const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&(minLv==null||x.it.ob>=minLv));
     for(const x of list.slice(0,1)){let g;
       if(slot==='main'&&x.it.sl==='2h')g=x.s-(sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w));else g=x.s-base;
       if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):base,empty:!eqIt(c,tgt)})}}
   return out.sort((a,b)=>(b.empty-a.empty)||(b.g/Math.max(b.base,4))-(a.g/Math.max(a.base,4)))}
 function gainTag(g,base,empty){if(empty)return '<span class="gain new">빈 칸 채우기</span>';if(!(g>.01))return '<span class="gain no">변화 없음</span>';const r=g/Math.max(base,4);return r>=.5?'<span class="gain big">크게 좋아짐</span>':r>=.2?'<span class="gain mid">좋아짐</span>':'<span class="gain sm">조금 좋아짐</span>'}
 function diffHtml(a,b,c){const w=wOf(c);const ks=new Set([...Object.keys(a?a.st:{}),...Object.keys(b?b.st:{})]);const arr=[];
-  for(const k of ks){if(k==='armor'&&!(w.armor))continue;const d=((a&&a.st[k])||0)-((b&&b.st[k])||0);if(Math.abs(d)<.05)continue;if(k==='dps'&&!(w.dps||w.rdps))continue;arr.push([k,d,Math.abs(d*(w[k]||(k==='dps'?(w.dps||w.rdps):0)))+(w[k]?1:0)])}
+  for(const k of ks){if(!STAT_KO[k])continue;if(k==='armor'&&!(w.armor))continue;const d=((a&&a.st[k])||0)-((b&&b.st[k])||0);if(Math.abs(d)<.05)continue;if(k==='dps'&&!(w.dps||w.rdps))continue;arr.push([k,d,Math.abs(d*(w[k]||(k==='dps'?(w.dps||w.rdps):0)))+(w[k]?1:0)])}
   arr.sort((x,y)=>y[2]-x[2]);if(!arr.length)return '';
   return '<span class="dif">'+arr.slice(0,4).map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+(k==='dps'?Math.abs(d).toFixed(1):Math.round(Math.abs(d)))+'</span>').join(' · ')+'</span>'}
 function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.src.slice(0,n||2).map(i=>{const s=SRC[i];if(!s)return '';
@@ -187,8 +207,8 @@ function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);
   h+='<div class="card hl"><div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+' · '+esc(srcTxt(cur,1))+'</span>':'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div></div>';
   h+='<div class="srch"><input class="inp" placeholder="이름으로 찾기 (지금 끼고 있는 장비 넣기)" value="'+esc(ui.isrch)+'" data-c="isrch"></div>';
   if(!q)h+='<p class="note">레벨 '+Math.min(60,L+3)+'까지 낄 수 있는 후보예요. 흐린 건 아직 레벨이 모자라요.</p>';
-  h+=list.length?list.map(x=>{const it=x.it;const lock=it.lv>L;const base=slot==='main'&&it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):sc(cur,slot,w);const g=x.s-base;
-    return '<div class="row'+(lock?'" style="opacity:.55':'')+'">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+(it.id===(cur&&cur.id)?' <span class="tag gd">착용 중</span>':'')+'</span><span class="sub">'+itMeta(it)+'</span>'+diffHtml(it,cur,c)+'<span class="sub">'+esc(srcTxt(it,2))+'</span></span><span class="r">'+gainTag(g,base,!cur)+'<br><button class="btn sm" style="margin-top:6px" data-a="equip" data-k="'+slot+'" data-id="'+it.id+'">착용</button></span></div>'}).join(''):'<p class="note">'+(q?'찾는 장비가 없어요. 이 직업이 못 끼는 장비일 수 있어요.':'후보가 없어요.')+'</p>';
+  h+=list.length?list.map(x=>{const it=x.it;const lock=it.ob>L;const base=slot==='main'&&it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):sc(cur,slot,w);const g=x.s-base;
+    return '<div class="row'+(lock?'" style="opacity:.55':'')+'">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+(it.id===(cur&&cur.id)?' <span class="tag gd">착용 중</span>':'')+'</span><span class="sub">'+itMeta(it)+(it.ob>it.lv?' · '+it.ob+'레벨쯤 얻음':'')+'</span>'+diffHtml(it,cur,c)+'<span class="sub">'+esc(srcTxt(it,2))+'</span></span><span class="r">'+gainTag(g,base,!cur)+'<br><button class="btn sm" style="margin-top:6px" data-a="equip" data-k="'+slot+'" data-id="'+it.id+'">착용</button></span></div>'}).join(''):'<p class="note">'+(q?'찾는 장비가 없어요. 이 직업이 못 끼는 장비일 수 있어요.':'후보가 없어요.')+'</p>';
   return h}
 
 /* ===================== 퀘스트 ===================== */
