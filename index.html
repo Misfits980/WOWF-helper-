@@ -535,8 +535,8 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 /* 던전 동선 v2 — 한 줄씩, 누르면 펼침 */
 .rsum2 .sum{margin:0 0 8px;font-size:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .rchips{display:flex;flex-wrap:wrap;gap:5px}
-.rchips span{display:inline-flex;align-items:center;gap:4px;font-size:12px;border:1px solid var(--line);border-radius:7px;padding:2px 7px;background:var(--panel2)}
-.rchips .it{border-color:#a04040;color:#ffb0b0}.rchips .hl{border-color:#3c6b4a;color:#a8e6bd}.rchips .tk{border-color:#8a6d2b;color:#ffe08a}
+.rchips>span{display:inline-flex;align-items:center;gap:4px;font-size:12px;border:1px solid var(--line);border-radius:7px;padding:2px 7px;background:var(--panel2)}
+.rchips>.it{border-color:#a04040;color:#ffb0b0}.rchips>.hl{border-color:#3c6b4a;color:#a8e6bd}.rchips>.tk{border-color:#8a6d2b;color:#ffe08a}
 .rprep2{margin-top:8px}
 .rprep2>summary{cursor:pointer;font-size:13px;color:#ffb36b;list-style:none}
 .rprep2 ul{margin:6px 0 0;padding-left:18px;font-size:13px;line-height:1.55;color:#d8cfbd}
@@ -571,10 +571,40 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .gmode{margin:6px 0 8px}.bk2{margin-top:14px}
 .bkb{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
 .bkta{width:100%;font-size:11px;font-family:ui-monospace,monospace;margin-top:6px;resize:vertical}
+
+/* 역할 배지 (파티 찾기 아이콘 느낌) */
+.ri{display:inline-flex;align-items:center;justify-content:center;flex:none;width:26px;height:26px;border-radius:50%;border:2px solid #8c6f3a;box-shadow:0 0 0 1px #1a1208,inset 0 0 0 1px rgba(0,0,0,.7),inset 0 0 6px rgba(0,0,0,.6);vertical-align:middle}
+.ri svg{width:62%;height:62%;filter:drop-shadow(0 1px 1px rgba(0,0,0,.8))}
+.ri-tk svg{fill:#c9d6ec}.ri-hl svg{fill:#b9f0c4}.ri-dp svg{fill:#d9655a}.ri-al svg{fill:#e6d6ae}
+.ri-tk{background:radial-gradient(circle at 45% 38%,#3d5fb0,#1b2f6e 50%,#0a1233 85%)}
+.ri-dp{background:radial-gradient(circle at 45% 38%,#6e2620,#3d0f0c 55%,#1c0605 85%)}
+.ri-hl{background:radial-gradient(circle at 45% 38%,#2f6a46,#143b26 55%,#071a10 85%)}
+.ri-al{background:radial-gradient(circle at 45% 38%,#5c4e33,#2f2717 55%,#15110a 85%)}
+.ri.sm{width:18px;height:18px;border-width:1.5px}
+.rme{display:flex;align-items:center;gap:6px;margin:8px 0 2px;flex-wrap:wrap}
+.rme>span{font-size:12px;color:#a99d86;margin-right:2px}
+.rmb{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 4px;border-radius:99px;border:1px solid #3a3226;background:#1c1812;color:#d8cfbd;font-size:13px}
+.rmb.on{border-color:#e0b85a;background:#2c2412;color:#ffe08a;font-weight:700}
+.rmb .ri{width:22px;height:22px}
+.rbox{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.rb-r{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border-radius:10px;background:#17140f;border:1px solid #2a241b}
+.rb-r.me{background:#211b10;border-color:#8a6a2c}
+.rb-r .ri{margin-top:1px}
+.rb-t{min-width:0;flex:1}
+.rb-t b{font-size:13px;color:#e9dcc0}
+.rb-r.me .rb-t b{color:#ffe08a}
+.rb-t ul{margin:3px 0 0;padding-left:15px;font-size:13px;line-height:1.5;color:#d8cfbd}
+.rb-t li{margin:1px 0}
+.rb-t p{margin:3px 0 0;font-size:13px;color:#a99d86}
+.rb-t .mute{font-size:11.5px}
+.rb-r.al{background:transparent}
+.rloc{margin:4px 0 2px;font-size:12.5px;color:#a99d86}
+.onote{margin:6px 0 0;font-size:13px;line-height:1.55;color:#d8cfbd}
+.rchips .ri,.fl2 .ri,.legend .ri{margin:0 1px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=28bcd903"></script>
-<script>/* vd9b0c5 */
+<script>/* v95aa39 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -1298,6 +1328,37 @@ function dropLine(c,it){const use=usable(it,c);const b=use?bestSlot(it,c):null;
 let DGG=null,DGG_LOAD=false;
 function dggLoad(){if(DGG_LOAD)return;DGG_LOAD=true;fetch('data/forg/dungeon-guide.json?v='+D_VER.dgg).then(r=>r.ok?r.json():{}).then(j=>{DGG=j||{};if(ui.tab==='dungeon')rerender(true)}).catch(()=>{DGG={};})}
 const TAGKO={interrupt:'끊기','dispel-magic':'마법 해제','dispel-curse':'저주 해제','dispel-poison':'독 해제','dispel-disease':'질병 치료','no-dispel':'해제 안 됨',avoid:'피하기',spread:'흩어지기',away:'떨어져 서기',wall:'벽 등지기',front:'정면 공격'};
+/* 역할 아이콘: 게임 파티 찾기 둥근 배지처럼 (탱커 파랑 방패 · 딜러 빨강 칼 · 힐러 초록 십자) */
+const RIP={tk:'M12 2.5 19.5 5.2V11c0 5-3.2 8.6-7.5 10.3C7.7 19.6 4.5 16 4.5 11V5.2Z',dp:'M18.6 3H21v2.4L11.2 15.2 8.8 12.8ZM5.4 12.6l6 6-1.3 1.3-1.6-1.6-3 3-1.8-1.8 3-3-1.6-1.6Z',hl:'M9.6 3.5h4.8v6.1h6.1v4.8h-6.1v6.1H9.6v-6.1H3.5V9.6h6.1Z',al:'M12 4.5c4.6 0 8 4.4 9 7.5-1 3.1-4.4 7.5-9 7.5S4 15.1 3 12c1-3.1 4.4-7.5 9-7.5Zm0 3.6a3.9 3.9 0 1 0 0 7.8 3.9 3.9 0 0 0 0-7.8Z'};
+const RNM={tk:'탱커',dp:'딜러',hl:'힐러',al:'모두'};
+const ricon=(r,cl)=>'<span class="ri ri-'+r+(cl?' '+cl:'')+'" title="'+RNM[r]+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+RIP[r]+'"/></svg></span>';
+function myRole(c){if(c&&c.drole)return c.drole;const r=ROLE[(c&&c.cls)+'/'+(c&&c.spec)]||'';return r==='치유'?'hl':r==='탱커'?'tk':'dp'}
+function roleSplit(texts,sp){/* 공략 문장을 역할별로: tk 탱커 · dp 딜러 · hl 힐러 · al 모두 · loc 위치 */
+  const R={tk:[],dp:[],hl:[],al:[],loc:[]};const seen=new Set();const S=[];
+  for(const t of texts)for(const s of (t||'').split(/(?<=[.다요])\s+/)){const x=s.trim().replace(/^[—–-]\s*/,'');const key=x.replace(/[\s.·,]/g,'');if(x&&key.length>3&&!seen.has(key)){seen.add(key);S.push(x)}}
+  for(const t of S){let hit=0;const add=k=>{if(!R[k].includes(t))R[k].push(t);hit=1};
+    const it=/끊(?:으세요|으면|어 ?주|습니다|고 |기|으며 ?(?:네|잡))|반드시 끊|꼭 끊/.test(t)&&!/(?:가|이) [^ ]*(?:시전을|주문을) 끊/.test(t);
+    if(/탱커|탱이|어그로|위협 수준|위협을|도발|정면|등지|벽을|벽 쪽|밀쳐|날려버리|방어도를 깎|방어구 가르기|생존기|방향을|돌려 세|회전베기|앞쪽(?:에|을|으로)|앞을 (?:치|베)/.test(t))add('tk');
+    if(it||/딜러|딜을|근접 공격을 하지|쫄|먼저 잡|부터 잡|부터 정리|점사|광역기로|광역으로|빨리 잡|먼저 마무리|몰아 |부수세요|부숴|근접 공격하는/.test(t))add('dp');
+    const pull=/끌어|끌고 |데려오|당겨/.test(t);if(pull)add('tk');
+    if(/원거리(?! 딜러)/.test(t)&&!pull){add('dp');add('hl')}
+    if(/힐러|치유사|(?<!무장 )해제(?!될)|해독|정화|저주|질병|(?<![가-힣])독(?:을| 피해| 공격|이 )|지속 피해|광역 피해|크게 (?:쳐|아파)|아픕|치유 효과를|출혈/.test(t)&&!(/치유|회복/.test(t)&&it&&!/힐러|해제/.test(t)))add('hl');
+    if(!hit){if(/(?:있|서 있|돌아다닙|만납|나옵|나와)(?:습니다|어요|니다)\.?$|에 있어요|곳에 있/.test(t)&&t.length<70)R.loc.push(t);else add('al')}}
+  R.al.sort((x,y)=>(/세요|마세요|조심/.test(y)?1:0)-(/세요|마세요|조심/.test(x)?1:0));
+  const has=(k,n)=>R[k].some(t=>t.includes(n));
+  for(const s of sp||[]){const tg=(s[2]||'').split(',');const nm='「'+s[0]+'」';
+    if(tg.includes('interrupt')&&!has('dp',s[0]))R.dp.push(nm+' 시전은 끊으세요.');
+    for(const d of ['dispel-magic','dispel-curse','dispel-poison','dispel-disease'])if(tg.includes(d)&&!has('hl',s[0]))R.hl.push(nm+'은(는) '+TAGKO[d]+'하세요.');
+    if((tg.includes('front')||tg.includes('wall'))&&!has('tk',s[0]))R.tk.push(nm+(tg.includes('wall')?' 때문에 벽을 등지고 잡으세요.':' — 보스 얼굴을 파티 반대쪽으로 돌리세요.'));
+    if((tg.includes('avoid')||tg.includes('spread')||tg.includes('away'))&&!has('al',s[0]))R.al.unshift(nm+' '+(tg.includes('spread')?'— 흩어져 서세요.':tg.includes('away')?'— 떨어져 서세요.':'— 피하세요.'))}
+  return R}
+const RNONE={tk:'공략에 따로 적힌 건 없어요. 보스를 잡고 파티 반대쪽으로 돌려 세우면 돼요.',dp:'공략에 따로 적힌 건 없어요. 탱커가 자리 잡은 뒤 보스에 집중하세요.',hl:'공략에 해제할 것이 따로 없어요. 탱커 체력 위주로 치유하세요.'};
+function roleBox(R,me){/* 내 역할 먼저, 나머지는 한 줄씩 */
+  const ord=[me,...['tk','dp','hl'].filter(r=>r!==me)];let h='<div class="rbox">';
+  for(const r of ord){const L=R[r];const mine=r===me;if(!mine&&!L.length)continue;
+    h+='<div class="rb-r'+(mine?' me':'')+'">'+ricon(r)+'<div class="rb-t"><b>'+RNM[r]+(mine?' (나)':'')+'</b>'+(L.length?'<ul>'+L.slice(0,mine?4:2).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>'+(L.length>(mine?4:2)?'<span class="mute">+'+(L.length-(mine?4:2))+'개 더 (설명 전체 보기)</span>':''):'<p>'+RNONE[r]+'</p>')+'</div></div>'}
+  if(R.al.length)h+='<div class="rb-r al">'+ricon('al')+'<div class="rb-t"><b>모두 알아 둘 것</b><ul>'+R.al.slice(0,3).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div></div>';
+  return h+'</div>'}
 function roleLines(txt,max){/* 문장마다 역할 표시: 🛡️ 탱커 · 💚 힐러 · ⚡ 끊기 · 나머지는 • */
   const S=(txt||'').split(/(?<=[.다요])\s+/).map(t=>t.trim()).filter(Boolean);
   const kind=t=>/탱커|어그로|도발|정면/.test(t)?'tk':/끊/.test(t)?'it':/힐러|독 해제|저주 해제|마법 해제|질병|해독/.test(t)?'hl':'';
@@ -1315,7 +1376,7 @@ function stepFlags(st,fb){if(!/우두머리|희귀/.test(st.type||''))return [];
 function stepFloor(g){/* 지도 핀 번호로 단계가 몇 층인지 */const m={};(g.floors||[]).forEach(f=>f.pins.forEach(p=>{const n=parseInt(p.t);if(/^\d+!?$/.test(p.t||'')&&!m[n])m[n]=f}));return m}
 function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
   const g=DGG[d.slug];if(!g||!(g.steps&&g.steps.length)){return '<p class="empty-st">이 던전 진행 순서 자료가 아직 없어요. 보스 공략만 보여 줘요.</p>'+(g&&g.boss?bossTacOnly(g):'')}
-  const B=g.boss||{};const items=dgItems(c,d);ui.stopen=ui.stopen||{};
+  const B=g.boss||{};const items=dgItems(c,d);ui.stopen=ui.stopen||{};const me=myRole(c);
   const fbOf=st=>B[st.nm]||Object.values(B).find(b=>b.en&&b.en===st.en);
   const goodOf=nm=>items.filter(it=>usable(it,c)&&it.src.some(i=>{const s=SRC[i];return s&&s.k===0&&s.dg===d.slug&&s.boss===nm})).map(it=>bestSlot(it,c)).filter(b=>b&&b.g>.01).length;
   const S=g.steps.map(st=>{const fb=fbOf(st);return {st,fb,F:stepFlags(st,fb),kind:/우두머리/.test(st.type)?'boss':/희귀/.test(st.type)?'rare':'obj'}});
@@ -1323,7 +1384,8 @@ function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료�
   const nBoss=S.filter(x=>x.kind==='boss').length,nSkip=S.filter(x=>x.st.skip).length,nQ=S.filter(x=>x.st.q&&x.st.q.length).length;
   let h='<div class="card rsum2">';
   if(g.sum)h+='<p class="sum">'+esc(g.sum)+'</p>';
-  h+='<div class="rchips"><span>👹 보스 '+nBoss+'</span>'+(nSkip?'<span>⏭️ 건너뛰기 가능 '+nSkip+'</span>':'')+(cnt('it')?'<span class="it">⚡ 끊기 '+cnt('it')+'곳</span>':'')+(cnt('hl')?'<span class="hl">💚 해제 '+cnt('hl')+'곳</span>':'')+(cnt('tk')?'<span class="tk">🛡️ 탱커 주의 '+cnt('tk')+'곳</span>':'')+(nQ?'<span>'+qico('dg')+' 퀘스트 목표 '+nQ+'곳</span>':'')+'</div>';
+  h+='<div class="rchips"><span>👹 보스 '+nBoss+'</span>'+(nSkip?'<span>⏭️ 건너뛰기 가능 '+nSkip+'</span>':'')+(cnt('it')?'<span class="it">⚡ 끊기 '+cnt('it')+'곳</span>':'')+(cnt('hl')?'<span class="hl">'+ricon('hl','sm')+' 해제 '+cnt('hl')+'곳</span>':'')+(cnt('tk')?'<span class="tk">'+ricon('tk','sm')+' 탱커 주의 '+cnt('tk')+'곳</span>':'')+(nQ?'<span>'+qico('dg')+' 퀘스트 목표 '+nQ+'곳</span>':'')+'</div>';
+  h+='<div class="rme"><span>내 역할</span>'+['tk','dp','hl'].map(r=>'<button class="rmb'+(r===me?' on':'')+'" data-a="drole" data-k="'+r+'">'+ricon(r)+RNM[r]+'</button>').join('')+'</div>';
   if(g.prep&&g.prep.length)h+='<details class="rprep2"><summary>⚠️ 들어가기 전에 알아 둘 것 '+g.prep.length+'개</summary><ul>'+g.prep.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></details>';
   h+='</div>';
   /* 지도: 기본으로 1층만 펼쳐 둠, 핀 누르면 그 단계로 */
@@ -1339,15 +1401,16 @@ function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료�
   h+='<div class="rlist">'+S.map(x=>{const st=x.st,fb=x.fb;let r='';const f=FL[st.n];
     if(f&&f!==lastF&&g.floors.length>1){r+='<div class="rfl">'+(g.floors.indexOf(f)+1)+'층 · '+esc(f.name)+'</div>';lastF=f}
     const open=!!ui.stopen[st.n];const good=x.kind==='boss'?goodOf(st.nm):0;
-    r+='<div class="rr k-'+x.kind+(st.skip?' skip':'')+(open?' open':'')+'" id="stp-'+st.n+'"><button class="rrh" data-a="stp" data-k="'+st.n+'"><span class="no">'+st.n+'</span><span class="t"><b>'+esc(st.nm)+'</b><span>'+(st.lv?'Lv '+st.lv+' · ':'')+esc(st.type)+(st.skip?' · 건너뛰어도 됨':'')+(good?' · '+good+'개 내 템':'')+'</span></span><span class="fl2">'+x.F.map(f=>'<i class="f-'+f[0]+'" title="'+f[2]+'">'+f[1]+'</i>').join('')+(st.q&&st.q.length?qico('dg','퀘스트 목표'):'')+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
-    if(open){const txt=(fb&&fb.tac)||st.note||'';r+='<div class="rrb">'+(txt?'<ul class="roles">'+roleLines(txt,4)+'</ul>':'')
-      +(fb&&fb.tac&&st.note&&st.note!==fb.tac?'<details class="more3"><summary>설명 더 보기</summary><p>'+esc(st.note)+'</p></details>':'')
+    r+='<div class="rr k-'+x.kind+(st.skip?' skip':'')+(open?' open':'')+'" id="stp-'+st.n+'"><button class="rrh" data-a="stp" data-k="'+st.n+'"><span class="no">'+st.n+'</span><span class="t"><b>'+esc(st.nm)+'</b><span>'+(st.lv?'Lv '+st.lv+' · ':'')+esc(st.type)+(st.skip?' · 건너뛰어도 됨':'')+(good?' · '+good+'개 내 템':'')+'</span></span><span class="fl2">'+x.F.map(f=>(f[0]==='tk'?ricon('tk','sm'):f[0]==='hl'?ricon('hl','sm'):'<i class="f-'+f[0]+'" title="'+f[2]+'">'+f[1]+'</i>')).join('')+(st.q&&st.q.length?qico('dg','퀘스트 목표'):'')+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
+    if(open){const RS=roleSplit([fb&&fb.tac,st.note],fb&&fb.sp);const full=[fb&&fb.tac,st.note!==(fb&&fb.tac)?st.note:''].filter(Boolean);
+      r+='<div class="rrb">'+(RS.loc.length?'<p class="rloc">📍 '+esc(RS.loc.join(' '))+'</p>':'')+(x.kind==='obj'?(full.length?'<p class="onote">'+esc(full.join(' '))+'</p>':''):roleBox(RS,me))
+      +(x.kind!=='obj'&&full.length?'<details class="more3"><summary>설명 전체 보기</summary>'+full.map(t=>'<p>'+esc(t)+'</p>').join('')+'</details>':'')
       +(fb&&fb.sp&&fb.sp.length?'<div class="spl">'+fb.sp.map(y=>'<span class="sp" title="'+esc(y[1])+'">'+esc(y[0])+(y[2]?y[2].split(',').map(t=>'<em class="t-'+t+'">'+(TAGKO[t]||t)+'</em>').join(''):'')+'</span>').join('')+'</div>':'')
       +(st.q||[]).map(q=>'<button class="rq" data-a="qopen" data-k="'+q[0]+'">'+qico('dg')+' '+esc(q[1])+'</button>').join('')
       +(good?'<button class="rgood" data-a="dtab" data-k="loot">'+qico('gear')+' 이 보스 내 템 '+good+'개 보기 ›</button>':'')+'</div>'}
     return r+'</div>'}).join('')+'</div>';
   h+='<div class="rbtns"><button class="btn sm ghost" data-a="stall" data-k="1">모두 펼치기</button><button class="btn sm ghost" data-a="stall" data-k="0">모두 접기</button></div>';
-  h+='<p class="legend">⚡ 끊기 · 💚 해제 · 🛡️ 탱커 주의 · 👥 쫄 나옴 · 🏃 피하기</p><p class="mute src">공략: wowf.io 진행 순서 · forg.gg 보스 기술 (패치로 달라졌을 수 있어요)</p>';
+  h+='<p class="legend">⚡ 끊기 · '+ricon('hl','sm')+' 해제 · '+ricon('tk','sm')+' 탱커 주의 · 👥 쫄 나옴 · 🏃 피하기</p><p class="mute src">공략: wowf.io 진행 순서 · forg.gg 보스 기술 (패치로 달라졌을 수 있어요)</p>';
   return h}
 function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map(([nm,b],i)=>'<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(nm)+'</b></div>'+(b.tac?'<ul class="roles">'+roleLines(b.tac)+'</ul>':'')+'</div></li>').join('')+'</ol>'}
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
@@ -1479,6 +1542,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
   if(a==='dtab'){ui.dtab=k;rerender(true);return}
+  if(a==='drole'){c.drole=k;save();rerender(true);return}
   if(a==='bo'){ui.bopen=ui.bopen||{};const cur=b.closest('.st').classList.contains('open');ui.bopen[k]=!cur;rerender(true);return}
   if(a==='mh'){ui.mhopen=ui.mhopen||{};const cur=b.closest('.st').classList.contains('open');ui.mhopen[k]=!cur;rerender(true);return}
   if(a==='hall'){ui.hall=!ui.hall;rerender(true);return}

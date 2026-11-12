@@ -529,8 +529,8 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 /* 던전 동선 v2 — 한 줄씩, 누르면 펼침 */
 .rsum2 .sum{margin:0 0 8px;font-size:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .rchips{display:flex;flex-wrap:wrap;gap:5px}
-.rchips span{display:inline-flex;align-items:center;gap:4px;font-size:12px;border:1px solid var(--line);border-radius:7px;padding:2px 7px;background:var(--panel2)}
-.rchips .it{border-color:#a04040;color:#ffb0b0}.rchips .hl{border-color:#3c6b4a;color:#a8e6bd}.rchips .tk{border-color:#8a6d2b;color:#ffe08a}
+.rchips>span{display:inline-flex;align-items:center;gap:4px;font-size:12px;border:1px solid var(--line);border-radius:7px;padding:2px 7px;background:var(--panel2)}
+.rchips>.it{border-color:#a04040;color:#ffb0b0}.rchips>.hl{border-color:#3c6b4a;color:#a8e6bd}.rchips>.tk{border-color:#8a6d2b;color:#ffe08a}
 .rprep2{margin-top:8px}
 .rprep2>summary{cursor:pointer;font-size:13px;color:#ffb36b;list-style:none}
 .rprep2 ul{margin:6px 0 0;padding-left:18px;font-size:13px;line-height:1.55;color:#d8cfbd}
@@ -565,3 +565,33 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .gmode{margin:6px 0 8px}.bk2{margin-top:14px}
 .bkb{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
 .bkta{width:100%;font-size:11px;font-family:ui-monospace,monospace;margin-top:6px;resize:vertical}
+
+/* 역할 배지 (파티 찾기 아이콘 느낌) */
+.ri{display:inline-flex;align-items:center;justify-content:center;flex:none;width:26px;height:26px;border-radius:50%;border:2px solid #8c6f3a;box-shadow:0 0 0 1px #1a1208,inset 0 0 0 1px rgba(0,0,0,.7),inset 0 0 6px rgba(0,0,0,.6);vertical-align:middle}
+.ri svg{width:62%;height:62%;filter:drop-shadow(0 1px 1px rgba(0,0,0,.8))}
+.ri-tk svg{fill:#c9d6ec}.ri-hl svg{fill:#b9f0c4}.ri-dp svg{fill:#d9655a}.ri-al svg{fill:#e6d6ae}
+.ri-tk{background:radial-gradient(circle at 45% 38%,#3d5fb0,#1b2f6e 50%,#0a1233 85%)}
+.ri-dp{background:radial-gradient(circle at 45% 38%,#6e2620,#3d0f0c 55%,#1c0605 85%)}
+.ri-hl{background:radial-gradient(circle at 45% 38%,#2f6a46,#143b26 55%,#071a10 85%)}
+.ri-al{background:radial-gradient(circle at 45% 38%,#5c4e33,#2f2717 55%,#15110a 85%)}
+.ri.sm{width:18px;height:18px;border-width:1.5px}
+.rme{display:flex;align-items:center;gap:6px;margin:8px 0 2px;flex-wrap:wrap}
+.rme>span{font-size:12px;color:#a99d86;margin-right:2px}
+.rmb{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 4px;border-radius:99px;border:1px solid #3a3226;background:#1c1812;color:#d8cfbd;font-size:13px}
+.rmb.on{border-color:#e0b85a;background:#2c2412;color:#ffe08a;font-weight:700}
+.rmb .ri{width:22px;height:22px}
+.rbox{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.rb-r{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border-radius:10px;background:#17140f;border:1px solid #2a241b}
+.rb-r.me{background:#211b10;border-color:#8a6a2c}
+.rb-r .ri{margin-top:1px}
+.rb-t{min-width:0;flex:1}
+.rb-t b{font-size:13px;color:#e9dcc0}
+.rb-r.me .rb-t b{color:#ffe08a}
+.rb-t ul{margin:3px 0 0;padding-left:15px;font-size:13px;line-height:1.5;color:#d8cfbd}
+.rb-t li{margin:1px 0}
+.rb-t p{margin:3px 0 0;font-size:13px;color:#a99d86}
+.rb-t .mute{font-size:11.5px}
+.rb-r.al{background:transparent}
+.rloc{margin:4px 0 2px;font-size:12.5px;color:#a99d86}
+.onote{margin:6px 0 0;font-size:13px;line-height:1.55;color:#d8cfbd}
+.rchips .ri,.fl2 .ri,.legend .ri{margin:0 1px}
