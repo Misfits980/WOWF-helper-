@@ -22,4 +22,4 @@ for(const l of lines){const [region,raw]=l.split('|').map(s=>s.trim());const slu
   }catch(e){out[key]=Object.assign({},prev[key]||{},{err:String(e).slice(0,120),checked:new Date().toISOString()});console.log(key,'ERR',e)}
   await sleep(1500)}
 fs.writeFileSync('data/armory/chars.json',JSON.stringify(out));
-if(probe.length)fs.writeFileSync('data/armory/_probe.txt',probe.join('\n\n'));
+
