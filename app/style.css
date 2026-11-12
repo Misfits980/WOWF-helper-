@@ -354,7 +354,7 @@ details.qf summary::-webkit-details-marker{display:none}
 .rpast[open]>summary{margin-bottom:8px}
 /* 빠른 레벨업: 지나온 길 + 지금 할 일 */
 .rpast>summary{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
-.rpast .trail{flex-basis:100%;font-size:12px;color:var(--mute);line-height:1.5}
+.rpast .trail{font-size:12px;color:var(--mute);line-height:1.5}
 .rpast .more{margin-left:auto;font-size:12px;color:var(--gold,#e2c26b)}
 .rpast[open] .more{display:none}
 .card.now{border-color:var(--gold,#c9a54a)}
@@ -417,3 +417,25 @@ details.qf summary::-webkit-details-marker{display:none}
 .legend{font-size:11px;color:var(--mute);margin:10px 2px 0}
 .nb .l3{font-size:11px;color:#9db4f2}
 .sh2 .hc{text-align:right;line-height:1.35}
+/* 퀘스트 검색 + 간소화 */
+.qsearch{position:relative;display:flex;align-items:center;margin:4px 0 10px}
+.qsearch>span{position:absolute;left:12px;font-size:14px;opacity:.7}
+.qsearch .inp{padding-left:36px;padding-right:36px;width:100%}
+.qsearch .x2{position:absolute;right:6px;background:none;border:0;color:var(--mute);font-size:16px;padding:6px 8px}
+.sr{font-size:12px;margin:0 2px 6px}
+.srl{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.srow{display:flex;align-items:center;gap:10px;padding:10px;background:var(--panel);border:0;border-top:1px solid var(--line);color:inherit;text-align:left}
+.srow:first-child{border-top:0}
+.srow .t{flex:1;min-width:0;display:flex;flex-direction:column}
+.srow .t b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow .t span{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow .qlv,.srow .ok{flex:none}
+.srow .qlv{font-size:12px;font-weight:700;border:1px solid var(--line);border-radius:6px;min-width:30px;text-align:center;line-height:22px}
+.srow.done{opacity:.55}.srow .ok{color:#9fdcb0}
+.chips.seg{margin-bottom:10px}
+.nextln{display:flex;align-items:center;gap:10px;margin:10px 2px;font-size:13px;color:var(--mute)}
+.nextln b{color:var(--ink,#eee)}
+.rall{margin-top:6px;border:1px solid var(--line);border-radius:10px;padding:10px}
+.rall>summary{cursor:pointer;color:var(--mute);font-size:14px;list-style:none}
+.rall[open]>summary{margin-bottom:10px}
+.more2{margin-top:8px}

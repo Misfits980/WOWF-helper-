@@ -360,7 +360,7 @@ details.qf summary::-webkit-details-marker{display:none}
 .rpast[open]>summary{margin-bottom:8px}
 /* 빠른 레벨업: 지나온 길 + 지금 할 일 */
 .rpast>summary{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
-.rpast .trail{flex-basis:100%;font-size:12px;color:var(--mute);line-height:1.5}
+.rpast .trail{font-size:12px;color:var(--mute);line-height:1.5}
 .rpast .more{margin-left:auto;font-size:12px;color:var(--gold,#e2c26b)}
 .rpast[open] .more{display:none}
 .card.now{border-color:var(--gold,#c9a54a)}
@@ -423,10 +423,32 @@ details.qf summary::-webkit-details-marker{display:none}
 .legend{font-size:11px;color:var(--mute);margin:10px 2px 0}
 .nb .l3{font-size:11px;color:#9db4f2}
 .sh2 .hc{text-align:right;line-height:1.35}
+/* 퀘스트 검색 + 간소화 */
+.qsearch{position:relative;display:flex;align-items:center;margin:4px 0 10px}
+.qsearch>span{position:absolute;left:12px;font-size:14px;opacity:.7}
+.qsearch .inp{padding-left:36px;padding-right:36px;width:100%}
+.qsearch .x2{position:absolute;right:6px;background:none;border:0;color:var(--mute);font-size:16px;padding:6px 8px}
+.sr{font-size:12px;margin:0 2px 6px}
+.srl{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.srow{display:flex;align-items:center;gap:10px;padding:10px;background:var(--panel);border:0;border-top:1px solid var(--line);color:inherit;text-align:left}
+.srow:first-child{border-top:0}
+.srow .t{flex:1;min-width:0;display:flex;flex-direction:column}
+.srow .t b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow .t span{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow .qlv,.srow .ok{flex:none}
+.srow .qlv{font-size:12px;font-weight:700;border:1px solid var(--line);border-radius:6px;min-width:30px;text-align:center;line-height:22px}
+.srow.done{opacity:.55}.srow .ok{color:#9fdcb0}
+.chips.seg{margin-bottom:10px}
+.nextln{display:flex;align-items:center;gap:10px;margin:10px 2px;font-size:13px;color:var(--mute)}
+.nextln b{color:var(--ink,#eee)}
+.rall{margin-top:6px;border:1px solid var(--line);border-radius:10px;padding:10px}
+.rall>summary{cursor:pointer;color:var(--mute);font-size:14px;list-style:none}
+.rall[open]>summary{margin-bottom:10px}
+.more2{margin-top:8px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=90939fab"></script>
-<script>/* v8dd65c */
+<script>/* vb25e39 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -937,16 +959,30 @@ function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.len
     return '<div class="nr'+(x.done?' done':'')+(lock?' lock':'')+'"><label class="ck"><input type="checkbox" data-c="fq" data-id="'+(q.id||'')+'" data-k="'+esc(x.z+'|'+q.nm)+'"'+(x.done?' checked':'')+'></label>'
      +'<button class="nb" data-a="qopen" data-k="'+q.id+'"><span class="l1"><span class="qnm">'+esc(q.nm)+'</span>'+x.imp.filter(b=>b[0]!=='chain').map(b=>'<i title="'+esc(b[1])+'">'+IC[b[0]]+'</i>').join('')+'<span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></span>'
      +(ts||lock?'<span class="l2">'+(lock?'🔒 '+q.min+'레벨부터 · ':'')+esc(ts)+'</span>':'')+(more>0?'<span class="l3">🔗 끝내면 다음 퀘스트가 '+more+'개 더 이어져요</span>':'')+'</button></div>'};
-  h+='<div class="steps">'+P.map(H=>{const real=H.i<97;if(real)n++;const L=left(H);const todo=H.get.filter(x=>!x.done).sort((a,b)=>a.q.lv-b.q.lv),turn=H.turn.filter(x=>!x.done),done=H.get.filter(x=>x.done);
+  const LIM=ui.hall?99:3;let shown=0,hid=0;
+  h+='<div class="steps">'+P.map(H=>{if(left(H)){if(shown>=LIM){hid++;return ''}shown++}else if(!ui.hall){return ''}const real=H.i<97;if(real)n++;const L=left(H);const todo=H.get.filter(x=>!x.done).sort((a,b)=>a.q.lv-b.q.lv),turn=H.turn.filter(x=>!x.done),done=H.get.filter(x=>x.done);
     const open=ui.hopen[H.k]!=null?ui.hopen[H.k]:H.k===firstOpen;
     const cnt=L?(todo.length?'새로 받을 퀘 '+todo.length:'')+(todo.length&&turn.length?'<br>':'')+(turn.length?'반납할 퀘 '+turn.length:''):'완료';
     let b='<div class="st'+(L?'':' fin')+(open?' open':'')+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);return m?'<b>'+esc(m[1])+'</b><span>'+esc(H.z)+' · 좌표 '+m[2]+', '+m[3]+'</span>':'<b>'+esc(H.n)+'</b><span>'+esc(H.z)+'</span>'})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
     if(open){b+='<div class="sb">'+(turn.length?turn.map(x=>row(x,1)).join(''):'')+todo.map(x=>row(x,0)).join('')+(done.length?'<div class="dn">끝낸 것 '+done.length+'개</div>'+done.map(x=>row(x,0)).join(''):'')+'</div>'}
     return b+'</div>'}).join('')+'</div>';
+  const finN=P.filter(H=>!left(H)).length;
+  if(hid||(!ui.hall&&finN))h+='<button class="btn ghost full sm more2" data-a="hall">'+(hid?'다음 마을 '+hid+'곳 더 보기':'')+(hid&&finN?' · ':'')+(finN?'끝낸 마을 '+finN+'곳':'')+'</button>';
+  else if(ui.hall)h+='<button class="btn ghost full sm more2" data-a="hall">접기</button>';
   if(used.size)h+='<p class="legend">'+[...used].map(k=>IC[k]+' '+{gear:'내 장비 보상',chain:'연계 시작',dg:'던전 관련',xp:'경험치 많음'}[k]).join(' · ')+'</p>';
   return h+'</div>'}
+/* ===== 퀘스트 검색 ===== */
+function qSearchHtml(c,q){const nq=q.replace(/\s+/g,'');if(nq.length<1)return '';
+  if(!QDB){qdbLoad();return '<p class="note">퀘스트 자료를 불러오는 중…</p>'}
+  const L=c.lv;const hit=s=>(s||'').replace(/\s+/g,'').includes(nq);const R=[];
+  for(const x of QDB.values()){if(!qdbOk(c,x))continue;const a=hit(x.n),b=x.g&&hit(x.g[0]),z=hit(x.z);if(!(a||b||z))continue;
+    R.push({x,sc:(x.n.replace(/\s+/g,'').startsWith(nq)?0:a?1:b?2:3)*100+Math.abs((x.lv||L)-L)})}
+  R.sort((a,b)=>a.sc-b.sc);const n=R.length;
+  if(!n)return '<p class="empty-st">"'+esc(q)+'"(으)로 찾은 퀘스트가 없어요.</p>';
+  return '<p class="mute sr">'+n+'개 찾음'+(n>40?' · 가까운 레벨 40개만':'')+'</p><div class="srl">'+R.slice(0,40).map(({x})=>{const d=mqDone(c,x);
+    return '<button class="srow'+(d?' done':'')+'" data-a="qopen" data-k="'+x.id+'"><span class="qlv '+lvCls(x.lv,L)+'">'+(x.lv||'?')+'</span><span class="t"><b>'+esc(x.n)+'</b><span>'+esc(x.z||'')+(x.g&&x.g[0]?' · '+esc(x.g[0]):'')+(x.m>L?' · 🔒'+x.m+'레벨부터':'')+'</span></span>'+(d?'<span class="ok">✓</span>':'')+'</button>'}).join('')+'</div>'}
 function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.fq||{};
-  let h='<p class="note">1레벨부터 60레벨까지 <b>어느 대륙의 어느 지역</b>으로 가면 되는지 순서대로예요. 지역을 누르면 그 지역 퀘스트로 가요.</p>';
+  let h='';
   let pastN=0;const rows=R.map(S=>{const zs=S.z.split(' · ');const cs=[...new Set(zs.map(z=>CONT[z]).filter(Boolean))];const now=L>=S.a&&L<=S.b;const past=L>S.b;
     let move='';if(prevC&&cs.length&&!cs.includes(prevC)&&cs.every(x=>x!=='제프라스 섬'))move='<div class="mv">⛵ '+BOAT+'</div>';prevC=cs[cs.length-1]||prevC;
     const cnt=z=>{const qs=S.q.filter(q=>(q.gz||q.sz)===z);return [qs.length,qs.filter(q=>qd(c,z,q)).length]};
@@ -954,15 +990,20 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
   R.forEach(S=>{if(L>S.b)pastN++});
   const pastLv=pastN?R[pastN-1].b:0;
   if(pastN){const trail=[];R.slice(0,pastN).forEach(S=>S.z.split(' · ').forEach(z=>{if(trail[trail.length-1]!==z)trail.push(z)}));
-    h+='<details class="rpast"><summary><span class="lvb lv-x">1–'+pastLv+'</span> ✓ 지나온 길 <span class="trail">'+trail.map(esc).join(' → ')+'</span><span class="more">펼치기</span></summary>'+rows.slice(0,pastN).join('')+'</details>'}
+    h+='<details class="rpast"><summary><span class="lvb lv-x">1–'+pastLv+'</span> ✓ 지나온 길 '+trail.length+'곳<span class="more">펼치기</span></summary><p class="trail">'+trail.map(esc).join(' → ')+'</p>'+rows.slice(0,pastN).join('')+'</details>'}
   const curS=R.find(S=>L>=S.a&&L<=S.b);if(curS)h+=nowCard(c,curS);
-  h+='<h3 class="rnext">🗺️ 레벨 루트 (지금 구간부터)</h3>'+rows.slice(pastN).join('');
-  h+='<p class="note">⛵ 배 타는 곳: '+BOAT+'</p>';
+  const nxS=R.find(S=>S.a>L);
+  if(nxS)h+='<div class="nextln"><span class="lvb">'+nxS.a+'–'+nxS.b+'</span><span>다음 구간 · <b>'+esc(nxS.z)+'</b></span></div>';
+  h+='<details class="rall"><summary>🗺️ 1–60 전체 레벨 루트 보기</summary>'+rows.slice(pastN).join('')+'<p class="note">⛵ 배 타는 곳: '+BOAT+'</p></details>';
   return h}
-function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><p class="note">던전 퀘스트는 <button class="more" data-a="tab" data-k="dungeon">🏰 던전 탭</button>에서 던전마다 모아 보여 줘요.</p><div class="chips">'+[['route','⚡ 빠른 레벨업'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
-  if(qm==='route')return h+routeView(c)+'</div>';
-  if(qm==='map')return h+mapView(c)+'</div>';
-  if(qm==='zone'){ui.qmode='map';return h+mapView(c)+'</div>'}
+function quest(c){const L=c.lv;const qm=ui.qmode||'route';const q0=(ui.qsrch||'').trim();
+  let h='<div class="wrap"><div class="qsearch"><span>🔍</span><input class="inp" placeholder="퀘스트·NPC·지역 이름으로 찾기" value="'+esc(ui.qsrch||'')+'" data-c="qsrch">'+(q0?'<button class="x2" data-a="qsclr">✕</button>':'')+'</div>';
+  h+='<div id="qsres">'+(q0?qSearchHtml(c,q0):'')+'</div><div id="qbody"'+(q0?' hidden':'')+'>';
+  h+='<div class="chips seg">'+[['route','⚡ 빠른 레벨업'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
+  const end='</div></div>';
+  if(qm==='route')return h+routeView(c)+end;
+  if(qm==='map')return h+mapView(c)+end;
+  if(qm==='zone'){ui.qmode='map';return h+mapView(c)+end}
   if(qm==='dg')ui.qmode='zone';
   const Z=zonesNow(c);
   if(ui.qz&&!Z.find(x=>x.z===ui.qz)){const qs=[];const seen=new Set();for(const S of routeOf(c))for(const q of S.q)if((q.gz||q.sz)===ui.qz&&!seen.has(q.nm)){seen.add(q.nm);qs.push(q)}if(qs.length)Z.unshift({z:ui.qz,q:qs,left:qs.filter(q=>!(c.fq||{})[ui.qz+'|'+q.nm]).length,all:1})}
@@ -1128,6 +1169,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='mc'){ui.mc=k;ui.mz=null;rerender(true);return}
   if(a==='mz'){ui.mz=k||null;ui.mf=ui.mf||'near';render();window.scrollTo(0,0);return}
   if(a==='mf'){ui.mf=k;rerender(true);return}
+  if(a==='hall'){ui.hall=!ui.hall;rerender(true);return}
+  if(a==='qsclr'){ui.qsrch='';render();return}
   if(a==='hub'){ui.hopen=ui.hopen||{};const cur=b.closest('.st').classList.contains('open');ui.hopen[k]=!cur;rerender(true);return}
   if(a==='mzgo'){ui.tab='quest';ui.qmode='map';ui.mc=k.split('|')[0];ui.mz=k;ui.mf='all';ui.sheet=null;render();window.scrollTo(0,0);return}
   if(a==='goz'){ui.tab='quest';ui.qmode='map';ui.mz='?|'+k;ui.mc=null;ui.mf='near';ui.sheet=null;render();window.scrollTo(0,0);return}
@@ -1158,6 +1201,7 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
 });
 let srchT=null;
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset.c==='onb-name'){ui.onb.name=t.value;return}
+  if(t.dataset.c==='qsrch'){ui.qsrch=t.value;clearTimeout(srchT);srchT=setTimeout(()=>{const box=document.getElementById('qsres'),bd=document.getElementById('qbody');const c=me();if(!box||!c)return;const q=ui.qsrch.trim();box.innerHTML=q?qSearchHtml(c,q):'';if(bd)bd.hidden=!!q},250);return}
   if(t.dataset.c==='isrch'){ui.isrch=t.value;clearTimeout(srchT);srchT=setTimeout(isrchUpd,250)}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset&&(e.target.dataset.c==='lv'||e.target.dataset.c==='onb-lv'))e.target.blur()});
 render();
