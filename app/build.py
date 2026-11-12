@@ -8,6 +8,24 @@ rd = lambda p: p.read_text(encoding='utf-8')
 # 직업 자료는 쓰는 부분만 남겨 크기를 줄인다
 cls = json.loads(rd(F / 'classes.json'))
 slim = {}
+# forg 운영 순서의 「when」에 화면 조각이 문자열로 섞여 들어온 경우($,$L22,id-0,[object Object]) → 특성·기술 이름으로
+_FIXW = {'omen-of-clarity': '청명의 전조'}
+def fix_when(c, w):
+    def rp(m):
+        k = m.group(1)
+        for tk, tv in c['talents'].items():
+            if tk == k or tk.endswith('-' + k):
+                return tv['n']
+        return _FIXW.get(k, '')
+    w = (w or '').replace(' ·  ', ' ')
+    w = re.sub(r'\$,\$L\w+,([a-z0-9-]+?)-\d+,\[object Object\]', rp, w or '')
+    return re.sub(r'\s+', ' ', w).strip(' ·')
+import re
+for cid, c in cls.items():
+    for s_ in c['specs']:
+        for k in ('rotation', 'early', 'late'):
+            for r in s_.get(k, []):
+                r['when'] = fix_when(c, r['when'])
 for cid, c in cls.items():
     used = set(x[1] for s in c['specs'] for x in s['steps'])
     slim[cid] = {

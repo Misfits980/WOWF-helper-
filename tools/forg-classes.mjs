@@ -10,7 +10,8 @@ function refMap(t){const M={};for(const l of t.split('\n')){const m=l.match(/^([
 function res(v,M,d=0){if(d>8)return v;if(typeof v==='string'&&/^\$[0-9a-f]+$/.test(v)){const r=M[v.slice(1)];return r===undefined?v:res(r,M,d+1)}if(Array.isArray(v))return v.map(x=>res(x,M,d+1));if(v&&typeof v==='object'){const o={};for(const k in v)o[k]=res(v[k],M,d+1);return o}return v}
 const ico=s=>String(s||'').split('/').pop().replace(/\.(jpg|png)$/,'');
 function partsTxt(parts){return (parts||[]).map(p=>{if(!p)return '';if(p.kind==='text')return p.text||'';if(p.kind==='chip'&&p.chip)return '['+p.chip.name+(p.level?'@'+p.level:'')+(p.talent?'*':'')+']';return typeof p==='string'?p:''}).join('').replace(/\s+/g,' ').trim()}
-function rot(list){return (Array.isArray(list)?list:[]).map(r=>({when:(r.when||[]).join(' · '),txt:partsTxt(r.parts),lv:r.level||null,icons:(r.parts||[]).filter(p=>p&&p.kind==='chip'&&p.chip).map(p=>[p.chip.name,ico(p.chip.icon),p.level||null])}))}
+const wTxt=w=>typeof w==='string'?w:Array.isArray(w)&&w[0]==='$'&&w[3]?((w[3].chip&&w[3].chip.name)||w[3].name||w[3].label||(typeof w[3].children==='string'?w[3].children:'')||String(w[2]||'').replace(/-\d+$/,'')):'';
+function rot(list){return (Array.isArray(list)?list:[]).map(r=>({when:(r.when||[]).map(wTxt).filter(Boolean).join(' · '),txt:partsTxt(r.parts),lv:r.level||null,icons:(r.parts||[]).filter(p=>p&&p.kind==='chip'&&p.chip).map(p=>[p.chip.name,ico(p.chip.icon),p.level||null])}))}
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
 const OUT={};
 for(const c of CL){
