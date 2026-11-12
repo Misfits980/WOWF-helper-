@@ -19,7 +19,7 @@ def jl(path):
 # ---------- 퀘스트 ----------
 Q = {o['id']: o for o in jl(P('data/qdb/quests.jsonl'))}
 R['퀘스트 수'] = len(Q)
-R['영어로 남은 퀘스트 이름'] = sorted([[q['id'], q['n'], q.get('z')] for q in Q.values() if lat(q['n'])], key=lambda x: x[0])[:300]
+R['영어로 남은 퀘스트 이름'] = sorted([[q['id'], q['n'], q.get('z')] for q in Q.values() if lat(q['n']) and not re.search('[가-힣]', q['n'])], key=lambda x: x[0])[:300]
 R['반납 NPC 없는 퀘스트'] = [[q['id'], q['n'], q.get('z')] for q in Q.values() if not q.get('r')][:300]
 R['레벨 0 퀘스트'] = [[q['id'], q['n']] for q in Q.values() if not q.get('lv')]
 inv = []
@@ -35,14 +35,22 @@ R['레벨이 거꾸로 이어진 연계(5레벨 이상)'] = inv
 
 # ---------- 장비 ----------
 items = []
-for f, tag in ((P('data/forg/items.txt'), 'forg'), (P('data/qdb/items-extra.txt'), 'extra')):
-    if os.path.exists(f):
-        for line in open(f, encoding='utf-8'):
-            p = line.rstrip('\n').split('|')
-            if len(p) > 12:
-                items.append((p, tag))
+_ad = P('app-data.js')
+if os.path.exists(_ad):  # 실제 앱에 들어간 장비 기준 (한글 이름 바꾼 뒤)
+    _m = re.search(r'const D_ITEMS=("(?:[^"\\]|\\.)*")', open(_ad, encoding='utf-8').read())
+    for line in json.loads(_m.group(1)).split('\n'):
+        p = line.split('|')
+        if len(p) > 12:
+            items.append((p, p[9] if p[9] in ('extra', 'wowf') else 'forg'))
+else:
+    for f, tag in ((P('data/forg/items.txt'), 'forg'), (P('data/qdb/items-extra.txt'), 'extra')):
+        if os.path.exists(f):
+            for line in open(f, encoding='utf-8'):
+                p = line.rstrip('\n').split('|')
+                if len(p) > 12:
+                    items.append((p, tag))
 R['장비 수'] = len(items)
-R['영어 이름 장비'] = [[p[0], p[12], t] for p, t in items if lat(p[12])][:300]
+R['영어 이름 장비'] = [[p[0], p[12], t] for p, t in items if lat(p[12]) and not re.search('[가-힣]', p[12])][:300]
 odd = []
 for p, t in items:
     st = dict((m.group(1), float(m.group(2))) for m in re.finditer(r'(mp5|[a-z]+)(-?[\d.]+)', p[5]))

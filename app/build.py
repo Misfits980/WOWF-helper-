@@ -69,6 +69,9 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
     for ix, line in enumerate(items):
         f = line.split('|')
         o_ = WREC.get(int(f[0]))
+        if o_ and len(f) > 12 and lat(f[12]) and o_.get('nm') and not lat(o_['nm']):
+            f[12] = o_['nm']
+            items[ix] = '|'.join(f)
         if o_ and len(f) > 6:
             add = eff_stats(o_.get('lines'))
             if add:
@@ -78,6 +81,16 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
         if int(line.split('|')[0]) not in have_:
             items.append(line)
     srcs = '\n'.join(sl_)
+# 출처가 비어 있는 고급 이상 장비 = 월드 드랍(경매장)
+_sl = srcs.split('\n')
+_wd = None
+for ix, line in enumerate(items):
+    f = line.split('|')
+    if len(f) > 12 and not f[7] and f[4] in ('u', 'r', 'e'):
+        if _wd is None:
+            _wd = len(_sl); _sl.append('2~월드 드랍~')
+        f[7] = str(_wd); items[ix] = '|'.join(f)
+srcs = '\n'.join(_sl)
 ITEMS_TXT = '\n'.join(items) + '\n'
 # 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
 QLV = {}

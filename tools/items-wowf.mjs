@@ -1,5 +1,5 @@
 // 능력치 자료가 없는 포에버 장비를 wowf.io 한글 아이템 도감에서 읽음 (없으면 forever-tool)
-// 대상: 퀘스트 보상 장비, 포에버 신규 장비(번호 200000 이상) 중 아직 장비 목록에 없는 것
+// 대상: 효과·영어 이름 장비(한글 이름 받기), 퀘스트 보상 장비, 포에버 신규 장비(번호 200000 이상) 중 아직 장비 목록에 없는 것
 // 결과: data/qdb/items-wowf.jsonl  (이미 읽은 번호는 건너뜀, 40분 넘으면 다음 실행 때 이어서)
 import fs from 'node:fs';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -12,7 +12,7 @@ if(fs.existsSync(out))for(const l of fs.readFileSync(out,'utf8').split('\n'))if(
 const rw=new Set();for(const l of fs.readFileSync('data/forg/rewards.jsonl','utf8').split('\n')){if(!l)continue;const o=JSON.parse(l);for(const x of [...(o.ch||[]),...(o.fx||[])])rw.add(x[0])}
 const eq=fs.readFileSync('data/qdb/item-equip.txt','utf8').split('\n').filter(Boolean).map(l=>l.split('|'));
 const first=[],later=[],effs=[];
-for(const f of ['data/forg/items.txt','data/qdb/items-extra.txt'])if(fs.existsSync(f))for(const l of fs.readFileSync(f,'utf8').split('\n')){const p=l.split('|');if(p[6]==='1'&&!done.has(+p[0]))effs.push(+p[0])}
+for(const f of ['data/forg/items.txt','data/qdb/items-extra.txt'])if(fs.existsSync(f))for(const l of fs.readFileSync(f,'utf8').split('\n')){const p=l.split('|');if(!done.has(+p[0])&&(p[6]==='1'||/[A-Za-z]{3}/.test(p[12]||'')))effs.push(+p[0])}
 for(const p of eq){const id=+p[0];if(have.has(id)||done.has(id))continue;if(rw.has(id)||p[5])first.push(id);else if(id>=200000)later.push(id)}
 const todo=[...effs,...first,...later];console.log('할 일',todo.length,'(효과 장비',effs.length,'보상 장비',first.length,')');
 const QC={'#9d9d9d':'p','#ffffff':'c','#1eff00':'u','#0070dd':'r','#a335ee':'e','#ff8000':'l'};

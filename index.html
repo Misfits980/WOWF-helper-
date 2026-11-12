@@ -573,8 +573,8 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .bkta{width:100%;font-size:11px;font-family:ui-monospace,monospace;margin-top:6px;resize:vertical}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=78f0bc37"></script>
-<script>/* v22b3b9 */
+<script src="app-data.js?v=61812c09"></script>
+<script>/* vd9b0c5 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -1305,12 +1305,12 @@ function roleLines(txt,max){/* 문장마다 역할 표시: 🛡️ 탱커 · �
   let L=S.map((t,i)=>({t,k:kind(t),i}));if(max&&L.length>max)L=L.sort((a,b)=>rank[a.k]-rank[b.k]||a.i-b.i).slice(0,max).sort((a,b)=>a.i-b.i);
   return L.map(x=>'<li class="'+x.k+'"><i>'+IC[x.k]+'</i><span>'+esc(x.t)+'</span></li>').join('')}
 /* 단계마다 무엇을 조심할지 아이콘으로 */
-function stepFlags(st,fb){const t=[st.note,fb&&fb.tac,...(fb&&fb.sp||[]).map(x=>x[0]+' '+x[1]+' '+(x[2]||''))].join(' ');const F=[];
-  if(/끊|interrupt/.test(t))F.push(['it','⚡','끊기']);
-  if(/(?<!무장 )해제|해독|dispel|독 |저주|질병/.test(t))F.push(['hl','💚','해제']);
+function stepFlags(st,fb){if(!/우두머리|희귀/.test(st.type||''))return [];const t=[st.note,fb&&fb.tac,...(fb&&fb.sp||[]).map(x=>x[0]+' '+x[1]+' '+(x[2]||''))].join(' ');const F=[];
+  if(/끊(?:으세요|으면|어 ?주|습니다|기|고 )|반드시 끊|꼭 끊|interrupt/.test(t))F.push(['it','⚡','끊기']);
+  if(/(?<!무장 )해제(?!될)|해독|dispel|(?<![가-힣])독 |저주|질병/.test(t))F.push(['hl','💚','해제']);
   if(/탱커|기절|정면|어그로|방어도|무장 해제/.test(t))F.push(['tk','🛡️','탱커 주의']);
-  if(/쫄|불러|소환|합류|호위병/.test(t))F.push(['ad','👥','쫄 나옴']);
-  if(/피하|바닥|흩어|떨어져|avoid|spread/.test(t))F.push(['mv','🏃','피하기']);
+  if(/쫄|불러(?! 일으)|소환(?!사)|합류|호위병/.test(t)&&!/퀘스트로 불러/.test(t))F.push(['ad','👥','쫄 나옴']);
+  if(/피하|바닥 ?(?:불|의 불|에 남|웅덩이|장판)|흩어(?:져|지)|떨어져 서|avoid|spread/.test(t))F.push(['mv','🏃','피하기']);
   return F}
 function stepFloor(g){/* 지도 핀 번호로 단계가 몇 층인지 */const m={};(g.floors||[]).forEach(f=>f.pins.forEach(p=>{const n=parseInt(p.t);if(/^\d+!?$/.test(p.t||'')&&!m[n])m[n]=f}));return m}
 function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}

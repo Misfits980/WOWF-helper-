@@ -1,46 +1,6 @@
 {
- "퀘스트 수": 3844,
+ "퀘스트 수": 3772,
  "영어로 남은 퀘스트 이름": [
-  [
-   351,
-   "OOX-17/TN 수색",
-   "타나리스"
-  ],
-  [
-   485,
-   "OOX-09/HL 수색",
-   "동부 내륙지"
-  ],
-  [
-   648,
-   "OOX-17/TN 구출",
-   "타나리스"
-  ],
-  [
-   836,
-   "OOX-09/HL 구출 작전",
-   "동부 내륙지"
-  ],
-  [
-   2766,
-   "OOX-22/FE 수색",
-   "페랄라스"
-  ],
-  [
-   2767,
-   "OOX-22/FE 구출!",
-   "페랄라스"
-  ],
-  [
-   3721,
-   "선물로 받은 OOX",
-   "가시덤불 골짜기"
-  ],
-  [
-   7651,
-   "마력깃든 토륨 갑옷 III",
-   "대장기술"
-  ],
   [
    9269,
    "Atiesh, Greatstaff of the Guardian",
@@ -87,204 +47,9 @@
    "도적 직업"
   ],
   [
-   79090,
-   "Repelling Invaders",
-   "잿빛 골짜기"
-  ],
-  [
-   79242,
-   "No Honor Among Thieves",
-   "잊혀진 땅"
-  ],
-  [
-   79482,
-   "Stolen Winter Veil Treats",
-   "계절 행사"
-  ],
-  [
-   79492,
-   "Metzen the Reindeer",
-   "계절 행사"
-  ],
-  [
-   79731,
-   "The Troll Scroll",
-   "사제 직업"
-  ],
-  [
-   79939,
-   "The Broken Hammer",
-   "성기사 직업"
-  ],
-  [
-   79940,
-   "A Lost Brother",
-   "성기사 직업"
-  ],
-  [
-   79946,
-   "A Brother In Need",
-   "성기사 직업"
-  ],
-  [
    79953,
    "A Ludite's Guide to Caring for Your Demonic Pet",
    "스톰윈드"
-  ],
-  [
-   79963,
-   "By The Light's Grace",
-   "성기사 직업"
-  ],
-  [
-   79970,
-   "Aeonas the Vindicated",
-   "성기사 직업"
-  ],
-  [
-   80411,
-   "The Talisman of Kazdor",
-   "도적 직업"
-  ],
-  [
-   80526,
-   "Fool Me Twice",
-   "도적 직업"
-  ],
-  [
-   81570,
-   "Jarl Needs a Blade",
-   "먼지진흙 슾지대"
-  ],
-  [
-   81730,
-   "Duskwood Mission I: Defeat Worgen",
-   "그늘숲"
-  ],
-  [
-   81731,
-   "Duskwood Mission II: Defeat Ogres",
-   "그늘숲"
-  ],
-  [
-   81732,
-   "Duskwood Mission III: Defeat Dragonkin",
-   "그늘숲"
-  ],
-  [
-   81733,
-   "Duskwood Mission IV: Ogre Intelligence",
-   "그늘숲"
-  ],
-  [
-   81734,
-   "Duskwood Mission V: Worgen Intelligence",
-   "그늘숲"
-  ],
-  [
-   81735,
-   "Duskwood Mission VI: Dragon Intelligence",
-   "그늘숲"
-  ],
-  [
-   81736,
-   "Duskwood Mission VII: Recover Shadowscythe",
-   "그늘숲"
-  ],
-  [
-   81737,
-   "Duskwood Mission VIII: Recover Ogre Magi text",
-   "그늘숲"
-  ],
-  [
-   81738,
-   "Duskwood Mission IX: Recover Dragon Egg",
-   "그늘숲"
-  ],
-  [
-   81739,
-   "Duskwood Mission X: Nightmare Moss",
-   "그늘숲"
-  ],
-  [
-   81740,
-   "Duskwood Mission XI: Cold Iron Ore",
-   "그늘숲"
-  ],
-  [
-   81741,
-   "Duskwood Mission XII: Dream-Touched Dragonscale",
-   "그늘숲"
-  ],
-  [
-   81742,
-   "Duskwood Mission XIII: Defeat Ylanthrius",
-   "그늘숲"
-  ],
-  [
-   81743,
-   "Duskwood Mission XIV: Defeat Vvarc'zul",
-   "그늘숲"
-  ],
-  [
-   81744,
-   "Duskwood Mission XV: Defeat Amokarok",
-   "그늘숲"
-  ],
-  [
-   81745,
-   "Duskwood Mission XVI: Rescue Kroll Mountainshade",
-   "그늘숲"
-  ],
-  [
-   81746,
-   "Duskwood Mission XVII: Rescue Alara Grovemender",
-   "그늘숲"
-  ],
-  [
-   81747,
-   "Duskwood Mission XVIII: Rescue Elenora Marshwalker",
-   "그늘숲"
-  ],
-  [
-   81762,
-   "Some Good News",
-   "성기사 직업"
-  ],
-  [
-   81764,
-   "The Mysterious Merchant",
-   "성기사 직업"
-  ],
-  [
-   81765,
-   "Elrick, Paladin of the Silver Hand",
-   "성기사 직업"
-  ],
-  [
-   81790,
-   "Materials of Significance",
-   "성기사 직업"
-  ],
-  [
-   81900,
-   "The Burning Beast",
-   "황야의 땅"
-  ],
-  [
-   81917,
-   "Chains That Bind",
-   "저주받은 땅"
-  ],
-  [
-   81919,
-   "Brought to Heel",
-   "저주받은 땅"
-  ],
-  [
-   81924,
-   "Wisdom of the Guardians",
-   "드루이드 직업"
   ],
   [
    81951,
@@ -292,169 +57,9 @@
    "스톰윈드"
   ],
   [
-   82084,
-   "A Lesson in Literacy",
-   "마법사 직업"
-  ],
-  [
    82208,
    "Greater Friend of the Library",
    "특별 퀘스트"
-  ],
-  [
-   83934,
-   "Show Me the Money!",
-   "가시덤불 골짜기"
-  ],
-  [
-   84147,
-   "An Earnest Proposition",
-   "아이언포지"
-  ],
-  [
-   84148,
-   "An Earnest Proposition",
-   "아이언포지"
-  ],
-  [
-   84149,
-   "An Earnest Proposition",
-   "아이언포지"
-  ],
-  [
-   84150,
-   "An Earnest Proposition",
-   "아이언포지"
-  ],
-  [
-   84154,
-   "An Earnest Proposition",
-   "아이언포지"
-  ],
-  [
-   84330,
-   "A Wee Bit O' Necromancy",
-   "성기사 직업"
-  ],
-  [
-   86577,
-   "A Sampling of Putrescence",
-   "악령의 숲"
-  ],
-  [
-   86611,
-   "Stag Lord's Bauble",
-   "악령의 숲"
-  ],
-  [
-   86615,
-   "Treaty Obligations",
-   "동부 내륙지"
-  ],
-  [
-   86616,
-   "Repurposed Totems",
-   "동부 내륙지"
-  ],
-  [
-   86620,
-   "Fledgling Rescue",
-   "동부 내륙지"
-  ],
-  [
-   86746,
-   "The Legashi Threat",
-   "아즈샤라"
-  ],
-  [
-   87295,
-   "Deflective Surface",
-   "저주받은 땅"
-  ],
-  [
-   87492,
-   "Uncanny Crystal",
-   "운고로 분화구"
-  ],
-  [
-   88807,
-   "Slay the Spitelash",
-   "아즈샤라"
-  ],
-  [
-   88809,
-   "Preserving Eldarath",
-   "아즈샤라"
-  ],
-  [
-   88812,
-   "Reclaiming Ravencrest",
-   "아즈샤라"
-  ],
-  [
-   88813,
-   "The Head of the Serpent",
-   "아즈샤라"
-  ],
-  [
-   88821,
-   "Making Contact",
-   "아즈샤라"
-  ],
-  [
-   88857,
-   "Saving a Sentinel",
-   "아즈샤라"
-  ],
-  [
-   88884,
-   "Highborne Tablets",
-   "아즈샤라"
-  ],
-  [
-   88917,
-   "Slithering Looters",
-   "아즈샤라"
-  ],
-  [
-   89001,
-   "Home on the Range",
-   "아즈샤라"
-  ],
-  [
-   89013,
-   "Gettin' Buzzed",
-   "아즈샤라"
-  ],
-  [
-   89037,
-   "Murloc Thieves",
-   "아즈샤라"
-  ],
-  [
-   89038,
-   "A Monumental Task",
-   "아즈샤라"
-  ],
-  [
-   89053,
-   "Your Final Reward",
-   "아즈샤라"
-  ],
-  [
-   89228,
-   "Winter Frontier Fishery",
-   "아즈샤라"
-  ],
-  [
-   89470,
-   "Ill Tidings",
-   "아즈샤라"
-  ],
-  [
-   91902,
-   "A Sealed Crate",
-   "붉은마루 산맥"
   ]
  ],
  "반납 NPC 없는 퀘스트": [
@@ -990,10 +595,6 @@
    "특별한 선물"
   ],
   [
-   91902,
-   "A Sealed Crate"
-  ],
-  [
    91906,
    "봉인된 상자"
   ],
@@ -1296,336 +897,11 @@
    20
   ]
  ],
- "장비 수": 8059,
+ "장비 수": 9790,
  "영어 이름 장비": [
-  [
-   "23173",
-   "Abomination Skin Leggings",
-   "forg"
-  ],
-  [
-   "2621",
-   "Cowl of Necromancy",
-   "forg"
-  ],
-  [
-   "7756",
-   "Dog Training Gloves",
-   "forg"
-  ],
-  [
-   "9384",
-   "Stonevault Shiv",
-   "forg"
-  ],
-  [
-   "10582",
-   "Briar Tredders",
-   "forg"
-  ],
-  [
-   "10584",
-   "Stormgale Fists",
-   "forg"
-  ],
-  [
-   "274291",
-   "Polished Skullcap",
-   "forg"
-  ],
-  [
-   "9420",
-   "Adventurer's Pith Helmet",
-   "forg"
-  ],
-  [
-   "10573",
-   "Boneslasher",
-   "forg"
-  ],
-  [
-   "1280",
-   "Cloaked Hood",
-   "forg"
-  ],
-  [
-   "6331",
-   "Howling Blade",
-   "forg"
-  ],
-  [
-   "9381",
-   "Earthen Rod",
-   "forg"
-  ],
-  [
-   "9393",
-   "Beacon of Hope",
-   "forg"
-  ],
-  [
-   "10331",
-   "Scarlet Gauntlets",
-   "forg"
-  ],
-  [
-   "10710",
-   "Dragonclaw Ring",
-   "forg"
-  ],
-  [
-   "1602",
-   "Sickle Axe",
-   "forg"
-  ],
-  [
-   "2620",
-   "Augural Shroud",
-   "forg"
-  ],
-  [
-   "5257",
-   "Dark Hooded Cape",
-   "forg"
-  ],
-  [
-   "7712",
-   "Mantle of Doan",
-   "forg"
-  ],
-  [
-   "8223",
-   "Blade of the Basilisk",
-   "forg"
-  ],
-  [
-   "9396",
-   "Legguards of the Vault",
-   "forg"
-  ],
-  [
-   "10328",
-   "Scarlet Chestpiece",
-   "forg"
-  ],
-  [
-   "10760",
-   "Swine Fists",
-   "forg"
-  ],
-  [
-   "274293",
-   "Spellsever Crossbow",
-   "forg"
-  ],
   [
    "274294",
    "Library Walkers",
-   "forg"
-  ],
-  [
-   "1659",
-   "Engineering Gloves",
-   "forg"
-  ],
-  [
-   "9378",
-   "Shovelphlange's Mining Axe",
-   "forg"
-  ],
-  [
-   "9382",
-   "Tromping Miner's Boots",
-   "forg"
-  ],
-  [
-   "9392",
-   "Annealed Blade",
-   "forg"
-  ],
-  [
-   "10758",
-   "X'caliboar",
-   "forg"
-  ],
-  [
-   "10766",
-   "Plaguerot Sprig",
-   "forg"
-  ],
-  [
-   "869",
-   "Dazzling Longsword",
-   "forg"
-  ],
-  [
-   "1678",
-   "Black Ogre Kickers",
-   "forg"
-  ],
-  [
-   "6327",
-   "The Pacifier",
-   "forg"
-  ],
-  [
-   "2624",
-   "Thinking Cap",
-   "forg"
-  ],
-  [
-   "2825",
-   "Bow of Searing Arrows",
-   "forg"
-  ],
-  [
-   "9403",
-   "Battered Viking Shield",
-   "forg"
-  ],
-  [
-   "9626",
-   "Dwarven Charge",
-   "forg"
-  ],
-  [
-   "9627",
-   "Explorer's League Lodestar",
-   "forg"
-  ],
-  [
-   "10767",
-   "Savage Boar's Guard",
-   "forg"
-  ],
-  [
-   "10768",
-   "Boar Champion's Belt",
-   "forg"
-  ],
-  [
-   "1980",
-   "Underworld Band",
-   "forg"
-  ],
-  [
-   "9400",
-   "Baelog's Shortbow",
-   "forg"
-  ],
-  [
-   "10761",
-   "Coldrage Dagger",
-   "forg"
-  ],
-  [
-   "10765",
-   "Bonefingers",
-   "forg"
-  ],
-  [
-   "1981",
-   "Icemail Jerkin",
-   "forg"
-  ],
-  [
-   "10764",
-   "Deathchill Armor",
-   "forg"
-  ],
-  [
-   "10823",
-   "Vanquisher's Sword",
-   "forg"
-  ],
-  [
-   "10824",
-   "Amberglow Talisman",
-   "forg"
-  ],
-  [
-   "7673",
-   "Talvash's Enhancing Necklace",
-   "forg"
-  ],
-  [
-   "2100",
-   "Precisely Calibrated Boomstick",
-   "forg"
-  ],
-  [
-   "9413",
-   "The Rockpounder",
-   "forg"
-  ],
-  [
-   "9418",
-   "Stoneslayer",
-   "forg"
-  ],
-  [
-   "17007",
-   "Stonerender Gauntlets",
-   "forg"
-  ],
-  [
-   "22240",
-   "Greaves of Withering Despair",
-   "forg"
-  ],
-  [
-   "812",
-   "Glowing Brightwood Staff",
-   "forg"
-  ],
-  [
-   "20530",
-   "Robes of Servitude",
-   "forg"
-  ],
-  [
-   "20534",
-   "Abyss Shard",
-   "forg"
-  ],
-  [
-   "20536",
-   "Soul Harvester",
-   "forg"
-  ],
-  [
-   "22242",
-   "Verek's Leash",
-   "forg"
-  ],
-  [
-   "15413",
-   "Ornate Adamantium Breastplate",
-   "forg"
-  ],
-  [
-   "22241",
-   "Dark Warder's Pauldrons",
-   "forg"
-  ],
-  [
-   "13001",
-   "Maiden's Circle",
-   "forg"
-  ],
-  [
-   "944",
-   "Elemental Mage Staff",
-   "forg"
-  ],
-  [
-   "2243",
-   "Hand of Edward the Odd",
-   "forg"
-  ],
-  [
-   "23577",
-   "The Hungering Cold",
    "forg"
   ]
  ],
@@ -1655,21 +931,21 @@
    "280605",
    "파도인도자의 발톱",
    "1",
-   "sta5 dps18.13 sp28 heal86",
+   "sta5 dps18.13 sp28 heal86 crit2",
    "forg"
   ],
   [
    "280607",
    "번개의 손아귀",
    "1",
-   "int6 dps18.18 sp46 heal46",
+   "int6 dps18.18 sp46 heal46 crit1",
    "forg"
   ],
   [
    "22589",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta31 int32 spi24 dps64.37 sp150 heal150",
+   "sta31 int32 spi24 dps64.37 sp150 heal150 scrit2",
    "forg"
   ],
   [
@@ -1708,13 +984,48 @@
    "extra"
   ]
  ],
- "출처 없는 장비": 423,
+ "출처 없는 장비": 127,
  "이름 같은 장비(번호 다름)": [
+  [
+   "민병대 단검",
+   [
+    "248007:forg",
+    "2224:wowf"
+   ]
+  ],
+  [
+   "새끼 검은용 장화",
+   [
+    "6092:forg",
+    "270094:wowf"
+   ]
+  ],
+  [
+   "파멸의 소환사 바지",
+   [
+    "270074:forg",
+    "21336:wowf"
+   ]
+  ],
   [
    "거북 껍질 장갑",
    [
     "8187:forg",
     "217270:forg"
+   ]
+  ],
+  [
+   "황금 미늘 건틀릿",
+   [
+    "9366:forg",
+    "217273:wowf"
+   ]
+  ],
+  [
+   "파수꾼의 장화",
+   [
+    "250547:forg",
+    "270047:wowf"
    ]
   ],
   [
@@ -1728,42 +1039,48 @@
    "무감바의 힘",
    [
     "19574:forg",
-    "19575:forg"
+    "19575:forg",
+    "19576:wowf"
    ]
   ],
   [
    "이교도의 징표",
    [
     "19579:forg",
-    "19585:forg"
+    "19585:forg",
+    "19586:wowf"
    ]
   ],
   [
    "카자로 자갈",
    [
     "19598:forg",
-    "19599:forg"
+    "19599:forg",
+    "19600:wowf"
    ]
   ],
   [
    "케잔의 타락",
    [
     "19602:forg",
-    "19603:forg"
+    "19603:forg",
+    "19604:wowf"
    ]
   ],
   [
    "잔달라 그림자 부적",
    [
     "19614:forg",
-    "19615:forg"
+    "19615:forg",
+    "19616:wowf"
    ]
   ],
   [
    "혼돈의 소용돌이 덩굴손",
    [
     "19618:forg",
-    "19619:forg"
+    "19619:forg",
+    "19620:wowf"
    ]
   ],
   [
@@ -1785,7 +1102,19 @@
     "234035:forg",
     "234202:forg",
     "234436:forg",
-    "234437:forg"
+    "234437:forg",
+    "21196:wowf",
+    "21197:wowf",
+    "21198:wowf",
+    "21200:wowf",
+    "21201:wowf",
+    "21202:wowf",
+    "21203:wowf",
+    "21204:wowf",
+    "21205:wowf",
+    "21206:wowf",
+    "21207:wowf",
+    "21210:wowf"
    ]
   ],
   [
@@ -1794,6 +1123,34 @@
     "22589:forg",
     "22630:forg",
     "22631:forg"
+   ]
+  ],
+  [
+   "빛나는 장화",
+   [
+    "2991:extra",
+    "253899:wowf"
+   ]
+  ],
+  [
+   "빛나는 장갑",
+   [
+    "2992:extra",
+    "253923:wowf"
+   ]
+  ],
+  [
+   "빛나는 다리보호구",
+   [
+    "2990:extra",
+    "253997:wowf"
+   ]
+  ],
+  [
+   "달빛 라이플",
+   [
+    "4383:extra",
+    "217314:wowf"
    ]
   ],
   [
@@ -1811,10 +1168,45 @@
    ]
   ],
   [
+   "미명 팔보호구",
+   [
+    "6563:extra",
+    "277238:wowf"
+   ]
+  ],
+  [
    "불곰 조끼",
    [
     "7335:extra",
     "15304:extra"
+   ]
+  ],
+  [
+   "백발백중 활",
+   [
+    "8183:extra",
+    "217315:wowf"
+   ]
+  ],
+  [
+   "신비한 상급 마술봉",
+   [
+    "11290:extra",
+    "217287:wowf"
+   ]
+  ],
+  [
+   "늪지 반지",
+   [
+    "12015:extra",
+    "270052:wowf"
+   ]
+  ],
+  [
+   "찬란하게 빛나는 장갑",
+   [
+    "12418:extra",
+    "254105:wowf"
    ]
   ],
   [
@@ -1999,7 +1391,22 @@
    "하급투사의 쇠사슬 손목보호구",
    [
     "16532:extra",
-    "18432:extra"
+    "18432:extra",
+    "272581:wowf"
+   ]
+  ],
+  [
+   "대지진의 망치",
+   [
+    "17073:extra",
+    "288900:wowf"
+   ]
+  ],
+  [
+   "설퍼라스 - 라그나로스의 손",
+   [
+    "17182:extra",
+    "289295:wowf"
    ]
   ],
   [
@@ -2020,7 +1427,8 @@
    "하급투사의 판금 팔보호구",
    [
     "18429:extra",
-    "18430:extra"
+    "18430:extra",
+    "272580:wowf"
    ]
   ],
   [
@@ -2074,10 +1482,38 @@
    ]
   ],
   [
+   "축복의 지팡이",
+   [
+    "18608:extra",
+    "289296:wowf"
+   ]
+  ],
+  [
+   "저주의 지팡이",
+   [
+    "18609:extra",
+    "289297:wowf"
+   ]
+  ],
+  [
+   "라크델라 - 고대수호자의 장궁",
+   [
+    "18713:extra",
+    "289303:wowf"
+   ]
+  ],
+  [
    "로크델라 - 고대수호자의 지팡이",
    [
     "18715:extra",
     "20487:extra"
+   ]
+  ],
+  [
+   "속전속결의 반지",
+   [
+    "18821:extra",
+    "288927:wowf"
    ]
   ],
   [
@@ -2104,6 +1540,34 @@
     "18862:extra",
     "18863:extra",
     "18864:extra"
+   ]
+  ],
+  [
+   "무거운 검은무쇠 반지",
+   [
+    "18879:extra",
+    "288928:wowf"
+   ]
+  ],
+  [
+   "우레폭풍 - 바람추적자의 성검",
+   [
+    "19019:extra",
+    "289294:wowf"
+   ]
+  ],
+  [
+   "설퍼라스의 반지",
+   [
+    "19138:extra",
+    "288929:wowf"
+   ]
+  ],
+  [
+   "주문 강화의 반지",
+   [
+    "19147:extra",
+    "288931:wowf"
    ]
   ],
   [
@@ -2375,6 +1839,13 @@
    ]
   ],
   [
+   "야수의 분노 망치",
+   [
+    "20580:extra",
+    "289292:wowf"
+   ]
+  ],
+  [
    "세나리온 보충병 다리갑옷",
    [
     "20699:extra",
@@ -2404,6 +1875,13 @@
    ]
   ],
   [
+   "격노의 반지",
+   [
+    "21477:extra",
+    "270050:wowf"
+   ]
+  ],
+  [
    "완수의 룬",
    [
     "21565:extra",
@@ -2425,26 +1903,157 @@
    ]
   ],
   [
+   "신념의 다리보호구",
+   [
+    "22513:extra",
+    "273924:wowf"
+   ]
+  ],
+  [
+   "신념의 장갑",
+   [
+    "22517:extra",
+    "273921:wowf"
+   ]
+  ],
+  [
+   "폭풍의 토템",
+   [
+    "23199:extra",
+    "272432:wowf"
+   ]
+  ],
+  [
    "용사의 징표",
    [
     "23206:extra",
     "23207:extra"
+   ]
+  ],
+  [
+   "베르둔의 믿음직한 소총",
+   [
+    "290333:wowf",
+    "259891:wowf"
+   ]
+  ],
+  [
+   "농축된 인장",
+   [
+    "271903:wowf",
+    "271905:wowf"
+   ]
+  ],
+  [
+   "지원자의 행운 인장",
+   [
+    "271904:wowf",
+    "271906:wowf"
+   ]
+  ],
+  [
+   "테라모어 인장",
+   [
+    "271908:wowf",
+    "271909:wowf",
+    "271910:wowf",
+    "271911:wowf"
+   ]
+  ],
+  [
+   "투쟁가의 고리",
+   [
+    "271913:wowf",
+    "271914:wowf",
+    "271915:wowf",
+    "271916:wowf"
+   ]
+  ],
+  [
+   "원정대의 인장",
+   [
+    "271917:wowf",
+    "271918:wowf",
+    "271919:wowf",
+    "271920:wowf"
+   ]
+  ],
+  [
+   "반란군의 투박한 절단기",
+   [
+    "271924:wowf",
+    "271925:wowf",
+    "271926:wowf",
+    "271927:wowf"
+   ]
+  ],
+  [
+   "영리한 원정대원의 마법단검",
+   [
+    "271928:wowf",
+    "271929:wowf",
+    "271930:wowf",
+    "271931:wowf"
+   ]
+  ],
+  [
+   "유격대원의 뾰족 철퇴",
+   [
+    "271936:wowf",
+    "271937:wowf",
+    "271938:wowf",
+    "271939:wowf"
+   ]
+  ],
+  [
+   "테라모어 건틀릿",
+   [
+    "271940:wowf",
+    "271941:wowf"
+   ]
+  ],
+  [
+   "테라모어 손등싸개",
+   [
+    "271945:wowf",
+    "271946:wowf"
+   ]
+  ],
+  [
+   "테라모어 장갑",
+   [
+    "271948:wowf",
+    "271949:wowf"
+   ]
+  ],
+  [
+   "테라모어 손보호대",
+   [
+    "271950:wowf",
+    "271951:wowf"
+   ]
+  ],
+  [
+   "테라모어 어깨보호대",
+   [
+    "271953:wowf",
+    "272957:wowf"
    ]
   ]
  ],
  "진행 순서 없는 던전": [],
  "지도 없는 던전": [],
  "요약": {
-  "퀘스트 수": 3844,
-  "영어로 남은 퀘스트 이름": 91,
+  "퀘스트 수": 3772,
+  "영어로 남은 퀘스트 이름": 12,
   "반납 NPC 없는 퀘스트": 97,
-  "레벨 0 퀘스트": 17,
+  "레벨 0 퀘스트": 16,
   "레벨이 거꾸로 이어진 연계(5레벨 이상)": 35,
-  "장비 수": 8059,
-  "영어 이름 장비": 66,
+  "장비 수": 9790,
+  "영어 이름 장비": 1,
   "능력치가 레벨에 비해 지나친 장비": 11,
-  "출처 없는 장비": 423,
-  "이름 같은 장비(번호 다름)": 88,
+  "출처 없는 장비": 127,
+  "이름 같은 장비(번호 다름)": 131,
   "진행 순서 없는 던전": 0,
   "지도 없는 던전": 0
  }
