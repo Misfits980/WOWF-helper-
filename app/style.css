@@ -704,7 +704,18 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
 @media (hover:hover) and (pointer:fine){
   .dcb{display:flex;align-items:center;justify-content:center;position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:34px;height:54px;border-radius:10px;border:1px solid var(--line);background:rgba(20,18,14,.92);color:#ffe08a;font-size:24px;cursor:pointer}
   .dcb.l{left:4px}.dcb.r{right:4px}
-  .dchips{padding-left:44px;padding-right:44px;scrollbar-width:thin;cursor:grab}
-  .dchips::-webkit-scrollbar{display:block;height:6px}.dchips::-webkit-scrollbar-thumb{background:#4a3f2a;border-radius:3px}
+  .dchips{padding-left:44px;padding-right:44px;scrollbar-width:none;cursor:grab}
+  .dchips::-webkit-scrollbar{display:none}
   .dchips.drag{cursor:grabbing;user-select:none}
 }
+/* 지역 정보 */
+.zh{margin:10px 0 4px;font-size:13px;color:#e9dcc0}
+.zit{display:flex;align-items:center;gap:8px;width:100%;padding:6px 8px;margin:4px 0;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:inherit;text-align:left}
+.zit .ic{width:34px;height:34px;flex:none}
+.zit .t{flex:1;min-width:0;display:flex;flex-direction:column;font-size:13.5px}.zit .t>span:last-child{font-size:12px;color:var(--mute)}
+.zsum{font-size:12px}.zmv{font-size:13px;line-height:1.7;margin:2px 0}
+.zinfo summary{cursor:pointer;font-weight:700;color:#ffe08a}
+button.amn{pointer-events:auto;background:none;border:0;padding:2px 4px;cursor:pointer}
+button.amn:hover{color:#ffe08a}
+.amcur{position:absolute;left:8px;top:8px;z-index:5;padding:6px 10px;border-radius:10px;border:1px solid #8a6a2c;background:rgba(20,16,10,.9);color:#f3e6c4;font-size:12.5px;cursor:pointer}
+.amcur b{color:#ffe08a;font-weight:700;margin-left:2px}

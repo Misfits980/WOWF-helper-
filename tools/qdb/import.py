@@ -590,3 +590,29 @@ for zk in W['mob']:
 with open(os.path.join(OUT, 'world.json'), 'w', encoding='utf-8') as f:
     json.dump(W, f, ensure_ascii=False, separators=(',', ':'))
 print('비행', len(W['fp']), '여관', len(W['inn']), '교관', {k: len(v) for k, v in W['tr'].items()}, '사냥터 지역', len(W['mob']))
+
+# 아이템 출처 몹(wh:npc=번호)이 어느 지역에 있는지 (지역별 얻는 장비용)
+_nids = set()
+for _f in ('data/forg/sources.txt', 'data/qdb/sources-extra.txt'):
+    _p = os.path.join(os.path.dirname(__file__), '..', '..', _f)
+    if os.path.exists(_p):
+        for _m in re.finditer(r'wh:npc=(\d+)', open(_p, encoding='utf-8').read()):
+            _nids.add(int(_m.group(1)))
+_nz = {}
+for _i in _nids:
+    _r = NPC.get(_i)
+    if not _r:
+        continue
+    _z = _r.get(NK['zoneID'])
+    if not _z:
+        _sp = _r.get(NK['spawns'])
+        if isinstance(_sp, dict) and _sp:
+            _z = next(iter(_sp))
+    if _z:
+        _zk = zone_name(_z)[0]
+        if _zk:
+            _nz[str(_i)] = _zk
+W['nz'] = _nz
+with open(os.path.join(OUT, 'world.json'), 'w', encoding='utf-8') as f:
+    json.dump(W, f, ensure_ascii=False, separators=(',', ':'))
+print('출처 몹 지역', len(_nz), '/', len(_nids))

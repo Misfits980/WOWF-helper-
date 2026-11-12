@@ -245,6 +245,7 @@ function mapView(c){const L=c.lv;
   let qs=o.q.slice().sort((a,b)=>a.lv-b.lv||a.m-b.m||a.id-b.id);
   if(f==='now')qs=qs.filter(can);else if(f==='left')qs=qs.filter(q=>!mqDone(c,q));
   h='<div class="mzh"><button class="btn sm ghost" data-a="mz" data-k="">◀</button><h3>'+esc(o.z)+' <small class="mute">Lv '+o.lo+'–'+o.hi+'</small></h3></div>';
+  h+='<details class="card zinfo"'+(ui.zinfo===false?'':' open')+'><summary>🗺️ 이 지역 정보 · 얻는 장비</summary>'+zoneInfo(c,o.z,{n:5})+'</details>';
   h+='<div class="chips seg">'+[['now','지금 할 수 있는 것',nNow],['left','안 끝낸 것',nLeft],['all','전부',o.q.length]].map(x=>'<button class="chip'+(f===x[0]?' on':'')+'" data-a="mf" data-k="'+x[0]+'">'+x[1]+' <span class="n">'+x[2]+'</span></button>').join('')+'</div>';
   if(!qs.length){h+='<p class="empty-st">'+(f==='now'?'레벨 '+L+'에 지금 받을 수 있는 퀘스트가 여기엔 없어요.':'남은 퀘스트가 없어요.')+'</p>';if(f==='now'&&nLeft)h+='<button class="btn ghost full sm" data-a="mf" data-k="left">안 끝낸 퀘스트 '+nLeft+'개 보기</button>';return h}
   /* 연계는 한 묶음, 같은 이름은 한 줄 */
@@ -658,7 +659,7 @@ function qSearchHtml(c,q){const nq=q.replace(/\s+/g,'');if(nq.length<1)return ''
 /* ===================== 📍 지도로 퀘스트 보기 (대륙 지도: wowf.io 지도 그림) ===================== */
 /* 지역 좌표(%) → 대륙 지도 좌표: [a,b,c,d] → x=a+b·X, y=c+d·Y (wowf.io 지점으로 맞춘 값, 오차 1픽셀 안) */
 const MAPZ={'그늘숲':[9543.8,12.96,7040.3,8.635],'타나리스':[2080.5,33.131,8515.3,22.092],'엘윈 숲':[9206.6,16.666,6186.9,11.112],'서부 몰락지대':[8495.7,16.808,6888,11.199],'붉은마루 산맥':[10750.7,10.426,6492.2,6.946],'모단 호수':[10900.9,13.242,4530,8.829],'황야의 땅':[10941.6,11.946,5203.3,7.952],'썬더 블러프':[1727.7,5.015,6104,3.34],'달의 숲':[2637.9,11.103,1620.1,7.383],'스톰윈드':[9117,8.338,6214.2,5.559],'가시덤불 골짜기':[8878.1,30.622,7736.9,20.421],'저습지':[10130.7,19.857,3407.1,13.229],'다르나서스':[565.3,5.089,781.4,3.39],'던 모로':[9078.9,23.643,4236.8,15.763],'서부 역병지대':[9743.5,20.65,760.3,13.757],'잊혀진 땅':[-55.9,21.58,5479.2,14.386],'아이언포지':[10286.4,3.8,4569.2,2.535],'텔드랏실':[144.8,24.444,16.9,16.289],'동부 내륙지':[10699.8,18.49,1672.2,12.313],'아라시 고원':[10359.9,17.28,2440,11.518],'힐스브래드 구릉지':[9432.3,15.352,2183.6,10.243],'알터랙 산맥':[9567.9,13.443,1656.5,8.951],'먼지진흙 습지대':[2444.4,25.196,6672,16.797],'어둠의 해안':[564.6,31.425,1696.1,20.958],'불모의 땅':[715.8,48.659,4921.8,32.438],'잿빛 골짜기':[1160.1,27.675,3452.8,18.454],'악령의 숲':[1187.9,27.602,2272,18.403],'여명의 설원':[2128.4,34.075,1600.1,22.719],'운고로 분화구':[1719.8,17.765,8560.3,11.836],'돌발톱 산맥':[418.8,23.426,4296.1,15.629],'페랄라스':[-636.2,33.36,6831.9,22.243],'버섯구름 봉우리':[2185.3,21.101,7599.4,14.089],'실리더스':[758,16.72,8556.2,11.146],'슬픔의 늪':[11011.1,11.008,6994.2,7.336],'저주받은 땅':[10538.7,16.104,7448.3,10.712],'멀고어':[786.9,29.517,5567.5,19.699],'오그리마':[3742.5,6.733,4604.4,4.492],'언더시티':[9523.9,4.622,1474.7,3.07],'아즈샤라':[3548.6,24.349,3132.2,16.226],'이글거리는 협곡':[10099.1,10.707,5304.2,7.137],'불타는 평원':[10072.6,14.051,5750.8,9.375],'티리스팔 숲':[8486.6,21.72,535.7,14.433],'동부 역병지대':[11026.6,20.657,604,13.763],'듀로타':[2921.6,25.31,4828.3,16.905],'은빛소나무 숲':[8287.4,20.169,1573.2,13.5],'셴드랄라스':[1004.4,9.84,6607.6,6.569],'강물터':[10852.1,23.271,5478.4,15.542]};
-const ZALIAS={'먼지진흙 슾지대':'먼지진흙 습지대'};
+const ZALIAS={'먼지진흙 슾지대':'먼지진흙 습지대'};const zn=z=>ZALIAS[z]||z;const zEq=(a,b)=>!!a&&zn(a)===zn(b);
 const ATL={ek:{n:'eastern-kingdoms',w:5120,h:9728,ko:'동부 왕국'},ka:{n:'kalimdor',w:6400,h:10240,ko:'칼림도어'}};
 function toAtlas(zone,xy){const t=MAPZ[ZALIAS[zone]||zone];if(!t||!xy)return null;const p=String(xy).split(',').map(Number);if(p.length<2||isNaN(p[0]))return null;
   let x=t[0]+t[1]*p[0],y=t[2]+t[3]*p[1];const c=x>=8192?'ek':'ka';if(c==='ek')x-=8192;return {c,x,y}}
@@ -712,7 +713,7 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
       for(const [z,o] of Object.entries(Z)){const x=(o.x/o.k-left)*s,y=(o.y/o.k-top)*s;if(!inV(x,y,40))continue;
         pins+='<button class="amz'+(RZ.has(z)?' now':'')+'" data-amz="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+QMK.g+'<b>'+o.n+'</b> '+esc(z)+'</button>'}
       vis.filter(p=>!p.qs.length).forEach(p=>{const x=X(p),y=Y(p);if(inV(x,y,20))pins+='<span class="amd" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+'</span>'})}
-    else{for(const z in MAPZ){const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(inV(x,y,60))pins+='<span class="amn">'.replace('>',' style="left:'+x+'px;top:'+y+'px">')+esc(z)+'</span>'}
+    else{for(const z in MAPZ){const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(inV(x,y,60))pins+='<button class="amn" data-amzi="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+esc(z)+'</button>'}
       const lab=A.z>=3.3;
       vis.forEach((p,i)=>{const x=X(p),y=Y(p);if(!inV(x,y,20))return;const n=p.qs.length;const lv=n?Math.min(...p.qs.map(q=>q.lv||c.lv)):0;
         pins+='<button class="amk k-'+p.kind+(n?' '+lvCls(lv,c.lv):'')+(ui.amsel===i?' sel':'')+'" data-amk="'+i+'" title="'+esc(p.nm||'')+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(n>1?'<b>'+n+'</b>':'')+(lab&&p.nm?'<i>'+esc(p.nm)+'</i>':'')+'</button>'})}
@@ -722,6 +723,8 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
     /* 고른 퀘스트 */
     const FO=ui.amq&&amFocus(ui.amq);if(FO){const fp=FO.P.filter(p=>p.c===A.c);if(fp.length>1)svg+='<polyline points="'+fp.map(p=>X(p)+','+Y(p)).join(' ')+'" class="amfq"/>';
       fp.forEach(p=>{pins+='<span class="amf k-'+p.kind+'" style="left:'+X(p)+'px;top:'+Y(p)+'px">'+AMIC[p.kind]()+'<i>'+esc(p.nm||'')+'</i></span>'})}
+    /* 지금 보고 있는 지역 (가운데 기준) */let cur='';if(A.z>=1.5){let best=1e9;for(const z in MAPZ){const t=MAPZ[z];const ox=A.c==='ek'?A.cx+8192:A.cx;const px=(ox-t[0])/t[1],py=(A.cy-t[2])/t[3];if(px<0||px>100||py<0||py>100)continue;const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const sc=t[1];if(sc<best){best=sc;cur=z}}}
+    pins+=cur?'<button class="amcur" data-amzi="'+esc(cur)+'">🗺️ '+esc(cur)+' <b>정보 ›</b></button>':'';
     st.P.innerHTML=(svg?'<svg class="amsvg" width="'+W+'" height="'+H+'">'+svg+'</svg>':'')+pins;st.vis=vis}
   st.draw=draw;draw();
   const zoomAt=(dz,px,py)=>{const A=ui.am,s=2**(A.z-3),W=el.clientWidth,H=el.clientHeight;const ax=A.cx+(px-W/2)/s,ay=A.cy+(py-H/2)/s;A.z+=dz;clamp();const s2=2**(A.z-3);A.cx=ax-(px-W/2)/s2;A.cy=ay-(py-H/2)/s2;draw()};
@@ -734,28 +737,56 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
   const up=e=>{if(!st.ptr.has(e.pointerId))return;st.ptr.delete(e.pointerId);const r=el.getBoundingClientRect();
     if(st.pinch){if(st.ptr.size===0){const p=st.pinch;st.pinch=null;st.L.style.transformOrigin=st.P.style.transformOrigin='';zoomAt(Math.log2(Math.max(.2,p.r)),p.cx,p.cy)}return}
     const d=st.drag;st.drag=null;if(!d)return;
-    if(Math.abs(d.dx)+Math.abs(d.dy)<6){const k=d.t.closest&&d.t.closest('[data-amk],[data-amz],[data-amh]');
-      if(k&&k.dataset.amz){const a=toAtlas(k.dataset.amz,'50,50');if(a){ui.am={c:a.c,z:2,cx:a.x,cy:a.y};ui.amsel=null;draw();amPanel(null)}return}
-      if(k&&k.dataset.amh){ui.amhub=+k.dataset.amh;ui.amsel=null;draw();amPanel(st.route.find(x=>x.no===ui.amhub));return}
-      if(k&&k.dataset.amk){ui.amsel=+k.dataset.amk;ui.amhub=null;draw();amPanel(st.vis[ui.amsel]);return}
+    if(Math.abs(d.dx)+Math.abs(d.dy)<6){const k=d.t.closest&&d.t.closest('[data-amk],[data-amz],[data-amh],[data-amzi]');
+      if(k&&k.dataset.amzi){ui.amzone=k.dataset.amzi;ui.amsel=null;ui.amhub=null;draw();amPanel({kind:'zone',zone:ui.amzone});return}
+      if(k&&k.dataset.amz){const a=toAtlas(k.dataset.amz,'50,50');if(a){ui.am={c:a.c,z:2,cx:a.x,cy:a.y};ui.amsel=null;ui.amzone=k.dataset.amz;draw();amPanel({kind:'zone',zone:ui.amzone})}return}
+      if(k&&k.dataset.amh){ui.amzone=null;ui.amhub=+k.dataset.amh;ui.amsel=null;draw();amPanel(st.route.find(x=>x.no===ui.amhub));return}
+      if(k&&k.dataset.amk){ui.amzone=null;ui.amsel=+k.dataset.amk;ui.amhub=null;draw();amPanel(st.vis[ui.amsel]);return}
       const now=Date.now();if(now-st.tap<320){st.tap=0;zoomAt(1,e.clientX-r.left,e.clientY-r.top)}else{st.tap=now;st.L.style.transform=st.P.style.transform=''}return}
     const s=2**(ui.am.z-3);ui.am.cx-=d.dx/s;ui.am.cy-=d.dy/s;draw()};
   el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
   el.addEventListener('wheel',e=>{e.preventDefault();const r=el.getBoundingClientRect();zoomAt(e.deltaY<0?.5:-.5,e.clientX-r.left,e.clientY-r.top)},{passive:false});
   el.querySelectorAll('[data-am]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const r=el.getBoundingClientRect();const k=b.dataset.am;
     if(k==='in')zoomAt(1,r.width/2,r.height/2);else if(k==='out')zoomAt(-1,r.width/2,r.height/2);else{ui.am=amHome(c);ui.amq=null;draw();amPanel(null)}}));
-  if(ui.amq)amPanel({kind:'focus'});else if(ui.amhub&&st.route.find(x=>x.no===ui.amhub))amPanel(st.route.find(x=>x.no===ui.amhub));else if(ui.amsel!=null&&st.vis&&st.vis[ui.amsel])amPanel(st.vis[ui.amsel])}
+  if(ui.amq)amPanel({kind:'focus'});else if(ui.amzone)amPanel({kind:'zone',zone:ui.amzone});else if(ui.amhub&&st.route.find(x=>x.no===ui.amhub))amPanel(st.route.find(x=>x.no===ui.amhub));else if(ui.amsel!=null&&st.vis&&st.vis[ui.amsel])amPanel(st.vis[ui.amsel])}
 function amRow(c,q,id){return '<div class="amrow"><button class="lhq" data-a="qopen" data-k="'+(id||q.id)+'"><span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n||q.nm)+'</b><span>'+esc(((q.o||'').length>60?(q.o||'').slice(0,58)+'…':(q.o||'')))+'</span></span></button>'+(QDB&&QDB.get(id||q.id)?'<button class="amgo" data-a="amq" data-k="'+(id||q.id)+'" title="지도에 할 일 위치 보기">📍</button>':'')+'</div>'}
 function amPanel(p){const box=document.getElementById('ampanel');if(!box)return;const c=me();if(!p){box.innerHTML='';return}
   if(p.kind==='focus'){const FO=amFocus(ui.amq);if(!FO){box.innerHTML='';return}const q=FO.q;
     box.innerHTML='<div class="card amcard"><div class="amh2"><b>📍 '+esc(q.n)+'</b><button class="btn sm ghost" data-a="amq" data-k="">끄기</button></div><p class="mute">'+FO.P.map(x=>AMIC[x.kind]()+' '+esc(x.nm||'')).join(' → ')+'</p>'
      +(FO.P.some(x=>x.kind==='ob')?'':'<p class="mute">할 일 위치 자료가 없어서 받는 곳·반납하는 곳만 보여요.</p>')+'</div>';return}
+  if(p.kind==='zone'){box.innerHTML='<div class="card amcard">'+zoneInfo(c,p.zone,{title:1,btn:1})+'</div>';return}
   if(p.kind==='hub'){const H=p.H;const rows=[...H.turn.filter(x=>!x.done).map(x=>[x,1]),...H.get.filter(x=>!x.done).map(x=>[x,0])];
     box.innerHTML='<div class="card amcard"><div class="amh"><b>'+p.no+'. '+esc(p.nm)+'</b><span class="mute">'+esc(p.zone)+' · '+QMK.g+'받기 '+H.get.filter(x=>!x.done).length+(H.turn.filter(x=>!x.done).length?' · '+QMK.r+'반납 '+H.turn.filter(x=>!x.done).length:'')+'</span></div>'
      +rows.map(([x,t])=>amRow(c,{n:(t?'❓ ':'')+x.q.nm,lv:x.q.lv,o:t?((x.rv||'')+'에게 반납'):''},x.q.id)).join('')+'</div>';return}
   const t=p.kind==='fp'?'🦅 비행 조련사':p.kind==='inn'?'🏠 여관 주인':p.kind==='tr'?AMIC.tr()+' 직업 교관':p.kind==='r'?QMK.r+' 반납하는 곳':QMK.g+' 받는 곳';
   box.innerHTML='<div class="card amcard"><div class="amh"><b>'+esc(p.nm||'')+'</b><span class="mute">'+t+' · '+esc(p.zone)+'</span></div>'
    +(p.qs.length?p.qs.sort((a,b)=>a.lv-b.lv).map(q=>amRow(c,q)).join(''):'<p class="mute">'+(p.kind==='fp'?'처음 가면 말 걸어서 비행 경로를 열어 두세요':p.kind==='tr'?'새 기술을 배우러 오는 곳이에요':'귀환석을 여기 맞출 수 있어요')+'</p>')+'</div>'}
+
+/* ===== 지역 정보: 이 지역에서 얻는 장비(퀘스트 보상·몹 드랍)·이동·사냥터 ===== */
+let SRCIT=null;function srcItems(){if(SRCIT)return SRCIT;SRCIT=new Map();ITEMS.forEach(it=>it.src.forEach(i=>{let a=SRCIT.get(i);if(!a)SRCIT.set(i,a=[]);a.push(it)}));return SRCIT}
+function zoneItems(c,zone){const L=c.lv;const out=new Map();let nq=0,nd=0;
+  const put=(it,how,lv,kind)=>{if(!it||!it.sl||!usable(it,c)||it.ob>L+4)return;if(kind==='q')nq++;else nd++;const b=bestSlot(it,c);const o={it,how,lv:Math.max(lv||0,it.ob||0),g:b?b.g:0,s:b&&b.s,kind};const p=out.get(it.id);if(!p||o.g>p.g)out.set(it.id,o)};
+  if(QDB)for(const q of QDB.values()){if(!(zEq(q.z,zone)||(q.g&&zEq(q.g[1],zone)))||!qdbOk(c,q)||mqDone(c,q))continue;const r=RWD.get(q.id);if(!r)continue;
+    for(const x of [...(r.ch||[]),...(r.fx||[])])put(IT.get(x[0]),'퀘스트 「'+q.n+'」',Math.max(q.m||0,(q.lv||0)-3),'q')}
+  const nz=(WLD&&WLD.nz)||{};const SI=srcItems();
+  SRC.forEach((s,i)=>{if(!s||s.k!==3)return;const m=s.label.match(/\(([^)]+)\)$/);const id=(s.href.match(/npc=(\d+)/)||[])[1];const z=m?m[1]:id?nz[id]:null;if(!zEq(z,zone))return;
+    (SI.get(i)||[]).forEach(it=>put(it,s.label.replace(/^드랍 · /,'').replace(/ \([^)]+\)$/,'')+' 처치',0,'d'))});
+  return {list:[...out.values()],nq,nd}}
+function zoneInfo(c,zone,opt){opt=opt||{};const L=c.lv;
+  const qs=QDB?[...QDB.values()].filter(q=>(zEq(q.z,zone)||(q.g&&zEq(q.g[1],zone)))&&qdbOk(c,q)):[];const lv=qs.map(q=>q.lv).filter(x=>x>0).sort((a,b)=>a-b);
+  const lo=lv[Math.floor(lv.length*.1)]||0,hi=lv[Math.min(lv.length-1,Math.floor(lv.length*.9))]||0;const left=qs.filter(q=>!mqDone(c,q)).length;
+  const now=qs.filter(q=>!mqDone(c,q)&&(q.m||0)<=L&&q.lv>=L-5&&q.lv<=L+3).length;
+  const Z=zoneItems(c,zone);const good=Z.list.filter(x=>x.g>.01).sort((a,b)=>b.g-a.g);
+  let h=(opt.title?'<div class="amh"><b>'+esc(zone)+(lo?' <small class="mute">Lv '+lo+'–'+hi+'</small>':'')+'</b><span class="mute">'+QMK.g+' 지금 할 퀘 '+now+' · 남은 퀘 '+left+'</span></div>':'');
+  h+='<h5 class="zh">⭐ 나한테 좋은 장비 '+(good.length?good.length+'개':'')+'</h5>';
+  h+=good.length?good.slice(0,opt.n||6).map(x=>'<button class="zit" data-a="info" data-k="'+x.it.id+'">'+itIcon(x.it)+'<span class="t">'+itName(x.it)+'<span>'+esc(SLOT_KO[x.s]||'')+' · '+esc(x.how)+'</span></span><span class="qlv '+lvCls(x.lv,L)+'">'+(x.lv||'?')+'</span></button>').join('')
+    :'<p class="mute">지금 끼고 있는 것보다 좋은 장비는 여기 없어요.</p>';
+  h+='<p class="mute zsum">지금 레벨(+4까지)에 이 지역에서 얻는 장비: 퀘스트 보상 '+Z.nq+'개 · 몹 드랍 '+Z.nd+'개 · 내 직업이 쓸 수 있는 것만</p>';
+  if(WLD){const f=WLD.fp.find(x=>zEq(x[1],zone)),i=WLD.inn.find(x=>zEq(x[1],zone)),T=(WLD.tr[c.cls]||[]).find(x=>zEq(x[1],zone));
+    if(f||i||T)h+='<h5 class="zh">🧭 이동·편의</h5><p class="zmv">'+(f?'🦅 '+esc(f[0])+' '+xyTxt(f[2])+'<br>':'')+(i?'🏠 '+esc(i[0])+' '+xyTxt(i[2])+'<br>':'')+(T?'<img class="qmk" src="img/ui-book.png" alt=""> '+esc(T[0])+' '+xyTxt(T[2]):'')+'</p>';
+    const M=(WLD.mob[zone]||WLD.mob[Object.keys(WLD.mob).find(k=>zEq(k,zone))]||[]).filter(m=>m[1]<=L+1&&m[2]>=L-1).slice(0,3);if(M.length)h+='<h5 class="zh">⚔️ 내 레벨 사냥터</h5><p class="zmv">'+M.map(m=>esc(m[0])+' <span class="qlv '+lvCls(m[2],L)+'">'+(m[1]===m[2]?m[1]:m[1]+'–'+m[2])+'</span> '+m[4]+', '+m[5]+' · '+m[3]+'마리쯤').join('<br>')+'</p>'}
+  if(opt.btn)h+='<button class="btn sm ghost full" data-a="zq" data-k="'+esc(zone)+'">이 지역 퀘스트 목록 ›</button>';
+  return h}
 
 /* ===== 레벨업 도우미: 직업 퀘스트 · 교관 · 던전 · 이동 · 사냥터 ===== */
 let WLD=null,WLD_LOAD=false;
@@ -1123,6 +1154,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
   if(a==='dtab'){ui.dtab=k;rerender(true);return}
+  if(a==='zq'){ui.qmode='map';ui.mz='?|'+k;ui.mf='now';render();window.scrollTo(0,0);return}
   if(a==='dcs'){const dc=document.querySelector('.dchips');if(dc)dc.scrollBy({left:(+k)*dc.clientWidth*.8,behavior:'smooth'});return}
   if(a==='amc'){if(ui.am&&ui.am.c!==k)ui.am={c:k,z:0,cx:ATL[k].w/2,cy:ATL[k].h/2};ui.amsel=null;rerender(true);return}
   if(a==='amq'){ui.amq=k?+k:null;if(ui.amq){const FO=amFocus(ui.amq);if(FO&&FO.P[0])ui.am={c:FO.P[0].c,z:Math.max(ui.am?ui.am.z:2,2.4),cx:FO.P.reduce((a,p)=>a+p.x,0)/FO.P.length,cy:FO.P.reduce((a,p)=>a+p.y,0)/FO.P.length}}if(AM&&AM.draw){AM.draw();amPanel(ui.amq?{kind:'focus'}:null)}return}
