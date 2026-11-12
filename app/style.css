@@ -512,3 +512,48 @@ details.qf summary::-webkit-details-marker{display:none}
 .chrun>summary .cv{color:var(--mute)}
 .chrun[open]>summary .cv{transform:rotate(180deg)}
 .chrun>.chs{padding:0 8px 6px}
+/* 던전 동선 */
+.dtabs{margin:10px 0}
+.rsum p{margin:6px 0 0;font-size:14px;line-height:1.55}
+.rprep{border-color:#ff9f43}
+.rprep>b{color:#ffb36b}
+ul.roles{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:3px}
+ul.roles li{display:flex;gap:6px;font-size:13px;line-height:1.5;color:#d8cfbd}
+ul.roles li i{font-style:normal;flex:none;width:16px;text-align:center}
+ul.roles li.tk span{color:#ffe08a;font-weight:600}
+ul.roles li.hl span{color:#a8e6bd}
+.rmap{margin:8px 0;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.rmap>summary{cursor:pointer;color:var(--mute);font-size:14px}
+.rmap figure{margin:8px 0}
+.rmap figcaption{font-size:12px;color:#e2c26b;margin-bottom:4px}
+.mapw{position:relative;border-radius:8px;overflow:hidden;background:#111;min-height:60px}
+.mapw img{display:block;width:100%;height:auto}
+.mapw.noimg::after{content:'지도 그림을 못 불러왔어요';display:block;padding:20px;color:var(--mute);font-size:12px}
+.pin{position:absolute;transform:translate(-50%,-50%);font-size:11px;font-weight:800;white-space:nowrap;text-shadow:0 1px 3px #000,0 0 6px #000;color:#f2d488}
+.pin.n{width:22px;height:22px;border-radius:50%;background:#1a1208;border:2px solid #e8c170;display:flex;align-items:center;justify-content:center;text-shadow:none}
+.pin.n.q{border-color:#ffd100;box-shadow:0 0 0 2px rgba(255,209,0,.35)}
+.rh{margin:14px 0 6px;font-size:16px}
+ol.route{list-style:none;margin:0;padding:0}
+.rs{position:relative;display:flex;gap:10px;padding:0 0 12px}
+.rs:not(:last-child)::before{content:'';position:absolute;left:13px;top:28px;bottom:0;width:2px;background:var(--line)}
+.rs .no{flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;border:2px solid #e8c170;color:#f2d488;background:#1a1208;z-index:1}
+.rs.rare .no{border:2px dashed #c9a0ff;color:#d9bcff}
+.rs.obj .no{border-color:#7cb8ff;color:#9ccaff}
+.rs.skip{opacity:.7}
+.rb2{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.rs.boss .rb2{border-color:rgba(232,193,112,.45)}
+.rt3{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px}
+.rt3 b{font-size:15px}
+.rt3 .lv{font-size:11px;color:#e2c26b;border:1px solid rgba(226,194,107,.5);border-radius:5px;padding:0 5px}
+.rt3 .ty{font-size:11px;color:var(--mute)}
+.rt3 .sk{font-size:11px;color:#d9bcff;border:1px dashed #c9a0ff;border-radius:5px;padding:0 5px}
+.spl{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.sp{font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:#cfc4ad;background:rgba(255,255,255,.03)}
+.sp em{font-style:normal;margin-left:4px;font-weight:800;border-radius:4px;padding:0 4px;background:#3a3122;color:#ffd38a}
+.sp em.t-interrupt{background:#5a1f1f;color:#ff9a9a}
+.sp em.t-avoid,.sp em.t-spread,.sp em.t-away{background:#1f3a5a;color:#9ccaff}
+.rq,.rgood{display:flex;align-items:center;gap:6px;margin-top:6px;background:none;border:0;padding:0;font-size:12px;color:#e7c76a;text-align:left}
+.rgood{color:#9fdcb0}
+.src{font-size:11px;margin-top:8px}
+ul.roles li.it span{color:#ffb0b0;font-weight:600}
+.rs .no{align-self:flex-start;margin-top:6px}

@@ -27,6 +27,9 @@ jobs:
         timeout-minutes: 40
       - run: node tools/wythic-bosses.mjs
         continue-on-error: true
+      - run: node tools/dungeon-guide.mjs
+        timeout-minutes: 15
+        continue-on-error: true
       - name: QuestieDB(포에버 퀘스트 자료) 받기
         run: |
           git clone -q --depth 1 --filter=blob:none --sparse https://github.com/Questie/QuestieDB /tmp/qdb

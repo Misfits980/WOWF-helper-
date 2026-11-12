@@ -693,14 +693,49 @@ function statTop(it,c,n){const w=wOf(c);return Object.keys(it.st).filter(k=>STAT
 function dropLine(c,it){const use=usable(it,c);const b=use?bestSlot(it,c):null;
   const g=b&&b.g>.01?'<span class="gp'+(b.g>=20?' hi':'')+'">+'+Math.round(b.g)+'</span>':use?'':'<span class="gp no">못 씀</span>';
   return '<div class="dl"><button class="dlb" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+'</span><span class="sub">'+esc((SL_KO[it.sl]||'')+(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?' '+CS_KO[it.cs]:''))+(statTop(it,c)?' · '+esc(statTop(it,c)):'')+'</span></span>'+g+'</button>'+(b&&b.g>.01?'<button class="btn sm eqb" data-a="equip" data-k="'+b.s+'" data-id="'+it.id+'">끼기</button>':'')+'</div>'}
+/* ===== 던전 동선·공략 (wowf.io 진행 순서 + forg.gg 보스 기술) ===== */
+let DGG=null,DGG_LOAD=false;
+function dggLoad(){if(DGG_LOAD)return;DGG_LOAD=true;fetch('data/forg/dungeon-guide.json?'+Math.floor(Date.now()/3600000)).then(r=>r.ok?r.json():{}).then(j=>{DGG=j||{};if(ui.tab==='dungeon')rerender(true)}).catch(()=>{DGG={};})}
+const TAGKO={interrupt:'끊기','dispel-magic':'마법 해제','dispel-curse':'저주 해제','dispel-poison':'독 해제','dispel-disease':'질병 치료','no-dispel':'해제 안 됨',avoid:'피하기',spread:'흩어지기',away:'떨어져 서기',wall:'벽 등지기',front:'정면 공격'};
+function roleLines(txt,max){/* 문장마다 역할 표시: 🛡️ 탱커 · 💚 힐러 · ⚡ 끊기 · 나머지는 • */
+  const S=(txt||'').split(/(?<=[.다요])\s+/).map(t=>t.trim()).filter(Boolean);
+  const kind=t=>/탱커|어그로|도발|정면/.test(t)?'tk':/끊/.test(t)?'it':/힐러|독 해제|저주 해제|마법 해제|질병|해독/.test(t)?'hl':'';
+  const IC={tk:'🛡️',it:'⚡',hl:'💚','':'•'};const rank={tk:0,it:1,hl:2,'':3};
+  let L=S.map((t,i)=>({t,k:kind(t),i}));if(max&&L.length>max)L=L.sort((a,b)=>rank[a.k]-rank[b.k]||a.i-b.i).slice(0,max).sort((a,b)=>a.i-b.i);
+  return L.map(x=>'<li class="'+x.k+'"><i>'+IC[x.k]+'</i><span>'+esc(x.t)+'</span></li>').join('')}
+function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
+  const g=DGG[d.slug];if(!g||!(g.steps&&g.steps.length)){return '<p class="empty-st">이 던전 동선 자료가 아직 없어요.</p>'+(g&&g.boss?bossTacOnly(g):'')}
+  let h='';
+  if(g.sum)h+='<div class="card rsum"><b>🧭 한 줄 동선</b><p>'+esc(g.sum)+'</p></div>';
+  if(g.prep&&g.prep.length)h+='<div class="card rprep"><b>⚠️ 들어가기 전에</b><ul class="roles">'+g.prep.map(x=>{const k=/탱커|어그로|도발/.test(x)?'tk':/힐러|해제|해독/.test(x)?'hl':'';return '<li class="'+k+'"><i>'+(k==='tk'?'🛡️':k==='hl'?'💚':'•')+'</i><span>'+esc(x)+'</span></li>'}).join('')+'</ul></div>';
+  if(g.floors&&g.floors.length)h+='<details class="rmap"'+(ui.dmap?' open':'')+'><summary>🗺️ 지도 보기 ('+g.floors.length+'층) · 번호 = 진행 순서</summary>'+g.floors.map(f=>'<figure><figcaption>'+esc(f.name)+'</figcaption><div class="mapw"><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'
+     +f.pins.map(p=>{const t=(p.t||'').replace(/\d+$/,'').replace(/!$/,'');const num=/^\d+!?$/.test(p.t||'');return '<span class="pin'+(num?' n':' l')+(/!/.test(p.t||'')?' q':'')+'" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(num?(p.t||'').replace('!',''):t)+'</span>'}).join('')+'</div></figure>').join('')+'<p class="mute src">지도: wowf.io</p></details>';
+  const B=g.boss||{};const items=dgItems(c,d);
+  const goodOf=nm=>items.filter(it=>usable(it,c)&&it.src.some(i=>{const s=SRC[i];return s&&s.k===0&&s.dg===d.slug&&s.boss===nm})).map(it=>bestSlot(it,c)).filter(b=>b&&b.g>.01).length;
+  h+='<h3 class="rh">진행 순서</h3><p class="legend">🛡️ 탱커가 볼 것 · ⚡ 끊기 · 💚 힐러가 볼 것</p><ol class="route">'+g.steps.map(st=>{const fb=B[st.nm]||Object.values(B).find(b=>b.en&&b.en===st.en);
+    const kind=/우두머리/.test(st.type)?'boss':/희귀/.test(st.type)?'rare':'obj';const good=kind==='boss'?goodOf(st.nm):0;
+    let r='<li class="rs '+kind+(st.skip?' skip':'')+'"><span class="no">'+st.n+'</span><div class="rb2"><div class="rt3"><b>'+esc(st.nm)+'</b>'+(st.lv?'<span class="lv">Lv '+st.lv+'</span>':'')+'<span class="ty">'+esc(st.type)+'</span>'+(st.skip?'<span class="sk">건너뛰어도 됨</span>':'')+'</div>';
+    const txt=(fb&&fb.tac)||st.note||'';
+    if(txt)r+='<ul class="roles">'+roleLines(txt,3)+'</ul>';
+    if(fb&&fb.sp&&fb.sp.length)r+='<div class="spl">'+fb.sp.map(x=>'<span class="sp" title="'+esc(x[1])+'">'+esc(x[0])+(x[2]?x[2].split(',').map(t=>'<em class="t-'+t+'">'+(TAGKO[t]||t)+'</em>').join(''):'')+'</span>').join('')+'</div>';
+    if(st.q&&st.q.length)r+=st.q.map(q=>'<button class="rq" data-a="qopen" data-k="'+q[0]+'">'+qico('dg')+' '+esc(q[1])+'</button>').join('');
+    if(good)r+='<button class="rgood" data-a="dtab" data-k="loot">'+qico('gear')+' 내게 좋은 템 '+good+'개 ›</button>';
+    return r+'</div></li>'}).join('')+'</ol>';
+  h+='<p class="mute src">공략: wowf.io 진행 순서 · forg.gg 보스 기술 (패치로 달라졌을 수 있어요)</p>';
+  return h}
+function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map(([nm,b],i)=>'<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(nm)+'</b></div>'+(b.tac?'<ul class="roles">'+roleLines(b.tac)+'</ul>':'')+'</div></li>').join('')+'</ol>'}
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const byBoss={};items.forEach(it=>{const s=it.src.map(i=>SRC[i]).find(s=>s&&s.k===0&&s.dg===d.slug);const b=s?s.boss:'기타';(byBoss[b]=byBoss[b]||[]).push(it)});
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
   const myUps=items.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01);
   let h='<div class="wrap"><div class="dhero"><img src="'+DG_IMG(d.slug)+'" alt="" onerror="this.remove()"><div class="dt"><h2>'+esc(d.ko)+'</h2><small>'+esc(d.en)+'</small></div></div>';
   h+='<div class="dinfo"><span>📍 '+esc(d.loc)+'</span><span>🎯 권장 '+d.lo+'–'+d.hi+'</span><span>👹 보스 '+order.length+'</span><span>📜 퀘스트 '+d.q.length+'</span>'+(()=>{const n=d.q.filter(q=>preChain(q.id).some(i=>!mqDone(c,QDB.get(i)))).length;return n?'<span class="warn">⚠️ 앞 연계 필요 '+n+'</span>':''})()+'<span>⭐ 내게 좋은 템 '+myUps.length+'</span></div>';
+  const dt=ui.dtab||'route';
+  h+='<div class="chips seg dtabs">'+[['route','🧭 동선·공략'],['loot','🎁 템'+(myUps.length?' '+myUps.length:'')],['quest','📜 퀘스트 '+d.q.length]].map(x=>'<button class="chip'+(dt===x[0]?' on':'')+'" data-a="dtab" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
+  if(dt==='route')return h+dgRoute(c,d)+'</div>';
   /* 1. 퀘스트 */
-  if(d.q.length)h+='<div class="card"><h3>📜 퀘스트 '+d.q.length+'개</h3>'+dqList(c,d)+'</div>';
+  if(dt==='quest'){h+=d.q.length?'<div class="card">'+dqList(c,d)+'</div>':'<p class="empty-st">이 던전 퀘스트가 없어요.</p>';return h+'</div>'}
+  if(false)h+='<div class="card"><h3>📜 퀘스트 '+d.q.length+'개</h3>'+dqList(c,d)+'</div>';
   /* 2. 보스 순서대로 */
   h+='<h3 style="margin-top:16px">👹 보스 '+order.length+' <small class="mute">들어가는 순서 · 숫자는 내 장비보다 좋아지는 점수</small></h3>';
   ui.bopen=ui.bopen||{};let firstGood=null;
@@ -794,6 +829,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='mc'){ui.mc=k;ui.mz=null;rerender(true);return}
   if(a==='mz'){ui.mz=k||null;ui.mf=ui.mf||'near';render();window.scrollTo(0,0);return}
   if(a==='mf'){ui.mf=k;rerender(true);return}
+  if(a==='dtab'){ui.dtab=k;rerender(true);return}
   if(a==='bo'){ui.bopen=ui.bopen||{};const cur=b.closest('.st').classList.contains('open');ui.bopen[k]=!cur;rerender(true);return}
   if(a==='mh'){ui.mhopen=ui.mhopen||{};const cur=b.closest('.st').classList.contains('open');ui.mhopen[k]=!cur;rerender(true);return}
   if(a==='hall'){ui.hall=!ui.hall;rerender(true);return}
