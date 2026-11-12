@@ -129,14 +129,14 @@
 스트라솔름 - 정문|진홍십자군 대장장이|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/141/10637.webp
 스트라솔름 - 정문|기록관 갈포드|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/48/10544.webp
 스트라솔름 - 정문|발나자르|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/49/10545.webp
-스트라솔름 - 공무용 입구|네룹엔칸|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/65/9793.webp
-스트라솔름 - 공무용 입구|뾰족바위|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/176/7856.webp
-스트라솔름 - 공무용 입구|검은호위대 검제작자|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/7/775.webp
-스트라솔름 - 공무용 입구|남작부인 아나스타리|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/202/10698.webp
-스트라솔름 - 공무용 입구|냉혈한 말레키|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/50/10546.webp
-스트라솔름 - 공무용 입구|집정관 발실라스|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/193/10433.webp
-스트라솔름 - 공무용 입구|먹보 람스타인|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/18/12818.webp
-스트라솔름 - 공무용 입구|남작 리븐데어|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/233/10729.webp
+스트라솔름 - 뒷문|네룹엔칸|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/65/9793.webp
+스트라솔름 - 뒷문|뾰족바위|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/176/7856.webp
+스트라솔름 - 뒷문|검은호위대 검제작자|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/7/775.webp
+스트라솔름 - 뒷문|남작부인 아나스타리|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/202/10698.webp
+스트라솔름 - 뒷문|냉혈한 말레키|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/50/10546.webp
+스트라솔름 - 뒷문|집정관 발실라스|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/193/10433.webp
+스트라솔름 - 뒷문|먹보 람스타인|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/18/12818.webp
+스트라솔름 - 뒷문|남작 리븐데어|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/233/10729.webp
 아탈학카르 신전|아탈알라리온|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/193/7873.webp
 아탈학카르 신전|학카르의 피조물|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/225/4065.webp
 아탈학카르 신전|예언자 잠말란|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/52/6708.webp
