@@ -26,16 +26,22 @@ KO = rdmap('data/qdb/item-ko.txt', kint=True)
 NPC = rdmap('data/qdb/npc-en-ko.txt')
 ZONE = rdmap('data/qdb/zone-ko.txt', kint=True)
 QKO = {}
+QLV = {}
 try:
     for line in open(os.path.join(ROOT, 'data/qdb/quests.jsonl'), encoding='utf-8'):
         o = json.loads(line)
         QKO[o['id']] = o['n']
+        QLV[o['id']] = max(o.get('m') or 0, (o.get('lv') or 0) - 3)
 except FileNotFoundError:
     pass
 HAVE = set()
+HAVE_NM = set()
 for line in open(os.path.join(ROOT, 'data/forg/items.txt'), encoding='utf-8'):
     if line.strip():
-        HAVE.add(int(line.split('|')[0]))
+        f = line.rstrip('\n').split('|')
+        HAVE.add(int(f[0]))
+        if len(f) > 12:
+            HAVE_NM.add(f[12])
 
 SC = {'Head': 'he', 'Neck': 'ne', 'Shoulder': 'sh', 'Back': 'ba', 'Chest': 'ch', 'Wrist': 'wr', 'Hands': 'ha', 'Waist': 'wa', 'Legs': 'le', 'Feet': 'fe',
       'Finger': 'fi', 'Trinket': 'tr', 'Main Hand': 'mh', 'One-Hand': '1h', 'Two-Hand': '2h', 'Off Hand': 'oh', 'Held In Off-hand': 'ho', 'Ranged': 'ra', 'Thrown': 'ra', 'Relic': 'ra'}
@@ -105,6 +111,8 @@ for it in D:
         a = ASUB.get(sub)
         if a is None:
             continue
+        if a == 0 and sl not in ('ne', 'fi', 'tr', 'ho'):
+            continue  # 가면·옷 같은 꾸미기 아이템
         cs = '4.%d' % a if a or sl not in ('ne', 'fi', 'tr', 'ba', 'ho') else ''
         if sl == 'ba':
             cs = ''
@@ -112,6 +120,8 @@ for it in D:
     st = {}
     allow = None
     for t in tips:
+        if t.startswith('Use:') or t.startswith('Chance on hit') or '(Proc)' in t:
+            continue
         m = re.match(r'^Classes: (.+)$', t)
         if m:
             allow = [CLS_EN[x.strip()] for x in m.group(1).split(',') if x.strip() in CLS_EN]
@@ -191,11 +201,22 @@ for it in D:
     if q == 'c' and cat != 'Quest':
         continue  # 흰 아이템은 퀘스트 보상만
     nm = KO.get(iid)
-    if not nm:
+    if not nm or re.search('[A-Za-z]{3}', nm):
         skipped['notko'] += 1
-        nm = it['name']
+        continue  # 포에버 한글 자료에 없는 장비는 포에버에 없을 가능성이 커서 뺌
+    if nm in HAVE_NM:
+        skipped['have'] += 1
+        continue  # 포에버에서 새 번호로 바뀐 같은 장비
+    est = ''
+    qlv = max([QLV.get(x['questId'], 0) for x in (s.get('quests') or [])] or [0]) if cat == 'Quest' else 0
+    if qlv > rl:
+        rl = qlv
+    if not rl:
+        il = it.get('itemLevel') or 1
+        if il > 8:
+            rl, est = max(1, il - 5), '?'
     stxt = ' '.join('%s%s' % (k, ('%.2f' % v).rstrip('0').rstrip('.') if isinstance(v, float) else v) for k, v in st.items())
-    out.append('|'.join(map(str, [iid, rl or 1, sl, cs, q, stxt, 1 if eff else '', ';'.join(map(str, refs)), mask, '', ','.join(allow or []), '', nm.replace('|', '/'), it.get('icon') or ''])))
+    out.append('|'.join(map(str, [iid, str(rl or 1) + est, sl, cs, q, stxt, 1 if eff else '', ';'.join(map(str, refs)), mask, '', ','.join(allow or []), '', nm.replace('|', '/'), it.get('icon') or ''])))
 
 os.makedirs(os.path.join(ROOT, 'data/qdb'), exist_ok=True)
 open(os.path.join(ROOT, 'data/qdb/items-extra.txt'), 'w', encoding='utf-8').write('\n'.join(out) + '\n')

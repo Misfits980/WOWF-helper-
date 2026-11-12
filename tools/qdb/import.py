@@ -460,10 +460,13 @@ for qid, q in sorted(QUEST.items()):
     rec = {'id': qid, 'n': name, 'lv': G('questLevel') or 0, 'm': G('requiredLevel') or 0, 'z': zone, 'c': cont, 'o': obj, 'g': g, 'r': r}
     if tasks:
         rec['t'] = tasks
-    pre = (arr(G('preQuestSingle')) or []) + (arr(G('preQuestGroup')) or [])
-    pre = [p for p in pre if isinstance(p, int) and p in QUEST]
-    if pre:
-        rec['pre'] = pre
+    # preQuestGroup: 모두 끝내야 함 / preQuestSingle: 그중 하나만 끝내면 됨
+    preg = [p for p in (arr(G('preQuestGroup')) or []) if isinstance(p, int) and p in QUEST]
+    pre1 = [p for p in (arr(G('preQuestSingle')) or []) if isinstance(p, int) and p in QUEST]
+    if preg:
+        rec['pre'] = preg
+    if pre1:
+        rec['pre1'] = pre1
     nx = G('nextQuestInChain')
     if isinstance(nx, int) and nx:
         rec['nx'] = nx

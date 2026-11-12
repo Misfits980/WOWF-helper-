@@ -1,6 +1,5 @@
 1~퀘스트 · 개릭 패드풋 현상금~wh:quest=6
 1~퀘스트 · 멧돼지 사냥~wh:quest=183
-5~상인 · Thomas Yance~
 1~퀘스트 · 변경의 늑대들~wh:quest=33
 2~월드 드랍 · 경매장~
 1~퀘스트 · 서부 몰락지대 순찰~wh:quest=102
@@ -357,7 +356,6 @@
 1~퀘스트 · 발라리엘에게 돌아가기~wh:quest=1440
 1~퀘스트 · 에라니쿠스의 정수~wh:quest=3373
 1~퀘스트 · 암거래상단~wh:quest=3385
-1~퀘스트 · 응보의 횃불~wh:quest=3454
 3~드랍 · 가시덩굴 구릉 몹~
 3~드랍 · 아탈학카르 신전 몹~
 1~퀘스트 · Sample for Helbrim~wh:quest=1358
@@ -485,7 +483,6 @@
 1~퀘스트 · 사자 키르토노스~wh:quest=5384
 1~퀘스트 · <NYI> <TXT> Necklace of the Dawn~wh:quest=5530
 1~퀘스트 · <NYI> <TXT> Ring of the Dawn~wh:quest=5532
-5~상인 · 지니아 선섀도~
 3~드랍 · 라스 프로스트위스퍼 (스칼로맨스)~
 3~드랍 · 사자 키르토노스 (스칼로맨스)~
 1~퀘스트 · Warlord's Command~wh:quest=4903
@@ -757,9 +754,7 @@
 1~퀘스트 · 브란 브론즈비어드의 잃어버린 편지~wh:quest=8308
 4~제작 · 보석세공 · 경매장 거래~
 5~상인 · "Silvermoon" Harry~
-3~드랍 · 꿈의 메리스라 (Temple of Ahn'Qiraj)~
 3~드랍 · 예언자 스케람 (Temple of Ahn'Qiraj)~
-1~퀘스트 · 달의 축제 드레스~wh:quest=8864
 1~퀘스트 · 지원자의 전투장비~wh:quest=8548
 1~퀘스트 · 영웅의 전투장비~wh:quest=8573
 1~퀘스트 · 정예 용사의 전투장비~wh:quest=8572
@@ -834,7 +829,6 @@
 1~퀘스트 · 넵튤론의 분노~wh:quest=8729
 1~퀘스트 · 네파리우스의 타락~wh:quest=8730
 1~퀘스트 · 드러난 악몽~wh:quest=8736
-1~퀘스트 · 달의 축제 의상~wh:quest=8865
 3~드랍 · 쑨 (Temple of Ahn'Qiraj)~
 3~드랍 · 제왕 베클로어 (Temple of Ahn'Qiraj)~
 3~드랍 · 군주 크리 (Temple of Ahn'Qiraj)~
@@ -889,7 +883,6 @@
 3~드랍 · 불의군주 록코르 (검은바위 나락)~
 3~드랍 · 광신자 고로쉬 (검은바위 나락)~
 1~퀘스트 · 더욱 강력한 재료~wh:quest=9053
-1~퀘스트 · 끓고 있는 가마솥~wh:quest=9029
 3~드랍 · 군주 발타라크 (검은바위 첨탑)~
 3~드랍 · 코르모크 (스칼로맨스)~
 3~드랍 · 이살리엔 (혈투의 전장)~
@@ -975,14 +968,12 @@
 3~드랍 · 살육의 괴물 (그림자송곳니 성채)~
 3~드랍 · 귀부인 팔데리스 (가시덩굴 구릉)~
 1~퀘스트 · 켈투자드의 죽음~wh:quest=9120
-1~퀘스트 · 동부 왕국의 거친 불꽃~wh:quest=9323
 1~퀘스트 · A Thief's Reward~wh:quest=9339
 1~퀘스트 · Blood Elf Spy~wh:quest=9311
 1~퀘스트 · Behomat~wh:quest=10350
 3~드랍 · Eversong Green Keeper (영원노래 숲)~
 3~드랍 · 아우로 (Temple of Ahn'Qiraj)~
 1~퀘스트 · The Finest Down~wh:quest=9420
-3~드랍 · Blood Elf Bandit (하늘안개 섬)~
 1~퀘스트 · Help Tavara~wh:quest=9586
 3~드랍 · Watchkeeper Gargolmar (지옥불 성루)~
 3~드랍 · Omor the Unscarred (지옥불 성루)~

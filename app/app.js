@@ -61,7 +61,7 @@ const ROUTE={};{let cur=null,sec=null;for(const l of D_LVL.split('\n')){if(!l)co
    if(RW[it.id]!=null)ob=Math.min(ob,RW[it.id]);
    for(const i of it.src){const s=SRC[i];if(!s)continue;let v=it.lv;
      if(s.k===0&&DG[s.dg])v=DG[s.dg].lo;
-     else if(s.k===1){const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);if(m&&DGKO[m[1]])v=Math.max(DGKO[m[1]].lo-2,RW[it.id]??0);else if(QMIN[s.qn]!=null)v=QMIN[s.qn]}
+     else if(s.k===1){const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);const qm=(s.href||'').match(/quest=(\d+)/);if(m&&DGKO[m[1]])v=Math.max(DGKO[m[1]].lo-2,RW[it.id]??0);else if(qm&&typeof D_QLV!=='undefined'&&D_QLV[qm[1]]!=null)v=Math.max(it.lv,D_QLV[qm[1]]);else if(QMIN[s.qn]!=null)v=QMIN[s.qn]}
      ob=Math.min(ob,v)}
    it.ob=Math.max(it.lv,ob===99?it.lv:ob)}}
 
@@ -129,7 +129,7 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
     for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
     if(ui.tab==='quest'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}
 function qdbChains(){const P={},N={};for(const q of QDB.values()){if(q.nx&&QDB.has(q.nx)){N[q.id]=q.nx;if(!P[q.nx])P[q.nx]=q.id}}
-  for(const q of QDB.values())if(q.pre&&q.pre.length===1&&!P[q.id]&&QDB.has(q.pre[0])){P[q.id]=q.pre[0];if(!N[q.pre[0]])N[q.pre[0]]=q.id}
+  for(const q of QDB.values()){const pp=(q.pre1&&q.pre1.length===1)?q.pre1:(q.pre&&q.pre.length===1?q.pre:null);if(pp&&!P[q.id]&&QDB.has(pp[0])){P[q.id]=pp[0];if(!N[pp[0]])N[pp[0]]=q.id}}
   const done=new Set();
   for(const q of QDB.values()){if(done.has(q.id))continue;let r=q.id,k=0;while(P[r]&&k++<20)r=P[r];const ids=[];let x=r;k=0;while(x&&!ids.includes(x)&&k++<20){ids.push(x);x=N[x]}
     if(ids.length<2){continue}
@@ -139,19 +139,21 @@ function qdbToQD(q){const drop=t=>t[2]&&t[2].length?t[2].map(x=>x[0]+(x[1]?' (Lv
   return {id:q.id,src:'qdb',obj:q.o,g:q.g?[q.g[0],q.g[1]||'',q.g[2]||'','']:null,
     r:q.r?[q.r[0],q.r[1]||'',q.r[2]||'',q.g&&q.r[0]===q.g[0]&&q.r[2]===q.g[2]?'same':'']:null,
     t:(q.t||[]).map(t=>[t[0],t[1],'',drop(t)]),ch:q._ch||null}}
-const MC_ORDER=['동부 왕국','칼림도어','리버글레이드','제프라스 섬','던전','직업','기타'];
+const MC_ORDER=['동부 왕국','칼림도어','리버글레이드','제프라스 섬','직업','기타'];
 const MC_IC={'동부 왕국':'🏰','칼림도어':'🌴','리버글레이드':'🌊','제프라스 섬':'🏝️','던전':'⚔️','직업':'🎓','기타':'🎉'};
+function qd(c,z,q){return !!((c.fq||{})[z+'|'+q.nm]||(q.id&&(c.mq||{})[q.id]))}
 function mqDone(c,q){return !!((c.mq||{})[q.id]||(c.fq||{})[q.z+'|'+q.n])}
 function mapView(c){const L=c.lv;
   if(!QDB){qdbLoad();return '<p class="empty-st">맵 전체 퀘스트를 불러오는 중이에요…</p>'}
   if(!QDB.size)return '<p class="empty-st">퀘스트 자료를 못 불러왔어요. 잠시 뒤에 다시 열어 주세요.</p>';
-  const all=[...QDB.values()].filter(q=>qdbOk(c,q)&&q.z);
+  const all=[...QDB.values()].filter(q=>qdbOk(c,q)&&q.z&&q.c!=='던전');
   const Z={};for(const q of all){const k=q.c+'|'+q.z;(Z[k]=Z[k]||{c:q.c||'기타',z:q.z,q:[]}).q.push(q)}
   const zs=Object.values(Z).map(o=>{const lv=o.q.map(q=>q.lv).filter(x=>x>0).sort((a,b)=>a-b);o.lo=lv[Math.floor(lv.length*.1)]||0;o.hi=lv[Math.min(lv.length-1,Math.floor(lv.length*.9))]||0;o.mid=lv[Math.floor(lv.length/2)]||0;o.done=o.q.filter(q=>mqDone(c,q)).length;return o});
   const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);const myZ=sec?sec.z.split(' · ')[0]:'';
   let mc=ui.mc||(zs.find(o=>o.z===myZ)||{}).c||'동부 왕국';
-  let h='<p class="note">포에버 퀘스트 <b>'+all.length.toLocaleString()+'개</b>를 지역마다 모았어요. ⚡ 빠른 레벨업 루트에 없는 퀘스트도 다 있어요. (자료: Questie 포에버 DB · 이름은 한글 도감)</p>';
+  let h='<p class="note">포에버 퀘스트 <b>'+all.length.toLocaleString()+'개</b>를 지역마다 모았어요. ⚡ 빠른 레벨업 루트에 없는 퀘스트도 다 있어요.</p>';
   h+='<div class="chips">'+MC_ORDER.filter(m=>zs.some(o=>o.c===m)).map(m=>'<button class="chip'+(mc===m?' on':'')+'" data-a="mc" data-k="'+m+'">'+(MC_IC[m]||'')+' '+m+'</button>').join('')+'</div>';
+  if(ui.mz&&ui.mz.startsWith('?|')){const zn=ui.mz.slice(2);const k=Object.keys(Z).find(k=>k.endsWith('|'+zn));ui.mz=k||null;if(k)mc=ui.mc=Z[k].c}
   const zk=ui.mz&&Z[ui.mz]?ui.mz:null;
   const CKO={warrior:'전사',paladin:'성기사',hunter:'사냥꾼',rogue:'도적',priest:'사제',shaman:'주술사',mage:'마법사',warlock:'흑마법사',druid:'드루이드'}[c.cls]||'';
   if(!zk){const list=zs.filter(o=>o.c===mc&&(mc!=='직업'||o.z.startsWith(CKO+' '))).sort((a,b)=>a.mid-b.mid||a.z.localeCompare(b.z));
@@ -165,8 +167,8 @@ function mapView(c){const L=c.lv;
   if(!qs.length)h+='<p class="empty-st">'+(f==='near'?'이 지역엔 레벨 '+L+' 근처 퀘스트가 없어요. "전부"를 눌러 보세요.':'남은 퀘스트가 없어요.')+'</p>';
   return h+qs.map(q=>mqRow(c,q)).join('')}
 function mqRow(c,q){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=q._ch;
-  const tags=(q.pre?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
-  const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre});
+  const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
+  const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});
   return qFold({key:'m'+q.id,done:d,lock,lv:q.lv,nm:q.n,body,side:ch?'<span class="lk">연계</span>':''})}
 setTimeout(qdbLoad,1200);
 function questById(id){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.id===id)return {q,z:q.gz||q.sz};
@@ -195,8 +197,10 @@ function tasksOf0(d,obj){const ok=t=>t&&t[1]&&!/^\d+$|^(반납|받기|하기)$/.
 const NPC_KO={'Howin Kindfeather':'호윈 킨드페더','Corrupted Night Dragon':'타락한 밤용','Image of Archmage Modera':'대마법사 모데라의 환영','Grund Drokda':'그룬드 드록다','Arbal':'아르발','Corrupted Songflower':'타락한 노래꽃','Corrupted Windblossom':'타락한 바람꽃','The Scarab Gong':'스카라베 징','A Dwarven Corpse':'드워프의 시체','Tom "Half-fish" Wilson':'톰 "반쪽물고기" 윌슨','Sylessa Duskwhisper':'실레사 더스크위스퍼','Dragonmaw Armaments':'용아귀 무기더미','Tattered Spellbook':'너덜너덜한 주문서','Gleaming Crescent Pendant':'반짝이는 초승달 펜던트','Buzzbox 411':'버즈박스 411','Night Elf Courier':'나이트 엘프 전령','Lady Dena Kennedy':'데나 케네디 부인','Daewyn Songblade':'대윈 송블레이드'};
 function npcKo(d,which){const a=which==='g'?d.g:d.r;const nm0=a&&a[0];const nm=NPC_KO[nm0]||nm0;if((!nm||latin(nm))&&d.wf&&d.wf[which]&&!latin(d.wf[which]))return d.wf[which];return nm}
 /* 앞 퀘스트 */
-function preBlock(id,flag){const X=QDB&&QDB.get(id);const P=(X&&X.pre||[]).map(i=>QDB.get(i)).filter(Boolean);
-  if(P.length){return '<div class="pre"><b>🔒 먼저 끝내야 하는 퀘스트</b>'+P.map(o=>'<div>['+(o.lv||'?')+'] <b>'+esc(o.n)+'</b>'+(o.g?' · '+esc(o.g[0])+(o.g[1]?' ('+esc(o.g[1])+(o.g[2]?' '+esc(o.g[2].replace(',',', ')):'')+')':''):'')+' <button class="pbtn sm" data-a="qopen" data-k="'+o.id+'">보기</button></div>').join('')+(P.length>1?'<div class="mute">위 퀘스트를 모두 끝내야 해요.</div>':'')+'</div>'}
+function preBlock(id,flag){const X=QDB&&QDB.get(id);const c0=me();const ok=o=>!c0||qdbOk(c0,o);
+  const PG=(X&&X.pre||[]).map(i=>QDB.get(i)).filter(o=>o&&ok(o)),P1=(X&&X.pre1||[]).map(i=>QDB.get(i)).filter(o=>o&&ok(o));
+  const P=PG.length?PG:P1;
+  if(P.length){return '<div class="pre"><b>🔒 먼저 끝내야 하는 퀘스트</b>'+(!PG.length&&P1.length>1?'<div class="mute">아래 중 <b>하나만</b> 끝내면 돼요.</div>':'')+P.map(o=>'<div>['+(o.lv||'?')+'] <b>'+esc(o.n)+'</b>'+(o.g?' · '+esc(o.g[0])+(o.g[1]?' ('+esc(o.g[1])+(o.g[2]?' '+esc(o.g[2].replace(',',', ')):'')+')':''):'')+' <button class="pbtn sm" data-a="qopen" data-k="'+o.id+'">보기</button></div>').join('')+(PG.length>1?'<div class="mute">위 퀘스트를 <b>모두</b> 끝내야 해요.</div>':'')+'</div>'}
   const ch=chainOf(id);if(ch){const cur=ch.find(r=>r[6]===id);const pv=cur&&ch.find(r=>r[0]===cur[0]-1);if(pv){const o=QD.get(pv[6])||{};const g=npcKo(o,'g');
     return '<div class="pre"><b>🔒 먼저 끝내야 하는 퀘스트</b><div>['+(pv[2]||'?')+'] <b>'+esc(pv[1])+'</b>'+(g?' · '+esc(g)+(o.g&&o.g[1]?' ('+esc(o.g[1])+(o.g[2]?' '+esc(o.g[2].replace(',',', ')):'')+')':''):'')+'</div>'+(pv[6]?'<button class="pbtn sm" data-a="qopen" data-k="'+pv[6]+'">앞 퀘스트 보기</button>':'')+'</div>'}}
   if(!flag)return '';
@@ -233,7 +237,7 @@ function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=cha
     h+='<details class="pchain"><summary>연계 퀘스트 전체 보기 ('+ci+'/'+d.ch.length+')</summary>'+d.ch.map(r=>'<div class="pcr'+(r[0]===ci?' cur':'')+'"><span class="n">'+r[0]+'</span><span class="m"><b>'+esc(r[1])+'</b>'+(r[2]?' <i>Lv '+r[2]+'</i>':'')+(r[3]?'<br><span>'+esc(r[3])+'</span>':'')+(r[4]&&r[4]!=='받기'?'<br><span>'+esc(r[4])+'</span>':'')+'</span>'+(r[0]!==ci&&r[6]?'<button class="pbtn sm" data-a="qopen" data-k="'+r[6]+'">보기</button>':'')+'</div>').join('')+'</details>';
     if(nx&&nx[6])h+='<button class="pbtn" data-a="qopen" data-k="'+nx[6]+'">다음 연계 퀘스트 ▶ <b>['+(nx[2]||'?')+'] '+esc(nx[1])+'</b></button>';
     const pv=d.ch.find(r=>r[0]===ci-1);if(pv&&pv[6])h+='<button class="pbtn ghost" data-a="qopen" data-k="'+pv[6]+'">◀ 앞 단계 ['+(pv[2]||'?')+'] '+esc(pv[1])+'</button>'}
-  return h+(base.done!=null?'<label class="qdone"><input type="checkbox" data-c="'+base.kind+'" data-k="'+esc(base.ck)+'"'+(base.done?' checked':'')+'> 끝냈어요</label>':'')+'</div>'}
+  return h+(base.done!=null?'<label class="qdone"><input type="checkbox" data-c="'+base.kind+'" data-k="'+esc(base.ck)+'" data-id="'+(id||'')+'"'+(base.done?' checked':'')+'> 끝냈어요</label>':'')+'</div>'}
 function questSheet(c,id){id=+id;const f=questById(id);const d=QD.get(id)||{};const cr=d.ch&&d.ch.find(r=>r[6]===id);
   const X=!f&&QDB&&QDB.get(id);
   const q=f?f.q:X?{nm:X.n,lv:X.lv,obj:X.o,min:X.m}:{nm:cr?cr[1]:'퀘스트 '+id,lv:cr?cr[2]:'',obj:d.obj};
@@ -371,14 +375,19 @@ function onboard(){const d=ui.onb;const C=d.cls?D_CLS[d.cls]:null;const first=!D
 function routeOf(c){return ROUTE[RACE_START[c.race]||'dwarf-gnome']||[]}
 function zonesNow(c){const L=c.lv;const fq=c.fq||{};const Z={};
   for(const S of routeOf(c)){if(S.a>L+2||S.b<L-3)continue;for(const q of S.q){if(q.lv<L-4||q.lv>L+3||q.min>L+1)continue;const z=q.gz||q.sz;const k=z+'|'+q.nm;(Z[z]=Z[z]||{z,q:[],seen:new Set()});if(Z[z].seen.has(q.nm))continue;Z[z].seen.add(q.nm);Z[z].q.push(q)}}
-  return Object.values(Z).map(o=>({z:o.z,q:o.q,left:o.q.filter(q=>!fq[o.z+'|'+q.nm]).length})).filter(o=>o.q.length).sort((a,b)=>b.left-a.left)}
+  return Object.values(Z).map(o=>({z:o.z,q:o.q,left:o.q.filter(q=>!qd(c,o.z,q)).length})).filter(o=>o.q.length).sort((a,b)=>b.left-a.left)}
 function dgNow(L){return DGS.filter(d=>L>=d.lo-1&&L<=d.hi).sort((a,b)=>a.fit-b.fit)}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];const sp=specOf(c);let h='<div class="wrap">';
   h+='<h2>레벨 '+L+' — 지금 할 것</h2>';
   /* 퀘스트 지역 */
-  const Z=zonesNow(c).slice(0,3);const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);
-  h+='<div class="card"><div class="hd"><h3>📜 퀘스트 할 곳</h3><button class="more" data-a="tab" data-k="quest">전체 보기 ›</button></div>'+(sec?'<p class="note">레벨 '+sec.a+'–'+sec.b+' 추천 지역: '+esc(sec.z)+'</p>':'')
-   +(Z.length?Z.map(z=>'<button class="row" data-a="goz" data-k="'+esc(z.z)+'"><span class="m"><span class="nm">'+esc(z.z)+'</span><span class="sub">할 수 있는 퀘스트 '+z.left+'개 남음</span></span><span class="r">›</span></button>').join(''):'<p class="note">이 레벨 퀘스트 자료가 없어요.</p>')+'</div>';
+  {const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);
+   h+='<div class="card"><div class="hd"><h3>📜 지금 할 퀘스트</h3><button class="more" data-a="tab" data-k="quest">체크리스트 ›</button></div>';
+   if(!sec)h+='<p class="note">이 레벨 레벨링 루트 자료가 없어요. 퀘스트 탭의 🗺️ 맵 전체에서 찾아보세요.</p>';
+   else{const P=nowPlan(c,sec);const all=P.reduce((n,x)=>n+x.get.length,0),dn=P.reduce((n,x)=>n+x.get.filter(y=>y.done).length,0);
+     h+='<p class="note">레벨 '+sec.a+'–'+sec.b+' 구간 · '+esc(sec.z)+' · <b>'+dn+'/'+all+'</b> 끝냄</p><div class="pbar"><i style="width:'+(all?Math.round(dn/all*100):0)+'%"></i></div>';
+     const next=P.filter(x=>x.get.some(y=>!y.done)||x.turn.some(y=>!y.done)).slice(0,3);let n=0;
+     h+=next.length?next.map(x=>{const g=x.get.filter(y=>!y.done).length,t=x.turn.filter(y=>!y.done).length;n++;return '<button class="row" data-a="tab" data-k="quest"><span class="m"><span class="nm">'+n+'. '+esc(x.n)+'</span><span class="sub">'+esc(x.z)+' · '+(g?'받기 '+g:'')+(g&&t?' · ':'')+(t?'반납 '+t:'')+'</span></span><span class="r">›</span></button>'}).join(''):'<p class="note">이 구간 퀘스트를 다 끝냈어요 👍 레벨을 올려 보세요.</p>'}
+   h+='</div>'}
   /* 던전 */
   const D=dgNow(L).slice(0,3);
   h+='<div class="card"><div class="hd"><h3>🏰 갈 만한 던전</h3><button class="more" data-a="tab" data-k="dungeon">전체 ›</button></div>'+(D.length?D.map(d=>{const myq=d.q.filter(q=>q.min<=L).length;const ups=dgUps(c,d).length;
@@ -478,7 +487,7 @@ function nowPlan(c,S){const fq=c.fq||{};const seen=new Set();const Q=S.q.filter(
   const xs=Q.map(q=>(RWD.get(q.id)||{}).xp||0).filter(Boolean).sort((a,b)=>a-b);const xpHi=xs.length>4?xs[Math.floor(xs.length*.8)]:0;
   const ctx={dq,xpHi};const H=new Map();let ord=0;
   const hub=(z,xy,gv)=>{const [n,i]=xy?hubOfXY(z,xy,gv):['필드·아이템에서 시작',99];const k=z+'|'+n;if(!H.has(k))H.set(k,{k,z,n,i,o:ord++,get:[],turn:[],same:0});return H.get(k)};
-  for(const q of Q){const z=q.gz||q.sz;const d=QD.get(q.id)||{};const done=!!fq[z+'|'+q.nm];
+  for(const q of Q){const z=q.gz||q.sz;const d=QD.get(q.id)||{};const done=qd(c,z,q);
     const g=hub(z,q.xy||(d.g&&d.g[2])||'',q.gv);const it={q,z,done,imp:impOf(c,q,ctx)};g.get.push(it);
     if(d.r&&d.r[0]&&!d.r[3]){const rn=npcKo(d,'r')||d.r[0];if(!d.r[2]){it.to=rn}else{const rz=d.r[1]||z;const r=hub(rz,d.r[2],rn);if(r!==g){r.turn.push(Object.assign({},it,{rv:rn}));it.to=r.n+(r.z!==z?' ('+r.z+')':'')}else g.same++}}
     else g.same++}
@@ -495,7 +504,7 @@ function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.len
   h+=P.map(H=>{const real=H.i<97;if(real)n++;const todo=H.get.filter(x=>!x.done),done=H.get.filter(x=>x.done),turn=H.turn.filter(x=>!x.done);
     if(!todo.length&&!turn.length)return '<div class="hubc fin"><div class="hh">'+(real?'<span class="no">'+n+'</span>':'')+'<b>'+esc(H.n)+'</b> <span class="mute">· '+esc(H.z)+' · 다 끝냄 ✓</span></div></div>';
     const row=(x,kind)=>{const q=x.q;const lock=q.min>c.lv;
-      return '<div class="nrow'+(x.done?' done':'')+(lock?' lock':'')+'"><label class="ck"><input type="checkbox" data-c="fq" data-k="'+esc(x.z+'|'+q.nm)+'"'+(x.done?' checked':'')+'></label>'
+      return '<div class="nrow'+(x.done?' done':'')+(lock?' lock':'')+'"><label class="ck"><input type="checkbox" data-c="fq" data-id="'+(q.id||'')+'" data-k="'+esc(x.z+'|'+q.nm)+'"'+(x.done?' checked':'')+'></label>'
        +'<button class="nm2" data-a="qopen" data-k="'+q.id+'"><span class="lvb lv-'+lvCls(c,q.lv)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.nm)+'</b>'
        +(kind==='turn'?'<span class="s">📨 '+esc(x.rv||'')+'에게 반납</span>':(()=>{const ts=taskShort(q);return '<span class="s">'+esc(ts)+(x.to&&!/^💬/.test(ts)?' → 반납: '+esc(x.to):'')+'</span>'})())
        +(x.imp.length?'<span class="imps">'+x.imp.map(b=>'<i class="imp '+b[0]+'">'+b[1]+'</i>').join('')+'</span>':'')
@@ -509,7 +518,7 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
   let h='<p class="note">1레벨부터 60레벨까지 <b>어느 대륙의 어느 지역</b>으로 가면 되는지 순서대로예요. 지역을 누르면 그 지역 퀘스트로 가요.</p>';
   let pastN=0;const rows=R.map(S=>{const zs=S.z.split(' · ');const cs=[...new Set(zs.map(z=>CONT[z]).filter(Boolean))];const now=L>=S.a&&L<=S.b;const past=L>S.b;
     let move='';if(prevC&&cs.length&&!cs.includes(prevC)&&cs.every(x=>x!=='제프라스 섬'))move='<div class="mv">⛵ '+BOAT+'</div>';prevC=cs[cs.length-1]||prevC;
-    const cnt=z=>{const qs=S.q.filter(q=>(q.gz||q.sz)===z);return [qs.length,qs.filter(q=>fq[z+'|'+q.nm]).length]};
+    const cnt=z=>{const qs=S.q.filter(q=>(q.gz||q.sz)===z);return [qs.length,qs.filter(q=>qd(c,z,q)).length]};
     return move+'<div class="rt'+(now?' now':past?' past':'')+'"><div class="rl"><span class="lvb '+(now?'lv-y':past?'lv-x':'')+'">'+S.a+'–'+S.b+'</span>'+(now?'<span class="tag gd">지금</span>':'')+'</div><div class="m">'+zs.map(z=>{const [n,d]=cnt(z);return '<button class="zr" data-a="goz" data-k="'+esc(z)+'"><b>'+esc(z)+'</b> '+contTag(z)+'<span class="sub">퀘스트 '+n+'개'+(d?' · '+d+'개 끝냄':'')+'</span></button>'}).join('')+'</div></div>'});
   R.forEach(S=>{if(L>S.b)pastN++});
   const pastLv=pastN?R[pastN-1].b:0;
@@ -519,9 +528,10 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
   h+='<h3 class="rnext">🗺️ 레벨 루트 (지금 구간부터)</h3>'+rows.slice(pastN).join('');
   h+='<p class="note">⛵ 배 타는 곳: '+BOAT+'</p>';
   return h}
-function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><p class="note">던전 퀘스트는 <button class="more" data-a="tab" data-k="dungeon">🏰 던전 탭</button>에서 던전마다 모아 보여 줘요.</p><div class="chips">'+[['route','⚡ 빠른 레벨업'],['zone','📍 지금 레벨'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
+function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><p class="note">던전 퀘스트는 <button class="more" data-a="tab" data-k="dungeon">🏰 던전 탭</button>에서 던전마다 모아 보여 줘요.</p><div class="chips">'+[['route','⚡ 빠른 레벨업'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
   if(qm==='route')return h+routeView(c)+'</div>';
   if(qm==='map')return h+mapView(c)+'</div>';
+  if(qm==='zone'){ui.qmode='map';return h+mapView(c)+'</div>'}
   if(qm==='dg')ui.qmode='zone';
   const Z=zonesNow(c);
   if(ui.qz&&!Z.find(x=>x.z===ui.qz)){const qs=[];const seen=new Set();for(const S of routeOf(c))for(const q of S.q)if((q.gz||q.sz)===ui.qz&&!seen.has(q.nm)){seen.add(q.nm);qs.push(q)}if(qs.length)Z.unshift({z:ui.qz,q:qs,left:qs.filter(q=>!(c.fq||{})[ui.qz+'|'+q.nm]).length,all:1})}
@@ -533,7 +543,7 @@ function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wra
    h+='<div class="zh"><b>'+esc(z.z)+'</b> '+contTag(z.z)+(lo?'<span class="sub">레벨링 루트에서 '+lo+'–'+hi+'레벨 구간 · <button class="more" data-a="qmode" data-k="route">전체 루트 보기 ›</button></span>':'')+'</div>'}
   const G={};z.q.forEach(q=>{const [hn,hi]=qHub(z.z,q);(G[hn]=G[hn]||{n:hn,i:hi,q:[]}).q.push(q)});
   const hubs=Object.values(G).sort((a,b)=>(a.i>=97)-(b.i>=97)||Math.min(...a.q.map(q=>q.lv))-Math.min(...b.q.map(q=>q.lv)));let n=0;
-  h+=hubs.map(H=>{const todo=H.q.filter(q=>!fq[z.z+'|'+q.nm]).sort((a,b)=>a.lv-b.lv),done=H.q.filter(q=>fq[z.z+'|'+q.nm]);const real=H.i<97;if(real)n++;
+  h+=hubs.map(H=>{const todo=H.q.filter(q=>!qd(c,z.z,q)).sort((a,b)=>a.lv-b.lv),done=H.q.filter(q=>qd(c,z.z,q));const real=H.i<97;if(real)n++;
     return '<div class="card"><h3 class="hubh">'+(real?'<span class="no">'+n+'</span>':'')+esc(H.n)+' <span class="mute" style="font-weight:400;font-size:13px">· '+todo.length+'개</span></h3>'+(todo.length?todo.map(q=>qRow(c,z.z,q)).join(''):'<p class="note">다 끝냈어요 👍</p>')
      +(done.length?'<details class="fold"><summary>끝낸 퀘스트 '+done.length+'개</summary>'+done.map(q=>qRow(c,z.z,q)).join('')+'</details>':'')+'</div>'}).join('');
   h+='<p class="note">퀘스트 레벨 색: <span class="lvb lv-r" style="min-width:24px;height:18px">빨</span> 어려움 · <span class="lvb lv-y" style="min-width:24px;height:18px">노</span> 적당 · <span class="lvb lv-g" style="min-width:24px;height:18px">초</span> 쉬움. <span class="tag lk">연계</span>는 끝내면 다음 퀘스트가 이어지고, <span class="tag pre">앞 퀘스트 먼저</span>는 앞 단계를 끝내야 받을 수 있어요.</p>';
@@ -542,7 +552,7 @@ function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wra
 function qFold(o){const open=ui.qopen===o.key;
   return '<details class="qf'+(o.done?' done':'')+(o.lock?' lock':'')+'"'+(open?' open':'')+' data-k="'+esc(o.key)+'"><summary><span class="qi">'+(o.done?'✓':'!')+'</span><span class="qn">['+o.lv+'] '+esc(o.nm)+'</span>'
    +(o.side?'<span class="qs">'+o.side+'</span>':'')+'<span class="chev">⌄</span></summary>'+o.body+'</details>'}
-function qRow(c,z,q){const k=z+'|'+q.nm,d=!!(c.fq||{})[k],L=c.lv,lock=q.min>L;
+function qRow(c,z,q){const k=z+'|'+q.nm,d=qd(c,z,q),L=c.lv,lock=q.min>L;
   const tags=(q.pre?'<span class="tag pre">앞 퀘스트 '+q.pre+'개 먼저</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+q.min+'레벨부터</span>':'');
   const isCh=q.ch||(QD.get(q.id)&&QD.get(q.id).cn>1);
   const body=parch(c,q.id,{nm:q.nm,obj:q.obj,gv:q.gv,xy:q.xy,place:esc(z)+' '+(CONT[z]?CONT_IC[CONT[z]]:''),tags,done:d,kind:'fq',ck:k,chN:q.ch,pre:q.pre});
@@ -688,7 +698,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='mz'){ui.mz=k||null;ui.mf=ui.mf||'near';render();window.scrollTo(0,0);return}
   if(a==='mf'){ui.mf=k;rerender(true);return}
   if(a==='mzgo'){ui.tab='quest';ui.qmode='map';ui.mc=k.split('|')[0];ui.mz=k;ui.mf='all';ui.sheet=null;render();window.scrollTo(0,0);return}
-  if(a==='goz'){ui.tab='quest';ui.qmode='zone';ui.qz=k;ui.sheet=null;render();window.scrollTo(0,0);return}
+  if(a==='goz'){ui.tab='quest';ui.qmode='map';ui.mz='?|'+k;ui.mc=null;ui.mf='near';ui.sheet=null;render();window.scrollTo(0,0);return}
   if(a==='dgo'){const fromChip=b.classList.contains('dchip');const sx=fromChip?document.querySelector('.dchips').scrollLeft:0;ui.tab='dungeon';ui.dg=k;ui.sheet=null;render();window.scrollTo(0,0);const dc=document.querySelector('.dchips');if(dc){if(fromChip)dc.scrollLeft=sx;else{const on=dc.querySelector('.on');if(on)dc.scrollLeft=on.offsetLeft-20}}return}
   if(a==='dgback'){ui.dg=null;render();window.scrollTo(0,0);return}
   if(a==='dgf'){ui.dgf=k;rerender(true);return}
@@ -710,8 +720,8 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
   if(!c)return;
   if(f==='lv'){setLv(c,t.value);rerender(true);return}
   if(f==='cname'){c.name=t.value.trim();save();rerender(true);return}
-  if(f==='fq'){c.fq=c.fq||{};if(t.checked)c.fq[t.dataset.k]=1;else delete c.fq[t.dataset.k];save();rerender(true);return}
-  if(f==='mq'){c.mq=c.mq||{};if(t.checked)c.mq[t.dataset.k]=1;else delete c.mq[t.dataset.k];save();rerender(true);return}
+  if(f==='fq'){c.fq=c.fq||{};c.mq=c.mq||{};const qi=t.dataset.id;if(t.checked){c.fq[t.dataset.k]=1;if(qi)c.mq[qi]=1}else{delete c.fq[t.dataset.k];if(qi)delete c.mq[qi]}save();rerender(true);return}
+  if(f==='mq'){c.mq=c.mq||{};c.fq=c.fq||{};if(t.checked)c.mq[t.dataset.k]=1;else{delete c.mq[t.dataset.k];const f0=questById(+t.dataset.k);if(f0)delete c.fq[f0.z+'|'+f0.q.nm]}save();rerender(true);return}
   if(f==='dq'){c.dq=c.dq||{};if(t.checked)c.dq[t.dataset.k]=1;else delete c.dq[t.dataset.k];save();rerender(true);return}
 });
 let srchT=null;

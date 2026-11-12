@@ -49,6 +49,14 @@ if (Q / 'items-extra.txt').exists():
             f[9] = 'extra'
             items.append('|'.join(f))
 ITEMS_TXT = '\n'.join(items) + '\n'
+# 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
+QLV = {}
+if (Q / 'quests.jsonl').exists():
+    want = set(int(x) for x in re.findall(r'quest=(\d+)', srcs))
+    for line in rd(Q / 'quests.jsonl').splitlines():
+        o = json.loads(line)
+        if o['id'] in want:
+            QLV[o['id']] = max(o.get('m') or 0, (o.get('lv') or 0) - 3)
 SRC_TXT = srcs + '\n'
 
 def js_str(s):
@@ -58,6 +66,7 @@ data = '\n'.join([
     '/* 와포 도우미 자료 — forg.gg 공개 페이지에서 GitHub Actions로 모은 것 (tools/forg-*.mjs) */',
     'const D_ITEMS=' + js_str(ITEMS_TXT) + ';',
     'const D_SRC=' + js_str(SRC_TXT) + ';',
+    'const D_QLV=' + json.dumps(QLV, separators=(',', ':')) + ';',
     'const D_DGL=' + js_str(rd(F / 'dungeons.txt')) + ';',
     'const D_DQ=' + js_str(rd(F / 'dungeon-quests.txt')) + ';',
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',
