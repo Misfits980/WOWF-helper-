@@ -1102,3 +1102,25 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 .sheet,#ampanel,.ttree,.tgr{scrollbar-width:none}
 .sheet::-webkit-scrollbar,#ampanel::-webkit-scrollbar{display:none;width:0}
 .rli{width:16px;height:16px;vertical-align:-3px;margin-right:2px}.kspec button small{display:inline-flex;align-items:center;gap:3px}.kspec .rli{width:15px;height:15px}
+/* 기술 습득 v3 */
+.sk2{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+.sk2 .m{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.sk2.later{opacity:.85}.sk2.done{opacity:.7}
+.skn{display:flex;align-items:center;gap:8px;padding:5px 8px 5px 5px;border-radius:9px;background:linear-gradient(90deg,rgba(90,67,32,.35),transparent);border:1px solid #5d4a28}
+.skn .ic{width:30px;height:30px;border-radius:6px;background-size:cover;flex:none}
+.skn b{font-size:14.5px;flex:1;min-width:0}
+.skn small{font-size:11px;color:var(--gold);font-weight:700}
+.skn.my{border-color:var(--gold2)}
+.skr{display:flex;align-items:center;gap:8px;width:100%;padding:5px 8px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--txt);font-family:inherit;cursor:pointer;text-align:left}
+.skr .skl{flex:none;font-size:12px;font-weight:700;color:#cfc6b3}
+.skr .ics{flex:1;min-width:0;display:flex;gap:3px;overflow:hidden;align-items:center}
+.skr .ics .ic{width:20px;height:20px;border-radius:4px;background-size:cover;flex:none;opacity:.8}
+.skr .ics .ic.my{opacity:1;box-shadow:0 0 0 1.5px var(--gold2)}
+.skr .ics em{font-style:normal;font-size:11px;color:var(--mute)}
+.skr .cv{color:var(--mute);font-size:12px}
+.skrl{display:flex;flex-wrap:wrap;gap:4px 10px;padding:2px 4px;font-size:12.5px;color:#cfc6b3}
+.skrl small{color:var(--mute)}.skrl .my{color:var(--gold)}
+.sknext{margin:2px 0 6px;padding:7px 10px;border-radius:8px;background:rgba(90,67,32,.25);font-size:13px}
+.sknext b{color:var(--gold)}
+.myk{color:var(--gold);border:1px solid var(--gold2);border-radius:4px;padding:0 4px;font-size:11px}
+.lnow .sk2{border-top:0;padding:4px 0}

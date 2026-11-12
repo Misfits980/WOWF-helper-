@@ -1250,23 +1250,31 @@ function talView(c,C,sp,L){const pts=Math.max(0,L-9);const st=sp.steps.filter(s=
    +'<p class="note"><a href="https://forg.gg/forever/classes/'+c.cls+'?spec='+sp.id+'" target="_blank" rel="noopener">forg.gg에서 특성 트리로 보기 ↗</a></p></div>';
   return h}
 /* ===== 직업: 기술 습득 (교관 다녀온 레벨 기준) ===== */
-function learnView(c,C,L){if(!WLD)wldLoad();const ls=C.learns.filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;
+function learnView(c,C,L){if(!WLD)wldLoad();const R=rotSet(specOf(c));const ls=C.learns.filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;
   const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const T=(WLD&&WLD.tr[c.cls])||[];const S=routeOf(c).find(S=>L>=S.a&&L<=S.b);const zs=S?S.z.split(' · '):[];
   const t=T.find(x=>zs.includes(x[1]))||T.find(x=>x[1]===CAPITAL[c.race])||T[0];
   let h='<div class="card lnow'+(todo.length?'':' ok')+'"><h3>'+(todo.length?'🧑‍🏫 교관에게 배울 기술 '+todo.length+'개':'✅ 지금 배울 기술은 다 배웠어요')+'</h3>'
-   +(todo.length?skSplit(todo,false):'')
+   +(todo.length?groupBy(todo,l=>l[0]).map(([lv,arr])=>skRow(lv,arr,L,R,'now')).join(''):'')
    +(t?'<p class="note">📍 가까운 교관: <b>'+esc(t[0])+'</b> · '+esc(t[1])+' '+xyTxt(t[2])+'</p>':'')
    +(todo.length?'<button class="btn sm" data-a="trn">교관 다녀왔어요 ✓</button>':'<p class="mute">'+(c.trn!=null?c.trn+'레벨에 교관에 다녀왔다고 표시돼 있어요.':'')+'</p>')+'</div>';
-  const G=groupBy(ls,l=>l[0]);const nextG=G.filter(([lv])=>lv>L).slice(0,2);const doneG=G.filter(([lv])=>lv<=from);
-  h+='<div class="card"><h3>📅 다음에 배울 기술</h3><p class="note">짝수 레벨마다 교관에게 가요 · 새 기술은 크게, 랭크 올리기는 작게</p>'
-   +(nextG.length?nextG.map(([lv,arr])=>'<div class="skb"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><div class="m">'+skSplit(arr,true)+'</div></div>').join(''):'<p class="note">더 배울 기술이 없어요.</p>')
-   +(doneG.length?'<details class="fold"><summary>✓ 이미 배운 기술 ('+doneG.reduce((n,g)=>n+g[1].length,0)+'개)</summary>'+doneG.slice().reverse().map(([lv,arr])=>'<div class="skb done"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><div class="m">'+skSplit(arr,false)+'</div></div>').join('')+'</details>':'')
-   +'<details class="fold"><summary>1~60 전체 보기</summary>'+G.map(([lv,arr])=>'<div class="skb"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><div class="m">'+skSplit(arr,lv>L)+'</div></div>').join('')+'</details></div>';
+  const G=groupBy(ls,l=>l[0]);const nextG=G.filter(([lv])=>lv>L).slice(0,3);const doneG=G.filter(([lv])=>lv<=from);
+  const nextNew=G.find(([lv,arr])=>lv>L&&arr.some(l=>l[3]));
+  h+='<div class="card"><h3>📅 앞으로 배울 기술</h3>'
+   +(nextNew?'<p class="sknext">✨ 다음 새 기술: <b>'+nextNew[0]+'레벨</b> '+esc(nextNew[1].filter(l=>l[3]).map(l=>l[1]).join(', '))+'</p>':'')
+   +(nextG.length?nextG.map(([lv,arr])=>skRow(lv,arr,L,R)).join(''):'<p class="note">더 배울 기술이 없어요.</p>')
+   +'<p class="note">랭크 올리기는 교관에서 전부 배우면 돼요 · <span class="myk">금테</span> = 내 운영에 쓰는 기술</p>'
+   +(doneG.length?'<details class="fold"><summary>✓ 지난 레벨에 배운 기술</summary>'+doneG.slice().reverse().map(([lv,arr])=>skRow(lv,arr,L,R,'done')).join('')+'</details>':'')
+   +'<details class="fold"><summary>1~60 전체 보기</summary>'+G.map(([lv,arr])=>skRow(lv,arr,L,R)).join('')+'</details></div>';
   return h}
-/* 새 기술은 아이콘 칸으로 크게, 랭크 올리기는 한 줄로 작게 */
-function skSplit(arr,dim){const nw=arr.filter(l=>l[3]),rk=arr.filter(l=>!l[3]);
-  return (nw.length?'<div class="sknew">'+nw.map(l=>abChip(l[1],l[5],'새 기술',dim)).join('')+'</div>':'')
-   +(rk.length?'<div class="skrk'+(dim?' no':'')+'"><span class="skl">랭크↑</span>'+rk.map(l=>'<i>'+(l[5]?'<span class="ic" style="background-image:url('+ICO(l[5])+')"></span>':'')+esc(l[1])+'<small>'+l[2]+'</small></i>').join('')+'</div>':'')}
+/* 기술 한 레벨 줄: 새 기술은 크게(아이콘+이름), 랭크 올리기는 「랭크↑ N개」+아이콘만 — 누르면 이름 펼침. 내 운영에 쓰는 기술은 금테 */
+function rotSet(sp){if(!sp)return new Set();const t=[].concat(sp.rot||[],sp.early||[],sp.late||[]).map(r=>r[1]).join(' ');return new Set([...t.matchAll(/\[([^\]@*]+)/g)].map(m=>m[1].trim()))}
+function skRow(lv,arr,L,R,cls){const nw=arr.filter(l=>l[3]),rk=arr.filter(l=>!l[3]);const dim=lv>L;ui.skx=ui.skx||{};const op=!!ui.skx[lv];
+  rk.sort((a,b)=>(R.has(b[1])?1:0)-(R.has(a[1])?1:0));const mine=rk.filter(l=>R.has(l[1])).length;
+  return '<div class="sk2 '+(cls||'')+(dim?' later':'')+'"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><div class="m">'
+   +nw.map(l=>'<span class="skn'+(R.has(l[1])?' my':'')+'">'+(l[5]?'<span class="ic" style="background-image:url('+ICO(l[5])+')"></span>':'')+'<b>'+esc(l[1])+'</b><small>새 기술</small></span>').join('')
+   +(rk.length?'<button class="skr'+(op?' on':'')+'" data-a="skx" data-k="'+lv+'"><span class="skl">랭크↑ '+rk.length+'개'+(mine?' · 내 기술 '+mine:'')+'</span><span class="ics">'+rk.slice(0,8).map(l=>'<span class="ic'+(R.has(l[1])?' my':'')+'" style="background-image:url('+ICO(l[5]||'inv_misc_questionmark')+')"></span>').join('')+(rk.length>8?'<em>+'+(rk.length-8)+'</em>':'')+'</span><span class="cv">'+(op?'⌃':'⌄')+'</span></button>'
+     +(op?'<div class="skrl">'+rk.map(l=>'<span'+(R.has(l[1])?' class="my"':'')+'>'+esc(l[1])+' <small>'+l[2]+'</small></span>').join('')+'</div>':''):'')
+   +'</div></div>'}
 function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];
   let h='<div class="kprof">'+PGRP.map(([g,ids])=>'<div class="kpg"><span class="kpl">'+g+'</span><div class="kpb">'+ids.map(id=>PROFS.find(p=>p.id===id)).filter(Boolean).map(p=>'<button class="'+(p===sel?'on':'')+'" data-a="pf" data-k="'+p.id+'">'+pIco(p.id)+esc(p.ko)+'</button>').join('')+'</div></div>').join('')+'</div>';
   h+='<div class="card"><h3 class="pht">'+pIco(sel.id)+esc(sel.ko)+'</h3>'+(sel.pair?'<p class="note">🤝 같이 하면 좋은 기술: <b>'+esc(sel.pair)+'</b></p>':'');
@@ -1357,6 +1365,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='tfill'){const C=D_CLS[c.cls];const sp=specOf(c);const M={};sp.steps.forEach(s=>{if(s[0]<=+k&&C.talents[s[1]])M[s[1]]=Math.max(M[s[1]]||0,s[2])});c.tal={cls:c.cls,r:M};save();toast('가이드대로 채웠어요');rerender(true);return}
   if(a==='tclr'){c.tal={cls:c.cls,r:{}};ui.tsel=null;save();toast('다 지웠어요');rerender(true);return}
   if(a==='lvseen'){c.seenLv=c.lv;save();rerender(true);return}
+  if(a==='skx'){ui.skx=ui.skx||{};ui.skx[k]=!ui.skx[k];rerender(true);return}
   if(a==='goc'){ui.tab='class';ui.csec=k;render();window.scrollTo(0,0);return}
   if(a==='pf'){ui.pf=k;rerender(true);return}
   if(a==='qmode'){ui.qmode=k;rerender(true);return}
