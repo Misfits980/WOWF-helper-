@@ -686,14 +686,15 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
   const clamp=()=>{const A=ui.am,T=ATL[A.c];A.z=Math.max(0,Math.min(3,A.z));A.cx=Math.max(0,Math.min(T.w,A.cx));A.cy=Math.max(0,Math.min(T.h,A.cy))};
   function draw(){clamp();const A=ui.am,T=ATL[A.c],W=el.clientWidth,H=el.clientHeight,s=2**(A.z-3),left=A.cx-W/2/s,top=A.cy-H/2/s;
     const [nx,ny]=NT[A.c][A.z];const tx0=Math.max(0,Math.floor(left*s/256)),ty0=Math.max(0,Math.floor(top*s/256)),tx1=Math.min(nx-1,Math.floor((left+W/s)*s/256)),ty1=Math.min(ny-1,Math.floor((top+H/s)*s/256));
-    let t='';for(let x=tx0;x<=tx1;x++)for(let y=ty0;y<=ty1;y++)t+='<img src="https://assets.wowf.io/world/atlas/'+T.n+'/'+A.z+'/'+x+'_'+y+'.webp" style="left:'+Math.round(x*256-left*s)+'px;top:'+Math.round(y*256-top*s)+'px" alt="" draggable="false" loading="lazy">';
+    let t='';for(let x=tx0;x<=tx1;x++)for(let y=ty0;y<=ty1;y++)t+='<img src="https://assets.wowf.io/world/atlas/'+T.n+'/'+A.z+'/'+x+'_'+y+'.webp" style="left:'+Math.round(x*256-left*s)+'px;top:'+Math.round(y*256-top*s)+'px" alt="" draggable="false" onerror="this.style.visibility=\'hidden\'">';
     st.L.innerHTML=t;st.L.style.transform=st.P.style.transform='';
     const vis=st.pts.filter(p=>p.c===A.c);let pins='';
     if(A.z<=1){/* 멀리서는 지역마다 묶어서 */const Z={};vis.forEach(p=>{if(p.kind!=='g'&&p.kind!=='r'){return}const o=Z[p.zone]||(Z[p.zone]={n:0,x:0,y:0,k:0});o.n+=p.qs.length;o.x+=p.x;o.y+=p.y;o.k++});
       for(const [z,o] of Object.entries(Z)){const x=(o.x/o.k-left)*s,y=(o.y/o.k-top)*s;if(x<-40||y<-40||x>W+40||y>H+40)continue;
-        pins+='<button class="amz" data-amz="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+QMK.g+'<b>'+o.n+'</b><span>'+esc(z)+'</span></button>'}
+        pins+='<button class="amz" data-amz="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+QMK.g+'<b>'+o.n+'</b> '+esc(z)+'</button>'}
       vis.filter(p=>p.kind==='fp'||p.kind==='inn').forEach(p=>{const x=(p.x-left)*s,y=(p.y-top)*s;if(x<-20||y<-20||x>W+20||y>H+20)return;pins+='<span class="amd '+p.kind+'" style="left:'+x+'px;top:'+y+'px">'+(p.kind==='fp'?'🦅':'🏠')+'</span>'})}
-    else vis.forEach((p,i)=>{const x=(p.x-left)*s,y=(p.y-top)*s;if(x<-20||y<-20||x>W+20||y>H+20)return;const n=p.qs.length;
+    else{/* 가까이서는 지역 이름 표시 */for(const z in MAPZ){const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=(q.x-left)*s,y=(q.y-top)*s;if(x<-60||y<-20||x>W+60||y>H+20)continue;pins+='<span class="amn" style="left:'+x+'px;top:'+y+'px">'+esc(z)+'</span>'}}
+    if(A.z>1)vis.forEach((p,i)=>{const x=(p.x-left)*s,y=(p.y-top)*s;if(x<-20||y<-20||x>W+20||y>H+20)return;const n=p.qs.length;
       const lv=n?Math.min(...p.qs.map(q=>q.lv||c.lv)):0;
       pins+='<button class="amk k-'+p.kind+(n?' '+lvCls(lv,c.lv):'')+(ui.amsel===i?' sel':'')+'" data-amk="'+i+'" style="left:'+x+'px;top:'+y+'px">'+(p.kind==='g'?QMK.g:p.kind==='r'?QMK.r:p.kind==='fp'?'🦅':'🏠')+(n>1?'<b>'+n+'</b>':'')+'</button>'});
     st.P.innerHTML=pins;st.vis=vis;st.box={left,top,s}}

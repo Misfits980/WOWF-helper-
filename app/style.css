@@ -618,7 +618,7 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
 .lhi img.hic{margin:0}
 /* 📍 지도로 퀘스트 */
 .am .amfl{flex-wrap:wrap;margin-top:6px}
-.amap{position:relative;height:62vh;min-height:340px;overflow:hidden;border-radius:12px;border:1px solid var(--line);background:#0c0b09;touch-action:none;user-select:none;-webkit-user-select:none;margin-top:8px}
+.amap{position:relative;height:62vh;min-height:340px;overflow:hidden;border-radius:12px;border:1px solid var(--line);background:#16303b;touch-action:none;user-select:none;-webkit-user-select:none;margin-top:8px}
 .amL,.amP{position:absolute;inset:0;transform-origin:50% 50%}
 .amL img{position:absolute;width:256px;height:256px;pointer-events:none;-webkit-user-drag:none}
 .amk{position:absolute;transform:translate(-50%,-100%);display:flex;align-items:center;gap:1px;padding:2px 4px 2px 2px;border-radius:12px;border:1px solid rgba(0,0,0,.6);background:rgba(20,16,10,.78);color:#ffe08a;font-size:11px;line-height:1;cursor:pointer}
@@ -629,7 +629,8 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
 .amk.k-fp,.amk.k-inn{font-size:15px;padding:1px 3px}
 .amz{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:1px;background:rgba(20,16,10,.82);border:1px solid #8a6a2c;border-radius:10px;padding:3px 7px;color:#ffe08a;cursor:pointer}
 .amz img.qmk{width:16px;height:16px;margin:0}.amz b{font-size:13px;color:#fff}.amz span{font-size:10.5px;color:#d8cfbd;white-space:nowrap}
-.amz{flex-direction:row;flex-wrap:wrap;justify-content:center;max-width:120px}.amz span{flex-basis:100%;text-align:center}
+.amz{flex-direction:row;gap:3px;padding:2px 6px;font-size:10.5px;color:#e9dcc0;white-space:nowrap;border-radius:8px}.amz b{font-size:11.5px}
+.amn{position:absolute;transform:translate(-50%,-50%);font-size:12px;font-weight:700;color:#f3e6c4;text-shadow:0 0 3px #000,0 0 6px #000;pointer-events:none;white-space:nowrap;opacity:.85}
 .amd{position:absolute;transform:translate(-50%,-50%);font-size:13px;pointer-events:none}
 .amctl{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:5}
 .amctl button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:rgba(20,16,10,.85);color:#ffe08a;font-size:20px}
