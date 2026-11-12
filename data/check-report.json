@@ -1,5 +1,5 @@
 {
- "퀘스트 수": 3843,
+ "퀘스트 수": 3844,
  "영어로 남은 퀘스트 이름": [
   [
    351,
@@ -2432,30 +2432,10 @@
    ]
   ]
  ],
- "진행 순서 없는 던전": [
-  "whelgar-excavation",
-  "city-of-dalaran",
-  "sm-graveyard",
-  "sm-library",
-  "sm-armory",
-  "sm-cathedral",
-  "temple-of-atal-hakkar",
-  "stratholme-dead",
-  "stratholme-live"
- ],
- "지도 없는 던전": [
-  "whelgar-excavation",
-  "city-of-dalaran",
-  "sm-graveyard",
-  "sm-library",
-  "sm-armory",
-  "sm-cathedral",
-  "temple-of-atal-hakkar",
-  "stratholme-dead",
-  "stratholme-live"
- ],
+ "진행 순서 없는 던전": [],
+ "지도 없는 던전": [],
  "요약": {
-  "퀘스트 수": 3843,
+  "퀘스트 수": 3844,
   "영어로 남은 퀘스트 이름": 91,
   "반납 NPC 없는 퀘스트": 97,
   "레벨 0 퀘스트": 17,
@@ -2465,7 +2445,7 @@
   "능력치가 레벨에 비해 지나친 장비": 11,
   "출처 없는 장비": 423,
   "이름 같은 장비(번호 다름)": 88,
-  "진행 순서 없는 던전": 9,
-  "지도 없는 던전": 9
+  "진행 순서 없는 던전": 0,
+  "지도 없는 던전": 0
  }
 }
