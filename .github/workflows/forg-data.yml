@@ -14,6 +14,7 @@ jobs:
         with: { node-version: 20 }
       - run: node tools/forg-scrape.mjs
       - run: node tools/forg-classes.mjs
+      - run: node tools/forg-leveling.mjs
       - name: 자료 커밋
         run: |
           git config user.name "github-actions[bot]"
