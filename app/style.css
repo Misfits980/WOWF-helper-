@@ -381,3 +381,37 @@ details.qf summary::-webkit-details-marker{display:none}
 .imp.dg{border-color:#b05a4a;color:#f0a090}
 .imp.xp{border-color:#5aa070;color:#9fdcb0}
 .rnext{margin:14px 0 6px;font-size:16px}
+/* 지금 할 일 — 깔끔하게 */
+.card.now{padding:14px 12px}
+.card.now .nh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card.now .nh h3{margin:0 0 2px;font-size:18px}
+.card.now .nh .mute{font-size:12px}
+.ring{--p:0;width:52px;height:52px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(closest-side,var(--panel) 78%,transparent 80% 100%),conic-gradient(#e2c26b calc(var(--p)*1%),var(--panel2) 0)}
+.ring b{font-size:16px}.ring span{font-size:11px;color:var(--mute)}
+.steps{display:flex;flex-direction:column;gap:6px}
+.st{border:1px solid var(--line);border-radius:10px;background:var(--panel2);overflow:hidden}
+.st.open{border-color:rgba(226,194,107,.55)}
+.st.fin{opacity:.5}
+.sh2{display:flex;align-items:center;gap:10px;width:100%;padding:10px;background:none;border:0;color:inherit;text-align:left}
+.sh2 .no{flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:#3a3122;color:#e2c26b}
+.st.open .sh2 .no{background:#e2c26b;color:#1a140a}
+.sh2 .hn{flex:1;min-width:0;display:flex;flex-direction:column}
+.sh2 .hn b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh2 .hn span{font-size:11px;color:var(--mute)}
+.sh2 .hc{font-size:12px;color:#e2c26b;white-space:nowrap}
+.sh2 .cv{color:var(--mute);font-size:14px;width:12px}
+.sb{padding:0 10px 8px}
+.nr{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-top:1px solid rgba(255,255,255,.06)}
+.nr .ck input{width:20px;height:20px;margin:1px 0 0;accent-color:#c9a54a}
+.nb{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;background:none;border:0;padding:0;color:inherit;text-align:left}
+.nb .l1{display:flex;align-items:center;gap:4px;min-width:0}
+.nb .qnm{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.nb .l1 i{font-style:normal;font-size:12px;flex:none}
+.nb .qlv{margin-left:auto;flex:none;font-size:11px;font-weight:700;border-radius:5px;padding:0 5px;line-height:18px;border:1px solid var(--line)}
+.nb .l2{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nr.done .qnm{text-decoration:line-through;opacity:.55}
+.nr.done .l2{display:none}
+.nr.lock{opacity:.6}
+.sb .dn{font-size:11px;color:var(--mute);margin:8px 0 0}
+.legend{font-size:11px;color:var(--mute);margin:10px 2px 0}

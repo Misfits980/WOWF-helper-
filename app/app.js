@@ -497,22 +497,23 @@ function taskShort(q){const d=QD.get(q.id)||{};const T=tasksOf(d,q.obj||d.obj||'
   if(latin(t.nm)){const X=QDB&&QDB.get(q.id);const k=X&&X.t&&X.t.find(x=>x[1]&&!latin(x[1]));if(k)t.nm=k[1]}
   return (T_IC[t.type]||'•')+' '+t.nm+(t.cnt?' '+t.cnt+(t.type==='처치'?'마리':'개'):'')+' '+(T_KO[t.type]||'')+(T.length>1?' 외 '+(T.length-1)+'개':'')}
 function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.length,0),dn=P.reduce((n,h)=>n+h.get.filter(x=>x.done).length,0);
-  let h='<div class="card now"><div class="hd"><h3>✅ 지금 할 일 · '+S.a+'–'+S.b+'레벨</h3><span class="mute">'+dn+'/'+all+' 끝냄</span></div>';
-  h+='<div class="pbar"><i style="width:'+(all?Math.round(dn/all*100):0)+'%"></i></div>';
-  h+='<p class="note">위에서부터 차례로 가면 돼요. 마을(거점)마다 <b>받을 것</b>과 <b>반납할 것</b>을 묶었어요. 끝낸 건 체크하면 아래로 내려가요.</p>';
+  const left=H=>H.get.filter(x=>!x.done).length+H.turn.filter(x=>!x.done).length;
+  const firstOpen=(P.find(H=>left(H))||{}).k;ui.hopen=ui.hopen||{};
+  const IC={gear:'⭐',chain:'🔗',dg:'🏰',xp:'✨'};const used=new Set();
+  let h='<div class="card now"><div class="nh"><div><h3>지금 할 일</h3><span class="mute">'+S.a+'–'+S.b+'레벨 · 위에서부터 차례로</span></div><div class="ring" style="--p:'+(all?Math.round(dn/all*100):0)+'"><b>'+dn+'</b><span>/'+all+'</span></div></div>';
   let n=0;
-  h+=P.map(H=>{const real=H.i<97;if(real)n++;const todo=H.get.filter(x=>!x.done),done=H.get.filter(x=>x.done),turn=H.turn.filter(x=>!x.done);
-    if(!todo.length&&!turn.length)return '<div class="hubc fin"><div class="hh">'+(real?'<span class="no">'+n+'</span>':'')+'<b>'+esc(H.n)+'</b> <span class="mute">· '+esc(H.z)+' · 다 끝냄 ✓</span></div></div>';
-    const row=(x,kind)=>{const q=x.q;const lock=q.min>c.lv;
-      return '<div class="nrow'+(x.done?' done':'')+(lock?' lock':'')+'"><label class="ck"><input type="checkbox" data-c="fq" data-id="'+(q.id||'')+'" data-k="'+esc(x.z+'|'+q.nm)+'"'+(x.done?' checked':'')+'></label>'
-       +'<button class="nm2" data-a="qopen" data-k="'+q.id+'"><span class="lvb lv-'+lvCls(c,q.lv)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.nm)+'</b>'
-       +(kind==='turn'?'<span class="s">📨 '+esc(x.rv||'')+'에게 반납</span>':(()=>{const ts=taskShort(q);return '<span class="s">'+esc(ts)+(x.to&&!/^💬/.test(ts)?' → 반납: '+esc(x.to):'')+'</span>'})())
-       +(x.imp.length?'<span class="imps">'+x.imp.map(b=>'<i class="imp '+b[0]+'">'+b[1]+'</i>').join('')+'</span>':'')
-       +(lock?'<span class="s">🔒 '+q.min+'레벨부터</span>':'')+'</span></button></div>'};
-    return '<div class="hubc"><div class="hh">'+(real?'<span class="no">'+n+'</span>':'')+'<b>'+esc(H.n)+'</b> <span class="mute">· '+esc(H.z)+'</span><span class="cnt">'+(todo.length?'받기 '+todo.length:'')+(todo.length&&turn.length?' · ':'')+(turn.length?'반납 '+turn.length:'')+'</span></div>'
-      +(turn.length?'<div class="hsub">📨 여기서 반납</div>'+turn.map(x=>row(x,'turn')).join(''):'')
-      +(todo.length?'<div class="hsub">❗ 여기서 받기</div>'+todo.sort((a,b)=>a.q.lv-b.q.lv).map(x=>row(x,'get')).join(''):'')
-      +(done.length?'<details class="fold"><summary>끝낸 것 '+done.length+'개</summary>'+done.map(x=>row(x,'get')).join('')+'</details>':'')+'</div>'}).join('');
+  const row=(x,turn)=>{const q=x.q;const lock=q.min>c.lv;x.imp.forEach(b=>used.add(b[0]));
+    const ts=turn?'📨 '+(x.rv||'')+'에게 반납':taskShort(q);
+    return '<div class="nr'+(x.done?' done':'')+(lock?' lock':'')+'"><label class="ck"><input type="checkbox" data-c="fq" data-id="'+(q.id||'')+'" data-k="'+esc(x.z+'|'+q.nm)+'"'+(x.done?' checked':'')+'></label>'
+     +'<button class="nb" data-a="qopen" data-k="'+q.id+'"><span class="l1"><span class="qnm">'+esc(q.nm)+'</span>'+x.imp.map(b=>'<i title="'+esc(b[1])+'">'+IC[b[0]]+'</i>').join('')+'<span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></span>'
+     +(ts||lock?'<span class="l2">'+(lock?'🔒 '+q.min+'레벨부터 · ':'')+esc(ts)+'</span>':'')+'</button></div>'};
+  h+='<div class="steps">'+P.map(H=>{const real=H.i<97;if(real)n++;const L=left(H);const todo=H.get.filter(x=>!x.done).sort((a,b)=>a.q.lv-b.q.lv),turn=H.turn.filter(x=>!x.done),done=H.get.filter(x=>x.done);
+    const open=ui.hopen[H.k]!=null?ui.hopen[H.k]:H.k===firstOpen;
+    const cnt=L?(todo.length?'받기 '+todo.length:'')+(todo.length&&turn.length?' · ':'')+(turn.length?'반납 '+turn.length:''):'완료';
+    let b='<div class="st'+(L?'':' fin')+(open?' open':'')+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);return m?'<b>'+esc(m[1])+'</b><span>'+esc(H.z)+' · 좌표 '+m[2]+', '+m[3]+'</span>':'<b>'+esc(H.n)+'</b><span>'+esc(H.z)+'</span>'})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
+    if(open){b+='<div class="sb">'+(turn.length?turn.map(x=>row(x,1)).join(''):'')+todo.map(x=>row(x,0)).join('')+(done.length?'<div class="dn">끝낸 것 '+done.length+'개</div>'+done.map(x=>row(x,0)).join(''):'')+'</div>'}
+    return b+'</div>'}).join('')+'</div>';
+  if(used.size)h+='<p class="legend">'+[...used].map(k=>IC[k]+' '+{gear:'내 장비 보상',chain:'연계 시작',dg:'던전 관련',xp:'경험치 많음'}[k]).join(' · ')+'</p>';
   return h+'</div>'}
 function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.fq||{};
   let h='<p class="note">1레벨부터 60레벨까지 <b>어느 대륙의 어느 지역</b>으로 가면 되는지 순서대로예요. 지역을 누르면 그 지역 퀘스트로 가요.</p>';
@@ -697,6 +698,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='mc'){ui.mc=k;ui.mz=null;rerender(true);return}
   if(a==='mz'){ui.mz=k||null;ui.mf=ui.mf||'near';render();window.scrollTo(0,0);return}
   if(a==='mf'){ui.mf=k;rerender(true);return}
+  if(a==='hub'){ui.hopen=ui.hopen||{};const cur=b.closest('.st').classList.contains('open');ui.hopen[k]=!cur;rerender(true);return}
   if(a==='mzgo'){ui.tab='quest';ui.qmode='map';ui.mc=k.split('|')[0];ui.mz=k;ui.mf='all';ui.sheet=null;render();window.scrollTo(0,0);return}
   if(a==='goz'){ui.tab='quest';ui.qmode='map';ui.mz='?|'+k;ui.mc=null;ui.mf='near';ui.sheet=null;render();window.scrollTo(0,0);return}
   if(a==='dgo'){const fromChip=b.classList.contains('dchip');const sx=fromChip?document.querySelector('.dchips').scrollLeft:0;ui.tab='dungeon';ui.dg=k;ui.sheet=null;render();window.scrollTo(0,0);const dc=document.querySelector('.dchips');if(dc){if(fromChip)dc.scrollLeft=sx;else{const on=dc.querySelector('.on');if(on)dc.scrollLeft=on.offsetLeft-20}}return}
