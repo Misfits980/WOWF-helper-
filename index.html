@@ -244,10 +244,30 @@ button.rw{color:inherit;cursor:pointer}
 .chn .cn{color:#cfe3ff}
 .chn .sub{color:var(--mute);font-size:12px}
 .lvb.sm{min-width:24px;height:18px;font-size:11px;border-radius:5px}
+
+/* 펼치는 퀘스트 (트레들리 느낌) */
+details.qf{margin:8px 0;border-radius:10px;background:linear-gradient(#2a2418,#1d1912);border:1px solid #6b5426;box-shadow:inset 0 0 0 1px #1a150d,inset 0 1px 0 #8a6d33,0 2px 0 #0d0b08}
+details.qf summary{list-style:none;display:flex;align-items:center;gap:8px;padding:12px 12px;cursor:pointer}
+details.qf summary::-webkit-details-marker{display:none}
+.qf .qi{flex:none;width:18px;text-align:center;font-weight:900;color:#ffd200;font-size:17px;text-shadow:0 0 4px rgba(255,210,0,.5)}
+.qf.done .qi{color:var(--good);text-shadow:none}
+.qf .qn{flex:1;min-width:0;font-weight:800;color:#f1c34a;font-size:15.5px;line-height:1.3;font-family:Georgia,"Apple SD Gothic Neo","Noto Serif KR",serif}
+.qf.done .qn{color:var(--mute);text-decoration:line-through}
+.qf.lock .qn{color:#b19a64}
+.qf .qs{flex:none;font-size:12px;color:#7cb8ff;font-weight:700}
+.qf .qs .lk{color:#9ccaff}
+.qf .chev{flex:none;color:#e0c47a;font-size:18px;transition:transform .15s;line-height:1}
+.qf[open] .chev{transform:rotate(180deg)}
+.qf .qb{padding:0 12px 12px 38px;font-size:13.5px}
+.qf .qb .obj{color:#e8dfcb;margin:2px 0 4px}
+.qf .qb .sub{font-size:12.5px;color:var(--mute);margin:2px 0}
+.qf .qb .tag{margin-bottom:4px}
+.qdone{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:13px;color:var(--mute)}
+.qdone input{width:20px;height:20px;accent-color:var(--gold)}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=082dae79"></script>
-<script>/* v5cd9a0 */
+<script>/* ve73ac7 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -607,9 +627,16 @@ function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wra
      +(done.length?'<details class="fold"><summary>끝낸 퀘스트 '+done.length+'개</summary>'+done.map(q=>qRow(c,z.z,q)).join('')+'</details>':'')+'</div>'}).join('');
   h+='<p class="note">퀘스트 레벨 색: <span class="lvb lv-r" style="min-width:24px;height:18px">빨</span> 어려움 · <span class="lvb lv-y" style="min-width:24px;height:18px">노</span> 적당 · <span class="lvb lv-g" style="min-width:24px;height:18px">초</span> 쉬움. <span class="tag lk">연계</span>는 끝내면 다음 퀘스트가 이어지고, <span class="tag pre">앞 퀘스트 먼저</span>는 앞 단계를 끝내야 받을 수 있어요.</p>';
   return h+'</div>'}
+/* 펼치는 퀘스트 한 줄: 접혀 있을 땐 [레벨] 이름만, 누르면 할 일·위치·연계·보상 */
+function qFold(o){const open=ui.qopen===o.key;
+  return '<details class="qf'+(o.done?' done':'')+(o.lock?' lock':'')+'"'+(open?' open':'')+' data-k="'+esc(o.key)+'"><summary><span class="qi">'+(o.done?'✓':'!')+'</span><span class="qn">['+o.lv+'] '+esc(o.nm)+'</span>'
+   +(o.side?'<span class="qs">'+o.side+'</span>':'')+'<span class="chev">⌄</span></summary>'
+   +'<div class="qb">'+(o.tags||'')+o.body+'<label class="qdone"><input type="checkbox" data-c="'+o.kind+'" data-k="'+esc(o.ck)+'"'+(o.done?' checked':'')+'> 끝냈어요</label></div></details>'}
 function qRow(c,z,q){const k=z+'|'+q.nm,d=!!(c.fq||{})[k],L=c.lv,lock=q.min>L;
-  return '<label class="qrow'+(d?' done':'')+(lock?' lock':'')+'"><input type="checkbox" data-c="fq" data-k="'+esc(k)+'"'+(d?' checked':'')+'><span class="lvb '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="m"><span class="nm">'+esc(q.nm)+'</span>'+(q.pre?'<span class="tag pre">앞 퀘스트 '+q.pre+'개 먼저</span>':'')+chainTag(q.id,q)
-   +(q.obj?'<span class="obj">'+esc(q.obj)+'</span>':'')+'<span class="sub">📍 '+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+(lock?' · '+q.min+'레벨부터':'')+'</span>'+(d?'':qDetail(q.id,q))+'</span></label>'}
+  const tags=(q.pre?'<span class="tag pre">앞 퀘스트 '+q.pre+'개 먼저</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+q.min+'레벨부터</span>':'');
+  const body=(q.obj?'<div class="obj">'+esc(q.obj)+'</div>':'')+'<div class="sub">📍 받는 곳: '+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+'</div>'+qDetail(q.id,q);
+  const isCh=q.ch||(QD.get(q.id)&&QD.get(q.id).cn>1);
+  return qFold({key:'f'+k,ck:k,kind:'fq',done:d,lock,lv:q.lv,nm:q.nm,tags,body,side:isCh?'<span class="lk">연계</span>':''})}
 function dqView(c){const L=c.lv;const near=DGS.filter(d=>d.q.length&&d.q.some(q=>q.min<=L+2&&q.lv>=L-4)&&d.lo<=L+3);const rest=DGS.filter(d=>d.q.length&&!near.includes(d));
   let h='<p class="note">던전마다 얼라이언스가 받을 수 있는 퀘스트예요. <b>던전 가기 전에</b> 마을에서 미리 받아 두면 한 번에 끝낼 수 있어요.</p>';
   h+=near.length?near.map(d=>dqCard(c,d,true)).join(''):'<p class="empty-st">지금 레벨에 맞는 던전 퀘스트가 없어요.</p>';
@@ -617,13 +644,15 @@ function dqView(c){const L=c.lv;const near=DGS.filter(d=>d.q.length&&d.q.some(q=
   return h}
 function dqCard(c,d,open){const dq=c.dq||{};const done=d.q.filter(q=>dq[q.id]).length;
   return '<details class="card"'+(open?' open':'')+'><summary style="cursor:pointer;list-style:none"><div class="hd"><h3 style="margin:0">'+esc(d.ko)+'</h3><span class="mute" style="font-size:12px">'+done+'/'+d.q.length+' · 권장 '+d.lo+'–'+d.hi+'</span></div></summary>'+dqList(c,d)+'<button class="more" data-a="dgo" data-k="'+d.slug+'">던전 보스·드랍 보기 ›</button></details>'}
-function dqList(c,d){const L=c.lv;const dq=c.dq||{};
+function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
   const outQ=d.q.filter(q=>!/던전 안/.test(q.start)&&q.start),inQ=d.q.filter(q=>/던전 안/.test(q.start)||!q.start);
   const row=q=>{const dn=!!dq[q.id],lock=q.min>L;const rw=q.rw.map(id=>IT.get(id)).filter(Boolean);
-    return '<label class="qrow'+(dn?' done':'')+(lock?' lock':'')+'"><input type="checkbox" data-c="dq" data-k="'+q.id+'"'+(dn?' checked':'')+'><span class="lvb '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="m"><span class="nm">'+esc(q.nm)+'</span>'+(q.pre?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(q.side==='both'?'':'')
-     +'<span class="obj">'+esc(q.obj)+'</span>'+(q.boss.length?'<span class="sub">던전 안 목표: '+q.boss.map(b=>esc(b.replace(/^(\d+) /,'$1번 '))).join(', ')+'</span>':'')
-     +'<span class="sub">'+esc(startTxt(q.start))+(lock?' · '+q.min+'레벨부터':'')+'</span>'+(dn?'':qDetail(q.id,q))
-     +(rw.length?'<span class="rewards">'+(q.choose&&rw.length>1?'<span class="sub" style="width:100%">보상 중 하나 선택:</span>':'')+rw.map(it=>'<button class="rw'+(usable(it,c)?' mine':'')+'" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</span>':'')+'</span></label>'};
+    const tags=(q.pre?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+q.min+'레벨부터</span>':'');
+    const body='<div class="obj">'+esc(q.obj)+'</div>'+(q.boss.length?'<div class="sub">🎯 던전 안 목표: '+q.boss.map(b=>esc(b.replace(/^(\d+) /,'$1번 '))).join(', ')+'</div>':'')
+     +'<div class="sub">📍 '+esc(startTxt(q.start))+'</div>'+qDetail(q.id,q)
+     +(rw.length?'<div class="rewards">'+(q.choose&&rw.length>1?'<span class="sub" style="width:100%">🎁 보상 중 하나 선택</span>':'<span class="sub" style="width:100%">🎁 보상</span>')+rw.map(it=>'<button class="rw'+(usable(it,c)?' mine':'')+'" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</div>':'');
+    return qFold({key:'d'+q.id,ck:String(q.id),kind:'dq',done:dn,lock,lv:q.lv,nm:q.nm,tags,body,side:q.side==='alliance'?'얼라이언스':''})};
+  if(flat)return d.q.map(row).join('');
   return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+outQ.map(row).join(''):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')}
 function startTxt(s){if(!s)return '아이템을 주워서 시작';if(/^시작 · 던전 안/.test(s))return '던전 안에서 받아요';const m=s.match(/^시작 (.+) · 던전 안$/);if(m)return '던전 안 '+m[1]+'에게 받아요';if(/^시작 · /.test(s))return s.replace(/^시작 · /,'')+'에서 시작';return '받는 곳: '+s}
 
@@ -647,7 +676,7 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   {const dqd=c.dq||{};const pre=d.q.filter(q=>q.start&&!/던전 안|아이템/.test(q.start)&&!dqd[q.id]&&q.min<=L+1);
    const wantRw=[];d.q.forEach(q=>q.rw.forEach(id=>{const it=IT.get(id);if(it&&usable(it,c)){const bs=bestSlot(it,c);if(bs&&bs.g>.01)wantRw.push({it,bs,q})}}));
    let p='<div class="card hl"><h3>🎒 들어가기 전 체크</h3>';
-   p+='<div class="ck"><b>1. 마을에서 미리 받을 퀘스트 '+pre.length+'개</b>'+(pre.length?pre.map(q=>'<div class="sub">· '+esc(q.nm)+' — '+esc(startTxt(q.start).replace('받는 곳: ',''))+(q.min>L?' ('+q.min+'레벨부터)':'')+'</div>').join(''):'<div class="sub">없어요 (또는 다 받았어요)</div>')+'</div>';
+   p+='<div class="ck"><b>1. 마을에서 미리 받을 퀘스트 '+pre.length+'개</b><p class="note">눌러서 펼치면 받는 곳·할 일·보상이 나와요.</p>'+(pre.length?dqList(c,{q:pre},true):'<div class="sub">없어요 (또는 다 받았어요)</div>')+'</div>';
    p+='<div class="ck"><b>2. 보스별로 챙길 것</b>'+order.map((b,i)=>{const ups=(byBoss[b]||[]).filter(it=>usable(it,c)).map(it=>({it,bs:bestSlot(it,c)})).filter(x=>x.bs&&x.bs.g>.01).sort((x,y)=>y.bs.g-x.bs.g);
       return '<div class="bk"><span class="no">'+(i+1)+'</span><span class="m"><b>'+esc(b)+'</b><span class="sub">'+(ups.length?ups.map(x=>'<button class="pk" data-a="info" data-k="'+x.it.id+'">★ <span class="q'+x.it.q+'">'+esc(x.it.nm)+'</span> <small>'+SLOT_KO[x.bs.s]+'</small></button>').join(''):'<span class="mute">챙길 것 없음</span>')+'</span></span></div>'}).join('')+'</div>';
    if(wantRw.length)p+='<div class="ck"><b>3. 퀘스트 보상으로 받을 것</b>'+wantRw.map(x=>'<div class="sub"><button class="pk" data-a="info" data-k="'+x.it.id+'">★ <span class="q'+x.it.q+'">'+esc(x.it.nm)+'</span></button> ← 「'+esc(x.q.nm)+'」</div>').join('')+'</div>';
@@ -750,6 +779,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='equip'){const id=+b.dataset.id;const it=IT.get(id);c.eq=c.eq||{};c.eq[k]=id;if(k==='main'&&it&&it.sl==='2h')delete c.eq.off;save();ui.sheet=null;rerender(true);toast(it.nm+' 착용');return}
   if(a==='unequip'){delete c.eq[k];save();rerender(true);return}
 });
+document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('qf')){if(t.open)ui.qopen=t.dataset.k;else if(ui.qopen===t.dataset.k)ui.qopen=null}},true);
 document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!f)return;const c=me();
   if(f==='onb-name'){ui.onb.name=t.value;return}
   if(f==='onb-lv'){ui.onb.lv=Math.max(1,Math.min(60,parseInt(t.value)||1));rerender(true);return}

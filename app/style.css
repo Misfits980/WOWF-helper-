@@ -238,3 +238,23 @@ button.rw{color:inherit;cursor:pointer}
 .chn .cn{color:#cfe3ff}
 .chn .sub{color:var(--mute);font-size:12px}
 .lvb.sm{min-width:24px;height:18px;font-size:11px;border-radius:5px}
+
+/* 펼치는 퀘스트 (트레들리 느낌) */
+details.qf{margin:8px 0;border-radius:10px;background:linear-gradient(#2a2418,#1d1912);border:1px solid #6b5426;box-shadow:inset 0 0 0 1px #1a150d,inset 0 1px 0 #8a6d33,0 2px 0 #0d0b08}
+details.qf summary{list-style:none;display:flex;align-items:center;gap:8px;padding:12px 12px;cursor:pointer}
+details.qf summary::-webkit-details-marker{display:none}
+.qf .qi{flex:none;width:18px;text-align:center;font-weight:900;color:#ffd200;font-size:17px;text-shadow:0 0 4px rgba(255,210,0,.5)}
+.qf.done .qi{color:var(--good);text-shadow:none}
+.qf .qn{flex:1;min-width:0;font-weight:800;color:#f1c34a;font-size:15.5px;line-height:1.3;font-family:Georgia,"Apple SD Gothic Neo","Noto Serif KR",serif}
+.qf.done .qn{color:var(--mute);text-decoration:line-through}
+.qf.lock .qn{color:#b19a64}
+.qf .qs{flex:none;font-size:12px;color:#7cb8ff;font-weight:700}
+.qf .qs .lk{color:#9ccaff}
+.qf .chev{flex:none;color:#e0c47a;font-size:18px;transition:transform .15s;line-height:1}
+.qf[open] .chev{transform:rotate(180deg)}
+.qf .qb{padding:0 12px 12px 38px;font-size:13.5px}
+.qf .qb .obj{color:#e8dfcb;margin:2px 0 4px}
+.qf .qb .sub{font-size:12.5px;color:var(--mute);margin:2px 0}
+.qf .qb .tag{margin-bottom:4px}
+.qdone{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:13px;color:var(--mute)}
+.qdone input{width:20px;height:20px;accent-color:var(--gold)}
