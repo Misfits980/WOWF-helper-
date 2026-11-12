@@ -1102,11 +1102,16 @@ h3.pht .pic{width:30px;height:30px;border-radius:7px}
 .skrk i small{color:var(--mute);font-size:10.5px}
 /* 탭 줄: 폰에서 떨어지지 않게 */
 #tabbar .tabs{transform:translateZ(0);-webkit-transform:translateZ(0);will-change:transform}
+/* 페이지·목록 스크롤 막대 숨김 (스크롤은 그대로 됨) */
+html,body{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+.sheet,#ampanel,.ttree,.tgr{scrollbar-width:none}
+.sheet::-webkit-scrollbar,#ampanel::-webkit-scrollbar{display:none;width:0}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=fae03a24"></script>
-<script>/* v3cd504 @11/13 08:47 */
-const BUILD='11/13 08:47';
+<script>/* v9e2a85 @11/13 08:50 */
+const BUILD='11/13 08:50';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
