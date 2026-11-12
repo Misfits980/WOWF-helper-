@@ -25,7 +25,7 @@ function parse(id,h){
       if(!cur)continue;
       if(t==='떨구는 몹'||t==='나오는 곳'||t==='주는 곳'){mode='drop';continue}
       if(/^가장 많은 곳/.test(t)){cur.where=(t.match(/\([\d.]+, [\d.]+\)/g)||[]).slice(0,2).join(' ');mode='';continue}
-      if(/^그 밖 /.test(t)){cur.more=t;mode='x';continue}
+      if(/^그 밖 /.test(t)){if(/종$/.test(t))cur.more=t;mode='x';continue}
       if(/^지도 \d+번 핀$|^\d+$|^·$/.test(t))continue;
       if(mode==='drop'&&cur.drop.length<4)cur.drop.push(t)}
     o.t=T.map(x=>[x.t,x.n,x.where,x.drop.join(', ')+(x.more?' '+x.more:'')])}

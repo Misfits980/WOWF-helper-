@@ -51,7 +51,7 @@ DGS.forEach(d=>d.q.sort((a,b)=>a.lv-b.lv));
 const ROUTE={};{let cur=null,sec=null;for(const l of D_LVL.split('\n')){if(!l)continue;
   if(l[0]==='@'){cur=ROUTE[l.slice(1)]=[];continue}
   if(l[0]==='#'){const [a,b,z]=l.slice(1).split('|');sec={a:+a,b:+b,z,q:[]};cur.push(sec);continue}
-  const f=l.split('|');if(!sec)continue;sec.q.push({lv:+f[0],min:+f[1]||Math.max(1,+f[0]-5),nm:f[2],gz:f[3],gv:f[4],xy:f[5],ch:+f[6]||0,pre:+f[7]||0,obj:f[8]||'',sz:sec.z.split(' · ')[0]})}}
+  const f=l.split('|');if(!sec)continue;sec.q.push({lv:+f[0],min:+f[1]||Math.max(1,+f[0]-5),nm:f[2],gz:f[3],gv:f[4],xy:f[5],ch:+f[6]||0,pre:+f[7]||0,obj:f[8]||'',id:+f[9]||0,sz:sec.z.split(' · ')[0]})}}
 
 /* ----- 얻을 수 있는 레벨: 아이템 착용 레벨보다 퀘스트·던전 레벨이 높으면 그걸 따른다 ----- */
 {const QMIN={};for(const k in ROUTE)for(const S of ROUTE[k])for(const q of S.q){if(QMIN[q.nm]==null||q.min<QMIN[q.nm])QMIN[q.nm]=q.min}
@@ -111,6 +111,23 @@ function armBox(c){const keys=Object.keys(ARM).filter(k=>ARM[k]&&ARM[k].gear);co
     h+=keys.length?'<div class="chips" style="flex-wrap:wrap">'+keys.map(k=>'<button class="chip" data-a="armlink" data-k="'+esc(k)+'">'+esc(ARM[k].name)+' <span class="n">Lv'+(ARM[k].level||'?')+' '+esc(ARM[k].clsName||'')+'</span></button>').join('')+'</div>':'<p class="note">'+(ARM_OK?'아직 명단에 캐릭터가 없어요.':'명단을 불러오는 중…')+'</p>'}
   h+='<details class="fold"><summary>명단에 내 캐릭터가 없어요</summary><p class="note">용현님에게 <b>지역(한국이면 kr)과 이름-성</b>을 알려 주세요. 명단 파일(data/armory/chars.txt)에 한 줄 넣으면 몇 분 안에 생겨요.</p><p class="note"><a href="https://github.com/Misfits980/WOWF-helper-/edit/main/data/armory/chars.txt" target="_blank" rel="noopener">명단 고치기 (저장소 주인만) ↗</a></p></details>';
   return h}
+
+/* ===================== 퀘스트 상세 (할 일·모을 것·연계) — 필요할 때 불러옴 ===================== */
+const QD=new Map();let QD_OK=false;
+fetch('data/forg/quests.jsonl?'+Math.floor(Date.now()/3600000)).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);QD.set(o.id,o)}catch(e){}});QD_OK=true;if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'))rerender(true)}).catch(()=>{QD_OK=true});
+const T_IC={'처치':'⚔️','수집':'📦','사용':'✋','대화':'💬','탐험':'🧭','획득':'📦','호위':'🛡️','상호작용':'✋','전달':'📨','파괴':'💥','조사':'🔍'};
+const T_KO={'처치':'잡기','수집':'모으기','사용':'사용하기','대화':'대화하기','탐험':'찾아가기','획득':'얻기','호위':'호위하기','상호작용':'눌러서 조사','전달':'전달하기','파괴':'부수기','조사':'조사하기'};
+function qDetail(id,q){const d=QD.get(id);if(!d)return '';let h='';
+  if(d.t&&d.t.length)h+='<span class="qt">'+d.t.map(t0=>{const t=[t0[0],t0[1],t0[2],(t0[3]||'').replace(/ ?그 밖 지역$/,'').trim()];return t}).map(t=>'<span class="ti">'+(T_IC[t[0]]||'•')+' <b>'+esc(t[1])+'</b> '+(T_KO[t[0]]||t[0])+(t[3]?'<span class="sub"> · '+(t[0]==='수집'?'떨구는 몹: ':'')+esc(t[3])+'</span>':'')+(t[2]?'<span class="sub"> · 많은 곳 '+esc(t[2].replace(/[()]/g,''))+'</span>':'')+'</span>').join('')+'</span>';
+  if(d.r&&d.r[0]&&!d.r[3])h+='<span class="sub">🏁 반납: '+esc(d.r[0])+(d.r[1]?' · '+esc(d.r[1])+(d.r[2]?' ('+esc(d.r[2].replace(',',', '))+')':''):'')+'</span>';
+  if(d.ch&&d.ch.length>1){const cur=d.ch.find(r=>r[5])||d.ch.find(r=>r[1]===q.nm);const ci=cur?cur[0]:d.cc;const next=d.ch.filter(r=>r[0]>ci);const prev=d.ch.filter(r=>r[0]<ci);
+    h+='<span class="chn">';
+    if(prev.length)h+='<span class="cp">⬅ 앞 단계: '+prev.map(r=>'<b>'+esc(r[1])+'</b>'+(r[2]?' (Lv '+r[2]+')':'')).join(' → ')+'</span>';
+    h+=next.slice(0,2).map(r=>'<span class="cn">➡ <span class="lvb sm">'+(r[2]||'?')+'</span> <b>'+esc(r[1])+'</b>'+(r[3]?' · '+esc(r[3]):'')+(r[4]&&r[4]!=='받기'?'<span class="sub"> · '+esc(r[4])+'</span>':'')+'</span>').join('');
+    if(next.length>2)h+='<details class="fold"><summary>뒤로 '+(next.length-2)+'단계 더 보기</summary>'+next.slice(2).map(r=>'<span class="cn">➡ <span class="lvb sm">'+(r[2]||'?')+'</span> <b>'+esc(r[1])+'</b>'+(r[3]?' · '+esc(r[3]):'')+(r[4]&&r[4]!=='받기'?'<span class="sub"> · '+esc(r[4])+'</span>':'')+'</span>').join('')+'</details>';
+    h+='</span>'}
+  return h}
+function chainTag(id,q){const d=QD.get(id);if(d&&d.cn>1)return '<span class="tag lk">연계 '+(d.cc||'?')+'/'+d.cn+'단계</span>';return q.ch?'<span class="tag lk">연계 · 이어서 '+q.ch+'개 더</span>':''}
 
 /* ===================== 화면 상태 ===================== */
 const ui={tab:'home',sheet:null,qz:null,qmode:'route',dg:null,csec:'tal',srch:'',onb:null,isrch:'',ifil:'ok',pf:null};
@@ -341,8 +358,8 @@ function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wra
   h+='<p class="note">퀘스트 레벨 색: <span class="lvb lv-r" style="min-width:24px;height:18px">빨</span> 어려움 · <span class="lvb lv-y" style="min-width:24px;height:18px">노</span> 적당 · <span class="lvb lv-g" style="min-width:24px;height:18px">초</span> 쉬움. <span class="tag lk">연계</span>는 끝내면 다음 퀘스트가 이어지고, <span class="tag pre">앞 퀘스트 먼저</span>는 앞 단계를 끝내야 받을 수 있어요.</p>';
   return h+'</div>'}
 function qRow(c,z,q){const k=z+'|'+q.nm,d=!!(c.fq||{})[k],L=c.lv,lock=q.min>L;
-  return '<label class="qrow'+(d?' done':'')+(lock?' lock':'')+'"><input type="checkbox" data-c="fq" data-k="'+esc(k)+'"'+(d?' checked':'')+'><span class="lvb '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="m"><span class="nm">'+esc(q.nm)+'</span>'+(q.pre?'<span class="tag pre">앞 퀘스트 '+q.pre+'개 먼저</span>':'')+(q.ch?'<span class="tag lk">연계 · 이어서 '+q.ch+'개 더</span>':'')
-   +(q.obj?'<span class="obj">'+esc(q.obj)+'</span>':'')+'<span class="sub">'+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+(lock?' · '+q.min+'레벨부터':'')+'</span></span></label>'}
+  return '<label class="qrow'+(d?' done':'')+(lock?' lock':'')+'"><input type="checkbox" data-c="fq" data-k="'+esc(k)+'"'+(d?' checked':'')+'><span class="lvb '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="m"><span class="nm">'+esc(q.nm)+'</span>'+(q.pre?'<span class="tag pre">앞 퀘스트 '+q.pre+'개 먼저</span>':'')+chainTag(q.id,q)
+   +(q.obj?'<span class="obj">'+esc(q.obj)+'</span>':'')+'<span class="sub">📍 '+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+(lock?' · '+q.min+'레벨부터':'')+'</span>'+(d?'':qDetail(q.id,q))+'</span></label>'}
 function dqView(c){const L=c.lv;const near=DGS.filter(d=>d.q.length&&d.q.some(q=>q.min<=L+2&&q.lv>=L-4)&&d.lo<=L+3);const rest=DGS.filter(d=>d.q.length&&!near.includes(d));
   let h='<p class="note">던전마다 얼라이언스가 받을 수 있는 퀘스트예요. <b>던전 가기 전에</b> 마을에서 미리 받아 두면 한 번에 끝낼 수 있어요.</p>';
   h+=near.length?near.map(d=>dqCard(c,d,true)).join(''):'<p class="empty-st">지금 레벨에 맞는 던전 퀘스트가 없어요.</p>';
@@ -355,7 +372,7 @@ function dqList(c,d){const L=c.lv;const dq=c.dq||{};
   const row=q=>{const dn=!!dq[q.id],lock=q.min>L;const rw=q.rw.map(id=>IT.get(id)).filter(Boolean);
     return '<label class="qrow'+(dn?' done':'')+(lock?' lock':'')+'"><input type="checkbox" data-c="dq" data-k="'+q.id+'"'+(dn?' checked':'')+'><span class="lvb '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="m"><span class="nm">'+esc(q.nm)+'</span>'+(q.pre?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(q.side==='both'?'':'')
      +'<span class="obj">'+esc(q.obj)+'</span>'+(q.boss.length?'<span class="sub">던전 안 목표: '+q.boss.map(b=>esc(b.replace(/^(\d+) /,'$1번 '))).join(', ')+'</span>':'')
-     +'<span class="sub">'+esc(startTxt(q.start))+(lock?' · '+q.min+'레벨부터':'')+'</span>'
+     +'<span class="sub">'+esc(startTxt(q.start))+(lock?' · '+q.min+'레벨부터':'')+'</span>'+(dn?'':qDetail(q.id,q))
      +(rw.length?'<span class="rewards">'+(q.choose&&rw.length>1?'<span class="sub" style="width:100%">보상 중 하나 선택:</span>':'')+rw.map(it=>'<button class="rw'+(usable(it,c)?' mine':'')+'" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</span>':'')+'</span></label>'};
   return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+outQ.map(row).join(''):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')}
 function startTxt(s){if(!s)return '아이템을 주워서 시작';if(/^시작 · 던전 안/.test(s))return '던전 안에서 받아요';const m=s.match(/^시작 (.+) · 던전 안$/);if(m)return '던전 안 '+m[1]+'에게 받아요';if(/^시작 · /.test(s))return s.replace(/^시작 · /,'')+'에서 시작';return '받는 곳: '+s}

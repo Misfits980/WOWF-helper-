@@ -228,3 +228,13 @@ button.rw{color:inherit;cursor:pointer}
 .zh .sub{display:block;font-size:12.5px;color:var(--mute);margin-top:2px}
 .zh .more{font-size:12.5px;padding:0}
 .bk .m b{display:block}
+
+/* 퀘스트 할 일·연계 */
+.qt{display:flex;flex-direction:column;gap:2px;margin:4px 0 2px;padding:6px 8px;background:#1b1914;border:1px solid var(--line);border-radius:8px;font-size:13px}
+.qt .ti b{color:#f3e6c4}
+.qt .sub{font-size:12px;color:var(--mute)}
+.chn{display:flex;flex-direction:column;gap:3px;margin-top:5px;padding:6px 8px;border-left:3px solid #2f5a8a;background:#141c25;border-radius:0 8px 8px 0;font-size:12.5px}
+.chn .cp{color:var(--mute)}
+.chn .cn{color:#cfe3ff}
+.chn .sub{color:var(--mute);font-size:12px}
+.lvb.sm{min-width:24px;height:18px;font-size:11px;border-radius:5px}
