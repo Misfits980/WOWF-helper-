@@ -11,7 +11,7 @@ for(const start of ['dwarf-gnome','human','nightelf','skyborne-alliance']){
   const t=rscText(await get('/forever/leveling?faction=alliance&start='+start));
   const ev=[];
   for(const m of t.matchAll(/"children":"Lv (\d+)[–-](\d+)"\}\]," ",\["\$","span",null,\{"children":"([^"]+)"\}\]/g))ev.push({i:m.index,h:[m[1],m[2],m[3]]});
-  for(const m of t.matchAll(/"view":\{"name":"/g)){let v;try{v=grabAt(t,m.index+7)}catch(e){continue}if(v&&v.meta&&/^Lv /.test(v.meta))ev.push({i:m.index,v})}
+  for(const m of t.matchAll(/"view":\{"name":"/g)){let v;try{v=grabAt(t,m.index+7)}catch(e){continue}if(v&&v.meta&&/^Lv /.test(v.meta)){const back=t.slice(Math.max(0,m.index-3000),m.index);const ks=[...back.matchAll(/\["\$","li","(\d+)"/g)];ev.push({i:m.index,v,id:ks.length?ks[ks.length-1][1]:''})}}
   ev.sort((a,b)=>a.i-b.i);
   out.push('@'+start);
   for(let k=0;k<ev.length;k++){const e=ev[k];
@@ -21,7 +21,7 @@ for(const start of ['dwarf-gnome','human','nightelf','skyborne-alliance']){
     const mm=v.meta.match(/Lv (\d+)(?: · (\d+)레벨부터)?(?: · (.+))?/)||[];
     const side=mm[3]||'';if(/호드/.test(side)&&!/얼라이언스/.test(side))continue;
     const st=clean(v.start);const sm=st.match(/^(.*?) · (.*?)(?: \(([\d.]+), ([\d.]+)\))?$/)||[];
-    out.push([mm[1]||'',mm[2]||'',clean(v.name),sm[1]||'',sm[2]||st,sm[3]?sm[3]+','+sm[4]:'',ch,pre,clean(v.objective)].join('|'));
+    out.push([mm[1]||'',mm[2]||'',clean(v.name),sm[1]||'',sm[2]||st,sm[3]?sm[3]+','+sm[4]:'',ch,pre,clean(v.objective),e.id||''].join('|'));
   }
 }
 fs.mkdirSync('data/forg',{recursive:true});
