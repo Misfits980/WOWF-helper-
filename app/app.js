@@ -122,9 +122,10 @@ function questById(id){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome
   for(const d of DGS)for(const q of d.q)if(q.id===id)return {q:Object.assign({},q,{dg:d}),z:d.ko,dg:d};return null}
 function money(c){if(!c)return '';const g=Math.floor(c/10000),s=Math.floor(c%10000/100),k=c%100;return (g?g+'골드 ':'')+(s?s+'실버 ':'')+(k?k+'코퍼':'')}
 /* 양피지 모양 퀘스트 상세 */
-function parch(c,id,base){const d=QD.get(id)||{};const R=RWD.get(id)||{};const L=c.lv;
+function chainOf(id){const d=QD.get(id);if(d&&d.ch&&d.ch.length>1)return d.ch;for(const o of QD.values())if(o.ch&&o.ch.length>1&&o.ch.some(r=>r[6]===id))return o.ch.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r});return null}
+function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=chainOf(id);if(chx){d.ch=chx;d.cn=chx.length;d.cc=(chx.find(r=>r[5])||[0])[0]}const R=RWD.get(id)||{};const L=c.lv;
   const nm=base.nm,obj=base.obj||d.obj||'';let h='<div class="parch"><div class="ph"><h4>'+esc(nm)+'</h4>'+(base.place?'<span class="ptag">'+base.place+'</span>':'')+'</div>';
-  if(base.tags)h+='<div class="ptags">'+base.tags+'</div>';
+  if(base.tags&&base.tags.trim())h+='<div class="ptags">'+base.tags+'</div>';
   h+='<h5>퀘스트 임무</h5><p>'+esc(obj)+'</p>';
   const g=d.g&&d.g[0]?d.g:null;h+='<p class="npc">시작 NPC: <b>'+esc(g?g[0]:(base.gv||'—'))+'</b>'+(g&&g[1]?' · '+esc(g[1])+(g[2]?' ('+esc(g[2].replace(',',', '))+')':''):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
   if(base.extra)h+=base.extra;
@@ -171,7 +172,7 @@ function qDetail(id,q){const d=QD.get(id);if(!d)return '';let h='';
     if(next.length>2)h+='<details class="fold"><summary>뒤로 '+(next.length-2)+'단계 더 보기</summary>'+next.slice(2).map(r=>'<span class="cn">➡ <span class="lvb sm">'+(r[2]||'?')+'</span> <b>'+esc(r[1])+'</b>'+(r[3]?' · '+esc(r[3]):'')+(r[4]&&r[4]!=='받기'?'<span class="sub"> · '+esc(r[4])+'</span>':'')+'</span>').join('')+'</details>';
     h+='</span>'}
   return h}
-function chainTag(id,q){const d=QD.get(id);if(d&&d.cn>1)return '<span class="tag lk">연계 '+(d.cc||'?')+'/'+d.cn+'단계</span>';return q.ch?'<span class="tag lk">연계 · 이어서 '+q.ch+'개 더</span>':''}
+function chainTag(id,q){const ch=typeof chainOf==='function'?chainOf(id):null;if(ch)return '<span class="tag lk">연계 '+((ch.find(r=>r[6]===id)||[0])[0]||'?')+'/'+ch.length+'단계</span>';const d=QD.get(id);if(d&&d.cn>1)return '<span class="tag lk">연계 '+(d.cc||'?')+'/'+d.cn+'단계</span>';return q.ch?'<span class="tag lk">연계 · 이어서 '+q.ch+'개 더</span>':''}
 
 /* ===================== 화면 상태 ===================== */
 const ui={tab:'home',sheet:null,qz:null,qmode:'route',dg:null,csec:'tal',srch:'',onb:null,isrch:'',ifil:'ok',pf:null};
