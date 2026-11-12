@@ -284,15 +284,15 @@ function chainTree(c,root,zoneIds,shownIds){const L=c.lv;const all=treeIds(root)
         +run.map(([z,sn])=>{const x2=QDB.get(z);const c2='chs'+(mqDone(c,x2)?' fin':'');return '<div class="'+c2+(zoneIds.has(z)?'':' away')+'"><span class="stp">'+sn+'</span>'+(zoneIds.has(z)?mqRow(c,x2,1):'<button class="awayb" data-a="qopen" data-k="'+z+'">['+(x2.lv||'?')+'] '+esc(x2.n)+'<span>다른 지역 · '+esc(x2.z||'')+' ›</span></button>')+'</div>'}).join('')+'</details>';
       const ks=(QKIDS[last]||[]).filter(k=>all.includes(k));const st2=run[run.length-1][1]+1;
       if(ks.length===1)return r0+node(ks[0],st2);
-      if(ks.length>1)return r0+'<div class="chfork"><div class="fk">↳ 여기서 '+ks.length+'갈래로 나뉘어요</div>'+ks.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div>'+node(k,st2)+'</div>').join('')+'</div>';
+      if(ks.length>1)return r0+'<div class="chfork"><div class="fk">↳ 여기서 '+ks.length+'갈래로 나뉘어요</div>'+ks.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div><div class="chflow">'+node(k,st2)+'</div></div>').join('')+'</div>';
       return r0}
     const body=zoneIds.has(id)?mqRow(c,x,1):'<button class="awayb" data-a="qopen" data-k="'+id+'">['+(x.lv||'?')+'] '+esc(x.n)+'<span>다른 지역 · '+esc(x.z||'')+' ›</span></button>';
     let r='<div class="'+cls+(zoneIds.has(id)?'':' away')+'"><span class="stp">'+step+'</span>'+body+'</div>';
     const kids=(QKIDS[id]||[]).filter(k=>all.includes(k));
     if(kids.length===1)r+=node(kids[0],step+1);
-    else if(kids.length>1)r+='<div class="chfork"><div class="fk">↳ 여기서 '+kids.length+'갈래로 나뉘어요 (따로따로 받을 수 있어요)</div>'+kids.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div>'+node(k,step+1)+'</div>').join('')+'</div>';
+    else if(kids.length>1)r+='<div class="chfork"><div class="fk">↳ 여기서 '+kids.length+'갈래로 나뉘어요 (따로따로 받을 수 있어요)</div>'+kids.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div><div class="chflow">'+node(k,step+1)+'</div></div>').join('')+'</div>';
     return r};
-  return h+node(root,1)+'</div>'}
+  return h+'<div class="chflow">'+node(root,1)+'</div></div>'}
 function mqRow(c,q,inCh,same){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
   const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
   const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});

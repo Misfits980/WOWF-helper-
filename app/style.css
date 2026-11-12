@@ -719,3 +719,18 @@ button.amn{pointer-events:auto;background:none;border:0;padding:2px 4px;cursor:p
 button.amn:hover{color:#ffe08a}
 .amcur{position:absolute;left:8px;top:8px;z-index:5;padding:6px 10px;border-radius:10px;border:1px solid #8a6a2c;background:rgba(20,16,10,.9);color:#f3e6c4;font-size:12.5px;cursor:pointer}
 .amcur b{color:#ffe08a;font-weight:700;margin-left:2px}
+/* PC: 연계 퀘스트를 화살표로 이어진 흐름으로 */
+@media (min-width:1000px){
+  .chflow{display:flex;flex-wrap:wrap;gap:10px 30px;align-items:flex-start}
+  .chflow>.chs{width:calc((100% - 60px)/3);padding-bottom:0}
+  .chflow>.chs::before{display:none}
+  .chflow>.chs:not(:last-child)::after{content:'➜';position:absolute;right:-24px;top:16px;color:#9db4f2;font-size:16px;opacity:.85}
+  .chflow>.chs:has(+ .chfork)::after,.chflow>.chs:has(+ .chrun)::after{content:'⤵';right:auto;left:8px;top:auto;bottom:-20px}
+  .chflow>.chfork,.chflow>.chrun{flex-basis:100%}
+  .chflow>.chs .stp{margin-top:9px}
+  .chfork{border-left:2px dashed rgba(110,140,220,.45);padding-left:12px;margin-top:6px}
+  .chfork .fk{font-size:12px;color:#9db4f2;margin-bottom:4px}
+  .chbr{margin-bottom:10px}
+}
+@media (min-width:1000px) and (max-width:1499px){.chflow>.chs:nth-child(3n):not(:has(+ .chfork)):not(:has(+ .chrun))::after{display:none}}
+@media (min-width:1500px){.chflow>.chs{width:calc((100% - 90px)/4)}.chflow>.chs:nth-child(4n):not(:has(+ .chfork)):not(:has(+ .chrun))::after{display:none}}

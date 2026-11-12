@@ -725,10 +725,25 @@ button.amn{pointer-events:auto;background:none;border:0;padding:2px 4px;cursor:p
 button.amn:hover{color:#ffe08a}
 .amcur{position:absolute;left:8px;top:8px;z-index:5;padding:6px 10px;border-radius:10px;border:1px solid #8a6a2c;background:rgba(20,16,10,.9);color:#f3e6c4;font-size:12.5px;cursor:pointer}
 .amcur b{color:#ffe08a;font-weight:700;margin-left:2px}
+/* PC: 연계 퀘스트를 화살표로 이어진 흐름으로 */
+@media (min-width:1000px){
+  .chflow{display:flex;flex-wrap:wrap;gap:10px 30px;align-items:flex-start}
+  .chflow>.chs{width:calc((100% - 60px)/3);padding-bottom:0}
+  .chflow>.chs::before{display:none}
+  .chflow>.chs:not(:last-child)::after{content:'➜';position:absolute;right:-24px;top:16px;color:#9db4f2;font-size:16px;opacity:.85}
+  .chflow>.chs:has(+ .chfork)::after,.chflow>.chs:has(+ .chrun)::after{content:'⤵';right:auto;left:8px;top:auto;bottom:-20px}
+  .chflow>.chfork,.chflow>.chrun{flex-basis:100%}
+  .chflow>.chs .stp{margin-top:9px}
+  .chfork{border-left:2px dashed rgba(110,140,220,.45);padding-left:12px;margin-top:6px}
+  .chfork .fk{font-size:12px;color:#9db4f2;margin-bottom:4px}
+  .chbr{margin-bottom:10px}
+}
+@media (min-width:1000px) and (max-width:1499px){.chflow>.chs:nth-child(3n):not(:has(+ .chfork)):not(:has(+ .chrun))::after{display:none}}
+@media (min-width:1500px){.chflow>.chs{width:calc((100% - 90px)/4)}.chflow>.chs:nth-child(4n):not(:has(+ .chfork)):not(:has(+ .chrun))::after{display:none}}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=fa162066"></script>
-<script>/* vbb0df9 */
+<script>/* vf6c4d7 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -1015,15 +1030,15 @@ function chainTree(c,root,zoneIds,shownIds){const L=c.lv;const all=treeIds(root)
         +run.map(([z,sn])=>{const x2=QDB.get(z);const c2='chs'+(mqDone(c,x2)?' fin':'');return '<div class="'+c2+(zoneIds.has(z)?'':' away')+'"><span class="stp">'+sn+'</span>'+(zoneIds.has(z)?mqRow(c,x2,1):'<button class="awayb" data-a="qopen" data-k="'+z+'">['+(x2.lv||'?')+'] '+esc(x2.n)+'<span>다른 지역 · '+esc(x2.z||'')+' ›</span></button>')+'</div>'}).join('')+'</details>';
       const ks=(QKIDS[last]||[]).filter(k=>all.includes(k));const st2=run[run.length-1][1]+1;
       if(ks.length===1)return r0+node(ks[0],st2);
-      if(ks.length>1)return r0+'<div class="chfork"><div class="fk">↳ 여기서 '+ks.length+'갈래로 나뉘어요</div>'+ks.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div>'+node(k,st2)+'</div>').join('')+'</div>';
+      if(ks.length>1)return r0+'<div class="chfork"><div class="fk">↳ 여기서 '+ks.length+'갈래로 나뉘어요</div>'+ks.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div><div class="chflow">'+node(k,st2)+'</div></div>').join('')+'</div>';
       return r0}
     const body=zoneIds.has(id)?mqRow(c,x,1):'<button class="awayb" data-a="qopen" data-k="'+id+'">['+(x.lv||'?')+'] '+esc(x.n)+'<span>다른 지역 · '+esc(x.z||'')+' ›</span></button>';
     let r='<div class="'+cls+(zoneIds.has(id)?'':' away')+'"><span class="stp">'+step+'</span>'+body+'</div>';
     const kids=(QKIDS[id]||[]).filter(k=>all.includes(k));
     if(kids.length===1)r+=node(kids[0],step+1);
-    else if(kids.length>1)r+='<div class="chfork"><div class="fk">↳ 여기서 '+kids.length+'갈래로 나뉘어요 (따로따로 받을 수 있어요)</div>'+kids.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div>'+node(k,step+1)+'</div>').join('')+'</div>';
+    else if(kids.length>1)r+='<div class="chfork"><div class="fk">↳ 여기서 '+kids.length+'갈래로 나뉘어요 (따로따로 받을 수 있어요)</div>'+kids.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div><div class="chflow">'+node(k,step+1)+'</div></div>').join('')+'</div>';
     return r};
-  return h+node(root,1)+'</div>'}
+  return h+'<div class="chflow">'+node(root,1)+'</div></div>'}
 function mqRow(c,q,inCh,same){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
   const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
   const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});
