@@ -18,6 +18,8 @@ jobs:
       - run: node tools/forg-leveling.mjs
       - run: node tools/forg-quests.mjs
         timeout-minutes: 60
+      - run: node tools/quest-rewards.mjs
+        timeout-minutes: 40
       - run: python3 app/build.py
       - name: 자료 커밋
         run: |
