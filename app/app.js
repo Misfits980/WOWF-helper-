@@ -539,39 +539,30 @@ function onboard(){const d=ui.onb;const C=d.cls?D_CLS[d.cls]:null;const first=!D
 /* ===================== 홈 ===================== */
 function routeOf(c){return ROUTE[RACE_START[c.race]||'dwarf-gnome']||[]}
 function dgNow(L){return DGS.filter(d=>L>=d.lo-1&&L<=d.hi).sort((a,b)=>a.fit-b.fit)}
-function home(c){const L=c.lv;const C=D_CLS[c.cls];const sp=specOf(c);let h='<div class="wrap">';
+function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   if(c.seenLv==null||c.seenLv>L)c.seenLv=L;const up=L>c.seenLv;
-  h+='<h2>레벨 '+L+' — 지금 할 일</h2>';
-  if(up)h+='<div class="lvup"><b>🎉 레벨 '+L+' 달성!</b><span>이번 레벨에 할 일을 아래에서 하나씩 챙겨요.</span><button class="btn sm" data-a="lvseen">확인</button></div>';
-  const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);const P=sec?nowPlan(c,sec):[];
-  const all=P.reduce((n,x)=>n+x.get.length,0),dn=P.reduce((n,x)=>n+x.get.filter(y=>y.done).length,0);
-  const nextHub=P.find(x=>x.get.some(y=>!y.done)||x.turn.some(y=>!y.done));
-  const ls=(C?C.learns:[]).filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);
-  const nextLearn=ls.find(l=>l[0]>L);
-  const tNow=sp&&L>=10?sp.steps.filter(s=>s[0]===L):[];const tNext=sp?sp.steps.find(s=>s[0]>L):null;
+  h+='<h2 class="hh">레벨 '+L+' <small>지금 할 일</small></h2>';
+  if(up)h+='<div class="lvup"><b>🎉 레벨 '+L+' 달성!</b><button class="btn sm" data-a="lvseen">확인</button></div>';
+  /* 1. 퀘스트: 다음 갈 곳 (홈의 중심) */
+  const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);
+  if(sec){const P=nowPlan(c,sec);const all=P.reduce((n,x)=>n+x.get.length,0),dn=P.reduce((n,x)=>n+x.get.filter(y=>y.done).length,0);
+    const next=P.filter(x=>x.get.some(y=>!y.done)||x.turn.some(y=>!y.done)).slice(0,3);
+    h+='<div class="card hq"><div class="hd"><h3><img class="hic" src="img/qget.png" alt="">다음 갈 곳</h3><button class="more" data-a="tab" data-k="quest"><b>'+dn+'/'+all+'</b> 퀘스트 ›</button></div>'
+     +'<div class="pbar"><i style="width:'+(all?Math.round(dn/all*100):0)+'%"></i></div>'
+     +(next.length?next.map((x,i)=>{const g=x.get.filter(y=>!y.done).length,t=x.turn.filter(y=>!y.done).length;return '<button class="row" data-a="tab" data-k="quest"><span class="hno">'+(i+1)+'</span><span class="m"><span class="nm">'+esc(x.n)+'</span><span class="sub">'+esc(x.z)+'</span></span><span class="hqb">'+(g?'<span>'+QMK.g+g+'</span>':'')+(t?'<span>'+QMK.r+t+'</span>':'')+'</span></button>'}).join(''):'<p class="note">이 구간 퀘스트를 다 끝냈어요 👍 레벨을 올려 보세요.</p>')+'</div>'}
+  else h+='<div class="card"><p class="note">이 레벨 동선 자료가 없어요. 퀘스트 탭 지도에서 찾아보세요.</p></div>';
+  /* 2. 챙길 것: 기술 · 장비 · 던전 · 곧 생기는 것 */
+  const ls=(C?C.learns:[]).filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const nextLearn=ls.find(l=>l[0]>L);
   const U=upgrades(c,L,'ok');const D=dgNow(L);
   const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,'탈것을 배울 수 있어요 · 골드를 모아 두세요'],[60,'만렙! 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
-  const row=(ok,ic,t,sub,a,k,extra)=>'<div class="trow'+(ok?' ok':'')+'" data-a="'+a+'" data-k="'+k+'"><span class="tck">'+(ok?'✓':'')+'</span>'+ic+'<span class="m"><b>'+t+'</b><span>'+sub+'</span></span>'+(extra||'')+'<span class="r">›</span></div>';
-  const im=src=>'<img class="ti" src="'+src+'" alt="">';
+  const row=(ic,t,sub,a,k,right,dim)=>'<div class="trow'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><img class="ti" src="'+ic+'" alt=""><span class="m"><b>'+t+'</b><span>'+sub+'</span></span>'+(right||'')+'<span class="r">›</span></div>';
   h+='<div class="card todo">';
-  /* 1 퀘스트 */
-  h+=row(sec&&!nextHub,im('img/qget.png'),'퀘스트',sec?(nextHub?esc(nextHub.n)+' · '+(()=>{const g=nextHub.get.filter(y=>!y.done).length,t=nextHub.turn.filter(y=>!y.done).length;return (g?'받기 '+g:'')+(g&&t?' · ':'')+(t?'반납 '+t:'')})()+' <em class="tp">'+dn+'/'+all+'</em>':'이 구간 퀘스트 다 끝냈어요 👍'):'퀘스트 탭에서 지역을 골라요','tab','quest');
-  /* 2 기술 */
-  h+=row(!todo.length,im('img/ui-book.png'),'기술 배우기',todo.length?'교관에게 <b class="hl">'+todo.length+'개</b> · '+esc(todo.slice(0,3).map(l=>l[1]).join(', '))+(todo.length>3?' …':''):(nextLearn?'다 배웠어요 · 다음은 '+nextLearn[0]+'레벨':'다 배웠어요'),'goc','learn',todo.length?'<button class="btn sm tbtn" data-a="trn">배웠어요</button>':'');
-  /* 3 특성 */
-  if(L>=10&&sp){const t0=tNow[0];const T=t0&&C.talents[t0[1]];const tn=tNext&&C.talents[tNext[1]];
-    h+=row(!t0,im('img/ui-target.png'),'특성 찍기',t0?'<b class="hl">'+esc(T?T[0]:t0[1])+'</b> '+t0[2]+'/'+(T?T[2]:'?')+(tNow.length>1?' 외 '+(tNow.length-1)+'개':''):(tn?'다음: '+tNext[0]+'레벨 '+esc(tn[0]):'다 찍었어요'),'goc','tal')}
-  else h+=row(false,im('img/ui-target.png'),'특성','10레벨부터 1포인트씩 생겨요','goc','tal');
-  /* 4 장비 */
-  h+=row(!U.length,im('img/ui-shield.png'),'장비 바꾸기',U.length?'좋아지는 템 <b class="hl">'+U.length+'개</b> · '+esc(U[0].it.nm)+' ('+SLOT_KO[U[0].slot]+')':'지금은 더 좋은 템이 없어요','tab','gear');
-  /* 5 던전 */
-  h+=D.length?row(false,im('img/eye.png'),'던전',esc(D[0].ko)+' · 권장 '+D[0].lo+'–'+D[0].hi+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row(false,im('img/eye.png'),'던전',L<13?'13레벨쯤부터 첫 던전에 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon');
-  if(tip)h+='<div class="trow soon"><span class="tck">📌</span><span class="m"><b>곧 생겨요 · '+tip[0]+'레벨</b><span>'+tip[1]+'</span></span></div>';
+  h+=todo.length?row('img/ui-book.png','기술 배우기','교관에서 '+esc(todo.filter(l=>l[3]).map(l=>l[1]).slice(0,2).join(', ')||'랭크 올리기'),'goc','learn','<span class="tbg">'+todo.length+'</span><button class="btn sm tbtn" data-a="trn">배웠어요</button>')
+    :row('img/ui-book.png','기술','다 배웠어요'+(nextLearn?' · 다음 '+nextLearn[0]+'레벨':''),'goc','learn','<span class="tok">✓</span>',1);
+  h+=U.length?row('img/ui-shield.png','장비',esc(U[0].it.nm)+' · '+SLOT_KO[U[0].slot],'tab','gear','<span class="tbg">'+U.length+'</span>'):row('img/ui-shield.png','장비','지금은 더 좋은 템이 없어요','tab','gear','<span class="tok">✓</span>',1);
+  h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
+  if(tip)h+='<div class="trow soon"><span class="ti">📌</span><span class="m"><b>'+tip[0]+'레벨</b><span>'+tip[1]+'</span></span></div>';
   h+='</div>';
-  /* 지금 할 퀘스트 (다음 3곳) */
-  if(sec){const next=P.filter(x=>x.get.some(y=>!y.done)||x.turn.some(y=>!y.done)).slice(0,3);
-    h+='<div class="card"><div class="hd"><h3><img class="hic" src="img/qget.png" alt="">다음 갈 곳</h3><button class="more" data-a="tab" data-k="quest">퀘스트 ›</button></div><div class="pbar"><i style="width:'+(all?Math.round(dn/all*100):0)+'%"></i></div>'
-     +(next.length?next.map((x,i)=>{const g=x.get.filter(y=>!y.done).length,t=x.turn.filter(y=>!y.done).length;return '<button class="row" data-a="tab" data-k="quest"><span class="hno">'+(i+1)+'</span><span class="m"><span class="nm">'+esc(x.n)+'</span><span class="sub">'+esc(x.z)+' · '+(g?QMK.g+'받기 '+g:'')+(g&&t?' · ':'')+(t?QMK.r+'반납 '+t:'')+'</span></span><span class="r">›</span></button>'}).join(''):'<p class="note">이 구간 퀘스트를 다 끝냈어요 👍</p>')+'</div>'}
   return h+'</div>'}
 function groupBy(arr,f){const m=new Map();arr.forEach(x=>{const k=f(x);if(!m.has(k))m.set(k,[]);m.get(k).push(x)});return [...m.entries()]}
 function abIcon(name,C){if(!C)return '';const l=C.learns.find(x=>x[1]===name);return l?l[5]:''}
