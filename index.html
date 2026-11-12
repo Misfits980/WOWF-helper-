@@ -1006,11 +1006,50 @@ p.nchl{border:0;font-size:12px}
 .am.full .amcur{bottom:calc(64px + env(safe-area-inset-bottom))}
 .amap:has(#ampanel:not(:empty)) .amexit{display:none}
 .amback{padding:6px 11px;border-radius:10px;border:1px solid var(--gold2);background:#3a2a14;color:var(--gold);font-size:13px;font-weight:700;font-family:inherit}
+/* ===== 직업 탭 정리 ===== */
+.khead{display:flex;align-items:center;gap:12px;margin:12px 0 8px;padding:10px 12px;border-radius:var(--r);background:linear-gradient(90deg,color-mix(in srgb,var(--cc) 14%,transparent),transparent 70%);border:1px solid var(--line)}
+.khead .ic.lg{width:44px;height:44px;border-radius:10px;border:1px solid color-mix(in srgb,var(--cc) 50%,#000)}
+.khead .kt{display:flex;flex-direction:column;min-width:0}
+.khead .kt b{font-size:19px;color:var(--cc);line-height:1.2}
+.khead .kt span{font-size:13px;color:var(--mute)}
+.kspec{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 8px}
+.kspec button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px 7px;border-radius:var(--r2);border:1px solid var(--line);background:var(--panel);color:var(--txt);font-family:inherit;cursor:pointer}
+.kspec button .ic{width:30px;height:30px;border-radius:7px;filter:grayscale(.7) brightness(.8)}
+.kspec button b{font-size:14px}
+.kspec button small{font-size:11px;color:var(--mute)}
+.kspec button.on{border-color:var(--gold2);background:linear-gradient(180deg,#3a2c16,#231c11)}
+.kspec button.on .ic{filter:none;box-shadow:0 0 0 2px var(--gold2)}
+.kspec button.on b{color:var(--gold)}
+.ksec{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;margin:0 0 6px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line)}
+.ksec button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px;border-radius:9px;border:0;background:none;color:var(--mute);font-family:inherit;cursor:pointer}
+.ksec button i{font-style:normal;font-size:19px;line-height:1.2;filter:grayscale(.6);opacity:.8}
+.ksec button span{font-size:12px;font-weight:600;white-space:nowrap}
+.ksec button.on{background:#3a2c16;color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold2)}
+.ksec button.on i{filter:none;opacity:1}
+.kn{text-align:center}
+.krot h3{margin-bottom:0}
+.krot>.note{margin:0 0 6px}
+.rot2{display:grid;grid-template-columns:86px 1fr;gap:8px;padding:7px 0;border-top:1px solid var(--line);align-items:start}
+.rot2 .w{display:flex;align-items:flex-start;gap:4px;font-size:12px;font-weight:700;color:var(--gold);line-height:1.35;padding-top:3px}
+.rot2 .w i{font-style:normal;font-size:13px;flex:none}
+.rot2 .v{font-size:14px;line-height:1.75}
+.kprof{display:flex;flex-direction:column;gap:6px;margin:0 0 8px}
+.kpg{display:flex;align-items:flex-start;gap:8px}
+.kpl{flex:none;width:30px;font-size:11px;color:var(--mute);padding-top:9px;font-weight:700}
+.kpb{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.kpb button{display:flex;align-items:center;justify-content:center;gap:4px;padding:6px 4px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--txt);font-size:13px;font-family:inherit;white-space:nowrap;cursor:pointer}
+.kpb button i{font-style:normal;font-size:15px}
+.kpb button.on{border-color:var(--gold2);background:#3a2c16;color:var(--gold);font-weight:700}
+.kranks{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:6px 0 8px}
+.kranks span{display:flex;flex-direction:column;align-items:center;padding:5px 2px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;text-align:center}
+.kranks b{color:var(--gold);font-size:12.5px}
+.kranks small{font-size:10px;color:var(--mute);line-height:1.25}
+@media (min-width:1000px){.kspec,.ksec{max-width:640px}.kprof{max-width:760px}.kpb{grid-template-columns:repeat(6,1fr)}}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=d62c41c1"></script>
-<script>/* vbe9d1c @11/13 07:00 */
-const BUILD='11/13 07:00';
+<script>/* vc0ccf5 @11/13 07:03 */
+const BUILD='11/13 07:03';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2154,18 +2193,25 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
 /* ===== 보스 잡음 표시 (던전마다, 다시 돌 때 지우기) ===== */
 function killOf(c,slug){c.dk=c.dk||{};return c.dk[slug]||{}}
 /* ===================== 직업 ===================== */
-const CSEC=[['tal','특성'],['rot','운영·딜 순서'],['learn','기술 습득'],['prof','전문기술']];
+const CSEC=[['tal','🌳','특성'],['rot','⚔️','운영 순서'],['learn','📖','기술 습득'],['prof','🛠️','전문기술']];
+const RLEMO={'치유':'💚','탱커':'🛡️','원거리 딜':'🔮','근접 딜':'🗡️'};
+const PEMO={alch:'⚗️',bs:'🔨',ench:'✨',eng:'⚙️',lw:'👜',tail:'🧵',cook:'🍳',fa:'🩹',mine:'⛏️',herb:'🌿',skin:'🔪',fish:'🎣'};
+const PGRP=[['제작',['alch','bs','ench','eng','lw','tail']],['채집',['herb','mine','skin']],['보조',['cook','fa','fish']]];
+const ROTEMO=[[/항상/,'♾️'],[/전투 ?전|직전|당기기/,'⏳'],[/시작|여는/,'▶️'],[/이어서|다음/,'➡️'],[/레벨부터|이후/,'🔓'],[/던전|파티/,'🏰'],[/채우|마나|회복/,'💧'],[/다치|위급|생존|급하/,'🩹'],[/광역|여럿|다수/,'💥'],[/단일|하나/,'🎯'],[/마무리|처형|끝/,'🏁'],[/펫|소환수|하수인/,'🐾'],[/쿨|폭딜|강화/,'🔥']];
+const rotEmo=t=>{for(const [re,e] of ROTEMO)if(re.test(t))return e;return '•'};
 function talRow(C,s,L){const t=C.talents[s[1]]||[s[1],'',1];return '<div class="tl'+(s[0]===L?' now':s[0]<L?' done':'')+'"><span class="lvb '+lvCls(s[0],L)+'">'+s[0]+'</span><span class="m"><b>'+esc(t[0])+'</b> <span class="mute">'+s[2]+'/'+t[2]+' · '+esc(t[1])+'</span>'+(t[4]&&s[0]>=L-1&&s[0]<=L+1?'<span class="sub">'+esc(t[4])+'</span>':'')+'</span></div>'}
 function rotHtml(C,txt,L){return esc(txt).replace(/\[([^\]@*]+)(?:@(\d+))?(\*)?\]/g,(m,n,lv,t)=>{const icon=abIcon(n,C);const no=lv&&+lv>L;return '<span class="ab'+(no?' no':'')+'">'+(icon?'<span class="ic" style="background-image:url('+ICO(icon)+')"></span>':'')+n+(lv?' <span class="l">'+lv+'</span>':'')+(t?' <span class="l">특성</span>':'')+'</span>'})}
 function klass(c){const C=D_CLS[c.cls],sp=specOf(c),L=c.lv,sec=ui.csec;
-  let h='<div class="wrap"><h2>'+esc(CINFO[c.cls][0])+'</h2><div class="chips">'+C.specs.map(s=>'<button class="chip'+(s.id===c.spec?' on':'')+'" data-a="spec" data-k="'+s.id+'">'+esc(s.name)+'</button>').join('')+'</div>';
-  h+='<div class="chips">'+CSEC.map(x=>'<button class="chip'+(sec===x[0]?' on':'')+'" data-a="csec" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
+  const role=ROLE[c.cls+'/'+c.spec]||'';
+  let h='<div class="wrap"><div class="khead" style="--cc:'+CINFO[c.cls][1]+'">'+clsIcon(c.cls,1)+'<div class="kt"><b>'+esc(CINFO[c.cls][0])+'</b><span>'+esc(sp.name)+' · '+(RLEMO[role]||'')+' '+esc(role)+' · 레벨 '+L+'</span></div></div>';
+  h+='<div class="kspec">'+C.specs.map(s=>{const r=ROLE[c.cls+'/'+s.id]||'';return '<button class="'+(s.id===c.spec?'on':'')+'" data-a="spec" data-k="'+s.id+'"><span class="ic" style="background-image:url('+ICO(s.icon)+')"></span><b>'+esc(s.name)+'</b><small>'+(RLEMO[r]||'')+' '+esc(r)+'</small></button>'}).join('')+'</div>';
+  h+='<div class="ksec">'+CSEC.map(x=>'<button class="'+(sec===x[0]?'on':'')+'" data-a="csec" data-k="'+x[0]+'"><i>'+x[1]+'</i><span>'+x[2]+'</span></button>').join('')+'</div>';
   if(sec==='tal')h+=talView(c,C,sp,L);
-  if(sec==='rot'){const blk=(t,arr)=>arr.length?'<div class="card"><h3>'+t+'</h3>'+arr.map(r=>'<div class="rot"><div class="w">'+esc(r[0])+'</div><div>'+rotHtml(C,r[1],L)+'</div></div>').join('')+'</div>':'';
-    h+='<p class="note">흐린 기술은 아직 못 배운 거예요. 숫자는 배우는 레벨이에요.</p>'+(L<30?blk('초반 (레벨업)',sp.early)+blk('기본 운영',sp.rot):blk('기본 운영',sp.rot)+blk('초반 (레벨업)',sp.early))+blk('후반',sp.late)}
+  if(sec==='rot'){const blk=(t,arr,sub)=>arr.length?'<div class="card krot"><h3>'+t+'</h3>'+(sub?'<p class="note">'+sub+'</p>':'')+arr.map(r=>'<div class="rot2"><div class="w"><i>'+rotEmo(r[0])+'</i>'+esc(r[0])+'</div><div class="v">'+rotHtml(C,r[1],L)+'</div></div>').join('')+'</div>':'';
+    h+='<p class="note kn">흐린 기술은 아직 못 배운 거예요 · 작은 숫자는 배우는 레벨</p>'+(L<30?blk('🌱 초반 (레벨업)',sp.early,'혼자 사냥하며 올릴 때')+blk('🔁 기본 운영',sp.rot,'던전·만렙까지 쓰는 기본 순서'):blk('🔁 기본 운영',sp.rot,'던전·만렙까지 쓰는 기본 순서')+blk('🌱 초반 (레벨업)',sp.early,'혼자 사냥하며 올릴 때'))+blk('🏰 후반',sp.late,'60레벨·레이드')}
   if(sec==='learn')h+=learnView(c,C,L);
   if(sec==='prof')h+=profView(c);
-  h+='<p class="note">출처: forg.gg 직업 가이드(Wowhead·Mobalytics 빌드를 정리한 것). 게임 업데이트로 바뀔 수 있어요.</p>';
+  h+='<p class="note kn">출처: forg.gg 직업 가이드 (Wowhead·Mobalytics 빌드 정리) · 게임 업데이트로 바뀔 수 있어요</p>';
   return h+'</div>'}
 
 /* ===== 직업: 특성 칸 (게임 특성 창처럼 3개 트리, 칸·선행 화살표) ===== */
@@ -2184,7 +2230,7 @@ function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const ME=ui.tlv
   const finPts=t=>T.filter(([k,v])=>v[1]===t).reduce((a,[k])=>a+(F[k]||0),0);
   let main=ui.ttree;if(!C.trees.includes(main))main=C.trees.slice().sort((a,b)=>finPts(b)-finPts(a))[0];
   const P=58,CS=44,O=7;const nowIds=ME?new Set():new Set(st.filter(s=>s[0]>=L&&s[0]<=L+1).map(s=>s[1]));
-  let h='<div class="card talsum"><h3><img class="hic" src="img/ui-target.png" alt="">'+esc(sp.name)+' 특성</h3>'
+  let h='<div class="card talsum"><h3>🌳 '+esc(sp.name)+' 특성</h3>'
     +(ME?'<p class="note">칸을 누르면 1포인트씩 찍혀요 · 쓴 포인트 <b>'+used+'</b>/51 · 필요 레벨 <b>'+(used?used+9:'-')+'</b>'+(used>Math.max(0,L-9)?' <span class="warn">(지금 Lv '+L+'보다 높아요)</span>':'')+'</p>'
       :'<p class="note">레벨 '+L+' · 특성 포인트 <b>'+Math.max(0,L-9)+'개</b>'+(L<10?' (10레벨부터 1개씩 생겨요)':'')+' · 가이드대로 찍은 모습</p>')
     +'<div class="chips seg tlv"><button class="chip'+(!ME&&V===L?' on':'')+'" data-a="tlv" data-k="now">지금 Lv '+L+'</button><button class="chip'+(!ME&&V===60?' on':'')+'" data-a="tlv" data-k="60">60 완성</button><button class="chip'+(ME?' on':'')+'" data-a="tlv" data-k="me">✏️ 직접 찍기</button></div>'
@@ -2217,31 +2263,32 @@ function talView(c,C,sp,L){const pts=Math.max(0,L-9);const st=sp.steps.filter(s=
     return '<div class="tr2 '+st_+(big?' big':'')+'"><span class="lvb '+lvCls(s[0],L)+'">'+s[0]+'</span><span class="m"><span class="l1"><b>'+esc(t[0])+'</b><span class="rk">'+s[2]+'/'+t[2]+'</span><span class="tt">'+esc(t[1])+'</span>'+(st_==='done'?'<span class="ok">✓</span>':st_==='now'?'<span class="nw">지금</span>':'')+'</span>'+(t[4]?'<span class="d">'+esc(t[4])+'</span>':'')+'</span></div>'};
   let h=talGrid(c,C,sp,L);
   const cur=st.filter(s=>s[0]>=L-1&&s[0]<=L+3);
-  if(L>=9&&cur.length)h+='<div class="card"><h3>지금 찍을 특성</h3>'+cur.map(s=>row(s,1)).join('')+'</div>';
+  if(L>=9&&cur.length)h+='<div class="card"><h3>📌 지금 찍을 특성</h3>'+cur.map(s=>row(s,1)).join('')+'</div>';
   const grp={};st.forEach(s=>{const k=Math.floor(s[0]/10)*10;(grp[k]=grp[k]||[]).push(s)});
-  h+='<div class="card"><h3>10~60 전체 순서</h3>'+Object.entries(grp).map(([k,arr])=>{const open=L>=+k&&L<+k+10;return '<details class="tg"'+(open?' open':'')+'><summary><b>'+k+'~'+(+k+9)+'레벨</b><span class="mute">'+arr.length+'개'+(arr.every(s=>s[0]<L)?' · 다 찍음 ✓':'')+'</span></summary>'+arr.map(s=>row(s,0)).join('')+'</details>'}).join('')
+  h+='<div class="card"><h3>📜 10~60 레벨별 순서</h3>'+Object.entries(grp).map(([k,arr])=>{const open=L>=+k&&L<+k+10;return '<details class="tg"'+(open?' open':'')+'><summary><b>'+k+'~'+(+k+9)+'레벨</b><span class="mute">'+arr.length+'개'+(arr.every(s=>s[0]<L)?' · 다 찍음 ✓':'')+'</span></summary>'+arr.map(s=>row(s,0)).join('')+'</details>'}).join('')
    +'<p class="note"><a href="https://forg.gg/forever/classes/'+c.cls+'?spec='+sp.id+'" target="_blank" rel="noopener">forg.gg에서 특성 트리로 보기 ↗</a></p></div>';
   return h}
 /* ===== 직업: 기술 습득 (교관 다녀온 레벨 기준) ===== */
 function learnView(c,C,L){if(!WLD)wldLoad();const ls=C.learns.filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;
   const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const T=(WLD&&WLD.tr[c.cls])||[];const S=routeOf(c).find(S=>L>=S.a&&L<=S.b);const zs=S?S.z.split(' · '):[];
   const t=T.find(x=>zs.includes(x[1]))||T.find(x=>x[1]===CAPITAL[c.race])||T[0];
-  let h='<div class="card lnow'+(todo.length?'':' ok')+'"><h3><img class="hic" src="img/ui-book.png" alt="">'+(todo.length?'교관에게 배울 기술 '+todo.length+'개':'지금 배울 기술은 다 배웠어요')+'</h3>'
+  let h='<div class="card lnow'+(todo.length?'':' ok')+'"><h3>'+(todo.length?'🧑‍🏫 교관에게 배울 기술 '+todo.length+'개':'✅ 지금 배울 기술은 다 배웠어요')+'</h3>'
    +(todo.length?'<div class="abw">'+todo.map(l=>abChip(l[1],l[5],l[3]?'새 기술':'랭크 '+l[2],false)).join('')+'</div>':'')
-   +(t?'<p class="note">가까운 교관: <b>'+esc(t[0])+'</b> · '+esc(t[1])+' '+xyTxt(t[2])+'</p>':'')
+   +(t?'<p class="note">📍 가까운 교관: <b>'+esc(t[0])+'</b> · '+esc(t[1])+' '+xyTxt(t[2])+'</p>':'')
    +(todo.length?'<button class="btn sm" data-a="trn">교관 다녀왔어요 ✓</button>':'<p class="mute">'+(c.trn!=null?c.trn+'레벨에 교관에 다녀왔다고 표시돼 있어요.':'')+'</p>')+'</div>';
   const near=groupBy(ls,l=>l[0]).filter(([lv])=>lv>=L-4&&lv<=L+6);
   const st=lv=>lv<=from?'done':lv<=L?'go':'later';
-  h+='<div class="card"><h3>레벨별 배우는 기술</h3><p class="note">✓ 배움 · 🔸 지금 배우러 가기 · 흐림 = 아직 레벨이 모자라요</p>'
+  h+='<div class="card"><h3>📅 레벨별 배우는 기술</h3><p class="note">✓ 배움 · 🔸 지금 배우러 가기 · 흐림 = 아직 레벨이 모자라요</p>'
    +near.map(([lv,arr])=>'<div class="tl '+st(lv)+'"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><span class="m">'+(st(lv)==='done'?'<span class="lst ok">✓ 배움</span>':st(lv)==='go'?'<span class="lst go">🔸 배우러 가기</span>':'')+arr.map(l=>abChip(l[1],l[5],l[3]?'새 기술':'랭크 '+l[2],lv>L)).join(' ')+'</span></div>').join('')
    +'<details class="fold"><summary>1~60 전체 보기</summary>'+groupBy(ls,l=>l[0]).map(([lv,arr])=>'<div class="tl '+st(lv)+'"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><span class="m">'+arr.map(l=>abChip(l[1],l[5],l[3]?'':'랭크 '+l[2],lv>L)).join(' ')+'</span></div>').join('')+'</details></div>';
   return h}
-function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];let h='<div class="chips">'+PROFS.map(p=>'<button class="chip'+(p===sel?' on':'')+'" data-a="pf" data-k="'+p.id+'">'+esc(p.ko)+'</button>').join('')+'</div>';
-  h+='<div class="card"><h3>'+esc(sel.ko)+'</h3>'+(sel.pair?'<p class="note">같이 하면 좋은 기술: '+esc(sel.pair)+'</p>':'');
-  h+='<p class="note">등급: '+PROF_RANK.map(r=>r[0]+' '+r[1]+'–'+r[2]+' ('+r[3]+')').join(' · ')+'</p>';
+function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];
+  let h='<div class="kprof">'+PGRP.map(([g,ids])=>'<div class="kpg"><span class="kpl">'+g+'</span><div class="kpb">'+ids.map(id=>PROFS.find(p=>p.id===id)).filter(Boolean).map(p=>'<button class="'+(p===sel?'on':'')+'" data-a="pf" data-k="'+p.id+'"><i>'+(PEMO[p.id]||'•')+'</i>'+esc(p.ko)+'</button>').join('')+'</div></div>').join('')+'</div>';
+  h+='<div class="card"><h3>'+(PEMO[sel.id]||'')+' '+esc(sel.ko)+'</h3>'+(sel.pair?'<p class="note">🤝 같이 하면 좋은 기술: <b>'+esc(sel.pair)+'</b></p>':'');
+  h+='<div class="kranks">'+PROF_RANK.map(r=>'<span><b>'+r[0]+'</b>'+r[1]+'–'+r[2]+'<small>'+esc(r[3])+'</small></span>').join('')+'</div>';
   if(sel.steps)h+=sel.steps.map(s=>'<div class="pr2"><span class="pl">'+s[0]+'<i>→</i>'+s[1]+'</span><span class="m"><span class="l1"><b>'+esc(s[2])+'</b><span class="cnt">'+esc(s[3])+'번 만들기</span>'+(s[5]?'<span class="nt">'+esc(s[5])+'</span>':'')+'</span><span class="rg">재료(1번에): '+esc(s[4])+'</span></span></div>').join('');
   if(sel.gather)h+=sel.gather.map(g=>'<div class="pr2"><span class="pl">'+g[0]+'</span><span class="m"><span class="l1"><b>'+esc(g[1])+'</b></span><span class="rg">'+esc(g[2])+'</span></span></div>').join('');
-  if(sel.tips)h+='<h3>팁</h3>'+sel.tips.map(t=>'<p class="note">• '+esc(t)+'</p>').join('');
+  if(sel.tips)h+='<h3>💡 팁</h3>'+sel.tips.map(t=>'<p class="note">• '+esc(t)+'</p>').join('');
   return h+'<p class="note"><a href="'+esc(sel.src)+'" target="_blank" rel="noopener">원본 가이드 ↗</a></p></div>'}
 
 /* ===================== 캐릭터 관리 시트 ===================== */

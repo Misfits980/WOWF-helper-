@@ -1000,3 +1000,42 @@ p.nchl{border:0;font-size:12px}
 .am.full .amcur{bottom:calc(64px + env(safe-area-inset-bottom))}
 .amap:has(#ampanel:not(:empty)) .amexit{display:none}
 .amback{padding:6px 11px;border-radius:10px;border:1px solid var(--gold2);background:#3a2a14;color:var(--gold);font-size:13px;font-weight:700;font-family:inherit}
+/* ===== 직업 탭 정리 ===== */
+.khead{display:flex;align-items:center;gap:12px;margin:12px 0 8px;padding:10px 12px;border-radius:var(--r);background:linear-gradient(90deg,color-mix(in srgb,var(--cc) 14%,transparent),transparent 70%);border:1px solid var(--line)}
+.khead .ic.lg{width:44px;height:44px;border-radius:10px;border:1px solid color-mix(in srgb,var(--cc) 50%,#000)}
+.khead .kt{display:flex;flex-direction:column;min-width:0}
+.khead .kt b{font-size:19px;color:var(--cc);line-height:1.2}
+.khead .kt span{font-size:13px;color:var(--mute)}
+.kspec{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 8px}
+.kspec button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px 7px;border-radius:var(--r2);border:1px solid var(--line);background:var(--panel);color:var(--txt);font-family:inherit;cursor:pointer}
+.kspec button .ic{width:30px;height:30px;border-radius:7px;filter:grayscale(.7) brightness(.8)}
+.kspec button b{font-size:14px}
+.kspec button small{font-size:11px;color:var(--mute)}
+.kspec button.on{border-color:var(--gold2);background:linear-gradient(180deg,#3a2c16,#231c11)}
+.kspec button.on .ic{filter:none;box-shadow:0 0 0 2px var(--gold2)}
+.kspec button.on b{color:var(--gold)}
+.ksec{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;margin:0 0 6px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line)}
+.ksec button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px;border-radius:9px;border:0;background:none;color:var(--mute);font-family:inherit;cursor:pointer}
+.ksec button i{font-style:normal;font-size:19px;line-height:1.2;filter:grayscale(.6);opacity:.8}
+.ksec button span{font-size:12px;font-weight:600;white-space:nowrap}
+.ksec button.on{background:#3a2c16;color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold2)}
+.ksec button.on i{filter:none;opacity:1}
+.kn{text-align:center}
+.krot h3{margin-bottom:0}
+.krot>.note{margin:0 0 6px}
+.rot2{display:grid;grid-template-columns:86px 1fr;gap:8px;padding:7px 0;border-top:1px solid var(--line);align-items:start}
+.rot2 .w{display:flex;align-items:flex-start;gap:4px;font-size:12px;font-weight:700;color:var(--gold);line-height:1.35;padding-top:3px}
+.rot2 .w i{font-style:normal;font-size:13px;flex:none}
+.rot2 .v{font-size:14px;line-height:1.75}
+.kprof{display:flex;flex-direction:column;gap:6px;margin:0 0 8px}
+.kpg{display:flex;align-items:flex-start;gap:8px}
+.kpl{flex:none;width:30px;font-size:11px;color:var(--mute);padding-top:9px;font-weight:700}
+.kpb{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.kpb button{display:flex;align-items:center;justify-content:center;gap:4px;padding:6px 4px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--txt);font-size:13px;font-family:inherit;white-space:nowrap;cursor:pointer}
+.kpb button i{font-style:normal;font-size:15px}
+.kpb button.on{border-color:var(--gold2);background:#3a2c16;color:var(--gold);font-weight:700}
+.kranks{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:6px 0 8px}
+.kranks span{display:flex;flex-direction:column;align-items:center;padding:5px 2px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;text-align:center}
+.kranks b{color:var(--gold);font-size:12.5px}
+.kranks small{font-size:10px;color:var(--mute);line-height:1.25}
+@media (min-width:1000px){.kspec,.ksec{max-width:640px}.kprof{max-width:760px}.kpb{grid-template-columns:repeat(6,1fr)}}
