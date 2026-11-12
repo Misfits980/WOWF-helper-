@@ -1,0 +1,779 @@
+1~퀘스트 · 희귀 서적~wh:quest=91777
+1~퀘스트 · 반납 기한 초과~wh:quest=96800
+1~퀘스트 · 도서관의 친구~wh:quest=78150
+1~퀘스트 · 젤토스의 뿔~wh:quest=78307
+1~달라란 · 퀘스트 보상~dg:city-of-dalaran
+1~로데론의 폐허 · 퀘스트 보상~dg:ruins-of-lordaeron
+1~영주의 전당 · 퀘스트 보상~dg:hall-of-thanes
+1~퀘스트 · 폭풍우의 병기~wh:quest=96016
+1~웰가르 발굴 현장 · 퀘스트 보상~dg:whelgar-excavation
+1~퀘스트 · 뒤틀린 증오~wh:quest=98403
+4~제작 · 대장기술 · 경매장 거래~
+4~제작 · 가죽세공 · 경매장 거래~
+1~퀘스트 · 발톱의 드루이드~wh:quest=2561
+3~드랍 · The Lost One~wh:npc=256028
+3~드랍 · Slydris~wh:npc=255887
+1~퀘스트 · 투사 우르살~wh:quest=486
+1~퀘스트 · 깨움의 의식을 위한 재료~wh:quest=483
+1~퀘스트 · 현상 수배: 탐욕의 불가라~wh:quest=93318
+5~상인 · 수사 젠드라스~wh:npc=272045
+4~제작 · 재봉술 · 경매장 거래~
+3~드랍 · 여왕 굴거미~wh:npc=471
+3~드랍 · 농부 솔리덴~wh:npc=1936
+4~제작 · 기계공학 · 경매장 거래~
+1~퀘스트 · 현상 수배: "들창코"~wh:quest=176
+4~제작 · 기계공학 · 직접 제작~
+4~제작 · 마법부여 · 경매장 거래~
+3~드랍 · 복수의 여신 쉘다~wh:npc=14431
+1~퀘스트 · 소식 전달~wh:quest=92703
+1~퀘스트 · 바람을 붙잡다~wh:quest=92840
+3~드랍 · 재빠른 덥썩부리~wh:npc=259394
+3~드랍 · Fernfeather~wh:npc=256492
+3~드랍 · 허수아비골렘~wh:npc=36
+1~퀘스트 · 가축 보호~wh:quest=314
+3~드랍 · 마즈라나체~wh:npc=3068
+2~월드 드랍 · 경매장~
+1~퀘스트 · 절박한 시기~wh:quest=92640
+1~퀘스트 · 발라나르로의 귀환~wh:quest=92880
+1~퀘스트 · 안타까운 소식~wh:quest=92644
+1~퀘스트 · 파괴자 파괴하기~wh:quest=92645
+1~퀘스트 · 감시탑 방어~wh:quest=93320
+1~퀘스트 · 원한은 열 배로 갚는다~wh:quest=92834
+1~퀘스트 · 텔드랏실~wh:quest=940
+3~드랍 · Duskstalker~wh:npc=14430
+3~드랍 · Warlord Kolkanis~wh:npc=5808
+3~드랍 · Watch Commander Zalaphil~wh:npc=5809
+3~드랍 · Geolord Mottle~wh:npc=5826
+3~드랍 · Galemender Delanea~wh:npc=259398
+3~드랍 · 현장감독 나르그~wh:npc=79
+3~드랍 · 교활한 도적 몰게니~wh:npc=99
+3~드랍 · 팀버~wh:npc=1132
+3~드랍 · 가시망치~wh:npc=1119
+3~드랍 · 무아드~wh:npc=1910
+1~퀘스트 · 바샬아란~wh:quest=957
+3~드랍 · Blightsculler~wh:npc=271080
+3~드랍 · 크르르~wh:npc=10356
+1~퀘스트 · 얼라이언스 연합 둘러보기~wh:quest=93963
+3~드랍 · Matriarch Bristlefur~wh:npc=276189
+3~드랍 · Nightscreech~wh:npc=276101
+3~드랍 · Ghostfang~wh:npc=276111
+3~드랍 · Snarlsnout~wh:npc=276109
+3~드랍 · 갈퀴발일족 싸움꾼~wh:npc=123
+1~퀘스트 · 조종사의 복수~wh:quest=417
+1~퀘스트 · 죽음의 땅~wh:quest=9
+3~드랍 · 모래게~wh:npc=830
+3~드랍 · 가루바위일족 망치잡이~wh:npc=1163
+3~드랍 · 가루바위일족 점쟁이~wh:npc=1166
+3~드랍 · 대부 아크티쿠스~wh:npc=1260
+3~드랍 · 대장 다르골~wh:npc=1658
+3~드랍 · 마녀 헤이트래쉬~wh:npc=5785
+3~드랍 · 투로스 라이트핑거~wh:npc=61
+3~드랍 · 기블윌트~wh:npc=8503
+1~퀘스트 · 자비는 닫힌 귀에 닿지 않는다~wh:quest=93165
+1~퀘스트 · 유령 해방~wh:quest=93172
+3~드랍 · 칼날비명 레산~wh:npc=10357
+3~드랍 · 검은아귀~wh:npc=14429
+3~드랍 · 호위대장 납작어금니~wh:npc=5824
+3~드랍 · 펠위버 스코른~wh:npc=5822
+3~드랍 · Death Flayer~wh:npc=5823
+3~드랍 · Enforcer Emilgund~wh:npc=5787
+3~드랍 · The Condemned One~wh:npc=276089
+1~퀘스트 · 백성의 민병대~wh:quest=14
+3~드랍 · 뱌른~wh:npc=1130
+1~퀘스트 · 더러운 손~wh:quest=307
+1~퀘스트 · 도난당한 전리품~wh:quest=888
+3~드랍 · 페드페널~wh:npc=472
+3~드랍 · Tel'daeor the Stormspeaker~wh:npc=259385
+3~드랍 · 날쌘발톱 그러프~wh:npc=100
+3~드랍 · 펠리센트의 유령~wh:npc=10358
+3~드랍 · Thornstarter Igleg~wh:npc=276108
+3~드랍 · Stormherald Ukta~wh:npc=276105
+3~드랍 · 갈퀴발일족 투사~wh:npc=124
+3~드랍 · 데피아즈단 정찰병~wh:npc=121
+3~드랍 · 붉은마루일족 싸움꾼~wh:npc=423
+3~드랍 · 타란툴라~wh:npc=442
+3~드랍 · 멀록 전사~wh:npc=171
+1~퀘스트 · 왕국 수호~wh:quest=217
+3~드랍 · 데피아즈단 채굴꾼~wh:npc=824
+3~드랍 · 데피아즈단 심복~wh:npc=594
+3~드랍 · 데피아즈단 요술사~wh:npc=619
+3~드랍 · 바닷게~wh:npc=831
+3~드랍 · 동굴쥐일족 땜장이~wh:npc=1177
+3~드랍 · 늙은 얼음수염~wh:npc=1271
+1~퀘스트 · 화약 운반~wh:quest=309
+1~퀘스트 · 샌더 선장의 숨겨진 보물~wh:quest=140
+1~퀘스트 · 붉은 가죽 복면~wh:quest=153
+3~드랍 · 달라란 광부~wh:npc=3578
+1~퀘스트 · 사모플랜지~wh:quest=902
+1~퀘스트 · 무력 탈출~wh:quest=994
+1~퀘스트 · 타나리운의 희망~wh:quest=2139
+4~제작 · 대장기술 · 직접 제작~
+4~제작 · 가죽세공 · 직접 제작~
+4~제작 · 재봉술 · 직접 제작~
+3~드랍 · Den'dralass~wh:npc=250936
+1~퀘스트 · 하늘파괴자 보루 방패~wh:quest=94003
+1~퀘스트 · 쓰러진 자의 깃발~wh:quest=86585
+1~퀘스트 · 현상 수배: 자이바넬~wh:quest=98025
+3~드랍 · Blackmoss the Fetid~wh:npc=3535
+3~드랍 · Mystmane~wh:npc=259388
+3~드랍 · Dishu~wh:npc=5865
+3~드랍 · 붉은마루일족 밀렵꾼~wh:npc=424
+3~드랍 · 데피아즈단 보초~wh:npc=1725
+3~드랍 · 데피아즈단 마법사~wh:npc=1726
+1~퀘스트 · 사냥꾼의 허세~wh:quest=257
+1~퀘스트 · 사냥꾼의 도전~wh:quest=258
+1~퀘스트 · 영원한 사랑~wh:quest=963
+1~퀘스트 · 해변으로 올라온 바다 생물~wh:quest=4681
+3~드랍 · Old Vicejaw~wh:npc=12432
+3~드랍 · Gorefang~wh:npc=12431
+3~드랍 · Licillin~wh:npc=2191
+3~드랍 · 허수아비골렘 수확기~wh:npc=115
+1~퀘스트 · 떨어져 가는 술~wh:quest=116
+3~드랍 · 무쇠팔~wh:npc=5837
+3~드랍 · 언데드 폭파병~wh:npc=625
+3~드랍 · 해골 광부~wh:npc=623
+3~드랍 · 검은무쇠단 공병~wh:npc=1222
+3~드랍 · 그리즐락~wh:npc=1425
+3~드랍 · 슬라크~wh:npc=519
+3~드랍 · 언데드 굴착자~wh:npc=624
+3~드랍 · 장로비술사 레이저스나웃~wh:npc=3270
+3~드랍 · 라소리안~wh:npc=3470
+1~퀘스트 · 마시스트라의 유물~wh:quest=951
+3~드랍 · 우두머리 채굴꾼~wh:npc=1424
+1~퀘스트 · 사라진 빙글스의 물건들~wh:quest=2038
+1~퀘스트 · 수정 안의 뼈~wh:quest=4813
+1~퀘스트 · 비수를 비틀다~wh:quest=86758
+3~드랍 · 데피아즈단 광부~wh:npc=598
+3~드랍 · 고블린 기술자~wh:npc=622
+3~드랍 · 고블린 땜장이~wh:npc=1731
+1~죽음의 폐광 · 퀘스트 보상~dg:deadmines
+3~드랍 · 모그로쉬 오우거~wh:npc=1178
+3~드랍 · 먼지 악령~wh:npc=832
+1~퀘스트 · 탈출~wh:quest=863
+1~퀘스트 · 알살락스의 탑~wh:quest=973
+1~퀘스트 · 조각상 모으기~wh:quest=297
+0~성난불길 협곡 · 욕망의 타라가만~dg:ragefire-chasm
+0~성난불길 협곡 · 기원사 제로쉬~dg:ragefire-chasm
+1~성난불길 협곡 · 퀘스트 보상~dg:ragefire-chasm
+0~영주의 전당 · 팔드림 앤빌마~dg:hall-of-thanes
+0~영주의 전당 · 약탈골렘~dg:hall-of-thanes
+0~영주의 전당 · 마그마투스~dg:hall-of-thanes
+0~영주의 전당 · 드루겐 더지해머~dg:hall-of-thanes
+0~성난불길 협곡 · 오글플린트~dg:ragefire-chasm
+0~성난불길 협곡 · 바잘란~dg:ragefire-chasm
+3~드랍 · Flagglemurk the Cruel~wh:npc=7015
+1~퀘스트 · 얇은 새끼용 비늘~wh:quest=122
+3~드랍 · 붉은마루일족 전사~wh:npc=446
+3~드랍 · 검은바위부족 그런트~wh:npc=440
+3~드랍 · 고블린 조선공~wh:npc=3947
+3~드랍 · 모그로쉬일족 투사~wh:npc=1180
+3~드랍 · 부러진창~wh:npc=5838
+0~통곡의 동굴~dg:wailing-caverns
+3~드랍 · 바위송곳~wh:npc=5841
+3~드랍 · 칼날발톱 킁킁이~wh:npc=5829
+1~퀘스트 · 해안의 위협~wh:quest=104
+3~드랍 · 갈퀴발일족 우두머리~wh:npc=125
+3~드랍 · 붉은마루일족 노역꾼~wh:npc=580
+1~퀘스트 · 영원의 다리~wh:quest=89
+3~드랍 · 광포한 잿빛가죽놀~wh:npc=434
+3~드랍 · 현장감독 시슬네틀~wh:npc=626
+3~드랍 · 부대장 가시발톱~wh:npc=506
+3~드랍 · 세뇌당한 귀족~wh:npc=596
+3~드랍 · 마리사 두페이지~wh:npc=599
+1~퀘스트 · 정신 없는 발굴조사단장~wh:quest=943
+1~퀘스트 · 정신 없는 발굴조사단장~wh:quest=741
+1~통곡의 동굴 · 퀘스트 보상~dg:wailing-caverns
+3~드랍 · 데피아즈단 갱부~wh:npc=4416
+0~로데론의 폐허 · 쇠퇴송곳니~dg:ruins-of-lordaeron
+0~로데론의 폐허 · 남작~dg:ruins-of-lordaeron
+3~드랍 · 붉은마루일족 부대장~wh:npc=445
+3~드랍 · 레프리투스~wh:npc=572
+0~죽음의 폐광 · 스니드의 벌목기~dg:deadmines
+1~퀘스트 · 국왕 알현~wh:quest=396
+0~죽음의 폐광 · 라크조르~dg:deadmines
+0~죽음의 폐광 · 쿠키~dg:deadmines
+0~죽음의 폐광 · 길니드~dg:deadmines
+3~드랍 · 채찍꼬리 트리고어~wh:npc=3652
+3~드랍 · 브랙~wh:npc=520
+0~통곡의 동굴 · 크레쉬~dg:wailing-caverns
+0~통곡의 동굴 · 스컴~dg:wailing-caverns
+0~통곡의 동굴 · 돌연변이 요정용~dg:wailing-caverns
+1~퀘스트 · 게렌조 렌치휘슬~wh:quest=1096
+0~통곡의 동굴 · 여군주 아나콘드라~dg:wailing-caverns
+0~로데론의 폐허 · 비요크~dg:ruins-of-lordaeron
+0~죽음의 폐광 · 스니드~dg:deadmines
+1~퀘스트 · 현상 수배: 소각자 가림~wh:quest=95999
+3~드랍 · Emogg the Crusher~wh:npc=14267
+3~드랍 · Takk the Leaper~wh:npc=5842
+3~드랍 · 마녀 라스탈론~wh:npc=5830
+3~드랍 · Foreman Grills~wh:npc=5835
+3~드랍 · Sludge Beast~wh:npc=3295
+3~드랍 · 이끼가죽일족 안개마술사~wh:npc=1009
+1~퀘스트 · 초크술 현상수배~wh:quest=256
+0~죽음의 폐광 · 미스터 스마이트~dg:deadmines
+0~죽음의 폐광 · 선장 그린스킨~dg:deadmines
+0~죽음의 폐광 · 에드윈 밴클리프~dg:deadmines
+0~그림자송곳니 성채 · 레실고어~dg:shadowfang-keep
+3~드랍 · 보안~wh:npc=3672
+0~죽음의 폐광 · 광부 존슨~dg:deadmines
+0~통곡의 동굴 · 군주 코브란~dg:wailing-caverns
+0~통곡의 동굴 · 영생의 베르단~dg:wailing-caverns
+1~퀘스트 · 티란데의 환대~wh:quest=1081
+0~통곡의 동굴 · 군주 서펜티스~dg:wailing-caverns
+1~퀘스트 · 잠에서 깨어난 드루이드~wh:quest=5321
+0~로데론의 폐허 · 버려진 자~dg:ruins-of-lordaeron
+0~로데론의 폐허 · 비열한 빅토르~dg:ruins-of-lordaeron
+0~통곡의 동굴 · 군주 피타스~dg:wailing-caverns
+1~퀘스트 · 남작 마리노스~wh:quest=98028
+3~드랍 · Stone Watcher~wh:npc=250629
+3~드랍 · 푸른아가미멀록 땅꾼~wh:npc=1028
+3~드랍 · 달라란 역술사~wh:npc=1920
+0~통곡의 동굴 · 걸신들린 무타누스~dg:wailing-caverns
+0~그림자송곳니 성채 · 도살자 칼날발톱~dg:shadowfang-keep
+3~드랍 · 번개갈기~wh:npc=5831
+3~드랍 · 우두머리 갈고쉬~wh:npc=1398
+1~퀘스트 · 교전 중 실종~wh:quest=219
+3~드랍 · 썩은가죽일족 투사~wh:npc=1944
+3~드랍 · 여군주 베스피라~wh:npc=7016
+0~그림자송곳니 성채 · 사령관 스프링베일~dg:shadowfang-keep
+0~로데론의 폐허 · 라스마엘~dg:ruins-of-lordaeron
+1~퀘스트 · 모벤트 펠~wh:quest=55
+0~그림자송곳니 성채~dg:shadowfang-keep
+3~드랍 · 우두머리 집게턱타란툴라~wh:npc=616
+1~퀘스트 · 침입자 멀록~wh:quest=150
+1~퀘스트 · 모건스~wh:quest=249
+3~드랍 · 마룩 웜스케일~wh:npc=2090
+3~드랍 · 아루갈의 보이드워커~wh:npc=4627
+1~퀘스트 · 장의사의 신부~wh:quest=253
+1~검은심연 나락 · 퀘스트 보상~dg:blackfathom-deeps
+1~퀘스트 · 소랜루크 수정구~wh:quest=1740
+1~퀘스트 · 정의의 시험~wh:quest=1806
+1~퀘스트 · 그리먼트의 갑옷~wh:quest=1706
+1~퀘스트 · 푸렌의 갑옷~wh:quest=1782
+1~퀘스트 · 메시엘의 방어구~wh:quest=1711
+1~퀘스트 · 클락몰트의 창작품~wh:quest=1709
+3~드랍 · 살육의 괴물~wh:npc=14682
+5~상인 · Winklespark~wh:npc=265574
+1~퀘스트 · 돌발톱 보급품 조달~wh:quest=86574
+1~퀘스트 · 가족의 벗~wh:quest=98191
+1~퀘스트 · 훌륭한 도서관의 친구~wh:quest=79536
+3~드랍 · Humar the Pridelord~wh:npc=5828
+3~드랍 · 진흙주둥이 놀~wh:npc=2372
+3~드랍 · 채굴꾼 플레임포지~wh:npc=5849
+3~드랍 · 거머리과부거미~wh:npc=1112
+0~그림자송곳니 성채 · 눈먼감시자 오도~dg:shadowfang-keep
+0~그림자송곳니 성채 · 남작 실버레인~dg:shadowfang-keep
+0~그림자송곳니 성채 · 늑대왕 난도스~dg:shadowfang-keep
+0~스톰윈드 지하감옥 · 흉악범 타고르~dg:stockade
+3~드랍 · Hannah Bladeleaf~wh:npc=5799
+3~드랍 · Marcus Bel~wh:npc=5800
+0~검은심연 나락 · 여왕 사레베스~dg:blackfathom-deeps
+1~스톰윈드 지하감옥 · 퀘스트 보상~dg:stockade
+3~드랍 · 갈라크일족 약탈자~wh:npc=4099
+0~가시덩굴 우리~dg:razorfen-kraul
+1~퀘스트 · 스탈반의 전설~wh:quest=98
+1~퀘스트 · 팔레스의 눈 정화~wh:quest=293
+0~그림자송곳니 성채 · 파멸의 펜루스~dg:shadowfang-keep
+1~퀘스트 · 오머의 복수~wh:quest=296
+3~드랍 · 검은무쇠단 소총병~wh:npc=6523
+0~로데론의 폐허 · 로데론 부대장~dg:ruins-of-lordaeron
+0~검은심연 나락 · 늙은 세라키스~dg:blackfathom-deeps
+0~검은심연 나락 · 겔리하스트~dg:blackfathom-deeps
+0~검은심연 나락 · 가무라~dg:blackfathom-deeps
+1~퀘스트 · 격노~wh:quest=378
+1~퀘스트 · 델그렌에게 가기~wh:quest=78093
+1~퀘스트 · 살육자~wh:quest=98283
+3~드랍 · Thora Feathermoon~wh:npc=5798
+3~드랍 · Aean Swiftriver~wh:npc=5797
+1~퀘스트 · 숲 속의 늑대인간~wh:quest=223
+0~스톰윈드 지하감옥 · 브루갈 아이언너클~dg:stockade
+1~퀘스트 · 네크로쉬 처치~wh:quest=474
+3~드랍 · 암살자 로~wh:npc=947
+3~드랍 · 벌트로스~wh:npc=462
+0~그림자송곳니 성채 · 대마법사 아루갈~dg:shadowfang-keep
+0~검은심연 나락 · 황혼의 군주 켈리스~dg:blackfathom-deeps
+0~스톰윈드 지하감옥 · 덱스트렌 워드~dg:stockade
+0~검은심연 나락 · 로구스 제트~dg:blackfathom-deeps
+1~퀘스트 · 현재를 이해하려면~wh:quest=98216
+1~퀘스트 · 버릇은 못 버린다~wh:quest=98223
+3~드랍 · 파멸의어둠일족 송곳니투사~wh:npc=206
+0~스톰윈드 지하감옥 · 캄 딥퓨리~dg:stockade
+3~드랍 · 카존~wh:npc=584
+0~검은심연 나락~dg:blackfathom-deeps
+0~가시덩굴 우리 · 가시덩굴일족 가시근위병~dg:razorfen-kraul
+0~검은심연 나락 · 아쿠마이~dg:blackfathom-deeps
+1~퀘스트 · 악순환을 끊어라~wh:quest=98297
+1~퀘스트 · 미래를 엿보다~wh:quest=98310
+3~드랍 · Brontus~wh:npc=5827
+3~드랍 · 파멸의어둠일족 타락전사~wh:npc=920
+0~붉은십자군 수도원: 도서관 · 사냥개조련사 록시~dg:sm-library
+3~드랍 · Dun Garok Rifleman~wh:npc=2345
+1~퀘스트 · 해결된 의문~wh:quest=1044
+1~퀘스트 · 마루둥지 와이번의 독~wh:quest=1135
+4~제작 · 마법부여 · 직접 제작~
+0~달라란 · 무덤 기사 아트렉시스~dg:city-of-dalaran
+0~스톰윈드 지하감옥 · 햄혹~dg:stockade
+0~가시덩굴 우리 · 루구그~dg:razorfen-kraul
+1~퀘스트 · 스트란브래드의 불가사의~wh:quest=95534
+1~퀘스트 · 보스카의 눈~wh:quest=78699
+1~퀘스트 · 반짝이는 초승달 목걸이~wh:quest=98027
+1~퀘스트 · 비밀결사대 암살자~wh:quest=505
+3~드랍 · 가르넥 찰스컬~wh:npc=2108
+0~가시덩굴 우리 · 죽음의예언자 잘그바~dg:razorfen-kraul
+1~퀘스트 · 세나리우스의 가지~wh:quest=1031
+0~웰가르 발굴 현장 · 소금가시~dg:whelgar-excavation
+0~웰가르 발굴 현장 · 그늘이빨~dg:whelgar-excavation
+0~스톰윈드 지하감옥 · 바질 스레드~dg:stockade
+0~가시덩굴 우리 · 저주의가시 아겜~dg:razorfen-kraul
+1~가시덩굴 우리 · 퀘스트 보상~dg:razorfen-kraul
+0~놈리건 · 방사성 폐기물~dg:gnomeregan
+1~놈리건 · 퀘스트 보상~dg:gnomeregan
+0~달라란 · 비전 변형물~dg:city-of-dalaran
+0~달라란 · 신비한 수수께끼~dg:city-of-dalaran
+1~퀘스트 · 포장된 온전한 모피~wh:quest=98156
+3~드랍 · Vengeful Ancient~wh:npc=4030
+3~드랍 · Nal'taszar~wh:npc=4066
+1~퀘스트 · 호랑이 사냥법 익히기~wh:quest=188
+1~퀘스트 · 퓨마 사냥법 익히기~wh:quest=193
+1~퀘스트 · 랩터 사냥법 익히기~wh:quest=197
+3~드랍 · 무쇠턱 우두머리랩터~wh:npc=1140
+1~퀘스트 · 피즐에게 전할 소식~wh:quest=1137
+1~퀘스트 · 노움의 실력 향상~wh:quest=2948
+1~퀘스트 · 대단한 사냥꾼~wh:quest=208
+1~퀘스트 · 딸의 사랑~wh:quest=231
+0~웰가르 발굴 현장 · 유물 수호자~dg:whelgar-excavation
+0~달라란 · 마나 포식자~dg:city-of-dalaran
+0~달라란 · 불안정한 파수꾼~dg:city-of-dalaran
+0~달라란 · 외면받는 린~dg:city-of-dalaran
+1~퀘스트 · 길 잃은 이의 안부~wh:quest=88758
+1~퀘스트 · 바르톨로의 설인 모피 망토~wh:quest=565
+3~드랍 · 사령관 펠스트롬~wh:npc=771
+3~드랍 · 펜로스~wh:npc=507
+0~가시덩굴 우리 · 대군주 램터스크~dg:razorfen-kraul
+0~가시덩굴 우리 · 대지의주술사 함가르~dg:razorfen-kraul
+0~가시덩굴 우리 · 흉포한 아가테로스~dg:razorfen-kraul
+0~가시덩굴 우리 · 눈먼사냥꾼~dg:razorfen-kraul
+1~퀘스트 · 안전 제일~wh:quest=1189
+0~붉은십자군 수도원: 묘지 · 심문관 비샤스~dg:sm-graveyard
+0~놈리건 · 그루비스~dg:gnomeregan
+0~놈리건 · 기계화 문지기 6000~dg:gnomeregan
+0~놈리건 · 고철 압축기 9-60~dg:gnomeregan
+0~달라란 · 지옥의 고대정령~dg:city-of-dalaran
+3~드랍 · Heartrazor~wh:npc=5934
+1~퀘스트 · 크나큰 위협~wh:quest=564
+1~퀘스트 · 산사태일족 전사~wh:quest=504
+1~퀘스트 · 진주잡이~wh:quest=705
+1~퀘스트 · 적대적 탈취~wh:quest=213
+1~퀘스트 · 숨겨진 열쇠~wh:quest=328
+1~퀘스트 · 마우리의 의족 열기~wh:quest=613
+1~퀘스트 · 공주 소환~wh:quest=656
+1~퀘스트 · 현상 수배: 마레즈 코울~wh:quest=684
+1~퀘스트 · 멀달록~wh:quest=739
+0~가시덩굴 우리 · 서슬깃 차를가~dg:razorfen-kraul
+1~퀘스트 · 회수전문회사를 위한 재료~wh:quest=1467
+1~퀘스트 · 소용돌이 무기~wh:quest=1792
+1~퀘스트 · 마법사의 마법봉~wh:quest=1952
+0~붉은십자군 수도원: 묘지 · 혈법사 탈노스~dg:sm-graveyard
+0~붉은십자군 수도원: 묘지 · 무쇠해골~dg:sm-graveyard
+0~붉은십자군 수도원: 묘지 · 타락한 용사~dg:sm-graveyard
+0~붉은십자군 수도원: 묘지 · 잠들지 않는 아즈쉬르~dg:sm-graveyard
+0~놈리건 · 검은무쇠단 사절~dg:gnomeregan
+1~퀘스트 · 자를의 검~wh:quest=1203
+1~퀘스트 · 발라리엘에게 돌아가기~wh:quest=1440
+1~퀘스트 · 새로운 역병의 징조?~wh:quest=661
+1~퀘스트 · 코도 길들이기~wh:quest=5561
+1~퀘스트 · 랙모어의 보물을 찾아라!~wh:quest=6161
+1~퀘스트 · 고대의 책~wh:quest=6027
+1~퀘스트 · 스트롬가드 휘장~wh:quest=682
+1~퀘스트 · 아그몬드의 운명~wh:quest=704
+1~퀘스트 · 대령 쿠르젠~wh:quest=202
+1~퀘스트 · 멸망의 해결책~wh:quest=709
+1~퀘스트 · 현상 수배: 오토와 팰컨크레스트~wh:quest=685
+0~달라란 · 대마법사의 망령~dg:city-of-dalaran
+5~상인 · Gezzy Gunkgear~wh:npc=265575
+1~퀘스트 · 도둑의 명예 따윈 없다~wh:quest=79242
+3~드랍 · Bloodscalp Headhunter~wh:npc=671
+3~드랍 · Shadowforge Darkweaver~wh:npc=2740
+3~드랍 · Singer~wh:npc=2600
+0~놈리건 · 멕기니어 텔마플러그~dg:gnomeregan
+1~퀘스트 · 배고픈 오우거~wh:quest=1177
+1~퀘스트 · Ground to Keep~wh:quest=92867
+3~드랍 · Syndicate Assassin~wh:npc=2246
+3~드랍 · Kovork~wh:npc=2603
+3~드랍 · Skhowl~wh:npc=2452
+1~울다만 · 퀘스트 보상~dg:uldaman
+3~드랍 · Scarlet Centurion~wh:npc=4301
+1~가시덩굴 구릉 · 퀘스트 보상~dg:razorfen-downs
+1~퀘스트 · 기젤톤 대상단~wh:quest=5943
+3~드랍 · Crushridge Warmonger~wh:npc=2287
+3~드랍 · Nether Sorceress~wh:npc=4684
+3~드랍 · Nimar the Slayer~wh:npc=2606
+0~붉은십자군 수도원: 도서관 · 신비술사 도안~dg:sm-library
+3~드랍 · Ironeye the Invincible~wh:npc=5935
+3~드랍 · Scarlet Champion~wh:npc=4302
+0~가시덩굴 구릉 · 썩어가는 역병아귀~dg:razorfen-downs
+1~퀘스트 · Ghost-o-plasm Round Up~wh:quest=6134
+3~드랍 · Venture Co. Tinkerer~wh:npc=677
+1~퀘스트 · Drowned Sorrows~wh:quest=664
+1~퀘스트 · Sunken Treasure~wh:quest=666
+1~퀘스트 · 칸 흐라사~wh:quest=1380
+1~퀘스트 · 칸 흐라사~wh:quest=1381
+1~퀘스트 · Celestial Power~wh:quest=1958
+1~붉은십자군 수도원: 도서관 · 퀘스트 보상~dg:sm-library
+3~드랍 · Digmaster Shovelphlange~wh:npc=7057
+0~가시덩굴 구릉 · 너덜주둥이~dg:razorfen-downs
+1~퀘스트 · The Completed Orb of Dar'Orahil~wh:quest=4964
+1~퀘스트 · 칸 젠~wh:quest=93196
+1~퀘스트 · 칸 젠~wh:quest=93128
+3~드랍 · Lo'Grosh~wh:npc=2453
+1~퀘스트 · Excelsior~wh:quest=628
+1~퀘스트 · Mazen's Behest~wh:quest=1364
+0~가시덩굴 구릉 · 불꽃눈 모드레쉬~dg:razorfen-downs
+0~붉은십자군 수도원: 대성당 · 종교재판관 페어뱅크스~dg:sm-cathedral
+3~드랍 · Dustbelcher Shaman~wh:npc=2718
+1~퀘스트 · Keep An Eye Out~wh:quest=576
+1~퀘스트 · Stone Is Better than Cloth~wh:quest=716
+0~붉은십자군 수도원: 무기고 · 헤로드~dg:sm-armory
+0~울다만 · 레벨로쉬~dg:uldaman
+0~울다만 · 날쌘돌이 에릭~dg:uldaman
+0~울다만 · 올라프~dg:uldaman
+0~울다만 · 아이로나야~dg:uldaman
+0~가시덩굴 구릉 · 게걸먹보~dg:razorfen-downs
+0~가시덩굴 구릉 · 투텐카쉬~dg:razorfen-downs
+1~마라우돈 · 퀘스트 보상~dg:maraudon
+0~울다만 · 밸로그~dg:uldaman
+0~가시덩굴 구릉 · 혹한의 암네나르~dg:razorfen-downs
+1~퀘스트 · Sweet Amber~wh:quest=53
+1~퀘스트 · Akiris by the Bundle~wh:quest=617
+1~붉은십자군 수도원: 대성당 · 퀘스트 보상~dg:sm-cathedral
+0~붉은십자군 수도원: 대성당 · 종교재판관 화이트메인~dg:sm-cathedral
+0~붉은십자군 수도원: 대성당 · 붉은십자군 사령관 모그레인~dg:sm-cathedral
+1~퀘스트 · Scrounging~wh:quest=733
+1~퀘스트 · The Mark of Quality~wh:quest=2821
+1~퀘스트 · Deliver to MacKinley~wh:quest=2874
+1~퀘스트 · Delivering the Relic~wh:quest=2871
+1~퀘스트 · Shadoweaver~wh:quest=3379
+1~퀘스트 · Southsea Shakedown~wh:quest=8366
+5~상인 · Rettrick~wh:npc=265576
+5~상인 · Friz Frazzlespark~wh:npc=255897
+1~퀘스트 · 훌륭한 도서관의 친구~wh:quest=82208
+1~퀘스트 · Partial Mystical Notes~wh:quest=95384
+0~울다만 · 고대 바위 문지기~dg:uldaman
+0~줄파락 · 산다르 듄리버~dg:zul-farrak
+1~줄파락 · 퀘스트 보상~dg:zul-farrak
+1~퀘스트 · A Hero's Welcome~wh:quest=4266
+1~퀘스트 · Ledger from Tanaris~wh:quest=4450
+0~울다만 · 갈간 파이어해머~dg:uldaman
+0~울다만 · 그림로크~dg:uldaman
+1~퀘스트 · Doling Justice~wh:quest=2972
+0~줄파락 · 제릴리스~dg:zul-farrak
+0~줄파락 · 더스트레이스~dg:zul-farrak
+0~줄파락 · 의술사 줌라~dg:zul-farrak
+0~줄파락 · 안투술~dg:zul-farrak
+1~퀘스트 · Rescue OOX-22/FE!~wh:quest=2767
+1~퀘스트 · Gahz'ridian~wh:quest=3161
+1~퀘스트 · The Dunemaul Compound~wh:quest=5863
+1~퀘스트 · Improved Quality~wh:quest=7733
+1~퀘스트 · STOLEN: Smithing Tuyere and Lookout's Spyglass~wh:quest=7728
+1~퀘스트 · Timbermaw Ally~wh:quest=8460
+0~울다만 · 아카에다스~dg:uldaman
+0~줄파락 · 어둠의사제 세즈지즈~dg:zul-farrak
+1~퀘스트 · Wandering Shay~wh:quest=2845
+1~퀘스트 · Fiery Menace!~wh:quest=7724
+1~아탈학카르 신전 · 퀘스트 보상~dg:temple-of-atal-hakkar
+0~줄파락 · 족장 우코르즈 샌드스칼프~dg:zul-farrak
+1~퀘스트 · The Morrow Stone~wh:quest=2942
+1~퀘스트 · Prayer to Elune~wh:quest=3378
+0~마라우돈 · 군주 바일텅~dg:maraudon
+1~퀘스트 · WANTED: Overseer Maltorius~wh:quest=7701
+1~퀘스트 · Set Them Ablaze!~wh:quest=3463
+0~아탈학카르 신전 · 아탈알라리온~dg:temple-of-atal-hakkar
+0~마라우돈 · 정원사 메슬로크~dg:maraudon
+0~마라우돈 · 녹시온~dg:maraudon
+0~마라우돈 · 칼날채찍~dg:maraudon
+1~퀘스트 · Return to Tymor~wh:quest=3461
+0~검은바위 나락 · 사냥개조련사 그렙마르~dg:blackrock-depths
+0~검은바위 나락 · 대심문관 게르스탄~dg:blackrock-depths
+0~검은바위 나락 · 불의군주 록코르~dg:blackrock-depths
+1~퀘스트 · It's Dangerous to Go Alone~wh:quest=3962
+5~상인 · Linken~wh:npc=8737
+0~마라우돈 · 저주받은 셀레브라스~dg:maraudon
+1~퀘스트 · Saving Sharpbeak~wh:quest=2994
+1~퀘스트 · Rise, Obsidion!~wh:quest=3566
+0~검은바위 나락 · 화염술사 로어그레인~dg:blackrock-depths
+1~검은바위 나락 · 퀘스트 보상~dg:blackrock-depths
+1~퀘스트 · Ogre Head On A Stick = Party~wh:quest=3825
+0~아탈학카르 신전~dg:temple-of-atal-hakkar
+0~마라우돈 · 썩은아귀~dg:maraudon
+0~마라우돈 · 산사태~dg:maraudon
+3~드랍 · High Interrogator Gerstahn~wh:npc=9018
+0~아탈학카르 신전 · 학카르의 화신~dg:temple-of-atal-hakkar
+0~검은바위 나락 · 왕거미 헤드룸~dg:blackrock-depths
+0~검은바위 나락 · 파괴자 오크토르~dg:blackrock-depths
+1~퀘스트 · Further Corruption~wh:quest=4906
+1~퀘스트 · A Little Slime Goes a Long Way~wh:quest=4513
+1~퀘스트 · Return to Tinkee~wh:quest=4810
+0~마라우돈 · 공주 테라드라스~dg:maraudon
+0~아탈학카르 신전 · 예언자 잠말란~dg:temple-of-atal-hakkar
+0~검은바위 나락 · 아눕쉬아~dg:blackrock-depths
+0~검은바위 나락 · 적출자~dg:blackrock-depths
+0~검은바위 나락 · 그리즐~dg:blackrock-depths
+0~검은바위 나락 · 팔란스~dg:blackrock-depths
+0~검은바위 나락 · 파이너스 다크바이어~dg:blackrock-depths
+1~퀘스트 · The Mighty U'cha~wh:quest=4301
+1~퀘스트 · Shizzle's Flyer~wh:quest=4503
+1~퀘스트 · Beware of Pterrordax~wh:quest=4501
+0~검은바위 나락 · 플러거 스파즈링~dg:blackrock-depths
+1~퀘스트 · Runecloth~wh:quest=6031
+5~상인 · Lhara~wh:npc=14846
+1~퀘스트 · Trolls of a Feather~wh:quest=8422
+1~퀘스트 · Just Compensation~wh:quest=8933
+5~상인 · Zippie Fizzbolt~wh:npc=265577
+0~아탈학카르 신전 · 에라니쿠스의 사령~dg:temple-of-atal-hakkar
+0~검은바위 나락~dg:blackrock-depths
+0~검은바위 나락 · 베레크~dg:blackrock-depths
+0~검은바위 나락 · 밸가르~dg:blackrock-depths
+0~검은바위 나락 · 사령관 앵거포지~dg:blackrock-depths
+1~퀘스트 · Ancient Spirit~wh:quest=4261
+0~검은바위 첨탑 상층 · 제드 룬와처~dg:upper-blackrock-spire
+1~퀘스트 · Strange Sources~wh:quest=4842
+3~드랍 · Verek~wh:npc=9042
+1~퀘스트 · Heroes of Old~wh:quest=2701
+0~검은바위 나락 · 광신자 고로쉬~dg:blackrock-depths
+0~검은바위 나락 · 문지기 스틸기스~dg:blackrock-depths
+0~검은바위 나락 · 운명의 문지기~dg:blackrock-depths
+0~검은바위 첨탑 하층 · 불타는 지옥군단병~dg:lower-blackrock-spire
+0~스트라솔름: 이승 · 스컬~dg:stratholme-live
+0~스트라솔름: 이승 · 용서받지 못한 자~dg:stratholme-live
+1~퀘스트 · In Dreams~wh:quest=5944
+1~퀘스트 · Wildkin of Elune~wh:quest=4902
+0~스칼로맨스 · 조교 말리시아~dg:scholomance
+0~스칼로맨스 · 군주 알렉세이 바로브~dg:scholomance
+0~검은바위 나락 · 헐레이 블랙브레스~dg:blackrock-depths
+1~퀘스트 · Uncovering Past Secrets~wh:quest=6845
+3~드랍 · Warder Stilgiss~wh:npc=9041
+0~검은바위 나락 · 마그무스~dg:blackrock-depths
+0~검은바위 나락 · 사자 화염채찍~dg:blackrock-depths
+0~검은바위 첨탑 하층 · 뾰족바위일족 전투대장~dg:lower-blackrock-spire
+0~스트라솔름: 이승 · 하스싱어 포레스턴~dg:stratholme-live
+1~퀘스트 · A Final Blow~wh:quest=5242
+0~혈투의 전장: 동쪽 · 레스텐드리스~dg:dire-maul-east
+0~혈투의 전장: 동쪽 · 제브림 쏜후프~dg:dire-maul-east
+0~혈투의 전장: 동쪽 · 히드로스폰~dg:dire-maul-east
+1~퀘스트 · Winterfall Activity~wh:quest=8464
+5~상인 · Dala Fairmaw~wh:npc=256629
+0~검은바위 나락 · 골렘 군주 아젤마크~dg:blackrock-depths
+0~검은바위 나락 · 제왕 다그란 타우릿산~dg:blackrock-depths
+0~검은바위 나락 · 공주 모이라 브론즈비어드~dg:blackrock-depths
+0~검은바위 첨탑 하층 · 어둠사냥꾼 보쉬가진~dg:lower-blackrock-spire
+0~검은바위 첨탑 하층 · 뾰족바위일족 마법사장~dg:lower-blackrock-spire
+0~스트라솔름: 저승 · 집정관 발실라스~dg:stratholme-dead
+0~스트라솔름: 이승 · 잔혹한 티미~dg:stratholme-live
+1~퀘스트 · High Chief Winterfall~wh:quest=5121
+1~검은바위 첨탑 하층 · 퀘스트 보상~dg:lower-blackrock-spire
+0~스트라솔름: 저승 · 네룹엔칸~dg:stratholme-dead
+0~검은바위 첨탑 하층 · 대장군 부네~dg:lower-blackrock-spire
+0~스칼로맨스 · 들창어금니~dg:scholomance
+0~스트라솔름: 저승 · 먹보 람스타인~dg:stratholme-dead
+0~혈투의 전장: 동쪽 · 칼날바람 알진~dg:dire-maul-east
+1~퀘스트 · Confront Yeh'kinya~wh:quest=8181
+1~퀘스트 · Wanted - Deathclasp, Terror of the Sands~wh:quest=8283
+1~퀘스트 · Enchanted Azsharite Fel Weaponry~wh:quest=3625
+0~검은바위 첨탑 하층 · 반노크 그림액스~dg:lower-blackrock-spire
+0~검은바위 첨탑 상층 · 기스~dg:upper-blackrock-spire
+0~검은바위 첨탑 하층 · 대군주 오모크~dg:lower-blackrock-spire
+0~검은바위 첨탑 하층 · 고크 배시구드~dg:lower-blackrock-spire
+0~검은바위 첨탑 하층 · 할리콘~dg:lower-blackrock-spire
+0~검은바위 첨탑 하층 · 병참장교 지그리스~dg:lower-blackrock-spire
+0~검은바위 첨탑 상층 · 고랄루크 앤빌크랙~dg:upper-blackrock-spire
+0~스트라솔름: 저승 · 남작부인 아나스타리~dg:stratholme-dead
+1~퀘스트 · Hidden Treasures~wh:quest=5942
+0~검은바위 첨탑 하층 · 대군주 웜타라크~dg:lower-blackrock-spire
+0~스칼로맨스 · 라스 프로스트위스퍼~dg:scholomance
+0~스트라솔름: 이승 · 포병대장 윌리~dg:stratholme-live
+0~검은바위 첨탑 상층 · 대족장 렌드 블랙핸드~dg:upper-blackrock-spire
+0~혈투의 전장: 북쪽~dg:dire-maul-north
+1~퀘스트 · Suppression~wh:quest=7583
+1~퀘스트 · Strength of Mount Mugamba~wh:quest=8041
+1~퀘스트 · Strength of Mount Mugamba~wh:quest=8042
+1~퀘스트 · The Heathen's Brand~wh:quest=8045
+1~퀘스트 · The Heathen's Brand~wh:quest=8046
+1~퀘스트 · The Pebble of Kajaro~wh:quest=8101
+1~퀘스트 · The Pebble of Kajaro~wh:quest=8102
+1~퀘스트 · Kezan's Taint~wh:quest=8106
+1~퀘스트 · Kezan's Taint~wh:quest=8107
+1~퀘스트 · Zandalarian Shadow Talisman~wh:quest=8141
+1~퀘스트 · Zandalarian Shadow Talisman~wh:quest=8142
+1~퀘스트 · The Maelstrom's Tendril~wh:quest=8145
+1~퀘스트 · The Maelstrom's Tendril~wh:quest=8146
+1~퀘스트 · Anthion's Parting Words~wh:quest=8954
+1~퀘스트 · Saving the Best for Last~wh:quest=9002
+3~드랍 · Balzaphon~wh:npc=14684
+0~검은바위 첨탑 상층 · 화염고리 솔라카르~dg:upper-blackrock-spire
+0~검은바위 첨탑 상층 · 불의수호자 엠버시어~dg:upper-blackrock-spire
+0~검은바위 첨탑 하층 · 수정 맹독거미~dg:lower-blackrock-spire
+0~검은바위 첨탑 하층 · 흉포한 기즈룰~dg:lower-blackrock-spire
+0~검은바위 첨탑 하층 · 우로크 둠하울~dg:lower-blackrock-spire
+0~스트라솔름: 이승 · 우체국장 말로운~dg:stratholme-live
+0~스트라솔름: 저승 · 뾰족바위~dg:stratholme-dead
+0~스칼로맨스 · 사자 키르토노스~dg:scholomance
+0~스칼로맨스~dg:scholomance
+1~스칼로맨스 · 퀘스트 보상~dg:scholomance
+0~스트라솔름: 저승 · 남작 리븐데어~dg:stratholme-dead
+1~스트라솔름: 저승 · 퀘스트 보상~dg:stratholme-dead
+0~혈투의 전장: 서쪽 · 마술사 칼렌드리스~dg:dire-maul-west
+0~혈투의 전장: 서쪽 · 굽이나무 텐드리스~dg:dire-maul-west
+0~혈투의 전장: 북쪽 · 정찰병 초루쉬~dg:dire-maul-north
+0~스칼로맨스 · 벡투스~dg:scholomance
+1~퀘스트 · Paragons of Power: The Vindicator's Belt~wh:quest=8078
+1~퀘스트 · Paragons of Power: The Vindicator's Armguards~wh:quest=8058
+1~퀘스트 · Paragons of Power: The Freethinker's Belt~wh:quest=8054
+1~퀘스트 · Paragons of Power: The Freethinker's Armguards~wh:quest=8053
+1~퀘스트 · Paragons of Power: The Predator's Belt~wh:quest=8066
+1~퀘스트 · Paragons of Power: The Madcap's Mantle~wh:quest=8072
+1~퀘스트 · Paragons of Power: The Madcap's Bracers~wh:quest=8063
+1~퀘스트 · Paragons of Power: The Confessor's Wraps~wh:quest=8061
+1~퀘스트 · Paragons of Power: The Illusionist's Mantle~wh:quest=8068
+1~퀘스트 · Paragons of Power: The Illusionist's Wraps~wh:quest=8060
+1~퀘스트 · Paragons of Power: The Demoniac's Wraps~wh:quest=8059
+1~퀘스트 · Paragons of Power: The Demoniac's Mantle~wh:quest=8076
+0~혈투의 전장: 동쪽 · 이살리엔~dg:dire-maul-east
+0~검은바위 나락 · 텔드렌~dg:blackrock-depths
+0~검은바위 첨탑 하층 · 모르 그레이후프~dg:lower-blackrock-spire
+0~스칼로맨스 · 암흑스승 간들링~dg:scholomance
+0~혈투의 전장: 서쪽 · 왕자 토르텔드린~dg:dire-maul-west
+0~혈투의 전장: 서쪽 · 이몰타르~dg:dire-maul-west
+3~드랍 · Princess Tempestria~wh:npc=14457
+0~스칼로맨스 · 잔다이스 바로브~dg:scholomance
+0~스트라솔름: 저승 · 냉혈한 말레키~dg:stratholme-dead
+0~혈투의 전장: 서쪽 · 군주 헬누라스~dg:dire-maul-west
+0~스칼로맨스 · 죽음의 기사 다크리버~dg:scholomance
+1~퀘스트 · Into The Maw of Madness~wh:quest=8306
+1~퀘스트 · Stalwart's Battlegear~wh:quest=8574
+0~스칼로맨스 · 코르모크~dg:scholomance
+0~검은바위 첨탑 상층 · 사령관 드라키사스~dg:upper-blackrock-spire
+0~검은바위 첨탑 상층 · 괴수~dg:upper-blackrock-spire
+0~스트라솔름: 이승 · 발나자르~dg:stratholme-live
+1~혈투의 전장: 서쪽 · 퀘스트 보상~dg:dire-maul-west
+0~혈투의 전장: 북쪽 · 왕 고르독~dg:dire-maul-north
+1~퀘스트 · Armaments of War~wh:quest=8377
+1~퀘스트 · Armaments of War~wh:quest=8378
+1~퀘스트 · Armaments of War~wh:quest=8381
+1~퀘스트 · Armaments of War~wh:quest=8379
+0~검은바위 첨탑 상층 · 군주 발타라크~dg:upper-blackrock-spire
+3~드랍 · Ragnaros~wh:npc=11502
+3~드랍 · Nefarian~wh:npc=11583
+3~드랍 · Chromaggus~wh:npc=14020
+3~드랍 · Ebonroc~wh:npc=14601
+1~퀘스트 · 1200 Tickets - Orb of the Darkmoon~wh:quest=7940
+3~드랍 · Flamegor~wh:npc=11981
+1~퀘스트 · 1200 Tickets - Amulet of the Darkmoon~wh:quest=7981
+1~퀘스트 · Maelstrom's Wrath~wh:quest=8148
+1~퀘스트 · Paragons of Power: The Vindicator's Breastplate~wh:quest=8079
+3~드랍 · Jin'do the Hexxer~wh:npc=11380
+3~드랍 · Emeriss~wh:npc=14889
+3~드랍 · Ysondre~wh:npc=14887
+3~드랍 · Lord Skwol~wh:npc=15305
+3~드랍 · C'Thun~wh:npc=15727
+1~퀘스트 · Champion's Battlegear~wh:quest=8573
+1~퀘스트 · The Path of the Protector~wh:quest=8750
+1~퀘스트 · The Path of the Invoker~wh:quest=8759
+1~퀘스트 · The Path of the Invoker~wh:quest=8760
+1~퀘스트 · Imperial Qiraji Regalia~wh:quest=8790
+1~퀘스트 · Conqueror's Crown~wh:quest=8561
+1~퀘스트 · Conqueror's Spaulders~wh:quest=8544
+1~퀘스트 · Conqueror's Breastplate~wh:quest=8562
+1~퀘스트 · Conqueror's Legguards~wh:quest=8560
+1~퀘스트 · Conqueror's Greaves~wh:quest=8559
+1~퀘스트 · Enigma Circlet~wh:quest=8632
+1~퀘스트 · Genesis Shoulderpads~wh:quest=8669
+1~퀘스트 · Deathdealer's Boots~wh:quest=8637
+1~퀘스트 · Deathdealer's Helm~wh:quest=8639
+1~퀘스트 · Deathdealer's Spaulders~wh:quest=8641
+1~퀘스트 · Deathdealer's Leggings~wh:quest=8640
+1~퀘스트 · Deathdealer's Vest~wh:quest=8638
+1~퀘스트 · Striker's Footguards~wh:quest=8626
+1~퀘스트 · Striker's Pauldrons~wh:quest=8659
+1~퀘스트 · Striker's Leggings~wh:quest=8658
+1~퀘스트 · Striker's Hauberk~wh:quest=8656
+1~퀘스트 · Avenger's Crown~wh:quest=8628
+1~퀘스트 · Avenger's Greaves~wh:quest=8655
+1~퀘스트 · Avenger's Breastplate~wh:quest=8627
+1~퀘스트 · Avenger's Legguards~wh:quest=8629
+1~퀘스트 · Avenger's Pauldrons~wh:quest=8630
+1~퀘스트 · Drape of Unyielding Strength~wh:quest=8557
+1~퀘스트 · Cape of Eternal Justice~wh:quest=8695
+1~퀘스트 · Signet of the Unseen Path~wh:quest=8704
+1~퀘스트 · Cloak of the Unseen Path~wh:quest=8696
+1~퀘스트 · Cloak of Veiled Shadows~wh:quest=8693
+1~퀘스트 · Mace of Unending Life~wh:quest=8708
+1~퀘스트 · Cloak of Unending Life~wh:quest=8692
+1~퀘스트 · Gavel of Infinite Wisdom~wh:quest=8705
+1~퀘스트 · Shroud of Infinite Wisdom~wh:quest=8689
+1~퀘스트 · Blade of Vaulted Secrets~wh:quest=8707
+1~퀘스트 · Drape of Vaulted Secrets~wh:quest=8691
+1~퀘스트 · Shroud of Unspoken Names~wh:quest=8694
+1~퀘스트 · The Fall of Ossirian~wh:quest=8791
+1~퀘스트 · Treasure of the Timeless One~wh:quest=8745
+1~퀘스트 · The Nightmare Manifests~wh:quest=8736
+3~드랍 · Emperor Vek'lor~wh:npc=15276
+3~드랍 · Emperor Vek'nilash~wh:npc=15275
+3~드랍 · Ouro~wh:npc=15517
+3~드랍 · Princess Huhuran~wh:npc=15509
+3~드랍 · Viscidus~wh:npc=15299
+3~드랍 · Fankriss the Unyielding~wh:npc=15510
+3~드랍 · Battleguard Sartura~wh:npc=15516
+3~드랍 · The Prophet Skeram~wh:npc=15263
+1~퀘스트 · The Savior of Kalimdor~wh:quest=8802
+1~퀘스트 · An Earnest Proposition~wh:quest=8908
+1~퀘스트 · The Perfect Poison~wh:quest=9023
+1~퀘스트 · Dreadnaught Breastplate~wh:quest=9034
+1~퀘스트 · Dreadnaught Legplates~wh:quest=9036
+1~퀘스트 · Dreadnaught Helmet~wh:quest=9037
+1~퀘스트 · Dreadnaught Sabatons~wh:quest=9039
+1~퀘스트 · Dreadnaught Waistguard~wh:quest=9041
+1~퀘스트 · Dreadnaught Bracers~wh:quest=9042
+1~퀘스트 · Cryptstalker Tunic~wh:quest=9054
+1~퀘스트 · Cryptstalker Legguards~wh:quest=9055
+1~퀘스트 · Cryptstalker Headpiece~wh:quest=9056
+1~퀘스트 · Cryptstalker Spaulders~wh:quest=9057
+1~퀘스트 · Cryptstalker Boots~wh:quest=9058
+1~퀘스트 · Cryptstalker Handguards~wh:quest=9059
+1~퀘스트 · Cryptstalker Girdle~wh:quest=9060
+1~퀘스트 · Cryptstalker Wristguards~wh:quest=9061
+1~퀘스트 · Bonescythe Breastplate~wh:quest=9077
+1~퀘스트 · Bonescythe Legplates~wh:quest=9078
+1~퀘스트 · Bonescythe Helmet~wh:quest=9079
+1~퀘스트 · Bonescythe Pauldrons~wh:quest=9080
+1~퀘스트 · Bonescythe Sabatons~wh:quest=9081
+1~퀘스트 · Bonescythe Gauntlets~wh:quest=9082
+1~퀘스트 · Bonescythe Waistguard~wh:quest=9083
+1~퀘스트 · Bonescythe Bracers~wh:quest=9084
+1~퀘스트 · Frostfire Robe~wh:quest=9095
+1~퀘스트 · Frostfire Leggings~wh:quest=9096
+1~퀘스트 · Frostfire Circlet~wh:quest=9097
+1~퀘스트 · Frostfire Shoulderpads~wh:quest=9098
+1~퀘스트 · Frostfire Gloves~wh:quest=9100
+1~퀘스트 · Frostfire Belt~wh:quest=9101
+1~퀘스트 · Frostfire Bindings~wh:quest=9102
+1~퀘스트 · Plagueheart Robe~wh:quest=9103
+1~퀘스트 · Plagueheart Leggings~wh:quest=9104
+1~퀘스트 · Plagueheart Circlet~wh:quest=9105
+1~퀘스트 · Plagueheart Shoulderpads~wh:quest=9106
+1~퀘스트 · Plagueheart Sandals~wh:quest=9107
+1~퀘스트 · Plagueheart Belt~wh:quest=9109
+1~퀘스트 · Plagueheart Bindings~wh:quest=9110
+1~퀘스트 · Atiesh, Greatstaff of the Guardian~wh:quest=9270
+1~퀘스트 · Atiesh, Greatstaff of the Guardian~wh:quest=9271
+1~퀘스트 · Atiesh, Greatstaff of the Guardian~wh:quest=9257
+1~퀘스트 · Polar Bracers~wh:quest=9241
+1~퀘스트 · Icy Scale Bracers~wh:quest=9244
+3~드랍 · Grand Widow Faerlina~wh:npc=15953
+3~드랍 · Patchwerk~wh:npc=16028
+3~드랍 · Noth the Plaguebringer~wh:npc=15954
+3~드랍 · Loatheb~wh:npc=16011
+3~드랍 · Sapphiron~wh:npc=15989
+3~드랍 · Kel'Thuzad~wh:npc=15990
+5~상인 · Meilosh~wh:npc=11557
+5~상인 · Anachronos~wh:npc=15192
+5~상인 · Pix Xizzix~wh:npc=227853
