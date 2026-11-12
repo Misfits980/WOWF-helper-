@@ -382,6 +382,8 @@ KX = {}
 try:
     for line in open(os.path.join(OUT, 'ko-extra.jsonl'), encoding='utf-8'):
         o = json.loads(line)
+        if o.get('n'):
+            o['n'] = re.sub(r'\s*퀘스트$', '', re.sub(r'^와우 포에버\s*', '', o['n'])).strip()
         KX[o['id']] = o
 except FileNotFoundError:
     pass

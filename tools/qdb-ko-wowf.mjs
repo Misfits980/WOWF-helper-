@@ -14,7 +14,7 @@ console.log('할 일',todo.length);let n=0;const t0=Date.now();
 for(const id of todo){if(Date.now()-t0>40*60e3){console.log('시간 다 됨, 다음에 이어서');break}
   const h=await get('https://wowf.io/ko/quests/'+id);const rec={id};
   if(h){const tt=(h.match(/<meta property="og:title" content="([^"]*)"/)||h.match(/<title>([^<]*)<\/title>/)||[])[1];
-    if(tt){const nm=dec(tt).split(/ [-|·] /)[0].trim();if(nm)rec.n=nm}
+    if(tt){const nm=dec(tt).split(/ [-|·] /)[0].replace(/^와우 포에버\s*/,'').replace(/\s*퀘스트$/,'').trim();if(nm)rec.n=nm}
     const body=h.replace(/<script[\s\S]*?<\/script>/g,'');
     const T=dec(body.replace(/<[^>]+>/g,'\n')).split('\n').map(x=>x.trim()).filter(Boolean);
     const s0=T.indexOf('퀘스트 목표');if(s0>=0&&T[s0+1]&&!/^(받기|완료|수행)$/.test(T[s0+1]))rec.o=T[s0+1];
