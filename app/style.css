@@ -616,3 +616,22 @@ img.qmk{width:15px;height:15px;vertical-align:-3px;margin-right:2px;object-fit:c
 .npc img.qmk{width:16px;height:16px}
 img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:contain}
 .lhi img.hic{margin:0}
+/* 📍 지도로 퀘스트 */
+.am .amfl{flex-wrap:wrap;margin-top:6px}
+.amap{position:relative;height:62vh;min-height:340px;overflow:hidden;border-radius:12px;border:1px solid var(--line);background:#0c0b09;touch-action:none;user-select:none;-webkit-user-select:none;margin-top:8px}
+.amL,.amP{position:absolute;inset:0;transform-origin:50% 50%}
+.amL img{position:absolute;width:256px;height:256px;pointer-events:none;-webkit-user-drag:none}
+.amk{position:absolute;transform:translate(-50%,-100%);display:flex;align-items:center;gap:1px;padding:2px 4px 2px 2px;border-radius:12px;border:1px solid rgba(0,0,0,.6);background:rgba(20,16,10,.78);color:#ffe08a;font-size:11px;line-height:1;cursor:pointer}
+.amk img.qmk{width:18px;height:18px;margin:0}
+.amk b{font-size:11px;color:#fff}
+.amk.lv-x{opacity:.55}.amk.lv-r{border-color:#d9534f}.amk.lv-y{border-color:#e0b85a}
+.amk.sel{background:#e0b85a;color:#000;z-index:3}.amk.sel b{color:#000}
+.amk.k-fp,.amk.k-inn{font-size:15px;padding:1px 3px}
+.amz{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:1px;background:rgba(20,16,10,.82);border:1px solid #8a6a2c;border-radius:10px;padding:3px 7px;color:#ffe08a;cursor:pointer}
+.amz img.qmk{width:16px;height:16px;margin:0}.amz b{font-size:13px;color:#fff}.amz span{font-size:10.5px;color:#d8cfbd;white-space:nowrap}
+.amz{flex-direction:row;flex-wrap:wrap;justify-content:center;max-width:120px}.amz span{flex-basis:100%;text-align:center}
+.amd{position:absolute;transform:translate(-50%,-50%);font-size:13px;pointer-events:none}
+.amctl{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.amctl button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:rgba(20,16,10,.85);color:#ffe08a;font-size:20px}
+.amload{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.7);padding:8px 12px;border-radius:8px;font-size:13px}
+.amcard .amh{display:flex;flex-direction:column;margin-bottom:4px}.amcard .amh .mute{font-size:12px}

@@ -654,6 +654,76 @@ function qSearchHtml(c,q){const nq=q.replace(/\s+/g,'');if(nq.length<1)return ''
   if(!n)return '<p class="empty-st">"'+esc(q)+'"(으)로 찾은 퀘스트가 없어요.</p>';
   return '<p class="mute sr">'+n+'개 찾음'+(n>40?' · 가까운 레벨 40개만':'')+'</p><div class="srl">'+R.slice(0,40).map(({x})=>{const d=mqDone(c,x);
     return '<button class="srow'+(d?' done':'')+'" data-a="qopen" data-k="'+x.id+'"><span class="qlv '+lvCls(x.lv,L)+'">'+(x.lv||'?')+'</span><span class="t"><b>'+esc(x.n)+'</b><span>'+esc(x.z||'')+(x.g&&x.g[0]?' · '+esc(x.g[0]):'')+(x.m>L?' · 🔒'+x.m+'레벨부터':'')+'</span></span>'+(d?'<span class="ok">✓</span>':'')+'</button>'}).join('')+'</div>'}
+/* ===================== 📍 지도로 퀘스트 보기 (대륙 지도: wowf.io 지도 그림) ===================== */
+/* 지역 좌표(%) → 대륙 지도 좌표: [a,b,c,d] → x=a+b·X, y=c+d·Y (wowf.io 지점으로 맞춘 값, 오차 1픽셀 안) */
+const MAPZ={'그늘숲':[9543.8,12.96,7040.3,8.635],'타나리스':[2080.5,33.131,8515.3,22.092],'엘윈 숲':[9206.6,16.666,6186.9,11.112],'서부 몰락지대':[8495.7,16.808,6888,11.199],'붉은마루 산맥':[10750.7,10.426,6492.2,6.946],'모단 호수':[10900.9,13.242,4530,8.829],'황야의 땅':[10941.6,11.946,5203.3,7.952],'썬더 블러프':[1727.7,5.015,6104,3.34],'달의 숲':[2637.9,11.103,1620.1,7.383],'스톰윈드':[9117,8.338,6214.2,5.559],'가시덤불 골짜기':[8878.1,30.622,7736.9,20.421],'저습지':[10130.7,19.857,3407.1,13.229],'다르나서스':[565.3,5.089,781.4,3.39],'던 모로':[9078.9,23.643,4236.8,15.763],'서부 역병지대':[9743.5,20.65,760.3,13.757],'잊혀진 땅':[-55.9,21.58,5479.2,14.386],'아이언포지':[10286.4,3.8,4569.2,2.535],'텔드랏실':[144.8,24.444,16.9,16.289],'동부 내륙지':[10699.8,18.49,1672.2,12.313],'아라시 고원':[10359.9,17.28,2440,11.518],'힐스브래드 구릉지':[9432.3,15.352,2183.6,10.243],'알터랙 산맥':[9567.9,13.443,1656.5,8.951],'먼지진흙 습지대':[2444.4,25.196,6672,16.797],'어둠의 해안':[564.6,31.425,1696.1,20.958],'불모의 땅':[715.8,48.659,4921.8,32.438],'잿빛 골짜기':[1160.1,27.675,3452.8,18.454],'악령의 숲':[1187.9,27.602,2272,18.403],'여명의 설원':[2128.4,34.075,1600.1,22.719],'운고로 분화구':[1719.8,17.765,8560.3,11.836],'돌발톱 산맥':[418.8,23.426,4296.1,15.629],'페랄라스':[-636.2,33.36,6831.9,22.243],'버섯구름 봉우리':[2185.3,21.101,7599.4,14.089],'실리더스':[758,16.72,8556.2,11.146],'슬픔의 늪':[11011.1,11.008,6994.2,7.336],'저주받은 땅':[10538.7,16.104,7448.3,10.712],'멀고어':[786.9,29.517,5567.5,19.699],'오그리마':[3742.5,6.733,4604.4,4.492],'언더시티':[9523.9,4.622,1474.7,3.07],'아즈샤라':[3548.6,24.349,3132.2,16.226],'이글거리는 협곡':[10099.1,10.707,5304.2,7.137],'불타는 평원':[10072.6,14.051,5750.8,9.375],'티리스팔 숲':[8486.6,21.72,535.7,14.433],'동부 역병지대':[11026.6,20.657,604,13.763],'듀로타':[2921.6,25.31,4828.3,16.905],'은빛소나무 숲':[8287.4,20.169,1573.2,13.5],'셴드랄라스':[1004.4,9.84,6607.6,6.569],'강물터':[10852.1,23.271,5478.4,15.542]};
+const ZALIAS={'먼지진흙 슾지대':'먼지진흙 습지대'};
+const ATL={ek:{n:'eastern-kingdoms',w:5120,h:9728,ko:'동부 왕국'},ka:{n:'kalimdor',w:6400,h:10240,ko:'칼림도어'}};
+function toAtlas(zone,xy){const t=MAPZ[ZALIAS[zone]||zone];if(!t||!xy)return null;const p=String(xy).split(',').map(Number);if(p.length<2||isNaN(p[0]))return null;
+  let x=t[0]+t[1]*p[0],y=t[2]+t[3]*p[1];const c=x>=8192?'ek':'ka';if(c==='ek')x-=8192;return {c,x,y}}
+function amCanQ(c,q){const L=c.lv;const f=(ui.amf||{}).lv||'now';if(mqDone(c,q)||!qdbOk(c,q))return false;if(f==='all')return (q.m||0)<=L+5;return (q.m||0)<=L&&q.lv>=L-5&&q.lv<=L+3}
+/* 지도에 찍을 점: 받는 곳(!)·반납(?)·비행(🦅)·여관(🏠) — 같은 NPC는 하나로 묶음 */
+function amPoints(c){const F=Object.assign({g:1,r:0,fp:0,inn:0},ui.amf||{});const P=new Map();
+  const add=(kind,zone,xy,nm,q)=>{const a=toAtlas(zone,xy);if(!a)return;const k=kind+'|'+a.c+'|'+Math.round(a.x/6)+'|'+Math.round(a.y/6);let o=P.get(k);if(!o){o={kind,zone,nm,c:a.c,x:a.x,y:a.y,qs:[]};P.set(k,o)}if(q)o.qs.push(q)};
+  if(QDB)for(const q of QDB.values()){if(!amCanQ(c,q))continue;if(F.g&&q.g&&q.g[3]==='npc')add('g',q.g[1],q.g[2],q.g[0],q);if(F.r&&q.r&&q.r[1])add('r',q.r[1],q.r[2],q.r[0],q)}
+  if(WLD){if(F.fp)WLD.fp.forEach(f=>add('fp',f[1],f[2],f[0]));if(F.inn)WLD.inn.forEach(f=>add('inn',f[1],f[2],f[0]))}
+  return [...P.values()]}
+function amView(c){if(!QDB)qdbLoad();if(!WLD)wldLoad();const F=Object.assign({g:1,r:0,fp:0,inn:0,lv:'now'},ui.amf||{});
+  if(!ui.am){const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);const z=S?S.z.split(' · ')[0]:'';const t=MAPZ[ZALIAS[z]||z];
+    if(t){const a=toAtlas(z,'50,50');ui.am={c:a.c,z:2,cx:a.x,cy:a.y}}else ui.am={c:'ek',z:0,cx:2560,cy:4864}}
+  const A=ui.am;const chip=(k,lab)=>'<button class="chip'+(F[k]?' on':'')+'" data-a="amf" data-k="'+k+'">'+lab+'</button>';
+  let h='<div class="am"><div class="chips seg">'+['ek','ka'].map(k=>'<button class="chip'+(A.c===k?' on':'')+'" data-a="amc" data-k="'+k+'">'+CONT_IC[ATL[k].ko]+' '+ATL[k].ko+'</button>').join('')+'</div>'
+   +'<div class="chips amfl">'+chip('g',QMK.g+'받는 곳')+chip('r',QMK.r+'반납')+chip('fp','🦅 비행')+chip('inn','🏠 여관')
+   +'<button class="chip'+(F.lv==='all'?' on':'')+'" data-a="amlv">'+(F.lv==='all'?'모든 레벨':'내 레벨 ±')+'</button></div>'
+   +'<div id="amap" class="amap"><div class="amL"></div><div class="amP"></div><div class="amctl"><button data-am="in" aria-label="확대">+</button><button data-am="out" aria-label="축소">−</button><button data-am="me" aria-label="지금 구간으로">◎</button></div>'
+   +(QDB?'':'<div class="amload">퀘스트 자료를 불러오는 중…</div>')+'</div><div id="ampanel"></div>'
+   +'<p class="mute src">손가락으로 끌고, 두 손가락이나 +/− 로 확대해요 · 지도 그림: wowf.io</p></div>';
+  return h}
+let AM=null;
+function amInit(){const el=document.getElementById('amap');if(!el)return;const c=me();if(!c)return;
+  const st={el,L:el.querySelector('.amL'),P:el.querySelector('.amP'),pts:amPoints(c),drag:null,ptr:new Map()};AM=st;
+  const NT={ek:[[3,5],[5,10],[10,19],[20,38]],ka:[[4,6],[7,12],[13,23],[25,40]]};
+  const clamp=()=>{const A=ui.am,T=ATL[A.c];A.z=Math.max(0,Math.min(3,A.z));A.cx=Math.max(0,Math.min(T.w,A.cx));A.cy=Math.max(0,Math.min(T.h,A.cy))};
+  function draw(){clamp();const A=ui.am,T=ATL[A.c],W=el.clientWidth,H=el.clientHeight,s=2**(A.z-3),left=A.cx-W/2/s,top=A.cy-H/2/s;
+    const [nx,ny]=NT[A.c][A.z];const tx0=Math.max(0,Math.floor(left*s/256)),ty0=Math.max(0,Math.floor(top*s/256)),tx1=Math.min(nx-1,Math.floor((left+W/s)*s/256)),ty1=Math.min(ny-1,Math.floor((top+H/s)*s/256));
+    let t='';for(let x=tx0;x<=tx1;x++)for(let y=ty0;y<=ty1;y++)t+='<img src="https://assets.wowf.io/world/atlas/'+T.n+'/'+A.z+'/'+x+'_'+y+'.webp" style="left:'+Math.round(x*256-left*s)+'px;top:'+Math.round(y*256-top*s)+'px" alt="" draggable="false" loading="lazy">';
+    st.L.innerHTML=t;st.L.style.transform=st.P.style.transform='';
+    const vis=st.pts.filter(p=>p.c===A.c);let pins='';
+    if(A.z<=1){/* 멀리서는 지역마다 묶어서 */const Z={};vis.forEach(p=>{if(p.kind!=='g'&&p.kind!=='r'){return}const o=Z[p.zone]||(Z[p.zone]={n:0,x:0,y:0,k:0});o.n+=p.qs.length;o.x+=p.x;o.y+=p.y;o.k++});
+      for(const [z,o] of Object.entries(Z)){const x=(o.x/o.k-left)*s,y=(o.y/o.k-top)*s;if(x<-40||y<-40||x>W+40||y>H+40)continue;
+        pins+='<button class="amz" data-amz="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+QMK.g+'<b>'+o.n+'</b><span>'+esc(z)+'</span></button>'}
+      vis.filter(p=>p.kind==='fp'||p.kind==='inn').forEach(p=>{const x=(p.x-left)*s,y=(p.y-top)*s;if(x<-20||y<-20||x>W+20||y>H+20)return;pins+='<span class="amd '+p.kind+'" style="left:'+x+'px;top:'+y+'px">'+(p.kind==='fp'?'🦅':'🏠')+'</span>'})}
+    else vis.forEach((p,i)=>{const x=(p.x-left)*s,y=(p.y-top)*s;if(x<-20||y<-20||x>W+20||y>H+20)return;const n=p.qs.length;
+      const lv=n?Math.min(...p.qs.map(q=>q.lv||c.lv)):0;
+      pins+='<button class="amk k-'+p.kind+(n?' '+lvCls(lv,c.lv):'')+(ui.amsel===i?' sel':'')+'" data-amk="'+i+'" style="left:'+x+'px;top:'+y+'px">'+(p.kind==='g'?QMK.g:p.kind==='r'?QMK.r:p.kind==='fp'?'🦅':'🏠')+(n>1?'<b>'+n+'</b>':'')+'</button>'});
+    st.P.innerHTML=pins;st.vis=vis;st.box={left,top,s}}
+  st.draw=draw;draw();
+  const zoomAt=(dz,px,py)=>{const A=ui.am,s=2**(A.z-3),W=el.clientWidth,H=el.clientHeight;const ax=A.cx+(px-W/2)/s,ay=A.cy+(py-H/2)/s;A.z+=dz;clamp();const s2=2**(A.z-3);A.cx=ax-(px-W/2)/s2;A.cy=ay-(py-H/2)/s2;draw()};
+  st.zoomAt=zoomAt;
+  el.addEventListener('pointerdown',e=>{if(e.target.closest('.amctl'))return;el.setPointerCapture(e.pointerId);st.ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(st.ptr.size===1)st.drag={x:e.clientX,y:e.clientY,dx:0,dy:0,t:e.target};else{const [a,b]=[...st.ptr.values()];st.pinch={d:Math.hypot(a.x-b.x,a.y-b.y),r:1};st.drag=null}});
+  el.addEventListener('pointermove',e=>{if(!st.ptr.has(e.pointerId))return;st.ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(st.pinch&&st.ptr.size>=2){const [a,b]=[...st.ptr.values()];st.pinch.r=Math.hypot(a.x-b.x,a.y-b.y)/st.pinch.d;st.L.style.transform=st.P.style.transform='scale('+st.pinch.r+')';return}
+    if(st.drag){st.drag.dx=e.clientX-st.drag.x;st.drag.dy=e.clientY-st.drag.y;st.L.style.transform=st.P.style.transform='translate('+st.drag.dx+'px,'+st.drag.dy+'px)'}});
+  const up=e=>{if(!st.ptr.has(e.pointerId))return;st.ptr.delete(e.pointerId);const r=el.getBoundingClientRect();
+    if(st.pinch){if(st.ptr.size===0){const k=st.pinch.r;st.pinch=null;const dz=k>1.35?1:k<0.74?-1:0;if(dz)zoomAt(dz,r.width/2,r.height/2);else draw()}return}
+    const d=st.drag;st.drag=null;if(!d)return;
+    if(Math.abs(d.dx)+Math.abs(d.dy)<6){/* 눌렀음 */const k=d.t.closest&&d.t.closest('[data-amk],[data-amz]');
+      if(k&&k.dataset.amz){const z=k.dataset.amz;const a=toAtlas(z,'50,50');if(a){ui.am={c:a.c,z:2,cx:a.x,cy:a.y};ui.amsel=null;draw();amPanel(null)}return}
+      if(k&&k.dataset.amk){ui.amsel=+k.dataset.amk;draw();amPanel(st.vis[ui.amsel])}
+      else{st.L.style.transform=st.P.style.transform=''}return}
+    const s=2**(ui.am.z-3);ui.am.cx-=d.dx/s;ui.am.cy-=d.dy/s;draw()};
+  el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
+  el.addEventListener('wheel',e=>{e.preventDefault();const r=el.getBoundingClientRect();zoomAt(e.deltaY<0?1:-1,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+  el.querySelectorAll('[data-am]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const r=el.getBoundingClientRect();const k=b.dataset.am;
+    if(k==='in')zoomAt(1,r.width/2,r.height/2);else if(k==='out')zoomAt(-1,r.width/2,r.height/2);
+    else{ui.am=null;amView(c);draw()}}));
+  if(ui.amsel!=null&&st.vis&&st.vis[ui.amsel])amPanel(st.vis[ui.amsel])}
+function amPanel(p){const box=document.getElementById('ampanel');if(!box)return;const c=me();if(!p){box.innerHTML='';return}
+  const t=p.kind==='fp'?'🦅 비행 조련사':p.kind==='inn'?'🏠 여관 주인':p.kind==='r'?QMK.r+' 반납하는 곳':QMK.g+' 받는 곳';
+  box.innerHTML='<div class="card amcard"><div class="amh"><b>'+esc(p.nm||'')+'</b><span class="mute">'+t+' · '+esc(p.zone)+'</span></div>'
+   +(p.qs.length?p.qs.sort((a,b)=>a.lv-b.lv).map(q=>'<button class="lhq" data-a="qopen" data-k="'+q.id+'"><span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n)+'</b><span>'+esc((q.o||'').length>64?(q.o||'').slice(0,62)+'…':(q.o||''))+'</span></span></button>').join(''):'<p class="mute">'+(p.kind==='fp'?'처음 가면 말 걸어서 비행 경로를 열어 두세요':'귀환석을 여기 맞출 수 있어요')+'</p>')+'</div>'}
+
 /* ===== 레벨업 도우미: 직업 퀘스트 · 교관 · 던전 · 이동 · 사냥터 ===== */
 let WLD=null,WLD_LOAD=false;
 function wldLoad(){if(WLD_LOAD)return;WLD_LOAD=true;fetch('data/qdb/world.json?v='+D_VER.world).then(r=>r.ok?r.json():null).then(j=>{WLD=j||{fp:[],inn:[],tr:{},mob:{}};if(ui.tab==='quest')rerender(true)}).catch(()=>{WLD={fp:[],inn:[],tr:{},mob:{}}})}
@@ -719,10 +789,11 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
 function quest(c){const L=c.lv;const qm=ui.qmode||'route';const q0=(ui.qsrch||'').trim();
   let h='<div class="wrap"><div class="qsearch"><span>'+qico('quest')+'</span><input class="inp" placeholder="퀘스트·NPC·지역 이름으로 찾기" value="'+esc(ui.qsrch||'')+'" data-c="qsrch">'+(q0?'<button class="x2" data-a="qsclr">✕</button>':'')+'</div>';
   h+='<div id="qsres">'+(q0?qSearchHtml(c,q0):'')+'</div><div id="qbody"'+(q0?' hidden':'')+'>';
-  h+='<div class="chips seg">'+[['route','⚡ 빠른 레벨업'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
+  h+='<div class="chips seg">'+[['route','⚡ 빠른 레벨업'],['atlas','📍 지도'],['map','🗺️ 지역 목록']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
   const end='</div></div>';
   if(qm==='route')return h+routeView(c)+end;
   if(qm==='map')return h+mapView(c)+end;
+  if(qm==='atlas')return h+amView(c)+end;
   ui.qmode='map';return h+mapView(c)+end}
 /* 펼치는 퀘스트 한 줄: 접혀 있을 땐 [레벨] 이름만, 누르면 할 일·위치·연계·보상 */
 function qFold(o){const open=ui.qopen===o.key;
@@ -967,7 +1038,8 @@ function render(){const app=$('#app');const c=me();
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(c);else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
   app.innerHTML=topBar(c)+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요</p>'+tabs()
-    +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':'')}
+    +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':'')
+  if(ui.tab==='quest'&&ui.qmode==='atlas')amInit()}
 function rerender(keepScroll){const y=window.scrollY;const sh=document.querySelector('.sheet');const sy=sh?sh.scrollTop:0;render();if(keepScroll)window.scrollTo(0,y);const s2=document.querySelector('.sheet');if(s2&&keepScroll)s2.scrollTop=sy}
 function setLv(c,v){v=Math.max(1,Math.min(60,parseInt(v,10)||c.lv));if(v!==c.lv){c.lv=v;save()}}
 
@@ -1016,6 +1088,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
   if(a==='dtab'){ui.dtab=k;rerender(true);return}
+  if(a==='amc'){if(ui.am&&ui.am.c!==k)ui.am={c:k,z:0,cx:ATL[k].w/2,cy:ATL[k].h/2};ui.amsel=null;rerender(true);return}
+  if(a==='amf'){ui.amf=Object.assign({g:1,r:0,fp:0,inn:0,lv:'now'},ui.amf||{});ui.amf[k]=ui.amf[k]?0:1;ui.amsel=null;rerender(true);return}
+  if(a==='amlv'){ui.amf=Object.assign({g:1,r:0,fp:0,inn:0,lv:'now'},ui.amf||{});ui.amf.lv=ui.amf.lv==='all'?'now':'all';ui.amsel=null;rerender(true);return}
   if(a==='armref'){toast('전투정보실 자료 확인 중…');armFetch(true).then(n=>{const A=ARM[c.arm];toast(n<0?'자료를 못 받았어요. 잠시 뒤 다시 해 보세요':n>0?'새 자료로 맞췄어요 (레벨 '+(A&&A.level||'?')+')':'바뀐 게 없어요 · 마지막 갱신 '+armAgo(A&&A.checked))});return}
   if(a==='lh'){ui.lhopen=ui.lhopen||{};const cur=b.closest('.lhr').classList.contains('open');ui.lhopen[k]=!cur;rerender(true);return}
   if(a==='trn'){c.trn=c.lv;save();toast('교관에서 배운 걸로 표시했어요');rerender(true);return}
