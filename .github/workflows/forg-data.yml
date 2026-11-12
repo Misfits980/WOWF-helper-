@@ -3,6 +3,9 @@ on:
   workflow_dispatch:
   push:
     paths: ['tools/**', '.github/workflows/forg-data.yml']
+concurrency:
+  group: forg-data
+  cancel-in-progress: false
 permissions:
   contents: write
 jobs:
@@ -18,6 +21,7 @@ jobs:
       - run: node tools/forg-leveling.mjs
       - run: node tools/forg-quests.mjs
         timeout-minutes: 60
+      - run: node tools/quest-chain-wowf.mjs
       - run: node tools/quest-rewards.mjs
         timeout-minutes: 40
       - run: python3 app/build.py
@@ -26,4 +30,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/forg index.html app-data.js
-          git diff --cached --quiet || (git commit -m "forg 자료 갱신" && git push)
+          git diff --cached --quiet || (git commit -m "forg 자료 갱신" && git pull --rebase -X theirs && git push)

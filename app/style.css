@@ -258,3 +258,43 @@ details.qf summary::-webkit-details-marker{display:none}
 .qf .qb .tag{margin-bottom:4px}
 .qdone{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:13px;color:var(--mute)}
 .qdone input{width:20px;height:20px;accent-color:var(--gold)}
+
+/* 양피지 퀘스트 상세 */
+.parch{margin:0 8px 10px;padding:16px 16px 14px;border-radius:6px;color:#2b1d0e;background:radial-gradient(ellipse at 30% 20%,#f1dfb4 0%,#e3c78f 55%,#cfae6c 100%);box-shadow:inset 0 0 22px rgba(90,60,20,.45),inset 0 0 0 2px #7a5a2a,0 2px 6px rgba(0,0,0,.5);font-family:"AppleMyungjo","Noto Serif KR","Nanum Myeongjo",Georgia,serif}
+.sheet .parch{margin:6px 0 10px}
+.parch h4{margin:0;font-size:21px;font-weight:900;color:#24170a;line-height:1.25}
+.parch .ph{display:flex;flex-direction:column;gap:8px;padding-bottom:10px;border-bottom:1px solid rgba(90,60,20,.35)}
+.parch .ptag{align-self:flex-end;border:1.5px solid #6b4c22;border-radius:8px;padding:2px 10px;font-size:13px;font-weight:700;color:#4a3216}
+.parch .ptags{margin-top:8px}
+.parch .ptags .tag{background:rgba(255,255,255,.35);border-color:#7a5a2a;color:#3a2810}
+.parch .ptags .tag.lk{border-color:#2c5a8a;color:#1d3f66}
+.parch .ptags .tag.pre{border-color:#8a5a10;color:#6b3f00}
+.parch h5{margin:14px 0 6px;font-size:18px;font-weight:900;color:#24170a;padding-top:10px;border-top:1px solid rgba(90,60,20,.3)}
+.parch p{margin:4px 0;font-size:15px;line-height:1.6;color:#2b1d0e}
+.parch .npc{font-size:13.5px;color:#5a4120}
+.parch .npc b{color:#2b1d0e}
+.ptask{list-style:none;margin:0;padding:0}
+.ptask li{padding:6px 0;border-bottom:1px dashed rgba(90,60,20,.3);font-size:14.5px}
+.ptask li span{font-size:12.5px;color:#5a4120}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0}
+.rt2{display:flex;align-items:center;gap:8px;text-align:left;padding:6px 8px;border-radius:6px;border:1.5px solid #9a7a45;background:rgba(255,248,230,.55);color:#2b1d0e;position:relative;font-family:inherit;min-height:52px}
+.rt2 .ic{width:38px;height:38px;flex:none}
+.rt2 .rn{font-size:14px;font-weight:800;line-height:1.25}
+.rt2 .rn.qu{color:#14741f}.rt2 .rn.qr{color:#0b4fb8}.rt2 .rn.qe{color:#6a1fb0}.rt2 .rn.qc{color:#2b1d0e}.rt2 .rn.qp{color:#6d6d6d}
+.rt2.best{border-color:#1e7a2a;background:rgba(220,255,210,.6)}
+.rt2.no{opacity:.55}
+.rt2 .rb{position:absolute;top:-8px;right:6px;font-size:10.5px;font-weight:800;background:#1e7a2a;color:#fff;border-radius:6px;padding:0 6px;font-family:-apple-system,sans-serif}
+.rt2 .rb.s{background:#4b8a3a}.rt2 .rb.x{background:#8a6a4a}
+.pex b{color:#24170a}
+.pchain{margin-top:12px;border-top:1px solid rgba(90,60,20,.3);padding-top:8px}
+.pchain summary{font-size:17px;font-weight:900;cursor:pointer;color:#24170a}
+.pcr{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(90,60,20,.3);font-size:13.5px}
+.pcr .n{width:22px;height:22px;border-radius:50%;background:#7a5a2a;color:#f6e6c0;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex:none}
+.pcr.cur{background:rgba(255,255,255,.35)}
+.pcr .m{flex:1}.pcr span span,.pcr .m span{color:#5a4120;font-size:12.5px}.pcr i{font-style:normal;color:#5a4120;font-size:12px}
+.pbtn{display:block;width:100%;margin-top:10px;padding:11px 12px;border-radius:8px;border:1.5px solid #5a3d16;background:linear-gradient(#7a5424,#5a3a14);color:#ffe9b8;font-size:14.5px;text-align:left;font-family:inherit;box-shadow:inset 0 1px 0 rgba(255,220,150,.35)}
+.pbtn b{color:#fff}
+.pbtn.ghost{background:rgba(255,248,230,.5);color:#3a2810;border-color:#9a7a45}
+.pbtn.ghost b{color:#24170a}
+.pbtn.sm{display:inline-block;width:auto;margin:0;padding:4px 10px;font-size:12px;flex:none}
+.parch .qdone{color:#4a3216;font-family:-apple-system,sans-serif}
