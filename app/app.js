@@ -464,6 +464,47 @@ function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);co
   return h+'</div>'}
 
 /* ===================== 퀘스트 ===================== */
+/* ===== 빠른 레벨업: 지금 할 일 (거점별 받기·반납 묶음, 동선 순서) ===== */
+function impOf(c,q,ctx){const B=[];const R=RWD.get(q.id)||{};
+  const its=[...(R.ch||[]),...(R.fx||[])].map(x=>IT.get(x[0])).filter(it=>it&&usable(it,c));
+  if(its.some(it=>{const b=bestSlot(it,c);return b&&b.g>.01}))B.push(['gear','⭐ 내 장비']);
+  const ch=chainOf(q.id);if(ch){const st=(ch.find(r=>r[6]===q.id)||[0])[0];if(st===1)B.push(['chain','🔗 연계 시작 ('+ch.length+'단계)'])}
+  if(ctx.dq.has(q.id))B.push(['dg','🏰 던전']);
+  if(R.xp&&ctx.xpHi&&R.xp>=ctx.xpHi)B.push(['xp','✨ 경험치 많음']);
+  return B}
+function hubOfXY(zone,xy,gv){return qHub(zone,{xy,gv:gv||'',gz:zone})}
+function nowPlan(c,S){const fq=c.fq||{};const seen=new Set();const Q=S.q.filter(q=>{if(seen.has(q.nm))return false;seen.add(q.nm);return true});
+  const dq=new Set();DGS.forEach(d=>d.q.forEach(x=>dq.add(x.id)));
+  const xs=Q.map(q=>(RWD.get(q.id)||{}).xp||0).filter(Boolean).sort((a,b)=>a-b);const xpHi=xs.length>4?xs[Math.floor(xs.length*.8)]:0;
+  const ctx={dq,xpHi};const H=new Map();let ord=0;
+  const hub=(z,xy,gv)=>{const [n,i]=xy?hubOfXY(z,xy,gv):['필드·아이템에서 시작',99];const k=z+'|'+n;if(!H.has(k))H.set(k,{k,z,n,i,o:ord++,get:[],turn:[],same:0});return H.get(k)};
+  for(const q of Q){const z=q.gz||q.sz;const d=QD.get(q.id)||{};const done=!!fq[z+'|'+q.nm];
+    const g=hub(z,q.xy||(d.g&&d.g[2])||'',q.gv);const it={q,z,done,imp:impOf(c,q,ctx)};g.get.push(it);
+    if(d.r&&d.r[0]&&!d.r[3]){const rn=npcKo(d,'r')||d.r[0];if(!d.r[2]){it.to=rn}else{const rz=d.r[1]||z;const r=hub(rz,d.r[2],rn);if(r!==g){r.turn.push(Object.assign({},it,{rv:rn}));it.to=r.n+(r.z!==z?' ('+r.z+')':'')}else g.same++}}
+    else g.same++}
+  return [...H.values()].filter(h=>h.get.length||h.turn.length).sort((a,b)=>(a.i>=97)-(b.i>=97)||a.o-b.o)}
+function taskShort(q){const d=QD.get(q.id)||{};const T=tasksOf(d,q.obj||d.obj||'');if(!T.length)return '';const t=Object.assign({},T[0]);
+  if(t.type==='대화'||/이야기하면 끝/.test(t.nm))return '💬 '+(d.r&&d.r[0]?npcKo(d,'r')+'와 대화':'대화하기');
+  if(latin(t.nm)){const X=QDB&&QDB.get(q.id);const k=X&&X.t&&X.t.find(x=>x[1]&&!latin(x[1]));if(k)t.nm=k[1]}
+  return (T_IC[t.type]||'•')+' '+t.nm+(t.cnt?' '+t.cnt+(t.type==='처치'?'마리':'개'):'')+' '+(T_KO[t.type]||'')+(T.length>1?' 외 '+(T.length-1)+'개':'')}
+function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.length,0),dn=P.reduce((n,h)=>n+h.get.filter(x=>x.done).length,0);
+  let h='<div class="card now"><div class="hd"><h3>✅ 지금 할 일 · '+S.a+'–'+S.b+'레벨</h3><span class="mute">'+dn+'/'+all+' 끝냄</span></div>';
+  h+='<div class="pbar"><i style="width:'+(all?Math.round(dn/all*100):0)+'%"></i></div>';
+  h+='<p class="note">위에서부터 차례로 가면 돼요. 마을(거점)마다 <b>받을 것</b>과 <b>반납할 것</b>을 묶었어요. 끝낸 건 체크하면 아래로 내려가요.</p>';
+  let n=0;
+  h+=P.map(H=>{const real=H.i<97;if(real)n++;const todo=H.get.filter(x=>!x.done),done=H.get.filter(x=>x.done),turn=H.turn.filter(x=>!x.done);
+    if(!todo.length&&!turn.length)return '<div class="hubc fin"><div class="hh">'+(real?'<span class="no">'+n+'</span>':'')+'<b>'+esc(H.n)+'</b> <span class="mute">· '+esc(H.z)+' · 다 끝냄 ✓</span></div></div>';
+    const row=(x,kind)=>{const q=x.q;const lock=q.min>c.lv;
+      return '<div class="nrow'+(x.done?' done':'')+(lock?' lock':'')+'"><label class="ck"><input type="checkbox" data-c="fq" data-k="'+esc(x.z+'|'+q.nm)+'"'+(x.done?' checked':'')+'></label>'
+       +'<button class="nm2" data-a="qopen" data-k="'+q.id+'"><span class="lvb lv-'+lvCls(c,q.lv)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.nm)+'</b>'
+       +(kind==='turn'?'<span class="s">📨 '+esc(x.rv||'')+'에게 반납</span>':(()=>{const ts=taskShort(q);return '<span class="s">'+esc(ts)+(x.to&&!/^💬/.test(ts)?' → 반납: '+esc(x.to):'')+'</span>'})())
+       +(x.imp.length?'<span class="imps">'+x.imp.map(b=>'<i class="imp '+b[0]+'">'+b[1]+'</i>').join('')+'</span>':'')
+       +(lock?'<span class="s">🔒 '+q.min+'레벨부터</span>':'')+'</span></button></div>'};
+    return '<div class="hubc"><div class="hh">'+(real?'<span class="no">'+n+'</span>':'')+'<b>'+esc(H.n)+'</b> <span class="mute">· '+esc(H.z)+'</span><span class="cnt">'+(todo.length?'받기 '+todo.length:'')+(todo.length&&turn.length?' · ':'')+(turn.length?'반납 '+turn.length:'')+'</span></div>'
+      +(turn.length?'<div class="hsub">📨 여기서 반납</div>'+turn.map(x=>row(x,'turn')).join(''):'')
+      +(todo.length?'<div class="hsub">❗ 여기서 받기</div>'+todo.sort((a,b)=>a.q.lv-b.q.lv).map(x=>row(x,'get')).join(''):'')
+      +(done.length?'<details class="fold"><summary>끝낸 것 '+done.length+'개</summary>'+done.map(x=>row(x,'get')).join('')+'</details>':'')+'</div>'}).join('');
+  return h+'</div>'}
 function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.fq||{};
   let h='<p class="note">1레벨부터 60레벨까지 <b>어느 대륙의 어느 지역</b>으로 가면 되는지 순서대로예요. 지역을 누르면 그 지역 퀘스트로 가요.</p>';
   let pastN=0;const rows=R.map(S=>{const zs=S.z.split(' · ');const cs=[...new Set(zs.map(z=>CONT[z]).filter(Boolean))];const now=L>=S.a&&L<=S.b;const past=L>S.b;
@@ -472,8 +513,10 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
     return move+'<div class="rt'+(now?' now':past?' past':'')+'"><div class="rl"><span class="lvb '+(now?'lv-y':past?'lv-x':'')+'">'+S.a+'–'+S.b+'</span>'+(now?'<span class="tag gd">지금</span>':'')+'</div><div class="m">'+zs.map(z=>{const [n,d]=cnt(z);return '<button class="zr" data-a="goz" data-k="'+esc(z)+'"><b>'+esc(z)+'</b> '+contTag(z)+'<span class="sub">퀘스트 '+n+'개'+(d?' · '+d+'개 끝냄':'')+'</span></button>'}).join('')+'</div></div>'});
   R.forEach(S=>{if(L>S.b)pastN++});
   const pastLv=pastN?R[pastN-1].b:0;
-  if(pastN)h+='<details class="rpast"><summary>✓ 지나간 구간 (1–'+pastLv+'레벨) 보기</summary>'+rows.slice(0,pastN).join('')+'</details>';
-  h+=rows.slice(pastN).join('');
+  if(pastN){const trail=[];R.slice(0,pastN).forEach(S=>S.z.split(' · ').forEach(z=>{if(trail[trail.length-1]!==z)trail.push(z)}));
+    h+='<details class="rpast"><summary><span class="lvb lv-x">1–'+pastLv+'</span> ✓ 지나온 길 <span class="trail">'+trail.map(esc).join(' → ')+'</span><span class="more">펼치기</span></summary>'+rows.slice(0,pastN).join('')+'</details>'}
+  const curS=R.find(S=>L>=S.a&&L<=S.b);if(curS)h+=nowCard(c,curS);
+  h+='<h3 class="rnext">🗺️ 레벨 루트 (지금 구간부터)</h3>'+rows.slice(pastN).join('');
   h+='<p class="note">⛵ 배 타는 곳: '+BOAT+'</p>';
   return h}
 function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><p class="note">던전 퀘스트는 <button class="more" data-a="tab" data-k="dungeon">🏰 던전 탭</button>에서 던전마다 모아 보여 줘요.</p><div class="chips">'+[['route','⚡ 빠른 레벨업'],['zone','📍 지금 레벨'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';

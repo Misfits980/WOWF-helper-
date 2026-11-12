@@ -352,3 +352,32 @@ details.qf summary::-webkit-details-marker{display:none}
 .rpast{margin:4px 0 10px;border:1px dashed var(--line);border-radius:10px;padding:8px 10px}
 .rpast>summary{cursor:pointer;color:var(--mute);font-size:14px;list-style:none}
 .rpast[open]>summary{margin-bottom:8px}
+/* 빠른 레벨업: 지나온 길 + 지금 할 일 */
+.rpast>summary{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.rpast .trail{flex-basis:100%;font-size:12px;color:var(--mute);line-height:1.5}
+.rpast .more{margin-left:auto;font-size:12px;color:var(--gold,#e2c26b)}
+.rpast[open] .more{display:none}
+.card.now{border-color:var(--gold,#c9a54a)}
+.card.now .hd{display:flex;justify-content:space-between;align-items:center}
+.pbar{height:6px;border-radius:4px;background:var(--panel2);overflow:hidden;margin:4px 0 6px}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,#8a6d2b,#e2c26b)}
+.hubc{border-top:1px solid var(--line);padding:8px 0 4px}
+.hubc.fin{opacity:.55}
+.hubc .hh{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hubc .hh .no{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--gold,#c9a54a);color:#1a140a;font-weight:800;font-size:12px}
+.hubc .hh .cnt{margin-left:auto;font-size:12px;color:var(--gold,#e2c26b)}
+.hubc .hsub{font-size:12px;color:var(--mute);margin:6px 0 2px}
+.nrow{display:flex;align-items:flex-start;gap:6px;padding:5px 0}
+.nrow .ck input{width:22px;height:22px;margin-top:3px;accent-color:#c9a54a}
+.nrow .nm2{flex:1;display:flex;gap:8px;text-align:left;background:none;border:0;padding:0;color:inherit}
+.nrow .nm2 .t{display:flex;flex-direction:column;min-width:0}
+.nrow .nm2 .s{font-size:12px;color:var(--mute);line-height:1.45}
+.nrow.done .nm2 b{text-decoration:line-through;opacity:.6}
+.nrow.lock{opacity:.6}
+.imps{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.imp{font-style:normal;font-size:11px;border-radius:6px;padding:0 6px;line-height:1.7;border:1px solid var(--line)}
+.imp.gear{border-color:#c9a54a;color:#e2c26b}
+.imp.chain{border-color:#5a7bd0;color:#9db4f2}
+.imp.dg{border-color:#b05a4a;color:#f0a090}
+.imp.xp{border-color:#5aa070;color:#9fdcb0}
+.rnext{margin:14px 0 6px;font-size:16px}
