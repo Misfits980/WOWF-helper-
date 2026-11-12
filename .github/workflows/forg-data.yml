@@ -18,6 +18,8 @@ jobs:
         with: { node-version: 20 }
       - run: node tools/forg-scrape.mjs
       - run: node tools/forg-classes.mjs
+      - run: node tools/forg-weights.mjs
+        continue-on-error: true
       - run: node tools/forg-leveling.mjs
       - run: node tools/forg-quests.mjs
         timeout-minutes: 60

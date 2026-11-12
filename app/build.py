@@ -97,6 +97,7 @@ data = '\n'.join([
     'const D_ITEMS=' + js_str(ITEMS_TXT) + ';',
     'const D_SRC=' + js_str(SRC_TXT) + ';',
     'const D_QLV=' + json.dumps(QLV, separators=(',', ':')) + ';',
+    'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(rd(F / 'dungeons.txt')) + ';',
     'const D_DQ=' + js_str(rd(F / 'dungeon-quests.txt')) + ';',
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',

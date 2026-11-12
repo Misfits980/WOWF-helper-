@@ -572,8 +572,8 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .prio .note{margin:8px 0 0}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=aaa05618"></script>
-<script>/* v258bd5 */
+<script src="app-data.js?v=eda9aad5"></script>
+<script>/* v25ce3e */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -613,15 +613,41 @@ for(const c in W)for(const s in W[c]){const w=W[c][s];const r=ROLE[c+'/'+s];
   else Object.assign(w,{scrit:9,shit:8,crit:c==='druid'&&s.startsWith('feral')?10:0})}
 if(W.druid){Object.assign(W.druid['feral-cat'],{crit:10,hit:9});Object.assign(W.druid['feral-bear'],{dodge:12,hit:4,crit:3})}
 /* 특성별 세부: 도적은 쌍수라 적중이 1순위, 무기 DPS 비중도 큼 / 무기 전사는 양손 무기 DPS·치명타 */
-for(const k in W.rogue)Object.assign(W.rogue[k],{hit:11,crit:8,dps:k==='combat'?3:2.6});
-Object.assign(W.warrior.arms,{dps:3,crit:11,hit:8,agi:.6});Object.assign(W.paladin.retribution,{crit:10,hit:9,scrit:0,shit:0,rdps:.05});delete W.druid['feral-bear'].parry;delete W.druid['feral-bear'].blockp;Object.assign(W.warrior.fury,{hit:10,crit:10,agi:.6});
-const WHY={rogue:'쌍수라 빗나감이 많아서 적중이 가장 중요해요. 주무기 DPS가 딜 대부분을 정해요. 원거리는 당기기용이에요.',
-  warrior:{arms:'양손 무기 DPS가 딜을 정해요. 치명타가 분노를 채워 줘요.',fury:'쌍수라 적중과 치명타가 비슷하게 중요해요.',protection:'체력·방어 숙련·회피로 덜 맞는 게 먼저예요.'},
+
+const WHY={rogue:'주무기 DPS가 딜을 가장 크게 정해요. 적중·치명타 1%는 민첩 10~12점만큼이에요. 원거리는 당기기용이라 점수에 안 넣어요.',
+  warrior:{arms:'양손 무기 DPS가 딜을 정해요. 적중 1%는 힘 19점, 치명타 1%는 힘 15점만큼이에요.',fury:'주무기 DPS 다음으로 치명타(힘 17점)·적중(힘 14점)이 커요.',protection:'체력·방어 숙련·회피로 덜 맞는 게 먼저예요.'},
   hunter:'원거리 무기 DPS가 딜 대부분이에요. 그다음 민첩·적중.',priest:{discipline:'치유량·지능·정신력 순이에요. 마법봉은 레벨업 사냥용이에요.',holy:'치유량·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.','shadow-magic':'주문력·암흑 주문력·주문 적중 순이에요. 마법봉은 마나 아끼는 용도예요.'},
   mage:'주문력과 지능이 중심이에요. 마법봉은 마나 아끼는 용도예요.',warlock:'주문력과 체력(생명력 전환)이 중요해요.',
   paladin:{holy:'치유량·지능·5초당 마나 순이에요.',protection:'체력·방어 숙련·방패 막기 순이에요.',retribution:'양손 무기 DPS·힘·치명타 순이에요.'},
   shaman:{'elemental-combat':'주문력·지능·주문 극대화 순이에요.',enhancement:'양손 무기 DPS·힘·민첩 순이에요.',restoration:'치유량·5초당 마나·지능 순이에요.'},
-  druid:{balance:'주문력·지능 순이에요.','feral-cat':'민첩·힘·치명타 순이에요. 무기 DPS는 상관없어요.','feral-bear':'체력·민첩·방어 숙련 순이에요.',restoration:'치유량·정신력·지능 순이에요.'}};
+  druid:{balance:'주문력·지능 순이에요.','feral-cat':'포에버에서는 표범도 무기 DPS가 점수에 들어가요. 민첩·힘·치명타 순이에요.','feral-bear':'체력·민첩·방어 숙련 순이에요.',restoration:'치유량·정신력·지능 순이에요.'}};
+/* ===== 점수 공식 = forg.gg와 같은 틀 =====
+   1) 기본 가중치: forg.gg 장비 추천 기본표(역할별)
+   2) 시뮬이 있는 특성은 포에버 시뮬레이터(wowsims/forever, 60레벨) 값으로 덮음 — 무기 DPS·적중·치명타 1% 가치 포함
+   3) 탱커는 시뮬이 딜 기준이라 생존 능력치(forg 탱커 표)를 쓰고 적중·치명타만 조금 더함 */
+const FB={str:{str:1,agi:.6,ap:.5,sta:.25},agi:{agi:1,str:.5,ap:.5,sta:.2},tank:{str:1,agi:.6,ap:.5,sta:.6,def:.4,armor:.01,block:.2},heal:{heal:1,int:.6,spi:.5,mp5:1.5,sta:.1,dpsWand:.5},cast:{sp:1,int:.5,spi:.3,sta:.15,dpsWand:1},ranged:{agi:1,ap:.4,int:.3,sta:.2,dpsRanged:2.5}};
+const FL={dpsMain:1.5,dpsOff:.75};
+const FS={warrior:{arms:['str',{dps2h:2}],fury:['str',FL],protection:['tank',{dps1h:1.2}]},paladin:{holy:['heal'],protection:['tank',{str:.6,agi:.3,sp:1.2,int:.5,sta:.8,def:.6,armor:.015,block:.3,dps1h:.6}],retribution:['str',{agi:.5,int:.2,sta:.2,dps2h:2}]},
+  hunter:{'beast-mastery':['ranged'],marksmanship:['ranged'],survival:['ranged']},rogue:{assassination:['agi',FL],combat:['agi',FL],subtlety:['agi',FL]},
+  priest:{discipline:['heal'],holy:['heal'],'shadow-magic':['cast',{shadow:.9}]},shaman:{'elemental-combat':['cast',{spi:.1,mp5:1,nature:.6,fire:.4}],enhancement:['str',{agi:.5,int:.2,sta:.2,dps2h:2}],restoration:['heal',{spi:.2}]},
+  mage:{arcane:['cast',{arcane:.9}],fire:['cast',{fire:1}],frost:['cast',{frost:.8}]},warlock:{affliction:['cast',{sta:.3,shadow:.9}],demonology:['cast',{sta:.3,shadow:.8,fire:.2}],destruction:['cast',{sta:.3,shadow:.7,fire:.3}]},
+  druid:{balance:['cast',{dpsWand:0,nature:.5,arcane:.5}],'feral-cat':['str',{agi:.8,dps2h:2}],'feral-bear':[null,{str:1,agi:.8,ap:.5,sta:.5,armor:.02,def:.4,dps2h:2}],restoration:['heal',{dpsWand:0}]}};
+const WSRC={};
+for(const c in FS)for(const s in FS[c]){if(!W[c]||!W[c][s])continue;const [b,ex]=FS[c][s];let w=Object.assign({},b?FB[b]:{},ex||{});const role=b==='tank'||s==='feral-bear'?'tank':b==='heal'?'heal':b==='cast'?'cast':'phys';
+  const sim=(typeof D_SIMW!=='undefined'&&D_SIMW.specs||{})[c+'/'+s];let src='forg 기본표';
+  if(sim&&role!=='tank'){const keep={sta:w.sta||0};w=Object.assign({},sim.weights,keep);const u=sim.unscored||{};
+    if(role==='cast'){w.scrit=u.crit||0;w.shit=u.hit||0}else{w.crit=u.crit||0;w.hit=u.hit||0}src='포에버 시뮬레이터 ('+sim.preset+')'}
+  else if(role==='tank'){const u=sim&&sim.unscored||{};Object.assign(w,{dodge:12,hit:(u.hit||14)*.4,crit:(u.crit||12)*.25});if(s!=='feral-bear')Object.assign(w,{parry:10,blockp:6})}
+  else if(role==='heal')w.scrit=6;
+  else if(role==='cast')Object.assign(w,{scrit:10,shit:15});
+  else Object.assign(w,{crit:13,hit:15});
+  /* 화면 표시·예전 계산용 */
+  w.dps=w.dpsMain??w.dps2h??w.dps1h??0;w.rdps=w.dpsRanged??w.dpsWand??0;
+  W[c][s]=w;WSRC[c+'/'+s]=src}
+function dpsW(it,slot,w){if(slot==='ranged')return it.cs==='2.19'?(w.dpsWand??0):(w.dpsRanged??0);
+  if(slot==='off')return w.dpsOff??((w.dpsMain??w.dps1h??0)*.35);
+  if(it.sl==='2h')return w.dps2h??w.dpsMain??w.dps1h??0;
+  return w.dpsMain??w.dps1h??(w.dps2h!=null?w.dps2h*.6:0)}
 function whyOf(c){const v=WHY[c.cls];return typeof v==='string'?v:(v&&v[c.spec])||''}
 function prioLine(c){const w=wOf(c);const nm=k=>k==='dps'?'무기 DPS':k==='rdps'?'원거리 DPS':/crit|hit|dodge|parry|blockp/.test(k)?STAT_KO[k].replace(' %',' %'):STAT_KO[k];
   /* %·DPS는 1당 값이 커서, '장비 한 칸에서 흔히 붙는 양' 기준으로 줄 세움 */
@@ -946,7 +972,7 @@ function fits(it,slot,c){const S=SLOTS.find(s=>s[0]===slot);if(!S||!S[2].include
   if(slot==='off'){if(it.sl==='1h'||(it.sl==='oh'&&it.cs!=='4.6'))return DW.has(c.cls);return true}
   return true}
 function slotsFor(it,c){return SLOTS.filter(s=>fits(it,s[0],c)).map(s=>s[0])}
-function sc(it,slot,w){if(!it)return 0;let s=0;for(const k in it.st){const v=it.st[k];if(k==='ap'&&it.sl==='ra'&&(w.rdps||0)<1&&/^2\.(2|3|18|16)$/.test(it.cs||''))continue;/* 활·총·석궁·투척의 전투력은 원거리 전투력 → 사냥꾼만 */if(k==='dps'){s+=v*(slot==='ranged'?(w.rdps||0):(w.dps||0)*(slot==='off'?.5:1))}else s+=v*(w[k]||0)}return s}
+function sc(it,slot,w){if(!it)return 0;let s=0;for(const k in it.st){const v=it.st[k];if(k==='ap'&&it.sl==='ra'&&!(w.dpsRanged>0)&&/^2\.(2|3|18|16)$/.test(it.cs||''))continue;/* 활·총·석궁·투척의 전투력은 원거리 전투력 → 사냥꾼만 */if(k==='dps'){s+=v*dpsW(it,slot,w);continue}s+=v*(w[k]||0)}return s}
 function eqIt(c,slot){return c.eq&&c.eq[slot]?IT.get(c.eq[slot]):null}
 /* 이 아이템을 낄 때 가장 이득인 칸과 이득 */
 function bestSlot(it,c){const w=wOf(c);let best=null;
@@ -1094,7 +1120,7 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
    +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups)).join('')+'</div>';
   h+='<p class="note" style="text-align:center">칸을 누르면 아래에 지금 장비와 추천이 나와요. <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p>';
   h+='<div class="chips">'+[['ok','던전·퀘스트로 얻는 것만'],['all','경매장·제작 포함']].map(f=>'<button class="chip'+(ui.ifil===f[0]?' on':'')+'" data-a="ifil" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
-  {const P=prioLine(c);h+='<div class="card prio"><div class="ph2"><b>📊 '+esc((CINFO[c.cls]||[])[0]||'')+' '+esc(sp?sp.name:'')+' 능력치 우선순위</b></div><div class="pl">'+P.map((x,i)=>'<span><i>'+(i+1)+'</i>'+esc(x)+'</span>').join('<em>›</em>')+'</div>'+(whyOf(c)?'<p class="note">'+esc(whyOf(c))+'</p>':'')+'</div>'}
+  {const P=prioLine(c);h+='<div class="card prio"><div class="ph2"><b>📊 '+esc((CINFO[c.cls]||[])[0]||'')+' '+esc(sp?sp.name:'')+' 능력치 우선순위</b></div><div class="pl">'+P.map((x,i)=>'<span><i>'+(i+1)+'</i>'+esc(x)+'</span>').join('<em>›</em>')+'</div>'+(whyOf(c)?'<p class="note">'+esc(whyOf(c))+'</p>':'')+'<p class="mute src">기준: '+esc(WSRC[c.cls+'/'+c.spec]||'')+' · forg.gg와 같은 공식</p></div>'}
   if(ui.gslot&&!offLocked(c,ui.gslot))h+=slotPanel(c,ui.gslot);
   else{const U=upgrades(c,L,ui.ifil).slice(0,6);h+='<div class="card"><h3>지금 바꾸면 좋은 것</h3>'+(U.length?U.map(x=>upRow(c,x)).join(''):'<p class="note">지금 레벨에서 더 좋은 장비가 없어요.</p>')+'</div>'}
   /* 능력치 전체 */
@@ -1104,7 +1130,7 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
    +(w.heal&&HEALER_NOTE[c.cls]?'<p class="note">💡 힐러는 레벨업 동안 방어도보다 <b>치유량·지능</b>이 중요해서 천·가죽 옷도 추천에 많이 나와요. 다른 직업과 겹치지 않게 파티에서 미리 얘기해 두세요.</p>':'')+'</div>';
   {const rows=Object.entries(w).filter(([k,v])=>v>0&&(STAT_KO[k]||k==='rdps')&&k!=='armor').sort((a,b)=>b[1]-a[1]);
    const nm=k=>k==='dps'?'무기 초당 공격력 1':k==='rdps'?'원거리 무기 초당 공격력 1':/crit|hit|dodge|parry|blockp/.test(k)?STAT_KO[k].replace(' %','')+' 1%':STAT_KO[k]+' 1';
-   h+='<details class="card fold sform"><summary>📐 점수는 어떻게 매겨요? ('+esc(sp?sp.name:'')+')</summary><p class="note">점수 = 능력치 × 아래 숫자를 모두 더한 값이에요. 클래식 능력치 가치표(EP)를 레벨업에 맞게 단순화했어요. 숫자가 클수록 이 특성에 중요해요.</p>'
+   h+='<details class="card fold sform"><summary>📐 점수는 어떻게 매겨요? ('+esc(sp?sp.name:'')+')</summary><p class="note">점수 = 능력치 × 아래 숫자를 모두 더한 값이에요. forg.gg와 같은 틀이에요: 딜러는 <b>포에버 시뮬레이터(wowsims/forever, 60레벨)</b> 값, 힐러·시뮬 없는 특성은 forg 기본표예요. 지금 기준: <b>'+esc(WSRC[c.cls+'/'+c.spec]||'')+'</b></p>'
     +'<div class="stats">'+rows.map(([k,v])=>'<div><span>'+nm(k)+'</span><b>'+(v>=1?Math.round(v*10)/10:v.toFixed(2).replace(/0$/,''))+'점</b></div>').join('')+'</div>'
     +'<p class="note">'+(c.cls==='hunter'?'사냥꾼은 원거리 무기 DPS가 제일 중요해요.':w.rdps&&w.rdps<.1?'원거리 칸은 당기기용이라 DPS는 거의 안 세고, 힘·민첩 같은 능력치를 봐요. 활·총의 전투력은 원거리 전투력이라 빼요.':'')
     +' 치명타·적중 같은 % 효과는 "착용 효과" 글에서 읽어서 넣어요. 그 밖의 특수 효과(발동 효과 등)는 점수에 안 들어가니 <b>효과</b> 표시 장비는 직접 견줘 보세요.</p></details>'}
