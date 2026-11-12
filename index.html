@@ -32,7 +32,7 @@ h3{font-size:15px;margin:16px 0 6px;color:var(--gold)}
 .lvlab{font-size:10px;color:var(--mute);text-align:center;margin-bottom:-2px}
 
 /* 아이콘 */
-.ic{width:36px;height:36px;border-radius:8px;flex:none;background:#000 center/cover;border:1px solid #000;box-shadow:0 0 0 1px var(--line)}
+.ic{display:inline-block;width:36px;height:36px;border-radius:8px;flex:none;background:#000 center/cover;border:1px solid #000;box-shadow:0 0 0 1px var(--line)}
 .ic.sm{width:26px;height:26px;border-radius:6px}
 .ic.lg{width:46px;height:46px;border-radius:10px}
 .ic.q-u{box-shadow:0 0 0 1.5px var(--q-u)}.ic.q-r{box-shadow:0 0 0 1.5px var(--q-r)}.ic.q-e{box-shadow:0 0 0 1.5px var(--q-e)}.ic.q-l{box-shadow:0 0 0 1.5px var(--q-l)}
@@ -173,16 +173,44 @@ details.fold summary{color:var(--mute);font-size:13px;cursor:pointer;padding:4px
 .foot a{color:var(--mute)}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#3a301b;border:1px solid var(--gold2);color:var(--gold);padding:8px 16px;border-radius:999px;z-index:60;font-size:14px}
 @media (min-width:560px){.doll{grid-template-columns:1fr 1fr 1fr}}
+
+/* 전투정보실 모양 */
+.armory{display:grid;grid-template-columns:auto 1fr auto;gap:8px;margin-top:12px;background:radial-gradient(ellipse at 50% 35%,#2c261c 0%,#1a1712 70%);border:1px solid var(--line);border-radius:14px;padding:10px 8px}
+.acol{display:flex;flex-direction:column;justify-content:space-between;gap:6px}
+.amid{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:6px;min-width:0}
+.amid b{font-size:16px;margin-top:6px}
+.amid small{color:var(--mute);font-size:12px}
+.ic.xl{width:64px;height:64px;border-radius:50%;box-shadow:0 0 0 2px var(--gold2),0 0 18px rgba(232,192,106,.25)}
+.ast{width:100%;margin-top:8px;font-size:12.5px}
+.ast div{display:flex;justify-content:space-between;padding:2px 2px;border-bottom:1px dashed var(--line)}
+.ast b{font-size:12.5px;margin:0;color:var(--gold)}
+.abot{display:flex;justify-content:center;gap:10px;margin-top:-1px;background:#1a1712;border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;padding:8px}
+.dc{position:relative;background:none;border:0;padding:0;line-height:0;display:block}
+.dc .ic{display:block}
+.dc .ic.empty{display:flex;align-items:center;justify-content:center}
+.dc .ic.lg{width:46px;height:46px}
+.dc .ic.empty{font-size:10px;line-height:1.1;text-align:center;padding:2px;color:#6d6656;background:#14120e;box-shadow:0 0 0 1px #3a3429 inset}
+.dc.sel .ic{outline:2px solid var(--gold);outline-offset:2px}
+.dc .up{position:absolute;top:-5px;right:-5px;background:var(--good);color:#06290c;font-size:9px;font-weight:800;border-radius:6px;padding:1px 3px;line-height:1.2}
+.dc:disabled{opacity:.5}
+.spanel h3{margin:10px 0 4px}
+.rec{border-top:1px solid var(--line);padding:6px 0 10px}
+.chg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12.5px;margin:2px 0 8px 46px}
+.chg .p{color:var(--good)}.chg .n{color:var(--bad)}
+.chg i{font-style:normal;color:var(--mute);font-size:11px}
+@media (min-width:640px){.dc .ic.lg{width:52px;height:52px}.armory{gap:16px;padding:14px}}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=92690f8e"></script>
-<script>/* ve02beb */
+<script>/* v1fb147 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
 const CINFO={warrior:['전사','#C79C6E'],paladin:['성기사','#F58CBA'],hunter:['사냥꾼','#ABD473'],rogue:['도적','#FFF569'],priest:['사제','#FFFFFF'],shaman:['주술사','#2a8cff'],mage:['마법사','#69CCF0'],warlock:['흑마법사','#9482C9'],druid:['드루이드','#FF7D0A']};
-const RACES=[['human','인간','achievement_character_human_male'],['dwarf','드워프','achievement_character_dwarf_male'],['gnome','노움','achievement_character_gnome_male'],['nightelf','나이트엘프','achievement_character_nightelf_male']];
-const RACE_START={human:'human',dwarf:'dwarf-gnome',gnome:'dwarf-gnome',nightelf:'nightelf'};
+const RACES=[['human','인간','achievement_character_human_male'],['dwarf','드워프','achievement_character_dwarf_male'],['gnome','노움','achievement_character_gnome_male'],['nightelf','나이트엘프','achievement_character_nightelf_male'],['skyborne','고등 마법원 스카이본','spell_nature_cyclone']];
+const RACE_START={human:'human',dwarf:'dwarf-gnome',gnome:'dwarf-gnome',nightelf:'nightelf',skyborne:'skyborne-alliance'};
+/* 종족별 가능한 직업 (forg.gg 종족 페이지) */
+const RACE_CLS={human:['warrior','paladin','hunter','rogue','priest','mage','warlock'],dwarf:['warrior','paladin','hunter','rogue','priest','shaman'],nightelf:['warrior','hunter','rogue','priest','druid'],gnome:['warrior','rogue','priest','mage','warlock'],skyborne:['warrior','hunter','rogue','mage','druid']};
 const DW=new Set(['warrior','rogue','hunter','shaman']);
 const STAT_KO={str:'힘',agi:'민첩',sta:'체력',int:'지능',spi:'정신력',sp:'주문력',heal:'치유량',mp5:'5초당 마나',ap:'전투력',dps:'무기 초당 공격력',def:'방어 숙련',block:'방패 막기',armor:'방어도',fire:'화염 주문력',frost:'냉기 주문력',nature:'자연 주문력',shadow:'암흑 주문력',arcane:'비전 주문력',holy:'신성 주문력'};
 const SLOTS=[['head','머리',['he']],['neck','목',['ne']],['shoulder','어깨',['sh']],['back','등',['ba']],['chest','가슴',['ch']],['wrist','손목',['wr']],['hands','손',['ha']],['waist','허리',['wa']],['legs','다리',['le']],['feet','발',['fe']],['ring1','반지 1',['fi']],['ring2','반지 2',['fi']],['trink1','장신구 1',['tr']],['trink2','장신구 2',['tr']],['main','주무기',['2h','mh','1h']],['off','보조',['oh','ho','1h']],['ranged','원거리',['ra']]];
@@ -297,7 +325,7 @@ function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
       if(slot==='main'&&x.it.sl==='2h')g=x.s-(sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w));else g=x.s-base;
       if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):base,empty:!eqIt(c,tgt)})}}
   return out.sort((a,b)=>(b.empty-a.empty)||(b.g/Math.max(b.base,4))-(a.g/Math.max(a.base,4)))}
-function gainTag(g,base,empty){if(empty)return '<span class="gain new">빈 칸 채우기</span>';if(!(g>.01))return '<span class="gain no">변화 없음</span>';const r=g/Math.max(base,4);return r>=.5?'<span class="gain big">크게 좋아짐</span>':r>=.2?'<span class="gain mid">좋아짐</span>':'<span class="gain sm">조금 좋아짐</span>'}
+function gainTag(g,base,empty){if(empty)return '<span class="gain new">빈 칸 채우기</span>';if(g<-.5)return '<span class="gain no" style="color:var(--bad)">나빠짐</span>';if(!(g>.01))return '<span class="gain no">변화 없음</span>';const r=g/Math.max(base,4);return r>=.5?'<span class="gain big">크게 좋아짐</span>':r>=.2?'<span class="gain mid">좋아짐</span>':'<span class="gain sm">조금 좋아짐</span>'}
 function diffHtml(a,b,c){const w=wOf(c);const ks=new Set([...Object.keys(a?a.st:{}),...Object.keys(b?b.st:{})]);const arr=[];
   for(const k of ks){if(!STAT_KO[k])continue;if(k==='armor'&&!(w.armor))continue;const d=((a&&a.st[k])||0)-((b&&b.st[k])||0);if(Math.abs(d)<.05)continue;if(k==='dps'){const ra=(a||b).sl==='ra';if(!(ra?w.rdps:w.dps))continue}arr.push([k,d,Math.abs(d*(w[k]||(k==='dps'?(w.dps||w.rdps):0)))+(w[k]?1:0)])}
   arr.sort((x,y)=>y[2]-x[2]);if(!arr.length)return '';
@@ -322,8 +350,8 @@ function onboard(){const d=ui.onb;const C=d.cls?D_CLS[d.cls]:null;const first=!D
   let h='<div class="hero"><div class="logo">⚔️</div><h1>와포 도우미</h1><p>와우 포에버 얼라이언스 레벨업·장비·퀘스트·던전 도우미</p></div>';
   if(!first)h='<header class="top"><button class="x" data-a="onb-x" aria-label="닫기">✕</button><b style="flex:1">새 캐릭터 만들기</b></header>';
   h+='<div class="step"><div class="q"><span>1</span>캐릭터 이름 <small class="mute">(안 써도 돼요)</small></div><input class="inp" maxlength="12" placeholder="예: 용현사제" value="'+esc(d.name)+'" data-c="onb-name"></div>';
-  h+='<div class="step"><div class="q"><span>2</span>종족</div><div class="grid2">'+RACES.map(r=>'<button class="pick'+(d.race===r[0]?' on':'')+'" data-a="onb-race" data-k="'+r[0]+'"><span class="ic sm" style="background-image:url('+ICO(r[2])+')"></span>'+r[1]+'</button>').join('')+'</div><p class="note">종족에 따라 1~11레벨 시작 지역(던 모로 · 엘윈 숲 · 텔드랏실) 퀘스트가 달라져요.</p></div>';
-  h+='<div class="step"><div class="q"><span>3</span>직업</div><div class="grid3">'+CL.map(k=>'<button class="pick'+(d.cls===k?' on':'')+'" data-a="onb-cls" data-k="'+k+'">'+clsIcon(k)+'<span style="color:'+CINFO[k][1]+'">'+CINFO[k][0]+'</span></button>').join('')+'</div></div>';
+  h+='<div class="step"><div class="q"><span>2</span>종족</div><div class="grid2">'+RACES.map(r=>'<button class="pick'+(d.race===r[0]?' on':'')+'" data-a="onb-race" data-k="'+r[0]+'"><span class="ic sm" style="background-image:url('+ICO(r[2])+')"></span>'+r[1]+'</button>').join('')+'</div><p class="note">종족에 따라 1~11레벨 시작 지역(엘윈 숲 · 던 모로 · 텔드랏실 · 제프라스 섬) 퀘스트가 달라지고, 고를 수 있는 직업도 달라요.</p></div>';
+  const okc=d.race?RACE_CLS[d.race]:CL;h+='<div class="step"><div class="q"><span>3</span>직업</div><div class="grid3">'+CL.map(k=>{const ok=okc.includes(k);return '<button class="pick'+(d.cls===k?' on':'')+'"'+(ok?' data-a="onb-cls" data-k="'+k+'"':' disabled style="opacity:.3"')+'>'+clsIcon(k)+'<span style="color:'+CINFO[k][1]+'">'+CINFO[k][0]+'</span>'+(ok?'':'<small>이 종족 불가</small>')+'</button>'}).join('')+'</div></div>';
   if(C)h+='<div class="step"><div class="q"><span>4</span>전문화 (특성)</div><div class="grid2">'+C.specs.map(s=>'<button class="pick'+(d.spec===s.id?' on':'')+'" data-a="onb-spec" data-k="'+s.id+'"><span class="ic sm" style="background-image:url('+ICO(s.icon)+')"></span>'+esc(s.name)+'<small>'+(ROLE[d.cls+'/'+s.id]||'')+'</small></button>').join('')+'</div><p class="note">장비 추천과 특성 순서가 이걸 기준으로 바뀌어요. 나중에 바꿀 수 있어요.</p></div>';
   h+='<div class="step"><div class="q"><span>'+(C?5:4)+'</span>지금 레벨</div><div class="lvpick"><button data-a="onb-lv-">−</button><input type="number" inputmode="numeric" min="1" max="60" value="'+d.lv+'" data-c="onb-lv"><button data-a="onb-lv+">+</button></div></div>';
   const ok=d.race&&d.cls&&d.spec;
@@ -362,32 +390,66 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];const sp=specOf(c);let h='<di
 function groupBy(arr,f){const m=new Map();arr.forEach(x=>{const k=f(x);if(!m.has(k))m.set(k,[]);m.get(k).push(x)});return [...m.entries()]}
 function abIcon(name,C){if(!C)return '';const l=C.learns.find(x=>x[1]===name);return l?l[5]:''}
 function abChip(name,icon,extra,dim){return '<span class="ab'+(dim?' no':'')+'">'+(icon?'<span class="ic" style="background-image:url('+ICO(icon)+')"></span>':'')+esc(name)+(extra?' <span class="l">'+esc(extra)+'</span>':'')+'</span>'}
-function upRow(c,x){const cur=eqIt(c,x.slot);return '<button class="row" data-a="slot" data-k="'+x.slot+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+itName(x.it)+'</span>'+diffHtml(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · Lv '+x.it.lv+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'</span></button>'}
+function upRow(c,x){const cur=eqIt(c,x.slot);return '<button class="row" data-a="gopanel" data-k="'+x.slot+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+itName(x.it)+'</span>'+diffHtml(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · Lv '+x.it.lv+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'</span></button>'}
 
-/* ===================== 장비 ===================== */
-function gear(c){const L=c.lv,w=wOf(c);let h='<div class="wrap"><h2>장비</h2><p class="note">칸을 누르면 지금 낄 수 있는 후보와 비교해요. 착용 중인 장비를 넣어 두면 추천이 정확해져요.</p>';
-  const ups=upgrades(c,L,ui.ifil);const upSet=new Set(ups.map(u=>u.slot));
-  h+='<div class="doll">'+SLOTS.map(([s,ko])=>{const it=eqIt(c,s);if(s==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h')return '<div class="slot" style="opacity:.5"><span class="ic empty">2H</span><span class="m"><span class="sn">'+ko+'</span><span class="in mute">양손 무기 사용 중</span></span></div>';
-    return '<button class="slot" data-a="slot" data-k="'+s+'">'+itIcon(it)+'<span class="m"><span class="sn">'+ko+'</span><span class="in">'+(it?itName(it):'<span class="mute">비어 있음</span>')+'</span></span>'+(upSet.has(s)?'<span class="up">▲</span>':'')+'</button>'}).join('')+'</div>';
-  /* 능력치 합계 */
-  const tot={};SLOTS.forEach(([s])=>{const it=eqIt(c,s);if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});
-  const ks=Object.keys(tot).sort((a,b)=>(w[b]||0)-(w[a]||0));
-  h+='<div class="card"><h3>착용 장비 능력치 합계</h3>'+(ks.length?'<div class="stats">'+ks.map(k=>'<div><span'+(w[k]?'':' class="mute"')+'>'+STAT_KO[k]+'</span><b>'+Math.round(tot[k])+'</b></div>').join('')+'</div>':'<p class="note">장비를 넣으면 합계가 나와요.</p>')+'<p class="note">'+esc(ROLE[c.cls+'/'+c.spec]||'')+' 기준 중요한 순서: '+Object.entries(w).filter(([k])=>STAT_KO[k]&&k!=='armor').sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k])=>k==='dps'?'무기 공격력':STAT_KO[k]).join(' > ')+'</p></div>';
+/* ===================== 장비 (전투정보실 모양) ===================== */
+const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
+const HEALER_NOTE={paladin:1,shaman:1,druid:1};
+function offLocked(c,s){return s==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h'}
+function bestFor(c,slot,L,mode){const w=wOf(c);const cur=eqIt(c,slot);const other=slot==='ring1'?'ring2':slot==='ring2'?'ring1':slot==='trink1'?'trink2':slot==='trink2'?'trink1':null;const skip=other&&c.eq[other];
+  const base=slot==='main'?sc(cur,'main',w):sc(cur,slot,w);
+  return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
+function dollCell(c,s,ups){const it=eqIt(c,s);const sel=ui.gslot===s;const lock=offLocked(c,s);
+  return '<button class="dc'+(sel?' sel':'')+(it?'':' empty')+'" data-a="gsel" data-k="'+s+'"'+(lock?' disabled':'')+' aria-label="'+SLOT_KO[s]+(it?' '+esc(it.nm):' 비어 있음')+'">'
+   +(it?'<span class="ic lg q-'+it.q+'" style="background-image:url('+ICO(it.ic)+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
+   +(ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
+function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
+function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
+  const ups=new Set(SLOTS.map(x=>x[0]).filter(s=>!offLocked(c,s)&&bestFor(c,s,L,ui.ifil).length));
+  const tot=statTotals(c);const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]-a[1]).map(([k])=>k).slice(0,6);
+  let h='<div class="wrap"><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
+   +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
+   +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+Math.round(tot[k]||0)+'</b></div>').join('')+'</div>'
+   +'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기</button></div>'
+   +'<div class="acol">'+DOLL_R.map(s=>dollCell(c,s,ups)).join('')+'</div></div>'
+   +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups)).join('')+'</div>';
+  h+='<p class="note" style="text-align:center">칸을 누르면 아래에 지금 장비와 추천이 나와요. <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p>';
   h+='<div class="chips">'+[['ok','던전·퀘스트로 얻는 것만'],['all','경매장·제작 포함']].map(f=>'<button class="chip'+(ui.ifil===f[0]?' on':'')+'" data-a="ifil" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
-  h+='<div class="card"><h3>지금 바꿀 순서</h3>'+(ups.length?ups.map(x=>upRow(c,x)).join(''):'<p class="note">지금 레벨에서 더 좋은 장비가 없어요.</p>')+'</div>';
+  if(ui.gslot&&!offLocked(c,ui.gslot))h+=slotPanel(c,ui.gslot);
+  else{const U=upgrades(c,L,ui.ifil).slice(0,6);h+='<div class="card"><h3>지금 바꾸면 좋은 것</h3>'+(U.length?U.map(x=>upRow(c,x)).join(''):'<p class="note">지금 레벨에서 더 좋은 장비가 없어요.</p>')+'</div>'}
+  /* 능력치 전체 */
+  const all=Object.keys(tot).sort((a,b)=>(w[b]||0)-(w[a]||0));
+  h+='<div class="card"><h3>능력치 합계 (장비)</h3>'+(all.length?'<div class="stats">'+all.map(k=>'<div><span'+(w[k]?'':' class="mute"')+'>'+STAT_KO[k]+'</span><b>'+Math.round(tot[k])+'</b></div>').join('')+'</div>':'<p class="note">장비를 넣으면 합계가 나와요.</p>')
+   +'<p class="note">'+esc(ROLE[c.cls+'/'+c.spec]||'')+' 기준 중요한 순서: '+Object.entries(w).filter(([k])=>STAT_KO[k]&&k!=='armor').sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k])=>k==='dps'?'무기 공격력':STAT_KO[k]).join(' > ')+'</p>'
+   +(w.heal&&HEALER_NOTE[c.cls]?'<p class="note">💡 힐러는 레벨업 동안 방어도보다 <b>치유량·지능</b>이 중요해서 천·가죽 옷도 추천에 많이 나와요. 다른 직업과 겹치지 않게 파티에서 미리 얘기해 두세요.</p>':'')+'</div>';
   const soon=upgrades(c,Math.min(60,L+5),ui.ifil,L+1).slice(0,8);
   if(soon.length)h+='<div class="card"><h3>앞으로 5레벨 안에 낄 장비</h3>'+soon.map(x=>upRow(c,x)).join('')+'</div>';
   return h+'</div>'}
-function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);
-  const q=ui.isrch.trim();let list;
-  if(q){list=ITEMS.filter(it=>usable(it,c)&&fits(it,slot,c)&&it.nm.includes(q)).slice(0,40).map(it=>({it,s:sc(it,slot,w)}))}
-  else list=cands(c,slot,Math.min(60,L+3),ui.ifil).slice(0,30);
+function statChange(c,slot,it){const a=statTotals(c),b=statTotals(c,it,null,slot);const w=wOf(c);const ks=new Set([...Object.keys(a),...Object.keys(b)]);const arr=[];
+  ks.forEach(k=>{const d=(b[k]||0)-(a[k]||0);if(Math.abs(d)>=.5&&STAT_KO[k])arr.push([k,d])});arr.sort((x,y)=>(w[y[0]]||0)-(w[x[0]]||0));
+  return arr.length?'<div class="chg">'+arr.map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+Math.round(Math.abs(d))+' <i>→ '+Math.round(b[k]||0)+'</i></span>').join('')+'</div>':''}
+function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFor(c,slot,L,ui.ifil).slice(0,3);
+  let h='<div class="card hl spanel"><div class="hd"><h3>'+SLOT_KO[slot]+'</h3><button class="x" data-a="gsel" data-k="">✕</button></div>';
+  h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur)+'<span class="sub">'+esc(srcTxt(cur,1))+'</span>':'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div>';
+  h+='<h3>추천 (지금 낄 수 있는 것)</h3>';
+  h+=best.length?best.map(x=>'<div class="rec">'+'<div class="row" style="border:0;padding-bottom:2px">'+itIcon(x.it)+'<span class="m"><span class="nm">'+itName(x.it)+'</span><span class="sub">'+itMeta(x.it)+' · '+esc(srcTxt(x.it,1))+'</span></span><span class="r">'+gainTag(x.g,x.base,!cur)+'</span></div>'+statChange(c,slot,x.it)+'<button class="btn sm full" data-a="equip" data-k="'+slot+'" data-id="'+x.it.id+'">이걸로 바꾸기</button></div>').join(''):'<p class="note">지금보다 좋은 게 없어요 👍</p>';
+  h+='<button class="btn ghost full" style="margin-top:8px" data-a="slot" data-k="'+slot+'">후보 전체 보기 · 이름으로 찾기</button></div>';
+  return h}
+function statLine(it){const ks=Object.keys(it.st).filter(k=>STAT_KO[k]&&k!=='armor');return ks.length?'<span class="dif">'+ks.map(k=>STAT_KO[k]+' '+(k==='dps'?it.st[k].toFixed(1):'+'+Math.round(it.st[k]))).join(' · ')+'</span>':''}
+function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);const q=ui.isrch.trim();const srt=ui.gsort||'lv';
+  const base=it=>slot==='main'&&it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):sc(cur,slot,w);
+  let list;if(q)list=ITEMS.filter(it=>usable(it,c)&&fits(it,slot,c)&&it.nm.includes(q)).slice(0,40).map(it=>({it,s:sc(it,slot,w)}));
+  else list=cands(c,slot,Math.min(60,L+3),ui.ifil);
+  list.forEach(x=>{x.g=x.s-base(x.it)});
+  const sorter=srt==='lv'?(a,b)=>b.it.ob-a.it.ob||b.it.lv-a.it.lv||b.g-a.g:(a,b)=>b.g-a.g;
+  const now=list.filter(x=>x.it.ob<=L).sort(sorter),later=list.filter(x=>x.it.ob>L).sort((a,b)=>a.it.ob-b.it.ob||b.g-a.g);
   let h='<div class="sh"><h2>'+SLOT_KO[slot]+'</h2><button class="x" data-a="close">✕</button></div>';
-  h+='<div class="card hl"><div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+' · '+esc(srcTxt(cur,1))+'</span>':'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div></div>';
+  h+='<div class="card hl"><div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div></div>';
   h+='<div class="srch"><input class="inp" placeholder="이름으로 찾기 (지금 끼고 있는 장비 넣기)" value="'+esc(ui.isrch)+'" data-c="isrch"></div>';
-  if(!q)h+='<p class="note">레벨 '+Math.min(60,L+3)+'까지 낄 수 있는 후보예요. 흐린 건 아직 레벨이 모자라요.</p>';
-  h+=list.length?list.map(x=>{const it=x.it;const lock=it.ob>L;const base=slot==='main'&&it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):sc(cur,slot,w);const g=x.s-base;
-    return '<div class="row'+(lock?'" style="opacity:.55':'')+'">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+(it.id===(cur&&cur.id)?' <span class="tag gd">착용 중</span>':'')+'</span><span class="sub">'+itMeta(it)+(it.ob>it.lv?' · '+it.ob+'레벨쯤 얻음':'')+'</span>'+diffHtml(it,cur,c)+'<span class="sub">'+esc(srcTxt(it,2))+'</span></span><span class="r">'+gainTag(g,base,!cur)+'<br><button class="btn sm" style="margin-top:6px" data-a="equip" data-k="'+slot+'" data-id="'+it.id+'">착용</button></span></div>'}).join(''):'<p class="note">'+(q?'찾는 장비가 없어요. 이 직업이 못 끼는 장비일 수 있어요.':'후보가 없어요.')+'</p>';
+  h+='<div class="chips">'+[['lv','레벨 높은 순'],['g','좋아지는 순']].map(f=>'<button class="chip'+(srt===f[0]?' on':'')+'" data-a="gsort" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
+  const row=x=>{const it=x.it;const lock=it.ob>L;return '<div class="row'+(lock?'" style="opacity:.55':'')+'">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+(it.id===(cur&&cur.id)?' <span class="tag gd">착용 중</span>':'')+'</span><span class="sub">'+itMeta(it)+(it.ob>it.lv?' · '+it.ob+'레벨쯤 얻음':'')+'</span>'+diffHtml(it,cur,c)+'<span class="sub">'+esc(srcTxt(it,2))+'</span></span><span class="r">'+gainTag(x.g,base(it),!cur)+'<br><button class="btn sm" style="margin-top:6px" data-a="equip" data-k="'+slot+'" data-id="'+it.id+'">착용</button></span></div>'};
+  h+='<h3>지금 낄 수 있어요 ('+now.length+')</h3>'+(now.length?now.map(row).join(''):'<p class="note">'+(q?'찾는 장비가 없어요. 이 직업이 못 끼는 장비일 수 있어요.':'후보가 없어요.')+'</p>');
+  if(later.length)h+='<h3>곧 낄 수 있어요 (레벨 '+(L+1)+'~'+Math.min(60,L+3)+')</h3>'+later.map(row).join('');
   return h}
 
 /* ===================== 퀘스트 ===================== */
@@ -498,7 +560,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='close'){ui.sheet=null;ui.delAsk=0;rerender(true);return}
   /* 시작 화면 */
   const o=ui.onb;
-  if(a==='onb-race'){o.race=k;rerender(true);return}
+  if(a==='onb-race'){o.race=k;if(o.cls&&!RACE_CLS[k].includes(o.cls)){o.cls='';o.spec=''}rerender(true);return}
   if(a==='onb-cls'){o.cls=k;o.spec='';rerender(true);return}
   if(a==='onb-spec'){o.spec=k;rerender(true);return}
   if(a==='onb-lv-'||a==='onb-lv+'){o.lv=Math.max(1,Math.min(60,(+o.lv||1)+(a==='onb-lv+'?1:-1)));rerender(true);return}
@@ -525,6 +587,10 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='dgf'){ui.dgf=k;rerender(true);return}
   if(a==='ifil'){ui.ifil=k;rerender(true);return}
   if(a==='slot'){ui.sheet='slot:'+k;ui.isrch='';rerender(true);return}
+  if(a==='gsel'){ui.gslot=k||null;rerender(true);if(k){const p=document.querySelector('.spanel');if(p&&p.getBoundingClientRect().top>window.innerHeight-120)p.scrollIntoView({behavior:'smooth',block:'start'})}return}
+  if(a==='gopanel'){ui.tab='gear';ui.gslot=k;render();const p=document.querySelector('.spanel');if(p)p.scrollIntoView({block:'start'});return}
+  if(a==='gsort'){ui.gsort=k;rerender(true);return}
+  if(a==='autofill'){let n=0;for(const [s] of SLOTS){if(c.eq[s]||offLocked(c,s))continue;const b=bestFor(c,s,c.lv,ui.ifil)[0];if(b){c.eq[s]=b.it.id;n++;if(s==='main'&&b.it.sl==='2h')delete c.eq.off}}save();rerender(true);toast(n?n+'칸을 추천 장비로 채웠어요':'채울 빈 칸이 없어요');return}
   if(a==='equip'){const id=+b.dataset.id;const it=IT.get(id);c.eq=c.eq||{};c.eq[k]=id;if(k==='main'&&it&&it.sl==='2h')delete c.eq.off;save();ui.sheet=null;rerender(true);toast(it.nm+' 착용');return}
   if(a==='unequip'){delete c.eq[k];save();rerender(true);return}
 });

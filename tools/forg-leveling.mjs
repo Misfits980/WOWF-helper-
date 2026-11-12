@@ -7,7 +7,7 @@ function rscText(h){let t='';for(const m of h.matchAll(/self\.__next_f\.push\(\[
 function grabAt(t,i){const st=i;let d=0,ins=false,esc=false;for(;i<t.length;i++){const c=t[i];if(ins){if(esc)esc=false;else if(c==='\\')esc=true;else if(c==='"')ins=false;continue}if(c==='"'){ins=true;continue}if(c==='['||c==='{')d++;else if(c===']'||c==='}'){d--;if(d===0){i++;break}}}return JSON.parse(t.slice(st,i))}
 const clean=s=>String(s??'').replace(/[|\n\r]/g,' ').trim();
 const out=[];
-for(const start of ['dwarf-gnome','human','nightelf']){
+for(const start of ['dwarf-gnome','human','nightelf','skyborne-alliance']){
   const t=rscText(await get('/forever/leveling?faction=alliance&start='+start));
   const ev=[];
   for(const m of t.matchAll(/"children":"Lv (\d+)[–-](\d+)"\}\]," ",\["\$","span",null,\{"children":"([^"]+)"\}\]/g))ev.push({i:m.index,h:[m[1],m[2],m[3]]});

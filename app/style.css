@@ -26,7 +26,7 @@ h3{font-size:15px;margin:16px 0 6px;color:var(--gold)}
 .lvlab{font-size:10px;color:var(--mute);text-align:center;margin-bottom:-2px}
 
 /* 아이콘 */
-.ic{width:36px;height:36px;border-radius:8px;flex:none;background:#000 center/cover;border:1px solid #000;box-shadow:0 0 0 1px var(--line)}
+.ic{display:inline-block;width:36px;height:36px;border-radius:8px;flex:none;background:#000 center/cover;border:1px solid #000;box-shadow:0 0 0 1px var(--line)}
 .ic.sm{width:26px;height:26px;border-radius:6px}
 .ic.lg{width:46px;height:46px;border-radius:10px}
 .ic.q-u{box-shadow:0 0 0 1.5px var(--q-u)}.ic.q-r{box-shadow:0 0 0 1.5px var(--q-r)}.ic.q-e{box-shadow:0 0 0 1.5px var(--q-e)}.ic.q-l{box-shadow:0 0 0 1.5px var(--q-l)}
@@ -167,3 +167,29 @@ details.fold summary{color:var(--mute);font-size:13px;cursor:pointer;padding:4px
 .foot a{color:var(--mute)}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#3a301b;border:1px solid var(--gold2);color:var(--gold);padding:8px 16px;border-radius:999px;z-index:60;font-size:14px}
 @media (min-width:560px){.doll{grid-template-columns:1fr 1fr 1fr}}
+
+/* 전투정보실 모양 */
+.armory{display:grid;grid-template-columns:auto 1fr auto;gap:8px;margin-top:12px;background:radial-gradient(ellipse at 50% 35%,#2c261c 0%,#1a1712 70%);border:1px solid var(--line);border-radius:14px;padding:10px 8px}
+.acol{display:flex;flex-direction:column;justify-content:space-between;gap:6px}
+.amid{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:6px;min-width:0}
+.amid b{font-size:16px;margin-top:6px}
+.amid small{color:var(--mute);font-size:12px}
+.ic.xl{width:64px;height:64px;border-radius:50%;box-shadow:0 0 0 2px var(--gold2),0 0 18px rgba(232,192,106,.25)}
+.ast{width:100%;margin-top:8px;font-size:12.5px}
+.ast div{display:flex;justify-content:space-between;padding:2px 2px;border-bottom:1px dashed var(--line)}
+.ast b{font-size:12.5px;margin:0;color:var(--gold)}
+.abot{display:flex;justify-content:center;gap:10px;margin-top:-1px;background:#1a1712;border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;padding:8px}
+.dc{position:relative;background:none;border:0;padding:0;line-height:0;display:block}
+.dc .ic{display:block}
+.dc .ic.empty{display:flex;align-items:center;justify-content:center}
+.dc .ic.lg{width:46px;height:46px}
+.dc .ic.empty{font-size:10px;line-height:1.1;text-align:center;padding:2px;color:#6d6656;background:#14120e;box-shadow:0 0 0 1px #3a3429 inset}
+.dc.sel .ic{outline:2px solid var(--gold);outline-offset:2px}
+.dc .up{position:absolute;top:-5px;right:-5px;background:var(--good);color:#06290c;font-size:9px;font-weight:800;border-radius:6px;padding:1px 3px;line-height:1.2}
+.dc:disabled{opacity:.5}
+.spanel h3{margin:10px 0 4px}
+.rec{border-top:1px solid var(--line);padding:6px 0 10px}
+.chg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12.5px;margin:2px 0 8px 46px}
+.chg .p{color:var(--good)}.chg .n{color:var(--bad)}
+.chg i{font-style:normal;color:var(--mute);font-size:11px}
+@media (min-width:640px){.dc .ic.lg{width:52px;height:52px}.armory{gap:16px;padding:14px}}
