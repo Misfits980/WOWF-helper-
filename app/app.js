@@ -724,7 +724,7 @@ const TAGKO={interrupt:'끊기','dispel-magic':'마법 해제','dispel-curse':'�
 /* 역할 아이콘: 게임 파티 찾기 둥근 배지처럼 (탱커 파랑 방패 · 딜러 빨강 칼 · 힐러 초록 십자) */
 const RIP={tk:'M12 2.5 19.5 5.2V11c0 5-3.2 8.6-7.5 10.3C7.7 19.6 4.5 16 4.5 11V5.2Z',dp:'M18.6 3H21v2.4L11.2 15.2 8.8 12.8ZM5.4 12.6l6 6-1.3 1.3-1.6-1.6-3 3-1.8-1.8 3-3-1.6-1.6Z',hl:'M9.6 3.5h4.8v6.1h6.1v4.8h-6.1v6.1H9.6v-6.1H3.5V9.6h6.1Z',al:'M12 4.5c4.6 0 8 4.4 9 7.5-1 3.1-4.4 7.5-9 7.5S4 15.1 3 12c1-3.1 4.4-7.5 9-7.5Zm0 3.6a3.9 3.9 0 1 0 0 7.8 3.9 3.9 0 0 0 0-7.8Z'};
 const RNM={tk:'탱커',dp:'딜러',hl:'힐러',al:'모두'};
-const ricon=(r,cl)=>'<span class="ri ri-'+r+(cl?' '+cl:'')+'" title="'+RNM[r]+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+RIP[r]+'"/></svg></span>';
+const ricon=(r,cl)=>r==='al'?'<span class="ri ri-al'+(cl?' '+cl:'')+'" title="모두"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+RIP.al+'"/></svg></span>':'<img class="ri rimg'+(cl?' '+cl:'')+'" src="img/role-'+r+'.png" alt="'+RNM[r]+'" title="'+RNM[r]+'">';
 function myRole(c){if(c&&c.drole)return c.drole;const r=ROLE[(c&&c.cls)+'/'+(c&&c.spec)]||'';return r==='치유'?'hl':r==='탱커'?'tk':'dp'}
 function roleSplit(texts,sp){/* 공략 문장을 역할별로: tk 탱커 · dp 딜러 · hl 힐러 · al 모두 · loc 위치 */
   const R={tk:[],dp:[],hl:[],al:[],loc:[]};const seen=new Set();const S=[];
