@@ -26,11 +26,14 @@ for(const c of CL){
   for(const s of specs){
     const t=s===specs[0]?t0:rscText(await get('/forever/classes/'+c+'?spec='+s.id));
     const M=refMap(t);
-    const order=grabVal(t,'codeOrder')||[];const lb=grabVal(t,'levelBuilds')||{};
-    // 레벨별 코드 → 그 레벨에 오른 특성
-    const steps=[];let prev=[];
-    for(const lv of Object.keys(lb).map(Number).sort((a,b)=>a-b)){const code=String(lb[lv].code||'');const cur=order.map((id,i)=>+(code[i]||0));
-      order.forEach((id,i)=>{if((cur[i]||0)>(prev[i]||0))steps.push([lv,id,cur[i]])});prev=cur}
+    // 특성 코드는 트리마다 '-'로 나뉘고, 트리마다 순서 목록(codeOrder)이 따로 있다
+    const orders=[];for(const m of t.matchAll(/"codeOrder":/g)){let v;try{const st=m.index+m[0].length;v=t[st]==='"'?res(JSON.parse(t.slice(st,t.indexOf('"',st+1)+1)),M):grabAt(t,st)}catch(e){continue}if(Array.isArray(v)&&v.length&&typeof v[0]==='string')orders.push(v)}
+    const treeIds=(td.trees||[]).map(tr=>tr.id);
+    const ordOf=ti=>orders.find(o=>o[0].startsWith(treeIds[ti]+'-'))||[];
+    const lb=grabVal(t,'levelBuilds')||{};
+    const steps=[];const prev={};
+    for(const lv of Object.keys(lb).map(Number).sort((a,b)=>a-b)){const parts=String(lb[lv].code||'').split('-');
+      parts.forEach((code,ti)=>{const order=ordOf(ti);order.forEach((id,i)=>{const r=+(code[i]||0);if(r>(prev[id]||0)){steps.push([lv,id,r]);prev[id]=r}})})}
     const summary=res(grabVal(t,'why')||null,M);
     cls.specs.push({id:s.id,name:s.name,icon:s.icon,steps,
       rotation:rot(res(grabVal(t,'rotation'),M)),early:rot(res(grabVal(t,'rotationEarly'),M)),late:rot(res(grabVal(t,'rotationLate'),M))});
