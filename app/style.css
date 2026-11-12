@@ -611,3 +611,8 @@ img.ri.rimg{border:0;box-shadow:none;background:none;border-radius:50%;object-fi
 .lhs{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 6px}
 .lhs span{font-size:12.5px;padding:3px 8px;border-radius:7px;background:var(--panel2);border:1px solid var(--line)}
 .lhs em{font-style:normal;color:#ffe08a;font-size:11px}
+img.qmk{width:15px;height:15px;vertical-align:-3px;margin-right:2px;object-fit:contain}
+.qi img.qmk{width:16px;height:16px;margin:0}
+.npc img.qmk{width:16px;height:16px}
+img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:contain}
+.lhi img.hic{margin:0}

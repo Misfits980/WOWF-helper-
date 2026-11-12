@@ -2,7 +2,8 @@ name: 전투정보실 불러오기
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 */3 * * *'
+    - cron: '*/20 * * * *'   # 20분마다
+    - cron: '2 15 * * *'     # 한국 밤 12시 2분
   push:
     paths: ['data/armory/chars.txt', 'tools/armory-sync.mjs']
 permissions:

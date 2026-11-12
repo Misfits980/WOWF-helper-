@@ -81,6 +81,40 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
         if int(line.split('|')[0]) not in have_:
             items.append(line)
     srcs = '\n'.join(sl_)
+# 착용 가능 직업: forg 마스크는 「어울리는 직업」(능력치 기준)이라 실제 착용 규칙으로 다시 계산
+#  - 무기 숙련·방어구 종류로 판단, wowf.io 「직업:」 줄이나 allow가 있으면 그 직업만
+#  - forg가 3직업 이하로만 표시한 건 직업 전용 장비(티어 등)로 보고 그대로 둠
+try:
+    from items_wowf import mask_of, CL as _CL
+    _KO = {'전사': 'warrior', '성기사': 'paladin', '사냥꾼': 'hunter', '도적': 'rogue', '사제': 'priest', '주술사': 'shaman', '마법사': 'mage', '흑마법사': 'warlock', '드루이드': 'druid'}
+    _W = {}
+    if (Q / 'items-wowf.jsonl').exists():
+        for l_ in rd(Q / 'items-wowf.jsonl').splitlines():
+            if l_:
+                o_ = json.loads(l_)
+                _W[o_['id']] = o_
+    _fix = 0
+    for ix, line in enumerate(items):
+        f = line.split('|')
+        if len(f) < 13 or f[9] not in ('', 'extra'):
+            continue
+        m0 = int(f[8] or 0)
+        allow = [x for x in f[10].split(',') if x] or None
+        o_ = _W.get(int(f[0]))
+        if o_ and not o_.get('none'):
+            cl = [t for t in (o_.get('lines') or []) if t.startswith('직업:')]
+            if cl:
+                allow = [_KO[x.strip()] for x in cl[0][3:].split(',') if x.strip() in _KO] or allow
+        elif not allow and bin(m0).count('1') <= 3:
+            continue
+        m1 = mask_of(f[3] or '', allow)
+        if m1 and m1 != m0:
+            f[8] = str(m1)
+            items[ix] = '|'.join(f)
+            _fix += 1
+    print('착용 직업 다시 계산', _fix)
+except ImportError as e:
+    print('착용 직업 계산 건너뜀', e)
 # 출처가 비어 있는 고급 이상 장비 = 월드 드랍(경매장)
 _sl = srcs.split('\n')
 _wd = None
