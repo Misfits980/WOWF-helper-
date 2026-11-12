@@ -12,4 +12,4 @@ for(const u of urls){
     const apis=[...new Set([...h.matchAll(/["'](\/[a-z-]+\/[^"']*(?:api|json|summary|equipment)[^"']*)["']/gi)].map(m=>m[1]))].slice(0,20);out.push('apis: '+apis.join(' '));
   }catch(e){out.push('ERR '+u+' '+e)}
 }
-fs.writeFileSync('data/armory/_probe.txt',out.join('\n'));
+fs.mkdirSync('data/armory',{recursive:true});fs.writeFileSync('data/armory/_probe.txt',out.join('\n'));
