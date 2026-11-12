@@ -564,3 +564,40 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .prio .pl i{font-style:normal;font-size:10px;color:var(--mute)}
 .prio .pl em{font-style:normal;color:var(--mute)}
 .prio .note{margin:8px 0 0}
+/* 던전 동선 v2 — 한 줄씩, 누르면 펼침 */
+.rsum2 .sum{margin:0 0 8px;font-size:14px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rchips{display:flex;flex-wrap:wrap;gap:5px}
+.rchips span{display:inline-flex;align-items:center;gap:4px;font-size:12px;border:1px solid var(--line);border-radius:7px;padding:2px 7px;background:var(--panel2)}
+.rchips .it{border-color:#a04040;color:#ffb0b0}.rchips .hl{border-color:#3c6b4a;color:#a8e6bd}.rchips .tk{border-color:#8a6d2b;color:#ffe08a}
+.rprep2{margin-top:8px}
+.rprep2>summary{cursor:pointer;font-size:13px;color:#ffb36b;list-style:none}
+.rprep2 ul{margin:6px 0 0;padding-left:18px;font-size:13px;line-height:1.55;color:#d8cfbd}
+.rmap2{margin:10px 0}
+.rmap2 .fl{margin-bottom:6px;flex-wrap:nowrap;overflow-x:auto}
+.rmap2 .fl .chip{white-space:nowrap}
+.pin.n{cursor:pointer;padding:0;color:#f2d488;font-family:inherit}
+.pin.n.k-rare{border-style:dashed;border-color:#c9a0ff;color:#d9bcff}
+.pin.n.k-obj{border-color:#7cb8ff;color:#9ccaff}
+.pin.n.on{background:#e8c170;color:#1a1208;transform:translate(-50%,-50%) scale(1.25)}
+.pin.l{font-size:10px}
+.rlist{display:flex;flex-direction:column;gap:5px}
+.rfl{font-size:12px;color:#e2c26b;margin:8px 2px 2px;font-weight:700}
+.rr{border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden}
+.rr.k-boss{border-color:rgba(232,193,112,.35)}
+.rr.skip{opacity:.72}
+.rr.open{border-color:#e8c170}
+.rrh{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;background:none;border:0;color:inherit;text-align:left}
+.rrh .no{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;border:2px solid #e8c170;color:#f2d488;background:#1a1208}
+.rr.k-rare .rrh .no{border-style:dashed;border-color:#c9a0ff;color:#d9bcff}
+.rr.k-obj .rrh .no{border-color:#7cb8ff;color:#9ccaff}
+.rrh .t{flex:1;min-width:0;display:flex;flex-direction:column}
+.rrh .t b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rrh .t span{font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rrh .fl2{flex:none;display:flex;gap:2px;font-style:normal}
+.rrh .fl2 i{font-style:normal;font-size:14px}
+.rrh .cv{flex:none;color:var(--mute)}
+.rrb{padding:0 10px 10px 46px}
+.more3>summary{cursor:pointer;font-size:12px;color:var(--mute);margin-top:6px}
+.more3 p{font-size:13px;line-height:1.5;color:#cfc4ad;margin:4px 0 0}
+.rbtns{display:flex;gap:6px;margin:8px 0}
+.gmode{margin:6px 0 8px}

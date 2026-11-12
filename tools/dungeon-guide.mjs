@@ -40,7 +40,8 @@ if(process.argv[1]&&process.argv[1].endsWith('dungeon-guide.mjs')){
   // wowf 이름 → 슬러그
   const wname={};for(const s of wslugs){const m=(list||'').match(new RegExp('href="/ko/dungeons/'+s+'"[\\s\\S]{0,600}?>([^<>]{2,30})</'));if(m)wname[norm(dec(m[1]))]=s}
   const out={};
-  for(const r of ours){const slug=r[0],ko=r[1];const ws=wname[norm(ko)]||(wslugs.includes(slug)?slug:wslugs.find(w=>w.replace(/^the-/,'')===slug.replace(/^the-/,'')));
+  const FIX={'whelgar-excavation':'excavation-site','city-of-dalaran':'dalaran','sm-graveyard':'scarlet-monastery-graveyard','sm-library':'scarlet-monastery-library','sm-armory':'scarlet-monastery-armory','sm-cathedral':'scarlet-monastery-cathedral','temple-of-atal-hakkar':'sunken-temple','stratholme-dead':'stratholme-service-gate','stratholme-live':'stratholme-main-gate'};
+  for(const r of ours){const slug=r[0],ko=r[1];const ws=FIX[slug]||wname[norm(ko)]||(wslugs.includes(slug)?slug:wslugs.find(w=>w.replace(/^the-/,'')===slug.replace(/^the-/,'')));
     const g={};if(ws){const w=parseWowf(await get('https://wowf.io/ko/dungeons/'+ws+'/guide'));if(w)Object.assign(g,w,{ws})}
     const f=parseForg(await get('https://forg.gg/forever/dungeons/'+slug));if(f)g.boss=f;
     if(Object.keys(g).length){out[slug]=g;console.log(slug,ws||'-',(g.steps||[]).length,'단계',Object.keys(g.boss||{}).length,'보스')}}
