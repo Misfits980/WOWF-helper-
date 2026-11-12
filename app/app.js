@@ -502,14 +502,15 @@ function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.len
   const IC={gear:'⭐',chain:'🔗',dg:'🏰',xp:'✨'};const used=new Set();
   let h='<div class="card now"><div class="nh"><div><h3>지금 할 일</h3><span class="mute">'+S.a+'–'+S.b+'레벨 · 위에서부터 차례로</span></div><div class="ring" style="--p:'+(all?Math.round(dn/all*100):0)+'"><b>'+dn+'</b><span>/'+all+'</span></div></div>';
   let n=0;
-  const row=(x,turn)=>{const q=x.q;const lock=q.min>c.lv;x.imp.forEach(b=>used.add(b[0]));
-    const ts=turn?'📨 '+(x.rv||'')+'에게 반납':taskShort(q);
+  const row=(x,turn)=>{const q=x.q;const lock=q.min>c.lv;x.imp.forEach(b=>{if(b[0]!=='chain')used.add(b[0])});
+    const chn=x.imp.find(b=>b[0]==='chain');const more=chn?((chn[1].match(/\((\d+)단계\)/)||[])[1]-1):0;
+    const ts=turn?'📨 다른 곳에서 받은 퀘스트 · '+(x.rv||'')+'에게 반납':taskShort(q);
     return '<div class="nr'+(x.done?' done':'')+(lock?' lock':'')+'"><label class="ck"><input type="checkbox" data-c="fq" data-id="'+(q.id||'')+'" data-k="'+esc(x.z+'|'+q.nm)+'"'+(x.done?' checked':'')+'></label>'
-     +'<button class="nb" data-a="qopen" data-k="'+q.id+'"><span class="l1"><span class="qnm">'+esc(q.nm)+'</span>'+x.imp.map(b=>'<i title="'+esc(b[1])+'">'+IC[b[0]]+'</i>').join('')+'<span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></span>'
-     +(ts||lock?'<span class="l2">'+(lock?'🔒 '+q.min+'레벨부터 · ':'')+esc(ts)+'</span>':'')+'</button></div>'};
+     +'<button class="nb" data-a="qopen" data-k="'+q.id+'"><span class="l1"><span class="qnm">'+esc(q.nm)+'</span>'+x.imp.filter(b=>b[0]!=='chain').map(b=>'<i title="'+esc(b[1])+'">'+IC[b[0]]+'</i>').join('')+'<span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></span>'
+     +(ts||lock?'<span class="l2">'+(lock?'🔒 '+q.min+'레벨부터 · ':'')+esc(ts)+'</span>':'')+(more>0?'<span class="l3">🔗 끝내면 다음 퀘스트가 '+more+'개 더 이어져요</span>':'')+'</button></div>'};
   h+='<div class="steps">'+P.map(H=>{const real=H.i<97;if(real)n++;const L=left(H);const todo=H.get.filter(x=>!x.done).sort((a,b)=>a.q.lv-b.q.lv),turn=H.turn.filter(x=>!x.done),done=H.get.filter(x=>x.done);
     const open=ui.hopen[H.k]!=null?ui.hopen[H.k]:H.k===firstOpen;
-    const cnt=L?(todo.length?'받기 '+todo.length:'')+(todo.length&&turn.length?' · ':'')+(turn.length?'반납 '+turn.length:''):'완료';
+    const cnt=L?(todo.length?'새로 받을 퀘 '+todo.length:'')+(todo.length&&turn.length?'<br>':'')+(turn.length?'반납할 퀘 '+turn.length:''):'완료';
     let b='<div class="st'+(L?'':' fin')+(open?' open':'')+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);return m?'<b>'+esc(m[1])+'</b><span>'+esc(H.z)+' · 좌표 '+m[2]+', '+m[3]+'</span>':'<b>'+esc(H.n)+'</b><span>'+esc(H.z)+'</span>'})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
     if(open){b+='<div class="sb">'+(turn.length?turn.map(x=>row(x,1)).join(''):'')+todo.map(x=>row(x,0)).join('')+(done.length?'<div class="dn">끝낸 것 '+done.length+'개</div>'+done.map(x=>row(x,0)).join(''):'')+'</div>'}
     return b+'</div>'}).join('')+'</div>';

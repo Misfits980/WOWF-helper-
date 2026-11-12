@@ -415,3 +415,5 @@ details.qf summary::-webkit-details-marker{display:none}
 .nr.lock{opacity:.6}
 .sb .dn{font-size:11px;color:var(--mute);margin:8px 0 0}
 .legend{font-size:11px;color:var(--mute);margin:10px 2px 0}
+.nb .l3{font-size:11px;color:#9db4f2}
+.sh2 .hc{text-align:right;line-height:1.35}
