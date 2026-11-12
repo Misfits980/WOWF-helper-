@@ -698,3 +698,13 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
   .dg2 .dgL:empty{display:none}.dg2:has(.dgL:empty){grid-template-columns:1fr}
 }
 @media (min-width:1500px){#app>.wrap,#app>.top,#app>.foot{max-width:1360px}}
+/* 던전 고르는 줄: 좌우 버튼(마우스 쓰는 기기) */
+.dcw{position:relative}
+.dcb{display:none}
+@media (hover:hover) and (pointer:fine){
+  .dcb{display:flex;align-items:center;justify-content:center;position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:34px;height:54px;border-radius:10px;border:1px solid var(--line);background:rgba(20,18,14,.92);color:#ffe08a;font-size:24px;cursor:pointer}
+  .dcb.l{left:4px}.dcb.r{right:4px}
+  .dchips{padding-left:44px;padding-right:44px;scrollbar-width:thin;cursor:grab}
+  .dchips::-webkit-scrollbar{display:block;height:6px}.dchips::-webkit-scrollbar-thumb{background:#4a3f2a;border-radius:3px}
+  .dchips.drag{cursor:grabbing;user-select:none}
+}
