@@ -727,35 +727,50 @@ const RNM={tk:'탱커',dp:'딜러',hl:'힐러',al:'모두'};
 const ricon=(r,cl)=>r==='al'?'<span class="ri ri-al'+(cl?' '+cl:'')+'" title="모두"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+RIP.al+'"/></svg></span>':'<img class="ri rimg'+(cl?' '+cl:'')+'" src="img/role-'+r+'.png" alt="'+RNM[r]+'" title="'+RNM[r]+'">';
 function myRole(c){if(c&&c.drole)return c.drole;const r=ROLE[(c&&c.cls)+'/'+(c&&c.spec)]||'';return r==='치유'?'hl':r==='탱커'?'tk':'dp'}
 function roleSplit(texts,sp){/* 공략 문장을 역할별로: tk 탱커 · dp 딜러 · hl 힐러 · al 모두 · loc 위치 */
-  const R={tk:[],dp:[],hl:[],al:[],loc:[]};const seen=new Set();const S=[];
+  const R={tk:[],dp:[],hl:[],al:[],loc:[]};const S=[];
   /* 두 사이트가 같은 말을 조금 다르게 쓴 문장은 하나로 (영어 괄호·말끝·띄어쓰기 무시하고 글자쌍 비교) */
   const nrm=x=>x.replace(/\([^)]*\)/g,'').replace(/[\s.·,!?「」'"—–-]/g,'').replace(/(?:습니다|니다|어요|아요|해요|예요|이에요|요|다)$/,'');
   const bg=x=>{const b=new Set();for(let i=0;i<x.length-1;i++)b.add(x.slice(i,i+2));return b};
   const sim=(a,b)=>{if(!a.length||!b.length)return 0;if(a.includes(b)||b.includes(a))return 1;const A=bg(a),B=bg(b);let n=0;A.forEach(x=>{if(B.has(x))n++});return n/Math.min(A.size,B.size)};
   const lcs=(a,b)=>{let m=0;for(let i=0;i<a.length;i++)for(let j=0;j<b.length;j++){let k=0;while(a[i+k]&&a[i+k]===b[j+k])k++;if(k>m)m=k}return m};
-  const NS=[];
-  for(const t of texts)for(const s of (t||'').split(/(?<=[.다요])\s+/)){const x=s.trim().replace(/^[—–-]\s*/,'');const k=nrm(x);if(!x||k.length<4||/호드 (?:퀘스트|전용|쪽)/.test(x))continue;
-    const j=NS.findIndex(y=>sim(y,k)>=.72);if(j<0){NS.push(k);S.push(x)}else if(/[A-Za-z]{3}/.test(S[j])&&!/[A-Za-z]{3}/.test(x))S[j]=x}
+  /* 얼라이언스만 보니 호드 쪽 말은 지우거나 빼기 */
+  const ally=x=>{if(!/호드/.test(x))return x;if(!/얼라이언스/.test(x))return '';return x.replace(/호드 [^·,()]+ · /,'').replace(/,\s*호드는 '[^']*'/,'').replace(/\(\s*·\s*/,'(')};
+  /* 「~고, 탱커는 …」처럼 한 문장에 여러 역할이 섞이면 역할마다 나눔 */
+  const SUBJ=/(?:탱커|치유사|힐러|원거리(?: 딜러)?(?:와 (?:힐러|치유사))?|근접(?: 딜러)?|딜러)(?:는|은|가|도) /;
+  const endGo=c=>c.replace(/([가-힣])고$/,(m,ch)=>{const code=ch.charCodeAt(0)-0xAC00;return code>=0&&code%28!==0&&code%28!==8?ch+'으세요.':ch+'세요.'});
+  const NS=[];const push=x=>{const k=nrm(x);if(k.length<4)return;const j=NS.findIndex(y=>sim(y,k)>=.72);if(j<0){NS.push(k);S.push(x)}else if(/[A-Za-z]{3}/.test(S[j])&&!/[A-Za-z]{3}/.test(x))S[j]=x};
+  for(const t of texts){let prev=null;const parts=[];
+    for(const s of (t||'').split(/(?<=[.!?])\s+|(?<=(?:니다|어요|아요|세요|해요|워요|져요|돼요|에요|예요))\s+(?=[가-힣「'"])/)){let x=ally(s.trim().replace(/^[—–-]\s*/,''));if(!x)continue;
+      if(/^(?:그 뒤로|그 뒤|그동안|그때|그러면|이때|이후|그러니)/.test(x)&&parts.length){parts[parts.length-1]+=' '+x;continue}parts.push(x)}
+    for(const x of parts){const cl=x.split(/(?<=[가-힣]고),\s+/);
+      if(cl.length>1&&cl.slice(0,-1).every(c=>SUBJ.test(c)&&!/있고$|(?:가|이) [^ ]+ (?:걸|주|하|쓰)고$/.test(c))&&cl.every(c=>c.length>=12)){cl.forEach((c,i)=>push(i<cl.length-1?endGo(c):c))}else push(x)}}
   for(const t of S){let hit=0;const add=k=>{if(!R[k].includes(t))R[k].push(t);hit=1};
     const it=/끊(?:으세요|으면|어 ?주|습니다|고 |기|으며 ?(?:네|잡))|반드시 끊|꼭 끊/.test(t)&&!/(?:가|이) [^ ]*(?:시전을|주문을) 끊/.test(t);
-    if(/탱커|탱이|어그로|위협 수준|위협을|도발|정면|등지|벽을|벽 쪽|밀쳐|날려버리|방어도를 깎|방어구 가르기|생존기|방향을|돌려 세|회전베기|앞쪽(?:에|을|으로)|앞을 (?:치|베)/.test(t))add('tk');
-    if(it||/딜러|딜을|근접 공격을 하지|쫄|먼저 잡|부터 잡|부터 정리|점사|광역기로|광역으로|빨리 잡|먼저 마무리|몰아 |부수세요|부숴|근접 공격하는|먼저 처리|부터 처리/.test(t))add('dp');
-    const pull=/끌어|끌고 |데려오|당겨/.test(t);if(pull)add('tk');
-    if(/원거리(?! 딜러)/.test(t)&&!pull){add('dp');add('hl')}
-    if(/힐러|치유사|(?<!무장 )해제(?!될)|해독|정화|저주|질병|(?<![가-힣])독(?:을| 피해| 공격|이 )|지속 피해|광역 피해|크게 (?:쳐|아파)|아픕|치유 효과를|출혈/.test(t)&&!(/치유|회복/.test(t)&&it&&!/힐러|해제/.test(t)))add('hl');
-    if(!hit){if(/(?:있|서 있|돌아다닙|만납|나옵|나와)(?:습니다|어요|니다)\.?$|에 있어요|곳에 있/.test(t)&&t.length<70)R.loc.push(t);else add('al')}}
+    const healDo=/치유(?:를|는)? ?(?:몰아|넉넉|더 주|하지 마)|탱커 치유|탱커를 챙기|마나를 (?:채|아껴)|치유 마나|힐을 더/.test(t);
+    const sub=t.match(new RegExp(SUBJ.source,'g'))||[];
+    if(sub.length||healDo){/* 누가 할 일인지 적혀 있으면 그 역할에만 */
+      for(const m of sub){if(/^탱커/.test(m)&&!/탱커가 (?:받는|잠들|기절)/.test(t))add('tk');if(/^(?:치유사|힐러)/.test(m)||/(?:와|과) (?:힐러|치유사)/.test(m))add('hl');if(/^원거리/.test(m)){add('dp');if(!/원거리 딜러/.test(m)||/힐러|치유사/.test(m))add('hl')}if(/^(?:근접|딜러)/.test(m))add('dp')}
+      if(healDo)add('hl');if(it)add('dp')}
+    else{
+      if(/탱커|탱이|어그로|위협 수준|위협을|도발|정면|등지|벽을|벽 쪽|밀쳐|날려버리|방어도를 깎|방어구 가르기|생존기|방향을|돌려 세|회전베기|앞쪽(?:에|을|으로)|앞을 (?:치|베)|끌어|끌고 |데려오/.test(t))add('tk');
+      if(it||/딜을|근접 공격을 하지|쫄|먼저 잡|부터 잡|부터 정리|점사|광역기로|광역으로|빨리 잡|먼저 마무리|몰아 |부수세요|부숴|근접 공격하는|먼저 처리|부터 처리|부터 치우|바로 정리|정리하세요|나오는 대로 잡|바로 잡/.test(t))add('dp');
+      if(/(?<!무장 )해제(?!될)|해독|정화|저주|질병|(?<![가-힣])독(?:을| 피해| 공격|이 )|지속 피해|광역 피해|크게 (?:쳐|아파)|아픕|치유 효과를|출혈/.test(t)&&!(/치유|회복/.test(t)&&it&&!/해제/.test(t)))add('hl')}
+    if(!hit){if(/(?:[^수] 있|서 있|돌아다닙|만납)(?:습니다|어요)\.?$|에 있어요|곳에 있습니다/.test(t)&&!/수 있/.test(t)&&t.length<60)R.loc.push(t);else add('al')}}
   /* 모두 칸: 기술 이름만 늘어놓은 문장(아래 기술 칩과 같음)·역할 칸과 겹치는 문장은 뺌 */
   const roleK=[...R.tk,...R.dp,...R.hl].map(nrm);
-  R.al=R.al.filter(t=>!((t.match(/\([A-Za-z][^)]*\)/g)||[]).length>=2)&&(/흩어|피하|벗어나|떨어져|비키/.test(t)||!roleK.some(k=>sim(k,nrm(t))>=.5)));
-  for(const r of ['tk','dp','hl']){const L=R[r];for(let i=L.length-1;i>0;i--)for(let j=0;j<i;j++)if(sim(nrm(L[i]),nrm(L[j]))>=.45||lcs(nrm(L[i]),nrm(L[j]))>=6){const v=t=>(/세요|마세요|주세요/.test(t)?20:0)+(/\([A-Za-z]/.test(t)?0:10)+Math.min(t.length,60)/10;if(v(L[i])>v(L[j]))L[j]=L[i];L.splice(i,1);break}}
+  R.al=R.al.filter(t=>!((t.match(/\([A-Za-z][^)]*\)/g)||[]).length>=2)&&!/^[^.]*(?:을|를) 씁니다\.?$/.test(t.replace(/\([^)]*\)/g,'').length<40?t:'x')&&(/흩어|피하|벗어나|떨어져|비키/.test(t)||!roleK.some(k=>sim(k,nrm(t))>=.5)));
+  const val=t=>(/세요|마세요|주세요/.test(t)?20:0)+(/\([A-Za-z]/.test(t)?0:10)-(/수 있으면|있으면 끊/.test(t)?8:0)+Math.min(t.length,60)/10;
+  for(const r of ['tk','dp','hl','al']){const L=R[r];for(let i=L.length-1;i>0;i--)for(let j=0;j<i;j++){const a=nrm(L[i]),b=nrm(L[j]);if(sim(a,b)>=.45||lcs(a,b)>=6||(a.length<15&&b.length<15&&sim(a,b)>=.38)){if(val(L[i])>val(L[j]))L[j]=L[i];L.splice(i,1);break}}}
   if(R.tk.some(t=>/밀쳐|날려|넉백/.test(t))&&!R.tk.some(t=>/벽|등지/.test(t)))R.tk.push('↳ 벽이나 구석을 등지고 잡으면 덜 밀려나요.');
-  R.al.sort((x,y)=>(/세요|마세요|조심/.test(y)?1:0)-(/세요|마세요|조심/.test(x)?1:0));
   const has=(k,n)=>R[k].some(t=>t.includes(n));
   for(const s of sp||[]){const tg=(s[2]||'').split(',');const nm='「'+s[0]+'」';
     if(tg.includes('interrupt')&&!has('dp',s[0]))R.dp.push(nm+' 시전은 끊으세요.');
     for(const d of ['dispel-magic','dispel-curse','dispel-poison','dispel-disease'])if(tg.includes(d)&&!has('hl',s[0]))R.hl.push(nm+'은(는) '+TAGKO[d]+'하세요.');
     if((tg.includes('front')||tg.includes('wall'))&&!has('tk',s[0]))R.tk.push(nm+(tg.includes('wall')?' 때문에 벽을 등지고 잡으세요.':' — 보스 얼굴을 파티 반대쪽으로 돌리세요.'));
     if((tg.includes('avoid')||tg.includes('spread')||tg.includes('away'))&&!has('al',s[0]))R.al.unshift(nm+' '+(tg.includes('spread')?'— 흩어져 서세요.':tg.includes('away')?'— 떨어져 서세요.':'— 피하세요.'))}
+  /* 할 일(~세요) 먼저, 설명은 뒤로 · 영어 괄호는 지움 */
+  const act=t=>/세요|마세요|주세요|조심|↳/.test(t)?0:1;
+  for(const r of ['tk','dp','hl','al']){R[r]=R[r].map((t,i)=>({t:t.replace(/\s*\((?=[A-Za-z]|\d+% [A-Za-z])[^)]*\)/g,''),i})).sort((a,b)=>act(a.t)-act(b.t)||a.i-b.i).map(x=>x.t)}
   return R}
 const RNONE={tk:'공략에 따로 적힌 건 없어요. 보스를 잡고 파티 반대쪽으로 돌려 세우면 돼요.',dp:'공략에 따로 적힌 건 없어요. 탱커가 자리 잡은 뒤 보스에 집중하세요.',hl:'공략에 해제할 것이 따로 없어요. 탱커 체력 위주로 치유하세요.'};
 function roleBox(R,me){/* 내 역할 먼저, 나머지는 한 줄씩 */
