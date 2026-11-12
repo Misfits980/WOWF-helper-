@@ -466,10 +466,14 @@ function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);co
 /* ===================== 퀘스트 ===================== */
 function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.fq||{};
   let h='<p class="note">1레벨부터 60레벨까지 <b>어느 대륙의 어느 지역</b>으로 가면 되는지 순서대로예요. 지역을 누르면 그 지역 퀘스트로 가요.</p>';
-  h+=R.map(S=>{const zs=S.z.split(' · ');const cs=[...new Set(zs.map(z=>CONT[z]).filter(Boolean))];const now=L>=S.a&&L<=S.b;const past=L>S.b;
+  let pastN=0;const rows=R.map(S=>{const zs=S.z.split(' · ');const cs=[...new Set(zs.map(z=>CONT[z]).filter(Boolean))];const now=L>=S.a&&L<=S.b;const past=L>S.b;
     let move='';if(prevC&&cs.length&&!cs.includes(prevC)&&cs.every(x=>x!=='제프라스 섬'))move='<div class="mv">⛵ '+BOAT+'</div>';prevC=cs[cs.length-1]||prevC;
     const cnt=z=>{const qs=S.q.filter(q=>(q.gz||q.sz)===z);return [qs.length,qs.filter(q=>fq[z+'|'+q.nm]).length]};
-    return move+'<div class="rt'+(now?' now':past?' past':'')+'"><div class="rl"><span class="lvb '+(now?'lv-y':past?'lv-x':'')+'">'+S.a+'–'+S.b+'</span>'+(now?'<span class="tag gd">지금</span>':'')+'</div><div class="m">'+zs.map(z=>{const [n,d]=cnt(z);return '<button class="zr" data-a="goz" data-k="'+esc(z)+'"><b>'+esc(z)+'</b> '+contTag(z)+'<span class="sub">퀘스트 '+n+'개'+(d?' · '+d+'개 끝냄':'')+'</span></button>'}).join('')+'</div></div>'}).join('');
+    return move+'<div class="rt'+(now?' now':past?' past':'')+'"><div class="rl"><span class="lvb '+(now?'lv-y':past?'lv-x':'')+'">'+S.a+'–'+S.b+'</span>'+(now?'<span class="tag gd">지금</span>':'')+'</div><div class="m">'+zs.map(z=>{const [n,d]=cnt(z);return '<button class="zr" data-a="goz" data-k="'+esc(z)+'"><b>'+esc(z)+'</b> '+contTag(z)+'<span class="sub">퀘스트 '+n+'개'+(d?' · '+d+'개 끝냄':'')+'</span></button>'}).join('')+'</div></div>'});
+  R.forEach(S=>{if(L>S.b)pastN++});
+  const pastLv=pastN?R[pastN-1].b:0;
+  if(pastN)h+='<details class="rpast"><summary>✓ 지나간 구간 (1–'+pastLv+'레벨) 보기</summary>'+rows.slice(0,pastN).join('')+'</details>';
+  h+=rows.slice(pastN).join('');
   h+='<p class="note">⛵ 배 타는 곳: '+BOAT+'</p>';
   return h}
 function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><p class="note">던전 퀘스트는 <button class="more" data-a="tab" data-k="dungeon">🏰 던전 탭</button>에서 던전마다 모아 보여 줘요.</p><div class="chips">'+[['route','⚡ 빠른 레벨업'],['zone','📍 지금 레벨'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
