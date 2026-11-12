@@ -201,15 +201,24 @@ function mapView(c){const L=c.lv;
   if(f==='now'&&nLeft>nNow)h+='<button class="btn ghost full sm more2" data-a="mf" data-k="left">레벨이 안 맞는 퀘스트 '+(nLeft-nNow)+'개 더 보기</button>';
   return h}
 function treeIds(root){const out=[];const st=[root];while(st.length&&out.length<80){const x=st.pop();out.push(x);(QKIDS[x]||[]).slice().reverse().forEach(y=>st.push(y))}return out}
-function chainTree(c,root,zoneIds,shownIds){const all=treeIds(root).filter(id=>QDB.get(id)&&qdbOk(c,QDB.get(id)));const n=all.length;
+function chainTree(c,root,zoneIds,shownIds){const L=c.lv;const all=treeIds(root).filter(id=>QDB.get(id)&&qdbOk(c,QDB.get(id)));const n=all.length;
   const doneN=all.filter(id=>mqDone(c,QDB.get(id))).length;const lvs=all.map(id=>QDB.get(id).lv).filter(Boolean);
   const nextId=all.find(id=>!mqDone(c,QDB.get(id)));const branchy=all.some(id=>(QKIDS[id]||[]).filter(k=>all.includes(k)).length>1);
   let h='<div class="chainb"><div class="chh"><span>'+qico('chain')+' 연계 퀘스트 <b>'+n+'개</b>'+(branchy?' · 갈래 있음':'')+'</span><span class="mute">Lv '+Math.min(...lvs)+' → '+Math.max(...lvs)+' · '+doneN+'/'+n+' 끝냄</span></div>';
   const big=n>10;
   const node=(id,step)=>{const x=QDB.get(id);const cls='chs'+(id===nextId?' cur':'')+(mqDone(c,x)?' fin':'');
     const kids0=(QKIDS[id]||[]).filter(k=>all.includes(k));
-    if(big&&(!zoneIds.has(id)||(shownIds&&!shownIds.has(id)))){const r0=zoneIds.has(id)?'<div class="'+cls+' mini"><span class="stp">'+step+'</span><button class="minib" data-a="qopen" data-k="'+id+'">['+(x.lv||'?')+'] '+esc(x.n)+'</button></div>':'';
-      if(kids0.length===1)return r0+node(kids0[0],step+1);if(kids0.length>1)return r0+'<div class="chfork">'+kids0.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div>'+node(k,step+1)+'</div>').join('')+'</div>';return r0}
+    const hidden=y=>big&&(!zoneIds.has(y)||(shownIds&&!shownIds.has(y)));
+    if(hidden(id)){/* 지금 거르기에 안 맞는 단계가 이어지면 한 묶음으로 접기 */
+      const run=[];let y=id,st=step;while(y!=null&&hidden(y)){run.push([y,st]);const ks=(QKIDS[y]||[]).filter(k=>all.includes(k));if(ks.length!==1){y=null;break}y=ks[0];st++}
+      const last=run[run.length-1][0];const lvs=run.map(r=>QDB.get(r[0]).lv);const dn=run.filter(r=>mqDone(c,QDB.get(r[0]))).length;
+      const lo=Math.min(...lvs),hi=Math.max(...lvs);const why=hi<L-5?'레벨이 낮아 접어 뒀어요':lo>L+3?'아직 레벨이 높아 접어 뒀어요':'접어 뒀어요';
+      let r0='<details class="chrun"><summary><span class="stp">'+run[0][1]+(run.length>1?'–'+run[run.length-1][1]:'')+'</span><span class="t"><b>'+(run.length>1?run.length+'단계':'['+lvs[0]+'] '+esc(QDB.get(run[0][0]).n))+'</b><span>Lv '+lo+(hi>lo?'–'+hi:'')+' · '+dn+'/'+run.length+' 끝냄 · '+why+'</span></span><span class="cv">⌄</span></summary>'
+        +run.map(([z,sn])=>{const x2=QDB.get(z);const c2='chs'+(mqDone(c,x2)?' fin':'');return '<div class="'+c2+(zoneIds.has(z)?'':' away')+'"><span class="stp">'+sn+'</span>'+(zoneIds.has(z)?mqRow(c,x2,1):'<button class="awayb" data-a="qopen" data-k="'+z+'">['+(x2.lv||'?')+'] '+esc(x2.n)+'<span>다른 지역 · '+esc(x2.z||'')+' ›</span></button>')+'</div>'}).join('')+'</details>';
+      const ks=(QKIDS[last]||[]).filter(k=>all.includes(k));const st2=run[run.length-1][1]+1;
+      if(ks.length===1)return r0+node(ks[0],st2);
+      if(ks.length>1)return r0+'<div class="chfork"><div class="fk">↳ 여기서 '+ks.length+'갈래로 나뉘어요</div>'+ks.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div>'+node(k,st2)+'</div>').join('')+'</div>';
+      return r0}
     const body=zoneIds.has(id)?mqRow(c,x,1):'<button class="awayb" data-a="qopen" data-k="'+id+'">['+(x.lv||'?')+'] '+esc(x.n)+'<span>다른 지역 · '+esc(x.z||'')+' ›</span></button>';
     let r='<div class="'+cls+(zoneIds.has(id)?'':' away')+'"><span class="stp">'+step+'</span>'+body+'</div>';
     const kids=(QKIDS[id]||[]).filter(k=>all.includes(k));
@@ -544,8 +553,9 @@ function nowPlan(c,S){const fq=c.fq||{};const seen=new Set();const Q=S.q.filter(
     if(d.r&&d.r[0]&&!d.r[3]){const rn=npcKo(d,'r')||d.r[0];if(!d.r[2]){it.to=rn}else{const rz=d.r[1]||z;const r=hub(rz,d.r[2],rn);if(r!==g){r.turn.push(Object.assign({},it,{rv:rn}));it.to=r.n+(r.z!==z?' ('+r.z+')':'')}else g.same++}}
     else g.same++}
   return [...H.values()].filter(h=>h.get.length||h.turn.length).sort((a,b)=>(a.i>=97)-(b.i>=97)||a.o-b.o)}
+const wa=w=>{const ch=(w||'').trim().slice(-1).charCodeAt(0);return ch>=0xAC00&&ch<=0xD7A3&&(ch-0xAC00)%28?'과':'와'};
 function taskShort(q){const d=QD.get(q.id)||{};const T=tasksOf(d,q.obj||d.obj||'');if(!T.length)return '';const t=Object.assign({},T[0]);
-  if(t.type==='대화'||/이야기하면 끝/.test(t.nm))return '💬 '+(d.r&&d.r[0]?npcKo(d,'r')+'와 대화':'대화하기');
+  if(t.type==='대화'||/이야기하면 끝/.test(t.nm)){const nm=d.r&&d.r[0]?npcKo(d,'r'):'';return '💬 '+(nm?nm+wa(nm)+' 대화':'대화하기')}
   if(latin(t.nm)){const X=QDB&&QDB.get(q.id);const k=X&&X.t&&X.t.find(x=>x[1]&&!latin(x[1]));if(k)t.nm=k[1]}
   return (T_IC[t.type]||'•')+' '+t.nm+(t.cnt?' '+t.cnt+(t.type==='처치'?'마리':'개'):'')+' '+(T_KO[t.type]||'')+(T.length>1?' 외 '+(T.length-1)+'개':'')}
 function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.length,0),dn=P.reduce((n,h)=>n+h.get.filter(x=>x.done).length,0);
