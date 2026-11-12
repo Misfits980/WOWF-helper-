@@ -1,0 +1,18 @@
+name: 시험
+on:
+  push:
+    paths: ['tools/probe.mjs']
+permissions:
+  contents: write
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node tools/probe.mjs
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/_probe.txt && git commit -m "시험 결과" && git pull --rebase && git push
