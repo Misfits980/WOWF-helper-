@@ -15,9 +15,10 @@ jobs:
       - run: node tools/forg-scrape.mjs
       - run: node tools/forg-classes.mjs
       - run: node tools/forg-leveling.mjs
+      - run: python3 app/build.py
       - name: 자료 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/forg
+          git add data/forg index.html app-data.js
           git diff --cached --quiet || (git commit -m "forg 자료 갱신" && git push)
