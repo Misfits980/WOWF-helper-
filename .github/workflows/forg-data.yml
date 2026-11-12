@@ -2,7 +2,7 @@ name: forg 자료 가져오기
 on:
   workflow_dispatch:
   push:
-    paths: ['tools/forg-scrape.mjs', '.github/workflows/forg-data.yml']
+    paths: ['tools/**', '.github/workflows/forg-data.yml']
 permissions:
   contents: write
 jobs:
@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: node tools/forg-scrape.mjs
+      - run: node tools/forg-classes.mjs
       - name: 자료 커밋
         run: |
           git config user.name "github-actions[bot]"
