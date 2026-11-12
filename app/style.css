@@ -451,3 +451,10 @@ details.qf summary::-webkit-details-marker{display:none}
 .chs>details,.chs>.awayb{flex:1;min-width:0;margin:0}
 .chs.away .awayb{display:flex;flex-direction:column;align-items:flex-start;text-align:left;background:none;border:1px dashed var(--line);border-radius:10px;padding:8px 10px;color:var(--mute);font-size:14px;margin-top:4px}
 .chs.away .awayb span{font-size:11px}
+.chfork{margin:2px 0 6px 12px;padding-left:10px;border-left:2px dashed rgba(110,140,220,.45)}
+.chfork .fk{font-size:12px;color:#9db4f2;margin:2px 0 6px}
+.chbr{margin-bottom:6px}
+.chbr .bl{font-size:11px;font-weight:700;color:#9db4f2;margin:4px 0 2px}
+.chs.mini .stp{width:18px;height:18px;margin-top:4px;font-size:10px;margin-left:3px;margin-right:3px}
+.chs.mini::before{top:20px}
+.minib{background:none;border:0;color:var(--mute);font-size:12px;text-align:left;padding:4px 2px}

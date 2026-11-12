@@ -128,13 +128,22 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
     t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);M.set(o.id,o)}catch(e){}});QDB=M;qdbChains();
     for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
     if(ui.tab==='quest'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}
-function qdbChains(){const P={},N={};for(const q of QDB.values()){if(q.nx&&QDB.has(q.nx)){N[q.id]=q.nx;if(!P[q.nx])P[q.nx]=q.id}}
-  for(const q of QDB.values()){const pp=(q.pre1&&q.pre1.length===1)?q.pre1:(q.pre&&q.pre.length===1?q.pre:null);if(pp&&!P[q.id]&&QDB.has(pp[0])){P[q.id]=pp[0];if(!N[pp[0]])N[pp[0]]=q.id}}
-  const done=new Set();
-  for(const q of QDB.values()){if(done.has(q.id))continue;let r=q.id,k=0;while(P[r]&&k++<20)r=P[r];const ids=[];let x=r;k=0;while(x&&!ids.includes(x)&&k++<20){ids.push(x);x=N[x]}
-    if(ids.length<2){continue}
-    const rows=ids.map((id,i)=>{const o=QDB.get(id);const t=o.t&&o.t[0];return [i+1,o.n,o.lv,t?t[0]+' '+(t[1]||''):'',o.g?o.g[0]+(o.g[1]?' · '+o.g[1]+(o.g[2]?' ('+o.g[2].replace(',',', ')+')':''):''):'',0,id]});
-    ids.forEach(id=>{done.add(id);QDB.get(id)._ch=rows})}}
+let QKIDS={};
+function qdbChains(){const P={};const K={};const add=(a,b)=>{if(a===b||!QDB.has(a)||!QDB.has(b))return;if(P[b]!=null)return;P[b]=a;(K[a]=K[a]||[]).push(b)};
+  /* 1) 앞 퀘스트가 하나뿐이면 그게 부모  2) 다음 퀘스트(nx)  3) 안내 퀘스트(bc)는 대상 퀘스트 앞에 */
+  for(const q of QDB.values()){const pp=(q.pre&&q.pre.length===1)?q.pre[0]:(q.pre1&&q.pre1.length===1)?q.pre1[0]:null;if(pp)add(pp,q.id)}
+  for(const q of QDB.values())if(q.nx)add(q.id,q.nx);
+  for(const q of QDB.values())if(q.bc&&!P[q.bc]&&!K[q.id])add(q.id,q.bc);
+  /* 고리 끊기 */
+  for(const id in P){let x=+id,k=0;const seen=new Set();while(P[x]!=null&&k++<40){if(seen.has(x)){delete P[id];break}seen.add(x);x=P[x]}}
+  for(const a in K){K[a]=K[a].filter(b=>P[b]===+a).sort((x,y)=>(QDB.get(x).lv-QDB.get(y).lv)||x-y);if(!K[a].length)delete K[a]}
+  QKIDS=K;
+  const row=(id,i)=>{const o=QDB.get(id);const t=o.t&&o.t[0];return [i+1,o.n,o.lv,t?t[0]+' '+(t[1]||''):'',o.g?o.g[0]+(o.g[1]?' · '+o.g[1]+(o.g[2]?' ('+o.g[2].replace(',',', ')+')':''):''):'',0,id]};
+  for(const q of QDB.values()){delete q._ch;delete q._root;
+    const back=[q.id];let x=q.id,k=0;while(P[x]!=null&&k++<30){x=P[x];back.unshift(x)}
+    const fwd=[];x=q.id;k=0;while(K[x]&&K[x].length===1&&k++<30){x=K[x][0];fwd.push(x)}
+    const ids=[...back,...fwd];q._root=back[0];
+    if(ids.length>1||K[q.id])q._ch=ids.length>1?ids.map(row):null}}
 function qdbToQD(q){const drop=t=>t[2]&&t[2].length?t[2].map(x=>x[0]+(x[1]?' (Lv '+x[1]+')':'')).join(', '):'';
   return {id:q.id,src:'qdb',obj:q.o,g:q.g?[q.g[0],q.g[1]||'',q.g[2]||'','']:null,
     r:q.r?[q.r[0],q.r[1]||'',q.r[2]||'',q.g&&q.r[0]===q.g[0]&&q.r[2]===q.g[2]?'same':'']:null,
@@ -167,20 +176,33 @@ function mapView(c){const L=c.lv;
   if(!qs.length)h+='<p class="empty-st">'+(f==='near'?'이 지역엔 레벨 '+L+' 근처 퀘스트가 없어요. "전부"를 눌러 보세요.':'남은 퀘스트가 없어요.')+'</p>';
   /* 연계 퀘스트는 한 묶음으로: 첫 단계 자리에 놓고 단계 순서대로 */
   const zoneIds=new Set(o.q.map(q=>q.id));const shownIds=new Set(qs.map(q=>q.id));const G=[];const seenCh=new Set();
-  for(const q of qs){if(q._ch){const root=q._ch[0][6];if(seenCh.has(root))continue;seenCh.add(root);G.push({ch:q._ch,lv:Math.min(...q._ch.map(r=>r[2]||99))})}else G.push({q,lv:q.lv})}
+  for(const q of qs){const root=q._root;const tree=root!=null&&(QKIDS[root]||root!==q.id);if(tree){if(seenCh.has(root))continue;seenCh.add(root);G.push({root,lv:(QDB.get(root)||q).lv})}else G.push({q,lv:q.lv})}
   G.sort((a,b)=>a.lv-b.lv);
-  return h+G.map(g=>g.q?mqRow(c,g.q):chainBlock(c,g.ch,zoneIds,o.z)).join('')}
-function chainBlock(c,ch,zoneIds,zone){const L=c.lv;const n=ch.length;const doneN=ch.filter(r=>{const x=QDB.get(r[6]);return x&&mqDone(c,x)}).length;
-  const nextI=ch.findIndex(r=>{const x=QDB.get(r[6]);return x&&!mqDone(c,x)});
-  let h='<div class="chainb"><div class="chh"><span>🔗 연계 퀘스트 <b>'+n+'단계</b></span><span class="mute">Lv '+(ch[0][2]||'?')+' → '+(ch[n-1][2]||'?')+' · '+doneN+'/'+n+' 끝냄</span></div>';
-  h+=ch.map((r,i)=>{const x=QDB.get(r[6]);const cls='chs'+(i===nextI?' cur':'')+(x&&mqDone(c,x)?' fin':'');
-    if(x&&zoneIds.has(x.id))return '<div class="'+cls+'"><span class="stp">'+(i+1)+'</span>'+mqRow(c,x,1)+'</div>';
-    return '<div class="'+cls+' away"><span class="stp">'+(i+1)+'</span><button class="awayb" data-a="qopen" data-k="'+r[6]+'">['+(r[2]||'?')+'] '+esc(r[1])+'<span>'+(x&&x.z?'다른 지역 · '+esc(x.z):'다른 곳')+' ›</span></button></div>'}).join('');
-  return h+'</div>'}
-function mqRow(c,q,inCh){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
+  /* 같은 이름 퀘스트(위치만 다른 것)는 한 줄로 */
+  const byNm={};G.forEach(g=>{if(g.q){const k=g.q.n;(byNm[k]=byNm[k]||[]).push(g)}});
+  const G2=G.filter(g=>!g.q||byNm[g.q.n][0]===g);
+  return h+G2.map(g=>{if(!g.q)return chainTree(c,g.root,zoneIds,shownIds);const same=byNm[g.q.n];return mqRow(c,g.q,0,same.length>1?same.length:0)}).join('')}
+function treeIds(root){const out=[];const st=[root];while(st.length&&out.length<80){const x=st.pop();out.push(x);(QKIDS[x]||[]).slice().reverse().forEach(y=>st.push(y))}return out}
+function chainTree(c,root,zoneIds,shownIds){const all=treeIds(root).filter(id=>QDB.get(id)&&qdbOk(c,QDB.get(id)));const n=all.length;
+  const doneN=all.filter(id=>mqDone(c,QDB.get(id))).length;const lvs=all.map(id=>QDB.get(id).lv).filter(Boolean);
+  const nextId=all.find(id=>!mqDone(c,QDB.get(id)));const branchy=all.some(id=>(QKIDS[id]||[]).filter(k=>all.includes(k)).length>1);
+  let h='<div class="chainb"><div class="chh"><span>🔗 연계 퀘스트 <b>'+n+'개</b>'+(branchy?' · 갈래 있음':'')+'</span><span class="mute">Lv '+Math.min(...lvs)+' → '+Math.max(...lvs)+' · '+doneN+'/'+n+' 끝냄</span></div>';
+  const big=n>10;
+  const node=(id,step)=>{const x=QDB.get(id);const cls='chs'+(id===nextId?' cur':'')+(mqDone(c,x)?' fin':'');
+    const kids0=(QKIDS[id]||[]).filter(k=>all.includes(k));
+    if(big&&(!zoneIds.has(id)||(shownIds&&!shownIds.has(id)))){const r0=zoneIds.has(id)?'<div class="'+cls+' mini"><span class="stp">'+step+'</span><button class="minib" data-a="qopen" data-k="'+id+'">['+(x.lv||'?')+'] '+esc(x.n)+'</button></div>':'';
+      if(kids0.length===1)return r0+node(kids0[0],step+1);if(kids0.length>1)return r0+'<div class="chfork">'+kids0.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div>'+node(k,step+1)+'</div>').join('')+'</div>';return r0}
+    const body=zoneIds.has(id)?mqRow(c,x,1):'<button class="awayb" data-a="qopen" data-k="'+id+'">['+(x.lv||'?')+'] '+esc(x.n)+'<span>다른 지역 · '+esc(x.z||'')+' ›</span></button>';
+    let r='<div class="'+cls+(zoneIds.has(id)?'':' away')+'"><span class="stp">'+step+'</span>'+body+'</div>';
+    const kids=(QKIDS[id]||[]).filter(k=>all.includes(k));
+    if(kids.length===1)r+=node(kids[0],step+1);
+    else if(kids.length>1)r+='<div class="chfork"><div class="fk">↳ 여기서 '+kids.length+'갈래로 나뉘어요 (따로따로 받을 수 있어요)</div>'+kids.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div>'+node(k,step+1)+'</div>').join('')+'</div>';
+    return r};
+  return h+node(root,1)+'</div>'}
+function mqRow(c,q,inCh,same){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
   const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
   const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});
-  return qFold({key:'m'+q.id,done:d,lock,lv:q.lv,nm:q.n,body,side:ch?'<span class="lk">연계</span>':''})}
+  return qFold({key:'m'+q.id,done:d,lock,lv:q.lv,nm:q.n,body,side:same?'<span class="lk">같은 퀘 '+same+'개</span>':ch?'<span class="lk">연계</span>':''})}
 setTimeout(qdbLoad,1200);
 function questById(id){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.id===id)return {q,z:q.gz||q.sz};
   for(const d of DGS)for(const q of d.q)if(q.id===id)return {q:Object.assign({},q,{dg:d}),z:d.ko,dg:d};return null}
