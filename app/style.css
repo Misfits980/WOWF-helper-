@@ -734,3 +734,17 @@ button.amn:hover{color:#ffe08a}
 }
 @media (min-width:1000px) and (max-width:1499px){.chflow>.chs:nth-child(3n):not(:has(+ .chfork)):not(:has(+ .chrun))::after{display:none}}
 @media (min-width:1500px){.chflow>.chs{width:calc((100% - 90px)/4)}.chflow>.chs:nth-child(4n):not(:has(+ .chfork)):not(:has(+ .chrun))::after{display:none}}
+/* 선행 퀘스트 1/4 · 2/4 상자 (양피지 안) */
+.prech{margin:8px 0 10px;padding:8px 10px;border:1px solid #b9853b;border-radius:10px;background:rgba(255,236,190,.55)}
+.prech>b{display:block;font-size:13.5px;color:#7a3c00;margin-bottom:6px}
+.prech.ok>b{color:#2f6b3a}
+.pcs{display:flex;align-items:center;gap:8px;width:100%;padding:6px 8px;margin:3px 0;border-radius:8px;border:1px solid rgba(120,80,30,.25);background:rgba(255,250,235,.7);color:#3b2a14;text-align:left;font:inherit}
+button.pcs{cursor:pointer}
+.pcs .f{flex:none;min-width:38px;padding:2px 6px;border-radius:10px;background:#6b4a1d;color:#fff3d6;font-size:12px;font-weight:800;text-align:center}
+.pcs .t{flex:1;min-width:0;display:flex;flex-direction:column}.pcs .t b{font-size:13.5px}.pcs .t i{font-style:normal;font-size:11.5px;color:#7a5a2a}
+.pcs.dn{opacity:.7}.pcs.dn .f{background:#2f6b3a}.pcs.dn .t b{text-decoration:line-through}
+.pcs.me{border:2px solid #c0761d;background:#fff4d8}.pcs.me .f{background:#c0761d}.pcs.me .t i{color:#c0761d;font-weight:700}
+.pcs.nx{opacity:.75}
+.pcs .cv{color:#7a5a2a}
+.pcfold>summary{cursor:pointer;font-size:12.5px;color:#7a5a2a;padding:4px 8px;list-style:none}
+.pcfold>summary::-webkit-details-marker{display:none}

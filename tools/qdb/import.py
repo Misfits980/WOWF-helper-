@@ -428,6 +428,8 @@ for qid, q in sorted(QUEST.items()):
     x = KX.get(qid) or {}
     if lat(name) and x.get('n') and not lat(x['n']):
         name = x['n']
+    if x.get('wv') and x.get('n') and not lat(x['n']):
+        name = x['n']  # wowf.io로 확인한 이름이 우선
     # 포에버 사이트(wowf.io·forever-tool) 어디에도 없는 영어 퀘스트 = 다른 서버판 퀘스트로 보고 뺌
     if qid in KX and not x.get('n') and not re.search('[가-힣]', name):
         skip['notforever'] = skip.get('notforever', 0) + 1

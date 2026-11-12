@@ -8,9 +8,15 @@ const lat=s=>/[A-Za-z]{3}/.test(s||'');
 const out='data/qdb/ko-extra.jsonl';const have=new Map();
 if(fs.existsSync(out))for(const l of fs.readFileSync(out,'utf8').split('\n')){if(l){const o=JSON.parse(l);have.set(o.id,o)}}
 const todo=[];
+/* forg 연계 표와 이름이 다른 퀘스트는 wowf.io 제목으로 확인 (wv=1: wowf가 확인한 이름) */
+const QN=new Map();for(const l of fs.readFileSync('data/qdb/quests.jsonl','utf8').split('\n')){if(!l)continue;const q=JSON.parse(l);QN.set(q.id,q.n)}
+const chk=new Set();const nk=s=>String(s||'').replace(/\s/g,'');
+for(const l of fs.readFileSync('data/forg/quests.jsonl','utf8').split('\n')){if(!l)continue;const o=JSON.parse(l);for(const r of o.ch||[]){const id=r[6];if(!id||!QN.has(id)||lat(r[1])||lat(QN.get(id)))continue;if(nk(QN.get(id))!==nk(r[1])){chk.add(id);for(const r2 of o.ch)if(r2[6])chk.add(r2[6])}}}
+for(const id of chk){const hv=have.get(id);if(!hv||!hv.wv)todo.push(id)}
 for(const l of fs.readFileSync('data/qdb/quests.jsonl','utf8').split('\n')){if(!l)continue;const q=JSON.parse(l);
   const hv=have.get(q.id);const noR=!q.r&&!(hv&&(hv.r||hv.rr));if(noR){todo.push(q.id);continue}
   if(hv&&!(lat(q.n)&&!hv.ft))continue;if(lat(q.n)||lat(q.o)||lat(q.g&&q.g[0])||lat(q.r&&q.r[0]))todo.push(q.id)}
+{const u=[...new Set(todo)];todo.length=0;todo.push(...u)}
 console.log('할 일',todo.length);let n=0;const t0=Date.now();
 for(const id of todo){if(Date.now()-t0>40*60e3){console.log('시간 다 됨, 다음에 이어서');break}
   const h=await get('https://wowf.io/ko/quests/'+id);const rec={id};
@@ -25,5 +31,6 @@ for(const id of todo){if(Date.now()-t0>40*60e3){console.log('시간 다 됨, 다
   if(!rec.r)rec.rr=1; /* 반납 NPC를 찾아봤지만 없음(다시 찾지 않음) */
   if(!rec.n||lat(rec.n)){const h2=await get('https://forever-tool.com/quests/'+id+'/');rec.ft=1;
     if(h2){const tt=(h2.match(/<title[^>]*>([^<]*)<\/title>/)||[])[1];if(tt){const nm=dec(tt).split(' (')[0].split(' - ')[0].trim();if(nm&&!lat(nm))rec.n=nm}}}
+  if(chk.has(id)&&rec.n&&!lat(rec.n))rec.wv=1;
   have.set(id,rec);n++;if(n%100===0){console.log('wowf',n);fs.writeFileSync(out,[...have.values()].map(o=>JSON.stringify(o)).join('\n')+'\n')}}
 fs.writeFileSync(out,[...have.values()].map(o=>JSON.stringify(o)).join('\n')+'\n');console.log('끝',n);
