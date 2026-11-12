@@ -298,3 +298,22 @@ details.qf summary::-webkit-details-marker{display:none}
 .pbtn.ghost b{color:#24170a}
 .pbtn.sm{display:inline-block;width:auto;margin:0;padding:4px 10px;font-size:12px;flex:none}
 .parch .qdone{color:#4a3216;font-family:-apple-system,sans-serif}
+
+/* 던전 상세 */
+.dinfo{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.dinfo span{font-size:12.5px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:#d9d2c3}
+.bcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.bh{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.bimg{width:76px;height:76px;flex:none;border-radius:12px;background:#0d0b08 center/cover no-repeat;border:1px solid #5a3f6e;box-shadow:0 0 0 2px #2a1f33,0 0 16px rgba(160,100,220,.18)}
+.bimg.none{display:flex;align-items:center;justify-content:center;font-size:30px}
+.bn{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800}
+.bn .no{width:24px;height:24px;border-radius:6px;background:#3d2a4a;color:#e6c7ff;font-weight:800;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+.bh .sub{display:block;font-size:12.5px;color:var(--mute);margin-top:2px}
+.drow{display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--line);align-items:flex-start}
+.drow .m{flex:1;min-width:0}
+.drow .nm{display:block;font-weight:700}
+.drow .sub{display:block;font-size:12.5px;color:var(--mute)}
+.drow .r{flex:none;text-align:right;font-size:12px}
+.drow.big{background:linear-gradient(90deg,rgba(46,224,74,.06),transparent);border-radius:10px;padding:10px 8px;margin:4px -4px;border-top:0}
+.drow .sc{display:block;font-size:12.5px;color:#d9d2c3;margin-top:2px}
+.drow .sc b{color:var(--gold)}.drow .sc .p{color:var(--good)}

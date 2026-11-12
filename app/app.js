@@ -441,25 +441,29 @@ function dungeon(c){if(ui.dg&&DG[ui.dg])return dgDetail(c,DG[ui.dg]);const L=c.l
     return '<button class="card row'+(inr?' hl':'')+'" style="display:flex" data-a="dgo" data-k="'+d.slug+'"><span class="m"><span class="nm">'+esc(d.ko)+(inr?' <span class="tag gd">지금 레벨</span>':'')+'</span><span class="sub">권장 '+d.lo+'–'+d.hi+' · '+esc(d.loc)+(d.q.length?' · 퀘스트 '+d.q.length:'')+(ups?' · 내 장비 '+ups:'')+'</span>'
      +'<span class="bar"><i style="left:'+((d.lo-10)/50*100)+'%;width:'+((d.hi-d.lo)/50*100)+'%"></i><b style="left:'+pos+'%"></b></span></span><span class="r">›</span></button>'}).join('');
   return h+'</div>'}
+/* 보스 모습 (wythic.com → 와우헤드 모델 썸네일) */
+const BIMG={};{const nz=x=>String(x||'').replace(/[\s:·,'"!.\-]/g,'').replace(/의/g,'');D_BOSS.split('\n').filter(Boolean).forEach(l=>{const [dn,bn,u]=l.split('|');(BIMG[nz(dn)]=BIMG[nz(dn)]||[]).push({n:nz(bn),u})});
+  window.bossImg=(d,boss,i)=>{const L=BIMG[nz(d.ko)]||BIMG[nz(d.ko.split(':')[0])]||[];const f=L.find(x=>x.n&&(x.n===nz(boss)||x.n.includes(nz(boss))||nz(boss).includes(x.n)));return f?f.u:(L.length===d.bosses.length&&!d.ko.includes(':')&&L[i]?L[i].u:'')}}
+function dropRow(c,it,big){const use=usable(it,c);const b=use?bestSlot(it,c):null;const cur=b?eqIt(c,b.s):null;
+  let h='<div class="drow'+(big?' big':'')+'">'+itIcon(it,big?'lg':'')+'<span class="m"><span class="nm">'+itName(it)+'</span><span class="sub">'+itMeta(it)+'</span>';
+  if(big){h+=statLine(it);if(b){h+='<span class="sc">점수 <b>'+Math.round(b.base)+' → '+Math.round(b.base+b.g)+'</b> <span class="p">(+'+b.g.toFixed(1)+')</span> · '+SLOT_KO[b.s]+(cur?' 지금: '+esc(cur.nm):' 비어 있음')+'</span>'+diffHtml(it,cur,c)}}
+  else if(!use)h+='<span class="sub">내 직업은 못 써요</span>';
+  h+='</span><span class="r">'+(b?gainTag(b.g,b.base,b.empty)+'<br>':'')+infoBtn(it)+(big&&b?' <button class="btn sm" data-a="equip" data-k="'+b.s+'" data-id="'+it.id+'">끼기</button>':'')+'</span></div>';
+  return h}
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
-  let h='<div class="wrap"><button class="more" data-a="dgback">‹ 던전 목록</button><h2 style="margin-top:4px">'+esc(d.ko)+'</h2><p class="note">'+esc(d.en)+' · '+esc(d.loc)+' · 권장 '+d.lo+'–'+d.hi+' (적정 '+d.fit+')</p>';
-  h+='<div class="chips">'+[['me','내 직업 장비만'],['all','드랍 전부']].map(f=>'<button class="chip'+((ui.dgf||'me')===f[0]?' on':'')+'" data-a="dgf" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
-  const mine=(ui.dgf||'me')==='me';
   const byBoss={};items.forEach(it=>{const s=it.src.map(i=>SRC[i]).find(s=>s&&s.k===0&&s.dg===d.slug);const b=s?s.boss:'기타';(byBoss[b]=byBoss[b]||[]).push(it)});
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
-  /* 가기 전 체크: 미리 받을 퀘스트 + 보스별 챙길 것 */
-  {const dqd=c.dq||{};const pre=d.q.filter(q=>q.start&&!/던전 안|아이템/.test(q.start)&&!dqd[q.id]&&q.min<=L+1);
-   const wantRw=[];d.q.forEach(q=>q.rw.forEach(id=>{const it=IT.get(id);if(it&&usable(it,c)){const bs=bestSlot(it,c);if(bs&&bs.g>.01)wantRw.push({it,bs,q})}}));
-   let p='<div class="card hl"><h3>🎒 들어가기 전 체크</h3>';
-   p+='<div class="ck"><b>1. 마을에서 미리 받을 퀘스트 '+pre.length+'개</b><p class="note">눌러서 펼치면 받는 곳·할 일·보상이 나와요.</p>'+(pre.length?dqList(c,{q:pre},true):'<div class="sub">없어요 (또는 다 받았어요)</div>')+'</div>';
-   p+='<div class="ck"><b>2. 보스별로 챙길 것</b>'+order.map((b,i)=>{const ups=(byBoss[b]||[]).filter(it=>usable(it,c)).map(it=>({it,bs:bestSlot(it,c)})).filter(x=>x.bs&&x.bs.g>.01).sort((x,y)=>y.bs.g-x.bs.g);
-      return '<div class="bk"><span class="no">'+(i+1)+'</span><span class="m"><b>'+esc(b)+'</b><span class="sub">'+(ups.length?ups.map(x=>'<button class="pk" data-a="info" data-k="'+x.it.id+'">★ <span class="q'+x.it.q+'">'+esc(x.it.nm)+'</span> <small>'+SLOT_KO[x.bs.s]+'</small></button>').join(''):'<span class="mute">챙길 것 없음</span>')+'</span></span></div>'}).join('')+'</div>';
-   if(wantRw.length)p+='<div class="ck"><b>3. 퀘스트 보상으로 받을 것</b>'+wantRw.map(x=>'<div class="sub"><button class="pk" data-a="info" data-k="'+x.it.id+'">★ <span class="q'+x.it.q+'">'+esc(x.it.nm)+'</span></button> ← 「'+esc(x.q.nm)+'」</div>').join('')+'</div>';
-   h+=p+'<p class="note">★를 누르면 어떤 장비인지, 얼마나 좋아지는지 보여 줘요.</p></div>'}
-  h+='<div class="card"><h3>보스 순서와 드랍 (전체)</h3>'+order.map((b,i)=>{let its=(byBoss[b]||[]);if(mine)its=its.filter(it=>usable(it,c));
-     const rows=its.map(it=>{const bs=bestSlot(it,c);const cur=bs?eqIt(c,bs.s):null;return {it,bs,cur}}).sort((x,y)=>((y.bs?y.bs.g:-1)-(x.bs?x.bs.g:-1)));
-     return '<div class="boss"><span class="no">'+(i+1)+'</span><b>'+esc(b)+'</b></div>'+(rows.length?rows.map(r=>'<div class="row">'+itIcon(r.it)+'<span class="m"><span class="nm">'+itName(r.it)+'</span><span class="sub">'+itMeta(r.it)+'</span>'+(usable(r.it,c)?diffHtml(r.it,r.cur,c):'<span class="sub">내 직업은 못 써요</span>')+'</span><span class="r">'+(r.bs?gainTag(r.bs.g,r.bs.base,r.bs.empty):'')+'<br>'+infoBtn(r.it)+'</span></div>').join(''):'<p class="note" style="margin:2px 0 0 32px">'+(mine?'내 직업이 쓸 드랍이 없어요.':'드랍 정보가 없어요.')+'</p>')}).join('')+'</div>';
-  if(d.q.length)h+='<div class="card"><h3>이 던전 퀘스트 (얼라이언스)</h3>'+dqList(c,d)+'</div>';
+  const myUps=items.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01);
+  let h='<div class="wrap"><button class="more" data-a="dgback">‹ 던전 목록</button><h2 style="margin-top:4px">'+esc(d.ko)+'</h2>';
+  h+='<div class="dinfo"><span>📍 '+esc(d.loc)+'</span><span>🎯 권장 '+d.lo+'–'+d.hi+'</span><span>👹 보스 '+order.length+'</span><span>📜 퀘스트 '+d.q.length+'</span><span>⭐ 내게 좋은 템 '+myUps.length+'</span></div>';
+  /* 1. 퀘스트 */
+  if(d.q.length)h+='<div class="card"><h3>📜 퀘스트</h3><p class="note">마을에서 미리 받을 것부터 보여 줘요. 펼치면 할 일·보상(★ 추천)이 나와요.</p>'+dqList(c,d)+'</div>';
+  /* 2. 보스 순서대로 */
+  h+='<h3 style="margin-top:18px">👹 보스 (들어가는 순서)</h3><p class="note">보스마다 <b>내게 좋은 템</b>을 먼저 보여 줘요. 점수는 '+esc(specOf(c)?specOf(c).name:'')+' 기준 능력치를 합친 값이에요.</p>';
+  h+=order.map((b,i)=>{const its=byBoss[b]||[];const good=its.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01).sort((x,y)=>y.b.g-x.b.g);const rest=its.filter(it=>!good.some(g=>g.it===it));const img=bossImg(d,b,i);
+    return '<div class="bcard"><div class="bh">'+(img?'<span class="bimg" style="background-image:url('+img+')"></span>':'<span class="bimg none">👹</span>')+'<span class="m"><span class="bn"><span class="no">'+(i+1)+'</span>'+esc(b)+'</span><span class="sub">'+(good.length?'⭐ 내게 좋은 템 '+good.length+'개':'내게 좋은 템 없음')+(rest.length?' · 다른 드랍 '+rest.length+'개':'')+'</span></span></div>'
+      +good.map(x=>dropRow(c,x.it,true)).join('')
+      +(rest.length?'<details class="fold"><summary>다른 드랍 '+rest.length+'개</summary>'+rest.map(it=>dropRow(c,it,false)).join('')+'</details>':'')+'</div>'}).join('');
   h+='<p class="note"><a href="https://forg.gg/forever/dungeons/'+d.slug+'" target="_blank" rel="noopener">forg.gg에서 지도·보스 공략 보기 ↗</a></p>';
   return h+'</div>'}
 

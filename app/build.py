@@ -30,6 +30,7 @@ data = '\n'.join([
     'const D_DGL=' + js_str(rd(F / 'dungeons.txt')) + ';',
     'const D_DQ=' + js_str(rd(F / 'dungeon-quests.txt')) + ';',
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',
+    'const D_BOSS=' + js_str(rd(F / 'bosses.txt') if (F / 'bosses.txt').exists() else '') + ';',
     'const D_CLS=' + json.dumps(slim, ensure_ascii=False, separators=(',', ':')) + ';',
     rd(A / 'profs.js'),
     rd(A / 'hubs.js'),
