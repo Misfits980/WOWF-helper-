@@ -974,3 +974,21 @@ h3{font-size:15px;margin:12px 0 6px}
 /* 직업 */
 .talsum .note{margin:2px 0}
 .tlv,.ttabs{margin:4px 0}
+/* 지금 할 일: 이어지는 연계 펼치기 */
+.nbw{flex:1;min-width:0}
+.nchb{display:inline-flex;align-items:center;gap:4px;margin-top:3px;padding:3px 8px 3px 4px;border-radius:8px;border:1px solid rgba(110,140,220,.4);background:rgba(60,80,140,.12);color:#9db4f2;font-size:12px;cursor:pointer;font-family:inherit}
+.nchb .cv{font-size:11px;opacity:.8}
+.nchb.on{background:rgba(60,80,140,.25)}
+.nchl{list-style:none;margin:6px 0 2px;padding:0 0 0 10px;border-left:2px solid rgba(110,140,220,.45)}
+.nchl li button{display:flex;align-items:center;gap:8px;width:100%;padding:5px 6px;background:none;border:0;border-radius:8px;color:inherit;text-align:left;font-family:inherit;cursor:pointer}
+.nchl li button:active{background:var(--panel2)}
+.nchl .sn{flex:none;width:20px;height:20px;border-radius:50%;background:#26304d;color:#9db4f2;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.nchl .t{flex:1;min-width:0;display:flex;flex-direction:column}
+.nchl .t b{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nchl .t span{font-size:11.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nchl .qlv{flex:none;font-size:11px;font-weight:700;border-radius:5px;padding:0 5px;line-height:18px;border:1px solid var(--line)}
+.nchl em{font-style:normal;color:#9fcf82;font-size:12px}
+.nchl li.fin b{text-decoration:line-through;opacity:.6}
+p.nchl{border:0;font-size:12px}
+.foot .bld{opacity:.7;font-size:11px}
+.nbw .nb{width:100%}

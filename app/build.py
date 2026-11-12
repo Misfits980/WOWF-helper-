@@ -236,7 +236,13 @@ data = '\n'.join([
 (ROOT / 'app-data.js').write_text(data, encoding='utf-8')
 ver = hashlib.md5(data.encode()).hexdigest()[:8]
 app = rd(A / 'app.js'); css = rd(A / 'style.css')
-aver = hashlib.md5(app.encode()).hexdigest()[:6]
+aver = hashlib.md5((app + css + ver).encode()).hexdigest()[:6]
+# 화면 아래에 「사이트 업데이트 날짜」를 보여 줌. 내용이 그대로면 예전 날짜를 그대로 둠(자동 갱신 때 괜히 바뀌지 않게)
+import datetime
+_prev = (ROOT / 'index.html').read_text(encoding='utf-8') if (ROOT / 'index.html').exists() else ''
+_m = re.search(r'/\* v' + aver + r' @([^*]+) \*/', _prev)
+stamp = _m.group(1) if _m else datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%m/%d %H:%M')
+app = app.replace("'__BUILD__'", repr(stamp))
 html = f'''<!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -246,7 +252,7 @@ html = f'''<!DOCTYPE html>
 <style>{css}</style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v={ver}"></script>
-<script>/* v{aver} */
+<script>/* v{aver} @{stamp} */
 {app}</script>
 </body></html>'''
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
