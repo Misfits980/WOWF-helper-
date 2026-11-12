@@ -146,6 +146,11 @@ for ix, line in enumerate(items):
 srcs = '\n'.join(_sl)
 
 # 전문기술 표의 영어 아이템·제작 이름을 한글로 (QuestieDB 아이템 영→한, 마법부여는 규칙으로)
+def wy_names():
+    p = ROOT / 'data' / 'wythic' / 'profs.json'
+    return json.loads(rd(p)).get('n', {}) if p.exists() else {}
+WYN = wy_names()
+
 def prof_ko(txt):
     M = {}
     for _fn in ('item-en-ko.txt', 'item-en-ko2.txt'):
@@ -166,6 +171,10 @@ def prof_ko(txt):
                 k = L_.index('영어 이름')
                 if k + 1 < len(L_) and not lat(o['nm']):
                     M.setdefault(L_[k + 1], o['nm'])
+    # wythic 전문기술 자료의 한글 이름 (포에버 새 제작법·재료)
+    for en_, v_ in WYN.items():
+        if v_[0] and v_[2] == en_:
+            M.setdefault(en_, v_[0])
     SL = {'Bracer': '손목', 'Chest': '가슴', 'Cloak': '망토', 'Boots': '장화', 'Gloves': '장갑', 'Weapon': '무기', 'Shield': '방패', '2H Weapon': '양손 무기'}
     GR = {'Minor': '최하급', 'Lesser': '하급', 'Inferior': '최하급', 'Greater': '상급', 'Superior': '최상급', 'Major': '특급'}
     EF = {'Stamina': '체력', 'Spirit': '정신력', 'Intellect': '지능', 'Agility': '민첩성', 'Strength': '힘', 'Defense': '방어', 'Deflect': '피해 반사', 'Absorption': '피해 흡수', 'Health': '생명력', 'Mana': '마나', 'Striking': '타격', 'Protection': '보호'}
@@ -189,6 +198,9 @@ def prof_ko(txt):
         for cand in (b2, 'Handful of ' + b2, b2 + 's'):
             if cand in M:
                 return pre + M[cand] + tail
+        me_ = re.match(r'^(2H Weapon|Bracer|Chest|Cloak|Boots|Gloves|Weapon|Shield)\s+(.+)$', b2)
+        if me_ and ('Enchant %s - %s' % (me_.group(1), me_.group(2))) in M:
+            return pre + M['Enchant %s - %s' % (me_.group(1), me_.group(2))] + tail
         e = re.sub(r'^Enchant (2H Weapon|Bracer|Chest|Cloak|Boots|Gloves|Weapon|Shield) - (.+)$', ench, base)
         return pre + (e if e != base else base) + tail
     def tr(sq):
@@ -199,6 +211,15 @@ def prof_ko(txt):
         return "'" + ''.join(p if re.match(r'^\s*(?:,|/|→|\(|\))\s*$', p) or not p else one(p) for p in parts) + "'"
     return re.sub(r"'((?:[^'\\]|\\.)*)'", tr, txt)
 
+PROFS_JS = prof_ko(rd(A / 'profs.js'))
+# 전문기술 화면에 쓰는 이름 → 아이콘 (만드는 아이템·재료)
+PICO = {}
+for sq in re.findall(r"'((?:[^'\\]|\\.)*)'", PROFS_JS):
+    for part in re.split(r'\s*(?:,|/|→|\(|\))\s*', sq.replace("\\'", "'")):
+        nm_ = re.sub(r'\s+[+]?\d+(?:~\d+)?(?:\s*등)?$', '', part.strip())
+        v_ = WYN.get(nm_) or WYN.get(re.sub(r'\s*(꽃잎|잎사귀)$', '', nm_))
+        if v_ and v_[1]:
+            PICO[nm_] = v_[1]
 ITEMS_TXT = '\n'.join(items) + '\n'
 # 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
 QLV = {}
@@ -230,7 +251,8 @@ data = '\n'.join([
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',
     'const D_BOSS=' + js_str(rd(F / 'bosses.txt') if (F / 'bosses.txt').exists() else '') + ';',
     'const D_CLS=' + json.dumps(slim, ensure_ascii=False, separators=(',', ':')) + ';',
-    prof_ko(rd(A / 'profs.js')),
+    PROFS_JS,
+    'const PICO=' + json.dumps(PICO, ensure_ascii=False, separators=(',', ':')) + ';',
     rd(A / 'hubs.js'),
 ])
 (ROOT / 'app-data.js').write_text(data, encoding='utf-8')

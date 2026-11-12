@@ -1160,6 +1160,15 @@ function killOf(c,slug){c.dk=c.dk||{};return c.dk[slug]||{}}
 /* ===================== 직업 ===================== */
 const CSEC=[['tal','🌳','특성'],['rot','⚔️','운영 순서'],['learn','📖','기술 습득'],['prof','🛠️','전문기술']];
 const RLEMO={'치유':'💚','탱커':'🛡️','원거리 딜':'🔮','근접 딜':'🗡️'};
+const PICON={alch:'trade_alchemy',bs:'trade_blacksmithing',ench:'trade_engraving',eng:'trade_engineering',lw:'trade_leatherworking',tail:'trade_tailoring',cook:'inv_misc_food_15',fa:'spell_holy_sealofsacrifice',mine:'trade_mining',herb:'trade_herbalism',skin:'inv_misc_pelt_wolf_01',fish:'trade_fishing'};
+const pIco=id=>'<span class="pic" style="background-image:url('+ICO(PICON[id]||'inv_misc_questionmark')+')"></span>';
+/* 전문기술: 이름 → 아이콘 (만드는 것·재료) */
+const pnm=t=>String(t||'').trim().replace(/\s+[+]?\d+(?:~\d+)?(?:\s*등)?$/,'');
+function picoOf(t){const P=(typeof PICO!=='undefined'&&PICO)||{};return P[pnm(t)]||''}
+function pMade(name){const parts=String(name).split(/\s*→\s*/);return parts.map(p=>{const ic=picoOf(p.replace(/\s*\(.*$/,''));return (ic?'<span class="pic sm" style="background-image:url('+ICO(ic)+')"></span>':'')+'<b>'+esc(p)+'</b>'}).join('<i class="par">→</i>')}
+function pMat1(t){t=t.trim();const ex=(t.match(/\s*(\(.*\))$/)||[])[1]||'';t=t.replace(/\s*\(.*\)$/,'');const m=t.match(/^(.*?)\s+(\d+(?:~\d+)?)(\s*등)?$/);const nm=m?m[1]:t,q=m?m[2]:'';const ic=picoOf(nm)||picoOf(nm.replace(/\s*(꽃잎|잎사귀)$/,''));
+  return '<span class="pmat">'+(ic?'<span class="pic xs" style="background-image:url('+ICO(ic)+')"></span>':'')+esc(nm)+(q?'<em>×'+q+'</em>':'')+(ex?'<small>'+esc(ex)+'</small>':'')+'</span>'}
+function pMats(txt){return String(txt||'').split(/\s*,\s*/).filter(Boolean).map(t=>t.split(/\s+\/\s+|\//).map(pMat1).join('<i class="por">또는</i>')).join('')}
 const PEMO={alch:'⚗️',bs:'🔨',ench:'✨',eng:'⚙️',lw:'👜',tail:'🧵',cook:'🍳',fa:'🩹',mine:'⛏️',herb:'🌿',skin:'🔪',fish:'🎣'};
 const PGRP=[['제작',['alch','bs','ench','eng','lw','tail']],['채집',['herb','mine','skin']],['보조',['cook','fa','fish']]];
 const ROTEMO=[[/항상/,'♾️'],[/전투 ?전|직전|당기기/,'⏳'],[/시작|여는/,'▶️'],[/이어서|다음/,'➡️'],[/레벨부터|이후/,'🔓'],[/던전|파티/,'🏰'],[/채우|마나|회복/,'💧'],[/다치|위급|생존|급하/,'🩹'],[/광역|여럿|다수/,'💥'],[/단일|하나/,'🎯'],[/마무리|처형|끝/,'🏁'],[/펫|소환수|하수인/,'🐾'],[/쿨|폭딜|강화/,'🔥']];
@@ -1248,10 +1257,10 @@ function learnView(c,C,L){if(!WLD)wldLoad();const ls=C.learns.filter(l=>!l[4]||l
    +'<details class="fold"><summary>1~60 전체 보기</summary>'+groupBy(ls,l=>l[0]).map(([lv,arr])=>'<div class="tl '+st(lv)+'"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><span class="m">'+arr.map(l=>abChip(l[1],l[5],l[3]?'':'랭크 '+l[2],lv>L)).join(' ')+'</span></div>').join('')+'</details></div>';
   return h}
 function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];
-  let h='<div class="kprof">'+PGRP.map(([g,ids])=>'<div class="kpg"><span class="kpl">'+g+'</span><div class="kpb">'+ids.map(id=>PROFS.find(p=>p.id===id)).filter(Boolean).map(p=>'<button class="'+(p===sel?'on':'')+'" data-a="pf" data-k="'+p.id+'"><i>'+(PEMO[p.id]||'•')+'</i>'+esc(p.ko)+'</button>').join('')+'</div></div>').join('')+'</div>';
-  h+='<div class="card"><h3>'+(PEMO[sel.id]||'')+' '+esc(sel.ko)+'</h3>'+(sel.pair?'<p class="note">🤝 같이 하면 좋은 기술: <b>'+esc(sel.pair)+'</b></p>':'');
+  let h='<div class="kprof">'+PGRP.map(([g,ids])=>'<div class="kpg"><span class="kpl">'+g+'</span><div class="kpb">'+ids.map(id=>PROFS.find(p=>p.id===id)).filter(Boolean).map(p=>'<button class="'+(p===sel?'on':'')+'" data-a="pf" data-k="'+p.id+'">'+pIco(p.id)+esc(p.ko)+'</button>').join('')+'</div></div>').join('')+'</div>';
+  h+='<div class="card"><h3 class="pht">'+pIco(sel.id)+esc(sel.ko)+'</h3>'+(sel.pair?'<p class="note">🤝 같이 하면 좋은 기술: <b>'+esc(sel.pair)+'</b></p>':'');
   h+='<div class="kranks">'+PROF_RANK.map(r=>'<span><b>'+r[0]+'</b>'+r[1]+'–'+r[2]+'<small>'+esc(r[3])+'</small></span>').join('')+'</div>';
-  if(sel.steps)h+=sel.steps.map(s=>'<div class="pr2"><span class="pl">'+s[0]+'<i>→</i>'+s[1]+'</span><span class="m"><span class="l1"><b>'+esc(s[2])+'</b><span class="cnt">'+esc(s[3])+'번 만들기</span>'+(s[5]?'<span class="nt">'+esc(s[5])+'</span>':'')+'</span><span class="rg">재료(1번에): '+esc(s[4])+'</span></span></div>').join('');
+  if(sel.steps)h+=sel.steps.map(s=>'<div class="pr2"><span class="pl">'+s[0]+'<i>→</i>'+s[1]+'</span><span class="m"><span class="l1 pmk">'+pMade(s[2])+'<span class="cnt">'+esc(s[3])+'번</span>'+(s[5]?'<span class="nt">'+esc(s[5])+'</span>':'')+'</span><span class="pmats"><span class="pml">1번에</span>'+pMats(s[4])+'</span></span></div>').join('');
   if(sel.gather)h+=sel.gather.map(g=>'<div class="pr2"><span class="pl">'+g[0]+'</span><span class="m"><span class="l1"><b>'+esc(g[1])+'</b></span><span class="rg">'+esc(g[2])+'</span></span></div>').join('');
   if(sel.tips)h+='<h3>💡 팁</h3>'+sel.tips.map(t=>'<p class="note">• '+esc(t)+'</p>').join('');
   return h+'<p class="note"><a href="'+esc(sel.src)+'" target="_blank" rel="noopener">원본 가이드 ↗</a></p></div>'}
