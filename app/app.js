@@ -1128,16 +1128,25 @@ function klass(c){const C=D_CLS[c.cls],sp=specOf(c),L=c.lv,sec=ui.csec;
 
 /* ===== 직업: 특성 칸 (게임 특성 창처럼 3개 트리, 칸·선행 화살표) ===== */
 const TICO=n=>/^\d+$/.test(String(n))?'https://forg.gg/wow/forever/icons/'+n+'.jpg':ICO(n);
-function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const V=ui.tlv==='60'?60:L;
+/* 직접 찍기: 트리 포인트 5개마다 다음 줄, 선행 특성, 최대 51 */
+function talOk(C,M){const T=C.talents;for(const k in M){const r=M[k];if(!r)continue;const v=T[k];if(!v)return false;if(r>v[2])return false;
+    const low=Object.keys(M).filter(j=>T[j]&&T[j][1]===v[1]&&T[j][5]<v[5]).reduce((a,j)=>a+M[j],0);if(low<(v[5]-1)*5)return false;
+    if(v[7]&&(M[v[7][0]]||0)<v[7][1])return false}
+  return Object.values(M).reduce((a,x)=>a+x,0)<=51}
+function talCan(C,M,k){const v=C.talents[k];const r=M[k]||0;if(r>=v[2])return false;const N=Object.assign({},M);N[k]=r+1;return talOk(C,N)}
+function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const ME=ui.tlv==='me';const V=ui.tlv==='60'?60:L;
   const rk=lv=>{const m={};st.forEach(s=>{if(s[0]<=lv)m[s[1]]=Math.max(m[s[1]]||0,s[2])});return m};
-  const R=rk(V),F=rk(60),Rn=rk(L);
+  const M=(c.tal=c.tal&&c.tal.cls===c.cls?c.tal:{cls:c.cls,r:{}}).r;
+  const R=ME?M:rk(V),F=ME?M:rk(60);const used=Object.values(M).reduce((a,x)=>a+x,0);
   const T=Object.entries(C.talents);const pts=t=>T.filter(([k,v])=>v[1]===t).reduce((a,[k])=>a+(R[k]||0),0);
   const finPts=t=>T.filter(([k,v])=>v[1]===t).reduce((a,[k])=>a+(F[k]||0),0);
   let main=ui.ttree;if(!C.trees.includes(main))main=C.trees.slice().sort((a,b)=>finPts(b)-finPts(a))[0];
-  const P=58,CS=44,O=7;const nowIds=new Set(st.filter(s=>s[0]>=L&&s[0]<=L+1).map(s=>s[1]));
+  const P=58,CS=44,O=7;const nowIds=ME?new Set():new Set(st.filter(s=>s[0]>=L&&s[0]<=L+1).map(s=>s[1]));
   let h='<div class="card talsum"><h3><img class="hic" src="img/ui-target.png" alt="">'+esc(sp.name)+' 특성</h3>'
-    +'<p class="note">레벨 '+L+' · 특성 포인트 <b>'+Math.max(0,L-9)+'개</b>'+(L<10?' (10레벨부터 1개씩 생겨요)':'')+' · 가이드대로 찍은 모습</p>'
-    +'<div class="chips seg tlv"><button class="chip'+(V===L?' on':'')+'" data-a="tlv" data-k="now">지금 Lv '+L+'</button><button class="chip'+(V===60?' on':'')+'" data-a="tlv" data-k="60">60 완성</button></div>'
+    +(ME?'<p class="note">칸을 누르면 1포인트씩 찍혀요 · 쓴 포인트 <b>'+used+'</b>/51 · 필요 레벨 <b>'+(used?used+9:'-')+'</b>'+(used>Math.max(0,L-9)?' <span class="warn">(지금 Lv '+L+'보다 높아요)</span>':'')+'</p>'
+      :'<p class="note">레벨 '+L+' · 특성 포인트 <b>'+Math.max(0,L-9)+'개</b>'+(L<10?' (10레벨부터 1개씩 생겨요)':'')+' · 가이드대로 찍은 모습</p>')
+    +'<div class="chips seg tlv"><button class="chip'+(!ME&&V===L?' on':'')+'" data-a="tlv" data-k="now">지금 Lv '+L+'</button><button class="chip'+(!ME&&V===60?' on':'')+'" data-a="tlv" data-k="60">60 완성</button><button class="chip'+(ME?' on':'')+'" data-a="tlv" data-k="me">✏️ 직접 찍기</button></div>'
+    +(ME?'<div class="tcbtn"><button class="btn sm ghost" data-a="tfill" data-k="'+L+'">가이드대로 Lv '+L+'까지 채우기</button><button class="btn sm ghost" data-a="tfill" data-k="60">가이드 60 완성으로</button><button class="btn sm ghost" data-a="tclr">모두 지우기</button></div>':'')
     +'<div class="chips seg ttabs">'+C.trees.map((t,i)=>'<button class="chip'+(t===main?' on':'')+'" data-a="ttree" data-k="'+esc(t)+'"><img src="'+TICO(C.tic&&C.tic[i])+'" alt="" onerror="this.remove()">'+esc(t)+' <b>'+pts(t)+'</b></button>').join('')+'</div>';
   h+='<div class="tgr">'+C.trees.map((t,i)=>{const L2=T.filter(([k,v])=>v[1]===t&&v[5]);if(!L2.length)return '';const rows=Math.max(7,...L2.map(([k,v])=>v[5]));const W=4*P,H=rows*P;const pos={};L2.forEach(([k,v])=>pos[k]=v);
     let svg='';L2.forEach(([k,v])=>{const q=v[7];if(!q||!pos[q[0]])return;const s0=pos[q[0]];const on=(R[q[0]]||0)>=q[1];const col=on?'#e8c06a':'#6b6457';
@@ -1147,15 +1156,16 @@ function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const V=ui.tlv=
       else{const dir=x2>x1?1:-1;d='M'+(x1+dir*CS/2)+' '+y1+'H'+x2+'V'+(y2-CS/2-6);hd=[x2,y2-CS/2,'v']}
       const [hx,hy,o]=hd;const tri=o==='v'?[hx-6,hy-8,hx+6,hy-8,hx,hy]:o==='r'?[hx-8,hy-6,hx-8,hy+6,hx,hy]:[hx+8,hy-6,hx+8,hy+6,hx,hy];
       svg+='<path d="'+d+'" stroke="'+col+'" stroke-width="3" fill="none"/><polygon points="'+tri.join(',')+'" fill="'+col+'"/>'});
-    let cells=L2.map(([k,v])=>{const r=R[k]||0,f=F[k]||0;const cls=(r?' has':'')+(r>=v[2]?' max':'')+(f>r?' plan':'')+(V===L&&nowIds.has(k)?' now':'')+(ui.tsel===k?' sel':'');
-      return '<button class="tcl'+cls+'" style="left:'+((v[6]-1)*P+O)+'px;top:'+((v[5]-1)*P+O)+'px" data-a="tsel" data-k="'+esc(k)+'" title="'+esc(v[0])+'"><img src="'+TICO(v[3])+'" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'"><span class="trk">'+r+'/'+v[2]+'</span></button>'}).join('');
+    let cells=L2.map(([k,v])=>{const r=R[k]||0,f=F[k]||0;const cls=(r?' has':'')+(r>=v[2]?' max':'')+(!ME&&f>r?' plan':'')+(ME&&!r&&talCan(C,M,k)?' av':'')+(V===L&&nowIds.has(k)?' now':'')+(ui.tsel===k?' sel':'');
+      return '<button class="tcl'+cls+'" style="left:'+((v[6]-1)*P+O)+'px;top:'+((v[5]-1)*P+O)+'px" data-a="'+(ME?'tadd':'tsel')+'" data-k="'+esc(k)+'" title=""'+esc(v[0])+'"><img src="'+TICO(v[3])+'" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'"><span class="trk">'+r+'/'+v[2]+'</span></button>'}).join('');
     let info='';const sel=ui.tsel&&pos[ui.tsel]?ui.tsel:null;
     if(sel){const v=C.talents[sel];const lvs=st.filter(s=>s[1]===sel).map(s=>s[0]);const q=v[7]&&C.talents[v[7][0]];
       info='<div class="tinfo"><div class="tih"><img src="'+TICO(v[3])+'" alt=""><b>'+esc(v[0])+'</b><span class="rk">'+(R[sel]||0)+'/'+v[2]+'</span><button class="x" data-a="tsel" data-k="">✕</button></div>'+(v[4]?'<p>'+esc(v[4])+'</p>':'')
         +(q?'<p class="mute">선행: '+esc(q[0])+' '+v[7][1]+'포인트</p>':'')
-        +'<p class="tlvs">'+(lvs.length?'📌 가이드: Lv '+lvs.join(', ')+'에 찍어요'+(lvs.every(x=>x<=L)?' · 다 찍음 ✓':''):'가이드에서는 안 찍어요')+'</p></div>'}
+        +(ME?'<div class="tpm"><button class="btn sm ghost" data-a="tsub" data-k="'+esc(sel)+'">− 빼기</button><b>'+(R[sel]||0)+'/'+v[2]+'</b><button class="btn sm" data-a="tadd" data-k="'+esc(sel)+'">+ 찍기</button></div>':'')+'<p class="tlvs">'+(lvs.length?'📌 가이드: Lv '+lvs.join(', ')+'에 찍어요'+(lvs.every(x=>x<=L)?' · 다 찍음 ✓':''):'가이드에서는 안 찍어요')+'</p></div>'}
     return '<div class="tt3'+(t===main?' main':'')+'"><div class="tth"><img src="'+TICO(C.tic&&C.tic[i])+'" alt="" onerror="this.remove()"><b>'+esc(t)+'</b><span class="tp">'+pts(t)+'</span></div><div class="tbox" style="width:'+W+'px;height:'+H+'px"><svg width="'+W+'" height="'+H+'">'+svg+'</svg>'+cells+'</div>'+info+'</div>'}).join('')+'</div>';
-  h+='<p class="legend"><span class="lg has"></span>찍음 <span class="lg max"></span>다 찍음 <span class="lg plan"></span>나중에 찍을 것'+(V===L?' <span class="lg now"></span>이번 레벨':'')+' · 칸을 누르면 설명</p>';
+  h+=ME?'<p class="legend"><span class="lg has"></span>찍음 <span class="lg max"></span>다 찍음 <span class="lg av"></span>지금 찍을 수 있음 · 빼려면 칸을 누른 뒤 아래 「− 빼기」</p>'
+    :'<p class="legend"><span class="lg has"></span>찍음 <span class="lg max"></span>다 찍음 <span class="lg plan"></span>나중에 찍을 것'+(V===L?' <span class="lg now"></span>이번 레벨':'')+' · 칸을 누르면 설명</p>';
   return h+'</div>'}
 /* ===== 직업: 특성 ===== */
 function talView(c,C,sp,L){const pts=Math.max(0,L-9);const st=sp.steps.filter(s=>s[0]<=60);
@@ -1260,6 +1270,13 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='tlv'){ui.tlv=k;rerender(true);return}
   if(a==='ttree'){ui.ttree=k;ui.tsel=null;rerender(true);return}
   if(a==='tsel'){ui.tsel=ui.tsel===k?null:k;rerender(true);return}
+  if(a==='tadd'||a==='tsub'){const C=D_CLS[c.cls];if(!c.tal||c.tal.cls!==c.cls)c.tal={cls:c.cls,r:{}};const M=c.tal.r;const v=C.talents[k];ui.tsel=k;
+    if(a==='tadd'){if(talCan(C,M,k)){M[k]=(M[k]||0)+1}else{const r=M[k]||0;const low=Object.keys(M).filter(j=>C.talents[j]&&C.talents[j][1]===v[1]&&C.talents[j][5]<v[5]).reduce((x,j)=>x+M[j],0);
+        toast(r>=v[2]?'이미 다 찍었어요':Object.values(M).reduce((x,y)=>x+y,0)>=51?'포인트 51개를 다 썼어요':low<(v[5]-1)*5?v[1]+'에 '+((v[5]-1)*5-low)+'포인트 더 찍어야 열려요':v[7]?'먼저 '+C.talents[v[7][0]][0]+' '+v[7][1]+'포인트가 필요해요':'찍을 수 없어요')}}
+    else{const r=M[k]||0;if(r){const N=Object.assign({},M);N[k]=r-1;if(!N[k])delete N[k];if(talOk(C,N)){c.tal.r=N}else toast('이 특성이 있어야 하는 다른 특성이 있어서 못 빼요')}}
+    save();rerender(true);return}
+  if(a==='tfill'){const C=D_CLS[c.cls];const sp=specOf(c);const M={};sp.steps.forEach(s=>{if(s[0]<=+k&&C.talents[s[1]])M[s[1]]=Math.max(M[s[1]]||0,s[2])});c.tal={cls:c.cls,r:M};save();toast('가이드대로 채웠어요');rerender(true);return}
+  if(a==='tclr'){c.tal={cls:c.cls,r:{}};ui.tsel=null;save();toast('다 지웠어요');rerender(true);return}
   if(a==='goc'){ui.tab='class';ui.csec=k;render();window.scrollTo(0,0);return}
   if(a==='pf'){ui.pf=k;rerender(true);return}
   if(a==='qmode'){ui.qmode=k;rerender(true);return}

@@ -889,3 +889,10 @@ body.amfull{overflow:hidden}
 .legend .lg{display:inline-block;width:11px;height:11px;border-radius:3px;border:2px solid #4fbf4f;vertical-align:-1px;margin:0 3px 0 6px}
 .legend .lg.max{border-color:#e8c06a}.legend .lg.plan{border:2px dashed #8a7440}.legend .lg.now{border-color:#e8c06a;box-shadow:0 0 6px #e8c06a}
 @media (min-width:1000px){.tt3{display:flex}.ttabs{display:none}}
+.tcbtn{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.tcl.av{border-color:#8f8670}
+.tcl.av img{filter:grayscale(.3) brightness(.85)}
+.tpm{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.tpm b{color:var(--gold);font-size:16px}
+.legend .lg.av{border-color:#8f8670}
+.warn{color:var(--warn)}
