@@ -488,10 +488,30 @@ details.qf summary::-webkit-details-marker{display:none}
 .gp.hi{color:#1a140a;background:#e2c26b;border-color:#e2c26b}
 .gp.no{color:var(--mute);border-color:var(--line);font-weight:400}
 .eqb{flex:none;padding:4px 10px}
+/* 고른 아이콘 */
+.qico{display:inline-block;width:16px;height:16px;border-radius:3px;background-size:cover;vertical-align:-3px;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.6)}
+.legend .qico{margin-right:3px}
+.qsearch>span .qico{width:18px;height:18px}
+/* 던전 퀘스트 앞 연계 경고 */
+.pcw{font-size:11px;font-weight:800;color:#1a0f00;background:#ff9f43;border-radius:6px;padding:1px 6px;margin-right:4px;white-space:nowrap}
+.pcw.ok{background:#2d4a36;color:#9fdcb0}
+.pchainbox{margin:8px 10px 6px;border:2px solid #ff9f43;border-radius:10px;padding:8px;background:rgba(255,159,67,.08)}
+.pchainbox.ok{border-color:#3c6b4a;background:rgba(80,160,110,.08)}
+.pchainbox>b{display:block;color:#ffb36b;font-size:13px;margin-bottom:6px}
+.pchainbox.ok>b{color:#9fdcb0}
+.pcb{display:flex;align-items:center;gap:8px;width:100%;background:none;border:0;border-top:1px solid rgba(255,255,255,.06);padding:6px 2px;color:inherit;text-align:left}
+.pcb .n{flex:none;width:20px;height:20px;border-radius:50%;background:#4a3420;color:#ffb36b;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.pcb.done .n{background:#2d4a36;color:#9fdcb0}
+.pcb .t{flex:1;min-width:0;display:flex;flex-direction:column}
+.pcb .t b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcb .t span{font-size:11px;color:var(--mute)}
+.pcb.done .t b{text-decoration:line-through;opacity:.6}
+.pcb .cv{color:var(--mute)}
+.dinfo .warn{border-color:#ff9f43;color:#ffb36b}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=90939fab"></script>
-<script>/* vbbbca2 */
+<script>/* v3b3649 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -612,6 +632,10 @@ fetch('data/forg/quests.jsonl?'+Math.floor(Date.now()/3600000)).then(r=>r.ok?r.t
 const RWD=new Map();
 fetch('data/forg/rewards.jsonl?'+Math.floor(Date.now()/3600000)).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);RWD.set(o.id,o)}catch(e){}});if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'||ui.sheet))rerender(true)}).catch(()=>{});
 /* 퀘스트 번호로 찾기 (지역 루트 → 던전 퀘스트 순) */
+/* 사용자가 고른 퀘스트 표시 아이콘 (icons.html: 1 2 6 1 3 5 3) */
+const QIC={gear:'inv_shield_06',chain:'inv_scroll_05',xp:'inv_misc_book_09',dg:'inv_misc_key_03',fnew:'spell_holy_holybolt',cls:'spell_holy_sealofmight',quest:'inv_misc_map_01'};
+const QIC_KO={gear:'내 장비 보상',chain:'연계 퀘스트',xp:'경험치 많음',dg:'던전 퀘스트',fnew:'포에버 신규',cls:'직업 퀘스트',quest:'퀘스트'};
+const qico=(k,t)=>'<i class="qico" title="'+esc(t||QIC_KO[k])+'" style="background-image:url('+ICO(QIC[k])+')"></i>';
 /* ===== 맵 전체 퀘스트 (QuestieDB 포에버 자료) ===== */
 let QDB=null,QDB_LOAD=false;
 const CLS_BIT={warrior:1,paladin:2,hunter:4,rogue:8,priest:16,shaman:64,mage:128,warlock:256,druid:1024};
@@ -622,7 +646,7 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
     t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);M.set(o.id,o)}catch(e){}});QDB=M;qdbChains();
     for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
     if(ui.tab==='quest'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}
-let QKIDS={};
+let QKIDS={},QPAR={};
 function qdbChains(){const P={};const K={};const add=(a,b)=>{if(a===b||!QDB.has(a)||!QDB.has(b))return;if(P[b]!=null)return;P[b]=a;(K[a]=K[a]||[]).push(b)};
   /* 1) 앞 퀘스트가 하나뿐이면 그게 부모  2) 다음 퀘스트(nx)  3) 안내 퀘스트(bc)는 대상 퀘스트 앞에 */
   for(const q of QDB.values()){const pp=(q.pre&&q.pre.length===1)?q.pre[0]:(q.pre1&&q.pre1.length===1)?q.pre1[0]:null;if(pp)add(pp,q.id)}
@@ -631,7 +655,7 @@ function qdbChains(){const P={};const K={};const add=(a,b)=>{if(a===b||!QDB.has(
   /* 고리 끊기 */
   for(const id in P){let x=+id,k=0;const seen=new Set();while(P[x]!=null&&k++<40){if(seen.has(x)){delete P[id];break}seen.add(x);x=P[x]}}
   for(const a in K){K[a]=K[a].filter(b=>P[b]===+a).sort((x,y)=>(QDB.get(x).lv-QDB.get(y).lv)||x-y);if(!K[a].length)delete K[a]}
-  QKIDS=K;
+  QKIDS=K;QPAR=P;
   const row=(id,i)=>{const o=QDB.get(id);const t=o.t&&o.t[0];return [i+1,o.n,o.lv,t?t[0]+' '+(t[1]||''):'',o.g?o.g[0]+(o.g[1]?' · '+o.g[1]+(o.g[2]?' ('+o.g[2].replace(',',', ')+')':''):''):'',0,id]};
   for(const q of QDB.values()){delete q._ch;delete q._root;
     const back=[q.id];let x=q.id,k=0;while(P[x]!=null&&k++<30){x=P[x];back.unshift(x)}
@@ -694,7 +718,7 @@ function treeIds(root){const out=[];const st=[root];while(st.length&&out.length<
 function chainTree(c,root,zoneIds,shownIds){const all=treeIds(root).filter(id=>QDB.get(id)&&qdbOk(c,QDB.get(id)));const n=all.length;
   const doneN=all.filter(id=>mqDone(c,QDB.get(id))).length;const lvs=all.map(id=>QDB.get(id).lv).filter(Boolean);
   const nextId=all.find(id=>!mqDone(c,QDB.get(id)));const branchy=all.some(id=>(QKIDS[id]||[]).filter(k=>all.includes(k)).length>1);
-  let h='<div class="chainb"><div class="chh"><span>🔗 연계 퀘스트 <b>'+n+'개</b>'+(branchy?' · 갈래 있음':'')+'</span><span class="mute">Lv '+Math.min(...lvs)+' → '+Math.max(...lvs)+' · '+doneN+'/'+n+' 끝냄</span></div>';
+  let h='<div class="chainb"><div class="chh"><span>'+qico('chain')+' 연계 퀘스트 <b>'+n+'개</b>'+(branchy?' · 갈래 있음':'')+'</span><span class="mute">Lv '+Math.min(...lvs)+' → '+Math.max(...lvs)+' · '+doneN+'/'+n+' 끝냄</span></div>';
   const big=n>10;
   const node=(id,step)=>{const x=QDB.get(id);const cls='chs'+(id===nextId?' cur':'')+(mqDone(c,x)?' fin':'');
     const kids0=(QKIDS[id]||[]).filter(k=>all.includes(k));
@@ -711,7 +735,7 @@ function mqRow(c,q,inCh,same){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inC
   const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
   const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});
   let sub=taskShort({id:q.id,obj:q.o});if(!sub)sub=(q.o||'').slice(0,40);if(lock)sub='🔒 '+q.m+'레벨부터 · '+sub;
-  return qFold({key:'m'+q.id,lite:1,sub,done:d,lock,lv:q.lv,nm:q.n,body,side:same?'<span class="lk">같은 퀘 '+same+'개</span>':ch?'<span class="lk">연계</span>':''})}
+  return qFold({key:'m'+q.id,lite:1,sub,done:d,lock,lv:q.lv,nm:q.n,body,side:(q.id>=10000?qico('fnew'):'')+(q.cls?qico('cls'):'')+(same?'<span class="lk">같은 퀘 '+same+'개</span>':ch?qico('chain'):'')})}
 setTimeout(qdbLoad,1200);
 function questById(id){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.id===id)return {q,z:q.gz||q.sz};
   for(const d of DGS)for(const q of d.q)if(q.id===id)return {q:Object.assign({},q,{dg:d}),z:d.ko,dg:d};return null}
@@ -1041,15 +1065,15 @@ function taskShort(q){const d=QD.get(q.id)||{};const T=tasksOf(d,q.obj||d.obj||'
 function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.length,0),dn=P.reduce((n,h)=>n+h.get.filter(x=>x.done).length,0);
   const left=H=>H.get.filter(x=>!x.done).length+H.turn.filter(x=>!x.done).length;
   const firstOpen=(P.find(H=>left(H))||{}).k;ui.hopen=ui.hopen||{};
-  const IC={gear:'⭐',chain:'🔗',dg:'🏰',xp:'✨'};const used=new Set();
+  const used=new Set();
   let h='<div class="card now"><div class="nh"><div><h3>지금 할 일</h3><span class="mute">'+S.a+'–'+S.b+'레벨 · 위에서부터 차례로</span></div><div class="ring" style="--p:'+(all?Math.round(dn/all*100):0)+'"><b>'+dn+'</b><span>/'+all+'</span></div></div>';
   let n=0;
   const row=(x,turn)=>{const q=x.q;const lock=q.min>c.lv;x.imp.forEach(b=>{if(b[0]!=='chain')used.add(b[0])});
     const chn=x.imp.find(b=>b[0]==='chain');const more=chn?((chn[1].match(/\((\d+)단계\)/)||[])[1]-1):0;
     const ts=turn?'📨 다른 곳에서 받은 퀘스트 · '+(x.rv||'')+'에게 반납':taskShort(q);
     return '<div class="nr'+(x.done?' done':'')+(lock?' lock':'')+'"><label class="ck"><input type="checkbox" data-c="fq" data-id="'+(q.id||'')+'" data-k="'+esc(x.z+'|'+q.nm)+'"'+(x.done?' checked':'')+'></label>'
-     +'<button class="nb" data-a="qopen" data-k="'+q.id+'"><span class="l1"><span class="qnm">'+esc(q.nm)+'</span>'+x.imp.filter(b=>b[0]!=='chain').map(b=>'<i title="'+esc(b[1])+'">'+IC[b[0]]+'</i>').join('')+'<span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></span>'
-     +(ts||lock?'<span class="l2">'+(lock?'🔒 '+q.min+'레벨부터 · ':'')+esc(ts)+'</span>':'')+(more>0?'<span class="l3">🔗 끝내면 다음 퀘스트가 '+more+'개 더 이어져요</span>':'')+'</button></div>'};
+     +'<button class="nb" data-a="qopen" data-k="'+q.id+'"><span class="l1"><span class="qnm">'+esc(q.nm)+'</span>'+x.imp.filter(b=>b[0]!=='chain').map(b=>qico(b[0],b[1])).join('')+(q.id>=10000?qico('fnew'):'')+'<span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></span>'
+     +(ts||lock?'<span class="l2">'+(lock?'🔒 '+q.min+'레벨부터 · ':'')+esc(ts)+'</span>':'')+(more>0?'<span class="l3">'+qico('chain')+' 끝내면 다음 퀘스트가 '+more+'개 더 이어져요</span>':'')+'</button></div>'};
   const LIM=ui.hall?99:3;let shown=0,hid=0;
   h+='<div class="steps">'+P.map(H=>{if(left(H)){if(shown>=LIM){hid++;return ''}shown++}else if(!ui.hall){return ''}const real=H.i<97;if(real)n++;const L=left(H);const todo=H.get.filter(x=>!x.done).sort((a,b)=>a.q.lv-b.q.lv),turn=H.turn.filter(x=>!x.done),done=H.get.filter(x=>x.done);
     const open=ui.hopen[H.k]!=null?ui.hopen[H.k]:H.k===firstOpen;
@@ -1060,7 +1084,7 @@ function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.len
   const finN=P.filter(H=>!left(H)).length;
   if(hid||(!ui.hall&&finN))h+='<button class="btn ghost full sm more2" data-a="hall">'+(hid?'다음 마을 '+hid+'곳 더 보기':'')+(hid&&finN?' · ':'')+(finN?'끝낸 마을 '+finN+'곳':'')+'</button>';
   else if(ui.hall)h+='<button class="btn ghost full sm more2" data-a="hall">접기</button>';
-  if(used.size)h+='<p class="legend">'+[...used].map(k=>IC[k]+' '+{gear:'내 장비 보상',chain:'연계 시작',dg:'던전 관련',xp:'경험치 많음'}[k]).join(' · ')+'</p>';
+  if(used.size)h+='<p class="legend">'+[...used].map(k=>qico(k)+' '+QIC_KO[k]).join(' · ')+'</p>';
   return h+'</div>'}
 /* ===== 퀘스트 검색 ===== */
 function qSearchHtml(c,q){const nq=q.replace(/\s+/g,'');if(nq.length<1)return '';
@@ -1088,7 +1112,7 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
   h+='<details class="rall"><summary>🗺️ 1–60 전체 레벨 루트 보기</summary>'+rows.slice(pastN).join('')+'<p class="note">⛵ 배 타는 곳: '+BOAT+'</p></details>';
   return h}
 function quest(c){const L=c.lv;const qm=ui.qmode||'route';const q0=(ui.qsrch||'').trim();
-  let h='<div class="wrap"><div class="qsearch"><span>🔍</span><input class="inp" placeholder="퀘스트·NPC·지역 이름으로 찾기" value="'+esc(ui.qsrch||'')+'" data-c="qsrch">'+(q0?'<button class="x2" data-a="qsclr">✕</button>':'')+'</div>';
+  let h='<div class="wrap"><div class="qsearch"><span>'+qico('quest')+'</span><input class="inp" placeholder="퀘스트·NPC·지역 이름으로 찾기" value="'+esc(ui.qsrch||'')+'" data-c="qsrch">'+(q0?'<button class="x2" data-a="qsclr">✕</button>':'')+'</div>';
   h+='<div id="qsres">'+(q0?qSearchHtml(c,q0):'')+'</div><div id="qbody"'+(q0?' hidden':'')+'>';
   h+='<div class="chips seg">'+[['route','⚡ 빠른 레벨업'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
   const end='</div></div>';
@@ -1127,15 +1151,23 @@ function dqView(c){const L=c.lv;const near=DGS.filter(d=>d.q.length&&d.q.some(q=
   return h}
 function dqCard(c,d,open){const dq=c.dq||{};const done=d.q.filter(q=>dq[q.id]).length;
   return '<details class="card"'+(open?' open':'')+'><summary style="cursor:pointer;list-style:none"><div class="hd"><h3 style="margin:0">'+esc(d.ko)+'</h3><span class="mute" style="font-size:12px">'+done+'/'+d.q.length+' · 권장 '+d.lo+'–'+d.hi+'</span></div></summary>'+dqList(c,d)+'<button class="more" data-a="dgo" data-k="'+d.slug+'">던전 보스·드랍 보기 ›</button></details>'}
+/* 던전 퀘스트를 받으려면 먼저 해야 하는 연계 */
+function preChain(id){const out=[];let x=id,k=0;while(QPAR[x]!=null&&k++<30){x=QPAR[x];out.unshift(x)}
+  if(!out.length){const X=QDB&&QDB.get(id);const p=X&&((X.pre&&X.pre.length===1&&X.pre[0])||(X.pre1&&X.pre1.length===1&&X.pre1[0]));if(p){out.push(p);let y=p,j=0;while(QPAR[y]!=null&&j++<30){y=QPAR[y];out.unshift(y)}}}
+  return out.filter(i=>QDB&&QDB.get(i))}
+function preChainBox(c,id){const P=preChain(id);if(!P.length)return '';const left=P.filter(i=>!mqDone(c,QDB.get(i)));
+  return '<div class="pchainbox'+(left.length?'':' ok')+'"><b>'+(left.length?'⚠️ 앞 연계 '+P.length+'개를 먼저 끝내야 받을 수 있어요':'✓ 앞 연계 다 끝냈어요')+'</b>'
+   +P.map((i,n)=>{const x=QDB.get(i);const dn=mqDone(c,x);return '<button class="pcb'+(dn?' done':'')+'" data-a="qopen" data-k="'+i+'"><span class="n">'+(dn?'✓':n+1)+'</span><span class="t"><b>['+(x.lv||'?')+'] '+esc(x.n)+'</b><span>'+esc(x.z||'')+(x.g&&x.g[0]?' · '+esc(x.g[0]):'')+'</span></span><span class="cv">›</span></button>'}).join('')+'</div>'}
 function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
   const outQ=d.q.filter(q=>!/던전 안/.test(q.start)&&q.start),inQ=d.q.filter(q=>/던전 안/.test(q.start)||!q.start);
   const row=q=>{const dn=!!dq[q.id],lock=q.min>L;const rw=q.rw.map(id=>IT.get(id)).filter(Boolean);
-    const tags=(q.pre?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+q.min+'레벨부터</span>':'');
+    const pc=preChain(q.id),pcl=pc.filter(i=>!mqDone(c,QDB.get(i))).length;
+    const tags=(q.pre&&!pc.length?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+q.min+'레벨부터</span>':'');
     const inside=/던전 안/.test(q.start||'')||/아이템/.test(q.start||'')||!q.start;
     const extra=(q.boss.length?'<p class="npc">🎯 던전 안 목표: <b>'+q.boss.map(b=>esc(b.replace(/^(\d+) /,'$1번 '))).join(', ')+'</b></p>':'')+'<p class="npc">'+esc((()=>{let t=startTxt(q.start);const o=QD.get(q.id);if(o&&o.g&&latin(o.g[0])){const k=npcKo(o,'g');if(k&&!latin(k))t=t.split(o.g[0]).join(k)}return t})())+'</p>';
     const rwHtml=rw.length?'<div class="rgrid">'+rw.map(it=>'<button class="rt2" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="rn q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</div>':'';
-    const body=parch(c,q.id,{nm:q.nm,obj:q.obj,place:inside?'던전 안에서 시작':'던전 외부 시작',tags,extra,rwHtml,done:dn,kind:'dq',ck:String(q.id),pre:q.pre});
-    return qFold({key:'d'+q.id,done:dn,lock,lv:q.lv,nm:q.nm,body,side:q.side==='alliance'?'얼라이언스':''})};
+    const body=preChainBox(c,q.id)+parch(c,q.id,{nm:q.nm,obj:q.obj,place:inside?'던전 안에서 시작':'던전 외부 시작',tags,extra,rwHtml,done:dn,kind:'dq',ck:String(q.id),pre:q.pre});
+    return qFold({key:'d'+q.id,done:dn,lock,lv:q.lv,nm:q.nm,body,side:(pc.length?'<span class="pcw'+(pcl?'':' ok')+'">'+(pcl?'⚠️ 앞 연계 '+pcl+'개':'✓ 연계 끝')+'</span>':'')+(q.side==='alliance'?'얼라이언스':'')})};
   if(flat)return d.q.map(row).join('');
   return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+outQ.map(row).join(''):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')}
 function startTxt(s){if(!s)return '아이템을 주워서 시작';if(/^시작 · 던전 안/.test(s))return '던전 안에서 받아요';const m=s.match(/^시작 (.+) · 던전 안$/);if(m)return '던전 안 '+m[1]+'에게 받아요';if(/^시작 · /.test(s))return s.replace(/^시작 · /,'')+'에서 시작';return '받는 곳: '+s}
@@ -1170,7 +1202,7 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
   const myUps=items.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01);
   let h='<div class="wrap"><div class="dhero"><img src="'+DG_IMG(d.slug)+'" alt="" onerror="this.remove()"><div class="dt"><h2>'+esc(d.ko)+'</h2><small>'+esc(d.en)+'</small></div></div>';
-  h+='<div class="dinfo"><span>📍 '+esc(d.loc)+'</span><span>🎯 권장 '+d.lo+'–'+d.hi+'</span><span>👹 보스 '+order.length+'</span><span>📜 퀘스트 '+d.q.length+'</span><span>⭐ 내게 좋은 템 '+myUps.length+'</span></div>';
+  h+='<div class="dinfo"><span>📍 '+esc(d.loc)+'</span><span>🎯 권장 '+d.lo+'–'+d.hi+'</span><span>👹 보스 '+order.length+'</span><span>📜 퀘스트 '+d.q.length+'</span>'+(()=>{const n=d.q.filter(q=>preChain(q.id).some(i=>!mqDone(c,QDB.get(i)))).length;return n?'<span class="warn">⚠️ 앞 연계 필요 '+n+'</span>':''})()+'<span>⭐ 내게 좋은 템 '+myUps.length+'</span></div>';
   /* 1. 퀘스트 */
   if(d.q.length)h+='<div class="card"><h3>📜 퀘스트 '+d.q.length+'개</h3>'+dqList(c,d)+'</div>';
   /* 2. 보스 순서대로 */

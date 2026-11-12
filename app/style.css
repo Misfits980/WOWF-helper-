@@ -482,3 +482,23 @@ details.qf summary::-webkit-details-marker{display:none}
 .gp.hi{color:#1a140a;background:#e2c26b;border-color:#e2c26b}
 .gp.no{color:var(--mute);border-color:var(--line);font-weight:400}
 .eqb{flex:none;padding:4px 10px}
+/* 고른 아이콘 */
+.qico{display:inline-block;width:16px;height:16px;border-radius:3px;background-size:cover;vertical-align:-3px;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.6)}
+.legend .qico{margin-right:3px}
+.qsearch>span .qico{width:18px;height:18px}
+/* 던전 퀘스트 앞 연계 경고 */
+.pcw{font-size:11px;font-weight:800;color:#1a0f00;background:#ff9f43;border-radius:6px;padding:1px 6px;margin-right:4px;white-space:nowrap}
+.pcw.ok{background:#2d4a36;color:#9fdcb0}
+.pchainbox{margin:8px 10px 6px;border:2px solid #ff9f43;border-radius:10px;padding:8px;background:rgba(255,159,67,.08)}
+.pchainbox.ok{border-color:#3c6b4a;background:rgba(80,160,110,.08)}
+.pchainbox>b{display:block;color:#ffb36b;font-size:13px;margin-bottom:6px}
+.pchainbox.ok>b{color:#9fdcb0}
+.pcb{display:flex;align-items:center;gap:8px;width:100%;background:none;border:0;border-top:1px solid rgba(255,255,255,.06);padding:6px 2px;color:inherit;text-align:left}
+.pcb .n{flex:none;width:20px;height:20px;border-radius:50%;background:#4a3420;color:#ffb36b;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.pcb.done .n{background:#2d4a36;color:#9fdcb0}
+.pcb .t{flex:1;min-width:0;display:flex;flex-direction:column}
+.pcb .t b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcb .t span{font-size:11px;color:var(--mute)}
+.pcb.done .t b{text-decoration:line-through;opacity:.6}
+.pcb .cv{color:var(--mute)}
+.dinfo .warn{border-color:#ff9f43;color:#ffb36b}
