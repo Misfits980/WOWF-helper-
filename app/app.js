@@ -265,7 +265,9 @@ function mapView(c){const L=c.lv;
   h+='<div class="steps">'+hubs.map((H,ix)=>{const k=o.z+'|'+H.n;const open=ui.mhopen[k]!=null?ui.mhopen[k]:(k===firstK);
     const nm=H.n.replace(/ \(\d+, \d+\)$/,'');
     let b='<div class="st'+(open?' open':'')+'"><button class="sh2" data-a="mh" data-k="'+esc(k)+'"><span class="no">'+(H.i>=998?'·':ix+1)+'</span><span class="hn"><b>'+esc(nm)+'</b><span>Lv '+H.lv+'부터</span></span><span class="hc">'+H.cnt+'개</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
-    if(open)b+='<div class="sb">'+H.g.map(g=>{if(!g.q)return chainTree(c,g.root,zoneIds,shownIds,{hub:H.n,hubOf:x=>hubOf(x)[0]});const same=byNm[g.q.n];return mqRow(c,g.q,0,same.length>1?same.length:0)}).join('')+'</div>';
+    if(open){/* 연계는 한 줄 전체, 이어진 낱개 퀘스트는 묶어서 PC에선 두세 칸으로 */let o='',run='';const flush=()=>{if(run){o+='<div class="sgl">'+run+'</div>';run=''}};
+      H.g.forEach(g=>{if(!g.q){flush();o+=chainTree(c,g.root,zoneIds,shownIds,{hub:H.n,hubOf:x=>hubOf(x)[0]})}else{const same=byNm[g.q.n];run+=mqRow(c,g.q,0,same.length>1?same.length:0)}});flush();
+      b+='<div class="sb">'+o+'</div>'}
     return b+'</div>'}).join('')+'</div>';
   if(f==='now'&&nLeft>nNow)h+='<button class="btn ghost full sm more2" data-a="mf" data-k="left">레벨이 안 맞는 퀘스트 '+(nLeft-nNow)+'개 더 보기</button>';
   return h}
@@ -273,7 +275,7 @@ function treeIds(root){const out=[];const st=[root];while(st.length&&out.length<
 function chainTree(c,root,zoneIds,shownIds,opt){opt=opt||{};const L=c.lv;const all=treeIds(root).filter(id=>QDB.get(id)&&qdbOk(c,QDB.get(id)));const n=all.length;
   const doneN=all.filter(id=>mqDone(c,QDB.get(id))).length;const lvs=all.map(id=>QDB.get(id).lv).filter(Boolean);
   const nextId=all.find(id=>!mqDone(c,QDB.get(id)));const branchy=all.some(id=>(QKIDS[id]||[]).filter(k=>all.includes(k)).length>1);
-  const rootQ=QDB.get(root);ui.chopen=ui.chopen||{};const full=n<=4||!!ui.chopen[root];const pct=n?Math.round(doneN/n*100):0;
+  const rootQ=QDB.get(root);ui.chopen=ui.chopen||{};const full=n<=4||!!ui.chopen[root]||(ui.chopen[root]!==false&&window.matchMedia&&matchMedia('(min-width:1000px)').matches);const pct=n?Math.round(doneN/n*100):0;
   let h='<div class="chainb'+(full?'':' sum')+'"><div class="chh"><span>'+qico('chain')+' <b>'+esc(rootQ?rootQ.n:'연계')+'</b> 연계 · '+n+'단계'+(branchy?' · 갈래 있음':'')+'</span><span class="mute">Lv '+Math.min(...lvs)+'→'+Math.max(...lvs)+' · '+doneN+'/'+n+'</span></div><div class="chbar"><i style="width:'+pct+'%"></i></div>';
   const where=x=>{if(!opt.hubOf||!x)return '';const w=opt.hubOf(x);return w&&w!==opt.hub?w.replace(/ \(\d+, \d+\)$/,''):''};
   if(!full){/* 긴 연계는 다음 단계만 */const nx=nextId!=null?QDB.get(nextId):null;const si=nx?all.indexOf(nextId)+1:0;
@@ -298,7 +300,7 @@ function chainTree(c,root,zoneIds,shownIds,opt){opt=opt||{};const L=c.lv;const a
     if(kids.length===1)r+=node(kids[0],step+1);
     else if(kids.length>1)r+='<div class="chfork"><div class="fk">↳ 여기서 '+kids.length+'갈래로 나뉘어요 (따로따로 받을 수 있어요)</div>'+kids.map((k,i)=>'<div class="chbr"><div class="bl">갈래 '+'ABCDEFGH'[i]+'</div><div class="chflow">'+node(k,step+1)+'</div></div>').join('')+'</div>';
     return r};
-  return h+'<div class="chflow">'+node(root,1)+'</div>'+(n>4?'<button class="chx" data-a="chx" data-k="'+root+'">접기 ⌃</button>':'')+'</div>'}
+  return h+'<div class="chflow">'+node(root,1)+'</div>'+(n>4?'<button class="chx" data-a="chx" data-k="'+root+'" data-f="1">접기 ⌃</button>':'')+'</div>'}
 function qStar(c,id){const R=RWD.get(id);if(!R)return false;for(const x of [...(R.ch||[]),...(R.fx||[])]){const it=IT.get(x[0]);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>.01)return true}}return false}
 function mqRow(c,q,inCh,same,where){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
   const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
@@ -1311,7 +1313,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='rk'){c.dk=c.dk||{};const m=c.dk[ui.dg]=c.dk[ui.dg]||{};if(!m._s)m._s=Date.now();if(m[k])delete m[k];else{m[k]=Date.now();toast('✓ '+k+' 잡음')}save();rerender(true);return}
   if(a==='rkgo'){c.dk=c.dk||{};c.dk[ui.dg]={_s:Date.now()};save();toast('시작! 보스 잡으면 ✓ 눌러 주세요');rerender(true);return}
   if(a==='rkend'){if(c.dk)delete c.dk[ui.dg];save();toast('수고했어요! 체크를 지웠어요');rerender(true);return}
-  if(a==='chx'){ui.chopen=ui.chopen||{};ui.chopen[k]=!ui.chopen[k];rerender(true);return}
+  if(a==='chx'){ui.chopen=ui.chopen||{};ui.chopen[k]=b.dataset.f?false:true;rerender(true);return}
   if(a==='mmgo'){ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=+k;const FO=amFocus(+k);if(FO&&FO.P[0])ui.am={c:FO.P[0].c,z:2.6,cx:FO.P.reduce((a,p)=>a+p.x,0)/FO.P.length,cy:FO.P.reduce((a,p)=>a+p.y,0)/FO.P.length};render();window.scrollTo(0,0);return}
   if(a==='zq'){ui.qmode='map';ui.mz='?|'+k;ui.mf='now';render();window.scrollTo(0,0);return}
   if(a==='dcs'){const dc=document.querySelector('.dchips');if(dc)dc.scrollBy({left:(+k)*dc.clientWidth*.8,behavior:'smooth'});return}

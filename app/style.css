@@ -898,3 +898,79 @@ body.amfull{overflow:hidden}
 .warn{color:var(--warn)}
 .tl .sub{display:block;font-size:13px;color:var(--mute);margin-top:2px}
 .rkill:not(.on){justify-content:flex-start}
+/* 연계: 다른 지역 단계 칸(요약에서도) */
+.chs .awayb{display:flex;flex-direction:column;align-items:flex-start;text-align:left;background:none;border:1px dashed var(--line);border-radius:10px;padding:8px 10px;color:var(--mute);font-size:14px;margin-top:4px;cursor:pointer;font-family:inherit}
+.chs .awayb span{font-size:11px}
+@media (min-width:1000px){
+  .sgl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 10px;align-items:start}
+  .chflow>.chs.fin{opacity:.6}
+  .chflow>.chs.cur>details,.chflow>.chs.cur>.awayb{box-shadow:0 0 0 2px rgba(157,180,242,.55);border-radius:12px}
+}
+@media (min-width:1500px){.sgl{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* ================= 통일 · 촘촘하게 (모든 탭 같은 기준) =================
+   카드 안쪽 10/12 · 카드 사이 8 · 줄 높이 최소 44 · 번호 동그라미 24 · 제목 15 굵게 · 보조 글 12 · 칩 32 · 둥근 정도 12/10 */
+:root{--r:12px;--r2:10px;--fz-t:15px;--fz-s:12px}
+html,body{line-height:1.45}
+.wrap{padding:0 12px}
+h2{font-size:18px;margin:14px 0 6px}
+h3{font-size:15px;margin:12px 0 6px}
+.card{padding:10px 12px;margin:8px 0;border-radius:var(--r)}
+.card h3{font-size:15px;margin:0 0 6px}
+.card .hd{margin-bottom:2px}
+.card .hd h3{margin:0}
+.note{font-size:12.5px;margin:4px 0}
+.chips{gap:6px;padding:4px 0 6px}
+.chip{padding:5px 12px;font-size:13.5px;line-height:1.45}
+.btn{min-height:40px;padding:8px 14px;border-radius:var(--r2)}
+.btn.sm{min-height:32px;padding:4px 11px;font-size:13px}
+.row{padding:7px 0}
+.row .sub,.qrow .sub,.zr .sub,.zh .sub{font-size:var(--fz-s)}
+.qrow{padding:8px 0}
+.tag{font-size:11px}
+/* 줄(접히는 목록) 모양 통일: 던전 동선 · 던전 템 보스 · 지역 · 레벨업 도우미 */
+.rr,.st,.zr,.lhq{border-radius:var(--r2)}
+.rrh,.sh2{padding:8px 10px;gap:9px;min-height:44px}
+.rrh .no,.sh2 .no,.hubh .no{width:24px;height:24px;font-size:12px}
+.rrh .t b,.sh2 .hn b{font-size:var(--fz-t)}
+.rrh .t span,.sh2 .hn span{font-size:var(--fz-s)}
+.rrb{padding:0 10px 10px 43px}
+.rlist{gap:6px}
+.steps{gap:6px}
+.st.bst .bimg.sm{width:36px;height:36px;border-radius:7px}
+.zr{padding:7px 10px}
+.zr.mz{margin-bottom:5px}
+.zh{padding:8px 12px;border-radius:var(--r2)}
+.lhh{padding:8px 2px}
+/* 던전 위쪽: 던전 고르기 띠와 이름 칸을 낮게 */
+.dchips{gap:8px;padding:8px 12px}
+.dchip{padding:5px 11px 5px 5px;gap:8px;border-radius:var(--r2)}
+.dchip img,.dchip .dno{width:36px;height:36px;border-radius:7px;font-size:18px}
+.dchip b{font-size:14px}
+.dchip small{font-size:11px}
+.dhero{margin:8px 0 4px;min-height:0;border-radius:var(--r)}
+.dhero img{height:110px}
+.dhero .dt{padding:16px 12px 8px}
+.dhero:not(:has(img)) .dt{padding:9px 12px}
+.dhero h2{font-size:19px}
+.dhero small{font-size:12px}
+.dinfo{gap:5px;margin:4px 0 6px}
+.dinfo span{font-size:12px;padding:2px 9px}
+.dtabs{margin:6px 0}
+.rsum2 .sum{font-size:13.5px;margin-bottom:6px}
+.rchips{gap:4px}
+.rchips>span{font-size:11.5px;padding:1px 7px}
+.rkill{margin:6px 0}
+.rme{margin:6px 0 0}
+/* 퀘스트 */
+.card.now{padding:10px 12px}
+.card.now .nh{margin-bottom:8px}
+.card.now .nh h3{font-size:17px}
+.chainb{padding:6px 6px 2px;margin:6px 0;border-radius:var(--r)}
+.chh{font-size:12.5px}
+/* 장비 */
+.slot{min-height:46px;padding:5px 7px;border-radius:var(--r2)}
+.doll{gap:5px 8px}
+/* 직업 */
+.talsum .note{margin:2px 0}
+.tlv,.ttabs{margin:4px 0}
