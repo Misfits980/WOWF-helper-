@@ -650,3 +650,51 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
 .amgo{flex:none;width:38px;height:38px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);font-size:16px}
 .amh2{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .amcard .amh{position:static;transform:none;width:auto;height:auto;border:0;background:none;box-shadow:none;color:inherit;display:flex;flex-direction:column;align-items:flex-start;font-weight:400;padding:0}
+/* ===================== PC 화면 (넓은 화면) ===================== */
+@media (min-width:1000px){
+  body{font-size:15px}
+  #app{max-width:none;margin:0;padding:0 0 32px 210px}
+  #app>.wrap,#app>.top,#app>.foot{max-width:1240px;margin-left:auto;margin-right:auto}
+  .wrap{padding:0 24px}
+  .top{padding:10px 24px}
+  /* 왼쪽 메뉴 */
+  .tabs{left:0;top:0;bottom:0;right:auto;width:210px;flex-direction:column;justify-content:flex-start;border-top:0;border-right:1px solid var(--line);padding:18px 10px}
+  .tabs::before{content:'와포 도우미';display:block;font-weight:800;color:var(--gold);font-size:18px;padding:6px 12px 18px}
+  .tabs .in{flex-direction:column;gap:4px;max-width:none}
+  .tabs button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;font-size:15px;padding:11px 14px;border-radius:10px}
+  .tabs button:hover{background:rgba(255,255,255,.05);color:var(--ink,#eee)}
+  .tabs button.on{background:rgba(224,184,90,.12)}
+  .tabs button .e img{width:28px;height:28px}
+  /* 창은 가운데 */
+  .sheet-bg{align-items:center}
+  .sheet{border-radius:16px;border-bottom:1px solid var(--line);max-width:720px;max-height:86vh}
+  .sheet .grab{display:none}
+  /* 홈: 두 줄 */
+  #app.t-home .wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px;align-items:start}
+  #app.t-home .wrap>:not(.card){grid-column:1/-1}
+  /* 마우스 */
+  button,.chip,.zr,.lhq,.rr .rrh{cursor:pointer}
+  .lhq:hover,.zr:hover,.srow:hover{border-color:#5a4a2c}
+}
+@media (min-width:1000px) and (max-width:1239px){.g2 .gL,.dg2 .dgL{max-width:640px;margin:0 auto}}
+@media (min-width:1240px){
+  /* 장비: 인형 왼쪽 고정 · 나머지 오른쪽 */
+  .g2{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:22px;align-items:start}
+  .g2 .gL{position:sticky;top:76px}
+  .g2 .gR>.chips:first-child{margin-top:10px}
+  /* 퀘스트: 지금 할 일 + 레벨업 도우미 나란히 */
+  .q2{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start}
+  .q2>.card{margin-top:10px}
+  /* 지도: 크게 + 오른쪽 정보 칸 */
+  #app.q-atlas .am{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:0 18px;align-items:start}
+  #app.q-atlas .am>.chips,#app.q-atlas .am>p{grid-column:1/-1}
+  #app.q-atlas .amap{height:calc(100vh - 290px);min-height:480px}
+  #app.q-atlas #ampanel{position:sticky;top:76px;margin-top:8px;max-height:calc(100vh - 100px);overflow:auto}
+  #app.q-atlas #ampanel:empty::before{content:'지도에서 점이나 번호를 누르면 여기에 퀘스트가 나와요';display:block;color:var(--mute);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:12px}
+  #app.q-atlas #ampanel .card{margin-top:0}
+  /* 던전: 지도 왼쪽 고정 · 진행 순서 오른쪽 */
+  .dg2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+  .dg2 .dgL{position:sticky;top:76px}
+  .dg2 .dgL:empty{display:none}.dg2:has(.dgL:empty){grid-template-columns:1fr}
+}
+@media (min-width:1500px){#app>.wrap,#app>.top,#app>.foot{max-width:1360px}}

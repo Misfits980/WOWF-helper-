@@ -656,10 +656,58 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
 .amgo{flex:none;width:38px;height:38px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);font-size:16px}
 .amh2{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .amcard .amh{position:static;transform:none;width:auto;height:auto;border:0;background:none;box-shadow:none;color:inherit;display:flex;flex-direction:column;align-items:flex-start;font-weight:400;padding:0}
+/* ===================== PC 화면 (넓은 화면) ===================== */
+@media (min-width:1000px){
+  body{font-size:15px}
+  #app{max-width:none;margin:0;padding:0 0 32px 210px}
+  #app>.wrap,#app>.top,#app>.foot{max-width:1240px;margin-left:auto;margin-right:auto}
+  .wrap{padding:0 24px}
+  .top{padding:10px 24px}
+  /* 왼쪽 메뉴 */
+  .tabs{left:0;top:0;bottom:0;right:auto;width:210px;flex-direction:column;justify-content:flex-start;border-top:0;border-right:1px solid var(--line);padding:18px 10px}
+  .tabs::before{content:'와포 도우미';display:block;font-weight:800;color:var(--gold);font-size:18px;padding:6px 12px 18px}
+  .tabs .in{flex-direction:column;gap:4px;max-width:none}
+  .tabs button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;font-size:15px;padding:11px 14px;border-radius:10px}
+  .tabs button:hover{background:rgba(255,255,255,.05);color:var(--ink,#eee)}
+  .tabs button.on{background:rgba(224,184,90,.12)}
+  .tabs button .e img{width:28px;height:28px}
+  /* 창은 가운데 */
+  .sheet-bg{align-items:center}
+  .sheet{border-radius:16px;border-bottom:1px solid var(--line);max-width:720px;max-height:86vh}
+  .sheet .grab{display:none}
+  /* 홈: 두 줄 */
+  #app.t-home .wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px;align-items:start}
+  #app.t-home .wrap>:not(.card){grid-column:1/-1}
+  /* 마우스 */
+  button,.chip,.zr,.lhq,.rr .rrh{cursor:pointer}
+  .lhq:hover,.zr:hover,.srow:hover{border-color:#5a4a2c}
+}
+@media (min-width:1000px) and (max-width:1239px){.g2 .gL,.dg2 .dgL{max-width:640px;margin:0 auto}}
+@media (min-width:1240px){
+  /* 장비: 인형 왼쪽 고정 · 나머지 오른쪽 */
+  .g2{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:22px;align-items:start}
+  .g2 .gL{position:sticky;top:76px}
+  .g2 .gR>.chips:first-child{margin-top:10px}
+  /* 퀘스트: 지금 할 일 + 레벨업 도우미 나란히 */
+  .q2{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start}
+  .q2>.card{margin-top:10px}
+  /* 지도: 크게 + 오른쪽 정보 칸 */
+  #app.q-atlas .am{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:0 18px;align-items:start}
+  #app.q-atlas .am>.chips,#app.q-atlas .am>p{grid-column:1/-1}
+  #app.q-atlas .amap{height:calc(100vh - 290px);min-height:480px}
+  #app.q-atlas #ampanel{position:sticky;top:76px;margin-top:8px;max-height:calc(100vh - 100px);overflow:auto}
+  #app.q-atlas #ampanel:empty::before{content:'지도에서 점이나 번호를 누르면 여기에 퀘스트가 나와요';display:block;color:var(--mute);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:12px}
+  #app.q-atlas #ampanel .card{margin-top:0}
+  /* 던전: 지도 왼쪽 고정 · 진행 순서 오른쪽 */
+  .dg2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+  .dg2 .dgL{position:sticky;top:76px}
+  .dg2 .dgL:empty{display:none}.dg2:has(.dgL:empty){grid-template-columns:1fr}
+}
+@media (min-width:1500px){#app>.wrap,#app>.top,#app>.foot{max-width:1360px}}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=11d0a56c"></script>
-<script>/* v063bd0 */
+<script>/* v1b36db */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -1202,13 +1250,14 @@ function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let
 function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   const ups=new Set(SLOTS.map(x=>x[0]).filter(s=>!offLocked(c,s)&&bestFor(c,s,L,ui.ifil).length));
   const tot=statTotals(c);const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]-a[1]).map(([k])=>k).slice(0,6);
-  let h='<div class="wrap"><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
+  let h='<div class="wrap g2"><div class="gL"><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
    +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
    +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+Math.round(tot[k]||0)+'</b></div>').join('')+'</div>'
    +'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기</button></div>'
    +'<div class="acol">'+DOLL_R.map(s=>dollCell(c,s,ups)).join('')+'</div></div>'
    +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups)).join('')+'</div>';
   h+='<p class="note" style="text-align:center">칸을 누르면 아래에 지금 장비와 추천이 나와요. <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p>';
+  h+='</div><div class="gR">';
   h+='<div class="chips">'+[['ok','던전·퀘스트로 얻는 것만'],['all','경매장·제작 포함']].map(f=>'<button class="chip'+(ui.ifil===f[0]?' on':'')+'" data-a="ifil" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
   if((W[c.cls]||{})[c.spec]&&W[c.cls][c.spec].heal&&SOLO[c.cls])h+='<div class="chips seg gmode">'+[['heal','💚 힐 위주','파티·던전'],['solo','⚔️ 사냥용','혼자 레벨업']].map(x=>'<button class="chip'+((c.gmode||'heal')===x[0]?' on':'')+'" data-a="gmode" data-k="'+x[0]+'">'+x[1]+' <span class="n">'+x[2]+'</span></button>').join('')+'</div>';
   {const P=prioLine(c);h+='<div class="card prio"><div class="ph2"><b>📊 '+esc((CINFO[c.cls]||[])[0]||'')+' '+esc(sp?sp.name:'')+' 능력치 우선순위</b></div><div class="pl">'+P.map((x,i)=>'<span><i>'+(i+1)+'</i>'+esc(x)+'</span>').join('<em>›</em>')+'</div>'+(whyOf(c)?'<p class="note">'+esc(whyOf(c))+'</p>':'')+'<p class="mute src">기준: '+esc(c.gmode==='solo'&&W[c.cls][c.spec].heal&&SOLO[c.cls]?'사냥용 표(forg 기본표 바탕)':(WSRC[c.cls+'/'+c.spec]||''))+' · forg.gg와 같은 공식</p></div>'}
@@ -1227,7 +1276,7 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
     +' 치명타·적중 같은 % 효과는 "착용 효과" 글에서 읽어서 넣어요. 그 밖의 특수 효과(발동 효과 등)는 점수에 안 들어가니 <b>효과</b> 표시 장비는 직접 견줘 보세요.</p></details>'}
   const soon=upgrades(c,Math.min(60,L+5),ui.ifil,L+1).slice(0,8);
   if(soon.length)h+='<div class="card"><h3>앞으로 5레벨 안에 낄 장비</h3>'+soon.map(x=>upRow(c,x)).join('')+'</div>';
-  return h+'</div>'}
+  return h+'</div></div>'}
 function statChange(c,slot,it){const a=statTotals(c),b=statTotals(c,it,null,slot);const w=wOf(c);const ks=new Set([...Object.keys(a),...Object.keys(b)]);const arr=[];
   ks.forEach(k=>{const d=(b[k]||0)-(a[k]||0);if(Math.abs(d)>=.5&&STAT_KO[k])arr.push([k,d])});arr.sort((x,y)=>(w[y[0]]||0)-(w[x[0]]||0));
   return arr.length?'<div class="chg">'+arr.map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+Math.round(Math.abs(d))+' <i>→ '+Math.round(b[k]||0)+'</i></span>').join('')+'</div>':''}
@@ -1374,9 +1423,9 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
         pins+='<button class="amz'+(RZ.has(z)?' now':'')+'" data-amz="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+QMK.g+'<b>'+o.n+'</b> '+esc(z)+'</button>'}
       vis.filter(p=>!p.qs.length).forEach(p=>{const x=X(p),y=Y(p);if(inV(x,y,20))pins+='<span class="amd" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+'</span>'})}
     else{for(const z in MAPZ){const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(inV(x,y,60))pins+='<span class="amn">'.replace('>',' style="left:'+x+'px;top:'+y+'px">')+esc(z)+'</span>'}
-      const lab=A.z>=2.6;
+      const lab=A.z>=3.3;
       vis.forEach((p,i)=>{const x=X(p),y=Y(p);if(!inV(x,y,20))return;const n=p.qs.length;const lv=n?Math.min(...p.qs.map(q=>q.lv||c.lv)):0;
-        pins+='<button class="amk k-'+p.kind+(n?' '+lvCls(lv,c.lv):'')+(ui.amsel===i?' sel':'')+'" data-amk="'+i+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(n>1?'<b>'+n+'</b>':'')+(lab&&p.nm?'<i>'+esc(p.nm)+'</i>':'')+'</button>'})}
+        pins+='<button class="amk k-'+p.kind+(n?' '+lvCls(lv,c.lv):'')+(ui.amsel===i?' sel':'')+'" data-amk="'+i+'" title="'+esc(p.nm||'')+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(n>1?'<b>'+n+'</b>':'')+(lab&&p.nm?'<i>'+esc(p.nm)+'</i>':'')+'</button>'})}
     /* 동선 번호와 선 */
     const R=st.route.filter(r=>r.c===A.c);if(R.length){svg+='<polyline points="'+R.map(r=>X(r)+','+Y(r)).join(' ')+'" class="amrt"/>';
       R.forEach(r=>{const x=X(r),y=Y(r);if(inV(x,y,30))pins+='<button class="amh'+(ui.amhub===r.no?' sel':'')+'" data-amh="'+r.no+'" style="left:'+x+'px;top:'+y+'px">'+r.no+'</button>'})}
@@ -1475,8 +1524,7 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
   const pastLv=pastN?R[pastN-1].b:0;
   if(pastN){const trail=[];R.slice(0,pastN).forEach(S=>S.z.split(' · ').forEach(z=>{if(trail[trail.length-1]!==z)trail.push(z)}));
     h+='<details class="rpast"><summary><span class="lvb lv-x">1–'+pastLv+'</span> ✓ 지나온 길 '+trail.length+'곳<span class="more">펼치기</span></summary><p class="trail">'+trail.map(esc).join(' → ')+'</p>'+rows.slice(0,pastN).join('')+'</details>'}
-  const curS=R.find(S=>L>=S.a&&L<=S.b);if(curS)h+=nowCard(c,curS);
-  const nxS=R.find(S=>S.a>L);h+=lvHelp(c,curS,nxS);
+  const curS=R.find(S=>L>=S.a&&L<=S.b);const nxS=R.find(S=>S.a>L);h+='<div class="q2">'+(curS?nowCard(c,curS):'')+lvHelp(c,curS,nxS)+'</div>';
   if(nxS)h+='<div class="nextln"><span class="lvb">'+nxS.a+'–'+nxS.b+'</span><span>다음 구간 · <b>'+esc(nxS.z)+'</b></span></div>';
   h+='<details class="rall"><summary>🗺️ 1–60 전체 레벨 루트 보기</summary>'+rows.slice(pastN).join('')+'<p class="note">⛵ 배 타는 곳: '+BOAT+'</p></details>';
   return h}
@@ -1627,6 +1675,7 @@ function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료�
   h+='<div class="rme"><span>내 역할</span>'+['tk','dp','hl'].map(r=>'<button class="rmb'+(r===me?' on':'')+'" data-a="drole" data-k="'+r+'">'+ricon(r)+RNM[r]+'</button>').join('')+'</div>';
   if(g.prep&&g.prep.length)h+='<details class="rprep2"><summary>⚠️ 들어가기 전에 알아 둘 것 '+g.prep.length+'개</summary><ul>'+g.prep.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></details>';
   h+='</div>';
+  h+='<div class="dg2"><div class="dgL">';
   /* 지도: 기본으로 1층만 펼쳐 둠, 핀 누르면 그 단계로 */
   const FL=stepFloor(g);
   if(g.floors&&g.floors.length){const fi=Math.min(ui.dfloor||0,g.floors.length-1);const f=g.floors[fi];
@@ -1635,6 +1684,7 @@ function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료�
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
         if(num)return '<button class="pin n '+(x?'k-'+x.kind:'')+(/!/.test(p.t)?' q':'')+(ui.stopen[n]?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%" data-a="stp" data-k="'+n+'">'+n+'</button>';
         const t=(p.t||'').replace(/\d+$/,'');const to=t.match(/→\s*(.+)$/);return '<span class="pin l" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(to?'↗ '+to[1]:t.replace(/←.*$/,'↙ 들어옴'))+'</span>'}).join('')+'</div><p class="mute src">번호를 누르면 아래 그 단계가 펼쳐져요 · 지도: wowf.io</p></div>'}
+  h+='</div><div class="dgR">';
   /* 진행 순서: 한 줄씩, 누르면 펼침 */
   let lastF=null;
   h+='<div class="rlist">'+S.map(x=>{const st=x.st,fb=x.fb;let r='';const f=FL[st.n];
@@ -1650,6 +1700,7 @@ function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료�
     return r+'</div>'}).join('')+'</div>';
   h+='<div class="rbtns"><button class="btn sm ghost" data-a="stall" data-k="1">모두 펼치기</button><button class="btn sm ghost" data-a="stall" data-k="0">모두 접기</button></div>';
   h+='<p class="legend">⚡ 끊기 · '+ricon('hl','sm')+' 해제 · '+ricon('tk','sm')+' 탱커 주의 · 👥 쫄 나옴 · 🏃 피하기</p><p class="mute src">공략: wowf.io 진행 순서 · forg.gg 보스 기술 (패치로 달라졌을 수 있어요)</p>';
+  h+='</div></div>';
   return h}
 function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map(([nm,b],i)=>'<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(nm)+'</b></div>'+(b.tac?'<ul class="roles">'+roleLines(b.tac)+'</ul>':'')+'</div></li>').join('')+'</ol>'}
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
@@ -1728,7 +1779,7 @@ async function bkImport(code,mode){try{const o=await bkDecode(code);if(!o||!Arra
 if(location.hash.startsWith('#bk=')){const code=location.hash.slice(1);history.replaceState(null,'',location.pathname);setTimeout(()=>{ui.bkpend=code;ui.sheet='bkask';render()},300)}
 function bkAskSheet(){return '<div class="sh"><h2>기록 불러오기</h2><button class="x" data-a="close">✕</button></div><p class="note">링크에 다른 기기의 캐릭터 기록이 들어 있어요. 이 기기에 불러올까요?</p><div class="bkb"><button class="btn" data-a="bkpend" data-k="merge">합치기 (지금 기록 유지)</button><button class="btn ghost" data-a="bkpend" data-k="replace">전부 바꾸기</button></div>'}
 /* ===================== 그리기 ===================== */
-function render(){const app=$('#app');const c=me();
+function render(){const app=$('#app');const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(c);else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
   app.innerHTML=topBar(c)+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요</p>'+tabs()
