@@ -988,8 +988,17 @@ function dropLine(c,it){const use=usable(it,c);const b=use?bestSlot(it,c):null;
   const g=b&&b.g>.01?'<span class="gp'+(b.g>=20?' hi':'')+'">+'+Math.round(b.g)+'</span>':use?'':'<span class="gp no">못 씀</span>';
   return '<div class="dl"><button class="dlb" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+'</span><span class="sub">'+esc((SL_KO[it.sl]||'')+(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?' '+CS_KO[it.cs]:''))+(statTop(it,c)?' · '+esc(statTop(it,c)):'')+'</span></span>'+g+'</button>'+(b&&b.g>.01?'<button class="btn sm eqb" data-a="equip" data-k="'+b.s+'" data-id="'+it.id+'">끼기</button>':'')+'</div>'}
 /* ===== 던전 동선·공략 (wowf.io 진행 순서 + forg.gg 보스 기술) ===== */
+/* wythic.com 던전 자료: 보스별 우두머리 기술·공략 한 줄, 일반 몹 드랍 (매주 받아 옴) */
+const WYID={'deadmines':1581,'hall-of-thanes':16919,'ragefire-chasm':2437,'ruins-of-lordaeron':16611,'wailing-caverns':718,'shadowfang-keep':209,'stockade':717,'blackfathom-deeps':719,'whelgar-excavation':16732,'gnomeregan':721,'sm-graveyard':90018,'sm-armory':90163,'sm-cathedral':90164,'sm-library':90165,'city-of-dalaran':16544,'razorfen-kraul':491,'razorfen-downs':722,'uldaman':1337,'maraudon':2100,'dire-maul-east':90034,'dire-maul-west':90036,'dire-maul-north':90038,'zul-farrak':1176,'stratholme-live':90040,'stratholme-dead':90274,'temple-of-atal-hakkar':1417,'blackrock-depths':1584,'scholomance':2057,'lower-blackrock-spire':90032,'upper-blackrock-spire':90044};
+let WY=null,WY_LOAD=false;
+function wyLoad(){if(WY_LOAD||!D_VER.wy||D_VER.wy==='0')return;WY_LOAD=true;fetch('data/wythic/dungeons.json?v='+D_VER.wy).then(r=>r.ok?r.json():null).then(j=>{WY={};((j&&j.dungeons)||[]).forEach(x=>WY[x.id]=x);if(ui.tab==='dungeon')rerender(true)}).catch(()=>{WY={}})}
+const wnz=x=>String(x||'').replace(/[\s:·,'"!.\-]/g,'').replace(/의/g,'');
+function wyOf(d){return WY&&d?WY[WYID[d.slug]]:null}
+function wyBoss(d,nm){const W=wyOf(d);if(!W)return null;const n=wnz(nm);if(!n)return null;const all=(W.bosses||[]).concat(W.extra||[]);
+  return all.find(b=>wnz(b.npc)===n)||all.find(b=>{const m=wnz(b.npc);return m.length>1&&(m.includes(n)||n.includes(m))})||null}
+const npcThumb=id=>id&&id<200000?'https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/'+(id&255)+'/'+id+'.webp':'';
 let DGG=null,DGG_LOAD=false;
-function dggLoad(){if(DGG_LOAD)return;DGG_LOAD=true;fetch('data/forg/dungeon-guide.json?v='+D_VER.dgg).then(r=>r.ok?r.json():{}).then(j=>{DGG=j||{};if(ui.tab==='dungeon')rerender(true)}).catch(()=>{DGG={};})}
+function dggLoad(){wyLoad();if(DGG_LOAD)return;DGG_LOAD=true;fetch('data/forg/dungeon-guide.json?v='+D_VER.dgg).then(r=>r.ok?r.json():{}).then(j=>{DGG=j||{};if(ui.tab==='dungeon')rerender(true)}).catch(()=>{DGG={};})}
 const TAGKO={interrupt:'끊기','dispel-magic':'마법 해제','dispel-curse':'저주 해제','dispel-poison':'독 해제','dispel-disease':'질병 치료','no-dispel':'해제 안 됨',avoid:'피하기',spread:'흩어지기',away:'떨어져 서기',wall:'벽 등지기',front:'정면 공격'};
 /* 역할 아이콘: 게임 파티 찾기 둥근 배지처럼 (탱커 파랑 방패 · 딜러 빨강 칼 · 힐러 초록 십자) */
 const RIP={tk:'M12 2.5 19.5 5.2V11c0 5-3.2 8.6-7.5 10.3C7.7 19.6 4.5 16 4.5 11V5.2Z',dp:'M18.6 3H21v2.4L11.2 15.2 8.8 12.8ZM5.4 12.6l6 6-1.3 1.3-1.6-1.6-3 3-1.8-1.8 3-3-1.6-1.6Z',hl:'M9.6 3.5h4.8v6.1h6.1v4.8h-6.1v6.1H9.6v-6.1H3.5V9.6h6.1Z',al:'M12 4.5c4.6 0 8 4.4 9 7.5-1 3.1-4.4 7.5-9 7.5S4 15.1 3 12c1-3.1 4.4-7.5 9-7.5Zm0 3.6a3.9 3.9 0 1 0 0 7.8 3.9 3.9 0 0 0 0-7.8Z'};
@@ -1105,7 +1114,8 @@ function dgRoute(c,d){if(!DGG){dggLoad();return '<p class="note">동선 자료�
     if(open){const RS=roleSplit([fb&&fb.tac,st.note],fb&&fb.sp);
       if(RS.how.some(t=>/준비 칸|만드는 법/.test(t))&&g.prep){/* 준비 칸에서 같은 물건 얘기를 찾아 같이 보여 줌 */const W=(RS.how.join(' ').match(/[가-힣]{2,}/g)||[]).map(w=>w.replace(/(?:에서|으로|을|를|이|가|은|는|의|에|로)$/,'')).filter(w=>w.length>=2&&!(d.ko||'').includes(w)&&!/^(희귀|우두머리|입니다|나옵니다|하수도|작은|원형|의식진|쓰면|만드는|법은|준비|칸|있습니다|위)$/.test(w));
         g.prep.filter(x=>W.some(w=>x.includes(w))).forEach(x=>{if(!RS.how.includes(x))RS.how.push(x)});RS.how=RS.how.filter(t=>!/위 준비 칸에 있/.test(t)||RS.how.length===1)}const full=[fb&&fb.tac,st.note!==(fb&&fb.tac)?st.note:''].filter(Boolean);
-      r+='<div class="rrb">'+(RS.loc.length?'<p class="rloc">📍 '+esc(RS.loc.join(' '))+'</p>':'')+(x.kind==='obj'?(full.length?'<p class="onote">'+esc(full.join(' '))+'</p>':''):roleBox(RS,me))
+      const WB=x.kind!=='obj'?wyBoss(d,st.nm):null;
+      r+='<div class="rrb">'+(RS.loc.length?'<p class="rloc">📍 '+esc(RS.loc.join(' '))+'</p>':'')+(WB&&WB.tip?'<div class="rb-wy"><b>⚔️ 우두머리 기술 · 공략</b><p>'+esc(WB.tip)+'</p><small>wythic.com</small></div>':'')+(x.kind==='obj'?(full.length?'<p class="onote">'+esc(full.join(' '))+'</p>':''):roleBox(RS,me))
       +(x.kind!=='obj'&&full.length?'<details class="more3"><summary>설명 전체 보기</summary>'+full.map(t=>'<p>'+esc(t)+'</p>').join('')+'</details>':'')
       +(fb&&fb.sp&&fb.sp.length?'<div class="spl">'+fb.sp.map(y=>'<span class="sp" title="'+esc(y[1])+'">'+esc(y[0])+(y[2]?y[2].split(',').map(t=>'<em class="t-'+t+'">'+(TAGKO[t]||t)+'</em>').join(''):'')+'</span>').join('')+'</div>':'')
       +(st.q||[]).map(q=>'<button class="rq" data-a="qopen" data-k="'+q[0]+'">'+qico('dg')+' '+esc(q[1])+'</button>').join('')
@@ -1132,11 +1142,17 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   h+='<h3 style="margin-top:16px">👹 보스 '+order.length+' <small class="mute">들어가는 순서 · 숫자는 내 장비보다 좋아지는 점수</small></h3>';
   ui.bopen=ui.bopen||{};let firstGood=null;
   const B=order.map((b,i)=>{const its=byBoss[b]||[];const good=its.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01).sort((x,y)=>y.b.g-x.b.g);if(good.length&&firstGood==null)firstGood=i;return {b,i,its,good,rest:its.filter(it=>!good.some(g=>g.it===it))}});
-  h+='<div class="steps">'+B.map(x=>{const k=d.slug+'|'+x.b;const open=ui.bopen[k]!=null?ui.bopen[k]:x.i===firstGood;const img=bossImg(d,x.b,x.i);
+  h+='<div class="steps">'+B.map(x=>{const k=d.slug+'|'+x.b;const open=ui.bopen[k]!=null?ui.bopen[k]:x.i===firstGood;const img=bossImg(d,x.b,x.i)||npcThumb((wyBoss(d,x.b)||{}).id);
     let r='<div class="st bst'+(open?' open':'')+'"><button class="sh2" data-a="bo" data-k="'+esc(k)+'">'+(img?'<span class="bimg sm" style="background-image:url('+img+')"></span>':'<span class="bimg sm none">👹</span>')+'<span class="hn"><b><span class="bno">'+(x.i+1)+'</span>'+esc(x.b)+(killOf(c,d.slug)[x.b]?' <em class="kdm">✓ 잡음</em>':'')+'</b><span>'+(x.good.length?'⭐ 좋은 템 '+x.good.length+'개':'내게 좋은 템 없음')+' · 드랍 '+x.its.length+'</span></span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
-    if(open)r+='<div class="sb">'+x.good.map(g=>dropLine(c,g.it)).join('')+(x.rest.length?'<details class="fold"><summary>다른 드랍 '+x.rest.length+'개</summary>'+x.rest.map(it=>dropLine(c,it)).join('')+'</details>':'')+'</div>';
+    const WB=wyBoss(d,x.b);
+    if(open)r+='<div class="sb">'+(WB&&WB.tip?'<p class="wytip">⚔️ '+esc(WB.tip)+'</p>':'')+x.good.map(g=>dropLine(c,g.it)).join('')+(x.rest.length?'<details class="fold"><summary>다른 드랍 '+x.rest.length+'개</summary>'+x.rest.map(it=>dropLine(c,it)).join('')+'</details>':'')+'</div>';
     return r+'</div>'}).join('')+'</div>';
-  h+='<p class="note"><a href="https://forg.gg/forever/dungeons/'+d.slug+'" target="_blank" rel="noopener">forg.gg에서 지도·보스 공략 보기 ↗</a></p>';
+  const W=wyOf(d);if(!WY)wyLoad();
+  if(W&&W.trash&&W.trash.length){const T=W.trash;const tk=d.slug+'|trash';const open=!!ui.bopen[tk];
+    h+='<div class="steps"><div class="st bst'+(open?' open':'')+'"><button class="sh2" data-a="bo" data-k="'+esc(tk)+'"><span class="bimg sm none">🗡️</span><span class="hn"><b>그 밖의 몹 드랍</b><span>일반 몹·출처 미상 '+T.length+'개</span></span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
+    if(open)h+='<div class="sb">'+T.map(t=>{const it=IT.get(t[0]);return it?dropLine(c,it)+(t[6]?'<p class="wysrc">↳ '+esc(t[6])+'</p>':''):'<div class="wyit q'+t[4]+'"><b>'+esc(t[1])+'</b><span>'+esc([t[2],t[3]?'iLv '+t[3]:'',t[6]].filter(Boolean).join(' · '))+'</span></div>'}).join('')+'</div>';
+    h+='</div></div>'}
+  h+='<p class="note"><a href="https://forg.gg/forever/dungeons/'+d.slug+'" target="_blank" rel="noopener">forg.gg에서 지도·보스 공략 보기 ↗</a>'+(W?' · <a href="https://wythic.com/ko/forever/dungeons/'+W.id+'" target="_blank" rel="noopener">wythic.com에서 보기 ↗</a>':'')+'</p>';
   return h+'</div>'}
 
 /* ===== 보스 잡음 표시 (던전마다, 다시 돌 때 지우기) ===== */
