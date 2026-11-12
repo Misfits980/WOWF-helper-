@@ -1,10 +1,10 @@
-name: wythic 던전 공략 불러오기
+name: wythic 던전 공략·전문기술 불러오기
 on:
   workflow_dispatch:
   schedule:
     - cron: '17 18 * * 1'   # 매주 화요일 새벽(한국)
   push:
-    paths: ['tools/wythic-dungeons.mjs', '.github/workflows/wythic.yml']
+    paths: ['tools/wythic-dungeons.mjs', 'tools/wythic-profs.mjs', '.github/workflows/wythic.yml']
 permissions:
   contents: write
 jobs:
@@ -15,6 +15,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: node tools/wythic-dungeons.mjs
+      - run: node tools/wythic-profs.mjs
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
