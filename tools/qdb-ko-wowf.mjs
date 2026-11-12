@@ -9,7 +9,7 @@ const out='data/qdb/ko-extra.jsonl';const have=new Map();
 if(fs.existsSync(out))for(const l of fs.readFileSync(out,'utf8').split('\n')){if(l){const o=JSON.parse(l);have.set(o.id,o)}}
 const todo=[];
 for(const l of fs.readFileSync('data/qdb/quests.jsonl','utf8').split('\n')){if(!l)continue;const q=JSON.parse(l);
-  if(have.has(q.id))continue;if(lat(q.n)||lat(q.o)||lat(q.g&&q.g[0])||lat(q.r&&q.r[0]))todo.push(q.id)}
+  const hv=have.get(q.id);if(hv&&!(lat(q.n)&&!hv.ft))continue;if(lat(q.n)||lat(q.o)||lat(q.g&&q.g[0])||lat(q.r&&q.r[0]))todo.push(q.id)}
 console.log('할 일',todo.length);let n=0;const t0=Date.now();
 for(const id of todo){if(Date.now()-t0>40*60e3){console.log('시간 다 됨, 다음에 이어서');break}
   const h=await get('https://wowf.io/ko/quests/'+id);const rec={id};
@@ -20,5 +20,8 @@ for(const id of todo){if(Date.now()-t0>40*60e3){console.log('시간 다 됨, 다
     const s0=T.indexOf('퀘스트 목표');if(s0>=0&&T[s0+1]&&!/^(받기|완료|수행)$/.test(T[s0+1]))rec.o=T[s0+1];
     const npc=i=>{if(i<0)return null;let k=i+1;while(k<T.length&&/^[◉●○!?]+$/.test(T[k]))k++;return T[k]};
     const g=npc(T.indexOf('받기',s0));if(g)rec.g=g;const r=npc(T.indexOf('완료',s0));if(r)rec.r=r}
+  const prev=have.get(id)||{};for(const k of ['n','o','g','r'])if(!rec[k]&&prev[k])rec[k]=prev[k];
+  if(!rec.n||lat(rec.n)){const h2=await get('https://forever-tool.com/quests/'+id+'/');rec.ft=1;
+    if(h2){const tt=(h2.match(/<title[^>]*>([^<]*)<\/title>/)||[])[1];if(tt){const nm=dec(tt).split(' (')[0].split(' - ')[0].trim();if(nm&&!lat(nm))rec.n=nm}}}
   have.set(id,rec);n++;if(n%100===0){console.log('wowf',n);fs.writeFileSync(out,[...have.values()].map(o=>JSON.stringify(o)).join('\n')+'\n')}}
 fs.writeFileSync(out,[...have.values()].map(o=>JSON.stringify(o)).join('\n')+'\n');console.log('끝',n);

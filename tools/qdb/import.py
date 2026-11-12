@@ -515,3 +515,11 @@ with open(os.path.join(OUT, 'zone-ko.txt'), 'w', encoding='utf-8') as f:
         if ko:
             f.write('%d|%s|%s\n' % (z, ko, cont or ''))
 print('npc/zone 이름표 끝')
+
+# 장비(무기 2·방어구 4) 목록: 능력치 없는 포에버 장비를 도감에서 채울 때 씀
+with open(os.path.join(OUT, 'item-equip.txt'), 'w', encoding='utf-8') as f:
+    for i, r in sorted(ITEM.items()):
+        cl = r.get(IK['class'])
+        if cl in (2, 4):
+            f.write('%d|%s|%s|%s|%s|%s\n' % (i, cl, r.get(IK['subClass']) if r.get(IK['subClass']) is not None else '', r.get(IK['itemLevel']) or '', r.get(IK['requiredLevel']) or '', ','.join(str(x) for x in (arr(r.get(IK['questRewards'])) or []))))
+print('장비 목록 끝')

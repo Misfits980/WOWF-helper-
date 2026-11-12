@@ -48,6 +48,21 @@ if (Q / 'items-extra.txt').exists():
             f[7] = ';'.join(str(int(x) + off) for x in f[7].split(';') if x != '')
             f[9] = 'extra'
             items.append('|'.join(f))
+if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
+    import sys
+    sys.path.insert(0, str(A))
+    from items_wowf import convert
+    sl_ = srcs.split('\n')
+    si_ = {l: i for i, l in enumerate(sl_)}
+    def sidx(label):
+        if label not in si_:
+            si_[label] = len(sl_); sl_.append(label)
+        return si_[label]
+    have_ = set(int(l.split('|')[0]) for l in items)
+    for line in convert(rd(Q / 'items-wowf.jsonl'), rd(Q / 'item-equip.txt'), sidx):
+        if int(line.split('|')[0]) not in have_:
+            items.append(line)
+    srcs = '\n'.join(sl_)
 ITEMS_TXT = '\n'.join(items) + '\n'
 # 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
 QLV = {}

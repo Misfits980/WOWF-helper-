@@ -44,6 +44,9 @@ jobs:
           git -C /tmp/nx sparse-checkout set data/json
           python3 tools/items-extra.py /tmp/nx/data/json/data.json
         continue-on-error: true
+      - run: node tools/items-wowf.mjs
+        timeout-minutes: 45
+        continue-on-error: true
       - run: python3 app/build.py
       - name: 자료 커밋
         run: |
