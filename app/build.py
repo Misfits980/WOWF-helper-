@@ -125,6 +125,61 @@ for ix, line in enumerate(items):
             _wd = len(_sl); _sl.append('2~월드 드랍~')
         f[7] = str(_wd); items[ix] = '|'.join(f)
 srcs = '\n'.join(_sl)
+
+# 전문기술 표의 영어 아이템·제작 이름을 한글로 (QuestieDB 아이템 영→한, 마법부여는 규칙으로)
+def prof_ko(txt):
+    M = {}
+    for _fn in ('item-en-ko.txt', 'item-en-ko2.txt'):
+        pth = Q / _fn
+        if pth.exists():
+            for l in rd(pth).splitlines():
+                if '|' in l:
+                    en, ko_ = l.split('|', 1)
+                    M.setdefault(en, ko_)
+    wp = Q / 'items-wowf.jsonl'
+    if wp.exists():
+        for l in rd(wp).splitlines():
+            if not l:
+                continue
+            o = json.loads(l)
+            L_ = o.get('lines') or []
+            if o.get('nm') and '영어 이름' in L_:
+                k = L_.index('영어 이름')
+                if k + 1 < len(L_) and not lat(o['nm']):
+                    M.setdefault(L_[k + 1], o['nm'])
+    SL = {'Bracer': '손목', 'Chest': '가슴', 'Cloak': '망토', 'Boots': '장화', 'Gloves': '장갑', 'Weapon': '무기', 'Shield': '방패', '2H Weapon': '양손 무기'}
+    GR = {'Minor': '최하급', 'Lesser': '하급', 'Inferior': '최하급', 'Greater': '상급', 'Superior': '최상급', 'Major': '특급'}
+    EF = {'Stamina': '체력', 'Spirit': '정신력', 'Intellect': '지능', 'Agility': '민첩성', 'Strength': '힘', 'Defense': '방어', 'Deflect': '피해 반사', 'Absorption': '피해 흡수', 'Health': '생명력', 'Mana': '마나', 'Striking': '타격', 'Protection': '보호'}
+    def ench(m):
+        sl, ef = m.group(1), m.group(2).split()
+        g = GR.get(ef[0]) if len(ef) > 1 else None
+        e = EF.get(ef[-1])
+        if sl not in SL or not e:
+            return m.group(0)
+        return SL[sl] + ' 마법부여 - ' + ((g + ' ') if g else '') + e
+    def one(name):
+        n = name.strip()
+        pre = ''
+        if n.startswith('+'):
+            pre, n = '+', n[1:]
+        mc = re.match(r'^(.*?)(\s+[+]?\d+(?:~\d+)?(?:\s*등)?)$', n)
+        base, tail = (mc.group(1), mc.group(2)) if mc else (n, '')
+        tail = tail
+        base0 = base
+        b2 = base.replace("\\'", "'")
+        for cand in (b2, 'Handful of ' + b2, b2 + 's'):
+            if cand in M:
+                return pre + M[cand] + tail
+        e = re.sub(r'^Enchant (2H Weapon|Bracer|Chest|Cloak|Boots|Gloves|Weapon|Shield) - (.+)$', ench, base)
+        return pre + (e if e != base else base) + tail
+    def tr(sq):
+        t = sq.group(1)
+        if not re.search('[A-Za-z]{3}', t) or t.startswith('http') or re.match(r'^[a-z]+$', t):
+            return sq.group(0)
+        parts = re.split(r'(\s*(?:,|/|→|\(|\))\s*)', t)
+        return "'" + ''.join(p if re.match(r'^\s*(?:,|/|→|\(|\))\s*$', p) or not p else one(p) for p in parts) + "'"
+    return re.sub(r"'((?:[^'\\]|\\.)*)'", tr, txt)
+
 ITEMS_TXT = '\n'.join(items) + '\n'
 # 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
 QLV = {}
@@ -156,7 +211,7 @@ data = '\n'.join([
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',
     'const D_BOSS=' + js_str(rd(F / 'bosses.txt') if (F / 'bosses.txt').exists() else '') + ';',
     'const D_CLS=' + json.dumps(slim, ensure_ascii=False, separators=(',', ':')) + ';',
-    rd(A / 'profs.js'),
+    prof_ko(rd(A / 'profs.js')),
     rd(A / 'hubs.js'),
 ])
 (ROOT / 'app-data.js').write_text(data, encoding='utf-8')

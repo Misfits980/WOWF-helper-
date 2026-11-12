@@ -618,3 +618,14 @@ W['nz'] = _nz
 with open(os.path.join(OUT, 'world.json'), 'w', encoding='utf-8') as f:
     json.dump(W, f, ensure_ascii=False, separators=(',', ':'))
 print('출처 몹 지역', len(_nz), '/', len(_nids))
+
+# 아이템 영어 이름 → 한글 (전문기술 재료·제작품 번역용)
+with open(os.path.join(OUT, 'item-en-ko.txt'), 'w', encoding='utf-8') as f:
+    _seen = set()
+    for i, r in sorted(ITEM.items()):
+        en = r.get(IK['name'])
+        ko = ko_item(i)
+        if en and ko and ko != en and not lat(ko) and en not in _seen:
+            _seen.add(en)
+            f.write('%s|%s\n' % (en.replace('|', '/'), ko.replace('|', '/')))
+print('아이템 영→한', len(_seen))

@@ -572,7 +572,7 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   /* 능력치 전체 */
   const all=Object.keys(tot).sort((a,b)=>(w[b]||0)-(w[a]||0));
   h+='<div class="card"><h3>능력치 합계 (장비)</h3>'+(all.length?'<div class="stats">'+all.map(k=>'<div><span'+(w[k]?'':' class="mute"')+'>'+STAT_KO[k]+'</span><b>'+Math.round(tot[k])+'</b></div>').join('')+'</div>':'<p class="note">장비를 넣으면 합계가 나와요.</p>')
-   +'<p class="note">'+esc(ROLE[c.cls+'/'+c.spec]||'')+' 기준 중요한 순서: '+Object.entries(w).filter(([k])=>STAT_KO[k]&&k!=='armor').sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k])=>k==='dps'?'무기 공격력':STAT_KO[k]).join(' > ')+'</p>'
+   +'<p class="note">중요한 순서 (위 우선순위와 같음): '+prioLine(c).map(esc).join(' > ')+'</p>'
    +(w.heal&&HEALER_NOTE[c.cls]?'<p class="note">💡 힐러는 레벨업 동안 방어도보다 <b>치유량·지능</b>이 중요해서 천·가죽 옷도 추천에 많이 나와요. 다른 직업과 겹치지 않게 파티에서 미리 얘기해 두세요.</p>':'')+'</div>';
   {const rows=Object.entries(w).filter(([k,v])=>v>0&&(STAT_KO[k]||k==='rdps')&&k!=='armor').sort((a,b)=>b[1]-a[1]);
    const nm=k=>k==='dps'?'무기 초당 공격력 1':k==='rdps'?'원거리 무기 초당 공격력 1':/crit|hit|dodge|parry|blockp/.test(k)?STAT_KO[k].replace(' %','')+' 1%':STAT_KO[k]+' 1';
@@ -1069,23 +1069,48 @@ function rotHtml(C,txt,L){return esc(txt).replace(/\[([^\]@*]+)(?:@(\d+))?(\*)?\
 function klass(c){const C=D_CLS[c.cls],sp=specOf(c),L=c.lv,sec=ui.csec;
   let h='<div class="wrap"><h2>'+esc(CINFO[c.cls][0])+'</h2><div class="chips">'+C.specs.map(s=>'<button class="chip'+(s.id===c.spec?' on':'')+'" data-a="spec" data-k="'+s.id+'">'+esc(s.name)+'</button>').join('')+'</div>';
   h+='<div class="chips">'+CSEC.map(x=>'<button class="chip'+(sec===x[0]?' on':'')+'" data-a="csec" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
-  if(sec==='tal'){const pts=Math.max(0,L-9);const st=sp.steps;const sum={};st.filter(s=>s[0]<=60).forEach(s=>{const t=C.talents[s[1]];if(t)sum[t[1]]=(sum[t[1]]||0)+1});
-    h+='<div class="card"><h3>'+esc(sp.name)+' 특성 순서</h3><p class="note">레벨 '+L+'이면 특성 포인트 '+pts+'개예요. 60레벨 완성: '+C.trees.map(t=>esc(t)+' '+(sum[t]||0)).join(' · ')+'</p>';
-    const now=st.filter(s=>s[0]>=L-1&&s[0]<=L+4);if(L>=9&&now.length)h+=now.map(s=>talRow(C,s,L)).join('');
-    h+='<details class="fold"><summary>10~60 전체 순서</summary>'+st.map(s=>talRow(C,s,L)).join('')+'</details><p class="note"><a href="https://forg.gg/forever/classes/'+c.cls+'?spec='+sp.id+'" target="_blank" rel="noopener">forg.gg에서 특성 트리로 보기 ↗</a></p></div>'}
+  if(sec==='tal')h+=talView(c,C,sp,L);
   if(sec==='rot'){const blk=(t,arr)=>arr.length?'<div class="card"><h3>'+t+'</h3>'+arr.map(r=>'<div class="rot"><div class="w">'+esc(r[0])+'</div><div>'+rotHtml(C,r[1],L)+'</div></div>').join('')+'</div>':'';
     h+='<p class="note">흐린 기술은 아직 못 배운 거예요. 숫자는 배우는 레벨이에요.</p>'+(L<30?blk('초반 (레벨업)',sp.early)+blk('기본 운영',sp.rot):blk('기본 운영',sp.rot)+blk('초반 (레벨업)',sp.early))+blk('후반',sp.late)}
-  if(sec==='learn'){const ls=C.learns.filter(l=>!l[4]||l[4]==='alliance');
-    h+='<div class="card"><h3>레벨별 배우는 기술</h3><p class="note">직업 상급자에게 배워요. 흐린 건 아직 레벨이 모자라요.</p>'+groupBy(ls,l=>l[0]).filter(([lv])=>lv>=L-4&&lv<=L+6).map(([lv,arr])=>'<div class="tl'+(lv===L||lv===L-1&&L%2?' now':'')+'"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><span class="m">'+arr.map(l=>abChip(l[1],l[5],l[3]?'새 기술':'랭크 '+l[2],lv>L)).join(' ')+'</span></div>').join('')
-     +'<details class="fold"><summary>1~60 전체 보기</summary>'+groupBy(ls,l=>l[0]).map(([lv,arr])=>'<div class="tl"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><span class="m">'+arr.map(l=>abChip(l[1],l[5],l[3]?'':'랭크 '+l[2],lv>L)).join(' ')+'</span></div>').join('')+'</details></div>'}
+  if(sec==='learn')h+=learnView(c,C,L);
   if(sec==='prof')h+=profView(c);
   h+='<p class="note">출처: forg.gg 직업 가이드(Wowhead·Mobalytics 빌드를 정리한 것). 게임 업데이트로 바뀔 수 있어요.</p>';
   return h+'</div>'}
+
+/* ===== 직업: 특성 ===== */
+function talView(c,C,sp,L){const pts=Math.max(0,L-9);const st=sp.steps.filter(s=>s[0]<=60);
+  const by=lv=>{const m={};st.filter(s=>s[0]<=lv).forEach(s=>{const t=C.talents[s[1]];if(t)m[t[1]]=(m[t[1]]||0)+1});return m};
+  const now=by(L),fin=by(60);
+  const row=(s,big)=>{const t=C.talents[s[1]]||[s[1],'',1,'',''];const st_=s[0]<L?'done':s[0]===L?'now':'soon';
+    return '<div class="tr2 '+st_+(big?' big':'')+'"><span class="lvb '+lvCls(s[0],L)+'">'+s[0]+'</span><span class="m"><span class="l1"><b>'+esc(t[0])+'</b><span class="rk">'+s[2]+'/'+t[2]+'</span><span class="tt">'+esc(t[1])+'</span>'+(st_==='done'?'<span class="ok">✓</span>':st_==='now'?'<span class="nw">지금</span>':'')+'</span>'+(t[4]?'<span class="d">'+esc(t[4])+'</span>':'')+'</span></div>'};
+  let h='<div class="card talsum"><h3><img class="hic" src="img/ui-target.png" alt="">'+esc(sp.name)+' 특성</h3><p class="note">레벨 '+L+' · 특성 포인트 <b>'+pts+'개</b>'+(L<10?' (10레벨부터 1개씩 생겨요)':'')+'</p>'
+   +'<div class="tbars">'+C.trees.map(t=>{const n=now[t]||0,f=fin[t]||0;return '<div class="tb"><span class="tn">'+esc(t)+'</span><span class="bar"><i style="width:'+(f?Math.round(n/Math.max(f,1)*100):0)+'%"></i></span><span class="tc"><b>'+n+'</b>'+(f?' / '+f:'')+'</span></div>'}).join('')+'</div>'
+   +'<p class="mute src">지금 레벨까지 가이드대로 찍었을 때 / 60레벨 완성</p></div>';
+  const cur=st.filter(s=>s[0]>=L-1&&s[0]<=L+3);
+  if(L>=9&&cur.length)h+='<div class="card"><h3>지금 찍을 특성</h3>'+cur.map(s=>row(s,1)).join('')+'</div>';
+  const grp={};st.forEach(s=>{const k=Math.floor(s[0]/10)*10;(grp[k]=grp[k]||[]).push(s)});
+  h+='<div class="card"><h3>10~60 전체 순서</h3>'+Object.entries(grp).map(([k,arr])=>{const open=L>=+k&&L<+k+10;return '<details class="tg"'+(open?' open':'')+'><summary><b>'+k+'~'+(+k+9)+'레벨</b><span class="mute">'+arr.length+'개'+(arr.every(s=>s[0]<L)?' · 다 찍음 ✓':'')+'</span></summary>'+arr.map(s=>row(s,0)).join('')+'</details>'}).join('')
+   +'<p class="note"><a href="https://forg.gg/forever/classes/'+c.cls+'?spec='+sp.id+'" target="_blank" rel="noopener">forg.gg에서 특성 트리로 보기 ↗</a></p></div>';
+  return h}
+/* ===== 직업: 기술 습득 (교관 다녀온 레벨 기준) ===== */
+function learnView(c,C,L){if(!WLD)wldLoad();const ls=C.learns.filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;
+  const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const T=(WLD&&WLD.tr[c.cls])||[];const S=routeOf(c).find(S=>L>=S.a&&L<=S.b);const zs=S?S.z.split(' · '):[];
+  const t=T.find(x=>zs.includes(x[1]))||T.find(x=>x[1]===CAPITAL[c.race])||T[0];
+  let h='<div class="card lnow'+(todo.length?'':' ok')+'"><h3><img class="hic" src="img/ui-book.png" alt="">'+(todo.length?'교관에게 배울 기술 '+todo.length+'개':'지금 배울 기술은 다 배웠어요')+'</h3>'
+   +(todo.length?'<div class="abw">'+todo.map(l=>abChip(l[1],l[5],l[3]?'새 기술':'랭크 '+l[2],false)).join('')+'</div>':'')
+   +(t?'<p class="note">가까운 교관: <b>'+esc(t[0])+'</b> · '+esc(t[1])+' '+xyTxt(t[2])+'</p>':'')
+   +(todo.length?'<button class="btn sm" data-a="trn">교관 다녀왔어요 ✓</button>':'<p class="mute">'+(c.trn!=null?c.trn+'레벨에 교관에 다녀왔다고 표시돼 있어요.':'')+'</p>')+'</div>';
+  const near=groupBy(ls,l=>l[0]).filter(([lv])=>lv>=L-4&&lv<=L+6);
+  const st=lv=>lv<=from?'done':lv<=L?'go':'later';
+  h+='<div class="card"><h3>레벨별 배우는 기술</h3><p class="note">✓ 배움 · 🔸 지금 배우러 가기 · 흐림 = 아직 레벨이 모자라요</p>'
+   +near.map(([lv,arr])=>'<div class="tl '+st(lv)+'"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><span class="m">'+(st(lv)==='done'?'<span class="lst ok">✓ 배움</span>':st(lv)==='go'?'<span class="lst go">🔸 배우러 가기</span>':'')+arr.map(l=>abChip(l[1],l[5],l[3]?'새 기술':'랭크 '+l[2],lv>L)).join(' ')+'</span></div>').join('')
+   +'<details class="fold"><summary>1~60 전체 보기</summary>'+groupBy(ls,l=>l[0]).map(([lv,arr])=>'<div class="tl '+st(lv)+'"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><span class="m">'+arr.map(l=>abChip(l[1],l[5],l[3]?'':'랭크 '+l[2],lv>L)).join(' ')+'</span></div>').join('')+'</details></div>';
+  return h}
 function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];let h='<div class="chips">'+PROFS.map(p=>'<button class="chip'+(p===sel?' on':'')+'" data-a="pf" data-k="'+p.id+'">'+esc(p.ko)+'</button>').join('')+'</div>';
   h+='<div class="card"><h3>'+esc(sel.ko)+'</h3>'+(sel.pair?'<p class="note">같이 하면 좋은 기술: '+esc(sel.pair)+'</p>':'');
   h+='<p class="note">등급: '+PROF_RANK.map(r=>r[0]+' '+r[1]+'–'+r[2]+' ('+r[3]+')').join(' · ')+'</p>';
-  if(sel.steps)h+=sel.steps.map(s=>'<div class="tl"><span class="lvb">'+s[0]+'</span><span class="m"><b>'+esc(s[2])+'</b> <span class="mute">×'+esc(s[3])+' → '+s[1]+'</span><span class="sub">'+esc(s[4])+(s[5]?' · '+esc(s[5]):'')+'</span></span></div>').join('');
-  if(sel.gather)h+=sel.gather.map(g=>'<div class="tl"><span class="lvb">'+g[0]+'</span><span class="m"><b>'+esc(g[1])+'</b><span class="sub">'+esc(g[2])+'</span></span></div>').join('');
+  if(sel.steps)h+=sel.steps.map(s=>'<div class="pr2"><span class="pl">'+s[0]+'<i>→</i>'+s[1]+'</span><span class="m"><span class="l1"><b>'+esc(s[2])+'</b><span class="cnt">'+esc(s[3])+'번 만들기</span>'+(s[5]?'<span class="nt">'+esc(s[5])+'</span>':'')+'</span><span class="rg">재료(1번에): '+esc(s[4])+'</span></span></div>').join('');
+  if(sel.gather)h+=sel.gather.map(g=>'<div class="pr2"><span class="pl">'+g[0]+'</span><span class="m"><span class="l1"><b>'+esc(g[1])+'</b></span><span class="rg">'+esc(g[2])+'</span></span></div>').join('');
   if(sel.tips)h+='<h3>팁</h3>'+sel.tips.map(t=>'<p class="note">• '+esc(t)+'</p>').join('');
   return h+'<p class="note"><a href="'+esc(sel.src)+'" target="_blank" rel="noopener">원본 가이드 ↗</a></p></div>'}
 

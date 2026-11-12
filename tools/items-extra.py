@@ -222,3 +222,24 @@ os.makedirs(os.path.join(ROOT, 'data/qdb'), exist_ok=True)
 open(os.path.join(ROOT, 'data/qdb/items-extra.txt'), 'w', encoding='utf-8').write('\n'.join(out) + '\n')
 open(os.path.join(ROOT, 'data/qdb/sources-extra.txt'), 'w', encoding='utf-8').write('\n'.join(S) + '\n')
 print('더한 장비', len(out), '출처', len(S), skipped)
+
+# 모든 클래식 아이템 영어 이름 → 한글 (전문기술 재료 번역용): nexus 번호·영어 + Questie 한글
+try:
+    _ko = {}
+    for _l in open(os.path.join(ROOT, 'data/qdb/item-ko.txt'), encoding='utf-8'):
+        _p = _l.rstrip('\n').split('|')
+        if len(_p) > 1 and _p[0].isdigit():
+            _ko[int(_p[0])] = _p[1]
+    _n = 0
+    with open(os.path.join(ROOT, 'data/qdb/item-en-ko2.txt'), 'w', encoding='utf-8') as f:
+        _seen = set()
+        for _it in D:
+            _i, _en = _it.get('itemId'), _it.get('name')
+            _k = _ko.get(_i)
+            if _en and _k and _en not in _seen and not re.search('[A-Za-z]{3}', _k):
+                _seen.add(_en)
+                f.write('%s|%s\n' % (_en.replace('|', '/'), _k.replace('|', '/')))
+                _n += 1
+    print('영→한 (전체 아이템)', _n)
+except Exception as e:
+    print('영→한 건너뜀', e)
