@@ -109,7 +109,7 @@ def js_str(s):
 def fp(path):
     q = ROOT / path
     return hashlib.md5(q.read_bytes()).hexdigest()[:10] if q.exists() else '0'
-DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json'}.items()}
+DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'world': 'data/qdb/world.json'}.items()}
 data = '\n'.join([
     'const D_VER=' + json.dumps(DVER) + ';',
     '/* 와포 도우미 자료 — forg.gg 공개 페이지에서 GitHub Actions로 모은 것 (tools/forg-*.mjs) */',

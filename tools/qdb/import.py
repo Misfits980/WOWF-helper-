@@ -438,6 +438,8 @@ for qid, q in sorted(QUEST.items()):
         g[0] = x['g']
     if r and lat(r[0]) and x.get('r') and not lat(x['r']):
         r[0] = x['r']
+    if not r and x.get('r'):
+        r = [x['r'], None, None, 'npc']
     if g and lat(g[0]) and (qid, 'g') in FN:
         g[0] = FN[(qid, 'g')]
     if r and lat(r[0]) and (qid, 'r') in FN:
@@ -527,3 +529,64 @@ with open(os.path.join(OUT, 'item-equip.txt'), 'w', encoding='utf-8') as f:
         if cl in (2, 4):
             f.write('%d|%s|%s|%s|%s|%s\n' % (i, cl, r.get(IK['subClass']) if r.get(IK['subClass']) is not None else '', r.get(IK['itemLevel']) or '', r.get(IK['requiredLevel']) or '', ','.join(str(x) for x in (arr(r.get(IK['questRewards'])) or []))))
 print('장비 목록 끝')
+
+# ---------- 레벨업 보강: 비행 조련사 · 여관 주인 · 직업 교관 · 사냥터 ----------
+CLS_EN = {'Warrior': 'warrior', 'Paladin': 'paladin', 'Hunter': 'hunter', 'Rogue': 'rogue', 'Priest': 'priest',
+          'Shaman': 'shaman', 'Mage': 'mage', 'Warlock': 'warlock', 'Druid': 'druid'}
+W = {'fp': [], 'inn': [], 'tr': {}, 'mob': {}}
+
+
+def pts_of(sp, z):
+    out = []
+    for p in arr((sp or {}).get(z)) or []:
+        p = arr(p)
+        if p and len(p) >= 2 and isinstance(p[0], (int, float)) and p[0] >= 0:
+            out.append((p[0], p[1]))
+    return out
+
+
+for i, r in NPC.items():
+    sp = r.get(NK['spawns'])
+    if not isinstance(sp, dict) or not sp:
+        continue
+    fl = r.get(NK['npcFlags']) or 0
+    fr = r.get(NK['friendlyToFaction']) or ''
+    nm = ko_npc(i)
+    if not nm:
+        continue
+    if 'A' in fr and fl & (8 | 128 | 16):
+        z, xy = first_spawn(sp)
+        zk = zone_name(z)[0] if z else None
+        if not zk or not xy:
+            continue
+        row = [nm, zk, xy]
+        if fl & 8:
+            W['fp'].append(row)
+        if fl & 128:
+            W['inn'].append(row)
+        sub = r.get(NK['subName']) or ''
+        m = re.match(r'^(\w+) Trainer$', sub)
+        if fl & 16 and m and m.group(1) in CLS_EN:
+            W['tr'].setdefault(CLS_EN[m.group(1)], []).append(row)
+        continue
+    # 사냥터: 적대적인 일반 몹(정예 빼고), 한 지역에 많이 있는 것
+    if fr or (r.get(NK['rank']) or 0) != 0:
+        continue
+    lo, hi = r.get(NK['minLevel']) or 0, r.get(NK['maxLevel']) or 0
+    if not (1 <= lo <= 62) or lat(nm):
+        continue
+    for z in sp:
+        P = pts_of(sp, z)
+        if len(P) < 8:
+            continue
+        zk, cont = zone_name(z)
+        if not zk or cont in ('던전', '기타', '전장'):
+            continue
+        xs = sorted(p[0] for p in P)
+        ys = sorted(p[1] for p in P)
+        W['mob'].setdefault(zk, []).append([nm, lo, hi, len(P), round(xs[len(xs) // 2]), round(ys[len(ys) // 2])])
+for zk in W['mob']:
+    W['mob'][zk] = sorted(W['mob'][zk], key=lambda x: -x[3])[:40]
+with open(os.path.join(OUT, 'world.json'), 'w', encoding='utf-8') as f:
+    json.dump(W, f, ensure_ascii=False, separators=(',', ':'))
+print('비행', len(W['fp']), '여관', len(W['inn']), '교관', {k: len(v) for k, v in W['tr'].items()}, '사냥터 지역', len(W['mob']))

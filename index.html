@@ -603,10 +603,24 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .rchips .ri,.fl2 .ri,.legend .ri{margin:0 1px}
 img.ri.rimg{border:0;box-shadow:none;background:none;border-radius:50%;object-fit:contain}
 .rme .rmb img.ri{width:24px;height:24px}
+/* 레벨업 도우미 */
+.card.lh h3{margin:0 0 6px;font-size:16px}.card.lh h3 .mute{font-size:12px;font-weight:400;margin-left:4px}
+.lhr{border-top:1px solid var(--line)}
+.lhh{display:flex;align-items:center;gap:8px;width:100%;padding:9px 2px;background:none;border:0;color:inherit;text-align:left;font-size:14px}
+.lhh .lhi{width:24px;flex:none;display:inline-flex;justify-content:center}.lhh b{flex:1;font-weight:600}.lhh .cv{color:var(--mute)}
+.lhb{padding:0 2px 10px 32px;font-size:13px;line-height:1.55}
+.lhb p{margin:4px 0}
+.lhq{display:flex;align-items:center;gap:8px;width:100%;padding:6px 8px;margin:4px 0;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:inherit;text-align:left}
+.lhq .t{flex:1;min-width:0;display:flex;flex-direction:column}.lhq .t b{font-size:13.5px}.lhq .t span{font-size:12px;color:var(--mute)}
+.lhq .qlv{flex:none;min-width:34px;text-align:center}
+.lhm{background:none;border:0;color:#e0b85a;font-size:12.5px;padding:4px 0}
+.lhs{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 6px}
+.lhs span{font-size:12.5px;padding:3px 8px;border-radius:7px;background:var(--panel2);border:1px solid var(--line)}
+.lhs em{font-style:normal;color:#ffe08a;font-size:11px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=28bcd903"></script>
-<script>/* v5cdc13 */
+<script src="app-data.js?v=39706bf4"></script>
+<script>/* v7f0bdc */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -1257,6 +1271,53 @@ function qSearchHtml(c,q){const nq=q.replace(/\s+/g,'');if(nq.length<1)return ''
   if(!n)return '<p class="empty-st">"'+esc(q)+'"(으)로 찾은 퀘스트가 없어요.</p>';
   return '<p class="mute sr">'+n+'개 찾음'+(n>40?' · 가까운 레벨 40개만':'')+'</p><div class="srl">'+R.slice(0,40).map(({x})=>{const d=mqDone(c,x);
     return '<button class="srow'+(d?' done':'')+'" data-a="qopen" data-k="'+x.id+'"><span class="qlv '+lvCls(x.lv,L)+'">'+(x.lv||'?')+'</span><span class="t"><b>'+esc(x.n)+'</b><span>'+esc(x.z||'')+(x.g&&x.g[0]?' · '+esc(x.g[0]):'')+(x.m>L?' · 🔒'+x.m+'레벨부터':'')+'</span></span>'+(d?'<span class="ok">✓</span>':'')+'</button>'}).join('')+'</div>'}
+/* ===== 레벨업 도우미: 직업 퀘스트 · 교관 · 던전 · 이동 · 사냥터 ===== */
+let WLD=null,WLD_LOAD=false;
+function wldLoad(){if(WLD_LOAD)return;WLD_LOAD=true;fetch('data/qdb/world.json?v='+D_VER.world).then(r=>r.ok?r.json():null).then(j=>{WLD=j||{fp:[],inn:[],tr:{},mob:{}};if(ui.tab==='quest')rerender(true)}).catch(()=>{WLD={fp:[],inn:[],tr:{},mob:{}}})}
+const CAPITAL={human:'스톰윈드',dwarf:'아이언포지',gnome:'아이언포지',nightelf:'다르나서스',skyborne:'스톰윈드'};
+const xyTxt=xy=>{const p=(xy||'').split(',');return p.length===2?Math.round(+p[0])+', '+Math.round(+p[1]):''};
+function clsQuests(c){if(!QDB)return null;const L=c.lv;const dn=id=>{const q=QDB.get(id);return q?mqDone(c,q):true};
+  const out=[],seen=new Set();for(const q of QDB.values()){if(!q.cls||!qdbOk(c,q)||mqDone(c,q)||/행사|축제|침공/.test(q.z||''))continue;if((q.m||0)>L+1||(q.lv||0)>L+5||(q.lv||0)<L-10)continue;
+    if(q.pre1&&!dn(q.pre1))continue;if(q.pre&&q.pre.length&&!q.pre.some(dn))continue;if(seen.has(q.n))continue;seen.add(q.n);out.push(q)}
+  return out.sort((a,b)=>(a.m||0)-(b.m||0)||a.lv-b.lv)}
+function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C=D_CLS[c.cls];const zs=S?S.z.split(' · '):[];
+  const CKO=(CINFO[c.cls]||[])[0]||'';let rows=[];
+  /* 1) 직업 퀘스트 */
+  const cq=clsQuests(c);
+  if(cq===null)rows.push(['cls',qico('cls'),CKO+' 직업 퀘스트','<p class="mute">퀘스트 자료를 불러오는 중…</p>']);
+  else if(cq.length){const now=cq.filter(q=>(q.m||0)<=L),soon=cq.filter(q=>(q.m||0)>L);
+    rows.push(['cls',qico('cls'),CKO+' 직업 퀘스트 '+now.length+'개'+(soon.length?' · 곧 '+soon.length+'개':''),
+      now.slice(0,4).map(q=>'<button class="lhq" data-a="qopen" data-k="'+q.id+'"><span class="qlv '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n)+'</b><span>'+(q.g&&q.g[3]==='item'?'📦 아이템으로 시작 · '+esc(q.z||''):q.g&&q.g[0]?esc(q.g[0])+' · '+esc(q.g[1]||'')+(q.g[2]?' '+xyTxt(q.g[2]):''):'')+'</span></span>'+(q.id>=10000?qico('fnew'):'')+'</button>').join('')
+      +(now.length>4?'<button class="lhm" data-a="qmode" data-k="map">나머지 '+(now.length-4)+'개는 맵 전체 › 직업에서</button>':'')
+      +(soon.length?'<p class="mute">🔒 '+soon.slice(0,3).map(q=>esc(q.n)+' ('+q.m+'레벨)').join(' · ')+'</p>':'')])}
+  else{let nm=99,nq=null;for(const q of QDB.values()){if(q.cls&&qdbOk(c,q)&&!mqDone(c,q)&&!/행사|축제|침공/.test(q.z||'')&&(q.m||0)>L&&(q.m||0)<nm&&!q.pre1&&!(q.pre&&q.pre.length)){nm=q.m;nq=q}}
+    rows.push(['cls',qico('cls'),CKO+' 직업 퀘스트','<p class="mute">지금 레벨에 할 직업 퀘스트는 없어요.'+(nq?' 다음은 <b>'+nm+'레벨</b> 「'+esc(nq.n)+'」('+esc(nq.g&&nq.g[1]||nq.z||'')+')부터예요.':'')+'</p>'])}
+  /* 2) 교관 */
+  if(C&&C.learns){const from=c.trn!=null?c.trn:L-2;const ls=C.learns.filter(l=>l[0]>from&&l[0]<=L&&(!l[4]||l[4]==='alliance'));
+    const nx=C.learns.filter(l=>l[0]>L&&(!l[4]||l[4]==='alliance'));const nxL=nx.length?nx[0][0]:0;
+    const T=(WLD&&WLD.tr[c.cls])||[];const t=T.find(x=>zs.includes(x[1]))||T.find(x=>x[1]===CAPITAL[c.race])||T[0];
+    if(ls.length)rows.push(['trn','📖','교관에게 배울 기술 '+ls.length+'개',
+      '<div class="lhs">'+ls.map(l=>'<span>'+esc(l[1])+(l[2]>1?' '+l[2]+'단계':'')+(l[3]?' <em>새 기술</em>':'')+'</span>').join('')+'</div>'
+      +(t?'<p class="mute">가까운 교관: <b>'+esc(t[0])+'</b> · '+esc(t[1])+' '+xyTxt(t[2])+'</p>':'')
+      +'<button class="btn sm ghost" data-a="trn">교관 다녀왔어요</button>']);
+    else if(nxL)rows.push(['trn','📖','교관','<p class="mute">다음 기술은 <b>'+nxL+'레벨</b>에 배워요 ('+nx.filter(l=>l[0]===nxL).map(l=>esc(l[1])).join(' · ')+')</p>'])}
+  /* 3) 던전 */
+  const dq=c.dq||{};const D=DGS.filter(d=>d.lo&&d.lo<=L+1&&d.hi>=L&&d.lo>=10).sort((a,b)=>a.lo-b.lo).slice(0,3);
+  if(D.length)rows.push(['dg',qico('dg'),'지금 갈 만한 던전',D.map(d=>{const n=d.q.filter(q=>(q.min||0)<=L&&!dq[q.id]).length;
+    return '<button class="lhq" data-a="dgo" data-k="'+d.slug+'"><span class="qlv">'+d.lo+'–'+d.hi+'</span><span class="t"><b>'+esc(d.ko)+'</b><span>'+(n?'던전 퀘스트 '+n+'개 · 들어가기 전에 받아 두세요':'던전 퀘스트 없음')+'</span></span></button>'}).join('')]);
+  /* 4) 이동: 이 구간 비행 조련사·여관, 구간 끝나면 다음 구간 */
+  if(WLD&&zs.length){const fpIn=z=>WLD.fp.find(x=>x[1]===z),innIn=z=>WLD.inn.find(x=>x[1]===z);
+    const near=S&&L>=S.b-1&&NX;const tz=near?NX.z.split(' · '):zs;
+    const f=tz.map(fpIn).filter(Boolean)[0],i=tz.map(innIn).filter(Boolean)[0];
+    if(f||i)rows.push(['mv','🦅',near?'다음 구간 가는 길 ('+esc(tz[0])+')':'이 구간 이동',
+      (f?'<p>🦅 비행 조련사 <b>'+esc(f[0])+'</b> · '+esc(f[1])+' '+xyTxt(f[2])+'<br><span class="mute">처음 가면 꼭 말 걸어서 비행 경로를 열어 두세요</span></p>':'')
+      +(i?'<p>🏠 귀환석 <b>'+esc(i[0])+'</b> · '+esc(i[1])+' '+xyTxt(i[2])+'<br><span class="mute">'+(near?'옮겨 가면 여기 여관에 귀환석을 맞추세요':'이 구간 동안 여기 여관에 귀환석을 맞춰 두면 반납하러 오기 편해요')+'</span></p>':'')])}
+  /* 5) 사냥터 (퀘스트가 모자랄 때) */
+  if(WLD&&zs.length){const M=[];zs.forEach(z=>(WLD.mob[z]||[]).forEach(m=>{if(m[1]<=L+1&&m[2]>=L-1)M.push([z,...m])}));M.sort((a,b)=>b[4]-a[4]);
+    if(M.length)rows.push(['grd','⚔️','퀘스트가 모자라면 여기서 사냥',M.slice(0,3).map(m=>'<p><b>'+esc(m[1])+'</b> <span class="qlv '+lvCls(m[3],L)+'">'+(m[2]===m[3]?m[2]:m[2]+'–'+m[3])+'</span><br><span class="mute">'+esc(m[0])+' '+m[5]+', '+m[6]+' 근처 · '+m[4]+'마리쯤</span></p>').join('')])}
+  if(!rows.length)return '';ui.lhopen=ui.lhopen||{};
+  return '<div class="card lh"><h3>🧭 레벨업 도우미 <span class="mute">'+L+'레벨 · '+esc(CKO)+'</span></h3>'+rows.map(r=>{const op=ui.lhopen[r[0]]!=null?ui.lhopen[r[0]]:(r[0]==='cls'||r[0]==='trn');
+    return '<div class="lhr'+(op?' open':'')+'"><button class="lhh" data-a="lh" data-k="'+r[0]+'"><span class="lhi">'+r[1]+'</span><b>'+r[2]+'</b><span class="cv">'+(op?'⌃':'⌄')+'</span></button>'+(op?'<div class="lhb">'+r[3]+'</div>':'')+'</div>'}).join('')+'</div>'}
 function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.fq||{};
   let h='';
   let pastN=0;const rows=R.map(S=>{const zs=S.z.split(' · ');const cs=[...new Set(zs.map(z=>CONT[z]).filter(Boolean))];const now=L>=S.a&&L<=S.b;const past=L>S.b;
@@ -1268,7 +1329,7 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
   if(pastN){const trail=[];R.slice(0,pastN).forEach(S=>S.z.split(' · ').forEach(z=>{if(trail[trail.length-1]!==z)trail.push(z)}));
     h+='<details class="rpast"><summary><span class="lvb lv-x">1–'+pastLv+'</span> ✓ 지나온 길 '+trail.length+'곳<span class="more">펼치기</span></summary><p class="trail">'+trail.map(esc).join(' → ')+'</p>'+rows.slice(0,pastN).join('')+'</details>'}
   const curS=R.find(S=>L>=S.a&&L<=S.b);if(curS)h+=nowCard(c,curS);
-  const nxS=R.find(S=>S.a>L);
+  const nxS=R.find(S=>S.a>L);h+=lvHelp(c,curS,nxS);
   if(nxS)h+='<div class="nextln"><span class="lvb">'+nxS.a+'–'+nxS.b+'</span><span>다음 구간 · <b>'+esc(nxS.z)+'</b></span></div>';
   h+='<details class="rall"><summary>🗺️ 1–60 전체 레벨 루트 보기</summary>'+rows.slice(pastN).join('')+'<p class="note">⛵ 배 타는 곳: '+BOAT+'</p></details>';
   return h}
@@ -1571,6 +1632,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
   if(a==='dtab'){ui.dtab=k;rerender(true);return}
+  if(a==='lh'){ui.lhopen=ui.lhopen||{};const cur=b.closest('.lhr').classList.contains('open');ui.lhopen[k]=!cur;rerender(true);return}
+  if(a==='trn'){c.trn=c.lv;save();toast('교관에서 배운 걸로 표시했어요');rerender(true);return}
   if(a==='drole'){c.drole=k;save();rerender(true);return}
   if(a==='bo'){ui.bopen=ui.bopen||{};const cur=b.closest('.st').classList.contains('open');ui.bopen[k]=!cur;rerender(true);return}
   if(a==='mh'){ui.mhopen=ui.mhopen||{};const cur=b.closest('.st').classList.contains('open');ui.mhopen[k]=!cur;rerender(true);return}

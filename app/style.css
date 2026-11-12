@@ -597,3 +597,17 @@ ul.roles li.it span{color:#ffb0b0;font-weight:600}
 .rchips .ri,.fl2 .ri,.legend .ri{margin:0 1px}
 img.ri.rimg{border:0;box-shadow:none;background:none;border-radius:50%;object-fit:contain}
 .rme .rmb img.ri{width:24px;height:24px}
+/* 레벨업 도우미 */
+.card.lh h3{margin:0 0 6px;font-size:16px}.card.lh h3 .mute{font-size:12px;font-weight:400;margin-left:4px}
+.lhr{border-top:1px solid var(--line)}
+.lhh{display:flex;align-items:center;gap:8px;width:100%;padding:9px 2px;background:none;border:0;color:inherit;text-align:left;font-size:14px}
+.lhh .lhi{width:24px;flex:none;display:inline-flex;justify-content:center}.lhh b{flex:1;font-weight:600}.lhh .cv{color:var(--mute)}
+.lhb{padding:0 2px 10px 32px;font-size:13px;line-height:1.55}
+.lhb p{margin:4px 0}
+.lhq{display:flex;align-items:center;gap:8px;width:100%;padding:6px 8px;margin:4px 0;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:inherit;text-align:left}
+.lhq .t{flex:1;min-width:0;display:flex;flex-direction:column}.lhq .t b{font-size:13.5px}.lhq .t span{font-size:12px;color:var(--mute)}
+.lhq .qlv{flex:none;min-width:34px;text-align:center}
+.lhm{background:none;border:0;color:#e0b85a;font-size:12.5px;padding:4px 0}
+.lhs{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 6px}
+.lhs span{font-size:12.5px;padding:3px 8px;border-radius:7px;background:var(--panel2);border:1px solid var(--line)}
+.lhs em{font-style:normal;color:#ffe08a;font-size:11px}
