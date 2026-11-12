@@ -165,8 +165,7 @@ details.fold summary{color:var(--mute);font-size:13px;cursor:pointer;padding:4px
 .srch:before{content:"🔍";position:absolute;left:10px;top:12px;font-size:15px;opacity:.7}
 .foot{font-size:12px;color:var(--mute);padding:20px 14px;text-align:center}
 .foot a{color:var(--mute)}
-.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#3a301b;border:1px solid var(--gold2);color:var(--gold);padding:8px 16px;border-radius:999px;z-index:60;font-size:14px}
-@media (min-width:560px){.doll{grid-template-columns:1fr 1fr 1fr}}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#3a301b;border:1px solid var(--gold2);color:var(--gold);padding:8px 16px;border-radius:999px;z-index:60;font-size:14px}.doll{grid-template-columns:1fr 1fr 1fr}
 
 /* 전투정보실 모양 */
 .armory{display:grid;grid-template-columns:auto 1fr auto;gap:8px;margin-top:12px;background:radial-gradient(ellipse at 50% 35%,#2c261c 0%,#1a1712 70%);border:1px solid var(--line);border-radius:14px;padding:10px 8px}
@@ -191,8 +190,7 @@ details.fold summary{color:var(--mute);font-size:13px;cursor:pointer;padding:4px
 .rec{border-top:1px solid var(--line);padding:6px 0 10px}
 .chg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12.5px;margin:2px 0 8px 46px}
 .chg .p{color:var(--good)}.chg .n{color:var(--bad)}
-.chg i{font-style:normal;color:var(--mute);font-size:11px}
-@media (min-width:640px){.dc .ic.lg{width:52px;height:52px}.armory{gap:16px;padding:14px}}
+.chg i{font-style:normal;color:var(--mute);font-size:11px}.dc .ic.lg{width:52px;height:52px}.armory{gap:16px;padding:14px}
 
 /* 정보 버튼·출처 */
 .ib{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--gold);font-size:15px;line-height:1;margin-top:6px;padding:0}
@@ -302,13 +300,8 @@ details.qf summary::-webkit-details-marker{display:none}
 /* 던전 상세 */
 .dinfo{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
 .dinfo span{font-size:12.5px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:#d9d2c3}
-.bcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
-.bh{display:flex;align-items:center;gap:12px;margin-bottom:6px}
 .bimg{width:76px;height:76px;flex:none;border-radius:12px;background:#0d0b08 center/cover no-repeat;border:1px solid #5a3f6e;box-shadow:0 0 0 2px #2a1f33,0 0 16px rgba(160,100,220,.18)}
 .bimg.none{display:flex;align-items:center;justify-content:center;font-size:30px}
-.bn{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800}
-.bn .no{width:24px;height:24px;border-radius:6px;background:#3d2a4a;color:#e6c7ff;font-weight:800;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
-.bh .sub{display:block;font-size:12.5px;color:var(--mute);margin-top:2px}
 .drow{display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--line);align-items:flex-start}
 .drow .m{flex:1;min-width:0}
 .drow .nm{display:block;font-weight:700}
@@ -361,26 +354,6 @@ details.qf summary::-webkit-details-marker{display:none}
 .card.now .hd{display:flex;justify-content:space-between;align-items:center}
 .pbar{height:6px;border-radius:4px;background:var(--panel2);overflow:hidden;margin:4px 0 6px}
 .pbar i{display:block;height:100%;background:linear-gradient(90deg,#8a6d2b,#e2c26b)}
-.hubc{border-top:1px solid var(--line);padding:8px 0 4px}
-.hubc.fin{opacity:.55}
-.hubc .hh{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.hubc .hh .no{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--gold,#c9a54a);color:#1a140a;font-weight:800;font-size:12px}
-.hubc .hh .cnt{margin-left:auto;font-size:12px;color:var(--gold,#e2c26b)}
-.hubc .hsub{font-size:12px;color:var(--mute);margin:6px 0 2px}
-.nrow{display:flex;align-items:flex-start;gap:6px;padding:5px 0}
-.nrow .ck input{width:22px;height:22px;margin-top:3px;accent-color:#c9a54a}
-.nrow .nm2{flex:1;display:flex;gap:8px;text-align:left;background:none;border:0;padding:0;color:inherit}
-.nrow .nm2 .t{display:flex;flex-direction:column;min-width:0}
-.nrow .nm2 .s{font-size:12px;color:var(--mute);line-height:1.45}
-.nrow.done .nm2 b{text-decoration:line-through;opacity:.6}
-.nrow.lock{opacity:.6}
-.imps{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
-.imp{font-style:normal;font-size:11px;border-radius:6px;padding:0 6px;line-height:1.7;border:1px solid var(--line)}
-.imp.gear{border-color:#c9a54a;color:#e2c26b}
-.imp.chain{border-color:#5a7bd0;color:#9db4f2}
-.imp.dg{border-color:#b05a4a;color:#f0a090}
-.imp.xp{border-color:#5aa070;color:#9fdcb0}
-.rnext{margin:14px 0 6px;font-size:16px}
 /* 지금 할 일 — 깔끔하게 */
 .card.now{padding:14px 12px}
 .card.now .nh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -455,9 +428,6 @@ details.qf summary::-webkit-details-marker{display:none}
 .chfork .fk{font-size:12px;color:#9db4f2;margin:2px 0 6px}
 .chbr{margin-bottom:6px}
 .chbr .bl{font-size:11px;font-weight:700;color:#9db4f2;margin:4px 0 2px}
-.chs.mini .stp{width:18px;height:18px;margin-top:4px;font-size:10px;margin-left:3px;margin-right:3px}
-.chs.mini::before{top:20px}
-.minib{background:none;border:0;color:var(--mute);font-size:12px;text-align:left;padding:4px 2px}
 /* 맵 전체 한 줄 퀘스트 */
 .qf.lite{margin:0 0 6px}
 .qf.lite summary{padding:9px 10px;gap:8px;align-items:center}
@@ -514,25 +484,17 @@ details.qf summary::-webkit-details-marker{display:none}
 .chrun>.chs{padding:0 8px 6px}
 /* 던전 동선 */
 .dtabs{margin:10px 0}
-.rsum p{margin:6px 0 0;font-size:14px;line-height:1.55}
-.rprep{border-color:#ff9f43}
-.rprep>b{color:#ffb36b}
 ul.roles{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:3px}
 ul.roles li{display:flex;gap:6px;font-size:13px;line-height:1.5;color:#d8cfbd}
 ul.roles li i{font-style:normal;flex:none;width:16px;text-align:center}
 ul.roles li.tk span{color:#ffe08a;font-weight:600}
 ul.roles li.hl span{color:#a8e6bd}
-.rmap{margin:8px 0;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
-.rmap>summary{cursor:pointer;color:var(--mute);font-size:14px}
-.rmap figure{margin:8px 0}
-.rmap figcaption{font-size:12px;color:#e2c26b;margin-bottom:4px}
 .mapw{position:relative;border-radius:8px;overflow:hidden;background:#111;min-height:60px}
 .mapw img{display:block;width:100%;height:auto}
 .mapw.noimg::after{content:'지도 그림을 못 불러왔어요';display:block;padding:20px;color:var(--mute);font-size:12px}
 .pin{position:absolute;transform:translate(-50%,-50%);font-size:11px;font-weight:800;white-space:nowrap;text-shadow:0 1px 3px #000,0 0 6px #000;color:#f2d488}
 .pin.n{width:22px;height:22px;border-radius:50%;background:#1a1208;border:2px solid #e8c170;display:flex;align-items:center;justify-content:center;text-shadow:none}
 .pin.n.q{border-color:#ffd100;box-shadow:0 0 0 2px rgba(255,209,0,.35)}
-.rh{margin:14px 0 6px;font-size:16px}
 ol.route{list-style:none;margin:0;padding:0}
 .rs{position:relative;display:flex;gap:10px;padding:0 0 12px}
 .rs:not(:last-child)::before{content:'';position:absolute;left:13px;top:28px;bottom:0;width:2px;background:var(--line)}
