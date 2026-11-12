@@ -998,11 +998,18 @@ h3{font-size:15px;margin:12px 0 6px}
 p.nchl{border:0;font-size:12px}
 .foot .bld{opacity:.7;font-size:11px}
 .nbw .nb{width:100%}
+/* 전체 화면 지도: 폰 상태바(시계) 밑으로 버튼이 숨지 않게 + 아래에 「작게 보기」 */
+.am.full .amtop{top:calc(8px + env(safe-area-inset-top))}
+.am.full .amctl{top:calc(8px + env(safe-area-inset-top))}
+.am.full .amctl button[data-am=full]{background:#3a2a14;border-color:var(--gold2)}
+.amexit{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:9;padding:9px 18px;border-radius:999px;border:1px solid var(--gold2);background:rgba(40,30,14,.94);color:var(--gold);font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.5);font-family:inherit}
+.am.full .amcur{bottom:calc(64px + env(safe-area-inset-bottom))}
+.amap:has(#ampanel:not(:empty)) .amexit{display:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=d62c41c1"></script>
-<script>/* vb73642 @11/13 01:03 */
-const BUILD='11/13 01:03';
+<script>/* v43432e @11/13 01:14 */
+const BUILD='11/13 01:14';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -1755,7 +1762,7 @@ function amView(c){if(!QDB)qdbLoad();if(!WLD)wldLoad();const F=amF();
    +(ui.amfo?'<div class="ampop"><div class="chips">'+chip('rt','① 동선')+chip('g',QMK.g+'받는 곳')+chip('r',QMK.r+'반납')+chip('tr',AMIC.tr()+'교관')+chip('fp','🦅 비행')+chip('inn','🏠 여관')+'</div>'
      +'<div class="chips seg">'+[['now','내 레벨 ±'],['all','모든 레벨']].map(x=>'<button class="chip'+((F.lv||'now')===x[0]?' on':'')+'" data-a="amlv2" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div></div>':'')
    +'<div class="amctl"><button data-am="full" aria-label="전체 화면">'+(ui.amfull?'✕':'⛶')+'</button><button data-am="in" aria-label="확대">+</button><button data-am="out" aria-label="축소">−</button><button data-am="me" aria-label="지금 구간으로">◎</button></div>'
-   +(QDB?'':'<div class="amload">퀘스트 자료를 불러오는 중…</div>')+'<div id="ampanel"></div></div>'
+   +(QDB?'':'<div class="amload">퀘스트 자료를 불러오는 중…</div>')+(ui.amfull?'<button class="amexit" data-am="full">✕ 작게 보기</button>':'')+'<div id="ampanel"></div></div>'
    +'<p class="mute src amhint">끌어서 움직이고, 두 손가락·두 번 톡·+/− 로 확대 · 번호는 「지금 할 일」 마을 순서 · 지도: wowf.io</p></div>'}
 function amHome(c){const R=amRoute(c);if(R.length)return {c:R[0].c,z:2.6,cx:R[0].x,cy:R[0].y};
   const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);const z=S?S.z.split(' · ')[0]:'';const a=toAtlas(z,'50,50');return a?{c:a.c,z:2,cx:a.x,cy:a.y}:{c:'ek',z:0.3,cx:2560,cy:4864}}
@@ -1812,7 +1819,7 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
   st.draw=draw;draw();
   const zoomAt=(dz,px,py)=>{const A=ui.am,s=2**(A.z-3),W=el.clientWidth,H=el.clientHeight;const ax=A.cx+(px-W/2)/s,ay=A.cy+(py-H/2)/s;A.z+=dz;clamp();const s2=2**(A.z-3);A.cx=ax-(px-W/2)/s2;A.cy=ay-(py-H/2)/s2;draw()};
   st.zoomAt=zoomAt;
-  el.addEventListener('pointerdown',e=>{if(e.target.closest('.amctl,#ampanel,.amtop,.ampop'))return;el.setPointerCapture(e.pointerId);st.ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  el.addEventListener('pointerdown',e=>{if(e.target.closest('.amctl,#ampanel,.amtop,.ampop,.amexit'))return;el.setPointerCapture(e.pointerId);st.ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(st.ptr.size===1)st.drag={x:e.clientX,y:e.clientY,dx:0,dy:0,t:e.target};else{const [a,b]=[...st.ptr.values()];const r=el.getBoundingClientRect();st.pinch={d:Math.hypot(a.x-b.x,a.y-b.y),r:1,cx:(a.x+b.x)/2-r.left,cy:(a.y+b.y)/2-r.top};st.drag=null}});
   el.addEventListener('pointermove',e=>{if(!st.ptr.has(e.pointerId))return;st.ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(st.pinch&&st.ptr.size>=2){const [a,b]=[...st.ptr.values()];st.pinch.r=Math.hypot(a.x-b.x,a.y-b.y)/st.pinch.d;const o=st.pinch.cx+'px '+st.pinch.cy+'px';st.L.style.transformOrigin=st.P.style.transformOrigin=o;st.L.style.transform=st.P.style.transform='scale('+st.pinch.r+')';return}
@@ -1831,7 +1838,7 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
   el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
   el.addEventListener('wheel',e=>{if(e.target.closest('#ampanel,.ampop'))return;e.preventDefault();const r=el.getBoundingClientRect();zoomAt(e.deltaY<0?.5:-.5,e.clientX-r.left,e.clientY-r.top)},{passive:false});
   el.querySelectorAll('[data-am]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const r=el.getBoundingClientRect();const k=b.dataset.am;
-    if(k==='full'){ui.amfull=!ui.amfull;document.body.classList.toggle('amfull',!!ui.amfull);rerender(true);return}
+    if(k==='full'){ui.amfull=!ui.amfull;document.body.classList.toggle('amfull',!!ui.amfull);if(ui.amfull){try{history.pushState({amfull:1},'')}catch(e){}}else if(history.state&&history.state.amfull){try{history.back()}catch(e){}}rerender(true);return}
     if(k==='in')zoomAt(1,r.width/2,r.height/2);else if(k==='out')zoomAt(-1,r.width/2,r.height/2);else{ui.am=amHome(c);ui.amq=null;draw();amPanel(null)}}));
   if(ui.amq)amPanel({kind:'focus'});else if(ui.amzone)amPanel({kind:'zone',zone:ui.amzone});else if(ui.amhub&&st.route.find(x=>x.no===ui.amhub))amPanel(st.route.find(x=>x.no===ui.amhub));else if(ui.amsel!=null&&st.vis&&st.vis[ui.amsel])amPanel(st.vis[ui.amsel])}
 function amRow(c,q,id){return '<div class="amrow"><button class="lhq" data-a="qopen" data-k="'+(id||q.id)+'"><span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n||q.nm)+'</b><span>'+esc(((q.o||'').length>60?(q.o||'').slice(0,58)+'…':(q.o||'')))+'</span></span></button>'+(QDB&&QDB.get(id||q.id)?'<button class="amgo" data-a="amq" data-k="'+(id||q.id)+'" title="지도에 할 일 위치 보기">📍</button>':'')+'</div>'}
@@ -2395,5 +2402,9 @@ document.addEventListener('wheel',e=>{const dc=e.target.closest&&e.target.closes
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-qd]');if(!t)return;e.preventDefault();e.stopPropagation();const c=me();if(!c)return;
   const id=+t.dataset.qd;const q=QDB&&QDB.get(id);c.mq=c.mq||{};if(q&&mqDone(c,q)){delete c.mq[id];if(c.fq)delete c.fq[q.z+'|'+q.n]}else c.mq[id]=1;save();rerender(true);toast(c.mq[id]?'끝냄으로 표시했어요':'끝냄 표시를 뺐어요')},true);
 document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('zinfo')){const was=!!ui.zinfo;ui.zinfo=t.open;if(t.open&&!was)rerender(true)}},true);
+
+/* 전체 화면 지도: 뒤로 가기·Esc로도 작게 */
+window.addEventListener('popstate',()=>{if(ui.amfull){ui.amfull=false;document.body.classList.remove('amfull');rerender(true)}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.amfull){ui.amfull=false;document.body.classList.remove('amfull');if(history.state&&history.state.amfull){try{history.back()}catch(x){}}rerender(true)}});
 </script>
 </body></html>

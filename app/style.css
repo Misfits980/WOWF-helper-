@@ -992,3 +992,10 @@ h3{font-size:15px;margin:12px 0 6px}
 p.nchl{border:0;font-size:12px}
 .foot .bld{opacity:.7;font-size:11px}
 .nbw .nb{width:100%}
+/* 전체 화면 지도: 폰 상태바(시계) 밑으로 버튼이 숨지 않게 + 아래에 「작게 보기」 */
+.am.full .amtop{top:calc(8px + env(safe-area-inset-top))}
+.am.full .amctl{top:calc(8px + env(safe-area-inset-top))}
+.am.full .amctl button[data-am=full]{background:#3a2a14;border-color:var(--gold2)}
+.amexit{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:9;padding:9px 18px;border-radius:999px;border:1px solid var(--gold2);background:rgba(40,30,14,.94);color:var(--gold);font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.5);font-family:inherit}
+.am.full .amcur{bottom:calc(64px + env(safe-area-inset-bottom))}
+.amap:has(#ampanel:not(:empty)) .amexit{display:none}
