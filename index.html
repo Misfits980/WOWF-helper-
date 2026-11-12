@@ -348,10 +348,17 @@ details.qf summary::-webkit-details-marker{display:none}
 .dchips{align-items:center}
 .dgl{flex:none;writing-mode:vertical-rl;font-size:11px;color:#8b93a0;letter-spacing:1px;padding:4px 0;border-left:1px solid #2e333b;margin-left:2px;padding-left:6px}
 .dchips .dgl:first-child{border-left:0;margin-left:0;padding-left:0}
+/* 맵 전체 퀘스트 */
+.zr.mz{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;margin-bottom:6px}
+.zr.mz .lvb{grid-row:span 2;min-width:58px}
+.zr.mz.fit{border-color:var(--gold,#c9a54a);box-shadow:0 0 0 1px rgba(201,165,74,.25)}
+.zr.mz .gd{color:var(--gold,#e2c26b)}
+.mzh{display:flex;align-items:center;gap:10px;margin:6px 0 4px}
+.mzh h3{margin:0;font-size:17px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=7c0db1f1"></script>
-<script>/* v52690d */
+<script src="app-data.js?v=1d3e5ca0"></script>
+<script>/* v5b63d7 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -472,6 +479,57 @@ fetch('data/forg/quests.jsonl?'+Math.floor(Date.now()/3600000)).then(r=>r.ok?r.t
 const RWD=new Map();
 fetch('data/forg/rewards.jsonl?'+Math.floor(Date.now()/3600000)).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);RWD.set(o.id,o)}catch(e){}});if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'||ui.sheet))rerender(true)}).catch(()=>{});
 /* 퀘스트 번호로 찾기 (지역 루트 → 던전 퀘스트 순) */
+/* ===== 맵 전체 퀘스트 (QuestieDB 포에버 자료) ===== */
+let QDB=null,QDB_LOAD=false;
+const CLS_BIT={warrior:1,paladin:2,hunter:4,rogue:8,priest:16,shaman:64,mage:128,warlock:256,druid:1024};
+const RACE_BIT={human:1,dwarf:4,nightelf:8,gnome:64,skyborne:4294967296};
+function qdbOk(c,q){if(q.cls&&!(q.cls&(CLS_BIT[c.cls]||0)))return false;if(q.rc){const b=RACE_BIT[c.race]||0;if(b&&Math.floor(q.rc/b)%2===0)return false}return true}
+function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
+  fetch('data/qdb/quests.jsonl?'+Math.floor(Date.now()/3600000)).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();
+    t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);M.set(o.id,o)}catch(e){}});QDB=M;qdbChains();
+    for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
+    if(ui.tab==='quest'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}
+function qdbChains(){const P={},N={};for(const q of QDB.values()){if(q.nx&&QDB.has(q.nx)){N[q.id]=q.nx;if(!P[q.nx])P[q.nx]=q.id}}
+  for(const q of QDB.values())if(q.pre&&q.pre.length===1&&!P[q.id]&&QDB.has(q.pre[0])){P[q.id]=q.pre[0];if(!N[q.pre[0]])N[q.pre[0]]=q.id}
+  const done=new Set();
+  for(const q of QDB.values()){if(done.has(q.id))continue;let r=q.id,k=0;while(P[r]&&k++<20)r=P[r];const ids=[];let x=r;k=0;while(x&&!ids.includes(x)&&k++<20){ids.push(x);x=N[x]}
+    if(ids.length<2){continue}
+    const rows=ids.map((id,i)=>{const o=QDB.get(id);const t=o.t&&o.t[0];return [i+1,o.n,o.lv,t?t[0]+' '+(t[1]||''):'',o.g?o.g[0]+(o.g[1]?' · '+o.g[1]+(o.g[2]?' ('+o.g[2].replace(',',', ')+')':''):''):'',0,id]});
+    ids.forEach(id=>{done.add(id);QDB.get(id)._ch=rows})}}
+function qdbToQD(q){const drop=t=>t[2]&&t[2].length?t[2].map(x=>x[0]+(x[1]?' (Lv '+x[1]+')':'')).join(', '):'';
+  return {id:q.id,src:'qdb',obj:q.o,g:q.g?[q.g[0],q.g[1]||'',q.g[2]||'','']:null,
+    r:q.r?[q.r[0],q.r[1]||'',q.r[2]||'',q.g&&q.r[0]===q.g[0]&&q.r[2]===q.g[2]?'same':'']:null,
+    t:(q.t||[]).map(t=>[t[0],t[1],'',drop(t)]),ch:q._ch||null}}
+const MC_ORDER=['동부 왕국','칼림도어','리버글레이드','제프라스 섬','던전','직업','기타'];
+const MC_IC={'동부 왕국':'🏰','칼림도어':'🌴','리버글레이드':'🌊','제프라스 섬':'🏝️','던전':'⚔️','직업':'🎓','기타':'🎉'};
+function mqDone(c,q){return !!((c.mq||{})[q.id]||(c.fq||{})[q.z+'|'+q.n])}
+function mapView(c){const L=c.lv;
+  if(!QDB){qdbLoad();return '<p class="empty-st">맵 전체 퀘스트를 불러오는 중이에요…</p>'}
+  if(!QDB.size)return '<p class="empty-st">퀘스트 자료를 못 불러왔어요. 잠시 뒤에 다시 열어 주세요.</p>';
+  const all=[...QDB.values()].filter(q=>qdbOk(c,q)&&q.z);
+  const Z={};for(const q of all){const k=q.c+'|'+q.z;(Z[k]=Z[k]||{c:q.c||'기타',z:q.z,q:[]}).q.push(q)}
+  const zs=Object.values(Z).map(o=>{const lv=o.q.map(q=>q.lv).filter(x=>x>0).sort((a,b)=>a-b);o.lo=lv[Math.floor(lv.length*.1)]||0;o.hi=lv[Math.min(lv.length-1,Math.floor(lv.length*.9))]||0;o.mid=lv[Math.floor(lv.length/2)]||0;o.done=o.q.filter(q=>mqDone(c,q)).length;return o});
+  const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);const myZ=sec?sec.z.split(' · ')[0]:'';
+  let mc=ui.mc||(zs.find(o=>o.z===myZ)||{}).c||'동부 왕국';
+  let h='<p class="note">포에버 퀘스트 <b>'+all.length.toLocaleString()+'개</b>를 지역마다 모았어요. ⚡ 빠른 레벨업 루트에 없는 퀘스트도 다 있어요. (자료: Questie 포에버 DB · 이름은 한글 도감)</p>';
+  h+='<div class="chips">'+MC_ORDER.filter(m=>zs.some(o=>o.c===m)).map(m=>'<button class="chip'+(mc===m?' on':'')+'" data-a="mc" data-k="'+m+'">'+(MC_IC[m]||'')+' '+m+'</button>').join('')+'</div>';
+  const zk=ui.mz&&Z[ui.mz]?ui.mz:null;
+  const CKO={warrior:'전사',paladin:'성기사',hunter:'사냥꾼',rogue:'도적',priest:'사제',shaman:'주술사',mage:'마법사',warlock:'흑마법사',druid:'드루이드'}[c.cls]||'';
+  if(!zk){const list=zs.filter(o=>o.c===mc&&(mc!=='직업'||o.z.startsWith(CKO+' '))).sort((a,b)=>a.mid-b.mid||a.z.localeCompare(b.z));
+    return h+list.map(o=>{const n=o.q.filter(q=>q.lv>=L-3&&q.lv<=L+3&&q.m<=L&&!mqDone(c,q)).length;const fit=n>=3;
+      return '<button class="zr mz'+(fit?' fit':'')+'" data-a="mz" data-k="'+esc(o.c+'|'+o.z)+'"><span class="lvb '+(fit?'lv-y':L>o.hi?'lv-x':'')+'">'+(o.lo&&o.hi?o.lo+'–'+o.hi:'—')+'</span><b>'+esc(o.z)+'</b><span class="sub">퀘스트 '+o.q.length+'개'+(o.done?' · '+o.done+'개 끝냄':'')+(fit&&n?' · <b class="gd">지금 할 만한 것 '+n+'개</b>':'')+'</span></button>'}).join('')}
+  const o=Z[zk];const f=ui.mf||'near';
+  let qs=o.q.slice().sort((a,b)=>a.lv-b.lv||a.m-b.m||a.id-b.id);
+  if(f==='near')qs=qs.filter(q=>q.lv>=L-4&&q.lv<=L+4);if(f==='left')qs=qs.filter(q=>!mqDone(c,q));
+  h+='<div class="mzh"><button class="btn sm ghost" data-a="mz" data-k="">◀ 지역 목록</button><h3>'+esc(o.z)+' <small class="mute">Lv '+o.lo+'–'+o.hi+' · '+o.q.length+'개</small></h3></div>';
+  h+='<div class="chips">'+[['near','내 레벨 ±4'],['left','안 끝낸 것'],['all','전부']].map(x=>'<button class="chip'+(f===x[0]?' on':'')+'" data-a="mf" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
+  if(!qs.length)h+='<p class="empty-st">'+(f==='near'?'이 지역엔 레벨 '+L+' 근처 퀘스트가 없어요. "전부"를 눌러 보세요.':'남은 퀘스트가 없어요.')+'</p>';
+  return h+qs.map(q=>mqRow(c,q)).join('')}
+function mqRow(c,q){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=q._ch;
+  const tags=(q.pre?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
+  const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre});
+  return qFold({key:'m'+q.id,done:d,lock,lv:q.lv,nm:q.n,body,side:ch?'<span class="lk">연계</span>':''})}
+setTimeout(qdbLoad,1200);
 function questById(id){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.id===id)return {q,z:q.gz||q.sz};
   for(const d of DGS)for(const q of d.q)if(q.id===id)return {q:Object.assign({},q,{dg:d}),z:d.ko,dg:d};return null}
 function money(c){if(!c)return '';const g=Math.floor(c/10000),s=Math.floor(c%10000/100),k=c%100;return (g?g+'골드 ':'')+(s?s+'실버 ':'')+(k?k+'코퍼':'')}
@@ -498,12 +556,15 @@ function tasksOf0(d,obj){const ok=t=>t&&t[1]&&!/^\d+$|^(반납|받기|하기)$/.
 const NPC_KO={'Howin Kindfeather':'호윈 킨드페더','Corrupted Night Dragon':'타락한 밤용','Image of Archmage Modera':'대마법사 모데라의 환영','Grund Drokda':'그룬드 드록다','Arbal':'아르발','Corrupted Songflower':'타락한 노래꽃','Corrupted Windblossom':'타락한 바람꽃','The Scarab Gong':'스카라베 징','A Dwarven Corpse':'드워프의 시체','Tom "Half-fish" Wilson':'톰 "반쪽물고기" 윌슨','Sylessa Duskwhisper':'실레사 더스크위스퍼','Dragonmaw Armaments':'용아귀 무기더미','Tattered Spellbook':'너덜너덜한 주문서','Gleaming Crescent Pendant':'반짝이는 초승달 펜던트','Buzzbox 411':'버즈박스 411','Night Elf Courier':'나이트 엘프 전령','Lady Dena Kennedy':'데나 케네디 부인','Daewyn Songblade':'대윈 송블레이드'};
 function npcKo(d,which){const a=which==='g'?d.g:d.r;const nm0=a&&a[0];const nm=NPC_KO[nm0]||nm0;if((!nm||latin(nm))&&d.wf&&d.wf[which]&&!latin(d.wf[which]))return d.wf[which];return nm}
 /* 앞 퀘스트 */
-function preBlock(id,flag){const ch=chainOf(id);if(ch){const cur=ch.find(r=>r[6]===id);const pv=cur&&ch.find(r=>r[0]===cur[0]-1);if(pv){const o=QD.get(pv[6])||{};const g=npcKo(o,'g');
+function preBlock(id,flag){const X=QDB&&QDB.get(id);const P=(X&&X.pre||[]).map(i=>QDB.get(i)).filter(Boolean);
+  if(P.length){return '<div class="pre"><b>🔒 먼저 끝내야 하는 퀘스트</b>'+P.map(o=>'<div>['+(o.lv||'?')+'] <b>'+esc(o.n)+'</b>'+(o.g?' · '+esc(o.g[0])+(o.g[1]?' ('+esc(o.g[1])+(o.g[2]?' '+esc(o.g[2].replace(',',', ')):'')+')':''):'')+' <button class="pbtn sm" data-a="qopen" data-k="'+o.id+'">보기</button></div>').join('')+(P.length>1?'<div class="mute">위 퀘스트를 모두 끝내야 해요.</div>':'')+'</div>'}
+  const ch=chainOf(id);if(ch){const cur=ch.find(r=>r[6]===id);const pv=cur&&ch.find(r=>r[0]===cur[0]-1);if(pv){const o=QD.get(pv[6])||{};const g=npcKo(o,'g');
     return '<div class="pre"><b>🔒 먼저 끝내야 하는 퀘스트</b><div>['+(pv[2]||'?')+'] <b>'+esc(pv[1])+'</b>'+(g?' · '+esc(g)+(o.g&&o.g[1]?' ('+esc(o.g[1])+(o.g[2]?' '+esc(o.g[2].replace(',',', ')):'')+')':''):'')+'</div>'+(pv[6]?'<button class="pbtn sm" data-a="qopen" data-k="'+pv[6]+'">앞 퀘스트 보기</button>':'')+'</div>'}}
   if(!flag)return '';
   return '<div class="pre"><b>🔒 앞 퀘스트가 있어요</b><div>이 퀘스트는 다른 퀘스트를 먼저 끝내야 받을 수 있어요. 어떤 퀘스트인지는 자료에 없어서, 받는 NPC 머리 위에 <b>!</b>가 안 보이면 같은 지역의 다른 퀘스트를 먼저 해 보세요.</div></div>'}
 /* 양피지 모양 퀘스트 상세 */
-function chainOf(id){const d=QD.get(id);if(d&&d.ch&&d.ch.length>1)return d.ch;for(const o of QD.values())if(o.ch&&o.ch.length>1&&o.ch.some(r=>r[6]===id))return o.ch.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r});return null}
+function chainOf0(id){const d=QD.get(id);if(d&&d.ch&&d.ch.length>1)return d.ch;for(const o of QD.values())if(o.ch&&o.ch.length>1&&o.ch.some(r=>r[6]===id))return o.ch.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r});return null}
+function chainOf(id){const a=chainOf0(id);const X=QDB&&QDB.get(id);const b=X&&X._ch;if(b&&(!a||b.length>a.length))return b.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r});return a}
 function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=chainOf(id);if(chx){d.ch=chx;d.cn=chx.length;d.cc=(chx.find(r=>r[5])||[0])[0]}const R=RWD.get(id)||{};const L=c.lv;
   const nm=base.nm,obj=base.obj||d.obj||'';let h='<div class="parch"><div class="ph"><h4>'+esc(nm)+'</h4>'+(base.place?'<span class="ptag">'+base.place+'</span>':'')+'</div>';
   if(base.tags&&base.tags.trim())h+='<div class="ptags">'+base.tags+'</div>';
@@ -535,7 +596,11 @@ function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=cha
     const pv=d.ch.find(r=>r[0]===ci-1);if(pv&&pv[6])h+='<button class="pbtn ghost" data-a="qopen" data-k="'+pv[6]+'">◀ 앞 단계 ['+(pv[2]||'?')+'] '+esc(pv[1])+'</button>'}
   return h+(base.done!=null?'<label class="qdone"><input type="checkbox" data-c="'+base.kind+'" data-k="'+esc(base.ck)+'"'+(base.done?' checked':'')+'> 끝냈어요</label>':'')+'</div>'}
 function questSheet(c,id){id=+id;const f=questById(id);const d=QD.get(id)||{};const cr=d.ch&&d.ch.find(r=>r[6]===id);
-  const q=f?f.q:{nm:cr?cr[1]:'퀘스트 '+id,lv:cr?cr[2]:'',obj:d.obj};
+  const X=!f&&QDB&&QDB.get(id);
+  const q=f?f.q:X?{nm:X.n,lv:X.lv,obj:X.o,min:X.m}:{nm:cr?cr[1]:'퀘스트 '+id,lv:cr?cr[2]:'',obj:d.obj};
+  if(X){let h='<div class="sh"><h2>['+(X.lv||'?')+'] '+esc(X.n)+'</h2><button class="x" data-a="close">✕</button></div>';
+    h+=parch(c,id,{nm:X.n,obj:X.o,place:esc(X.z||''),tags:(X.m>c.lv?'<span class="tag">'+X.m+'레벨부터</span>':''),done:mqDone(c,X),kind:'mq',ck:String(id),pre:X.pre});
+    return h+'<button class="btn ghost full" style="margin-top:8px" data-a="mzgo" data-k="'+esc((X.c||'기타')+'|'+X.z)+'">'+esc(X.z||'')+' 퀘스트 전체 보기</button>'}
   let h='<div class="sh"><h2>['+(q.lv||'?')+'] '+esc(q.nm)+'</h2><button class="x" data-a="close">✕</button></div>';
   const place=f&&f.dg?'🏰 '+esc(f.dg.ko)+' 퀘스트':f?esc(f.z)+' '+(CONT[f.z]?CONT_IC[CONT[f.z]]:''):'';
   const ck=f&&!f.dg?f.z+'|'+q.nm:String(id);const kind=f&&!f.dg?'fq':'dq';const done=f?!!((f.dg?c.dq:c.fq)||{})[ck]:null;
@@ -611,7 +676,7 @@ function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.
   if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+' · '+s.boss;if(s.k===1)return '퀘스트 「'+s.qn+'」';if(s.k===2)return '월드 드랍 (경매장)';if(s.k===3)return s.label.replace('드랍 · ','')+' 처치';if(s.k===4)return s.label.replace(/ · 경매장 거래$/,'')+' (경매장)';if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
 function itIcon(it,cls){return it&&(it.ic||it.icUrl)?'<span class="ic '+(cls||'')+' q-'+it.q+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic empty '+(cls||'')+'">–</span>'}
 function itName(it){return '<span class="q'+it.q+'">'+esc(it.nm)+'</span>'}
-function itMeta(it){return esc((SL_KO[it.sl]||it.sl)+(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?' · '+CS_KO[it.cs]:'')+' · Lv '+it.lv+(it.est?'?':''))}
+function itMeta(it){return esc((SL_KO[it.sl]||it.sl)+(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?' · '+CS_KO[it.cs]:'')+' · Lv '+it.lv+(it.est?'?':''))+(it.ph==='extra'?' <span class="tag sm" title="클래식 자료로 더한 장비라 능력치가 조금 다를 수 있어요">능력치 대략</span>':'')}
 
 function bossNo(d,boss){const i=d.bosses.findIndex(b=>b.nm===boss);return i>=0?i+1:null}
 function findZoneQuest(name){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.nm===name)return {q,S};return null}
@@ -743,7 +808,8 @@ function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFo
 function statLine(it){const ks=Object.keys(it.st).filter(k=>STAT_KO[k]&&k!=='armor');return ks.length?'<span class="dif">'+ks.map(k=>STAT_KO[k]+' '+(k==='dps'?it.st[k].toFixed(1):'+'+Math.round(it.st[k]))).join(' · ')+'</span>':''}
 function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);const q=ui.isrch.trim();const srt=ui.gsort||'lv';
   const base=it=>slot==='main'&&it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):sc(cur,slot,w);
-  let list;if(q)list=ITEMS.filter(it=>usable(it,c)&&fits(it,slot,c)&&it.nm.includes(q)).slice(0,40).map(it=>({it,s:sc(it,slot,w)}));
+  const nq=q.replace(/\s+/g,'');const hit=it=>it.nm.replace(/\s+/g,'').includes(nq);
+  let list;if(q)list=ITEMS.filter(it=>usable(it,c)&&fits(it,slot,c)&&hit(it)).slice(0,60).map(it=>({it,s:sc(it,slot,w)}));
   else list=cands(c,slot,Math.min(60,L+3),ui.ifil);
   list.forEach(x=>{x.g=x.s-base(x.it)});
   const sorter=srt==='lv'?(a,b)=>b.it.ob-a.it.ob||b.it.lv-a.it.lv||b.g-a.g:(a,b)=>b.g-a.g;
@@ -751,11 +817,12 @@ function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);co
   let h='<div class="sh"><h2>'+SLOT_KO[slot]+'</h2><button class="x" data-a="close">✕</button></div>';
   h+='<div class="card hl"><div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div></div>';
   h+='<div class="srch"><input class="inp" placeholder="이름으로 찾기 (지금 끼고 있는 장비 넣기)" value="'+esc(ui.isrch)+'" data-c="isrch"></div>';
-  h+='<div class="chips">'+[['lv','레벨 높은 순'],['g','좋아지는 순']].map(f=>'<button class="chip'+(srt===f[0]?' on':'')+'" data-a="gsort" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
+  h+='<div id="isres">';h+='<div class="chips">'+[['lv','레벨 높은 순'],['g','좋아지는 순']].map(f=>'<button class="chip'+(srt===f[0]?' on':'')+'" data-a="gsort" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
   const row=x=>{const it=x.it;const lock=it.ob>L;return '<div class="row'+(lock?'" style="opacity:.55':'')+'">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+(it.id===(cur&&cur.id)?' <span class="tag gd">착용 중</span>':'')+'</span><span class="sub">'+itMeta(it)+(it.ob>it.lv?' · '+it.ob+'레벨쯤 얻음':'')+'</span>'+diffHtml(it,cur,c)+'<span class="sub">'+esc(srcTxt(it,2))+'</span></span><span class="r">'+gainTag(x.g,base(it),!cur)+'<br>'+infoBtn(it)+' <button class="btn sm" style="margin-top:6px" data-a="equip" data-k="'+slot+'" data-id="'+it.id+'">착용</button></span></div>'};
   h+='<h3>지금 낄 수 있어요 ('+now.length+')</h3>'+(now.length?now.map(row).join(''):'<p class="note">'+(q?'찾는 장비가 없어요. 이 직업이 못 끼는 장비일 수 있어요.':'후보가 없어요.')+'</p>');
+  if(q){const no=ITEMS.filter(it=>!usable(it,c)&&SLOTS.find(x=>x[0]===slot)[2].includes(it.sl)&&hit(it)).slice(0,12);if(no.length)h+='<h3>이 직업은 못 끼는 장비 ('+no.length+')</h3>'+no.map(it=>'<div class="row" style="opacity:.5">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+'</span><span class="sub">'+itMeta(it)+'</span></span><span class="r">'+infoBtn(it)+'</span></div>').join('')}
   if(later.length)h+='<h3>곧 낄 수 있어요 (레벨 '+(L+1)+'~'+Math.min(60,L+3)+')</h3>'+later.map(row).join('');
-  return h}
+  return h+'</div>'}
 
 /* ===================== 퀘스트 ===================== */
 function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.fq||{};
@@ -766,8 +833,9 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
     return move+'<div class="rt'+(now?' now':past?' past':'')+'"><div class="rl"><span class="lvb '+(now?'lv-y':past?'lv-x':'')+'">'+S.a+'–'+S.b+'</span>'+(now?'<span class="tag gd">지금</span>':'')+'</div><div class="m">'+zs.map(z=>{const [n,d]=cnt(z);return '<button class="zr" data-a="goz" data-k="'+esc(z)+'"><b>'+esc(z)+'</b> '+contTag(z)+'<span class="sub">퀘스트 '+n+'개'+(d?' · '+d+'개 끝냄':'')+'</span></button>'}).join('')+'</div></div>'}).join('');
   h+='<p class="note">⛵ 배 타는 곳: '+BOAT+'</p>';
   return h}
-function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><p class="note">던전 퀘스트는 <button class="more" data-a="tab" data-k="dungeon">🏰 던전 탭</button>에서 던전마다 모아 보여 줘요.</p><div class="chips">'+[['route','레벨링 루트'],['zone','지역 퀘스트']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
+function quest(c){const L=c.lv;const qm=ui.qmode||'route';let h='<div class="wrap"><h2>퀘스트</h2><p class="note">던전 퀘스트는 <button class="more" data-a="tab" data-k="dungeon">🏰 던전 탭</button>에서 던전마다 모아 보여 줘요.</p><div class="chips">'+[['route','⚡ 빠른 레벨업'],['zone','📍 지금 레벨'],['map','🗺️ 맵 전체']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
   if(qm==='route')return h+routeView(c)+'</div>';
+  if(qm==='map')return h+mapView(c)+'</div>';
   if(qm==='dg')ui.qmode='zone';
   const Z=zonesNow(c);
   if(ui.qz&&!Z.find(x=>x.z===ui.qz)){const qs=[];const seen=new Set();for(const S of routeOf(c))for(const q of S.q)if((q.gz||q.sz)===ui.qz&&!seen.has(q.nm)){seen.add(q.nm);qs.push(q)}if(qs.length)Z.unshift({z:ui.qz,q:qs,left:qs.filter(q=>!(c.fq||{})[ui.qz+'|'+q.nm]).length,all:1})}
@@ -898,6 +966,8 @@ function rerender(keepScroll){const y=window.scrollY;const sh=document.querySele
 function setLv(c,v){v=Math.max(1,Math.min(60,parseInt(v,10)||c.lv));if(v!==c.lv){c.lv=v;save()}}
 
 /* ===================== 이벤트 ===================== */
+function isrchUpd(){const box=document.getElementById('isres');const c=me();if(!box||!c||!ui.sheet||!ui.sheet.startsWith('slot:')){return}
+  const tmp=document.createElement('div');tmp.innerHTML=slotSheet(c,ui.sheet.slice(5));const nb=tmp.querySelector('#isres');if(nb)box.innerHTML=nb.innerHTML}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,k=b.dataset.k;const c=me();
   if(a==='bg'){if(e.target===b){ui.sheet=null;ui.delAsk=0;rerender(true)}return}
   if(a==='close'){ui.sheet=null;ui.delAsk=0;rerender(true);return}
@@ -928,6 +998,10 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='pf'){ui.pf=k;rerender(true);return}
   if(a==='qmode'){ui.qmode=k;rerender(true);return}
   if(a==='qz'){ui.qz=k;rerender(true);return}
+  if(a==='mc'){ui.mc=k;ui.mz=null;rerender(true);return}
+  if(a==='mz'){ui.mz=k||null;ui.mf=ui.mf||'near';render();window.scrollTo(0,0);return}
+  if(a==='mf'){ui.mf=k;rerender(true);return}
+  if(a==='mzgo'){ui.tab='quest';ui.qmode='map';ui.mc=k.split('|')[0];ui.mz=k;ui.mf='all';ui.sheet=null;render();window.scrollTo(0,0);return}
   if(a==='goz'){ui.tab='quest';ui.qmode='zone';ui.qz=k;ui.sheet=null;render();window.scrollTo(0,0);return}
   if(a==='dgo'){const fromChip=b.classList.contains('dchip');const sx=fromChip?document.querySelector('.dchips').scrollLeft:0;ui.tab='dungeon';ui.dg=k;ui.sheet=null;render();window.scrollTo(0,0);const dc=document.querySelector('.dchips');if(dc){if(fromChip)dc.scrollLeft=sx;else{const on=dc.querySelector('.on');if(on)dc.scrollLeft=on.offsetLeft-20}}return}
   if(a==='dgback'){ui.dg=null;render();window.scrollTo(0,0);return}
@@ -951,11 +1025,12 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
   if(f==='lv'){setLv(c,t.value);rerender(true);return}
   if(f==='cname'){c.name=t.value.trim();save();rerender(true);return}
   if(f==='fq'){c.fq=c.fq||{};if(t.checked)c.fq[t.dataset.k]=1;else delete c.fq[t.dataset.k];save();rerender(true);return}
+  if(f==='mq'){c.mq=c.mq||{};if(t.checked)c.mq[t.dataset.k]=1;else delete c.mq[t.dataset.k];save();rerender(true);return}
   if(f==='dq'){c.dq=c.dq||{};if(t.checked)c.dq[t.dataset.k]=1;else delete c.dq[t.dataset.k];save();rerender(true);return}
 });
 let srchT=null;
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset.c==='onb-name'){ui.onb.name=t.value;return}
-  if(t.dataset.c==='isrch'){ui.isrch=t.value;clearTimeout(srchT);srchT=setTimeout(()=>{const pos=t.selectionStart;rerender(true);const n=document.querySelector('[data-c=isrch]');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(_){}}},250)}});
+  if(t.dataset.c==='isrch'){ui.isrch=t.value;clearTimeout(srchT);srchT=setTimeout(isrchUpd,250)}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset&&(e.target.dataset.c==='lv'||e.target.dataset.c==='onb-lv'))e.target.blur()});
 render();
 </script>

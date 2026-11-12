@@ -11,7 +11,7 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 170
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,10 +27,27 @@ jobs:
         timeout-minutes: 40
       - run: node tools/wythic-bosses.mjs
         continue-on-error: true
+      - name: QuestieDB(포에버 퀘스트 자료) 받기
+        run: |
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/Questie/QuestieDB /tmp/qdb
+          git -C /tmp/qdb sparse-checkout set data/Forever l10n/Forever src/corrections/enum src/corrections/Forever support/Forever/Zones
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/Questie/Questie /tmp/qz
+          git -C /tmp/qz sparse-checkout set Localization/Translations/Zones Localization/lookups
+      - run: python3 tools/qdb/import.py /tmp/qdb /tmp/qz
+      - run: node tools/qdb-ko-wowf.mjs
+        timeout-minutes: 45
+        continue-on-error: true
+      - run: python3 tools/qdb/import.py /tmp/qdb /tmp/qz
+      - name: 클래식 장비 자료로 장비 더하기
+        run: |
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/nexus-devs/wow-classic-items /tmp/nx
+          git -C /tmp/nx sparse-checkout set data/json
+          python3 tools/items-extra.py /tmp/nx/data/json/data.json
+        continue-on-error: true
       - run: python3 app/build.py
       - name: 자료 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/forg index.html app-data.js
+          git add data/forg data/qdb index.html app-data.js
           git diff --cached --quiet || (git commit -m "forg 자료 갱신" && git pull --rebase -X theirs && git push)

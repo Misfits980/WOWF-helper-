@@ -20,13 +20,44 @@ for cid, c in cls.items():
                    'late': [[r['when'], r['txt']] for r in s['late']]} for s in c['specs']],
     }
 
+# 장비: forg 목록 + QuestieDB·클래식 자료로 더한 장비(data/qdb). 영어 이름은 한글로 바꿈
+import re
+Q = ROOT / 'data' / 'qdb'
+ko = {}
+if (Q / 'item-ko.txt').exists():
+    for line in rd(Q / 'item-ko.txt').splitlines():
+        f = line.split('|')
+        if len(f) > 1 and f[0].isdigit():
+            ko[int(f[0])] = f[1]
+lat = lambda x: bool(re.search('[A-Za-z]{3}', x or ''))
+items = []
+for line in rd(F / 'items.txt').splitlines():
+    if not line:
+        continue
+    f = line.split('|')
+    if len(f) > 12 and lat(f[12]) and ko.get(int(f[0])) and not lat(ko[int(f[0])]):
+        f[12] = ko[int(f[0])]
+    items.append('|'.join(f))
+srcs = rd(F / 'sources.txt').rstrip('\n')
+if (Q / 'items-extra.txt').exists():
+    off = len(srcs.split('\n'))
+    srcs += '\n' + rd(Q / 'sources-extra.txt').rstrip('\n')
+    for line in rd(Q / 'items-extra.txt').splitlines():
+        f = line.split('|')
+        if len(f) > 12:
+            f[7] = ';'.join(str(int(x) + off) for x in f[7].split(';') if x != '')
+            f[9] = 'extra'
+            items.append('|'.join(f))
+ITEMS_TXT = '\n'.join(items) + '\n'
+SRC_TXT = srcs + '\n'
+
 def js_str(s):
     return json.dumps(s, ensure_ascii=False)
 
 data = '\n'.join([
     '/* 와포 도우미 자료 — forg.gg 공개 페이지에서 GitHub Actions로 모은 것 (tools/forg-*.mjs) */',
-    'const D_ITEMS=' + js_str(rd(F / 'items.txt')) + ';',
-    'const D_SRC=' + js_str(rd(F / 'sources.txt')) + ';',
+    'const D_ITEMS=' + js_str(ITEMS_TXT) + ';',
+    'const D_SRC=' + js_str(SRC_TXT) + ';',
     'const D_DGL=' + js_str(rd(F / 'dungeons.txt')) + ';',
     'const D_DQ=' + js_str(rd(F / 'dungeon-quests.txt')) + ';',
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',

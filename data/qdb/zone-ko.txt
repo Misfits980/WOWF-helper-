@@ -1,0 +1,2630 @@
+0|동부 왕국|기타
+1|던 모로|동부 왕국
+2|서부 몰락지대|동부 왕국
+3|황야의 땅|동부 왕국
+4|저주받은 땅|동부 왕국
+7|가시덤불 골짜기|동부 왕국
+8|슬픔의 늪|동부 왕국
+9|엘윈 숲|동부 왕국
+10|그늘숲|동부 왕국
+11|저습지|동부 왕국
+12|엘윈 숲|동부 왕국
+13|그늘숲|동부 왕국
+14|듀로타|칼림도어
+15|먼지진흙 슾지대|칼림도어
+16|아즈샤라|칼림도어
+17|불모의 땅|칼림도어
+18|엘윈 숲|동부 왕국
+19|가시덤불 골짜기|동부 왕국
+20|서부 몰락지대|동부 왕국
+21|Kul Tiras|기타
+22|Programmer Isle|기타
+23|엘윈 숲|동부 왕국
+24|엘윈 숲|동부 왕국
+25|검은바위 산|기타
+26|서부 몰락지대|동부 왕국
+28|서부 역병지대|동부 왕국
+30|Nine|기타
+32|그늘숲|동부 왕국
+33|가시덤불 골짜기|동부 왕국
+34|엘윈 숲|동부 왕국
+35|가시덤불 골짜기|동부 왕국
+36|알터랙 산맥|동부 왕국
+37|가시덤불 골짜기|동부 왕국
+38|모단 호수|동부 왕국
+40|서부 몰락지대|동부 왕국
+41|죽음의 고개|동부 왕국
+42|그늘숲|동부 왕국
+43|가시덤불 골짜기|동부 왕국
+44|붉은마루 산맥|동부 왕국
+45|아라시 고원|동부 왕국
+46|불타는 평원|동부 왕국
+47|동부 내륙지|동부 왕국
+49|Programmer Isle|기타
+51|이글거리는 협곡|동부 왕국
+53|엘윈 숲|동부 왕국
+54|엘윈 숲|동부 왕국
+55|엘윈 숲|동부 왕국
+56|엘윈 숲|동부 왕국
+57|엘윈 숲|동부 왕국
+59|엘윈 숲|동부 왕국
+60|엘윈 숲|동부 왕국
+61|엘윈 숲|동부 왕국
+62|엘윈 숲|동부 왕국
+63|엘윈 숲|동부 왕국
+64|엘윈 숲|동부 왕국
+65|Dragonblight|기타
+66|Zul'Drak|기타
+67|The Storm Peaks|기타
+68|붉은마루 산맥|동부 왕국
+69|붉은마루 산맥|동부 왕국
+70|붉은마루 산맥|동부 왕국
+71|붉은마루 산맥|동부 왕국
+72|저주받은 땅|동부 왕국
+73|저주받은 땅|동부 왕국
+74|슬픔의 늪|동부 왕국
+75|슬픔의 늪|동부 왕국
+76|슬픔의 늪|동부 왕국
+77|던 모로|동부 왕국
+80|엘윈 숲|동부 왕국
+81|Programmer Isle|기타
+82|Programmer Isle|기타
+83|Programmer Isle|기타
+84|Programmer Isle|기타
+85|티리스팔 숲|동부 왕국
+86|엘윈 숲|동부 왕국
+87|엘윈 숲|동부 왕국
+88|엘윈 숲|동부 왕국
+89|엘윈 숲|동부 왕국
+91|엘윈 숲|동부 왕국
+92|엘윈 숲|동부 왕국
+93|그늘숲|동부 왕국
+94|그늘숲|동부 왕국
+95|붉은마루 산맥|동부 왕국
+96|붉은마루 산맥|동부 왕국
+97|붉은마루 산맥|동부 왕국
+98|붉은마루 산맥|동부 왕국
+99|가시덤불 골짜기|동부 왕국
+100|가시덤불 골짜기|동부 왕국
+101|가시덤불 골짜기|동부 왕국
+102|가시덤불 골짜기|동부 왕국
+103|가시덤불 골짜기|동부 왕국
+104|가시덤불 골짜기|동부 왕국
+105|가시덤불 골짜기|동부 왕국
+106|가시덤불 골짜기|동부 왕국
+107|서부 몰락지대|동부 왕국
+108|서부 몰락지대|동부 왕국
+109|서부 몰락지대|동부 왕국
+111|서부 몰락지대|동부 왕국
+113|서부 몰락지대|동부 왕국
+115|서부 몰락지대|동부 왕국
+116|슬픔의 늪|동부 왕국
+117|가시덤불 골짜기|동부 왕국
+118|저습지|동부 왕국
+120|엘윈 숲|동부 왕국
+121|그늘숲|동부 왕국
+122|가시덤불 골짜기|동부 왕국
+123|가시덤불 골짜기|동부 왕국
+125|가시덤불 골짜기|동부 왕국
+126|가시덤불 골짜기|동부 왕국
+127|가시덤불 골짜기|동부 왕국
+128|가시덤불 골짜기|동부 왕국
+129|가시덤불 골짜기|동부 왕국
+130|은빛소나무 숲|동부 왕국
+131|던 모로|동부 왕국
+132|던 모로|동부 왕국
+133|던 모로|동부 왕국
+134|던 모로|동부 왕국
+135|던 모로|동부 왕국
+136|던 모로|동부 왕국
+137|던 모로|동부 왕국
+138|던 모로|동부 왕국
+139|동부 역병지대|동부 왕국
+141|텔드랏실|칼림도어
+142|모단 호수|동부 왕국
+143|모단 호수|동부 왕국
+144|모단 호수|동부 왕국
+145|모단 호수|동부 왕국
+146|모단 호수|동부 왕국
+147|모단 호수|동부 왕국
+148|어둠의 해안|칼림도어
+149|모단 호수|동부 왕국
+150|저습지|동부 왕국
+151|Designer Island|기타
+152|티리스팔 숲|동부 왕국
+153|티리스팔 숲|동부 왕국
+154|티리스팔 숲|동부 왕국
+155|티리스팔 숲|동부 왕국
+156|티리스팔 숲|동부 왕국
+157|티리스팔 숲|동부 왕국
+158|티리스팔 숲|동부 왕국
+159|티리스팔 숲|동부 왕국
+160|티리스팔 숲|동부 왕국
+161|티리스팔 숲|동부 왕국
+162|티리스팔 숲|동부 왕국
+163|티리스팔 숲|동부 왕국
+164|티리스팔 숲|동부 왕국
+165|티리스팔 숲|동부 왕국
+166|티리스팔 숲|동부 왕국
+167|티리스팔 숲|동부 왕국
+168|티리스팔 숲|동부 왕국
+169|티리스팔 숲|동부 왕국
+170|Lordamere Lake|기타
+172|은빛소나무 숲|동부 왕국
+173|티리스팔 숲|동부 왕국
+186|텔드랏실|칼림도어
+187|텔드랏실|칼림도어
+188|텔드랏실|칼림도어
+189|던 모로|동부 왕국
+190|서부 역병지대|동부 왕국
+192|서부 역병지대|동부 왕국
+193|서부 역병지대|동부 왕국
+195|서부 역병지대|동부 왕국
+196|서부 역병지대|동부 왕국
+197|서부 역병지대|동부 왕국
+198|서부 역병지대|동부 왕국
+199|서부 역병지대|동부 왕국
+200|서부 역병지대|동부 왕국
+201|서부 역병지대|동부 왕국
+202|서부 역병지대|동부 왕국
+203|서부 역병지대|동부 왕국
+204|은빛소나무 숲|동부 왕국
+205|저습지|동부 왕국
+206|우트가드 성채|던전
+207|The Great Sea|기타
+208|Unused Ironcladcove|기타
+209|그림자송곳니 성채|던전
+210|Icecrown|기타
+211|던 모로|동부 왕국
+212|던 모로|동부 왕국
+213|은빛소나무 숲|동부 왕국
+214|은빛소나무 숲|동부 왕국
+215|멀고어|칼림도어
+219|서부 몰락지대|동부 왕국
+220|멀고어|칼림도어
+221|멀고어|칼림도어
+222|멀고어|칼림도어
+223|멀고어|칼림도어
+224|멀고어|칼림도어
+225|멀고어|칼림도어
+226|은빛소나무 숲|동부 왕국
+227|은빛소나무 숲|동부 왕국
+228|은빛소나무 숲|동부 왕국
+229|은빛소나무 숲|동부 왕국
+230|은빛소나무 숲|동부 왕국
+231|은빛소나무 숲|동부 왕국
+232|은빛소나무 숲|동부 왕국
+233|은빛소나무 숲|동부 왕국
+235|은빛소나무 숲|동부 왕국
+236|은빛소나무 숲|동부 왕국
+237|은빛소나무 숲|동부 왕국
+238|은빛소나무 숲|동부 왕국
+239|은빛소나무 숲|동부 왕국
+240|은빛소나무 숲|동부 왕국
+241|그늘숲|동부 왕국
+242|그늘숲|동부 왕국
+243|그늘숲|동부 왕국
+244|그늘숲|동부 왕국
+245|그늘숲|동부 왕국
+246|이글거리는 협곡|동부 왕국
+247|이글거리는 협곡|동부 왕국
+249|불타는 평원|동부 왕국
+250|불타는 평원|동부 왕국
+251|불타는 평원|동부 왕국
+252|불타는 평원|동부 왕국
+253|불타는 평원|동부 왕국
+254|불타는 평원|동부 왕국
+255|불타는 평원|동부 왕국
+256|텔드랏실|칼림도어
+257|텔드랏실|칼림도어
+258|텔드랏실|칼림도어
+259|텔드랏실|칼림도어
+260|텔드랏실|칼림도어
+261|텔드랏실|칼림도어
+262|텔드랏실|칼림도어
+263|텔드랏실|칼림도어
+264|텔드랏실|칼림도어
+265|텔드랏실|칼림도어
+266|텔드랏실|칼림도어
+267|힐스브래드 구릉지|동부 왕국
+268|Azshara Crater|기타
+269|Dun Algaz|기타
+271|힐스브래드 구릉지|동부 왕국
+272|힐스브래드 구릉지|동부 왕국
+275|힐스브래드 구릉지|동부 왕국
+276|UNUSED Stonewrought Pass|기타
+277|알터랙 산맥|동부 왕국
+278|알터랙 산맥|동부 왕국
+279|카라잔|던전
+280|알터랙 산맥|동부 왕국
+281|알터랙 산맥|동부 왕국
+282|알터랙 산맥|동부 왕국
+283|알터랙 산맥|동부 왕국
+284|알터랙 산맥|동부 왕국
+285|힐스브래드 구릉지|동부 왕국
+286|힐스브래드 구릉지|동부 왕국
+287|힐스브래드 구릉지|동부 왕국
+288|힐스브래드 구릉지|동부 왕국
+289|힐스브래드 구릉지|동부 왕국
+290|힐스브래드 구릉지|동부 왕국
+293|힐스브래드 구릉지|동부 왕국
+294|힐스브래드 구릉지|동부 왕국
+295|힐스브래드 구릉지|동부 왕국
+296|South Seas UNUSED|기타
+297|가시덤불 골짜기|동부 왕국
+298|저습지|동부 왕국
+299|저습지|동부 왕국
+300|슬픔의 늪|동부 왕국
+301|가시덤불 골짜기|동부 왕국
+302|가시덤불 골짜기|동부 왕국
+303|가시덤불 골짜기|동부 왕국
+305|은빛소나무 숲|동부 왕국
+306|은빛소나무 숲|동부 왕국
+307|동부 내륙지|동부 왕국
+308|The Forbidding Sea|기타
+309|저습지|동부 왕국
+310|가시덤불 골짜기|동부 왕국
+311|가시덤불 골짜기|동부 왕국
+312|가시덤불 골짜기|동부 왕국
+313|아라시 고원|동부 왕국
+314|아라시 고원|동부 왕국
+315|아라시 고원|동부 왕국
+316|아라시 고원|동부 왕국
+317|아라시 고원|동부 왕국
+318|아라시 고원|동부 왕국
+320|아라시 고원|동부 왕국
+321|아라시 고원|동부 왕국
+322|아라시 고원|동부 왕국
+323|아라시 고원|동부 왕국
+324|아라시 고원|동부 왕국
+325|아라시 고원|동부 왕국
+326|아라시 고원|동부 왕국
+327|아라시 고원|동부 왕국
+328|아라시 고원|동부 왕국
+330|Thandol Span|기타
+331|잿빛 골짜기|칼림도어
+332|The Great Sea|기타
+333|아라시 고원|동부 왕국
+334|아라시 고원|동부 왕국
+335|아라시 고원|동부 왕국
+336|아라시 고원|동부 왕국
+337|황야의 땅|동부 왕국
+338|황야의 땅|동부 왕국
+339|황야의 땅|동부 왕국
+340|황야의 땅|동부 왕국
+341|황야의 땅|동부 왕국
+342|황야의 땅|동부 왕국
+343|황야의 땅|동부 왕국
+344|황야의 땅|동부 왕국
+345|황야의 땅|동부 왕국
+346|황야의 땅|동부 왕국
+347|황야의 땅|동부 왕국
+348|동부 내륙지|동부 왕국
+349|동부 내륙지|동부 왕국
+350|동부 내륙지|동부 왕국
+351|동부 내륙지|동부 왕국
+352|동부 내륙지|동부 왕국
+353|동부 내륙지|동부 왕국
+354|동부 내륙지|동부 왕국
+355|동부 내륙지|동부 왕국
+356|동부 내륙지|동부 왕국
+357|페랄라스|칼림도어
+358|멀고어|칼림도어
+359|불모의 땅|칼림도어
+360|멀고어|칼림도어
+361|악령의 숲|칼림도어
+362|듀로타|칼림도어
+363|듀로타|칼림도어
+364|듀로타|칼림도어
+365|듀로타|칼림도어
+366|듀로타|칼림도어
+367|듀로타|칼림도어
+368|듀로타|칼림도어
+369|듀로타|칼림도어
+370|듀로타|칼림도어
+371|듀로타|칼림도어
+372|듀로타|칼림도어
+373|듀로타|칼림도어
+374|듀로타|칼림도어
+375|듀로타|칼림도어
+377|Southfury River|기타
+378|불모의 땅|칼림도어
+379|불모의 땅|칼림도어
+380|불모의 땅|칼림도어
+381|불모의 땅|칼림도어
+382|불모의 땅|칼림도어
+383|불모의 땅|칼림도어
+384|불모의 땅|칼림도어
+385|불모의 땅|칼림도어
+386|불모의 땅|칼림도어
+387|불모의 땅|칼림도어
+388|불모의 땅|칼림도어
+390|불모의 땅|칼림도어
+391|불모의 땅|칼림도어
+392|불모의 땅|칼림도어
+393|듀로타|칼림도어
+394|Grizzly Hills|기타
+395|Grizzly Hills|기타
+396|멀고어|칼림도어
+397|멀고어|칼림도어
+398|멀고어|칼림도어
+399|멀고어|칼림도어
+400|버섯구름 봉우리|칼림도어
+401|불모의 땅|칼림도어
+403|먼지진흙 슾지대|칼림도어
+404|멀고어|칼림도어
+405|잊혀진 땅|칼림도어
+406|돌발톱 산맥|칼림도어
+407|듀로타|칼림도어
+408|Gillijim's Isle|기타
+409|Island of Doctor Lapidis|기타
+410|듀로타|칼림도어
+411|잿빛 골짜기|칼림도어
+412|잿빛 골짜기|칼림도어
+413|잿빛 골짜기|칼림도어
+414|잿빛 골짜기|칼림도어
+415|잿빛 골짜기|칼림도어
+416|잿빛 골짜기|칼림도어
+417|잿빛 골짜기|칼림도어
+418|잿빛 골짜기|칼림도어
+419|잿빛 골짜기|칼림도어
+420|잿빛 골짜기|칼림도어
+421|잿빛 골짜기|칼림도어
+422|잿빛 골짜기|칼림도어
+424|잿빛 골짜기|칼림도어
+425|잿빛 골짜기|칼림도어
+426|잿빛 골짜기|칼림도어
+427|잿빛 골짜기|칼림도어
+428|잿빛 골짜기|칼림도어
+429|잿빛 골짜기|칼림도어
+430|잿빛 골짜기|칼림도어
+431|잿빛 골짜기|칼림도어
+432|잿빛 골짜기|칼림도어
+433|잿빛 골짜기|칼림도어
+434|잿빛 골짜기|칼림도어
+435|잿빛 골짜기|칼림도어
+436|잿빛 골짜기|칼림도어
+437|잿빛 골짜기|칼림도어
+438|잿빛 골짜기|칼림도어
+439|버섯구름 봉우리|칼림도어
+440|타나리스|칼림도어
+441|잿빛 골짜기|칼림도어
+442|어둠의 해안|칼림도어
+443|어둠의 해안|칼림도어
+444|어둠의 해안|칼림도어
+445|어둠의 해안|칼림도어
+446|어둠의 해안|칼림도어
+447|어둠의 해안|칼림도어
+448|어둠의 해안|칼림도어
+449|어둠의 해안|칼림도어
+450|어둠의 해안|칼림도어
+452|어둠의 해안|칼림도어
+453|어둠의 해안|칼림도어
+454|어둠의 해안|칼림도어
+455|어둠의 해안|칼림도어
+456|어둠의 해안|칼림도어
+457|The Veiled Sea|기타
+458|불모의 땅|칼림도어
+459|티리스팔 숲|동부 왕국
+460|돌발톱 산맥|칼림도어
+461|돌발톱 산맥|칼림도어
+463|돌발톱 산맥|칼림도어
+464|돌발톱 산맥|칼림도어
+465|돌발톱 산맥|칼림도어
+466|돌발톱 산맥|칼림도어
+467|돌발톱 산맥|칼림도어
+468|돌발톱 산맥|칼림도어
+469|돌발톱 산맥|칼림도어
+470|멀고어|칼림도어
+471|멀고어|칼림도어
+472|멀고어|칼림도어
+473|멀고어|칼림도어
+474|멀고어|칼림도어
+475|멀고어|칼림도어
+476|멀고어|칼림도어
+477|가시덤불 골짜기|동부 왕국
+478|텔드랏실|칼림도어
+479|버섯구름 봉우리|칼림도어
+480|버섯구름 봉우리|칼림도어
+481|버섯구름 봉우리|칼림도어
+482|버섯구름 봉우리|칼림도어
+483|버섯구름 봉우리|칼림도어
+484|버섯구름 봉우리|칼림도어
+485|버섯구름 봉우리|칼림도어
+486|버섯구름 봉우리|칼림도어
+487|버섯구름 봉우리|칼림도어
+488|버섯구름 봉우리|칼림도어
+489|페랄라스|칼림도어
+490|운고로 분화구|칼림도어
+491|가시덩굴 우리|던전
+492|그늘숲|동부 왕국
+493|달의 숲|칼림도어
+495|Howling Fjord|기타
+496|먼지진흙 슾지대|칼림도어
+497|먼지진흙 슾지대|칼림도어
+498|먼지진흙 슾지대|칼림도어
+499|먼지진흙 슾지대|칼림도어
+500|먼지진흙 슾지대|칼림도어
+501|먼지진흙 슾지대|칼림도어
+502|먼지진흙 슾지대|칼림도어
+503|먼지진흙 슾지대|칼림도어
+504|먼지진흙 슾지대|칼림도어
+505|먼지진흙 슾지대|칼림도어
+506|먼지진흙 슾지대|칼림도어
+507|먼지진흙 슾지대|칼림도어
+508|먼지진흙 슾지대|칼림도어
+509|먼지진흙 슾지대|칼림도어
+510|먼지진흙 슾지대|칼림도어
+511|먼지진흙 슾지대|칼림도어
+512|먼지진흙 슾지대|칼림도어
+513|먼지진흙 슾지대|칼림도어
+514|먼지진흙 슾지대|칼림도어
+515|먼지진흙 슾지대|칼림도어
+516|먼지진흙 슾지대|칼림도어
+517|먼지진흙 슾지대|칼림도어
+518|먼지진흙 슾지대|칼림도어
+536|그늘숲|동부 왕국
+537|운고로 분화구|칼림도어
+538|운고로 분화구|칼림도어
+539|운고로 분화구|칼림도어
+540|운고로 분화구|칼림도어
+541|운고로 분화구|칼림도어
+542|운고로 분화구|칼림도어
+543|운고로 분화구|칼림도어
+556|모단 호수|동부 왕국
+576|그늘숲|동부 왕국
+596|잊혀진 땅|칼림도어
+597|잊혀진 땅|칼림도어
+598|잊혀진 땅|칼림도어
+599|잊혀진 땅|칼림도어
+600|잊혀진 땅|칼림도어
+602|잊혀진 땅|칼림도어
+603|잊혀진 땅|칼림도어
+604|잊혀진 땅|칼림도어
+606|잊혀진 땅|칼림도어
+607|잊혀진 땅|칼림도어
+608|잊혀진 땅|칼림도어
+609|잊혀진 땅|칼림도어
+616|하이잘 산|기타
+618|여명의 설원|칼림도어
+636|돌발톱 산맥|칼림도어
+637|멀고어|칼림도어
+638|듀로타|칼림도어
+639|듀로타|칼림도어
+640|듀로타|칼림도어
+656|달의 숲|칼림도어
+657|슬픔의 늪|동부 왕국
+676|Outland|기타
+696|텔드랏실|칼림도어
+697|텔드랏실|칼림도어
+698|텔드랏실|칼림도어
+699|텔드랏실|칼림도어
+700|텔드랏실|칼림도어
+701|텔드랏실|칼림도어
+702|텔드랏실|칼림도어
+716|던 모로|동부 왕국
+717|스톰윈드 지하감옥|던전
+718|통곡의 동굴|던전
+719|검은심연의 나락|던전
+720|불모의 땅|칼림도어
+721|놈리건|던전
+722|가시덩굴 구릉|던전
+736|텔드랏실|칼림도어
+796|붉은십자군 수도원|던전
+797|엘윈 숲|동부 왕국
+798|엘윈 숲|동부 왕국
+799|그늘숲|동부 왕국
+800|던 모로|동부 왕국
+801|던 모로|동부 왕국
+802|던 모로|동부 왕국
+803|던 모로|동부 왕국
+804|던 모로|동부 왕국
+805|던 모로|동부 왕국
+806|던 모로|동부 왕국
+807|던 모로|동부 왕국
+808|던 모로|동부 왕국
+809|던 모로|동부 왕국
+810|티리스팔 숲|동부 왕국
+811|티리스팔 숲|동부 왕국
+812|티리스팔 숲|동부 왕국
+813|서부 역병지대|동부 왕국
+814|듀로타|칼림도어
+815|불모의 땅|칼림도어
+816|듀로타|칼림도어
+817|듀로타|칼림도어
+818|멀고어|칼림도어
+819|멀고어|칼림도어
+820|멀고어|칼림도어
+821|멀고어|칼림도어
+836|저습지|동부 왕국
+837|모단 호수|동부 왕국
+838|모단 호수|동부 왕국
+839|모단 호수|동부 왕국
+856|그늘숲|동부 왕국
+876|GM Island|기타
+877|불모의 땅|칼림도어
+878|아즈샤라|칼림도어
+879|잿빛 골짜기|칼림도어
+880|아라시 고원|동부 왕국
+881|저습지|동부 왕국
+896|힐스브래드 구릉지|동부 왕국
+916|서부 몰락지대|동부 왕국
+917|서부 몰락지대|동부 왕국
+918|서부 몰락지대|동부 왕국
+919|서부 몰락지대|동부 왕국
+920|서부 몰락지대|동부 왕국
+921|서부 몰락지대|동부 왕국
+922|서부 몰락지대|동부 왕국
+923|모단 호수|동부 왕국
+924|모단 호수|동부 왕국
+925|모단 호수|동부 왕국
+926|은빛소나무 숲|동부 왕국
+927|은빛소나무 숲|동부 왕국
+928|은빛소나무 숲|동부 왕국
+936|모단 호수|동부 왕국
+956|The Verdant Fields|기타
+976|타나리스|칼림도어
+977|타나리스|칼림도어
+978|타나리스|칼림도어
+979|타나리스|칼림도어
+980|타나리스|칼림도어
+981|타나리스|칼림도어
+982|타나리스|칼림도어
+983|타나리스|칼림도어
+984|타나리스|칼림도어
+985|타나리스|칼림도어
+986|타나리스|칼림도어
+987|타나리스|칼림도어
+988|타나리스|칼림도어
+989|타나리스|칼림도어
+990|타나리스|칼림도어
+991|타나리스|칼림도어
+992|타나리스|칼림도어
+996|붉은마루 산맥|동부 왕국
+997|붉은마루 산맥|동부 왕국
+998|붉은마루 산맥|동부 왕국
+999|붉은마루 산맥|동부 왕국
+1000|붉은마루 산맥|동부 왕국
+1001|붉은마루 산맥|동부 왕국
+1002|붉은마루 산맥|동부 왕국
+1016|저습지|동부 왕국
+1017|저습지|동부 왕국
+1018|저습지|동부 왕국
+1019|동부 역병지대|동부 왕국
+1020|저습지|동부 왕국
+1021|저습지|동부 왕국
+1022|저습지|동부 왕국
+1023|저습지|동부 왕국
+1024|저습지|동부 왕국
+1025|저습지|동부 왕국
+1036|저습지|동부 왕국
+1037|저습지|동부 왕국
+1038|저습지|동부 왕국
+1039|저습지|동부 왕국
+1056|힐스브래드 구릉지|동부 왕국
+1057|힐스브래드 구릉지|동부 왕국
+1076|돌발톱 산맥|칼림도어
+1097|그늘숲|동부 왕국
+1098|그늘숲|동부 왕국
+1099|페랄라스|칼림도어
+1100|페랄라스|칼림도어
+1101|페랄라스|칼림도어
+1102|페랄라스|칼림도어
+1103|페랄라스|칼림도어
+1104|페랄라스|칼림도어
+1105|페랄라스|칼림도어
+1106|페랄라스|칼림도어
+1107|페랄라스|칼림도어
+1108|페랄라스|칼림도어
+1109|페랄라스|칼림도어
+1110|페랄라스|칼림도어
+1111|페랄라스|칼림도어
+1112|페랄라스|칼림도어
+1113|페랄라스|칼림도어
+1114|페랄라스|칼림도어
+1115|페랄라스|칼림도어
+1116|페랄라스|칼림도어
+1117|페랄라스|칼림도어
+1118|페랄라스|칼림도어
+1119|페랄라스|칼림도어
+1120|페랄라스|칼림도어
+1121|페랄라스|칼림도어
+1136|페랄라스|칼림도어
+1137|페랄라스|칼림도어
+1156|불모의 땅|칼림도어
+1157|불모의 땅|칼림도어
+1176|줄파락|던전
+1196|우트가드 첨탑|던전
+1216|아즈샤라|칼림도어
+1217|아즈샤라|칼림도어
+1218|아즈샤라|칼림도어
+1219|아즈샤라|칼림도어
+1220|아즈샤라|칼림도어
+1221|아즈샤라|칼림도어
+1222|아즈샤라|칼림도어
+1223|아즈샤라|칼림도어
+1224|아즈샤라|칼림도어
+1225|아즈샤라|칼림도어
+1226|아즈샤라|칼림도어
+1227|아즈샤라|칼림도어
+1228|아즈샤라|칼림도어
+1229|아즈샤라|칼림도어
+1230|아즈샤라|칼림도어
+1231|아즈샤라|칼림도어
+1232|아즈샤라|칼림도어
+1233|아즈샤라|칼림도어
+1234|아즈샤라|칼림도어
+1235|아즈샤라|칼림도어
+1236|아즈샤라|칼림도어
+1237|아즈샤라|칼림도어
+1256|아즈샤라|칼림도어
+1276|잿빛 골짜기|칼림도어
+1277|돌발톱 산맥|칼림도어
+1296|듀로타|칼림도어
+1297|듀로타|칼림도어
+1316|불모의 땅|칼림도어
+1336|타나리스|칼림도어
+1337|울다만|던전
+1338|은빛소나무 숲|동부 왕국
+1339|알터랙 산맥|동부 왕국
+1357|알터랙 산맥|동부 왕국
+1377|실리더스|칼림도어
+1397|Emerald Forest|기타
+1417|아탈학카르 신전|던전
+1437|저주받은 땅|동부 왕국
+1438|저주받은 땅|동부 왕국
+1439|저주받은 땅|동부 왕국
+1440|저주받은 땅|동부 왕국
+1441|저주받은 땅|동부 왕국
+1442|이글거리는 협곡|동부 왕국
+1443|이글거리는 협곡|동부 왕국
+1444|이글거리는 협곡|동부 왕국
+1445|이글거리는 협곡|동부 왕국
+1446|이글거리는 협곡|동부 왕국
+1457|저주받은 땅|동부 왕국
+1477|아탈학카르 신전|던전
+1497|언더시티|동부 왕국
+1517|황야의 땅|동부 왕국
+1518|서부 몰락지대|동부 왕국
+1519|스톰윈드|동부 왕국
+1537|아이언포지|동부 왕국
+1557|버섯구름 봉우리|칼림도어
+1577|가시덤불 골짜기|동부 왕국
+1578|가시덤불 골짜기|동부 왕국
+1579|Unused The Deadmines 002|기타
+1580|Unused The Deadmines 002|기타
+1581|죽음의 폐광|던전
+1582|죽음의 폐광|던전
+1583|검은바위 첨탑|던전
+1584|검은바위 나락|던전
+1585|검은바위 나락|던전
+1597|불모의 땅|칼림도어
+1598|불모의 땅|칼림도어
+1599|불모의 땅|칼림도어
+1600|불모의 땅|칼림도어
+1601|불모의 땅|칼림도어
+1602|불모의 땅|칼림도어
+1603|불모의 땅|칼림도어
+1617|스톰윈드|동부 왕국
+1637|오그리마|칼림도어
+1638|썬더 블러프|칼림도어
+1639|썬더 블러프|칼림도어
+1640|썬더 블러프|칼림도어
+1641|썬더 블러프|칼림도어
+1657|다르나서스|칼림도어
+1658|다르나서스|칼림도어
+1659|다르나서스|칼림도어
+1660|다르나서스|칼림도어
+1661|다르나서스|칼림도어
+1662|다르나서스|칼림도어
+1677|알터랙 산맥|동부 왕국
+1678|알터랙 산맥|동부 왕국
+1679|알터랙 산맥|동부 왕국
+1680|알터랙 산맥|동부 왕국
+1681|알터랙 산맥|동부 왕국
+1682|알터랙 산맥|동부 왕국
+1683|알터랙 산맥|동부 왕국
+1684|알터랙 산맥|동부 왕국
+1697|불모의 땅|칼림도어
+1698|불모의 땅|칼림도어
+1699|불모의 땅|칼림도어
+1700|불모의 땅|칼림도어
+1701|불모의 땅|칼림도어
+1702|불모의 땅|칼림도어
+1703|불모의 땅|칼림도어
+1704|불모의 땅|칼림도어
+1717|불모의 땅|칼림도어
+1718|불모의 땅|칼림도어
+1737|가시덤불 골짜기|동부 왕국
+1738|가시덤불 골짜기|동부 왕국
+1739|가시덤불 골짜기|동부 왕국
+1740|가시덤불 골짜기|동부 왕국
+1741|가시덤불 골짜기|동부 왕국
+1742|가시덤불 골짜기|동부 왕국
+1757|가시덤불 골짜기|동부 왕국
+1758|가시덤불 골짜기|동부 왕국
+1759|가시덤불 골짜기|동부 왕국
+1760|가시덤불 골짜기|동부 왕국
+1761|악령의 숲|칼림도어
+1762|악령의 숲|칼림도어
+1763|악령의 숲|칼림도어
+1764|악령의 숲|칼림도어
+1765|악령의 숲|칼림도어
+1766|악령의 숲|칼림도어
+1767|악령의 숲|칼림도어
+1768|악령의 숲|칼림도어
+1769|악령의 숲|칼림도어
+1770|악령의 숲|칼림도어
+1771|악령의 숲|칼림도어
+1777|슬픔의 늪|동부 왕국
+1778|슬픔의 늪|동부 왕국
+1779|슬픔의 늪|동부 왕국
+1780|슬픔의 늪|동부 왕국
+1797|슬픔의 늪|동부 왕국
+1798|슬픔의 늪|동부 왕국
+1817|슬픔의 늪|동부 왕국
+1837|아라시 고원|동부 왕국
+1857|아라시 고원|동부 왕국
+1858|아라시 고원|동부 왕국
+1877|황야의 땅|동부 왕국
+1878|황야의 땅|동부 왕국
+1879|황야의 땅|동부 왕국
+1880|동부 내륙지|동부 왕국
+1881|동부 내륙지|동부 왕국
+1882|동부 내륙지|동부 왕국
+1883|동부 내륙지|동부 왕국
+1884|동부 내륙지|동부 왕국
+1885|동부 내륙지|동부 왕국
+1886|동부 내륙지|동부 왕국
+1887|동부 내륙지|동부 왕국
+1897|황야의 땅|동부 왕국
+1898|황야의 땅|동부 왕국
+1917|동부 내륙지|동부 왕국
+1937|타나리스|칼림도어
+1938|타나리스|칼림도어
+1939|타나리스|칼림도어
+1940|타나리스|칼림도어
+1941|시간의 동굴|던전
+1942|운고로 분화구|칼림도어
+1943|운고로 분화구|칼림도어
+1957|이글거리는 협곡|동부 왕국
+1958|이글거리는 협곡|동부 왕국
+1959|이글거리는 협곡|동부 왕국
+1977|줄구룹|던전
+1978|슬픔의 늪|동부 왕국
+1997|악령의 숲|칼림도어
+1998|악령의 숲|칼림도어
+2017|스트라솔룸|던전
+2037|Quel'thalas|기타
+2057|스칼로맨스|던전
+2077|어둠의 해안|칼림도어
+2078|어둠의 해안|칼림도어
+2079|먼지진흙 슾지대|칼림도어
+2097|버섯구름 봉우리|칼림도어
+2098|그늘숲|동부 왕국
+2099|붉은마루 산맥|동부 왕국
+2100|마라우돈|던전
+2101|모단 호수|동부 왕국
+2102|던 모로|동부 왕국
+2103|저습지|동부 왕국
+2104|저습지|동부 왕국
+2117|티리스팔 숲|동부 왕국
+2118|티리스팔 숲|동부 왕국
+2119|티리스팔 숲|동부 왕국
+2137|멀고어|칼림도어
+2138|불모의 땅|칼림도어
+2157|불모의 땅|칼림도어
+2158|먼지진흙 슾지대|칼림도어
+2159|오닉시아의 둥지|던전
+2160|돌발톱 산맥|칼림도어
+2161|그늘숲|동부 왕국
+2177|가시덤불 골짜기|동부 왕국
+2197|썬더 블러프|칼림도어
+2198|잊혀진 땅|칼림도어
+2217|잊혀진 땅|칼림도어
+2237|버섯구름 봉우리|칼림도어
+2238|버섯구름 봉우리|칼림도어
+2239|버섯구름 봉우리|칼림도어
+2240|버섯구름 봉우리|칼림도어
+2241|여명의 설원|칼림도어
+2242|여명의 설원|칼림도어
+2243|여명의 설원|칼림도어
+2244|여명의 설원|칼림도어
+2245|여명의 설원|칼림도어
+2246|여명의 설원|칼림도어
+2247|여명의 설원|칼림도어
+2248|여명의 설원|칼림도어
+2249|여명의 설원|칼림도어
+2250|여명의 설원|칼림도어
+2251|여명의 설원|칼림도어
+2252|여명의 설원|칼림도어
+2253|여명의 설원|칼림도어
+2254|여명의 설원|칼림도어
+2255|여명의 설원|칼림도어
+2256|여명의 설원|칼림도어
+2257|깊은굴 지하철|던전
+2258|동부 역병지대|동부 왕국
+2259|동부 역병지대|동부 왕국
+2260|동부 역병지대|동부 왕국
+2261|동부 역병지대|동부 왕국
+2262|동부 역병지대|동부 왕국
+2263|동부 역병지대|동부 왕국
+2264|동부 역병지대|동부 왕국
+2265|동부 역병지대|동부 왕국
+2266|동부 역병지대|동부 왕국
+2267|동부 역병지대|동부 왕국
+2268|동부 역병지대|동부 왕국
+2269|동부 역병지대|동부 왕국
+2270|동부 역병지대|동부 왕국
+2271|동부 역병지대|동부 왕국
+2272|동부 역병지대|동부 왕국
+2273|동부 역병지대|동부 왕국
+2274|동부 역병지대|동부 왕국
+2275|동부 역병지대|동부 왕국
+2276|동부 역병지대|동부 왕국
+2277|동부 역병지대|동부 왕국
+2278|동부 역병지대|동부 왕국
+2279|동부 역병지대|동부 왕국
+2280|DO NOT USE|기타
+2297|서부 역병지대|동부 왕국
+2298|서부 역병지대|동부 왕국
+2299|동부 역병지대|동부 왕국
+2300|타나리스|칼림도어
+2301|잿빛 골짜기|칼림도어
+2302|먼지진흙 슾지대|칼림도어
+2303|버섯구름 봉우리|칼림도어
+2317|타나리스|칼림도어
+2318|먼지진흙 슾지대|칼림도어
+2319|불모의 땅|칼림도어
+2320|듀로타|칼림도어
+2321|아즈샤라|칼림도어
+2322|텔드랏실|칼림도어
+2323|페랄라스|칼림도어
+2324|잊혀진 땅|칼림도어
+2325|잿빛 골짜기|칼림도어
+2326|어둠의 해안|칼림도어
+2337|듀로타|칼림도어
+2338|가시덤불 골짜기|동부 왕국
+2339|가시덤불 골짜기|동부 왕국
+2357|잿빛 골짜기|칼림도어
+2358|잿빛 골짜기|칼림도어
+2359|잿빛 골짜기|칼림도어
+2360|잿빛 골짜기|칼림도어
+2361|달의 숲|칼림도어
+2362|달의 숲|칼림도어
+2363|달의 숲|칼림도어
+2364|서부 몰락지대|동부 왕국
+2365|저습지|동부 왕국
+2366|검은늪|던전
+2367|옛 힐스브래드 구릉지|던전
+2368|옛 힐스브래드 구릉지|던전
+2369|옛 힐스브래드 구릉지|던전
+2370|옛 힐스브래드 구릉지|던전
+2371|옛 힐스브래드 구릉지|던전
+2372|옛 힐스브래드 구릉지|던전
+2373|옛 힐스브래드 구릉지|던전
+2374|옛 힐스브래드 구릉지|던전
+2375|옛 힐스브래드 구릉지|던전
+2376|옛 힐스브래드 구릉지|던전
+2377|옛 힐스브래드 구릉지|던전
+2378|옛 힐스브래드 구릉지|던전
+2379|옛 힐스브래드 구릉지|던전
+2397|힐스브래드 구릉지|동부 왕국
+2398|은빛소나무 숲|동부 왕국
+2399|티리스팔 숲|동부 왕국
+2400|동부 내륙지|동부 왕국
+2401|아라시 고원|동부 왕국
+2402|저습지|동부 왕국
+2403|슬픔의 늪|동부 왕국
+2404|잊혀진 땅|칼림도어
+2405|잊혀진 땅|칼림도어
+2406|잊혀진 땅|칼림도어
+2407|잊혀진 땅|칼림도어
+2408|잊혀진 땅|칼림도어
+2417|불타는 평원|동부 왕국
+2418|불타는 평원|동부 왕국
+2419|불타는 평원|동부 왕국
+2420|불타는 평원|동부 왕국
+2421|불타는 평원|동부 왕국
+2437|성난불길 협곡|던전
+2457|잿빛 골짜기|칼림도어
+2477|실리더스|칼림도어
+2478|악령의 숲|칼림도어
+2479|악령의 숲|칼림도어
+2480|악령의 숲|칼림도어
+2481|악령의 숲|칼림도어
+2497|아즈샤라|칼림도어
+2517|저주받은 땅|동부 왕국
+2518|페랄라스|칼림도어
+2519|페랄라스|칼림도어
+2520|페랄라스|칼림도어
+2521|페랄라스|칼림도어
+2522|페랄라스|칼림도어
+2537|돌발톱 산맥|칼림도어
+2538|돌발톱 산맥|칼림도어
+2539|돌발톱 산맥|칼림도어
+2540|돌발톱 산맥|칼림도어
+2541|돌발톱 산맥|칼림도어
+2557|혈투의 전장|던전
+2558|죽음의 고개|동부 왕국
+2559|죽음의 고개|동부 왕국
+2560|죽음의 고개|동부 왕국
+2561|죽음의 고개|동부 왕국
+2562|죽음의 고개|동부 왕국
+2563|죽음의 고개|동부 왕국
+2597|Alterac Valley|던전
+2617|잊혀진 땅|칼림도어
+2618|악령의 숲|칼림도어
+2619|동부 역병지대|동부 왕국
+2620|서부 역병지대|동부 왕국
+2621|동부 역병지대|동부 왕국
+2622|동부 역병지대|동부 왕국
+2623|동부 역병지대|동부 왕국
+2624|동부 역병지대|동부 왕국
+2625|동부 역병지대|동부 왕국
+2626|동부 역병지대|동부 왕국
+2627|동부 역병지대|동부 왕국
+2637|잿빛 골짜기|칼림도어
+2657|셴드랄라스|칼림도어
+2677|검은날개 둥지|던전
+2697|죽음의 고개|동부 왕국
+2717|화산 심장부|던전
+2737|실리더스|칼림도어
+2738|실리더스|칼림도어
+2739|실리더스|칼림도어
+2740|실리더스|칼림도어
+2741|실리더스|칼림도어
+2742|실리더스|칼림도어
+2743|실리더스|칼림도어
+2744|실리더스|칼림도어
+2757|불모의 땅|칼림도어
+2777|힐스브래드 구릉지|동부 왕국
+2797|잿빛 골짜기|칼림도어
+2817|Crystalsong Forest|기타
+2837|죽음의 고개|동부 왕국
+2838|이글거리는 협곡|동부 왕국
+2839|알터랙 산맥|동부 왕국
+2857|타나리스|칼림도어
+2877|Programmer Isle|기타
+2897|잿빛 골짜기|칼림도어
+2917|Hall of Legends|던전
+2918|Champions' Hall|던전
+2937|죽음의 고개|동부 왕국
+2938|죽음의 고개|동부 왕국
+2957|Alterac Valley|던전
+2958|Alterac Valley|던전
+2959|Alterac Valley|던전
+2960|Alterac Valley|던전
+2961|Alterac Valley|던전
+2962|Alterac Valley|던전
+2963|Alterac Valley|던전
+2964|Alterac Valley|던전
+2977|Alterac Valley|던전
+2978|Alterac Valley|던전
+2979|듀로타|칼림도어
+3017|Alterac Valley|던전
+3037|버섯구름 봉우리|칼림도어
+3038|버섯구름 봉우리|칼림도어
+3039|버섯구름 봉우리|칼림도어
+3057|Alterac Valley|던전
+3058|Alterac Valley|던전
+3077|실리더스|칼림도어
+3097|실리더스|칼림도어
+3098|실리더스|칼림도어
+3099|실리더스|칼림도어
+3100|실리더스|칼림도어
+3117|페랄라스|칼림도어
+3137|아즈샤라|칼림도어
+3138|아즈샤라|칼림도어
+3139|여명의 설원|칼림도어
+3140|아즈샤라|칼림도어
+3157|돌발톱 산맥|칼림도어
+3177|잿빛 골짜기|칼림도어
+3197|서부 역병지대|동부 왕국
+3217|페랄라스|칼림도어
+3237|혈투의 전장|던전
+3257|실리더스|칼림도어
+3277|Warsong Gulch|던전
+3297|Alterac Valley|던전
+3298|Alterac Valley|던전
+3299|Alterac Valley|던전
+3300|Alterac Valley|던전
+3301|Alterac Valley|던전
+3302|Alterac Valley|던전
+3303|Alterac Valley|던전
+3304|Alterac Valley|던전
+3305|Alterac Valley|던전
+3306|Alterac Valley|던전
+3317|동부 내륙지|동부 왕국
+3318|Alterac Valley|던전
+3319|잿빛 골짜기|칼림도어
+3320|Warsong Gulch|던전
+3321|Warsong Gulch|던전
+3337|Alterac Valley|던전
+3338|Alterac Valley|던전
+3357|가시덤불 골짜기|동부 왕국
+3358|Arathi Basin|던전
+3377|줄구룹|던전
+3378|줄구룹|던전
+3379|줄구룹|던전
+3380|줄구룹|던전
+3381|줄구룹|던전
+3382|줄구룹|던전
+3383|줄구룹|던전
+3384|줄구룹|던전
+3397|줄구룹|던전
+3398|줄구룹|던전
+3417|Arathi Basin|던전
+3418|Arathi Basin|던전
+3419|줄구룹|던전
+3420|Arathi Basin|던전
+3421|Arathi Basin|던전
+3422|Arathi Basin|던전
+3423|Arathi Basin|던전
+3424|Arathi Basin|던전
+3425|실리더스|칼림도어
+3426|실리더스|칼림도어
+3427|실리더스|칼림도어
+3428|Temple of Ahn'Qiraj|던전
+3429|안퀴라즈 폐허|던전
+3430|Eversong Woods|던전
+3431|Eversong Woods|던전
+3432|Eversong Woods|던전
+3433|Ghostlands|던전
+3434|Temple of Ahn'Qiraj|던전
+3435|Temple of Ahn'Qiraj|던전
+3436|Temple of Ahn'Qiraj|던전
+3437|Temple of Ahn'Qiraj|던전
+3438|Temple of Ahn'Qiraj|던전
+3439|Temple of Ahn'Qiraj|던전
+3440|안퀴라즈 폐허|던전
+3441|안퀴라즈 폐허|던전
+3442|안퀴라즈 폐허|던전
+3443|안퀴라즈 폐허|던전
+3444|안퀴라즈 폐허|던전
+3445|안퀴라즈 폐허|던전
+3446|실리더스|칼림도어
+3447|실리더스|칼림도어
+3448|안퀴라즈 폐허|던전
+3449|안퀴라즈 폐허|던전
+3450|안퀴라즈 폐허|던전
+3451|안퀴라즈 폐허|던전
+3452|안퀴라즈 폐허|던전
+3453|안퀴라즈 폐허|던전
+3454|실리더스|칼림도어
+3455|The North Sea|기타
+3456|낙스라마스|던전
+3457|카라잔|던전
+3459|City|기타
+3460|Eversong Woods|던전
+3461|Eversong Woods|던전
+3462|Eversong Woods|던전
+3463|Eversong Woods|던전
+3464|Eversong Woods|던전
+3465|Eversong Woods|던전
+3466|Eversong Woods|던전
+3467|Eversong Woods|던전
+3468|Eversong Woods|던전
+3469|Eversong Woods|던전
+3470|Eversong Woods|던전
+3471|Eversong Woods|던전
+3472|Eversong Woods|던전
+3473|Eversong Woods|던전
+3474|Eversong Woods|던전
+3475|Eversong Woods|던전
+3476|Eversong Woods|던전
+3477|아졸네룹|기타
+3478|Gates of Ahn'Qiraj|기타
+3479|Azuremyst Isle|던전
+3480|Eversong Woods|던전
+3481|Eversong Woods|던전
+3482|Eversong Woods|던전
+3483|Hellfire Peninsula|던전
+3484|Eversong Woods|던전
+3485|Eversong Woods|던전
+3486|알터랙 산맥|동부 왕국
+3487|Silvermoon City|던전
+3488|Ghostlands|던전
+3489|Ghostlands|던전
+3490|Ghostlands|던전
+3491|Ghostlands|던전
+3492|Ghostlands|던전
+3493|Ghostlands|던전
+3494|Ghostlands|던전
+3495|Ghostlands|던전
+3496|Ghostlands|던전
+3497|Ghostlands|던전
+3498|Ghostlands|던전
+3499|Ghostlands|던전
+3500|Ghostlands|던전
+3501|Ghostlands|던전
+3502|Ghostlands|던전
+3503|Ghostlands|던전
+3504|Ghostlands|던전
+3505|Ghostlands|던전
+3506|Ghostlands|던전
+3507|Ghostlands|던전
+3508|Ghostlands|던전
+3509|Ghostlands|던전
+3510|Ghostlands|던전
+3511|Ghostlands|던전
+3512|Ghostlands|던전
+3513|Ghostlands|던전
+3514|Ghostlands|던전
+3515|Ghostlands|던전
+3516|Ghostlands|던전
+3517|Ghostlands|던전
+3518|Nagrand|던전
+3519|Terokkar Forest|던전
+3520|Shadowmoon Valley|던전
+3521|Zangarmarsh|던전
+3522|Blade's Edge Mountains|던전
+3523|Netherstorm|던전
+3524|Azuremyst Isle|던전
+3525|Bloodmyst Isle|던전
+3526|Azuremyst Isle|던전
+3527|Azuremyst Isle|던전
+3528|Azuremyst Isle|던전
+3529|Azuremyst Isle|던전
+3530|Azuremyst Isle|던전
+3531|Eversong Woods|던전
+3532|Eversong Woods|던전
+3533|Eversong Woods|던전
+3534|Eversong Woods|던전
+3535|지옥불 성채|기타
+3536|Hellfire Peninsula|던전
+3537|Borean Tundra|기타
+3538|Hellfire Peninsula|던전
+3539|Hellfire Peninsula|던전
+3540|Twisting Nether|기타
+3541|Hellfire Peninsula|던전
+3542|Hellfire Peninsula|던전
+3543|Hellfire Peninsula|던전
+3544|Hellfire Peninsula|던전
+3545|Hellfire Peninsula|던전
+3546|Hellfire Peninsula|던전
+3547|Hellfire Peninsula|던전
+3548|Hellfire Peninsula|던전
+3549|Hellfire Peninsula|던전
+3550|Hellfire Peninsula|던전
+3551|Hellfire Peninsula|던전
+3552|Hellfire Peninsula|던전
+3553|Hellfire Peninsula|던전
+3554|Hellfire Peninsula|던전
+3555|Hellfire Peninsula|던전
+3556|Hellfire Peninsula|던전
+3557|The Exodar|던전
+3558|Eversong Woods|던전
+3559|Azuremyst Isle|던전
+3560|Azuremyst Isle|던전
+3561|Azuremyst Isle|던전
+3562|지옥불 성루|던전
+3563|지옥불 성채|던전
+3564|Azuremyst Isle|던전
+3565|Zangarmarsh|던전
+3566|Azuremyst Isle|던전
+3567|Azuremyst Isle|던전
+3568|Azuremyst Isle|던전
+3569|Azuremyst Isle|던전
+3570|Azuremyst Isle|던전
+3571|Azuremyst Isle|던전
+3572|Azuremyst Isle|던전
+3573|Azuremyst Isle|던전
+3574|Azuremyst Isle|던전
+3575|Azuremyst Isle|던전
+3576|Azuremyst Isle|던전
+3577|Azuremyst Isle|던전
+3578|Azuremyst Isle|던전
+3579|Azuremyst Isle|던전
+3580|Azuremyst Isle|던전
+3581|Azuremyst Isle|던전
+3582|Hellfire Peninsula|던전
+3583|Bloodmyst Isle|던전
+3584|Bloodmyst Isle|던전
+3585|Bloodmyst Isle|던전
+3586|Bloodmyst Isle|던전
+3587|Bloodmyst Isle|던전
+3588|Bloodmyst Isle|던전
+3589|Bloodmyst Isle|던전
+3590|Bloodmyst Isle|던전
+3591|Bloodmyst Isle|던전
+3592|Bloodmyst Isle|던전
+3593|Bloodmyst Isle|던전
+3594|Bloodmyst Isle|던전
+3595|Bloodmyst Isle|던전
+3596|Bloodmyst Isle|던전
+3597|Bloodmyst Isle|던전
+3598|Bloodmyst Isle|던전
+3599|Bloodmyst Isle|던전
+3600|Bloodmyst Isle|던전
+3601|Bloodmyst Isle|던전
+3602|Bloodmyst Isle|던전
+3603|Bloodmyst Isle|던전
+3604|Bloodmyst Isle|던전
+3605|Hyjal Past|기타
+3606|하이잘 정상|던전
+3607|Serpentshire Cavern|던전
+3608|Bloodmyst Isle|던전
+3609|Nagrand|던전
+3610|Nagrand|던전
+3611|Nagrand|던전
+3612|Bloodmyst Isle|던전
+3613|Nagrand|던전
+3614|Nagrand|던전
+3615|Nagrand|던전
+3616|Nagrand|던전
+3617|Nagrand|던전
+3618|Nagrand|던전
+3619|Nagrand|던전
+3620|Nagrand|던전
+3621|Nagrand|던전
+3622|Nagrand|던전
+3623|Nagrand|던전
+3624|Nagrand|던전
+3625|Nagrand|던전
+3626|Nagrand|던전
+3627|Nagrand|던전
+3628|Nagrand|던전
+3629|Nagrand|던전
+3630|Nagrand|던전
+3631|Nagrand|던전
+3632|Nagrand|던전
+3633|Nagrand|던전
+3634|Nagrand|던전
+3635|Nagrand|던전
+3636|Nagrand|던전
+3637|Nagrand|던전
+3638|Nagrand|던전
+3639|Azuremyst Isle|던전
+3640|Zangarmarsh|던전
+3641|Zangarmarsh|던전
+3642|Zangarmarsh|던전
+3643|Zangarmarsh|던전
+3644|Zangarmarsh|던전
+3645|Zangarmarsh|던전
+3646|Zangarmarsh|던전
+3647|Zangarmarsh|던전
+3648|Zangarmarsh|던전
+3649|Zangarmarsh|던전
+3650|Zangarmarsh|던전
+3651|Zangarmarsh|던전
+3652|Zangarmarsh|던전
+3653|Zangarmarsh|던전
+3654|Zangarmarsh|던전
+3655|Zangarmarsh|던전
+3656|Zangarmarsh|던전
+3657|Zangarmarsh|던전
+3658|Zangarmarsh|던전
+3659|Zangarmarsh|던전
+3660|Zangarmarsh|던전
+3661|Zangarmarsh|던전
+3662|Eversong Woods|던전
+3663|Eversong Woods|던전
+3664|Eversong Woods|던전
+3665|Eversong Woods|던전
+3666|Nagrand|던전
+3667|Zangarmarsh|던전
+3668|Zangarmarsh|던전
+3669|Hellfire Peninsula|던전
+3670|Hellfire Peninsula|던전
+3671|Hellfire Peninsula|던전
+3672|Nagrand|던전
+3673|Nagrand|던전
+3674|Terokkar Forest|던전
+3675|Terokkar Forest|던전
+3676|Terokkar Forest|던전
+3677|Terokkar Forest|던전
+3678|Terokkar Forest|던전
+3679|Terokkar Forest|던전
+3680|Terokkar Forest|던전
+3681|Terokkar Forest|던전
+3682|Terokkar Forest|던전
+3683|Terokkar Forest|던전
+3684|Terokkar Forest|던전
+3685|Terokkar Forest|던전
+3686|Terokkar Forest|던전
+3687|Terokkar Forest|던전
+3688|Terokkar Forest|던전
+3689|Terokkar Forest|던전
+3690|Terokkar Forest|던전
+3691|Terokkar Forest|던전
+3692|Terokkar Forest|던전
+3693|Terokkar Forest|던전
+3694|Terokkar Forest|던전
+3695|Terokkar Forest|던전
+3696|Terokkar Forest|던전
+3697|Terokkar Forest|던전
+3698|Nagrand Arena|기타
+3699|Nagrand|던전
+3700|Nagrand|던전
+3701|Nagrand|던전
+3702|Blade's Edge Arena|기타
+3703|Shattrath City|던전
+3704|Silvermoon City|던전
+3705|Nagrand|던전
+3706|검은늪|던전
+3707|하이잘 정상|던전
+3708|하이잘 정상|던전
+3709|하이잘 정상|던전
+3710|하이잘 정상|던전
+3711|Sholazar Basin|기타
+3712|Netherstorm|던전
+3713|피의 용광로|던전
+3714|으스러진 손의 전당|던전
+3715|증기 저장고|던전
+3716|지하수렁|던전
+3717|강제 노역소|던전
+3718|Zangarmarsh|던전
+3719|Terokkar Forest|던전
+3720|Zangarmarsh|던전
+3721|Netherstorm|던전
+3722|Netherstorm|던전
+3723|Netherstorm|던전
+3724|Netherstorm|던전
+3725|Netherstorm|던전
+3726|Netherstorm|던전
+3727|Netherstorm|던전
+3728|Netherstorm|던전
+3729|Netherstorm|던전
+3730|Netherstorm|던전
+3731|Netherstorm|던전
+3732|Netherstorm|던전
+3733|Netherstorm|던전
+3734|Netherstorm|던전
+3735|Netherstorm|던전
+3736|Netherstorm|던전
+3737|Netherstorm|던전
+3738|Netherstorm|던전
+3739|Netherstorm|던전
+3740|Netherstorm|던전
+3741|Netherstorm|던전
+3742|Netherstorm|던전
+3743|Shadowmoon Valley|던전
+3744|Shadowmoon Valley|던전
+3745|Shadowmoon Valley|던전
+3746|Shadowmoon Valley|던전
+3747|Shadowmoon Valley|던전
+3748|Shadowmoon Valley|던전
+3749|Shadowmoon Valley|던전
+3750|Shadowmoon Valley|던전
+3751|Shadowmoon Valley|던전
+3752|Shadowmoon Valley|던전
+3753|Shadowmoon Valley|던전
+3754|Shadowmoon Valley|던전
+3755|Shadowmoon Valley|던전
+3756|Shadowmoon Valley|던전
+3757|Shadowmoon Valley|던전
+3758|Shadowmoon Valley|던전
+3759|Shadowmoon Valley|던전
+3760|Nagrand|던전
+3761|Nagrand|던전
+3762|Nagrand|던전
+3763|Nagrand|던전
+3764|Nagrand|던전
+3765|Hellfire Peninsula|던전
+3766|Zangarmarsh|던전
+3767|Blade's Edge Mountains|던전
+3768|Blade's Edge Mountains|던전
+3769|Blade's Edge Mountains|던전
+3770|Blade's Edge Mountains|던전
+3771|Blade's Edge Mountains|던전
+3772|Blade's Edge Mountains|던전
+3773|Blade's Edge Mountains|던전
+3774|Blade's Edge Mountains|던전
+3775|Blade's Edge Mountains|던전
+3776|Blade's Edge Mountains|던전
+3777|Blade's Edge Mountains|던전
+3778|Blade's Edge Mountains|던전
+3779|Blade's Edge Mountains|던전
+3780|Blade's Edge Mountains|던전
+3781|Blade's Edge Mountains|던전
+3782|Blade's Edge Mountains|던전
+3783|Blade's Edge Mountains|던전
+3784|Blade's Edge Mountains|던전
+3785|Blade's Edge Mountains|던전
+3786|Blade's Edge Mountains|던전
+3787|Blade's Edge Mountains|던전
+3788|Nagrand|던전
+3789|어둠의 미궁|던전
+3790|아키나이 납골당|던전
+3791|세데크 전당|던전
+3792|마나 무덤|던전
+3793|Hellfire Peninsula|던전
+3794|Hellfire Peninsula|던전
+3795|Hellfire Peninsula|던전
+3796|Hellfire Peninsula|던전
+3797|Hellfire Peninsula|던전
+3798|Hellfire Peninsula|던전
+3799|Hellfire Peninsula|던전
+3800|Hellfire Peninsula|던전
+3801|Hellfire Peninsula|던전
+3802|Hellfire Peninsula|던전
+3803|Hellfire Peninsula|던전
+3804|Hellfire Peninsula|던전
+3805|줄아만|던전
+3806|Hellfire Peninsula|던전
+3807|Hellfire Peninsula|던전
+3808|Hellfire Peninsula|던전
+3809|Hellfire Peninsula|던전
+3810|Hellfire Peninsula|던전
+3811|Hellfire Peninsula|던전
+3812|Hellfire Peninsula|던전
+3813|Hellfire Peninsula|던전
+3814|Hellfire Peninsula|던전
+3815|Hellfire Peninsula|던전
+3816|Hellfire Peninsula|던전
+3817|Test Dungeon|기타
+3818|Zangarmarsh|던전
+3819|Zangarmarsh|던전
+3820|Eye of the Storm|기타
+3821|Shadowmoon Valley|던전
+3822|Shadowmoon Valley|던전
+3823|Ghostlands|던전
+3824|Blade's Edge Mountains|던전
+3825|Blade's Edge Mountains|던전
+3826|Blade's Edge Mountains|던전
+3827|Blade's Edge Mountains|던전
+3828|Blade's Edge Mountains|던전
+3829|Blade's Edge Mountains|던전
+3830|Blade's Edge Mountains|던전
+3831|Blade's Edge Mountains|던전
+3832|Blade's Edge Mountains|던전
+3833|Blade's Edge Mountains|던전
+3834|Blade's Edge Mountains|던전
+3835|Hellfire Peninsula|던전
+3836|마그테리돈의 둥지|던전
+3837|Netherstorm|던전
+3838|Hellfire Peninsula|던전
+3839|Nagrand|던전
+3840|Shadowmoon Valley|던전
+3841|Zangarmarsh|던전
+3842|Netherstorm|던전
+3844|Blade's Edge Mountains|던전
+3845|폭풍우 요새|던전
+3846|Bloodmyst Isle|던전
+3847|신록의 정원|던전
+3848|알카트라즈|던전
+3849|메카나르|던전
+3850|Netherstorm|던전
+3851|Netherstorm|던전
+3852|Netherstorm|던전
+3854|Netherstorm|던전
+3855|Blade's Edge Mountains|던전
+3856|Ghostlands|던전
+3857|Azuremyst Isle|던전
+3858|Terokkar Forest|던전
+3859|Terokkar Forest|던전
+3860|Terokkar Forest|던전
+3861|Ghostlands|던전
+3862|Blade's Edge Mountains|던전
+3863|Blade's Edge Mountains|던전
+3864|Blade's Edge Mountains|던전
+3865|Blade's Edge Mountains|던전
+3866|Blade's Edge Mountains|던전
+3867|Blade's Edge Mountains|던전
+3868|Netherstorm|던전
+3869|Eye of the Storm|기타
+3870|Eye of the Storm|기타
+3871|Eye of the Storm|기타
+3872|Eye of the Storm|기타
+3873|Netherstorm|던전
+3874|Netherstorm|던전
+3875|Netherstorm|던전
+3876|Netherstorm|던전
+3877|Netherstorm|던전
+3878|Netherstorm|던전
+3879|Netherstorm|던전
+3880|Netherstorm|던전
+3881|Netherstorm|던전
+3882|Netherstorm|던전
+3883|Netherstorm|던전
+3884|Hellfire Peninsula|던전
+3885|Terokkar Forest|던전
+3886|Terokkar Forest|던전
+3887|Terokkar Forest|던전
+3888|Terokkar Forest|던전
+3889|Terokkar Forest|던전
+3890|Terokkar Forest|던전
+3891|Terokkar Forest|던전
+3892|Terokkar Forest|던전
+3893|Terokkar Forest|던전
+3894|Terokkar Forest|던전
+3895|Zangarmarsh|던전
+3896|Shattrath City|던전
+3897|Shattrath City|던전
+3898|Shattrath City|던전
+3899|Shattrath City|던전
+3900|Netherstorm|던전
+3901|Terokkar Forest|던전
+3902|Terokkar Forest|던전
+3903|Blade's Edge Mountains|던전
+3904|Blade's Edge Mountains|던전
+3905|Zangarmarsh|던전
+3906|Bloodmyst Isle|던전
+3907|Bloodmyst Isle|던전
+3908|Bloodmyst Isle|던전
+3909|Bloodmyst Isle|던전
+3910|Bloodmyst Isle|던전
+3911|Eversong Woods|던전
+3912|Eversong Woods|던전
+3913|Eversong Woods|던전
+3914|Eversong Woods|던전
+3915|Azuremyst Isle|던전
+3916|Azuremyst Isle|던전
+3917|Auchindoun|던전
+3918|Blade's Edge Mountains|던전
+3919|Blade's Edge Mountains|던전
+3920|Hellfire Peninsula|던전
+3921|Netherstorm|던전
+3922|Blade's Edge Mountains|던전
+3923|그룰의 둥지|던전
+3924|Blade's Edge Mountains|던전
+3925|Blade's Edge Mountains|던전
+3926|Shadowmoon Valley|던전
+3927|Shadowmoon Valley|던전
+3928|Shadowmoon Valley|던전
+3929|Shadowmoon Valley|던전
+3930|Shadowmoon Valley|던전
+3931|Blade's Edge Mountains|던전
+3932|Shadowmoon Valley|던전
+3933|Shadowmoon Valley|던전
+3934|Netherstorm|던전
+3935|Netherstorm|던전
+3936|Shadowmoon Valley|던전
+3937|Shadowmoon Valley|던전
+3938|Shadowmoon Valley|던전
+3939|Shadowmoon Valley|던전
+3940|Shadowmoon Valley|던전
+3941|Shadowmoon Valley|던전
+3942|Blade's Edge Mountains|던전
+3943|Shadowmoon Valley|던전
+3944|Shadowmoon Valley|던전
+3945|Shadowmoon Valley|던전
+3946|Terokkar Forest|던전
+3947|Shadowmoon Valley|던전
+3948|Brian and Pat Test|기타
+3949|Shadowmoon Valley|던전
+3950|Shadowmoon Valley|던전
+3951|Blade's Edge Mountains|던전
+3952|Blade's Edge Mountains|던전
+3953|Blade's Edge Mountains|던전
+3954|Blade's Edge Mountains|던전
+3955|Hellfire Peninsula|던전
+3956|Terokkar Forest|던전
+3957|Terokkar Forest|던전
+3958|Terokkar Forest|던전
+3959|검은 사원|던전
+3960|Blade's Edge Mountains|던전
+3961|Terokkar Forest|던전
+3962|Blade's Edge Mountains|던전
+3963|Blade's Edge Mountains|던전
+3964|Blade's Edge Mountains|던전
+3965|Shadowmoon Valley|던전
+3966|Shadowmoon Valley|던전
+3967|Shadowmoon Valley|던전
+3968|로데론의 폐허|기타
+3969|Blade's Edge Mountains|던전
+3970|Blade's Edge Mountains|던전
+3971|Blade's Edge Mountains|던전
+3972|Blade's Edge Mountains|던전
+3973|Terokkar Forest|던전
+3974|Terokkar Forest|던전
+3975|Terokkar Forest|던전
+3976|Terokkar Forest|던전
+3977|Terokkar Forest|던전
+3978|Terokkar Forest|던전
+3979|The Frozen Sea|기타
+3980|Howling Fjord|기타
+3981|Howling Fjord|기타
+3982|Howling Fjord|기타
+3983|Howling Fjord|기타
+3984|Howling Fjord|기타
+3985|Howling Fjord|기타
+3986|Howling Fjord|기타
+3987|Howling Fjord|기타
+3988|Howling Fjord|기타
+3989|Howling Fjord|기타
+3990|Howling Fjord|기타
+3991|Howling Fjord|기타
+3992|Howling Fjord|기타
+3993|Howling Fjord|기타
+3994|Howling Fjord|기타
+3995|Howling Fjord|기타
+3996|Howling Fjord|기타
+3997|Howling Fjord|기타
+3998|Howling Fjord|기타
+3999|Howling Fjord|기타
+4000|Howling Fjord|기타
+4001|Howling Fjord|기타
+4002|Howling Fjord|기타
+4003|Howling Fjord|기타
+4004|Howling Fjord|기타
+4005|Howling Fjord|기타
+4006|Howling Fjord|기타
+4007|Howling Fjord|기타
+4008|Blade's Edge Mountains|던전
+4009|검은 사원|던전
+4010|먼지진흙 슾지대|칼림도어
+4018|Howling Fjord|기타
+4019|Development Land|기타
+4020|Borean Tundra|기타
+4021|Borean Tundra|기타
+4022|Borean Tundra|기타
+4023|Borean Tundra|기타
+4024|Borean Tundra|기타
+4025|Borean Tundra|기타
+4026|Borean Tundra|기타
+4027|Borean Tundra|기타
+4028|Borean Tundra|기타
+4029|Borean Tundra|기타
+4030|Borean Tundra|기타
+4031|Borean Tundra|기타
+4032|Borean Tundra|기타
+4033|Borean Tundra|기타
+4034|Borean Tundra|기타
+4035|Borean Tundra|기타
+4036|Borean Tundra|기타
+4037|Borean Tundra|기타
+4038|Borean Tundra|기타
+4039|Borean Tundra|기타
+4040|Borean Tundra|기타
+4041|Borean Tundra|기타
+4042|Borean Tundra|기타
+4043|Borean Tundra|기타
+4046|먼지진흙 슾지대|칼림도어
+4047|먼지진흙 슾지대|칼림도어
+4048|Howling Fjord|기타
+4049|먼지진흙 슾지대|칼림도어
+4050|Howling Fjord|기타
+4051|Howling Fjord|기타
+4052|Howling Fjord|기타
+4053|Howling Fjord|기타
+4054|Howling Fjord|기타
+4055|Howling Fjord|기타
+4056|Howling Fjord|기타
+4057|Howling Fjord|기타
+4058|Howling Fjord|기타
+4059|Howling Fjord|기타
+4060|Howling Fjord|기타
+4061|Howling Fjord|기타
+4062|Howling Fjord|기타
+4063|Howling Fjord|기타
+4064|Howling Fjord|기타
+4065|Howling Fjord|기타
+4066|Howling Fjord|기타
+4067|동부 역병지대|동부 왕국
+4068|Howling Fjord|기타
+4069|Howling Fjord|기타
+4070|Howling Fjord|기타
+4071|Howling Fjord|기타
+4072|Designer Island|기타
+4073|Howling Fjord|기타
+4074|Howling Fjord|기타
+4075|태양샘 고원|던전
+4076|Reuse Me 7|기타
+4077|Howling Fjord|기타
+4078|Terokkar Forest|던전
+4079|Howling Fjord|기타
+4080|Isle of Quel'Danas|던전
+4081|Isle of Quel'Danas|던전
+4082|Isle of Quel'Danas|던전
+4083|Isle of Quel'Danas|던전
+4084|Isle of Quel'Danas|던전
+4085|Isle of Quel'Danas|던전
+4086|Isle of Quel'Danas|던전
+4087|Isle of Quel'Danas|던전
+4088|Isle of Quel'Danas|던전
+4089|Isle of Quel'Danas|던전
+4090|Isle of Quel'Danas|던전
+4091|Isle of Quel'Danas|던전
+4092|Isle of Quel'Danas|던전
+4093|Isle of Quel'Danas|던전
+4094|Isle of Quel'Danas|던전
+4095|Isle of Quel'Danas|던전
+4096|Development Land|기타
+4097|Borean Tundra|기타
+4098|Borean Tundra|기타
+4099|Borean Tundra|기타
+4100|The Culling of Stratholme|던전
+4101|Borean Tundra|기타
+4102|Borean Tundra|기타
+4103|Borean Tundra|기타
+4104|Borean Tundra|기타
+4105|Borean Tundra|기타
+4106|Borean Tundra|기타
+4107|Borean Tundra|기타
+4108|Borean Tundra|기타
+4109|Borean Tundra|기타
+4110|Borean Tundra|기타
+4111|Borean Tundra|기타
+4112|Borean Tundra|기타
+4113|Borean Tundra|기타
+4114|Borean Tundra|기타
+4115|Borean Tundra|기타
+4116|Borean Tundra|기타
+4117|Borean Tundra|기타
+4118|Borean Tundra|기타
+4119|Borean Tundra|기타
+4120|Borean Tundra|기타
+4121|Borean Tundra|기타
+4122|Borean Tundra|기타
+4123|Borean Tundra|기타
+4124|Borean Tundra|기타
+4125|Borean Tundra|기타
+4126|Borean Tundra|기타
+4127|Borean Tundra|기타
+4128|Borean Tundra|기타
+4129|Borean Tundra|기타
+4130|Borean Tundra|기타
+4131|마법학자의 정원|던전
+4132|Borean Tundra|기타
+4133|Borean Tundra|기타
+4134|Borean Tundra|기타
+4135|Borean Tundra|기타
+4136|Borean Tundra|기타
+4137|Borean Tundra|기타
+4138|Borean Tundra|기타
+4139|태양샘 고원|던전
+4140|태양샘 고원|던전
+4141|Borean Tundra|기타
+4142|Borean Tundra|기타
+4143|Borean Tundra|기타
+4144|Borean Tundra|기타
+4145|Borean Tundra|기타
+4146|Borean Tundra|기타
+4147|Borean Tundra|기타
+4148|Borean Tundra|기타
+4149|Borean Tundra|기타
+4150|Borean Tundra|기타
+4151|Dragonblight|기타
+4152|Dragonblight|기타
+4153|Dragonblight|기타
+4154|Dragonblight|기타
+4155|Dragonblight|기타
+4156|Dragonblight|기타
+4157|Dragonblight|기타
+4158|Dragonblight|기타
+4159|Grizzly Hills|기타
+4160|Dragonblight|기타
+4161|Dragonblight|기타
+4162|Dragonblight|기타
+4163|Dragonblight|기타
+4164|Dragonblight|기타
+4165|Dragonblight|기타
+4166|Dragonblight|기타
+4167|Dragonblight|기타
+4168|Dragonblight|기타
+4169|Dragonblight|기타
+4170|Dragonblight|기타
+4171|Dragonblight|기타
+4172|Dragonblight|기타
+4173|Dragonblight|기타
+4174|Dragonblight|기타
+4175|Dragonblight|기타
+4176|Dragonblight|기타
+4177|Dragonblight|기타
+4178|Dragonblight|기타
+4179|Dragonblight|기타
+4180|Dragonblight|기타
+4181|Dragonblight|기타
+4182|Dragonblight|기타
+4183|Dragonblight|기타
+4184|Dragonblight|기타
+4185|Dragonblight|기타
+4186|Dragonblight|기타
+4187|Dragonblight|기타
+4188|Dragonblight|기타
+4189|Dragonblight|기타
+4190|Dragonblight|기타
+4191|Dragonblight|기타
+4192|Dragonblight|기타
+4193|Dragonblight|기타
+4194|Dragonblight|기타
+4195|Dragonblight|기타
+4196|드락타론 성채|던전
+4197|Wintergrasp|기타
+4198|Dragonblight|기타
+4199|Grizzly Hills|기타
+4200|Grizzly Hills|기타
+4201|Vordrassil's Tears|기타
+4202|Grizzly Hills|기타
+4203|Grizzly Hills|기타
+4204|Grizzly Hills|기타
+4205|Grizzly Hills|기타
+4206|Grizzly Hills|기타
+4207|Grizzly Hills|기타
+4208|Grizzly Hills|기타
+4209|Grizzly Hills|기타
+4210|Grizzly Hills|기타
+4211|Grizzly Hills|기타
+4212|Grizzly Hills|기타
+4213|Grizzly Hills|기타
+4214|Grizzly Hills|기타
+4215|Grizzly Hills|기타
+4216|Grizzly Hills|기타
+4217|Grizzly Hills|기타
+4218|Grizzly Hills|기타
+4219|Grizzly Hills|기타
+4220|Grizzly Hills|기타
+4221|Grizzly Hills|기타
+4222|Grizzly Hills|기타
+4223|Dragonblight|기타
+4224|Dragonblight|기타
+4225|Dragonblight|기타
+4226|Howling Fjord|기타
+4227|Dragonblight|기타
+4228|The Oculus|던전
+4229|Grizzly Hills|기타
+4230|Dragonblight|기타
+4231|Grizzly Hills|기타
+4232|Dragonblight|기타
+4233|Dragonblight|기타
+4234|Dragonblight|기타
+4235|Grizzly Hills|기타
+4236|Grizzly Hills|기타
+4237|Grizzly Hills|기타
+4238|Grizzly Hills|기타
+4239|Grizzly Hills|기타
+4240|Grizzly Hills|기타
+4241|Dragonblight|기타
+4242|Grizzly Hills|기타
+4243|Dragonblight|기타
+4244|Grizzly Hills|기타
+4245|Grizzly Hills|기타
+4246|Dragonblight|기타
+4247|Grizzly Hills|기타
+4248|Grizzly Hills|기타
+4249|Grizzly Hills|기타
+4250|Grizzly Hills|기타
+4251|Grizzly Hills|기타
+4252|Howling Fjord|기타
+4253|Dragonblight|기타
+4254|Dragonblight|기타
+4255|Grizzly Hills|기타
+4256|Dragonblight|기타
+4257|Dragonblight|기타
+4258|The North Sea|기타
+4259|Grizzly Hills|기타
+4260|Howling Fjord|기타
+4261|Howling Fjord|기타
+4262|Grizzly Hills|기타
+4263|Howling Fjord|기타
+4264|Halls of Stone|던전
+4265|마력의 탑|던전
+4266|Grizzly Hills|기타
+4267|Grizzly Hills|기타
+4268|Grizzly Hills|기타
+4269|Borean Tundra|기타
+4270|Grizzly Hills|기타
+4271|Howling Fjord|기타
+4272|Halls of Lightning|던전
+4273|울두아르|던전
+4275|Zul'Drak|기타
+4276|Zul'Drak|기타
+4277|아졸네룹|던전
+4278|Zul'Drak|기타
+4279|Zul'Drak|기타
+4280|Zul'Drak|기타
+4281|동부 역병지대|동부 왕국
+4282|Sholazar Basin|기타
+4283|Sholazar Basin|기타
+4284|Sholazar Basin|기타
+4285|Sholazar Basin|기타
+4286|Sholazar Basin|기타
+4287|Sholazar Basin|기타
+4288|Sholazar Basin|기타
+4289|Sholazar Basin|기타
+4290|Sholazar Basin|기타
+4291|Sholazar Basin|기타
+4292|Sholazar Basin|기타
+4293|Sholazar Basin|기타
+4294|Zul'Drak|기타
+4295|Sholazar Basin|기타
+4296|Sholazar Basin|기타
+4297|Sholazar Basin|기타
+4298|Plaguelands: The Scarlet Enclave|기타
+4299|Zul'Drak|기타
+4300|Sholazar Basin|기타
+4302|Sholazar Basin|기타
+4303|Sholazar Basin|기타
+4304|Sholazar Basin|기타
+4306|Sholazar Basin|기타
+4307|Sholazar Basin|기타
+4308|Sholazar Basin|기타
+4309|Zul'Drak|기타
+4310|Zul'Drak|기타
+4311|Zul'Drak|기타
+4312|Zul'Drak|기타
+4313|Zul'Drak|기타
+4314|Zul'Drak|기타
+4315|Zul'Drak|기타
+4316|Zul'Drak|기타
+4317|Zul'Drak|기타
+4318|Zul'Drak|기타
+4319|Zul'Drak|기타
+4320|Zul'Drak|기타
+4321|Zul'Drak|기타
+4322|Zul'Drak|기타
+4323|Zul'Drak|기타
+4324|Zul'Drak|기타
+4325|Zul'Drak|기타
+4326|Zul'Drak|기타
+4327|Zul'Drak|기타
+4328|Zul'Drak|기타
+4329|Zul'Drak|기타
+4342|Plaguelands: The Scarlet Enclave|기타
+4343|Plaguelands: The Scarlet Enclave|기타
+4344|Plaguelands: The Scarlet Enclave|기타
+4345|Plaguelands: The Scarlet Enclave|기타
+4346|Plaguelands: The Scarlet Enclave|기타
+4347|Plaguelands: The Scarlet Enclave|기타
+4348|Plaguelands: The Scarlet Enclave|기타
+4349|Plaguelands: The Scarlet Enclave|기타
+4350|Plaguelands: The Scarlet Enclave|기타
+4351|Plaguelands: The Scarlet Enclave|기타
+4352|Plaguelands: The Scarlet Enclave|기타
+4353|Plaguelands: The Scarlet Enclave|기타
+4354|Plaguelands: The Scarlet Enclave|기타
+4355|Plaguelands: The Scarlet Enclave|기타
+4356|Plaguelands: The Scarlet Enclave|기타
+4357|Plaguelands: The Scarlet Enclave|기타
+4358|Plaguelands: The Scarlet Enclave|기타
+4359|Plaguelands: The Scarlet Enclave|기타
+4360|Plaguelands: The Scarlet Enclave|기타
+4361|Plaguelands: The Scarlet Enclave|기타
+4362|Plaguelands: The Scarlet Enclave|기타
+4363|Plaguelands: The Scarlet Enclave|기타
+4364|Plaguelands: The Scarlet Enclave|기타
+4365|Plaguelands: The Scarlet Enclave|기타
+4366|Grizzly Hills|기타
+4367|Sholazar Basin|기타
+4368|Sholazar Basin|기타
+4369|Sholazar Basin|기타
+4371|Zul'Drak|기타
+4372|Zul'Drak|기타
+4373|Zul'Drak|기타
+4374|Zul'Drak|기타
+4375|Zul'Drak|기타
+4376|Sholazar Basin|기타
+4377|Plaguelands: The Scarlet Enclave|기타
+4378|Dalaran Arena|기타
+4379|Howling Fjord|기타
+4380|Howling Fjord|기타
+4381|운고로 분화구|칼림도어
+4382|운고로 분화구|칼림도어
+4383|Sholazar Basin|기타
+4384|Strand of the Ancients|기타
+4385|Sholazar Basin|기타
+4386|Sholazar Basin|기타
+4387|Sholazar Basin|기타
+4388|Sholazar Basin|기타
+4389|Sholazar Basin|기타
+4390|Zul'Drak|기타
+4391|Sholazar Basin|기타
+4392|Sholazar Basin|기타
+4393|Sholazar Basin|기타
+4394|Plaguelands: The Scarlet Enclave|기타
+4395|달라란|기타
+4396|Dragonblight|기타
+4399|Borean Tundra|기타
+4400|Sholazar Basin|기타
+4401|Borean Tundra|기타
+4402|Howling Fjord|기타
+4403|Howling Fjord|기타
+4404|Howling Fjord|기타
+4405|아졸네룹|던전
+4406|The Ring of Valor|기타
+4407|Alterac Valley|던전
+4408|Alterac Valley|던전
+4411|스톰윈드|동부 왕국
+4412|Sholazar Basin|기타
+4413|Sholazar Basin|기타
+4414|Dragonblight|기타
+4415|The Violet Hold|던전
+4416|군드락|던전
+4417|Icecrown|기타
+4418|The Storm Peaks|기타
+4419|The Storm Peaks|기타
+4420|The Storm Peaks|기타
+4421|The Storm Peaks|기타
+4422|The Storm Peaks|기타
+4423|The Storm Peaks|기타
+4424|The Storm Peaks|기타
+4425|The Storm Peaks|기타
+4426|The Storm Peaks|기타
+4427|The Storm Peaks|기타
+4428|The Storm Peaks|기타
+4429|The Storm Peaks|기타
+4430|The Storm Peaks|기타
+4431|The Storm Peaks|기타
+4432|The Storm Peaks|기타
+4433|The Storm Peaks|기타
+4434|The Storm Peaks|기타
+4435|The Storm Peaks|기타
+4436|The Storm Peaks|기타
+4437|The Storm Peaks|기타
+4438|The Storm Peaks|기타
+4439|The Storm Peaks|기타
+4440|The Storm Peaks|기타
+4441|The Storm Peaks|기타
+4442|The Storm Peaks|기타
+4443|The Storm Peaks|기타
+4444|The Storm Peaks|기타
+4445|The Storm Peaks|기타
+4446|The Storm Peaks|기타
+4447|The Storm Peaks|기타
+4448|The Storm Peaks|기타
+4449|The Storm Peaks|기타
+4450|The Storm Peaks|기타
+4451|The Storm Peaks|기타
+4452|The Storm Peaks|기타
+4453|The Storm Peaks|기타
+4454|The Storm Peaks|기타
+4455|The Storm Peaks|기타
+4456|Grizzly Hills|기타
+4457|The Storm Peaks|기타
+4458|The Storm Peaks|기타
+4459|The Storm Peaks|기타
+4460|The Storm Peaks|기타
+4461|The Storm Peaks|기타
+4462|The Storm Peaks|기타
+4463|The Storm Peaks|기타
+4464|The Storm Peaks|기타
+4465|The Storm Peaks|기타
+4466|The Storm Peaks|기타
+4467|Icecrown|기타
+4468|Zul'Drak|기타
+4469|Zul'Drak|기타
+4470|Icecrown|기타
+4471|Development Land|기타
+4472|The Storm Peaks|기타
+4473|The Storm Peaks|기타
+4474|Howling Fjord|기타
+4475|Grizzly Hills|기타
+4476|The Storm Peaks|기타
+4477|Icecrown|기타
+4478|Dragonblight|기타
+4479|Howling Fjord|기타
+4480|Grizzly Hills|기타
+4481|Zul'Drak|기타
+4482|Grizzly Hills|기타
+4483|Sholazar Basin|기타
+4484|The Storm Peaks|기타
+4485|The Storm Peaks|기타
+4486|The Storm Peaks|기타
+4487|The Storm Peaks|기타
+4488|The Storm Peaks|기타
+4489|Zul'Drak|기타
+4490|The Storm Peaks|기타
+4491|Grizzly Hills|기타
+4492|Icecrown|기타
+4493|The Obsidian Sanctum|던전
+4494|Ahn'kahet: The Old Kingdom|던전
+4495|The Storm Peaks|기타
+4496|Icecrown|기타
+4497|Icecrown|기타
+4498|Icecrown|기타
+4499|The Storm Peaks|기타
+4500|The Eye of Eternity|던전
+4501|Icecrown|기타
+4502|The Storm Peaks|기타
+4503|Icecrown|기타
+4504|Icecrown|기타
+4505|Icecrown|기타
+4506|Icecrown|기타
+4507|Icecrown|기타
+4508|Icecrown|기타
+4509|Icecrown|기타
+4510|Icecrown|기타
+4511|Icecrown|기타
+4512|Icecrown|기타
+4513|Icecrown|기타
+4514|Icecrown|기타
+4515|Icecrown|기타
+4516|Icecrown|기타
+4517|Icecrown|기타
+4518|Icecrown|기타
+4519|Icecrown|기타
+4520|Icecrown|기타
+4521|Icecrown|기타
+4522|Icecrown|기타
+4523|Icecrown|기타
+4524|Icecrown|기타
+4525|Icecrown|기타
+4526|Icecrown|기타
+4527|Icecrown|기타
+4528|Icecrown|기타
+4529|Icecrown|기타
+4530|Icecrown|기타
+4531|Icecrown|기타
+4532|Howling Fjord|기타
+4533|Icecrown|기타
+4534|Howling Fjord|기타
+4535|The Storm Peaks|기타
+4536|The Storm Peaks|기타
+4537|Icecrown|기타
+4538|Wintergrasp|기타
+4539|Wintergrasp|기타
+4540|Icecrown|기타
+4541|Icecrown|기타
+4542|The Storm Peaks|기타
+4543|The Storm Peaks|기타
+4544|동부 역병지대|동부 왕국
+4545|동부 역병지대|동부 왕국
+4546|동부 역병지대|동부 왕국
+4547|The Storm Peaks|기타
+4548|The Storm Peaks|기타
+4549|Crystalsong Forest|기타
+4550|Crystalsong Forest|기타
+4551|Crystalsong Forest|기타
+4552|Crystalsong Forest|기타
+4553|Crystalsong Forest|기타
+4554|Crystalsong Forest|기타
+4555|Crystalsong Forest|기타
+4556|Crystalsong Forest|기타
+4557|Crystalsong Forest|기타
+4558|Crystalsong Forest|기타
+4559|Crystalsong Forest|기타
+4560|달라란|기타
+4564|달라란|기타
+4567|달라란|기타
+4568|달라란|기타
+4569|달라란|기타
+4570|달라란|기타
+4571|Warsong Gulch|던전
+4572|Warsong Gulch|던전
+4575|Wintergrasp|기타
+4576|Wintergrasp|기타
+4577|Wintergrasp|기타
+4578|Wintergrasp|기타
+4579|Zul'Drak|기타
+4580|Icecrown|기타
+4581|Wintergrasp|기타
+4582|Wintergrasp|기타
+4583|Wintergrasp|기타
+4584|Wintergrasp|기타
+4585|Wintergrasp|기타
+4586|Wintergrasp|기타
+4587|Wintergrasp|기타
+4588|Icecrown|기타
+4589|Wintergrasp|기타
+4590|Wintergrasp|기타
+4591|Icecrown|기타
+4592|The Storm Peaks|기타
+4593|Icecrown|기타
+4594|Icecrown|기타
+4595|Icecrown|기타
+4596|Icecrown|기타
+4597|Icecrown|기타
+4598|달라란|기타
+4599|달라란|기타
+4601|달라란|기타
+4602|Force Interior|기타
+4603|아카본 석실|던전
+4604|Strand of the Ancients|기타
+4605|Strand of the Ancients|기타
+4606|Strand of the Ancients|기타
+4607|Strand of the Ancients|기타
+4608|Strand of the Ancients|기타
+4609|Strand of the Ancients|기타
+4610|Strand of the Ancients|기타
+4611|Wintergrasp|기타
+4612|Wintergrasp|기타
+4613|달라란|기타
+4614|달라란|기타
+4615|Icecrown|기타
+4616|달라란|기타
+4617|언더시티|동부 왕국
+4618|달라란|기타
+4619|달라란|기타
+4620|달라란|기타
+4621|The Storm Peaks|기타
+4622|Icecrown|기타
+4623|Ahn'kahet: The Old Kingdom|던전
+4624|Ahn'kahet: The Old Kingdom|던전
+4625|Ahn'kahet: The Old Kingdom|던전
+4626|Ahn'kahet: The Old Kingdom|던전
+4627|Ahn'kahet: The Old Kingdom|던전
+4628|검은바위 첨탑|던전
+4629|The Storm Peaks|기타
+4630|The North Sea|기타
+4631|The Storm Peaks|기타
+4632|달라란|기타
+4633|드락타론 성채|던전
+4635|Zul'Drak|기타
+4636|Plaguelands: The Scarlet Enclave|기타
+4637|달라란|기타
+4638|달라란|기타
+4639|Borean Tundra|기타
+4640|Borean Tundra|기타
+4641|Borean Tundra|기타
+4642|Borean Tundra|기타
+4646|Grizzly Hills|기타
+4650|울두아르|던전
+4652|울두아르|던전
+4653|울두아르|던전
+4654|울두아르|던전
+4655|울두아르|던전
+4656|울두아르|던전
+4657|울두아르|던전
+4658|Icecrown|기타
+4665|울두아르|던전
+4666|Icecrown|기타
+4667|Icecrown|기타
+4668|서부 몰락지대|동부 왕국
+4669|Icecrown|기타
+4670|Icecrown|기타
+4671|Icecrown|기타
+4672|Icecrown|기타
+4673|Icecrown|기타
+4674|Icecrown|기타
+4676|Icecrown|기타
+4677|Icecrown|기타
+4679|아이언포지|동부 왕국
+4688|Designer Island|기타
+4692|Icecrown|기타
+4710|Isle of Conquest|기타
+4719|Familiars|기타
+4720|The Lost Isles|기타
+4721|Shipwreck Shore|기타
+4722|Trial of the Crusader|던전
+4723|Trial of the Champion|던전
+4737|Kezan|기타
+4738|Abyssal Maw|기타
+4739|달라란|기타
+4740|달라란|기타
+4741|Isle of Conquest|기타
+4742|Hrothgar's Landing|기타
+4743|Icecrown|기타
+4747|Isle of Conquest|기타
+4748|Isle of Conquest|기타
+4749|Isle of Conquest|기타
+4750|Isle of Conquest|기타
+4751|Isle of Conquest|기타
+4752|Isle of Conquest|기타
+4753|Isle of Conquest|기타
+4760|Hrothgar's Landing|기타
+4763|Transport: Alliance Gunship|기타
+4764|Transport: Horde Gunship|기타
+4765|KTC Headquarters|기타
+4766|Kaja'mine|기타
+4767|Bilgewater Port|기타
+4768|Gallywix's Villa|기타
+4769|Hrothgar's Landing|기타
+4770|First Bank of Kezan|기타
+4771|Drudgetown|기타
+4772|The Slick|기타
+4773|Swindle Street|기타
+4774|Gilneas (Do Not Reuse)|기타
+4778|Kaja'mite Cavern|기타
+4779|Horde Base Camp|기타
+4780|The Vicious Vale|기타
+4781|Wild Overlook|기타
+4782|The Savage Glen|기타
+4783|Alliance Beachhead|기타
+4784|Vengeance Wake|기타
+4785|The Great Sea|기타
+4802|Draka's Fury|기타
+4809|The Forge of Souls|던전
+4812|얼음왕관 성채|던전
+4813|Pit of Saron|던전
+4816|Dire Strait|기타
+4820|Halls of Reflection|던전
+4822|Kajaro Field|기타
+4823|South Seas|기타
+4832|Transport: Alliance Gunship (IGB)|기타
+4833|Transport: Horde Gunship (IGB)|기타
+4838|Gallywix's Yacht|기타
+4840|The Pipe|기타
+4859|얼음왕관 성채|던전
+4862|Icecrown|기타
+4870|Landing Site|기타
+4871|Town-In-A-Box|기타
+4873|Raptor Rise|기타
+4874|Scorched Gully|기타
+4876|Ruins of Vashj'elan|기타
+4877|Vashj'elan Spawning Pool|기타
+4886|Oomlot Village|기타
+4889|얼음왕관 성채|던전
+4890|얼음왕관 성채|던전
+4891|얼음왕관 성채|던전
+4892|얼음왕관 성채|던전
+4893|The Frost Queen's Lair|기타
+4894|Putricide's Laboratory of Alchemical Horrors and Fun|기타
+4895|The Crimson Hall|기타
+4896|The Frozen Throne|기타
+4897|The Sanctum of Blood|기타
+4898|The Frozen Throne|기타
+4899|Lost Peak|기타
+4900|Oostan Nord|기타
+4901|Oostan Sor|기타
+4902|Oostan Ost|기타
+4903|Oostan|기타
+4904|Pit of Saron|던전
+4905|Pit of Saron|던전
+4906|Halls of Reflection|던전
+4908|Halls of Reflection|던전
+4909|Lost Caldera|기타
+4910|얼음왕관 성채|던전
+4911|Volcanoth's Lair|기타
+4912|Warchief's Lookout|기타
+4914|Tranquil Coast|기타
+4923|Sky Falls|기타
+4924|Gallywix Labor Mine|기타
+4926|검은바위 동굴|던전
+4945|시초의 전당|던전
+4950|그림 바톨|던전
+4951|Bilgewater Lumber Yard|기타
+4952|KTC Oil Platform|기타
+4954|Gallywix Docks|기타
+4956|The Slave Pits|기타
+4958|Verdant Highlands|기타
+4987|루비 성소|던전
+5004|파도의 왕좌|던전
+5035|소용돌이 누각|던전
+5042|Deepholm|기타
+5068|Pattymack Land|기타
+5088|바위심장부|던전
+5094|검은날개 강림지|던전
+5108|The Battle for Gilneas (Old City Map)|기타
+5109|Cathedral Quarter|기타
+5110|Greymane Court|기타
+5111|Light's Dawn Cathedral|기타
+5112|Stoneward Prison|기타
+5113|Merchant Square|기타
+5130|Seat of Life|기타
+5288|Ahn'Qiraj Terrace|기타
+5291|Jagged Wastes|기타
+5292|Scoured Reach|기타
+5293|Crumbling Depths|기타
+5294|Shuddering Spires|기타
+5295|The Pale Roost|기타
+5296|Therazane's Throne|기타
+5297|Halcyon Egress|기타
+5298|Twilight Precipice|기타
+5299|Lorthuna's Gate|기타
+5300|Verlok Stand|기타
+5301|Grolluk's Grave|기타
+5302|Crimson Expanse|기타
+5303|Temple of Earth|기타
+5311|Transport: Onyxia/Nefarian Elevator|기타
+5313|Storm's Fury Wreckage|기타
+5315|Llane's Oath|기타
+5328|Upper Silvermarsh|기타
+5329|Lower Silvermarsh|기타
+5330|Stonehearth|기타
+5331|Fractured Front|기타
+5334|황혼의 요새|던전
+5335|Quartzite Basin|기타
+5338|Fungal Deep|기타
+5348|Alliance Mercenary Ship to Vashj'ir|기타
+5349|Needlerock Slag|기타
+5350|Needlerock Chasm|기타
+5352|Alabaster Shelf|기타
+5354|Twilight Overlook|기타
+5355|Abyssion's Lair|기타
+5357|The Quaking Fields|기타
+5358|Deathwing's Fall|기타
+5368|Avalanchion's Vault|기타
+5383|Den of the Devourer|기타
+5394|Masters' Gate|기타
+5395|Chamber of Respite|기타
+5396|톨비르의 잃어버린 도시|던전
+5410|Silverlight Cavern|기타
+5416|The Maelstrom|기타
+5418|The Blood Trail|기타
+5447|Scarred Terrace|기타
+5581|The Stonecore Entrance|기타
+5600|바라딘 요새|던전
+5610|Tomb of the Earthrager|기타
+5630|The Maelstrom|기타
+5638|네 바람의 왕좌|던전
+5723|불의 땅|던전
+5727|Scott's Spooky Area|기타
+5733|녹아내린 전초지|던전
+5736|The Wandering Isle|기타
+5783|Alcaz Island|기타
+5786|마력의 탑|던전
+5788|영원의 샘|던전
+5789|시간의 끝|던전
+5797|The Staidridge|기타
+5806|Spine of the Destroyer UNUSED|기타
+5844|황혼의 시간|던전
+5861|Darkmoon Faire Island|던전
+5869|The Great Sea|기타
+5870|The Darkmoon Faire|기타
+5877|Darkmoon Deathmatch|기타
+5880|Maelstrom Deathwing Fight|기타
+5892|용의 영혼|던전
+5894|Testing02|기타
+5895|Testing SubZone A|기타
+5902|Darkmoon Path|기타
+5904|Darkmoon Boardwalk|기타
+5916|Stratholme - Main Gate|기타
+5917|Stratholme - Service Entrance|기타
+5918|음영파 수도원|던전
+5956|옥룡사|던전
+5963|스톰스타우트 양조장|던전
+5976|석양문|던전
+6040|Theramore's Fall|기타
+6052|붉은십자군 전당|던전
+6066|스칼로맨스|던전
+6067|영원한 봄의 정원|던전
+6101|A Brewing Storm|기타
+6109|붉은십자군 수도원|던전
+6125|모구샨 금고|던전
+6137|던 모로|동부 왕국
+6170|엘윈 숲|동부 왕국
+6176|던 모로|동부 왕국
+6182|모구샨 궁전|던전
+6208|Crypt of Forgotten Kings|기타
+6209|Greenstone Village|기타
+6214|니우짜오 사원 공성전투|던전
+6219|Arena of Annihilation|기타
+6297|공포의 심장|던전
+6298|싸울가르 투기장|던전
+6309|Unga Ingoo|기타
+6328|Assault on Zan'vess|기타
+6386|붉은십자군 수도원|던전
+6426|Brewmoon Festival|기타
+6450|텔드랏실|칼림도어
+6451|듀로타|칼림도어
+6452|멀고어|칼림도어
+6453|듀로타|칼림도어
+6454|티리스팔 숲|동부 왕국
+6455|Eversong Woods|던전
+6456|Azuremyst Isle|던전
+6457|던 모로|동부 왕국
+6471|모구샨 궁전|던전
+6473|모구샨 궁전|던전
+6474|모구샨 궁전|던전
+6500|Theramore's Fall|기타
+6545|길니아스|기타
+6565|Dagger in the Dark|기타
+6567|Battle on the High Seas|기타
+6575|Lion's Landing|기타
+6611|달라란|기타
+6615|Domination Point|기타
+6616|A Little Patience|기타
+6618|비즈모의 싸움굴|던전
+6622|천둥의 왕좌|던전
+6677|Isle of Thunder|기타
+6716|Thunder King's Citadel|기타
+6731|The Secrets of Ragefire|기타
+6733|Dark Heart of Pandaria|기타
+6738|오그리마 공성전|던전
+6814|Blood in the Snow|기타
+6852|Proving Grounds|기타
+7307|검은바위 첨탑 상층|던전
+9999|The Ring of Trials|던전
+10000|마라우돈|던전
+10001|스트라솔룸|던전
+10003|검은바위 첨탑|던전
+10004|검은바위 첨탑|던전
+10005|검은바위 첨탑|던전
+10006|검은바위 첨탑|던전
+10007|검은바위 첨탑|던전
+10008|붉은십자군 수도원|던전
+10009|붉은십자군 수도원|던전
+10010|붉은십자군 수도원|던전
+10011|스칼로맨스|던전
+10012|스칼로맨스|던전
+10013|스칼로맨스|던전
+10014|그림자송곳니 성채|던전
+10015|그림자송곳니 성채|던전
+10016|그림자송곳니 성채|던전
+10017|그림자송곳니 성채|던전
+10018|그림자송곳니 성채|던전
+10019|그림자송곳니 성채|던전
+10020|검은심연의 나락|던전
+10021|검은심연의 나락|던전
+10022|혈투의 전장|던전
+10023|혈투의 전장|던전
+10024|혈투의 전장|던전
+10025|혈투의 전장|던전
+10026|혈투의 전장|던전
+10027|혈투의 전장|던전
+10028|마법학자의 정원|던전
+10029|죽음의 폐광|던전
+10030|놈리건|던전
+10031|놈리건|던전
+10032|놈리건|던전
+10033|울다만|던전
+10039|황혼의 시간|던전
+10040|Temple of Ahn'Qiraj|던전
+10041|Temple of Ahn'Qiraj|던전
+10042|세데크 전당|던전
+10043|아키나이 납골당|던전
+10044|알카트라즈|던전
+10045|알카트라즈|던전
+10046|알카트라즈|던전
+10047|The Oculus|던전
+10048|The Oculus|던전
+10049|The Oculus|던전
+10050|울두아르|던전
+10051|울두아르|던전
+10052|울두아르|던전
+10053|우트가드 첨탑|던전
+10054|Halls of Lightning|던전
+10055|아졸네룹|던전
+10056|아졸네룹|던전
+10057|우트가드 성채|던전
+10058|우트가드 성채|던전
+10059|The Culling of Stratholme|던전
+10060|드락타론 성채|던전
+10061|군드락|던전
+10062|낙스라마스|던전
+10063|낙스라마스|던전
+10064|낙스라마스|던전
+10065|낙스라마스|던전
+10066|낙스라마스|던전
+10067|얼음왕관 성채|던전
+10068|얼음왕관 성채|던전
+10069|얼음왕관 성채|던전
+10070|얼음왕관 성채|던전
+10071|얼음왕관 성채|던전
+10072|얼음왕관 성채|던전
+10073|Kalimdor|기타
+10074|동부 왕국|기타
+10075|Pandaria|기타
+10076|붉은십자군 전당|던전
+10077|스칼로맨스|던전
+10078|스칼로맨스|던전
+10079|스칼로맨스|던전
+10080|Vale Of Eternal Blossoms|기타
+10081|The Jade Forest|기타
+10082|Shrine Of Two Moons|기타
+10083|Shrine Of Seven Stars|기타
+10084|Kun Lai Summit|기타
+10085|Krasarang Wilds|기타
+10086|Krasarang Wilds|기타
+10087|Ruins of Korune|기타
+10088|달라란|기타
+10089|Azeroth|기타
+10090|Kaja'mine|기타
+10091|Kaja'mine|기타
+10092|시간의 동굴|던전
+10093|천둥의 왕좌|던전
+10094|천둥의 왕좌|던전
+10095|천둥의 왕좌|던전
+10096|천둥의 왕좌|던전
+10097|천둥의 왕좌|던전
+10098|천둥의 왕좌|던전
+10099|천둥의 왕좌|던전
+10100|Lightning Vein Mine|기타
+10101|The Swollen Vault|기타
+10103|카라잔|던전
+10104|카라잔|던전
+10105|카라잔|던전
+10106|카라잔|던전
+10107|카라잔|던전
+10108|카라잔|던전
+10109|카라잔|던전
+10110|카라잔|던전
+10111|카라잔|던전
+10112|카라잔|던전
+10113|카라잔|던전
+10114|카라잔|던전
+10115|카라잔|던전
+10116|카라잔|던전
+10117|카라잔|던전
+10118|카라잔|던전
+14141|Icecrown|기타
+14469|Icecrown|기타
+14470|Icecrown|기타
+14471|The Storm Peaks|기타
+14472|The Storm Peaks|기타
+14473|The Storm Peaks|기타
+14474|Icecrown|기타
+15475|Demon Fall Canyon|던전
+15531|The Tainted Scar|던전
+15828|The Burning of Andorhal|던전
+16074|Karazhan Crypts|던전
+16236|붉은십자군 초소|던전
+16544|달라란|던전
+16591|강물터|리버글레이드
+16593|제프라스 섬|제프라스 섬
+16611|로데론의 폐허|던전
+16651|셴드랄라스|칼림도어
+16732|발굴 현장: 저습지|던전
+16919|영주의 전당|던전

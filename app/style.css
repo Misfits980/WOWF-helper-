@@ -342,3 +342,10 @@ details.qf summary::-webkit-details-marker{display:none}
 .dchips{align-items:center}
 .dgl{flex:none;writing-mode:vertical-rl;font-size:11px;color:#8b93a0;letter-spacing:1px;padding:4px 0;border-left:1px solid #2e333b;margin-left:2px;padding-left:6px}
 .dchips .dgl:first-child{border-left:0;margin-left:0;padding-left:0}
+/* 맵 전체 퀘스트 */
+.zr.mz{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;margin-bottom:6px}
+.zr.mz .lvb{grid-row:span 2;min-width:58px}
+.zr.mz.fit{border-color:var(--gold,#c9a54a);box-shadow:0 0 0 1px rgba(201,165,74,.25)}
+.zr.mz .gd{color:var(--gold,#e2c26b)}
+.mzh{display:flex;align-items:center;gap:10px;margin:6px 0 4px}
+.mzh h3{margin:0;font-size:17px}
