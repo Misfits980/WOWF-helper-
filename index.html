@@ -659,7 +659,7 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=11d0a56c"></script>
-<script>/* v49870a */
+<script>/* v063bd0 */
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -1354,7 +1354,7 @@ function amView(c){if(!QDB)qdbLoad();if(!WLD)wldLoad();const F=amF();
    +(QDB?'':'<div class="amload">퀘스트 자료를 불러오는 중…</div>')+'</div><div id="ampanel"></div>'
    +'<p class="mute src">끌어서 움직이고, 두 손가락·두 번 톡·+/− 로 확대해요 · 번호는 「지금 할 일」 마을 순서 · 지도 그림: wowf.io</p></div>';
   return h}
-function amHome(c){const R0=amRoute(c);const R=R0.filter(p=>R0.length&&p.c===R0[0].c).slice(0,4);if(R.length){const xs=R.map(p=>p.x),ys=R.map(p=>p.y);return {c:R[0].c,z:2.3,cx:(Math.min(...xs)+Math.max(...xs))/2,cy:(Math.min(...ys)+Math.max(...ys))/2}}
+function amHome(c){const R=amRoute(c);if(R.length)return {c:R[0].c,z:2.6,cx:R[0].x,cy:R[0].y};
   const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);const z=S?S.z.split(' · ')[0]:'';const a=toAtlas(z,'50,50');return a?{c:a.c,z:2,cx:a.x,cy:a.y}:{c:'ek',z:0.3,cx:2560,cy:4864}}
 let AM=null;
 function amInit(){const el=document.getElementById('amap');if(!el)return;const c=me();if(!c)return;const F=amF();
