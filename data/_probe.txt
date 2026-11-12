@@ -1,3 +1,32 @@
-### https://www.wowhead.com/forever/ko/quest=12 403 919 title undefined
+list 200 len 161548 rsc 89448 links 8 /forever/quest/79008 /forever/quest/95314 /forever/quest/95216 /forever/quest/92422 /forever/quest/959 /forever/quest/447 /forever/quest/155 /forever/quest/92401
 
-### https://www.wowhead.com/forever/ko/quest=783 403 919 title undefined
+keys image,errors,regions,postFilters,feed,tabs,post,categories,posts,games,postDetail,postCreate,validation,build,tierList,gear,macro,poll,composer,postEdit,vote,comment,attach,header,beginnerSub,footer,legal,recruit,postsList,wowData,expansion,role,class,spec,buff,classic,buffDesc,buffCat,buffNote,buffSource,spellDetail,itemDetail,database,category,quality,reactions,labels,reference,newsTags,group,kind,topic,glossary,admin,anon,form,blocked,password,report,menu,dialog,done,offTopic,myBlocks,gameRefs,detail,dungeonKind,legacyTree,chipHint,example,guide,ads,news,body,sourceFilter,account,dangerouslySetInnerHTML,guides,rows,sides
+
+ctx none
+
+### detail /forever/quest/79008 200 rsc 73636
+
+keys time,zoneName,axis,axisPlaceholder,pageTalk,tip,guide,news,quest,common,share,editor,image,errors,regions,postFilters,feed,tabs,post,categories,posts,games,postDetail,postCreate,validation,build,tierList,gear,macro,poll,composer,postEdit,vote,comment,attach,header,beginnerSub,footer,legal,recruit,postsList,wowData,expansion,role,class,spec,buff,classic,buffDesc,buffCat,buffNote,buffSource,spellDetail,itemDetail,database,category,quality,reactions,labels,reference,newsTags,group,kind,topic,glossary,admin,anon,form,blocked,password,report,menu,dialog,done,offTopic,myBlocks,gameRefs,detail,dungeonKind,legacyTree,chipHint,example,ads,body,sourceFilter,account,dangerouslySetInnerHTML,zones,target,style
+
+["series"] 
+
+["chain"] 
+
+["next"] "next","crossOrigin":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/css/507c1a2e8db055e8.css?dpl=dpl_758C1KvPPG91nsz6QrMeFquVToK2","precedence":"next","crossOrigin":"$undefined"}]],"$Lb"],null],null]},[[null,["$","$L7",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$La",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":["$","$Lc",null,{}],"notFoundStyles":[]}]],null],null],"couldBeIntercepted":false,"initialHead":[null,"$Ld"],"globalErrorComponent":"$e","missingSlots":"$Wf"}]
+11:I[18193,["5726","static/chunks/5726-9250407f2f563
+
+["prev"] "prev":"이전","page":"페이지","total":"전체","search":"검색","scrollableTable":"가로로 스크롤되는 표","filter":"필터","reset":"초기화","cancel":"취소","save":"저장","delete":"삭제","back":"뒤로 가기","confirm":"확인","activeFilters":"활성 필터:","new":"NEW","siteDescription":"와우 포에버를 숫자로 봅니다. 종족·특성·던전 자료와 특성 계산기, 그리고 레이드 조합기·로그 분석까지. 포에버를 한국어로 파고드는 도구를 한곳에 모았습니다.","home":"홈","copy":"복사","copied":"복사했습니다. 파티 채팅에 붙여넣으세요.","copyFailed":"복사하지 못했습니다. 문장을 길게 눌러 직접 복사해주세요.","share":{"button":"공유하기","copied":"링크 복사됨","copiedLive":"링크를 복사했습니다. 붙여넣어 공유하세요.","failed":"링크를 복사하지 못했습니다. 브라우저의 공유·링크 복사 메뉴를 이용해 주세요."}},"editor":{"bold":"굵게","italic":"기울임","strike":"취소선","heading1":"제목 1","heading2":"제목 2","heading3":"제목 3","bulletList":"글머리 기호 목
+
+["objectives"] 
+
+["items"] 
+
+["npcs"] 
+
+["giver"] 
+
+["ender"] 
+
+["requires"] 
+
+TEXT ...그때 찾은 그 기록 — 와우 포에버 퀘스트 | ForG / F / or / G / 한국어 / 새 글 / 로그인 / 가입 / 홈 / 초보자 가이드 / 소식 / 장비 추천 / 특성 계산기 / 종족 / 레벨링 / 던전 / 퀘스트 / 매크로 / 전문기술 &amp; 캠프 / 유산 / 티어표 / 레이드 / 선술집 / 전사 / 성기사 / 사냥꾼 / 도적 / 사제 / 주술사 / 마법사 / 흑마법사 / 드루이드 / 소개 / 개인정보처리방침 / 이용약관 / Discord / © 2026 ForG. All rights reserved. / 와우 포에버 / 퀘스트 / ...그때 찾은 그 기록 / ... and that note you found / Lv 22 / 14레벨부터 / 얼라이언스 / 대화 / 포에버 신규 / 할 일과 위치 / 길잡이로 삼을 만한 물건이라곤 불타버린 쪽지의 잔해뿐입니다. / 받기 / ! / Burned-Out Remains / 서부 몰락지대 (37.4, 50.7) / 하기 / 대화 / 반납하는 NPC와 이야기하면 끝나요. / 반납 / ? / Burned-Out Remains / 불모의 땅 (46.4, 73.9) / 서부 몰락지대 지도 · 위치는 목록에 글로도 있어요 / ! / ! / 받는 곳 / 전체 지도 보기 / 서부 몰락지대 지도 · 위치는 목록에 글로도 있어요 / ! / 길 찾기 (재미로) / 내 위치를 넣으면 Burned-Out Remains까지 방향·거리·시간을 어림해 드려요. / 내가 있는 지역 / 가시덤불 골짜기 / 그늘숲 / 다르나서스 / 달의 숲 / 던 모로 / 돌발톱 산맥 / 듀로타 / 먼지진흙 습지대 / 멀고어 / 모단 호수 / 버섯구름 봉우리 / 불모의 땅 / 붉은마루 산맥 / 서부 몰락지대 / 스톰윈드 / 썬더 블러프 / 아라시 고원 / 아이언포지 / 알터랙 산맥 / 어둠의 해안 / 언더시티 / 엘윈 숲 / 오그리마 / 은빛소나무 숲 / 잊혀진 땅 / 잿빛 골짜기 / 저습지 / 제프라스 섬 / 텔드랏실 / 티리스팔 숲 / 페랄라스 / 황야의 땅 / 힐스브래드 구릉지 / 진영 / 호드 / 얼라이언스 / 게임 지도에서 내 화살표가 있는 자리를 이 지도에서 눌러 주세요. / 근처 장소로 고르기 / 근처 장소를 고르세요 / 감시의 언덕 / 데몬트의 집터 / 먼지 언덕 / 메마른 논밭 / 몰센 농장 / 문브룩 / 비수 언덕 / 살딘 농장 / 서부 몰락지대 등대 / 알렉스턴 농장 / 얀센 농장 / 장고로드 광산 / 펄브로우 호박밭 / 황금해안 채석장 / 좌표를 알면 (선택) / 좌표를 안 넣으면 서부 몰락지대 가운데에 있다고 보고 계산해요. / 서쪽 · 약 440야드 / 걸어서 약 1분 3초 / 걸어서 1분 3초 · 약 440야드 / 재미로 보는 추정이에요. 직선거리·달리기 속도(초당 7야드)·비행 속도로 계산해서 산이나 강은 돌아가지 않고, 진영 비행 노선은 다 열려 있다고 봐요. / 광고 / 이 퀘스트 이야기 / 함께 볼 페이지 / 다른 퀘스트 찾기 / → / 와우 포에버 레벨링 루트 / → / 와우 포에버 던전 레벨표 / → / 광고 / 소개 / 개인정보처리방침 / 이용약관 / Discord / (새 창에서 열림) / © 2026 ForG. All rights reserved.
