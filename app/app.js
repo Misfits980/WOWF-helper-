@@ -745,12 +745,28 @@ let AM=null;
 function amInit(){const el=document.getElementById('amap');if(!el)return;const c=me();if(!c)return;const F=amF();
   const st={el,L:el.querySelector('.amL'),P:el.querySelector('.amP'),pts:amPoints(c),route:F.rt?amRoute(c):[],drag:null,ptr:new Map(),tap:0};AM=st;
   const NT={ek:[[3,5],[5,10],[10,19],[20,38]],ka:[[4,6],[7,12],[13,23],[25,40]]};
-  const clamp=()=>{const A=ui.am,T=ATL[A.c];A.z=Math.max(0,Math.min(4,A.z));A.cx=Math.max(0,Math.min(T.w,A.cx));A.cy=Math.max(0,Math.min(T.h,A.cy))};
+  const clamp=()=>{const A=ui.am,T=ATL[A.c];A.z=Math.max(0,Math.min(3.6,A.z));A.cx=Math.max(0,Math.min(T.w,A.cx));A.cy=Math.max(0,Math.min(T.h,A.cy))};
   function draw(){clamp();const A=ui.am,T=ATL[A.c],W=el.clientWidth,H=el.clientHeight,s=2**(A.z-3),left=A.cx-W/2/s,top=A.cy-H/2/s;
-    const tz=Math.max(0,Math.min(3,Math.ceil(A.z-0.2))),ts=256*2**(A.z-tz),span=256*2**(3-tz);
-    const [nx,ny]=NT[A.c][tz];const tx0=Math.max(0,Math.floor(left/span)),ty0=Math.max(0,Math.floor(top/span)),tx1=Math.min(nx-1,Math.floor((left+W/s)/span)),ty1=Math.min(ny-1,Math.floor((top+H/s)/span));
-    let t='';for(let x=tx0;x<=tx1;x++)for(let y=ty0;y<=ty1;y++)t+='<img src="https://assets.wowf.io/world/atlas/'+T.n+'/'+tz+'/'+x+'_'+y+'.webp" style="left:'+(x*span-left)*s+'px;top:'+(y*span-top)*s+'px;width:'+(ts+.5)+'px;height:'+(ts+.5)+'px" alt="" draggable="false" onerror="this.style.visibility=\'hidden\'">';
-    st.L.innerHTML=t;st.L.style.transform=st.P.style.transform='';
+    /* 지도 그림: 화면 밀도(레티나)에 맞춰 더 선명한 단계를 일찍 받고, 이미 받은 칸은 그대로 두고 자리만 옮김(깜빡임·흐림 줄임).
+       맨 아래엔 0단계(작은 전체 그림)를 깔아 새 칸이 오기 전에도 빈칸이 안 보이게 함 */
+    const dpr=Math.min(1,Math.log2(Math.max(1,window.devicePixelRatio||1)));
+    const tz=Math.max(0,Math.min(3,Math.ceil(A.z+dpr-0.3)));
+    const TL=st.tiles||(st.tiles=new Map());if(st.tc!==A.c){TL.forEach(i=>i.remove());TL.clear();st.tc=A.c}
+    const want=new Set();
+    const lay=(z,base)=>{const span=256*2**(3-z),ts=256*2**(A.z-z);const [nx,ny]=NT[A.c][z];
+      const tx0=Math.max(0,Math.floor(left/span)),ty0=Math.max(0,Math.floor(top/span)),tx1=Math.min(nx-1,Math.floor((left+W/s)/span)),ty1=Math.min(ny-1,Math.floor((top+H/s)/span));
+      for(let x=tx0;x<=tx1;x++)for(let y=ty0;y<=ty1;y++){const k=z+'/'+x+'_'+y;want.add(k);let im=TL.get(k);
+        if(!im){im=document.createElement('img');im.alt='';im.draggable=false;im.decoding='async';im.onerror=()=>{im.style.visibility='hidden'};im.onload=()=>{im.dataset.ok=1;sweep()};im.src='https://assets.wowf.io/world/atlas/'+T.n+'/'+k+'.webp';im.dataset.z=z;TL.set(k,im);st.L.appendChild(im)}
+        im.style.cssText='left:'+(x*span-left)*s+'px;top:'+(y*span-top)*s+'px;width:'+(ts+.6)+'px;height:'+(ts+.6)+'px;z-index:'+(base?0:z===tz?2:1)+(im.style.visibility==='hidden'?';visibility:hidden':'')}};
+    if(tz>0)lay(0,1);lay(tz,0);
+    /* 지금 단계 칸이 다 오면 그 전 단계 칸은 치움 (오기 전엔 아래에 남겨 흐린 칸이라도 보이게) */
+    function sweep(){const cur=[...TL.entries()].filter(([k,i])=>want.has(k)&&+i.dataset.z===tz);const done=cur.every(([k,i])=>i.dataset.ok||i.style.visibility==='hidden');
+      TL.forEach((i,k)=>{if(want.has(k))return;if(done||+i.dataset.z===tz){i.remove();TL.delete(k)}})}
+    /* 남겨 둔 이전 단계 칸도 같이 움직이게 */
+    TL.forEach((im,k)=>{if(want.has(k))return;const z=+im.dataset.z;const [xy]=[k.split('/')[1]];const [x,y]=xy.split('_').map(Number);const span=256*2**(3-z),ts=256*2**(A.z-z);
+      im.style.left=(x*span-left)*s+'px';im.style.top=(y*span-top)*s+'px';im.style.width=im.style.height=(ts+.6)+'px';im.style.zIndex=1});
+    sweep();if(TL.size>400){TL.forEach((i,k)=>{if(!want.has(k)){i.remove();TL.delete(k)}})}
+    st.L.style.transform=st.P.style.transform='';
     const X=p=>(p.x-left)*s,Y=p=>(p.y-top)*s,inV=(x,y,m)=>x>-m&&y>-m&&x<W+m&&y<H+m;
     const vis=st.pts.filter(p=>p.c===A.c);let pins='',svg='';
     if(A.z<1.5){const Z={};vis.forEach(p=>{if(p.kind!=='g'&&p.kind!=='r')return;const o=Z[p.zone]||(Z[p.zone]={n:0,x:0,y:0,k:0});o.n+=p.qs.length;o.x+=p.x;o.y+=p.y;o.k++});
