@@ -1101,3 +1101,4 @@ html,body{scrollbar-width:none;-ms-overflow-style:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 .sheet,#ampanel,.ttree,.tgr{scrollbar-width:none}
 .sheet::-webkit-scrollbar,#ampanel::-webkit-scrollbar{display:none;width:0}
+.rli{width:16px;height:16px;vertical-align:-3px;margin-right:2px}.kspec button small{display:inline-flex;align-items:center;gap:3px}.kspec .rli{width:15px;height:15px}

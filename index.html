@@ -1107,11 +1107,12 @@ html,body{scrollbar-width:none;-ms-overflow-style:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
 .sheet,#ampanel,.ttree,.tgr{scrollbar-width:none}
 .sheet::-webkit-scrollbar,#ampanel::-webkit-scrollbar{display:none;width:0}
+.rli{width:16px;height:16px;vertical-align:-3px;margin-right:2px}.kspec button small{display:inline-flex;align-items:center;gap:3px}.kspec .rli{width:15px;height:15px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=fae03a24"></script>
-<script>/* v9e2a85 @11/13 08:50 */
-const BUILD='11/13 08:50';
+<script>/* v7612d4 @11/13 08:53 */
+const BUILD='11/13 08:53';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2278,7 +2279,8 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
 function killOf(c,slug){c.dk=c.dk||{};return c.dk[slug]||{}}
 /* ===================== 직업 ===================== */
 const CSEC=[['tal','🌳','특성'],['rot','⚔️','운영 순서'],['learn','📖','기술 습득'],['prof','🛠️','전문기술']];
-const RLEMO={'치유':'💚','탱커':'🛡️','원거리 딜':'🔮','근접 딜':'🗡️'};
+const RLIC={'치유':'hl','탱커':'tk','원거리 딜':'dp','근접 딜':'dp'};
+const RLEMO=new Proxy({},{get:(o,k)=>RLIC[k]?'<img class="rli" src="img/role-'+RLIC[k]+'.png" alt="">':''});
 const PICON={alch:'trade_alchemy',bs:'trade_blacksmithing',ench:'trade_engraving',eng:'trade_engineering',lw:'trade_leatherworking',tail:'trade_tailoring',cook:'inv_misc_food_15',fa:'spell_holy_sealofsacrifice',mine:'trade_mining',herb:'trade_herbalism',skin:'inv_misc_pelt_wolf_01',fish:'trade_fishing'};
 const pIco=id=>'<span class="pic" style="background-image:url('+ICO(PICON[id]||'inv_misc_questionmark')+')"></span>';
 /* 전문기술: 이름 → 아이콘 (만드는 것·재료) */

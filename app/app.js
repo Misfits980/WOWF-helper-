@@ -1165,7 +1165,8 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
 function killOf(c,slug){c.dk=c.dk||{};return c.dk[slug]||{}}
 /* ===================== 직업 ===================== */
 const CSEC=[['tal','🌳','특성'],['rot','⚔️','운영 순서'],['learn','📖','기술 습득'],['prof','🛠️','전문기술']];
-const RLEMO={'치유':'💚','탱커':'🛡️','원거리 딜':'🔮','근접 딜':'🗡️'};
+const RLIC={'치유':'hl','탱커':'tk','원거리 딜':'dp','근접 딜':'dp'};
+const RLEMO=new Proxy({},{get:(o,k)=>RLIC[k]?'<img class="rli" src="img/role-'+RLIC[k]+'.png" alt="">':''});
 const PICON={alch:'trade_alchemy',bs:'trade_blacksmithing',ench:'trade_engraving',eng:'trade_engineering',lw:'trade_leatherworking',tail:'trade_tailoring',cook:'inv_misc_food_15',fa:'spell_holy_sealofsacrifice',mine:'trade_mining',herb:'trade_herbalism',skin:'inv_misc_pelt_wolf_01',fish:'trade_fishing'};
 const pIco=id=>'<span class="pic" style="background-image:url('+ICO(PICON[id]||'inv_misc_questionmark')+')"></span>';
 /* 전문기술: 이름 → 아이콘 (만드는 것·재료) */
