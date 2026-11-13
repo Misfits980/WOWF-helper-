@@ -1847,3 +1847,15 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .uok{margin:8px 2px 2px;font-size:12.5px;color:#9bbf9f;border-top:1px dashed var(--line);padding-top:9px}
 .lkt.gd{background:#1d2a3a;color:#9cc8ff;border-color:#2f4a6a}
 .tmode .chip .n{font-size:11px}
+/* 바꿀 것 통합 */
+.upf{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:10px -2px 4px;padding:0 2px}.upf::-webkit-scrollbar{display:none}
+.upf button{flex:none;height:32px;padding:0 11px;border-radius:999px;background:#211b13;border:1px solid var(--line);color:#d8ccb2;font:600 12.5px/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
+.upf button b{color:var(--gold);margin-left:2px}.upf button.on{background:#3a2c16;border-color:var(--gold2);color:var(--gold)}.upf button.rt{box-shadow:inset 0 0 0 1px #2f5a39}
+.upgo{display:block;width:100%;margin:6px 0 2px;padding:9px 12px;border-radius:10px;background:#1d2a1f;border:1px solid #2f5a39;color:#bfe8c5;font:600 13px/1.2 inherit;font-family:inherit;text-align:left;cursor:pointer}
+.ur .s.bagt{color:var(--gold)}.ur .s.nxl{color:#9cc8ff;font-size:11.5px}.ur .s.nxl b{color:#9fe0a8}
+.ulsep{margin:12px 0 2px;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px;font-weight:700;color:#9cc8ff}
+.lnk{background:none;border:0;color:#9cc8ff;text-decoration:underline;font:inherit;cursor:pointer;padding:0 2px}
+.gopt{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+.gseg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#1b1610}
+.gseg button{height:32px;padding:0 10px;border:0;background:transparent;color:#bfb399;font:600 12.5px/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
+.gseg button+button{border-left:1px solid var(--line)}.gseg button.on{background:#3a2c16;color:var(--gold)}
