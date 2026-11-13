@@ -1603,3 +1603,4 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .lkd>summary::-webkit-details-marker{display:none}
 .lkd>summary small{font-weight:600;margin-left:4px;opacity:.8}
 .lkd[open]>summary{color:#d8ccad}
+.hmore{display:block;width:100%;margin:6px 0 2px;padding:9px;border-radius:10px;border:1px dashed var(--gold2);background:#3a2c1655;color:var(--gold);font:inherit;font-size:12.5px;font-weight:800;cursor:pointer}
