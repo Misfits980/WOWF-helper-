@@ -1,0 +1,686 @@
+# 보스 기술 공략 (내 말로 정리)
+# 형식: 종류|한글 이름|영어 이름|누가(tk,hl,dp,all)|설명 → 대처
+# 종류: dz 위험(전멸기) · int 끊기/기절 · dis:magic|curse|poison|disease|purge 해제 · av 피하기 · add 쫄 · tk 탱커 · hl 치유 부담 · info 참고
+# 참고한 곳: method.gg, warcrafttavern.com, wow.gg, wythic.com, forg.gg (포에버 공략) · 오리지널 던전은 클래식 자료로 보충
+
+@ragefire-chasm
+#Oggleflint
+tk|회전베기|Cleave|tk|앞쪽 여럿을 같이 베요 → 탱커가 보스를 일행 반대로 돌리기
+add|호위 2마리|Adds|dp|같이 붙는 쫄 2마리 → 해골·X 표시하고 먼저 잡기
+#Taragaman the Hungerer
+av|불꽃 회오리|Fire Nova|dp|근접한 사람 모두 화염 피해 → 근접 딜러는 체력 관리
+tk|올려치기|Uppercut|tk|탱커를 뒤로 띄워 날려요 → 용암 쪽에 등지지 말고 가운데서 잡기
+#Bazzalan
+dis:poison|맹독|Deadly Poison|hl|탱커에게 독 → 독 해제(드루이드·성기사·주술사)
+tk|사악한 일격|Sinister Strike|tk|순간 물리 피해 → 탱커 체력 주의
+#Jergosh the Invoker
+int|제물|Immolate|dp|주 공격 주문 → 끊으면 탱커 피해가 줄어요
+dis:curse|무력화 저주|Curse of Weakness|hl|공격력이 줄어요 → 저주 해제(마법사·드루이드)
+add|호위 2마리|Adds|dp|쫄과 같이 나와요 → 보스부터 빨리 잡기
+
+@hall-of-thanes
+#Faldrim Anvilmar
+int|정신 분열|Mind Blast|dp|탱커에게 암흑 피해 → 여유 있으면 끊기
+dis:curse|앤빌마의 저주|Anvilmar's Curse|tk|공격·시전 속도 20% 감소 → 저주 해제, 없으면 버티기
+#Magmatus
+add|검은무쇠 소환사|Dark Iron Summoner|dp|같이 있는 소환사 → 먼저 잡기
+av|불꽃 회오리|Fire Nova|all|주변에 화염 피해가 계속 → 원거리는 떨어지고, 탱커는 일행에서 끌고 가기
+hl|발화|Combust|hl|무작위 대상 화염 피해 → 탱커만 보지 말고 근접도 치유
+#Plunder
+tk|밀쳐내기|Knock Away|tk|탱커를 밀어내요 → 벽이나 구석을 등지고 잡기 (옆 무리로 날아가지 않게)
+av|돌진|Charge|all|근처 사람에게 돌진 → 필요 없으면 가까이 가지 말기
+#Durgen Dirgehammer
+dz|공포|Fear|all|8초 공포로 흩어지면 방 안 다른 몹까지 끌려와요 → 방을 다 비우고 시작, 진동의 토템·공포의 수호물
+add|작은 돌 골렘 2|Lesser Stone Golem|tk,dp|골렘이 탱커를 세게 때려요 → 보스 먼저, 그다음 골렘
+tk|분쇄|Rend|tk|3초마다 출혈 피해 → 탱커 체력 주의
+
+@ruins-of-lordaeron
+#Witherfang
+dis:poison|흡혈 독|Leech Poison|hl|탱커에게 독 → 독 해제, 못 해도 괜찮아요
+add|새끼 거미|Broodlings|dp|같이 돌아다녀요 → 붙어 오면 먼저 잡기
+#The Butcher(The Baron)
+dz|기절 강타|Knockout|tk,hl|탱커 체력 절반 가까이를 깎고 기절 → 탱커 체력을 늘 가득, 보스 기절기 쓰기
+tk|앞쪽 휘두르기|Frontal Cone|dp|앞쪽 부채꼴 공격 → 근접 딜러는 등 뒤에서
+av|근접 광역|Melee AoE|dp|근처 모두 피해 → 원거리는 떨어져서 흩어지기
+#Viktor the Vile
+add|쫄 5번|Add Waves|all|굴뚝을 누르면 쫄이 5번 나오고 6번째에 보스 → 사이사이 마나 채우기
+dis:poison|흡혈 독|Leech Poison|hl|탱커에게 독 → 독 해제
+tk|센 공격|Heavy Hits|tk|나오자마자 세게 때려요 → 탱커가 먼저 어그로
+#The Abandoned
+add|언데드 3번|Add Waves|tk,dp|석상을 깨우면 쫄이 3번 → 탱커가 다 붙잡기
+int|생명력 흡수|Drain Life|tk|탱커 생명력 흡수 → 시전 시작에 끊기·기절
+av|얼음 회오리|Frost Nova|all|주변을 얼려요 → 근접은 각오, 원거리는 떨어지기
+info|냉기 갑옷|Frost Armor|dp|때리면 느려져요(못 지움) → 원거리 위주
+#Bjork
+info|마법 보호막|Anti-Magic Shield|dp|3초쯤 주문을 막아요 → 끝날 때까지 물리 공격하거나 기다리기
+#Rath'mael
+dz|불기둥|Flamestrike|all|탱커 자리에 큰 화염 장판 → 시전 때 끊거나 기절, 장판에서 바로 나오기
+
+@wailing-caverns
+#Lady Anacondra
+int|수면|Sleep|all|아무나 재워요 → 끊기
+int|치유의 손길|Healing Touch|dp|자기 치유 → 꼭 끊기
+int|번개 화살|Lightning Bolt|dp|탱커에게 번개 → 여유 있으면 끊기
+info|가시 오라|Thorns|dp|근접 공격하면 반사 피해 → 근접 딜러 체력 주의
+#Lord Cobrahn
+int|드루이드의 잠|Druid's Slumber|all|힐러도 재워요 → 치유의 손길보다 먼저 끊기
+int|치유의 손길|Healing Touch|dp|자기 치유 → 끊기
+info|뱀 변신|Cobrahn Serpent Form|all|체력이 낮아지면 뱀으로 변해 세져요 → 독 피해 대비
+#Kresh
+tk|물기|Bite|tk|센 물리 피해, 방어도 높음 → 탱커 생존기
+#Lord Pythas
+int|드루이드의 잠|Druid's Slumber|all|아무나 재워요 → 끊기
+int|치유의 손길|Healing Touch|dp|자기 치유 → 끊기
+av|천둥벼락|Thunderclap|dp|근처 공격·이동 속도 감소 → 원거리는 떨어지기
+add|송곳니 드루이드|Druid of the Fang|dp|같이 나와요 → 하나씩 잡기
+#Skum
+av|연쇄 번개|Chained Bolt|all|옆 사람에게 튀어요 → 흩어지기
+info|자연 면역|Nature Immunity|dp|자연 피해 안 들어가요 → 다른 속성으로
+#Lord Serpentis
+int|드루이드의 잠|Druid's Slumber|all|힐러를 재울 수 있어요 → 끊기
+int|치유의 손길|Healing Touch|dp|자기 치유 → 끊기
+add|송곳니 드루이드 2|Druid of the Fang|dp|먼저 잡기
+#Verdan the Everliving
+dz|휘감는 덩굴|Grasping Vines|all|10미터 안을 묶고 2초 기절 + 피해 → 원거리·힐러는 멀리, 탱커엔 미리 보호막·지속 치유
+hl|센 근접 공격|Heavy Hits|hl|탱커가 많이 맞아요 → 쉬지 말고 탱커 치유
+#Mutanus the Devourer
+av|천둥 균열|Thundercrack|all|근처 2초 기절 + 피해 → 끝나면 근접 치유
+info|공포|Terrify|all|4초 공포 → 진동의 토템·공포의 수호물
+int|나라렉스의 악몽|Naralex's Nightmare|hl|한 명을 재우거나 조종 → 끊거나 해제
+add|쫄 무리|Escort Adds|dp|보스 전에 쫄이 몰려와요 → 나라렉스 지키며 정리
+
+@deadmines
+#Rhahk'Zor
+tk|라크조르 강타|Rhahk'Zor Slam|tk|3초 기절 → 탱커 체력 주의
+add|파수꾼 2|Defias Watchman|dp|함께 끌리면 위험 → 하나는 변이 등 묶기
+#Sneed
+info|공포|Terrify|all|공포로 흩어져요 → 방의 벌목꾼을 먼저 정리
+info|산만한 고통|Distracting Pain|tk|탱커가 어그로를 놓치면 퍼져요 → 어그로 유지
+add|스니드 등장|Sneed|tk|분쇄기가 부서지면 스니드가 나와요 → 바로 도발
+tk|무장 해제|Disarm|tk|무기 기술을 못 써요 → 무기 없는 기술로 어그로
+#Gilnid
+tk|녹은 금속|Molten Metal|tk|피해 + 50% 감속, 어그로가 줄어요 → 자유의 축복, 딜러는 어그로 조심
+add|고블린 일꾼|Goblin Workers|dp|방에 많아요 → 한쪽을 비우고 시작
+#Mr. Smite
+dz|스마이트 발구르기|Smite Stomp|all|체력 66%·33%에 모두 기절 후 무기 바꿈 → 숨은 흑마수 2마리 먼저 잡기
+tk|쌍수 단계|Dual Wield|tk|무기 바꾼 뒤 훨씬 세게 때려요 → 탱커 생존기
+#Cookie
+int|쿠키의 요리|Cookie's Cooking|dp|자기 치유 → 끊기
+tk|산성 튀기기|Acid Splash|tk|탱커 자연 지속 피해 → 탱커 치유
+#Captain Greenskin
+tk|회전베기|Cleave|tk|앞쪽 여럿 피해 → 일행 반대로
+add|해적 쫄|Pirate Adds|dp|정예 2마리 먼저 표시하고 잡기
+info|독 작살|Poisoned Harpoon|tk|탱커에게 독 → 독 해제
+#Edwin VanCleef
+add|흑마수 호위|Blackguards|tk,dp|처음 2마리 + 체력 50%에 더 나와요 → 50% 전에 기절기 아껴 두기
+tk|난타|Thrash|tk|여러 번 연속 공격 → 탱커 생존기
+hl|긴 전투|Long Fight|hl|쫄까지 합쳐 오래 걸려요 → 마나 아끼기
+
+@shadowfang-keep
+#Rethilgore
+int|영혼 흡수|Soul Drain|dp|대상 기절 + 생명력 흡수 → 기절기로 끊기
+#Razorclaw the Butcher
+info|도살자의 흡수|Butcher Drain|hl|한 명의 생명력 흡수 → 치유
+#Baron Silverlaine
+dz|그림자의 장막|Veil of Shadow|hl|탱커가 받는 치유 75% 감소(15초) → 저주 해제, 없으면 미리 채우고 기절기
+#Commander Springvale
+int|성스러운 빛|Holy Light|dp|자기 치유 → 꼭 끊기
+tk|심판의 망치|Hammer of Justice|tk|탱커 기절 → 잠깐 어그로 흔들림 주의
+dis:purge|천상의 보호|Divine Shield|dp|10초 무적 → 기다리거나 정화
+#Odo the Blindwatcher
+dz|울부짖는 분노|Howling Rage|all|시간이 갈수록 커지고 세져요 → 길게 끌지 말고 빨리 잡기
+#Fenrus the Devourer
+dis:poison|독성 침|Toxic Saliva|hl|독 지속 피해 → 독 해제
+#Wolf Master Nandos
+add|늑대 부르기|Call Worgs|dp|늑대 쫄을 불러요 → 나오면 먼저 잡기
+tk|센 공격|Heavy Hits|tk|세게 때려요 → 탱커 생존기
+#Archmage Arugal
+dz|아루갈의 저주|Arugal's Curse|all|한 명이 늑대인간이 되어 아군을 공격 → 묶거나 피해 받아내기
+av|공허의 화살|Void Bolt|tk|탱커에게 큰 피해 → 기둥 뒤로 시야 끊기
+info|그림자 이동|Shadow Port|all|방 여기저기로 순간이동 → 따라가서 다시 붙잡기
+av|천둥 충격|Thundershock|all|주변 광역 피해 → 가까이 몰리지 않기
+
+@blackfathom-deeps
+#Ghamoo-ra
+av|짓밟기|Trample|dp|주변 모두 피해 → 방어도 낮추기(약화·요정의 불꽃)
+#Lady Sarevess
+tk|갈래 번개|Forked Lightning|tk|대상 앞쪽 모두 피해 → 탱커가 보스를 일행 반대로
+info|얼음 회오리|Frost Nova|all|근처를 묶어요 → 원거리는 떨어져서
+add|나가 쫄|Naga Adds|dp|먼저 잡거나 변이로 묶기
+#Gelihast
+info|그물|Net|all|10초 묶임 → 묶인 동안 치유 주의
+add|멀록 무리|Murlocs|tk,dp|방을 먼저 비우고 보스
+#Lorgus Jett
+int|번개 화살|Lightning Bolt|dp|끊기
+add|토템|Totems|dp|토템부터 부수기
+#Old Serra'kis
+info|물속 전투|Underwater|all|숨 참는 시간 주의 → 빨리 잡고 올라오기
+#Twilight Lord Kelris
+int|수면|Sleep|all|힐러도 재워요 → 끊기
+tk|정신 분열|Mind Blast|tk|탱커에게 계속 피해 → 탱커 치유
+add|시전자 쫄|Caster Adds|dp|입구 벽으로 시야 끊어 당기기
+#Aku'mai
+dz|독구름|Poison Cloud|all|45초 동안 5초마다 큰 자연 피해 → 구름에서 바로 나오기
+hl|광란|Frenzied Rage|hl|공격 속도 75% 증가 → 탱커 치유 집중
+add|화로 쫄|Brazier Adds|all|화로는 하나씩 눌러 정리
+
+@stockade
+#Targorr the Dread
+info|광폭|Enrage|tk|체력 20%에 세져요 → 마무리 빨리
+#Kam Deepfury
+tk|방패 밀쳐내기|Shield Slam|tk|피해 + 2초 기절
+#Hamhock
+int|연쇄 번개|Chain Lightning|all|계속 써요 → 기절·끊기
+dis:purge|피의 욕망|Bloodlust|dp|공격·시전 속도 증가(쫄까지) → 정화로 지우기, 천둥벼락
+#Bazil Thredd
+av|연막탄|Smoke Bomb|all|광역 4초 기절 → 원거리는 떨어져서
+info|대상 바꾸기|Target Switch|all|탱커가 기절하면 다음 사람을 때려요 → 그 사람 치유
+#Dextren Ward
+dz|위협의 외침|Intimidating Shout|all|광역 공포로 옆 감방 몹까지 끌려와요 → 진동의 토템, 넓은 곳에서 잡기
+
+@whelgar-excavation
+#Saltspine
+tk|먼지 폭풍|Dust Storm|tk|탱커 어그로 크게 감소 → 딜러는 천천히
+tk|치명적 물기|Fatal Bite|tk|탱커 큰 피해
+add|호수 악어|Crocolisks|all|같이 끌리면 위험 → 보스만 따로 당기기
+#Shadetooth
+dz|공포의 포효|Terrifying Roar|all|풀숲 숨은 몹 쪽으로 도망가요 → 풀숲 몹 먼저 정리, 공포의 수호물
+tk|분쇄|Rend|tk|3초마다 출혈 피해
+info|광폭|Enrage|tk|체력 20%에 공격 속도 증가 → 마무리 빨리
+#Highland Horror
+int|자연의 재생|Wild Regeneration|dp|보스 치유 → 끊기
+info|휘감는 뿌리|Entangling Roots|all|발이 묶여요
+add|주변 진흙|Slimes|all|주변 진흙 안 끌리게 조심
+#Relic Guardian
+tk|광역 강타|Arcing Smash|tk|앞쪽 베기 → 일행 반대로
+av|전투 발구르기|War Stomp|dp|광역 넉백 + 기절 → 원거리는 멀리
+tk|밀쳐내기|Knockaway|tk|어그로가 줄어요 → 다시 도발
+info|천둥벼락|Thunderclap|all|공격 속도 감소
+
+@city-of-dalaran
+#Atrexis the Grave Knight
+add|해골 일으키기|Raise Dead|tk,dp|해골이 계속 나와요 → 탱커가 모으고 광역으로 정리
+dis:purge|부정의 광기|Unholy Frenzy|hl|보스·해골 공격 속도 증가 → 주술사 정화·사제 마법 무효화
+tk|무장 해제|Disarm|tk|탱커 무기를 빼앗아요 → 힐러가 탱커 주의
+tk|강타·난타|Strike, Thrash|tk|탱커 피해가 커요 → 탱커 생존기
+#Lyn the Ignored
+dis:curse|가시의 저주|Curse of Thorns|hl|탱커가 때릴 때마다 자기도 다쳐요 → 저주 해제(마법사·드루이드)
+hl|연발 어둠의 화살|Shadow Bolt Volley|hl|일행 전체 암흑 피해 → 전체 치유
+add|해골 소환|Raise Dead|tk|해골 2 → 힐러에게 가지 않게 탱커가 잡기
+#Mana Devourer
+dz|쇠약|Debilitate|all|45미터 안 모두 피해 + 마나 200 흡수 → 마나 가득 채우고 빨리 잡기
+tk|활력 흡수|Drain Vitality|tk,hl|탱커 비전 지속 피해 → 탱커 치유
+info|비전 면역|Arcane Immune|dp|비전 피해 안 들어가요 → 다른 속성으로
+add|남은 몹 합류|Room Adds|all|방에 남은 몹이 같이 싸워요 → 방 먼저 비우기
+#Arcane Anomaly
+dz|초점 폭발|Focal Blast|all|앞으로 쏘는 광선이 원을 그리며 돌아요(3초) → 모두 보스 바로 뒤에 붙어 같이 돌기
+tk|비전 화살|Arcane Bolt|tk|탱커 비전 피해 약 500 → 탱커 치유
+#Fel Ancient
+av|지옥 목재|Fel Timbers|all|묶인 사람 밑에 초록 장판 → 바로 나오기
+dis:magic|휘감기|Entangle|hl|두 명을 10초 묶고 피해 → 장판이 깔리면 바로 해제, 자유의 축복·드루이드 변신
+#Arcanic Enigma
+int|마나 연소|Mana Burn|dp|마나 망령 2마리가 써요 → 끊고 기절, 망령부터 잡기
+dis:magic|마나변이|Manamorph|hl|한 명이 8초 양이 돼요 → 마법 해제
+av|광역 침묵|Silence|hl|보스 근처 침묵 → 원거리·힐러는 떨어져서
+add|마나 정령 소환|Summon Manalings|dp|작은 쫄 → 모아서 광역
+#Unstable Sentinel
+dz|기능 장애|Malfunction|all|25미터 안 큰 광역 피해 → 시전 보이면 범위 밖으로, 시전 전 기절기
+tk|광역 강타|Arcing Smash|tk|앞쪽 모두 베기 → 일행 반대로 돌리기
+#Shade of the Archmage
+dz|튕기는 마나|Bounding Mana|all|구체가 한 명에게 갔다가 돌아오며 길 위 모두 피해 → 흩어지고 구체 길 피하기
+av|비전 폭발|Arcane Explosion|all|20미터 안 피해 → 원거리는 20미터 밖
+dz|대규모 변이|Mass Polymorph|all|마나가 바닥나면 모두 양으로 만들고 환기로 마나 회복 → 벽 뒤에 숨기, 방 밖으로 끌면 초기화
+tk|비전 화살|Arcane Bolt|tk|탱커에게 계속 큰 피해 → 탱커 치유
+
+@gnomeregan
+#Grubbis
+add|씹쇠|Chomper|tk,dp|그럽비스의 애완동물 → 먼저 잡기
+info|기절·공포|Stun/Fear|dp|보스는 기절·공포가 잘 먹어요
+#Viscous Fallout
+dis:poison|독성 연발|Toxic Volley|hl|일행 전체 독 피해 → 독 해제, 전체 치유
+info|냉기 면역|Frost Immune|dp|냉기 피해 안 들어가요
+#Electrocutioner 6000
+av|연쇄 번개|Chain Bolt|all|끊을 수 없고 옆 사람에게 튀어요 → 근접은 최대 거리, 흩어지기
+hl|메가볼트|Megavolt|hl|끊을 수 없는 큰 피해 → 시전 뒤 바로 채우기
+#Crowd Pummeler 9-60
+av|광역 강타|Arcing Smash|dp|주변 작은 원 피해 → 원거리는 최대 거리
+av|짓밟기|Trample|dp|주변 짓밟기 → 탱커는 벽을 등지고
+#Mekgineer Thermaplugg
+dz|걸어오는 폭탄|Walking Bomb|dp|폭탄이 걸어와 터져요 → 원거리가 바로 잡기, 기둥 단추로 잠깐 멈추기
+tk|밀쳐내기|Knock Away|tk|어그로 초기화 → 가운데로 돌아와 바로 도발
+add|폭탄 기계|Bomb Machines|dp|체력 50%·20%에 폭탄이 더 자주 → 기둥 단추 담당 정하기
+
+@razorfen-kraul
+#Roogug
+add|바위 정령|Stone Rumbler|dp|정령 쫄 → 잡거나 묶기
+add|죽음의머리 선견자|Death's Head Seer|dp|가장 위험한 쫄 → 해골 표시, 먼저
+#Aggem Thorncurse
+add|멧돼지 영혼|Boar Spirit|dp|약한 영혼이 계속 나와요 → 빨리 잡고 힐러에게서 떼기
+int|치유|Heal|dp|자기 치유 → 끊기
+#Death Speaker Jargba
+dz|정신 지배|Dominate Mind|hl|한 명을 조종 → 사제 마법 무효화·주술사 정화, 보스에게서 떨어지기
+info|어둠의 화살|Shadow Bolt|tk|근접에 아무도 없으면 세게 쏴요 → 근접 유지
+int|마나 연소|Mana Burn|dp|침략자 쫄의 마나 연소 → 끊기
+#Overlord Ramtusk
+dz|소용돌이 연타|Whirling Barrage|all|창가죽 쫄 2마리가 회전하며 큰 광역 → 돌기 시작하면 근접도 빠지기
+add|창가죽 쫄|Razorfen Spearhide|tk|힐러·원거리에서 떼어 놓기
+#Agathelos the Raging
+av|돌진|Rushing Charge|all|멀리 있는 사람에게 돌진 → 근접 거리에 있기
+tk|센 공격|Heavy Hits|tk|치명타로 탱커가 쓰러질 수 있어요 → 물약·생명석
+info|죽은 척|Feign Death|dp|죽은 것처럼 보였다가 다시 일어나요 → 계속 때리기
+#Charlga Razorflank
+av|연쇄 번개|Chain Bolt|all|흩어지기
+info|정화|Purity|dp|해로운 마법·지속 피해를 지우고 무적 → 그동안 디버프 걸지 말기
+info|오두막 순간이동|Teleport|tk|가끔 오두막으로 가요 → 다시 붙잡기
+
+@sm-graveyard
+#Interrogator Vishas
+dis:magic|어둠의 권능: 고통|Shadow Word: Pain|hl|암흑 지속 피해 → 마법 해제
+#Bloodmage Thalnos
+av|불꽃 회오리|Fire Nova|dp|주변 화염 피해 → 근접 체력 주의
+int|화염 가시|Flame Spike|dp|땅에서 불길 → 끊기, 밖으로
+int|어둠의 화살|Shadow Bolt|dp|끊기
+
+@sm-library
+#Houndmaster Loksey
+dis:purge|피의 욕망|Bloodlust|hl|공격 속도 증가 → 마법 해제·정화로 지우기
+add|추적 사냥개 3|Tracking Hounds|tk,dp|사냥개를 광역으로 먼저 정리, 하나는 묶기
+#Arcanist Doan
+dz|비전 보호막 → 대폭발|Arcane Bubble → Detonation|all|체력 50%쯤 보호막을 두르고 큰 폭발 → 보호막 보이면 모두 멀리 달아나기
+dis:magic|변이|Polymorph|hl|한 명이 양이 돼요 → 마법 해제
+av|비전 폭발|Arcane Explosion|all|가까이 있으면 피해 → 원거리는 떨어져서
+info|침묵|Silence|hl|잠깐 주문 못 씀 → 미리 체력 채워 두기
+
+@sm-armory
+#Herod
+dz|소용돌이|Whirlwind|all|빙글빙글 돌며 큰 광역 피해 → 「피의 회오리!」 외치면 근접도 바로 빠지기
+info|광폭|Enrage|tk,hl|체력 40%쯤 세져요 → 생존기
+add|훈련병 무리|Scarlet Trainees|all|헤로드가 죽으면 훈련병 20마리가 몰려와요 → 입구에서 광역
+tk|돌진|Rushing Charge|tk|원거리에게 돌진 → 다시 붙잡기
+
+@sm-cathedral
+#High Inquisitor Fairbanks
+dis:curse|피의 저주|Curse of Blood|hl|받는 물리 피해 증가 → 저주 해제
+info|공포|Psychic Scream|all|광역 공포
+int|치유|Heal|dp|자기 치유 → 끊기
+#Scarlet Commander Mograine
+tk|심판의 망치|Hammer of Justice|tk|탱커 기절
+dis:purge|천상의 보호막|Divine Shield|dp|무적 → 정화하거나 기다리기
+tk|성전사의 일격|Crusader Strike|tk|탱커 피해 증가
+#High Inquisitor Whitemane
+dz|깊은 잠 → 부활|Deep Sleep → Resurrect|all|체력 50%에 모두 재우고 모그레인을 살려요 → 마나 아끼고, 모그레인 다시 잡기
+int|치유|Heal|dp|보스·모그레인 치유 → 꼭 끊기
+int|신성한 일격|Holy Smite|dp|끊기
+dis:purge|신의 권능: 보호막|Power Word: Shield|dp|보호막 → 정화·마법 무효화
+
+@razorfen-downs
+#Tuten'kash
+av|거미줄 뿜기|Web Spray|dp|앞쪽 묶기 → 탱커가 일행 반대로
+dis:curse|투텐카쉬의 저주|Curse of Tuten'kash|hl|저주 해제
+dis:poison|맹독|Virulent Poison|hl|독 해제
+#Plaguemaw the Rotting
+add|호위 이벤트 쫄|Escort Adds|tk|벨니스트라즈 지키며 쫄 정리
+#Mordresh Fire Eye
+int|화염구|Fireball|dp|끊기
+av|불꽃 회오리|Fire Nova|all|근처 피해 → 밖으로
+add|해골|Skeletons|dp|광역으로 정리
+#Ragglesnout
+int|치유|Heal|dp|자기 치유 → 끊기
+int|어둠의 화살|Shadow Bolt|dp|끊기
+dz|정신 지배|Dominate Mind|all|한 명 조종 → 묶고 치유
+#Glutton
+av|질병 구름|Disease Cloud|dp|주변 질병 피해 → 근접 체력 주의
+hl|광란|Frenzy|hl|체력 낮으면 세져요 → 탱커 치유
+#Amnennar the Coldbringer
+dz|아마넨나르의 진노|Amnennar's Wrath|all|주변 큰 냉기 피해 → 탱커가 보스 돌리고, 근접 체력 주의
+add|서리 망령|Frost Spectres|dp|체력 50%쯤 소환 → 원거리가 잡기
+av|얼음 회오리|Frost Nova|all|묶임
+int|얼음 화살|Frostbolt|dp|끊기
+
+@uldaman
+#Revelosh
+int|연쇄 번개|Chain Lightning|all|끊고 흩어지기
+add|트로그 2|Troggs|dp|먼저 잡기
+#The Lost Dwarves
+tk|돌진|Rushing Charge|tk|에릭이 돌진해 어그로를 빼앗아요 → 탱커가 에릭 붙잡기
+tk|방패 밀쳐내기|Shield Slam|tk|올라프 → 탱커가 잡기
+info|원거리 공격|Shoot|dp|벨로그 → 묶기
+#Ironaya
+tk|광역 강타|Arcing Smash|tk|일행 반대로, 근접은 흩어지기
+av|전투 발구르기|War Stomp|all|체력 50%에 광역 기절
+tk|밀쳐내기|Knock Away|tk|다시 도발
+info|지속 피해 면역|DoT Immune|dp|직접 피해 주문만
+#Obsidian Sentinel
+add|흑요석 조각|Obsidian Shards|tk,dp|체력 66%·33%에 조각 → 먼저 잡기
+info|지속 피해 면역|DoT Immune|dp|직접 피해만
+#Ancient Stone Keeper
+dz|모래 폭풍|Sand Storms|hl|느려지고 침묵 → 원거리·힐러는 최대 거리
+info|지속 피해 면역|DoT Immune|dp|직접 피해만
+#Galgann Firehammer
+dis:magic|화염 증폭|Amplify Flames|hl|받는 화염 피해 증가 → 마법 해제
+hl|불꽃 회오리|Fire Nova|hl|광역 피해 → 보호막·지속 치유
+add|지질학자 2|Geologists|tk,dp|하나씩 맡아 먼저 잡기
+#Grimlok
+dis:purge|피의 욕망|Bloodlust|dp|정화
+int|번개 화살|Lightning Bolt|dp|끊기
+add|바실리스크|Jadespine Basilisk|hl|힐러를 기절시켜요 → 묶거나 먼저 잡기
+#Archaedas
+dz|대지의 진동|Ground Tremor|all|근처 모두 기절 → 흩어지고 탱커가 일행에서 끌고 가기
+add|수호자 깨우기|Awaken Guardians|tk,dp|계속 쫄 → 탱커가 모으기
+add|정예 4|Vault Warders|all|체력 20%쯤 정예 4 → 보스만 잡으면 같이 죽어요
+
+@zul-farrak
+#Theka the Martyr
+dis:disease|열병|Fevered Plague|hl|질병 → 질병 해제
+info|변신|Transform|dp|체력 낮을 때 딱정벌레로 변해요 → 공격 방식 바꾸기
+#Antu'sul
+add|바실리스크|Sul'lithuz|all|체력 75%·25%쯤 바실리스크 무리 → 탱커가 모으고 광역
+int|치유 수호물|Healing Ward|dp|토템 → 바로 부수기
+add|대지의 손아귀 토템|Earthgrab Totem|dp|발 묶는 토템 → 부수기
+#Witch Doctor Zum'rah
+int|연발 어둠의 화살|Shadow Bolt Volley|all|일행 전체 → 끊기
+add|무덤 좀비|Zombies|tk|무덤에서 좀비가 나와요 → 탱커가 모으기
+int|치유|Heal|dp|끊기
+#Nekrum Gutchewer
+dis:disease|열병|Fevered Plague|hl|질병 해제
+int|세즈지즈의 치유|Sezz'ziz Heal|dp|같이 나오는 세즈지즈가 치유·공포 → 세즈지즈부터
+#Chief Ukorz Sandscalp
+tk|회전베기|Cleave|tk|일행 반대로
+info|광폭|Enrage|tk|체력 낮을 때 세져요
+add|루즐루|Ruuzlu|tk|같이 싸워요 → 하나 더 탱킹
+#Hydromancer Velratha
+int|치유의 물결|Healing Wave|dp|끊기
+info|얼음 회오리|Frost Nova|all|묶임
+#Gahz'rilla
+dz|가즈릴라 강타|Gahz'rilla Slam|tk|탱커를 높이 띄워 큰 피해 → 탱커 생존기
+av|얼리기|Freeze|all|가까이 있으면 얼어요
+
+@maraudon
+#Noxxion
+dis:poison|독성 연발|Toxic Volley|hl|일행 전체 독 → 독 해제
+add|분열|Summon Spawns|dp|잠깐 사라지고 새끼들이 나와요 → 광역으로 정리
+tk|올려치기|Uppercut|tk|탱커 넉백
+#Razorlash
+tk|회전베기|Cleave|tk|일행 반대로
+tk|꿰뚫기|Puncture|tk|방어도 감소
+#Lord Vyletongue
+av|연막탄|Smoke Bomb|all|기절 → 흩어지기
+info|일제 사격|Multi-Shot|all|여럿 피해
+#Celebras the Cursed
+int|천벌|Wrath|dp|끊기
+info|휘감는 뿌리|Entangling Roots|all|묶임
+#Landslide
+tk|밀쳐내기|Knock Away|tk|벽을 등지기
+add|바위 소환|Summon Rock Elementals|dp|체력 50%쯤 → 빨리 잡기
+av|짓밟기|Trample|dp|근처 피해
+#Tinkerer Gizlock
+av|폭탄|Bomb|all|폭탄 피해 → 흩어지기
+av|고블린 용 총|Goblin Dragon Gun|dp|앞쪽 화염 → 정면 피하기
+#Rotgrip
+tk|치명적 물기|Fatal Bite|tk|큰 피해
+tk|분쇄|Rend|tk|출혈
+#Princess Theradras
+dz|혐오의 시선|Repulsive Gaze|tk|탱커를 날리고 어그로 초기화 → 바로 다시 도발
+av|돌덩이|Boulder|all|멀리 있는 사람에게 돌 → 흩어지기
+av|먼지 장판|Dust Field|all|주변 광역 → 근접 체력 주의
+
+@temple-of-atal-hakkar
+#Atal'alarion
+tk|난타|Thrash|tk|연속 공격
+av|휩쓸기|Sweeping Slam|all|주변 넉백
+#Jammal'an the Prophet
+dz|잠말란의 주술|Hex of Jammal'an|all|한 명이 조종당해요 → 묶어 두거나 기다리기
+int|치유의 물결|Healing Wave|dp|끊기
+add|오곰|Ogom the Wretched|dp|같이 나오는 오곰부터
+#Dreamscythe
+av|산성 숨결|Acid Breath|dp|앞쪽 피해 → 정면 피하기
+av|날개 퍼덕임|Wing Flap|all|넉백
+#Avatar of Hakkar
+dz|광기|Cause Insanity|all|한 명을 조종 → 묶거나 기다리기
+dis:curse|언어의 저주|Curse of Tongues|hl|시전 느려짐 → 저주 해제
+add|소환 의식|Summoning Ritual|all|불길 속에서 쫄이 나와요 → 피의 단지 막기
+#Morphaz
+av|산성 숨결|Acid Breath|dp|정면 피하기
+tk|난타|Thrash|tk|연속 공격
+#Shade of Eranikus
+dz|깊은 잠|Deep Sleep|all|모두 재워요 → 마나·체력 미리 채우기
+av|전투 발구르기|War Stomp|all|광역 기절
+av|산성 숨결|Acid Breath|dp|정면 피하기
+
+@blackrock-depths
+#High Interrogator Gerstahn
+dis:magic|어둠의 권능: 고통|Shadow Word: Pain|hl|마법 해제
+info|공포|Psychic Scream|all|광역 공포
+dis:purge|보호막|Power Word: Shield|dp|정화
+#Lord Roccor
+av|대지 충격|Earth Shock|tk|탱커 피해
+info|지진|Ground Tremor|all|근처 기절
+#Houndmaster Grebmar
+dis:purge|피의 욕망|Bloodlust|dp|정화
+add|사냥개|Hounds|dp|사냥개 정리
+#Ring of Law
+add|투기장 쫄|Arena Waves|all|무작위 몹 무리 + 보스 → 탱커가 모으기
+#Lord Incendius
+dz|불의 폭풍|Fire Storm|all|광역 화염 + 넉백 → 화염 저항, 흩어지기
+dis:curse|불의 저주|Curse of the Elemental Lord|hl|저주 해제
+#Fineous Darkvire
+int|성스러운 빛|Holy Light|dp|끊기
+#Pyromancer Loregrain
+info|화염 충격|Flame Shock|tk|탱커 피해
+add|불타는 토템|Searing Totem|dp|부수기
+#Warder Stilgiss
+info|얼음 회오리|Frost Nova|all|묶임
+add|베로그|Verek|tk|같이 나오는 개 → 따로 탱킹
+#The Vault
+add|금고 정령|Vault Elementals|all|금고를 열면 정령 무리 → 정리
+#Bael'Gar
+add|불타는 정령|Fiery Spawn|dp|정령이 계속 → 빨리 잡기
+#General Angerforge
+add|원군 소환|Reinforcements|all|체력 30%쯤 쫄 무리 → 묶고 보스 집중
+tk|가르기|Sunder Armor|tk|방어도 감소
+#Golem Lord Argelmach
+add|골렘 깨우기|Awaken Golems|tk|방 안 골렘이 깨어나요 → 방 먼저 비우기
+info|번개 방패|Lightning Shield|dp|때리면 반사 피해
+#Hurley Blackbreath
+info|화염 숨결|Flame Breath|dp|정면 피하기
+#Ribbly Screwspigot
+add|친척|Ribbly's Cronies|dp|같이 나오는 쫄
+#Phalanx
+av|연발 화염구|Fireball Volley|all|광역 화염
+tk|천둥벼락|Thunderclap|tk|공격 속도 감소
+#Plugger Spazzring
+info|맥주 던지기|Drunk|all|술집 쫄이 몰려올 수 있어요 → 술 훔치지 말기
+#Ambassador Flamelash
+add|불타는 정령|Burning Spirits|all|불꽃 정령이 보스에게 가면 세져요 → 정령 먼저 잡기
+#The Seven
+add|일곱 형제|The Seven|all|하나씩 차례로 나와요 → 마나 관리, 자기 기술 하나씩
+#Magmus
+dz|불길 분출|Fiery Burst|all|큰 광역 화염 → 근접 체력 주의
+info|분화구 함정|Flame Vents|all|복도 함정 → 피하기
+#Emperor Dagran Thaurissan
+dz|아버지의 손|Hand of Thaurissan|tk|탱커 기절 + 큰 피해 → 생존기
+av|화염의 정점|Avatar of Flame|all|주변 화염 → 근접 체력 주의
+info|공주|Princess Moira|dp|모이라를 먼저 잡으면 퀘스트 결과가 달라져요 → 퀘스트 확인
+
+@dire-maul-east
+#Pusillin
+info|도망|Run Away|all|쫓아가며 잡아요 → 마지막 방에서 쫄과 함께
+#Lethtendris
+dis:curse|무력화 저주|Enfeeble|hl|저주 해제
+int|어둠의 화살|Shadow Bolt Volley|all|끊기
+#Hydrospawn
+av|물보라|Riptide|all|넉백 + 기절
+add|분열|Hydrolings|dp|작은 물 정령 → 광역
+#Zevrim Thornhoof
+dz|희생|Sacrifice|hl|한 명을 묶어 생명력을 흡수 → 그 사람 집중 치유
+info|강렬한 고통|Intense Pain|tk|탱커 피해
+#Alzzin the Wildshaper
+dz|변신 단계|Form Shifts|all|늑대·나무 정령으로 변신하며 공격이 바뀌어요 → 변신마다 대처
+dis:magic|시들기|Wither|hl|마법 해제
+
+@dire-maul-west
+#Tendris Warpwood
+tk|뿌리 휘감기|Entangle|tk|탱커 묶임
+av|짓밟기|Trample|dp|근처 피해
+#Illyanna Ravenoak
+info|일제 사격|Volley|all|광역 화살 → 흩어지기
+add|페롤|Ferra|tk|애완동물 → 따로 탱킹
+#Magister Kalendris
+dz|정신 지배|Dominate Mind|all|한 명 조종 → 묶거나 해제
+int|정신 분열|Mind Blast|dp|끊기
+#Tsu'zee
+info|은신|Stealth|all|숨어 다녀요 → 미리 찾기
+#Immol'thar
+dz|눈의 소환|Eye of Immol'thar|all|눈 쫄이 계속 → 원거리가 바로 잡기
+tk|난타|Trample|tk|큰 피해
+#Lord Hel'nurath
+info|소환 보스|Summoned|all|흑마법사 퀘스트로 부르는 보스 → 일행 준비 후 소환
+#Prince Tortheldrin
+dz|소용돌이|Whirlwind|all|근접 광역 → 빠지기
+info|마법 차단|Counterspell|hl|주문을 끊어요 → 원거리는 거리 두기
+
+@dire-maul-north
+#Guard Mol'dar
+tk|강타|Strike|tk|큰 피해
+#Stomper Kreeg
+av|소용돌이|Whirlwind|all|근접 광역 → 빠지기
+#Guard Fengus
+tk|강타|Strike|tk|큰 피해
+#Guard Slip'kik
+info|공물 경로|Tribute|all|조공 경로로 가면 싸우지 않아도 돼요
+#Captain Kromcrush
+add|원군|Reinforcements|all|체력 낮을 때 쫄 → 정리
+info|공포|Intimidating Roar|all|공포
+#King Gordok
+dz|전쟁 발구르기|War Stomp|all|광역 기절 → 흩어지기
+tk|박살|Mortal Strike|tk|치유 감소 → 탱커 치유 집중
+add|촐루크|Cho'Rush|tk|같이 나오는 마법사 → 끊기·따로 잡기
+
+@lower-blackrock-spire
+#Highlord Omokk
+tk|밀쳐내기|Knock Away|tk|어그로 감소 → 다시 도발
+tk|가르기|Cleave|tk|일행 반대로
+#Shadow Hunter Vosh'gajin
+dis:curse|주술|Hex|hl|저주 해제
+dis:curse|피의 저주|Curse of Blood|hl|저주 해제
+#War Master Voone
+av|도끼 던지기|Throw Axe|all|흩어지기
+tk|박살|Mortal Strike|tk|치유 감소
+#Mother Smolderweb
+dis:poison|어미의 젖|Mother's Milk|hl|독 해제
+add|새끼 거미|Spiderlings|dp|광역
+#Urok Doomhowl
+add|오우거 무리|Urok's Minions|all|소환 이벤트로 쫄 → 탱커가 모으기
+#Quartermaster Zigris
+int|치유 물약|Healing Potion|dp|끊기
+av|폭탄|Bomb|all|흩어지기
+#Halycon
+tk|찢기|Rend|tk|출혈
+#Gizrul the Slavener
+dz|광란|Frenzy|tk,hl|공격 속도 증가 → 사냥꾼 평정의 사격, 치유 집중
+#Overlord Wyrmthalak
+add|원군|Reinforcements|all|체력 50%에 쫄 → 정리
+av|가르기|Cleave|dp|정면 피하기
+
+@upper-blackrock-spire
+#Pyroguard Emberseer
+add|흑요석 수도사|Blackhand Incarcerators|all|먼저 쫄을 잡아야 보스가 깨어나요
+av|불꽃 회오리|Fire Nova|all|광역 화염 → 근접 체력 주의
+#Warchief Rend Blackhand
+add|투기장 무리|Gyth Waves|all|여러 번 몰려와요 → 탱커 모으기
+dz|자이스의 숨결|Gyth|all|용이 화염을 뿜어요 → 정면 피하기
+#The Beast
+dz|불꽃 돌진|Fire Blast/Flamebreak|all|넉백 + 화염 → 벽 등지기
+info|공포|Terrifying Roar|all|공포
+#Lord Valthalak
+info|소환 보스|Summoned|all|발타라크 장신구로 부르는 보스 → 일행 준비 후 소환
+#General Drakkisath
+dz|화염 지옥|Flamestrike|all|장판 → 바로 나오기
+tk|가르기|Cleave|tk|일행 반대로
+add|근위병|Chromatic Elite Guards|tk|같이 나와요 → 따로 탱킹
+
+@scholomance
+#Kirtonos the Herald
+dis:curse|언어의 저주|Curse of Tongues|hl|저주 해제
+info|변신|Transform|all|박쥐/사람으로 바뀌어요
+#Jandice Barov
+add|환영|Illusions|dp|분신이 나와요 → 광역
+dis:curse|무력화 저주|Curse of Blood|hl|저주 해제
+#Rattlegore
+tk|강타|Strike|tk|큰 피해
+av|밀쳐내기|Knock Away|tk|벽 등지기
+#Marduk Blackpool
+info|그림자 보호|Shadow Shield|dp|보호막
+#Ras Frostwhisper
+dz|얼음 회오리|Frost Nova|all|광역 얼림 → 원거리 떨어져서
+dis:magic|냉기 화살|Frostbolt|hl|느려짐 해제
+#Kormok
+add|해골 소환|Summon Skeletons|dp|광역
+#Instructor Malicia
+int|치유|Heal|dp|끊기
+#Doctor Theolen Krastinov
+dz|광란|Frenzy|tk|체력 낮으면 세져요 → 생존기
+#Lorekeeper Polkelt
+dis:disease|질병|Disease|hl|질병 해제
+#The Ravenian
+av|짓밟기|Trample|dp|근처 피해
+tk|가르기|Cleave|tk|일행 반대로
+#Lady Illucia Barov
+dz|정신 지배|Dominate Mind|all|조종 → 묶기
+info|공포|Fear|all|공포
+#Lord Alexei Barov
+info|부정의 오라|Unholy Aura|all|주변 지속 피해 → 근접 체력 주의
+dis:curse|그림자의 장막|Veil of Shadow|hl|받는 치유 감소 → 저주 해제
+#Darkmaster Gandling
+dz|그림자 이동|Shadow Portal|all|한 명을 방에 가둬요 → 갇힌 사람은 방 쫄 정리 후 나오기
+info|저주|Curse of the Darkmaster|hl|저주 해제
+
+@stratholme-dead
+#Stonespine
+info|희귀|Rare|tk|단단한 몸 → 탱킹
+#Nerub'enkan
+dis:poison|독|Poison|hl|독 해제
+add|거미|Spiders|dp|광역
+#Black Guard Swordsmith
+tk|가르기|Cleave|tk|일행 반대로
+#Baroness Anastari
+dz|빙의|Possess|all|한 명에게 들어가 조종 → 그 사람을 묶거나 체력 깎아 내보내기
+info|침묵|Silence|hl|침묵
+#Maleki the Pallid
+int|얼음 화살|Frostbolt|dp|끊기
+info|얼음 무덤|Ice Tomb|hl|한 명을 얼음에 가둬요 → 그 사람 치유
+#Magistrate Barthilas
+tk|난타|Crowd Pummel|tk|넉백
+#Ramstein the Gorger
+dz|짓밟기|Trample|all|큰 광역 피해 + 넉백 → 탱커 외 떨어지기
+add|해골 무리|Skeleton Horde|all|잡은 뒤 쫄이 몰려와요 → 쉬지 말고 대비
+#Baron Rivendare
+dz|죽음의 고리|Death Pact/Raise Dead|all|해골을 일으켜 터뜨려요 → 해골 바로 잡기
+tk|가르기|Cleave|tk|일행 반대로
+info|그림자 화살|Shadow Bolt|hl|큰 피해
+
+@stratholme-live
+#Skul
+info|희귀|Rare|all|가끔 나오는 희귀 → 그냥 잡기
+#Postmaster Malown
+dis:curse|무력화 저주|Curse of Weakness|hl|저주 해제
+#Hearthsinger Forresten
+info|희귀|Rare|all|가끔 나오는 희귀 → 그냥 잡기
+#The Unforgiven
+info|희귀|Rare|all|가끔 나오는 희귀 → 그냥 잡기
+#Timmy the Cruel
+tk|난타|Ravenous Claw|tk|큰 피해
+add|주변 몹|Courtyard Adds|all|마당 몹을 다 잡아야 나와요
+#Malor the Zealous
+info|퀘스트 보스|Quest|all|방 상자를 열면 나와요
+#Crimson Hammersmith
+info|부르는 보스|Summoned|all|대장장이 도안 퀘스트로 불러요
+#Cannon Master Willey
+add|저격수 소환|Summon Riflemen|dp|쫄 → 빨리 잡기
+tk|박살|Knock Away|tk|넉백
+#Archivist Galford
+av|불꽃 회오리|Fire Nova|all|근처 피해
+#Balnazzar
+dz|정신 지배|Domination|all|한 명 조종 → 묶거나 체력 깎기
+hl|정신 분열|Mind Blast|hl|큰 피해 → 치유
+info|변신|Transform|all|체력 낮으면 악마로 변해요

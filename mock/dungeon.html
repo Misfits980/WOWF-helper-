@@ -126,6 +126,20 @@ h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-
 .skr.mine{background:rgba(90,160,80,.1);border-color:#4f7a3c;border-left-color:#8a5cd6}
 .skr .mi{display:inline-flex;align-items:center;gap:2px;margin-left:5px;font-size:10px;font-weight:800;color:#7bea7b;border:1px solid #4f7a3c;border-radius:5px;padding:0 4px;vertical-align:1px}.skr .mi img{width:12px;height:12px}
 
+
+/* 줄 맞춤 */
+.tags{align-items:center}.tags span{height:22px;box-sizing:border-box;line-height:1;padding:0 8px 0 3px;vertical-align:middle}
+.tags .ic{width:16px;height:16px;flex:none;display:block}
+.tags .k:not(:has(.ic)){padding-left:8px}
+.lgd{align-items:center}.lgd span{height:20px;box-sizing:border-box;display:inline-flex;align-items:center;line-height:1;padding:0 8px}
+.skr{min-height:44px;box-sizing:border-box}.skr .ic{width:28px;height:28px;display:block}
+.skr .m b{display:inline-flex;align-items:center;gap:5px;line-height:1.2}
+.skr .mi{margin-left:6px;height:16px;box-sizing:border-box;vertical-align:middle}
+.skr .k{min-width:40px;height:20px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.dz{align-items:center}.dz .ic{display:block}
+.obj{align-items:center}
+.ci .why{display:block;font-size:10px;color:#8bd37a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
 @media (max-width:440px){body{padding:8px}.ph{width:100%;max-width:390px}}
 </style></head><body>
 <h1>던전 화면 시안 · 붉은십자군 수도원: 도서관</h1>
@@ -160,14 +174,14 @@ const b2open='<div class="bn open" style="border-color:#d0463a"><span class="por
  +'<div class="skl">'+sk('int','spell_nature_polymorph','변이','파티원이 양이 돼요 → 해제해 주거나 기다리기','풀기',1)+sk('av','spell_nature_wispsplode','비전 폭발','가까이 있는 사람 모두 피해 → 원거리는 떨어져서','거리')+sk('int','spell_shadow_impphaseshift','침묵','잠깐 주문을 못 써요 → 미리 체력 채워 두기','대비',1)+'</div>'
  +'<div class="drops">'+ic('inv_wand_04','u')+ic('inv_weapon_shortblade_07','u')+ic('inv_boots_05','u')+'<small>드랍 6 · 내게 좋은 것 4</small></div></div>';
 const A='<div><p class="cap">① 공략 탭 첫 화면</p><div class="ph">'+TOPB+hero+tabs(0)+ready+loot+warn+sum+nav+'</div></div>';
-const lgd='<div class="lgd"><span class="k dz">⚠ 위험</span><span class="k int">끊기·풀기</span><span class="k dis">해제</span><span class="k av">피하기</span><span class="k add">쫄</span></div>';
+const lgd='<div class="lgd"><span class="k dz">위험</span><span class="k int">끊기·풀기</span><span class="k dis">해제</span><span class="k av">피하기</span><span class="k add">쫄</span></div>';
 const B='<div><p class="cap">② 보스 동선 · 기술 색깔로 구분</p><div class="ph">'+TOPB+bossHd+lgd+'<div class="tl">'+b1open+obj(2,'티탄 신화','얼라이언스')+obj(3,'언데드 위협의 기원','호드')+obj(4,'타락의 개요','호드')+obj(5,'마력의 의식','마법사')+b2+'</div>'+nav+'</div></div>';
-const ci=(n,t,sl,g,u,o)=>'<div class="ci'+(o||'')+'">'+ic(n,u)+'<div class="m"><b class="'+u+'">'+t+'</b><small>'+sl+'</small></div>'+(g?'<em class="g">+'+g+'</em>':'')+'</div>';
+const ci=(n,t,sl,g,u,o,why)=>'<div class="ci'+(o||'')+'">'+ic(n,u)+'<div class="m"><b class="'+u+'">'+t+'</b><small>'+sl+'</small>'+(why?'<span class="why">'+why+'</span>':'')+'</div>'+(g?'<em class="g">+'+g+'</em>':'')+'</div>';
 const C='<div><p class="cap">③ 템 탭 · 다시 정리</p><div class="ph">'+TOPB+hero+tabs(1)
- +'<div class="lsum">'+ic('inv_wand_04')+'<div><b>환영 마법막대</b><small>이 던전 최고 · 신비술사 도안 · 마법봉</small></div><span class="g">+52</span></div>'
+ +'<div class="lsum">'+ic('inv_wand_04')+'<div><b>환영 마법막대</b><small>이 던전 최고 · 신비술사 도안 · 마법봉</small><small style="color:#8bd37a">주문력 +9 · 지능 +4 덕분</small></div><span class="g">+52</span></div>'
  +'<div class="flt2"><span class="on">⭐ 내게 좋은 것 4</span><span>전부 9</span><span class="sel">부위 ▾</span></div>'
  +'<div class="bs2"><div class="h"><span class="por" style="background-image:url('+NPC(5266)+')"></span><div><b>신비술사 도안</b><small><span style="color:var(--gold)">6</span>번 · 마지막 보스</small></div><span class="cnt">좋은 템 4</span></div><div class="g2">'
- +ci('inv_wand_04','환영 마법막대','마법봉 · Lv 34',52,'',' best')+ci('inv_weapon_shortblade_07','최면의 단검','주장비 · Lv 34',50,'')+ci('inv_boots_05','도서관 실내화','발 · 천',18,'u')+ci('inv_shoulder_05','도안의 어깨보호대','어깨 · 천',15,'u')+'</div></div>'
+ +ci('inv_wand_04','환영 마법막대','마법봉 · Lv 34',52,'',' best','주문력 +9 · 지능 +4')+ci('inv_weapon_shortblade_07','최면의 단검','주장비 · Lv 34',50,'','','치유량 +18 · 정신력 +5')+ci('inv_boots_05','도서관 실내화','발 · 천',18,'u','','치유량 +9 · 지능 +5')+ci('inv_shoulder_05','도안의 어깨보호대','어깨 · 천',15,'u','','지능 +6 · 정신력 +5')+'</div></div>'
  +'<div class="bs2"><div class="h"><span class="por" style="background-image:url('+NPC(2040)+')"></span><div><b>사냥개조련사 록시</b><small>1번 · 첫 보스</small></div><span class="cnt" style="color:var(--mute);border-color:var(--line)">좋은 템 없음</span></div><div class="g2">'
  +ci('ability_hunter_beastcall','사냥개 호각','장신구 · Lv 25',0,'')+ci('inv_staff_18','록시의 조련봉','지팡이 · Lv 31',0,'')+ci('inv_gauntlets_07','조련용 장갑','손 · 못 씀',0,'',' no')+'</div></div>'
  +'<div class="trash">🗡️ 그 밖의 몹 드랍 15<span class="ics">'+ic('inv_chest_chain_07')+ic('inv_mace_11')+ic('inv_pants_06')+ic('inv_shoulder_13')+'</span> ›</div>'+nav+'</div></div>';
