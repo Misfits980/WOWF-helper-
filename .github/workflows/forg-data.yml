@@ -60,5 +60,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/forg data/qdb data/check-report.json index.html app-data.js
-          git diff --cached --quiet || (git commit -m "forg 자료 갱신" && git pull --rebase -X theirs && git push)
+          # 자료만 먼저 커밋 → 빌드 결과 등 나머지 변경은 버리고 최신 코드 위에 올린 뒤 다시 빌드
+          git add data/forg data/qdb data/check-report.json
+          if git diff --cached --quiet; then echo "바뀐 자료 없음"; exit 0; fi
+          git commit -m "forg 자료 갱신"
+          git reset --hard -q HEAD && git clean -fdq
+          git pull --rebase -X theirs
+          python3 app/build.py
+          git add index.html app-data.js addon
+          git diff --cached --quiet || git commit -m "rebuild"
+          git push
