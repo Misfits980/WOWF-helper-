@@ -1153,7 +1153,7 @@ function abList(L,c,me){const ord={dz:0,int:2,dis:2,av:3,add:4,tk:5,hl:6,info:7}
   let h='<div class="abl">';
   h+=dz.map(a=>{const [w,dd]=sp(a.x);return '<div class="abdz">'+abIc(a)+'<div><b>⚠ '+esc(a.n)+'</b><p>'+esc(w)+(dd?'<br><strong>→ '+esc(dd)+'</strong>':'')+'</p>'+abClsLine(a,c)+'</div></div>'}).join('');
   h+=rest.map(({a,m})=>{const [w,dd]=sp(a.x);return '<div class="abr k-'+a.t+(m?' mine':'')+'">'+abIc(a)+'<span class="m"><b>'+esc(a.n)+(m?'<em class="mi">'+ricon(me,'sm')+'내 일</em>':'')+'</b><small>'+esc(w)+(dd?' → <span class="do">'+esc(dd)+'</span>':'')+'</small>'+abClsLine(a,c)+'</span><i class="abk k-'+a.t+'">'+(a.t==='dis'&&a.k?ABDK[a.k]+' 해제':ABK[a.t])+'</i></div>'}).join('');
-  return h+'<p class="mute src">공략 모음: method.gg · warcrafttavern · wow.gg · wythic · 오리지널 던전은 클래식 자료로 보충</p></div>'}
+  return h+'</div>'}
 function wyBoss(d,nm){const W=wyOf(d);if(!W)return null;const n=wnz(nm);if(!n)return null;const all=(W.bosses||[]).concat(W.extra||[]);
   return all.find(b=>wnz(b.npc)===n)||all.find(b=>{const m=wnz(b.npc);return m.length>1&&(m.includes(n)||n.includes(m))})||null}
 const npcThumb=id=>id&&id<200000?'https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/'+(id&255)+'/'+id+'.webp':'';
@@ -1214,13 +1214,29 @@ function roleSplit(texts,sp){/* 공략 문장을 역할별로: tk 탱커 · dp �
   for(const r of ['tk','dp','hl','al','how']){R[r]=R[r].map((t,i)=>({t:t.replace(/\s*\((?=[A-Za-z]|\d+% [A-Za-z])[^)]*\)/g,''),i})).sort((a,b)=>act(a.t)-act(b.t)||a.i-b.i).map(x=>x.t)}
   return R}
 const RNONE={tk:'공략에 따로 적힌 건 없어요. 보스를 잡고 파티 반대쪽으로 돌려 세우면 돼요.',dp:'공략에 따로 적힌 건 없어요. 탱커가 자리 잡은 뒤 보스에 집중하세요.',hl:'공략에 해제할 것이 따로 없어요. 탱커 체력 위주로 치유하세요.'};
-function roleMine(R,me,AB,c){let h='';if(R.how&&R.how.length)h+='<div class="rb-how"><b>🔑 만나는 법</b><ul>'+R.how.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div>';
-  /* 역할마다 할 일: 기술 목록에서 그 역할 몫 → 없으면 공략 글 → 없으면 평소대로 · 내 역할은 크게 */
+/* 보스 펼침 내용: 기술 → 역할별 할 일(내 역할 강조) → 모두 알아 둘 것 → (안 보인 말만) 더 자세히 */
+function bossBody(R,me,AB,c,WB){const shown=[];let h='';
+  const nz=x=>String(x||'').replace(/\([^)]*\)/g,'').replace(/[^가-힣a-zA-Z0-9]/g,'');
+  const bg=x=>{const b=new Set();for(let i=0;i<x.length-1;i++)b.add(x.slice(i,i+2));return b};
+  const seen=t=>{const L=bg(nz(t));if(!L.size)return true;const P=bg(nz(shown.join(' ')));let n=0;L.forEach(x=>{if(P.has(x))n++});return n/L.size>.72};
+  if(R.how&&R.how.length){h+='<div class="rb-how"><b>🔑 만나는 법</b><ul>'+R.how.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div>';shown.push(...R.how)}
+  if(AB.length){h+=abList(AB,c,me);AB.forEach(a=>shown.push(a.n+' '+a.x))}
+  else if(WB&&WB.tip){h+='<div class="rb-wy"><b>⚔️ 우두머리 기술 · 공략</b><p>'+esc(WB.tip)+'</p><small>wythic.com</small></div>';shown.push(WB.tip)}
   const doOf=a=>{const i=a.x.indexOf('→');return (i<0?a.x:a.x.slice(i+1)).trim()};
-  const linesOf=r=>{const L=(AB||[]).filter(a=>(a.t==='dis'?(r===me?abCan(a).has(c.cls):r==='hl'):r===me?abMine(a,c,me):a.w.includes(r))).map(a=>{const sp=r===me&&abCan(a).get(c.cls);return '<b>'+esc(a.n)+'</b> '+(sp?'→ <u>'+esc(sp)+'</u>':esc(doOf(a)))});return L.length?L:(R[r]||[]).map(esc)};
+  const fromAB=r=>AB.filter(a=>(a.t==='dis'?(r===me?abCan(a).has(c.cls):r==='hl'):r===me?abMine(a,c,me):a.w.includes(r))).map(a=>{const sp=r===me&&abCan(a).get(c.cls);return '<b>'+esc(a.n)+'</b> '+(sp?'→ <u>'+esc(sp)+'</u>':esc(doOf(a)))});
   const NONE={tk:'보스를 일행 반대로 돌리고 어그로 유지',dp:'쫄 먼저, 보스는 그다음',hl:'탱커 위주로 치유'};
   const ord=[me,...['tk','dp','hl'].filter(r=>r!==me)];
-  h+='<div class="rtk">'+ord.map(r=>{const L=linesOf(r);const mine=r===me;return '<div class="rt'+(mine?' me':'')+'">'+ricon(r)+'<div class="rb-t"><b>'+RNM[r]+(mine?' · 내 할 일':'')+'</b>'+(L.length?'<ul>'+L.slice(0,mine?4:2).map(t=>'<li>'+t+'</li>').join('')+'</ul>':'<p>'+NONE[r]+'</p>')+'</div></div>'}).join('')+'</div>';
+  /* 역할 칸: 위 기술 목록과 같은 말은 다시 쓰지 않고 이름만, 공략 글에서 새로운 말만 문장으로 */
+  const abN=r=>AB.filter(a=>(a.t==='dis'?(r===me?abCan(a).has(c.cls):r==='hl'):r===me?abMine(a,c,me):a.w.includes(r)));
+  h+='<div class="rtk">'+ord.map(r=>{const mine=r===me;const N=abN(r);const raw=(R[r]||[]).filter(t=>!seen(t)).slice(0,mine?3:2);raw.forEach(t=>shown.push(t));
+      const nm=N.length?'<div class="rtn"><span>'+(mine?'위 「내 일」':'위 기술')+'</span>'+N.map(a=>'<i class="abk k-'+a.t+' wi">'+abIc(a)+esc(a.n)+(mine&&abCan(a).get(c.cls)?' · '+esc(abCan(a).get(c.cls)):'')+'</i>').join('')+'</div>':'';
+      return '<div class="rt'+(mine?' me':'')+'">'+ricon(r)+'<div class="rb-t"><b>'+RNM[r]+(mine?' · 내 할 일':'')+'</b>'+nm+(raw.length?'<ul>'+raw.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':N.length?'':'<p>'+NONE[r]+'</p>')+'</div></div>'}).join('')+'</div>';
+  const al=(R.al||[]).filter(t=>!seen(t)).slice(0,3);
+  if(al.length){h+='<div class="rt al">'+ricon('al')+'<div class="rb-t"><b>모두 알아 둘 것</b><ul>'+al.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div></div>';shown.push(...al)}
+  /* 위에 안 나온 말만 「더 자세히」로 */
+  const ex=[];['tk','dp','hl','al'].forEach(r=>(R[r]||[]).forEach(t=>{if(!seen(t)){ex.push([r,t]);shown.push(t)}}));
+  const wy=AB.length&&WB&&WB.tip&&!seen(WB.tip)?WB.tip:'';
+  if(ex.length||wy)h+='<details class="more3"><summary>더 자세히 '+(ex.length+(wy?1:0))+'</summary>'+(ex.length?'<ul class="exl">'+ex.map(([r,t])=>'<li>'+ricon(r,'sm')+esc(t)+'</li>').join('')+'</ul>':'')+(wy?'<p class="wyp"><b>wythic</b> '+esc(wy)+'</p>':'')+'</details>';
   return '<div class="rbox">'+h+'</div>'}
 function roleBox(R,me){/* 내 역할 먼저, 나머지는 한 줄씩 */
   const ord=[me,...['tk','dp','hl'].filter(r=>r!==me)];let h='<div class="rbox">'+(R.how&&R.how.length?'<div class="rb-how"><b>🔑 만나는 법</b><ul>'+R.how.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div>':'');
@@ -1283,13 +1299,12 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
       if(RS.how.some(t=>/준비 칸|만드는 법/.test(t))&&g.prep){/* 준비 칸에서 같은 물건 얘기를 찾아 같이 보여 줌 */const W=(RS.how.join(' ').match(/[가-힣]{2,}/g)||[]).map(w=>w.replace(/(?:에서|으로|을|를|이|가|은|는|의|에|로)$/,'')).filter(w=>w.length>=2&&!(d.ko||'').includes(w)&&!/^(희귀|우두머리|입니다|나옵니다|하수도|작은|원형|의식진|쓰면|만드는|법은|준비|칸|있습니다|위)$/.test(w));
         g.prep.filter(x=>W.some(w=>x.includes(w))).forEach(x=>{if(!RS.how.includes(x))RS.how.push(x)});RS.how=RS.how.filter(t=>!/위 준비 칸에 있/.test(t)||RS.how.length===1)}const full=[fb&&fb.tac,st.note!==(fb&&fb.tac)?st.note:''].filter(Boolean);
       const WB=x.kind!=='obj'?wyBoss(d,st.nm):null;
-      r+='<div class="rrb">'+(RS.loc.length?'<p class="rloc">📍 '+esc(RS.loc.join(' '))+'</p>':'')+(x.AB&&x.AB.length?abList(x.AB,c,me)+(WB&&WB.tip?'<details class="more3"><summary>wythic 공략 글 보기</summary><p>'+esc(WB.tip)+'</p></details>':''):WB&&WB.tip?'<div class="rb-wy"><b>⚔️ 우두머리 기술 · 공략</b><p>'+esc(WB.tip)+'</p><small>wythic.com</small></div>':'')+(x.kind==='obj'?(full.length?'<p class="onote">'+esc(full.join(' '))+'</p>':''):x.AB&&x.AB.length?roleMine(RS,me,x.AB,c):roleBox(RS,me))
-      +(x.kind!=='obj'&&(full.length||x.AB)?'<details class="more3"><summary>'+(x.AB&&x.AB.length?'공략 글 전체 보기':'설명 전체 보기')+'</summary>'+(x.AB&&x.AB.length?roleBox(Object.assign({},RS,{how:[]}),me):'')+full.map(t=>'<p>'+esc(t)+'</p>').join('')+'</details>':'')
+      r+='<div class="rrb">'+(RS.loc.length?'<p class="rloc">📍 '+esc(RS.loc.join(' '))+'</p>':'')+(x.kind==='obj'?(full.length?'<p class="onote">'+esc(full.join(' '))+'</p>':''):bossBody(RS,me,x.AB||[],c,WB))
       +(!(x.AB&&x.AB.length)&&fb&&fb.sp&&fb.sp.length?'<div class="spl">'+fb.sp.map(y=>'<span class="sp" title="'+esc(y[1])+'">'+esc(y[0])+(y[2]?y[2].split(',').map(t=>'<em class="t-'+t+'">'+(TAGKO[t]||t)+'</em>').join(''):'')+'</span>').join('')+'</div>':'')
       +(st.q||[]).map(q=>'<button class="rq" data-a="qopen" data-k="'+q[0]+'">'+qico('dg')+' '+esc(q[1])+'</button>').join('')
       +(good?'<button class="rgood" data-a="dtab" data-k="loot">'+qico('gear')+' 이 보스 내 템 '+good+'개 보기 ›</button>':'')+'</div>'}
     return r+'</div>'}).join('')+'</div>';
-  h+='<p class="mute src">초록 「내 일」 = 내 역할·직업이 할 일 · 공략: wowf.io 진행 순서 · forg.gg 보스 기술 (패치로 달라졌을 수 있어요)</p>';
+  h+='<p class="mute src">초록 「내 일」 = 내 역할·직업이 할 일 · 보스 기술: method.gg·warcrafttavern·wow.gg·wythic 모음(오리지널 던전은 클래식 자료로 보충) · 공략: wowf.io 진행 순서 · forg.gg 보스 기술 (패치로 달라졌을 수 있어요)</p>';
   h+='</div></div>';
   return h}
 function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map(([nm,b],i)=>'<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(nm)+'</b></div>'+(b.tac?'<ul class="roles">'+roleLines(b.tac)+'</ul>':'')+'</div></li>').join('')+'</ol>'}
