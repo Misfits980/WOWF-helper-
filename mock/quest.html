@@ -1,6 +1,5 @@
 <!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>퀘스트 화면 시안</title>
-<style>
+<title>퀘스트 화면 시안 2</title><style>
 :root{--bg:#15130f;--panel:#1f1b15;--panel2:#26211a;--line:#3a3226;--txt:#efe6d2;--mute:#a59d8c;--gold:#e8c06a;--gold2:#b8913e;--good:#7bea7b;--bad:#ff7b6b}
 *{box-sizing:border-box}body{margin:0;background:#0b0a08;color:var(--txt);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:18px}
 h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-size:13px;margin:0 0 14px}
@@ -108,62 +107,140 @@ h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-
 .zr{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
 .zr .ic{width:34px;height:34px;border-radius:9px}.zr .m{flex:1;min-width:0}.zr b{font-size:13.5px}.zr small{display:block;font-size:11px;color:var(--mute)}
 .zr .lvr{flex:none;width:86px}.zr .lvr span{display:block;text-align:right;font-size:11px;color:var(--mute)}.zr.past{opacity:.5}
-.notes{max-width:1700px;margin-top:16px;font-size:13px;line-height:1.7;color:#cfc6b3}.notes b{color:var(--gold)}
-@media (max-width:440px){body{padding:8px}.ph{width:100%;max-width:390px}}
-</style></head><body>
-<h1>퀘스트 화면 시안</h1>
-<p class="lead">던전 화면과 같은 모양(그림 머리 · 아이콘 탭 · 타임라인 · 아이콘 칩)으로 맞춘 안이에요. 이름·레벨·경험치는 수양 사제 34레벨 실제 자료예요.</p>
-<div class="row3" id="R"></div>
-<div class="notes" id="N"></div>
+
+/* v2 */
+.ph{height:860px}
+.srch{margin:10px 12px 0;display:flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--mute);font-size:14px}
+.srch .ic{width:20px;height:20px;border-radius:5px;opacity:.8}.srch b{color:var(--txt);font-weight:600}.srch .x{margin-left:auto;font-size:13px}
+.srch.on{border-color:var(--gold2);box-shadow:0 0 0 3px rgba(232,192,106,.12)}
+.qch{display:flex;gap:6px;margin:8px 12px 0;overflow:hidden}
+.qch span{flex:none;display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px 0 4px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--mute);background:var(--panel)}
+.qch .ic{width:20px;height:20px;border-radius:50%}.qch .on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}.qch em{font-style:normal;font-weight:800;color:var(--txt)}
+.qch .tn{border-color:#3f8fcf;color:#a9dcff;background:rgba(63,143,207,.12)}
+.mt2{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:8px 12px 0;padding:4px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.mt2 span{display:flex;align-items:center;justify-content:center;gap:5px;height:32px;border-radius:9px;color:var(--mute);font-size:13px;font-weight:700}.mt2 .ic{width:18px;height:18px;opacity:.7}.mt2 .on{background:#3a2c16;color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold2)}.mt2 .on .ic{opacity:1}
+/* 레벨 막대 (퀘스트 조각) */
+.xpb{margin:8px 12px 0;padding:10px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+.xpb .t{display:flex;align-items:baseline;gap:6px;font-size:12px;color:var(--mute)}.xpb .t b{font-size:15px;color:var(--txt)}.xpb .t .g{margin-left:auto;color:#b9a7e8;font-weight:800}
+.seg{display:flex;height:10px;margin-top:7px;border-radius:5px;overflow:hidden;background:#2a251d;gap:2px}
+.seg i{display:block;height:100%}.seg .d{background:#8a7440}.seg .p{background:linear-gradient(90deg,#6b56b8,#9b86e8)}.seg .p2{background:#5a4a96}
+.xpb .lg{display:flex;justify-content:space-between;margin-top:5px;font-size:10.5px;color:var(--mute)}.xpb .lg b{color:#c8b8ff}
+/* 동선 지도 */
+.mapc{margin:8px 12px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--panel)}
+.mapc .hd{display:flex;align-items:center;gap:6px;padding:8px 12px}.mapc .hd b{font-size:14px}.mapc .hd small{color:var(--mute);font-size:11.5px}.mapc .hd span{margin-left:auto;font-size:11.5px;color:var(--gold);border:1px solid var(--gold2);border-radius:8px;padding:2px 8px}
+.mapc svg{display:block;width:100%;height:auto}
+/* 단계 */
+.stp{position:relative;margin:0 12px 0 14px;padding-left:30px}
+.stp::before{content:'';position:absolute;left:12px;top:16px;bottom:16px;width:2px;background:linear-gradient(#b8913e,#5d4a28)}
+.sg{position:relative;margin:0 0 8px;border-radius:14px;background:var(--panel);border:1px solid var(--line);padding:9px 11px}
+.sg .n{position:absolute;left:-30px;top:9px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;border:2px solid;box-shadow:0 0 0 3px var(--bg);background:var(--bg)}
+.sg.get .n{border-color:#c9a227;color:#ffe08a}.sg.do .n{border-color:#c46a2a;color:#ffc08a}.sg.turn .n{border-color:#3f8fcf;color:#a9dcff}
+.sg.cur{border-color:var(--gold2);box-shadow:0 0 14px rgba(232,192,106,.12)}.sg.dn{opacity:.5}
+.sg .h{display:flex;align-items:center;gap:7px}.sg .h .k{flex:none;height:20px;display:inline-flex;align-items:center;padding:0 7px;border-radius:6px;font-size:11px;font-weight:800;border:1px solid}
+.sg.get .k{color:#ffe08a;border-color:#c9a227;background:rgba(201,162,39,.15)}.sg.do .k{color:#ffc08a;border-color:#c46a2a;background:rgba(196,106,42,.15)}.sg.turn .k{color:#a9dcff;border-color:#3f8fcf;background:rgba(63,143,207,.15)}
+.sg .h b{font-size:14px}.sg .h small{margin-left:auto;font-size:11px;color:var(--mute)}
+.sg .w{margin-top:6px;display:flex;flex-direction:column;gap:4px}
+.ob{display:flex;align-items:center;gap:7px;font-size:12.5px}
+.ob .ic{width:24px;height:24px;border-radius:6px}.ob .m{flex:1;min-width:0;line-height:1.3}.ob .m small{display:block;color:var(--mute);font-size:10.5px}
+.ob .cnt{flex:none;display:flex;align-items:center;gap:4px}.ob .cnt i{font-style:normal;width:24px;height:24px;border-radius:7px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:14px}.ob .cnt b{min-width:38px;text-align:center;font-size:12.5px;font-variant-numeric:tabular-nums}
+.ob .pg{flex:none;width:44px;height:5px;border-radius:3px;background:#2a251d;overflow:hidden}.ob .pg i{display:block;height:100%;background:#7bea7b}
+.ob.ok b{color:#7bea7b}
+.np{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px}.np span{font-size:11px;color:#cfc6b3;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.with{margin-top:5px;font-size:11px;color:#9fd2ff}
+/* 고정 추적 바 */
+.trk{position:absolute;left:10px;right:10px;bottom:70px;display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:14px;background:rgba(42,34,22,.97);border:1px solid var(--gold2);box-shadow:0 6px 20px rgba(0,0,0,.6)}
+.trk .ic{width:30px;height:30px;border-radius:8px}.trk .m{flex:1;min-width:0;line-height:1.3}.trk small{display:block;font-size:10.5px;color:var(--gold)}.trk b{font-size:13px}
+.trk .pg{height:4px;border-radius:2px;background:#2a251d;margin-top:3px;overflow:hidden}.trk .pg i{display:block;height:100%;background:#7bea7b}
+.trk .pl{flex:none;width:36px;height:36px;border-radius:10px;background:#3a2c16;border:1px solid var(--gold2);color:var(--gold);font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center}
+/* 퀘스트 상세 */
+.dt{margin:8px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--gold2);overflow:hidden}
+.dt .h{display:flex;gap:10px;align-items:center;padding:11px 12px;background:linear-gradient(90deg,#3a2c16,var(--panel))}
+.dt .h .ic{width:40px;height:40px;border-radius:10px}.dt .h .m{flex:1}.dt .h b{font-size:16.5px;display:block}.dt .h small{font-size:11.5px;color:var(--mute)}
+.blk{margin:8px 12px;padding:9px 11px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.blk>b{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gold);margin-bottom:6px}.blk>b small{margin-left:auto;color:var(--mute);font-weight:400}
+.mm{position:relative;height:96px;border-radius:9px;overflow:hidden;background:radial-gradient(circle at 30% 70%,#4a3d2a,#2b241a 60%,#1d1a14);margin-top:6px}
+.mm .pt{position:absolute;width:14px;height:14px;margin:-7px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 3px rgba(0,0,0,.4)}
+.mm .pt.g{background:#ffd65a}.mm .pt.t{background:#ff9a4a}.mm .pt.r{background:#7ec8ff}
+.mm .lb{position:absolute;font-size:10px;color:#fff;text-shadow:0 1px 3px #000;transform:translate(-50%,-150%);white-space:nowrap}
+.mm .zone{position:absolute;border-radius:50%;background:rgba(255,154,74,.18);border:1px dashed rgba(255,154,74,.6)}
+.ctl{position:relative;padding-left:18px;margin-top:4px}
+.ctl::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:#3a3226}
+.cs{position:relative;display:flex;align-items:center;gap:6px;padding:3px 0;font-size:12px;color:var(--mute)}
+.cs::before{content:'';position:absolute;left:-16px;width:10px;height:10px;border-radius:50%;background:#2a251d;border:2px solid #5d4a28}
+.cs.on{color:var(--txt);font-weight:700}.cs.on::before{background:#e8c06a;border-color:#e8c06a;box-shadow:0 0 0 3px rgba(232,192,106,.25)}
+.cs em{margin-left:auto;font-style:normal;font-size:10.5px}
+.cs.fin{color:#9fc4ff}.cs.fin::before{border-color:#3a7bd5}
+/* 검색 결과 */
+.sres{margin:8px 12px}.sres h4{margin:12px 2px 6px;font-size:12px;color:var(--mute);display:flex;align-items:center;gap:6px}.sres h4 em{font-style:normal;color:var(--gold)}
+.sr{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--line);margin-bottom:5px}
+.sr .ic{width:32px;height:32px;border-radius:8px}.sr .m{flex:1;min-width:0;line-height:1.3}.sr b{font-size:13.5px}.sr b mark{background:none;color:var(--gold);text-decoration:underline;text-underline-offset:3px}.sr small{display:block;font-size:11px;color:var(--mute)}
+.sr .st{flex:none;font-size:11px;border-radius:6px;padding:1px 6px;border:1px solid}.sr .st.now{color:#7bea7b;border-color:#4f7a3c}.sr .st.dn{color:var(--mute);border-color:var(--line)}.sr .st.lo{color:#ffb44a;border-color:#c46a2a}
+.rec{display:flex;gap:6px;flex-wrap:wrap;margin:8px 12px}.rec span{font-size:12px;color:#cfc6b3;border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:var(--panel)}
+.notes{max-width:2100px;margin-top:16px;font-size:13px;line-height:1.7;color:#cfc6b3}.notes b{color:var(--gold)}
+@media (max-width:440px){body{padding:8px}.ph{width:100%;max-width:390px}}</style></head><body>
+<h1>퀘스트 화면 시안 2 — 「퀘스트 목록」이 아니라 「돌아다니는 순서」로</h1>
+<p class="lead">수양 사제 34레벨 · 잊혀진 땅 실제 자료(NPC·좌표·목표·몹·연계)로 만들었어요. 지도는 모양만 그린 그림이에요(실제는 지금 쓰는 와우 지도 위에 그려요).</p>
+<div class="row3" id="R"></div><div class="notes" id="N"></div>
 <script>
 const I=n=>'https://wow.zamimg.com/images/wow/icons/large/'+n+'.jpg';
 const ic=(n,c)=>'<span class="ic '+(c||'')+'" style="background-image:url('+I(n)+')"></span>';
 const TOPB='<div class="top"><span class="ic" style="background-image:url('+I('classicon_priest')+')"></span><div><b>사제</b><small>수양 사제 · 노움 ▾</small></div><div class="lv"><span>−</span><b>34</b><span>+</span></div></div>';
 const nav='<div class="nav"><span><img src="../img/ui-banner.png">홈</span><span><img src="../img/ui-shield.png">장비</span><span class="on"><img src="../img/ui-quest.png">퀘스트</span><span><img src="../img/ui-eye.png">던전</span><span><img src="../img/ui-prof.png">직업</span></div>';
-const mbar=a=>'<div class="mbar"><div class="tabs3">'+[['inv_misc_map_02','레벨업'],['inv_misc_map_01','지도'],['inv_misc_book_09','지역']].map((x,i)=>'<span class="'+(i===a?'on':'')+'">'+ic(x[0])+x[1]+'</span>').join('')+'</div><span class="sbtn">🔍</span></div>';
-const KILL='ability_dualwield',COL='inv_misc_bag_10',TALK='inv_letter_15',ESC='ability_hunter_beastcall';
-const lvq=(l)=>'<span class="lvq '+(l<=32?'g':l<=34?'y':'o')+'">'+l+'</span>';
-const qr=(o,n,s,l,xp,ch,dn)=>'<div class="qr'+(dn?' done':'')+'"><span class="ck'+(dn?' on':'')+'"></span>'+ic(o)+'<div class="m"><b>'+n+'</b><small>'+s+'</small>'+(ch?'<span class="chn">🔗 끝내면 다음 '+ch+'개</span>':'')+'</div><div class="r">'+lvq(l)+'<span class="xp">'+xp+'</span></div></div>';
-const hero='<div class="zh"><span class="bgi" style="background-image:url('+I('achievement_zone_desolace')+')"></span><div class="ring"><b>7<small>/32</small></b></div><div class="t"><small>지금 레벨업 구간</small><h2>잊혀진 땅</h2><div class="meta"><span class="pill lvp">33–34 · 지금</span><span class="pill">'+ic('inv_misc_map_01')+'+ 가시덤불 · 저습지</span><span class="pill">'+ic('inv_misc_note_01')+'퀘스트 32</span></div></div></div>';
-const goal='<div class="card goal">'+ic('spell_holy_borrowedtime')+'<div class="m"><b>다 하면 <span style="color:var(--gold)">35레벨</span>까지 · 경험치 72,400</b><small>남은 퀘스트 25개 · 지금 거점에서 5개 받기</small><div class="bar"><i style="width:22%"></i></div></div><span class="x">22%</span></div>';
-const tlh='<div class="tlh"><b>갈 곳 순서</b><small>거점 3 · 위에서부터</small><span>다음 마을 12곳</span></div>';
-const hub1='<div class="hub open"><span class="nd" style="background-image:url('+I('achievement_zone_desolace')+')"></span><span class="no">1</span><div class="hn"><div><b>나이젤의 야영지</b><br><small>잊혀진 땅 · 66, 79</small></div><div class="cts"><span class="ct get">'+ic('inv_misc_note_01')+'받기 5</span><span class="ct turn">'+ic('inv_letter_15')+'반납 1</span></div></div>'
- +'<div class="ql">'+qr(KILL,'켄타우로스 현상금','켄타우로스의 귀걸이 15개',31,'+3,750',0,1)+qr(TALK,'발라리엘의 수색','발렘의 쾌락과 대화',33,'+1,950',0)+qr(COL,'회수전문회사를 위한 재료','사티로스 발톱 10개 외 1',33,'+2,650',0)+qr(KILL,'이상한 동맹','겔키스 일족 평판 3000',35,'+2,050',4)+qr(KILL,'야비한 정책','마그람 일족 평판 3000',35,'+2,050',5)+'</div></div>';
-const hub2='<div class="hub sm"><span class="nd" style="background-image:url('+I('inv_misc_tournaments_banner_scourge')+')"></span><span class="no">2</span><div class="hn"><div><b>에델 레소르의 탑</b><br><small>잊혀진 땅 · 38, 27</small></div><div class="cts"><span class="ct get">'+ic('inv_misc_note_01')+'받기 2</span></div></div></div>';
-const hub3='<div class="hub sm"><span class="nd" style="background-image:url('+I('inv_gizmo_02')+')"></span><span class="no">3</span><div class="hn"><div><b>스크래블스크류 야영지</b><br><small>잊혀진 땅 · 52, 53</small></div><div class="cts"><span class="ct get">'+ic('inv_misc_note_01')+'받기 1</span></div></div></div>';
-const A='<div><p class="cap">① 레벨업 첫 화면</p><div class="ph">'+TOPB+mbar(0)+hero+goal+tlh+'<div class="tl">'+hub1+hub2+hub3+'</div>'+nav+'</div></div>';
-/* ② 펼친 퀘스트 */
-const qc='<div class="qc"><div class="h">'+ic(KILL)+'<div class="m"><b>이상한 동맹</b><small>잊혀진 땅 · 권장 35 · 30레벨부터</small></div>'+lvq(35)+'</div>'
- +'<div class="tg"><span class="f">얼라이언스</span><span class="c">🔗 연계 1/5</span><span>평판 겔키스 일족</span></div>'
- +'<div class="obj"><b>할 일</b><div class="o">'+ic('achievement_reputation_05')+'<span>겔키스 일족 평판 <b style="color:var(--txt)">우호적 3000</b></span><em>마그람 켄타우로스 처치</em></div></div>'
- +'<div class="qs"><div class="qst" data-n="1"><span class="k g">받기</span><span>현자 엄마 가르노드<br><small>겔키스 마을 · 37, 79</small></span><span class="mp">지도 ›</span></div>'
- +'<div class="qst" data-n="2"><span class="k o">하는 곳</span><span>마그람 마을 주변<br><small>남동쪽 · 갈 길에 「야비한 정책」과 같이</small></span><span class="mp">지도 ›</span></div>'
- +'<div class="qst" data-n="3"><span class="k r">반납</span><span>받은 곳 그대로<br><small>끝내면 「겔키스의 시련」으로 이어져요</small></span></div></div>'
- +'<div class="chain">연계<i class="cur"></i><i></i><i></i><i></i><i></i><span style="margin-left:4px">다음 4개 · 마지막 보상 <b style="color:#9fc4ff">켄타우로스 망토</b></span></div>'
- +'<div class="rw"><div class="hd"><b>경험치 +2,050</b> · <span class="gd">3골드 40실버</span> · 하나 고르기</div><div class="rws">'
- +'<div class="rwi best">'+ic('inv_misc_cape_05','u')+'<em class="g">+12</em><span>사막바람 망토</span><small>지능 +5 · 치유량 +7</small></div>'
- +'<div class="rwi">'+ic('inv_gauntlets_17')+'<span>바람결 장갑</span><small style="color:var(--mute)">사슬 · 못 씀</small></div>'
- +'<div class="rwi">'+ic('inv_boots_02')+'<em class="g">+3</em><span>모래걸음 장화</span><small>체력 +4</small></div></div></div>'
+const srch=(t,on)=>'<div class="srch'+(on?' on':'')+'">'+ic('inv_misc_spyglass_02')+(t?'<b>'+t+'</b><span class="x">✕</span>':'퀘스트 · NPC · 몹 · 지역 이름으로 찾기')+'</div>';
+const chips='<div class="qch"><span class="on">'+ic('inv_misc_map_02')+'동선 <em>5단계</em></span><span class="tn">'+ic('inv_letter_15')+'반납 가능 <em>2</em></span><span>'+ic('inv_misc_note_01')+'받을 것 <em>5</em></span><span>'+ic('inv_chest_cloth_25')+'보상 템 <em>3</em></span></div>';
+const mt=a=>'<div class="mt2" style="grid-template-columns:1fr 1fr">'+[['inv_misc_map_02','레벨업 동선'],['inv_misc_book_09','지역 목록']].map((x,i)=>'<span class="'+(i===a?'on':'')+'">'+ic(x[0])+x[1]+'</span>').join('')+'</div>';
+/* 레벨 막대: 34레벨 40% 진행 + 이 동선 퀘스트 조각 */
+const xpb='<div class="xpb"><div class="t"><b>34 → 35</b> 지금 40% · 이 동선 다 하면<span class="g">35레벨 + 18%</span></div><div class="seg"><i class="d" style="width:40%"></i><i class="p" style="width:11%"></i><i class="p2" style="width:8%"></i><i class="p" style="width:12%"></i><i class="p2" style="width:9%"></i><i class="p" style="width:20%"></i></div><div class="lg"><span>지금</span><span>단계마다 <b>경험치 조각</b></span><span>35 ▶</span></div></div>';
+/* 지도 SVG (좌표 = 실제 퀘스트 좌표) */
+const P=[[66.5,10.6,'나이젤의 야영지','g'],[75.7,19.5,'서릿발분노 사티로스','t'],[56.5,17.8,'말렘의 궤짝','t'],[69.7,74.8,'마그람 마을','t'],[37.8,88.5,'겔키스 마을','t'],[66.5,10.6,'','r']];
+const map=(()=>{const W=366,H=200,x=v=>v/100*W,y=v=>v/100*H;let s='<svg viewBox="0 0 '+W+' '+H+'"><defs><radialGradient id="g1" cx="40%" cy="60%"><stop offset="0" stop-color="#5b4a32"/><stop offset=".7" stop-color="#33291c"/><stop offset="1" stop-color="#1d1912"/></radialGradient></defs><rect width="'+W+'" height="'+H+'" fill="url(#g1)"/>'
+ +'<path d="M0 30 Q60 10 120 40 T260 20 T366 50 V0 H0Z" fill="#2a3a44" opacity=".55"/><path d="M200 120 q40 -30 90 -10 q30 15 76 0 v90 h-170z" fill="#3d2f20" opacity=".7"/><path d="M20 150 q60 -20 110 10 q30 20 60 50 h-170z" fill="#463624" opacity=".7"/>';
+ const pts=[[66.5,10.6],[75.7,19.5],[56.5,17.8],[69.7,74.8],[37.8,88.5],[66.5,10.6]];
+ s+='<polyline points="'+pts.map(p=>x(p[0])+','+y(p[1])).join(' ')+'" fill="none" stroke="#e8c06a" stroke-width="2.5" stroke-dasharray="6 5" opacity=".9"/>';
+ [[1,66.5,10.6,'#ffd65a','1 받기 · 6 반납',-14,-2,'end'],[2,75.7,19.5,'#ff9a4a','사티로스',15,4,'start'],[3,56.5,17.8,'#ff9a4a','말렘의 궤짝',-15,4,'end'],[4,69.7,74.8,'#ff9a4a','마그람 마을',15,4,'start'],[5,37.8,88.5,'#ff9a4a','겔키스 마을',15,4,'start']].forEach(([n,a,b,c,l,dx,dy,an])=>{s+='<circle cx="'+x(a)+'" cy="'+y(b)+'" r="11" fill="'+c+'" stroke="#1a140a" stroke-width="2.5"/><text x="'+x(a)+'" y="'+(y(b)+4)+'" text-anchor="middle" font-size="12" font-weight="900" fill="#1a140a">'+n+'</text><text x="'+(x(a)+dx)+'" y="'+(y(b)+dy)+'" text-anchor="'+an+'" font-size="11" font-weight="700" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-width:3px">'+l+'</text>'});
+ return s+'</svg>'})();
+const mapc='<div class="mapc"><div class="hd">'+ic('inv_misc_map_02')+'<b>이 순서로 돌아요</b><small>잊혀진 땅 · 약 40분</small><span>크게 ›</span></div>'+map+'</div>';
+const hero='<div class="zh" style="height:96px"><span class="bgi" style="background-image:url('+I('achievement_zone_desolace')+')"></span><div class="t"><small>지금 구간 33–34</small><h2>잊혀진 땅</h2><div class="meta"><span class="pill lvp">퀘스트 32 · 끝냄 7</span><span class="pill">'+ic('inv_misc_map_01')+'다음: 가시덤불 골짜기</span></div></div></div>';
+/* ② 단계 (장소별로 묶음) */
+const ob=(i,n,sub,c,t,ok)=>'<div class="ob'+(ok?' ok':'')+'">'+ic(i)+'<div class="m">'+n+(sub?'<small>'+sub+'</small>':'')+'</div>'+(t?'<div class="cnt"><i>−</i><b>'+c+'/'+t+'</b><i>+</i></div>':'<span class="pg"><i style="width:'+(ok?100:0)+'%"></i></span>')+'</div>';
+const sg=(cls,n,k,t,sm,body,cur)=>'<div class="sg '+cls+(cur?' cur':'')+'"><span class="n">'+n+'</span><div class="h"><span class="k">'+k+'</span><b>'+t+'</b><small>'+sm+'</small></div><div class="w">'+body+'</div></div>';
+const S1=sg('get dn',1,'받기','나이젤의 야영지','66, 11 · 5개',ob('inv_misc_note_01','켄타우로스 현상금 · 회수전문회사 재료 · 발라리엘의 수색 · 이상한 동맹 · 야비한 정책','하사관 멜킨스 · 크렐디그 운고르 · 발라리엘 · 대령 펜리가스트',0,0,1));
+const S2=sg('do',2,'하기','서릿발분노 사티로스','76, 20 · 북동쪽',ob('inv_misc_bone_09','사티로스 발톱','회수전문회사를 위한 재료',3,10)+ob('inv_misc_horn_01','사티로스 뿔','같은 몹에서',1,10)+'<div class="np"><span>서릿발분노의 암살자 31</span><span>요술사 31</span><span>배반자 32</span></div>',1);
+const S3=sg('do',3,'하기','말렘의 궤짝','57, 18 · 가는 길',ob('inv_box_01','말렘의 궤짝 조사','발라리엘의 수색 · 연계 1/5 → 바로 2단계 받기',0,0));
+const S4=sg('do',4,'하기','남쪽 켄타우로스 마을','70, 75 · 37, 89',ob('inv_jewelry_ring_03','켄타우로스의 귀걸이','켄타우로스 현상금 · 콜카르 켄타우로스 30–31',7,15)+ob('achievement_reputation_05','마그람 평판 → 와루그','야비한 정책 · 75, 68',0,0)+ob('achievement_reputation_05','겔키스 평판 → 현자 우텍','이상한 동맹 · 36, 79',0,0)+'<div class="with">🔗 와루그·우텍에게서 연계 다음 퀘스트 받기 (각 5개 더)</div>');
+const S5=sg('turn',5,'반납','나이젤의 야영지','66, 11 · 3개',ob('inv_letter_15','켄타우로스 현상금 · 회수전문회사 재료 · 발라리엘 2단계','반납하면 경험치 +8,350',0,0));
+const trk='<div class="trk">'+ic('inv_misc_bone_09')+'<div class="m"><small>지금 2단계 · 서릿발분노 사티로스</small><b>사티로스 발톱 3/10 · 뿔 1/10</b><div class="pg"><i style="width:20%"></i></div></div><span class="pl">+</span></div>';
+const A='<div><p class="cap">① 레벨업 첫 화면</p><div class="ph">'+TOPB+srch()+mt(0)+chips+hero+xpb+mapc+'<div class="tlh"><b>동선 5단계</b><small>지금 2단계</small><span>아래로 ↓</span></div>'+trk+nav+'</div></div>';
+const B='<div><p class="cap">② 아래로 · 장소별 단계 (한 곳에서 같이 하는 것 묶음)</p><div class="ph">'+TOPB+'<div class="tlh"><b>동선 5단계</b><small>받기 → 하기 → 반납</small><span>퀘스트별로 보기</span></div><div class="stp">'+S1+S2+S3+S4+S5+'</div>'+trk+nav+'</div></div>';
+/* ③ 퀘스트 상세 */
+const dt='<div class="dt"><div class="h">'+ic('inv_misc_bone_09')+'<div class="m"><b>회수전문회사를 위한 재료</b><small>잊혀진 땅 · 권장 33 · 30레벨부터</small></div><span class="lvq y">33</span></div>'
+ +'<div class="tg"><span class="f">얼라이언스</span><span class="c">🔗 연계 1/4</span><span>2단계에서 해요</span></div>'
+ +'<div class="blk"><b>할 일<small>서릿발분노 사티로스 · 76, 20</small></b>'+ob('inv_misc_bone_09','서릿발분노의 사티로스 발톱','',3,10)+ob('inv_misc_horn_01','서릿발분노의 사티로스 뿔','',1,10)+'<div class="np" style="margin-top:6px"><span>암살자 31</span><span>요술사 31</span><span>악마추종자 31</span><span>배반자 32</span></div>'
+ +'<div class="mm"><span class="zone" style="left:66%;top:6%;width:22%;height:44%"></span><span class="pt g" style="left:66%;top:11%"></span><span class="lb" style="left:66%;top:11%">크렐디그 운고르 (받기·반납)</span><span class="pt t" style="left:76%;top:30%"></span><span class="lb" style="left:76%;top:30%">사티로스</span></div></div>'
+ +'<div class="blk"><b>연계 4개<small>끝까지 하면 경험치 +11,200</small></b><div class="ctl"><div class="cs on">회수전문회사를 위한 재료 <em>33 · 지금</em></div><div class="cs">회수전문회사를 위한 재료 (스콜파시 독) <em>35</em></div><div class="cs">회수전문회사를 위한 재료 (3) <em>36</em></div><div class="cs fin">마지막 보상 · 선택 장비 <em>38</em></div></div></div>'
+ +'<div class="rw"><div class="hd"><b>경험치 +2,650</b> · <span class="gd">2골드 10실버</span> · 평판 회수전문회사</div></div>'
  +'<div class="btns"><span class="on">✓ 받았어요</span><span>끝냈어요</span><span class="pri">지도에서</span></div></div>';
-const B='<div><p class="cap">② 퀘스트를 누르면</p><div class="ph">'+TOPB+mbar(0)+'<div class="tl" style="margin-top:12px">'+'<div class="hub open"><span class="nd" style="background-image:url('+I('achievement_zone_desolace')+')"></span><span class="no">1</span><div class="hn"><div><b>나이젤의 야영지</b><br><small>잊혀진 땅 · 66, 79</small></div><div class="cts"><span class="ct get">'+ic('inv_misc_note_01')+'받기 5</span></div></div><div class="ql">'+qr(KILL,'켄타우로스 현상금','켄타우로스의 귀걸이 15개',31,'+3,750',0,1)+qr(TALK,'발라리엘의 수색','발렘의 쾌락과 대화',33,'+1,950',0)+'</div></div></div>'+qc+nav+'</div></div>';
-/* ③ 아래로 내리면: 도우미 + 다음 길 */
-const tiles='<div class="hg">'
- +'<div class="ht hot"><div class="hd">'+ic('spell_holy_holybolt')+'<b>배울 기술</b><span class="new">새 2</span></div><p><b>신성한 은총 4단계</b> 외 7개 · 아이언포지 교관</p><div class="ics">'+ic('spell_holy_heal')+ic('spell_holy_renew')+ic('spell_shadow_shadowwordpain')+ic('spell_holy_powerwordshield')+'</div></div>'
- +'<div class="ht"><div class="hd">'+ic('classicon_priest')+'<b>직업 퀘스트</b></div><p>지금은 없어요 · 다음은 <b>50레벨</b> 「세나리온 의회 지원」</p></div>'
- +'<div class="ht"><div class="hd">'+ic('inv_misc_bone_humanskull_01')+'<b>갈 만한 던전</b></div><p><b>붉은십자군: 도서관</b> · 내 템 5개<br>가시덩굴 우리 · 놈리건</p></div>'
- +'<div class="ht"><div class="hd">'+ic('inv_chest_cloth_25')+'<b>퀘스트 보상 템</b></div><p>이 구간 보상 중 <b style="color:var(--good)">좋아지는 것 3개</b></p><div class="ics">'+ic('inv_misc_cape_05')+ic('inv_boots_02')+ic('inv_jewelry_ring_05')+'</div></div></div>';
-const hunt='<div class="card goal">'+ic('ability_hunter_snipershot')+'<div class="m"><b>퀘스트가 모자라면 여기서 사냥</b><small>마그람 켄타우로스 (33–35) · 남동쪽 · 「이상한 동맹」과 같이</small></div><span class="x" style="color:var(--gold)">›</span></div>';
-const nxt='<div class="card"><div class="goal">'+ic('achievement_zone_stranglethorn_01')+'<div class="m"><b>다음 구간 35–39</b><small>가시덤불 골짜기 · 잊혀진 땅 · 버섯구름 봉우리</small></div><span class="x" style="color:var(--mute)">›</span></div></div>';
-const track='<div class="sec">1–60 길</div><div class="track"><div class="ln"><i></i></div>'
- +[[4,'achievement_zone_elwynnforest','1'],[16,'achievement_zone_westfall_01','15'],[30,'achievement_zone_wetlands_01','24'],[45,'achievement_zone_ashenvale_01','30'],[57,'achievement_zone_desolace','34',1],[70,'achievement_zone_stranglethorn_01','38'],[84,'achievement_zone_tanaris_01','45'],[96,'achievement_zone_winterspring','55']].map(s=>'<div class="st'+(s[3]?' on':'')+'" style="left:'+s[0]+'%">'+ic(s[1])+'<small>'+s[2]+'</small></div>').join('')+'</div>';
-const C='<div><p class="cap">③ 아래로 내리면 · 도우미와 다음 길</p><div class="ph">'+TOPB+'<div class="sec" style="margin-top:12px">레벨업 도우미</div>'+tiles+hunt+nxt+track+nav+'</div></div>';
-/* ④ 지역 목록 */
-const rb=(a,b)=>{const L=34;const x=v=>(v-1)/59*100;return '<div class="rb"><i style="left:'+x(a)+'%;width:'+(x(b)-x(a))+'%"></i><em style="left:'+x(L)+'%"></em></div>'};
-const zc=(i,n,a,b,h)=>'<div class="zc">'+ic(i)+'<b>'+n+'</b><small>'+a+'–'+b+'레벨 · 퀘스트 '+h[0]+'</small><span class="hot">지금 할 것 '+h[1]+'</span>'+rb(a,b)+'</div>';
-const zr=(i,n,a,b,q,p)=>'<div class="zr'+(p?' past':'')+'">'+ic(i)+'<div class="m"><b>'+n+'</b><small>퀘스트 '+q+'개</small></div><div class="lvr"><span>'+a+'–'+b+'</span>'+rb(a,b)+'</div></div>';
-const D='<div><p class="cap">④ 지역 탭</p><div class="ph">'+TOPB+mbar(2)+'<div class="cont"><span>'+ic('achievement_zone_easternkingdoms_01')+'동부 왕국</span><span class="on">'+ic('achievement_zone_kalimdor_01')+'칼림도어</span><span>'+ic('achievement_zone_azuremystisle_01')+'섬</span></div>'
- +'<div class="sec">내 레벨에 맞는 곳</div><div class="zf">'+zc('achievement_zone_desolace','잊혀진 땅',33,42,[57,28])+zc('achievement_zone_thousandneedles_01','버섯구름 봉우리',30,44,[39,17])+zc('achievement_zone_dustwallowmarsh','먼지진흙 습지대',35,53,[32,13])+zc('achievement_zone_ashenvale_01','잿빛 골짜기',20,32,[54,5])+'</div>'
- +'<div class="sec">다른 지역</div><div class="zl">'+zr('achievement_zone_feralas','페랄라스',43,50,51)+zr('achievement_zone_tanaris_01','타나리스',45,60,102)+zr('achievement_zone_stonetalon_01','돌발톱 산맥',21,28,27,1)+zr('achievement_zone_darkshore_01','어둠의 해안',13,21,76,1)+'</div>'+nav+'</div></div>';
+const C='<div><p class="cap">③ 퀘스트를 누르면</p><div class="ph">'+TOPB+dt+nav+'</div></div>';
+/* ④ 검색 */
+const sr=(i,n,sub,st,stc)=>'<div class="sr">'+ic(i)+'<div class="m"><b>'+n+'</b><small>'+sub+'</small></div>'+(st?'<span class="st '+stc+'">'+st+'</span>':'')+'</div>';
+const D='<div><p class="cap">④ 찾기 · 쓰는 대로 바로</p><div class="ph">'+TOPB+srch('켄타',1)+'<div class="sres"><h4>퀘스트 <em>6</em></h4>'
+ +sr('inv_jewelry_ring_03','<mark>켄타</mark>우로스 현상금','잊혀진 땅 · 하사관 멜킨스 · 귀걸이 15','31 · 지금','now')
+ +sr('ability_warrior_charge','<mark>켄타</mark>우로스 습격자','버섯구름 봉우리 · 연계 2/3','32','now')
+ +sr('inv_misc_note_01','<mark>켄타</mark>우로스 군대','불모의 땅 · 호드 전용 · 이미 지난 레벨','24','lo')
+ +'<h4>몹 <em>3</em> · 어디서 잡나요</h4>'
+ +sr('ability_hunter_pet_tallstrider','콜카르 <mark>켄타</mark>우로스','잊혀진 땅 37, 89 · 30–31 · 퀘스트 2개에 필요','','')
+ +sr('ability_hunter_pet_tallstrider','마그람 <mark>켄타</mark>우로스','잊혀진 땅 70, 75 · 33–35','','')
+ +'<h4>NPC · 지역 <em>2</em></h4>'
+ +sr('inv_misc_map_01','<mark>켄타</mark>우로스 마을 (마그람)','잊혀진 땅 남동쪽 · 지도로 보기','','')
+ +'</div><div class="rec"><span>최근: 와루그</span><span>현자 우텍</span><span>회수전문회사</span></div>'+nav+'</div></div>';
 document.getElementById('R').innerHTML=A+B+C+D;
-document.getElementById('N').innerHTML='<b>바뀌는 점</b><br>① 맨 위 「레벨업 / 지도 / 지역」 아이콘 탭 + 🔍 찾기 버튼 · 지금 지역을 그림 머리로(진행 동그라미 7/32) · 「다 하면 35레벨까지 · 경험치」 진행 막대 · 거점을 던전 보스처럼 타임라인으로(동그라미 번호 · 받기/반납 칩) · 퀘스트 한 줄 = 체크 동그라미 · 종류 아이콘(처치·수집·대화) · 레벨 색(초록 쉬움·노랑 맞음·주황 높음) · 경험치 · 연계 칩<br>② 퀘스트를 누르면 카드가 펼쳐져요: 할 일 상자 · 받기 → 하는 곳 → 반납 3단계(지도 바로 가기) · 연계 진행 막대 · 보상은 아이콘 3칸 + 내 장비보다 좋아지는 점수와 이유 · 받았어요/끝냈어요/지도에서 버튼<br>③ 레벨업 도우미를 2×2 아이콘 타일로(배울 기술·직업 퀘스트·갈 만한 던전·보상 템) · 사냥 자리·다음 구간 한 줄 · 1–60 길을 지역 아이콘 선으로 보여 주고 지금 위치 강조<br>④ 지역 탭: 대륙 아이콘 칩 · 「내 레벨에 맞는 곳」 큰 카드 2×2(지금 할 것 개수) · 지역마다 레벨 막대에 내 레벨 초록 표시 · 지나간 지역은 흐리게';
+document.getElementById('N').innerHTML='<b>시안 1과 크게 달라진 점</b><br>'
+ +'· <b>찾기는 맨 위에 항상 보이는 칸</b> 그대로 두고(누르는 버튼으로 숨기지 않아요), 쓰는 대로 바로 결과가 나와요(퀘스트 · 몹 어디서 잡는지 · NPC·지역으로 나눠서, 글자 강조, 지금 할 만한지/지난 레벨인지 표시). 아래에 최근 찾은 것.<br>'
+ +'· 찾기 아래 <b>빠른 칩</b>: 동선 5단계 · 반납 가능 2 · 받을 것 5 · 보상 템 3 → 누르면 그것만.<br>'
+ +'· <b>레벨 막대를 퀘스트 조각으로</b>: 지금 40% + 단계마다 경험치 조각(보라) → 「다 하면 35레벨 + 18%」가 한눈에.<br>'
+ +'· <b>동선 지도</b>: 실제 좌표로 1 받기 → 2 사티로스 → 3 궤짝 → 4 켄타우로스 마을 → 5 반납을 점선으로.<br>'
+ +'· <b>퀘스트별이 아니라 장소별 단계</b>: 한 곳에서 같이 할 것을 묶어요(사티로스에서 발톱·뿔 같이, 켄타우로스 마을에서 귀걸이·평판 2개 같이). 단계마다 몹 이름·레벨, 숫자 칸(−/+)으로 몇 개 모았는지 세기.<br>'
+ +'· <b>화면 아래 고정 추적 줄</b>: 지금 단계와 「발톱 3/10」, + 한 번 누르면 하나 셈. 스크롤해도 따라와요.<br>'
+ +'· <b>퀘스트 상세</b>: 할 일 숫자 세기 · 잡을 몹 목록 · 작은 지도(받는 곳·잡는 곳) · 연계 전체 줄(지금 위치, 끝까지 하면 경험치) · 보상·버튼.<br>'
+ +'· 「지도」 탭은 동선 지도 「크게」로 합치고, 탭은 <b>레벨업 동선 / 지역 목록</b> 두 개로.<br>'+'· 그대로 가져갈 것: 레벨업 도우미 2×2 타일, 1–60 길, 지역 탭(시안 1의 ③④).';
 </script></body></html>
