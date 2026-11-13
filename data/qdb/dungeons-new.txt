@@ -1,0 +1,27 @@
+D|drowned-city|가라앉은 도시|The Drowned City|가시덤불 골짜기|37|35–40|8,22,5
+B|drowned-city|zul-alai=줄알라이;var-taka=바르타카;captain-dreadrise=대장 드레드라이즈;deathless-guardians=죽지 않는 수호자;min-loth-the-serpent=독사 민로스;mob-gill=Gill;mob-pyromancer-braxton=Pyromancer Braxton;mob-umbra=Umbra
+Q|drowned-city|95787|both|40|30|다시 한번 물속으로||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0||||
+Q|drowned-city|95788|both|40|30|가라앉은 도시의 마법||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0||||
+Q|drowned-city|95789|both|40|34|수상쩍은 소금선견자||크라젝 · 가시덤불 골짜기 26.9, 77.2|0|279882,279930||1|
+Q|drowned-city|95791|both|40|34|소금선견자 대장||크라젝 · 가시덤불 골짜기 26.9, 77.2|0|279883,279884||1|
+Q|drowned-city|97130|both|40|34|고대 구루바시의 비밀||대마법사 티미어 · 알터랙 산맥 15.4, 74.1|0||||
+D|kroldok-stronghold|크롤도크 보루|Krol'dok Stronghold|리버글레이드|42|40–45|6,19,4
+B|kroldok-stronghold|slavecrusher-grox=노예파괴자 그록스;twilight-commander-zarmok=황혼의 사령관 자르모크;handler-ashka=조련사 아쉬카;nar-gurk=나르구르크;overseer-mugg=감독관 머그;mob-bossman-toof=Bossman Toof
+Q|kroldok-stronghold|94982|both|45|40|머그의 눈||디마르 브랜트 · 강물터 66.7, 81.0|0||||
+Q|kroldok-stronghold|94983|both|42|38|황혼의 기념품||하사관 리프탄 · 강물터 30.7, 49.1|0||||
+Q|kroldok-stronghold|94984|both|44|39|황혼의 고서 위치·보상||디마르 브랜트 · 강물터 66.7, 81.0|0||||
+Q|kroldok-stronghold|96771|both|45|37|명가의 복수||라나스 나이트스트라이드 · 알터랙 산맥 17.8, 66.0|0||||
+D|alcaz-prison|알카즈 감옥|Alcaz Prison|먼지진흙 습지대|50|48–53|5,16,3
+B|alcaz-prison|overseer-wrex=감독관 렉스;tidemistress-ca-zass=해일여제 카자스;katerina-the-cleaner=청소부 카테리나;the-questioner=심문관;blazeroar=불길포효
+Q|alcaz-prison|95262|both|53|48|비밀 감옥||Sully McCleary · 먼지진흙 슾지대 63.5, 42.3|0||||
+Q|alcaz-prison|96381|both|53|48|약간의 지저분한 일||Sully McCleary · 먼지진흙 슾지대 63.5, 42.3|0||||
+Q|alcaz-prison|96772|both|53|46|용의 일지 위치·보상||대마법사 랜달록 · 알터랙 산맥 15.3, 73.9|0||||
+D|blackmaw-hold|검은아귀 요새|Blackmaw Hold|아즈샤라|57|55–60|10,28,3
+B|blackmaw-hold|impaan-the-imprisoner=간수 임판;bonesnout-the-unbroken=꺾이지 않는 해골주둥이;withermaw=마른아귀;blackmaw-behemoth=검은아귀 거수;elder-shaman-bloodmane=장로 주술사 핏빛갈기;unbound-spirit=속박 풀린 영혼;varrox-bleakhoof=바록스 블릭후프;mob-gortek-the-apprentice=Gortek the Apprentice;mob-moontouched-wanderer=Moontouched Wanderer;mob-tunnelweb-matriarch=Tunnelweb Matriarch
+Q|blackmaw-hold|92344|both|55|45|뿌리를 찾아서||마스렌길 베어워커 · 다르나서스 35.4, 8.4|0||||
+Q|blackmaw-hold|97173|both|59|52|검은아귀 마법||대마법사 티미어 · 알터랙 산맥 15.4, 74.1|0||||
+Q|blackmaw-hold|97327|both|60|0|검은아귀 주머니||Ekkal · 아즈샤라 42.0, 38.9|0||||
+D|shapers-terrace|구체자의 정원|Shaper's Terrace|운고로 분화구|59|58–60|8,22,2
+B|shapers-terrace|titanosaur=티타노사우루스;ravasaur-hunters=갈퀴발톱 라바사우루스;venomridge=맹독마루;thunderhoof=천둥발굽;direhorn-matriarch=암컷 공포뿔;nanaya=나나야;snowtalon=눈갈퀴;bolt=쏜살
+Q|shapers-terrace|95924|both|60|55|혼란의 발굴현장||도서관장 소리우스 · 아이언포지 71.5, 15.7|0||||
+Q|shapers-terrace|95925|both|60|55|나아갈 길을 그리다||도서관장 소리우스 · 아이언포지 71.5, 15.7|0||||

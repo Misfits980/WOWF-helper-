@@ -43,6 +43,23 @@ for cid, c in cls.items():
 import re
 Q = ROOT / 'data' / 'qdb'
 
+def _dnew():
+    """포에버 신규 던전 (tools/dungeons-new.py → data/qdb/dungeons-new.txt)"""
+    p_ = ROOT / 'data' / 'qdb' / 'dungeons-new.txt'
+    return [l for l in p_.read_text(encoding='utf-8').splitlines() if l.strip()] if p_.exists() else []
+
+
+def _dgl():
+    have = set(l.split('|')[0] for l in rd(F / 'dungeons.txt').splitlines() if l)
+    rows = rd(F / 'dungeons.txt').rstrip('\n').split('\n') + [l[2:] for l in _dnew() if l.startswith('D|') and l.split('|')[1] not in have]
+    return '\n'.join(sorted(rows, key=lambda l: int(l.split('|')[4] or 0)))
+
+
+def _dq():
+    have = set(l.split('|')[1] for l in rd(F / 'dungeon-quests.txt').splitlines() if l.startswith('B|'))
+    return rd(F / 'dungeon-quests.txt').rstrip('\n') + '\n' + '\n'.join(l for l in _dnew() if l[:2] in ('B|', 'Q|') and l.split('|')[1] not in have)
+
+
 def _guide():
     """Wowhead WoW Forever 레벨 20·30 가이드에 나온 템 (data/guides/wowhead-forever-l20-l30.txt) → {직업/특성: {20:[id], 30:[id]}}"""
     p_ = ROOT / 'data' / 'guides' / 'wowhead-forever-l20-l30.txt'
@@ -288,8 +305,8 @@ data = '\n'.join([
     'const D_QLV=' + json.dumps(QLV, separators=(',', ':')) + ';',
     'const D_GUIDE=' + json.dumps(_guide(), separators=(',', ':')) + ';',
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
-    'const D_DGL=' + js_str(rd(F / 'dungeons.txt')) + ';',
-    'const D_DQ=' + js_str(rd(F / 'dungeon-quests.txt')) + ';',
+    'const D_DGL=' + js_str(_dgl()) + ';',
+    'const D_DQ=' + js_str(_dq()) + ';',
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',
     'const D_BOSS=' + js_str(rd(F / 'bosses.txt') if (F / 'bosses.txt').exists() else '') + ';',
     'const D_AB=' + js_str('\n'.join(l for l in rd(ROOT / 'data/guides/abilities.txt').split('\n') if l and not l.startswith('# '))) + ';',
