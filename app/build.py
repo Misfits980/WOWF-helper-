@@ -132,7 +132,8 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
             si_[label] = len(sl_); sl_.append(label)
         return si_[label]
     have_ = set(int(l.split('|')[0]) for l in items)
-    from items_wowf import eff_stats
+    from items_wowf import eff_stats, parse_stats, merge_stats
+    _stfix = 0
     WREC = {}
     for l_ in rd(Q / 'items-wowf.jsonl').splitlines():
         if l_:
@@ -146,10 +147,14 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
             f[12] = o_['nm']
             items[ix] = '|'.join(f)
         if o_ and len(f) > 6:
-            add = eff_stats(o_.get('lines'))
-            if add:
-                f[5] = (f[5] + ' ' if f[5] else '') + ' '.join('%s%s' % (k, ('%g' % v)) for k, v in add.items())
+            # 포에버 툴팁(wowf.io)으로 능력치 채우기: forg에 빠진 주문력·적중·치명타 등급·「지능 +8」 꼴 등
+            _cur = {k: float(v) for k, v in re.findall(r'([a-z]+\d?)(-?[\d.]+)', f[5])}
+            _new = merge_stats(_cur, parse_stats(o_.get('lines')))
+            if _new != _cur:
+                f[5] = ' '.join('%s%s' % (k, ('%g' % v)) for k, v in _new.items())
                 items[ix] = '|'.join(f)
+                _stfix += 1
+    print('포에버 툴팁으로 능력치 보강', _stfix)
     for line in convert(rd(Q / 'items-wowf.jsonl'), rd(Q / 'item-equip.txt'), sidx):
         if int(line.split('|')[0]) not in have_:
             items.append(line)

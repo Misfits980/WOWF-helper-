@@ -25,6 +25,78 @@ for _s in ['alcaz-prison', 'blackmaw-hold', 'drowned-city', 'kroldok-stronghold'
            'razorfen-kraul', 'ruins-of-lordaeron', 'scholomance', 'shadowfang-keep', 'stockade', 'uldaman', 'upper-blackrock-spire', 'wailing-caverns', 'zul-farrak']:
     DGMAP.setdefault(_s, _s)
 
+# 포에버 툴팁 한 줄씩 → 능력치. 등급(rating)은 60레벨 기준 %로 바꿔 둠: 적중 10 = 1%, 치명타 14 = 1%, 회피 12 = 1%
+PRI = {'힘':'str','민첩성':'agi','민첩':'agi','체력':'sta','지능':'int','정신력':'spi',
+       '주문력':'sp','주문 공격력':'sp','치유량':'heal','주문 치유':'heal','전투력':'ap','원거리 전투력':'rap',
+       '방어 숙련도':'def','방어 숙련':'def','방어':'def','5초당 마나 회복':'mp5','5초당 마나':'mp5','방패 피해 방어':'block','피해 방어':'block'}
+RATE = {'적중':('hit',10),'치명타':('crit',14),'치명타 및 극대화':('crit',14),'회피':('dodge',12),'무기 막기':('parry',15),'방패 막기':('blockp',5)}
+SCH = {'화염':'fire','냉기':'frost','암흑':'shadow','비전':'arcane','자연':'nature','신성':'holy'}
+def parse_stats(lines):
+    """포에버 툴팁(wowf.io) 전체에서 능력치: 「+N 이름」·「이름 +N」 두 꼴, 등급(적중·치명타·회피)은 60레벨 %로"""
+    st={}
+    def add(k,v): st[k]=round(st.get(k,0)+v,2)
+    for raw in lines or []:
+        t=raw.strip()
+        body=re.sub(r'^착용 효과:\s*','',t)
+        m=re.match(r'^\+(\d+)\s*(.+?)$',body) or None
+        if m: v,name=int(m.group(1)),m.group(2).strip()
+        else:
+            m=re.match(r'^([가-힣 ]+?)\s*\+(\d+)$',body)
+            if m: v,name=int(m.group(2)),m.group(1).strip()
+        if m:
+            if name in PRI: add(PRI[name],v); continue
+            if name in RATE: k,r=RATE[name]; add(k,v/r); continue
+            mm=re.match(r'^(화염|냉기|암흑|비전|자연|신성)\s*(?:주문\s*)?공격력$',name)
+            if mm: add(SCH[mm.group(1)],v); continue
+            continue  # 저항·관통·종족 전투력 등은 점수 밖
+        if not t.startswith('착용 효과'): continue
+        # 예전식 % 문장
+        me = re.search(r'(?:회피되거나|회피당하거나).*확률이\s*(\d+(?:\.\d+)?)%만큼 감소', body)
+        if me:
+            add('exp', float(me.group(1))); continue
+        if re.search(r'자신에게 걸리는|감소합니다|받는', body): continue
+        mh=re.search(r'치유량이 최대 (\d+)만큼,\s*주문 공격력이 최대 (\d+)',body)
+        if mh: add('heal',int(mh.group(1))); add('sp',int(mh.group(2))); continue
+        mp=re.search(r'(\d+(?:\.\d+)?)%만큼 증가',body)
+        if mp:
+            v=float(mp.group(1))
+            if '치명타' in body and ('주문' in body and '극대화' in body and '공격' not in body): add('scrit',v)
+            elif '치명타' in body or '극대화' in body: add('crit',v)
+            elif '적중' in body and '주문' in body and '공격' not in body: add('shit',v)
+            elif '적중' in body: add('hit',v)
+            elif '회피당하거나' in body or '회피되거나' in body: add('exp',v)
+            elif '회피' in body: add('dodge',v)
+            elif '무기 막기' in body: add('parry',v)
+            elif '방패 막기' in body: add('blockp',v)
+            continue
+        mv=re.search(r'최대 (\d+)',body) or re.search(r'(\d+)만큼',body)
+        if not mv: continue
+        v=int(mv.group(1))
+        if re.search(r'확률|초 동안|적중 시|공격 시|사용 시',body): continue
+        if re.search(r'피해.*치유|치유.*피해',body): add('sp',v); add('heal',v)
+        elif '치유' in body: add('heal',v)
+        elif '주문' in body and any(s in body for s in SCH):
+            for s,k in SCH.items():
+                if s in body: add(k,v); break
+        elif '원거리 전투력' in body: add('rap',v)
+        elif '전투력' in body: add('ap',v)
+        elif '마나' in body and '5초' in body: add('mp5',v)
+        elif '방어 숙련' in body: add('def',v)
+        elif '방패' in body and '방어' in body: add('block',v)
+    return st
+
+
+PRIMARY = ('str', 'agi', 'sta', 'int', 'spi')
+
+
+def merge_stats(cur, p):
+    """기존(forg) 능력치에 포에버 툴팁 값 합치기: 없는 칸은 채우고, 주 능력치가 다르면 포에버 툴팁을 믿음"""
+    st = dict(cur)
+    for k, v in p.items():
+        if k not in st or (k in PRIMARY and abs(st[k] - v) > 0.01) or (k in ('sp', 'heal') and v > st[k]):
+            st[k] = v
+    return st
+
 
 def eff_stats(lines):
     """착용 효과 글에서 점수로 셀 수 있는 것: 치명타·적중·회피·무기 막기·방패 막기(%), 주문 극대화·주문 적중(%)"""
@@ -175,6 +247,7 @@ def convert(jsonl_text, equip_text, src_index):
                 eff = True
         for k, v in eff_stats(o.get('lines')).items():
             st[k] = st.get(k, 0) + v
+        st = merge_stats(st, parse_stats(o.get('lines')))
         if lo and hi and spd:
             st['dps'] = round((lo + hi) / 2 / spd, 2)
         est = ''

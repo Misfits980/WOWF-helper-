@@ -1993,9 +1993,9 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .lkt.sk{background:#2e2414;color:#ffd98a;border-color:#6b5326}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=7a503706"></script>
-<script>/* vc4cae1 @11/13 21:17 */
-const BUILD='11/13 21:17';
+<script src="app-data.js?v=7c33103c"></script>
+<script>/* v5726c8 @11/13 21:28 */
+const BUILD='11/13 21:28';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2005,7 +2005,7 @@ const RACE_START={human:'human',dwarf:'dwarf-gnome',gnome:'dwarf-gnome',nightelf
 /* 종족별 가능한 직업 (forg.gg 종족 페이지) */
 const RACE_CLS={human:['warrior','paladin','hunter','rogue','priest','mage','warlock'],dwarf:['warrior','paladin','hunter','rogue','priest','shaman'],nightelf:['warrior','hunter','rogue','priest','druid'],gnome:['warrior','rogue','priest','mage','warlock'],skyborne:['warrior','hunter','rogue','mage','druid']};
 const DW=new Set(['warrior','rogue','hunter','shaman']);
-const STAT_KO={crit:'치명타 %',hit:'적중 %',scrit:'주문 극대화 %',shit:'주문 적중 %',dodge:'회피 %',parry:'무기 막기 %',blockp:'방패 막기 %',str:'힘',agi:'민첩',sta:'체력',int:'지능',spi:'정신력',sp:'주문력',heal:'치유량',mp5:'5초당 마나',ap:'전투력',dps:'무기 초당 공격력',def:'방어 숙련',block:'방패 막기',armor:'방어도',fire:'화염 주문력',frost:'냉기 주문력',nature:'자연 주문력',shadow:'암흑 주문력',arcane:'비전 주문력',holy:'신성 주문력'};
+const STAT_KO={exp:'회피·막기 당할 확률 감소 %',rap:'원거리 전투력',crit:'치명타 %',hit:'적중 %',scrit:'치명타 %',shit:'적중 %',dodge:'회피 %',parry:'무기 막기 %',blockp:'방패 막기 %',str:'힘',agi:'민첩',sta:'체력',int:'지능',spi:'정신력',sp:'주문력',heal:'치유량',mp5:'5초당 마나',ap:'전투력',dps:'무기 초당 공격력',def:'방어 숙련',block:'방패 막기',armor:'방어도',fire:'화염 주문력',frost:'냉기 주문력',nature:'자연 주문력',shadow:'암흑 주문력',arcane:'비전 주문력',holy:'신성 주문력'};
 const SLOTS=[['head','머리',['he']],['neck','목',['ne']],['shoulder','어깨',['sh']],['back','등',['ba']],['chest','가슴',['ch']],['wrist','손목',['wr']],['hands','손',['ha']],['waist','허리',['wa']],['legs','다리',['le']],['feet','발',['fe']],['ring1','반지 1',['fi']],['ring2','반지 2',['fi']],['trink1','장신구 1',['tr']],['trink2','장신구 2',['tr']],['main','주무기',['2h','mh','1h']],['off','보조',['oh','ho','1h']],['ranged','원거리',['ra']]];
 const SLOT_KO=Object.fromEntries(SLOTS.map(s=>[s[0],s[1]]));
 const SL_KO={he:'머리',ne:'목',sh:'어깨',ba:'등',ch:'가슴',wr:'손목',ha:'손',wa:'허리',le:'다리',fe:'발',fi:'반지',tr:'장신구','2h':'양손 무기',mh:'주장비 무기','1h':'한손 무기',oh:'보조 장비',ho:'보조 손',ra:'원거리'};
@@ -2038,10 +2038,10 @@ if(W.druid){Object.assign(W.druid['feral-cat'],{crit:10,hit:9});Object.assign(W.
 
 const WHY={rogue:'주무기 DPS가 딜을 가장 크게 정해요. 적중·치명타 1%는 민첩 10~12점만큼이에요. 원거리는 당기기용이라 점수에 안 넣어요.',
   warrior:{arms:'양손 무기 DPS가 딜을 정해요. 적중 1%는 힘 19점, 치명타 1%는 힘 15점만큼이에요.',fury:'주무기 DPS 다음으로 치명타(힘 17점)·적중(힘 14점)이 커요.',protection:'체력·방어 숙련·회피로 덜 맞는 게 먼저예요.'},
-  hunter:'원거리 무기 DPS가 딜 대부분이에요. 그다음 민첩·적중.',priest:{discipline:'치유량·지능·정신력 순이에요. 마법봉은 레벨업 사냥용이에요.',holy:'치유량·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.','shadow-magic':'주문력·암흑 주문력·주문 적중 순이에요. 마법봉은 마나 아끼는 용도예요.'},
+  hunter:'원거리 무기 DPS가 딜 대부분이에요. 그다음 민첩·적중.',priest:{discipline:'치유량·지능·정신력 순이에요. 마법봉은 레벨업 사냥용이에요.',holy:'치유량·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.','shadow-magic':'주문력·암흑 주문력·적중 순이에요. 포에버는 적중·치명타가 근접·주문 하나로 합쳐졌어요. 마법봉은 마나 아끼는 용도예요.'},
   mage:'주문력과 지능이 중심이에요. 마법봉은 마나 아끼는 용도예요.',warlock:'주문력과 체력(생명력 전환)이 중요해요.',
   paladin:{holy:'치유량·지능·5초당 마나 순이에요.',protection:'체력·방어 숙련·방패 막기 순이에요.',retribution:'양손 무기 DPS·힘·치명타 순이에요.'},
-  shaman:{'elemental-combat':'주문력·지능·주문 극대화 순이에요.',enhancement:'양손 무기 DPS·힘·민첩 순이에요.',restoration:'치유량·5초당 마나·지능 순이에요.'},
+  shaman:{'elemental-combat':'주문력·지능·치명타 순이에요.',enhancement:'양손 무기 DPS·힘·민첩 순이에요.',restoration:'치유량·5초당 마나·지능 순이에요.'},
   druid:{balance:'주문력·지능 순이에요.','feral-cat':'포에버에서는 표범도 무기 DPS가 점수에 들어가요. 민첩·힘·치명타 순이에요.','feral-bear':'체력·민첩·방어 숙련 순이에요.',restoration:'치유량·정신력·지능 순이에요.'}};
 /* ===== 점수 공식 = forg.gg와 같은 틀 =====
    1) 기본 가중치: forg.gg 장비 추천 기본표(역할별)
@@ -2063,6 +2063,8 @@ for(const c in FS)for(const s in FS[c]){if(!W[c]||!W[c][s])continue;const [b,ex]
   else if(role==='heal')w.scrit=6;
   else if(role==='cast')Object.assign(w,{scrit:10,shit:15});
   else Object.assign(w,{crit:13,hit:15});
+  /* 포에버 새 능력치: 회피·막기 당할 확률 감소(근접·원거리 물리 딜) · 원거리 전투력(사냥꾼) */
+  if(role==='phys'||role==='tank')w.exp=(w.hit||0)*.8;if(c==='hunter')w.rap=w.ap??.5;
   /* 화면 표시·예전 계산용 */
   w.dps=w.dpsMain??w.dps2h??w.dps1h??0;w.rdps=w.dpsRanged??w.dpsWand??0;
   W[c][s]=w;WSRC[c+'/'+s]=src}
@@ -2081,7 +2083,9 @@ const SRC=D_SRC.split('\n').filter(Boolean).map(l=>{const [k,label,href]=l.split
   if(o.k===0){o.dg=(href||'').replace('dg:','').split('#')[0];const p=label.split(' · ');o.dn=p[0];o.boss=p.slice(1).join(' · ')}
   if(o.k===1)o.qn=label.replace(/^퀘스트 · /,'');
   return o});
-const ITEMS=D_ITEMS.split('\n').filter(Boolean).map(l=>{const f=l.split('|');const st={};for(const tok of (f[5]||'').split(' ')){const m=tok.match(/^(mp5|[a-z]+)(-?[\d.]+)$/);if(m)st[m[1]]=+m[2]}
+/* 포에버: 적중·치명타는 근접·원거리·주문이 하나 → 두 칸에 같은 값 (직업마다 보는 칸이 달라서) */
+function normST(st){const h=Math.max(st.hit||0,st.shit||0),c=Math.max(st.crit||0,st.scrit||0);if(h){st.hit=st.shit=h}if(c){st.crit=st.scrit=c}return st}
+const ITEMS=D_ITEMS.split('\n').filter(Boolean).map(l=>{const f=l.split('|');const st={};for(const tok of (f[5]||'').split(' ')){const m=tok.match(/^(mp5|[a-z]+)(-?[\d.]+)$/);if(m)st[m[1]]=+m[2]}normST(st);
   return {id:+f[0],lv:parseInt(f[1])||1,est:f[1].endsWith('?'),sl:f[2],cs:f[3],q:f[4]||'c',st,eff:f[6]==='1',src:f[7]?f[7].split(';').map(Number):[],mask:+f[8],ph:f[9]||'',allow:f[10]?f[10].split(','):null,prof:f[11]||'',nm:f[12],ic:f[13]||''}});
 const IT=new Map(ITEMS.map(i=>[i.id,i]));
 const ICO=n=>n?'https://wow.zamimg.com/images/wow/icons/medium/'+String(n).toLowerCase()+'.jpg':'';
@@ -2164,12 +2168,14 @@ function wOf0(c){if(isTank(c))return tankW(c);const w=(W[c.cls]||{})[c.spec]||Ob
 let ARM={};let ARM_OK=false;
 const ARM_SLOT={HEAD:'head',NECK:'neck',SHOULDER:'shoulder',BACK:'back',CHEST:'chest',WRIST:'wrist',HANDS:'hands',WAIST:'waist',LEGS:'legs',FEET:'feet',FINGER_1:'ring1',FINGER_2:'ring2',TRINKET_1:'trink1',TRINKET_2:'trink2',MAIN_HAND:'main',OFF_HAND:'off',RANGED:'ranged'};
 const ARM_INV={CLOAK:'ba',CHEST:'ch',ROBE:'ch',FEET:'fe',HAND:'ha',HEAD:'he',FINGER:'fi',LEGS:'le',SHOULDER:'sh',WAIST:'wa',WRIST:'wr',NECK:'ne',TRINKET:'tr',TWOHWEAPON:'2h',WEAPON:'1h',WEAPONMAINHAND:'mh',WEAPONOFFHAND:'oh',SHIELD:'oh',HOLDABLE:'ho',RANGED:'ra',RANGEDRIGHT:'ra',THROWN:'ra',RELIC:'ra'};
+/* 등급(rating)은 60레벨 %로: 적중 10·치명타 14·회피 12·무기 막기 15 */
+const ARM_RATE={HIT_RATING:['hit',10],CRIT_RATING:['crit',14],CRITICAL_STRIKE_RATING:['crit',14],DODGE_RATING:['dodge',12],PARRY_RATING:['parry',15]};
 const ARM_STAT={STRENGTH:'str',AGILITY:'agi',STAMINA:'sta',INTELLECT:'int',SPIRIT:'spi',SPELL_POWER:'sp',BONUS_HEALING:'heal',SPELL_HEALING:'heal',HEALING:'heal',MANA_REGENERATION:'mp5',ATTACK_POWER:'ap',RANGED_ATTACK_POWER:'ap',DEFENSE_SKILL_RATING:'def',DEFENSE:'def',BLOCK_VALUE:'block',FIRE_SPELL_POWER:'fire',FROST_SPELL_POWER:'frost',NATURE_SPELL_POWER:'nature',SHADOW_SPELL_POWER:'shadow',ARCANE_SPELL_POWER:'arcane',HOLY_SPELL_POWER:'holy'};
 const ARM_Q={POOR:'p',COMMON:'c',UNCOMMON:'u',RARE:'r',EPIC:'e',LEGENDARY:'l'};
 function armRace(r){r=String(r||'').toLowerCase();return /night|나이트/.test(r)?'nightelf':/gnome|노움/.test(r)?'gnome':/dwarf|드워프/.test(r)?'dwarf':/human|인간/.test(r)?'human':'skyborne'}
-function armItem(g){let it=IT.get(g.id);if(it)return it;const st={};(g.stats||[]).forEach(([k,v])=>{const m=ARM_STAT[k];if(m)st[m]=(st[m]||0)+v});
+function armItem(g){let it=IT.get(g.id);if(it)return it;const st={};(g.stats||[]).forEach(([k,v])=>{const m=ARM_STAT[k];if(m)st[m]=(st[m]||0)+v;const r=ARM_RATE[k];if(r)st[r[0]]=+((st[r[0]]||0)+v/r[1]).toFixed(2)});
   (g.spells||[]).forEach(t=>{let m=t.match(/치유량이 최대 (\d+)/);if(m)st.heal=(st.heal||0)+ +m[1];m=t.match(/피해와 치유량이 최대 (\d+)/);if(m)st.sp=(st.sp||0)+ +m[1];m=t.match(/5초마다 (\d+)의 마나/);if(m)st.mp5=(st.mp5||0)+ +m[1]});
-  if(g.dps)st.dps=g.dps;
+  if(g.dps)st.dps=g.dps;normST(st);
   it={id:g.id,lv:g.req||1,est:false,sl:ARM_INV[g.inv]||'',cs:g.cls+'.'+g.sub,q:ARM_Q[g.q]||'c',st,eff:false,src:[],mask:511,ph:'',allow:null,prof:'',nm:g.nm,ic:'',icUrl:g.icon,ob:g.req||1,arm:true};
   ITEMS.push(it);IT.set(it.id,it);return it}
 function armApply(c,silent){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};
@@ -2524,10 +2530,11 @@ function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
       if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):base,empty:!eqIt(c,tgt)})}}
   return out.sort((a,b)=>(b.empty-a.empty)||(b.g/Math.max(b.base,4))-(a.g/Math.max(a.base,4)))}
 function gainTag(g,base,empty){if(empty)return '<span class="gain new">빈 칸 채우기</span>';if(g<-.5)return '<span class="gain no" style="color:var(--bad)">나빠짐</span>';if(!(g>.01))return '<span class="gain no">변화 없음</span>';const r=g/Math.max(base,4);const n=' <b class="gp">+'+(g>=10?Math.round(g):g.toFixed(1))+'</b>';return r>=.5?'<span class="gain big">크게 좋아짐'+n+'</span>':r>=.2?'<span class="gain mid">좋아짐'+n+'</span>':'<span class="gain sm">조금 좋아짐'+n+'</span>'}
+const PCTK={crit:1,hit:1,scrit:1,shit:1,dodge:1,parry:1,blockp:1,exp:1};
 function diffHtml(a,b,c){const w=wOf(c);const ks=new Set([...Object.keys(a?a.st:{}),...Object.keys(b?b.st:{})]);const arr=[];
-  for(const k of ks){if(!STAT_KO[k])continue;if(k==='armor'&&!(w.armor))continue;const d=((a&&a.st[k])||0)-((b&&b.st[k])||0);if(Math.abs(d)<.05)continue;if(k==='dps'){const ra=(a||b).sl==='ra';if(!(ra?w.rdps:w.dps))continue}arr.push([k,d,Math.abs(d*(w[k]||(k==='dps'?(w.dps||w.rdps):0)))+(w[k]?1:0)])}
+  for(const k of ks){if(!STAT_KO[k])continue;if(k==='armor'&&!(w.armor))continue;if((k==='shit'&&ks.has('hit')&&(w.hit||0)>=(w.shit||0))||(k==='hit'&&ks.has('shit')&&(w.shit||0)>(w.hit||0))||(k==='scrit'&&ks.has('crit')&&(w.crit||0)>=(w.scrit||0))||(k==='crit'&&ks.has('scrit')&&(w.scrit||0)>(w.crit||0)))continue;const d=((a&&a.st[k])||0)-((b&&b.st[k])||0);if(Math.abs(d)<.05)continue;if(k==='dps'){const ra=(a||b).sl==='ra';if(!(ra?w.rdps:w.dps))continue}arr.push([k,d,Math.abs(d*(w[k]||(k==='dps'?(w.dps||w.rdps):0)))+(w[k]?1:0)])}
   arr.sort((x,y)=>y[2]-x[2]);if(!arr.length)return '';
-  return '<span class="dif">'+arr.slice(0,4).map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+(k==='dps'?Math.abs(d).toFixed(1):Math.round(Math.abs(d)))+'</span>').join(' · ')+'</span>'}
+  return '<span class="dif">'+arr.slice(0,4).map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+(k==='dps'||(PCTK[k]&&Math.abs(d)%1)?Math.abs(d).toFixed(1):Math.round(Math.abs(d)))+'</span>').join(' · ')+'</span>'}
 function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.src.slice(0,n||2).map(i=>{const s=SRC[i];if(!s)return '';
   if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+' · '+s.boss;if(s.k===1)return '퀘스트 「'+s.qn+'」';if(s.k===2)return '월드 드랍 (경매장)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':s.label.replace('드랍 · ','')+' 처치';if(s.k===4)return s.label.replace(/ · 경매장 거래$/,'')+' (경매장)';if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
 function srcList(it){if(!it.src.length)return '<p class="note">어디서 나오는지 아직 몰라요.</p>';
@@ -2723,7 +2730,7 @@ function playCard(c){const r=xpRate(c);const X=myXp(c);if(!r&&c.gold==null)retur
   if(r)h+='<div><small>시간당 경험치</small><b>약 '+Math.round(r).toLocaleString()+'</b><span>최근 접속 '+Math.round(S.hs/60)+'분 기준</span></div>';
   if(r&&X)h+='<div><small>다음 레벨까지</small><b>약 '+Math.max(1,Math.round((X.max-X.cur)/r*60))+'분</b><span>'+(X.max-X.cur).toLocaleString()+' 남음'+(X.rest?' · 휴식 경험치 있음':'')+'</span></div>';
   if(S.secs>=60)h+='<div><small>이번 접속</small><b>'+Math.round(S.secs/60)+'분</b><span>경험치 '+(S.xp||0).toLocaleString()+'</span></div>';
-  if(c.gold!=null)h+='<div><small>가진 돈</small><b class="gld">'+goldTxt(c.gold)+'</b><span>'+(c.lv<40?'40레벨 탈것 준비 · 미리 모아 두세요':'불러온 때 기준')+'</span></div>';
+  if(c.gold!=null)h+='<div><small>가진 돈</small><b class="gld">'+goldTxt(c.gold)+'</b><span>'+(c.lv<40?(c.gold>=1000000?'40레벨 탈것 100골드 준비됐어요':'40레벨 탈것은 100골드 · '+Math.min(99,Math.floor(c.gold/10000))+'% 모았어요'):c.lv>=58&&c.lv<60?'60레벨 빠른 탈것 훈련은 1,000골드예요':'불러온 때 기준')+'</span></div>';
   return h+'</div></div>'}
 /* 🏳️ 평판 (애드온): 다음 등급에 가까운 순 */
 function repCard(c){const R=(c.rep||[]).filter(r=>r.st<8&&r.st>=3);if(!R.length)return '';
@@ -2769,7 +2776,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   /* 2. 챙길 것: 기술 · 장비 · 던전 · 곧 생기는 것 */
   const ls=(C?C.learns:[]).filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const nextLearn=ls.find(l=>l[0]>L);
   const U=upgrades(c,L,'ok');const D=dgNow(L);
-  const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,'탈것을 배울 수 있어요 · 골드를 모아 두세요'],[60,'만렙! 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
+  const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,'탈것(훈련 100골드, 말 함께 받음)과 이중 특성이 열려요'],[60,'만렙! 빠른 탈것 훈련은 1,000골드 · 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
   const row=(ic,t,sub,a,k,right,dim)=>'<div class="trow'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><img class="ti" src="'+ic+'" alt=""><span class="m"><b>'+t+'</b><span>'+sub+'</span></span>'+(right||'')+'<span class="r">›</span></div>';
   const i2=h.length;h+='<div class="card todo">';
   h+=todo.length?row('img/ui-book.png','기술 배우기','교관에서 '+esc(todo.filter(l=>l[3]).map(l=>l[1]).slice(0,2).join(', ')||'랭크 올리기'),'goc','learn','<span class="tbg">'+todo.length+'</span><button class="btn sm tbtn" data-a="trn">배웠어요</button>')
@@ -2848,11 +2855,11 @@ function wfrSheet(c){const R=wfrCode(c);return '<div class="sh"><h2>🎮 게임 
 /* 템 능력치 한 줄 (내 직업에 중요한 순) — 점수만 보면 감이 안 와서 */
 const dif2=(a,b,c)=>b?diffHtml(a,b,c).replace('<span class="dif">','<span class="dif"><em>지금보다</em> '):'';
 /* 주문력·치유량이 같이 붙은 템: 힐러는 치유량, 나머지는 주문력 하나만 */
-const dupSH=(k,st,w)=>w.heal&&!(w.sp>0)?(k==='sp'&&st.heal>=st.sp):(k==='heal'&&st.sp>=st.heal);
+const dupSH=(k,st,w)=>(k==='shit'&&st.hit===st.shit&&(w.hit||0)>=(w.shit||0))||(k==='hit'&&st.hit===st.shit&&(w.shit||0)>(w.hit||0))||(k==='scrit'&&st.crit===st.scrit&&(w.crit||0)>=(w.scrit||0))||(k==='crit'&&st.crit===st.scrit&&(w.scrit||0)>(w.crit||0))||(w.heal&&!(w.sp>0)?(k==='sp'&&st.heal>=st.sp):(k==='heal'&&st.sp>=st.heal));
 function itStats(it,c){if(!it||!it.st)return '';const w=wOf(c);const st=it.st;const ks=Object.keys(st).filter(k=>STAT_KO[k]&&st[k]&&!dupSH(k,st,w)&&!(k==='armor'&&!w.armor&&it.cs!=='4.6'));
   if(!ks.length)return '';ks.sort((a,b)=>((w[b]||0)*Math.abs(st[b])+(b==='dps'?99:0))-((w[a]||0)*Math.abs(st[a])+(a==='dps'?99:0)));
   return '<span class="its">'+ks.map(k=>{const v=st[k];const pct=/ %$/.test(STAT_KO[k]);const nm=k==='dps'?'초당 공격력':pct?STAT_KO[k].slice(0,-2):STAT_KO[k];const use=(w[k]||(k==='dps'&&(w.dps||w.rdps)))?'':' class="dim"';
-    return '<i'+use+'>'+nm+' '+(v<0?'−':'')+(k==='dps'?Math.abs(v).toFixed(1):Math.round(Math.abs(v)))+(pct?'%':'')+'</i>'}).join('')+'</span>'}
+    return '<i'+use+'>'+nm+' '+(v<0?'−':'')+(k==='dps'||(pct&&Math.abs(v)%1)?Math.abs(v).toFixed(1):Math.round(Math.abs(v)))+(pct?'%':'')+'</i>'}).join('')+'</span>'}
 /* 바꿀 것 한 줄 (접힘): 칸·템·핵심 능력치·이득 → 누르면 지금보다·얻는 곳·버튼 */
 /* 바꿀 것 한 화면: 가방 템 + 지금 바꿀 것(곧 더 좋은 게 오면 한 줄 덧붙임) + 곧만 있는 칸, 위에 얻는 곳 칩 */
 function upAll(c,nowU,soonU){const nE=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
@@ -2875,7 +2882,7 @@ function upAll(c,nowU,soonU){const nE=SLOTS.filter(([sl])=>!offLocked(c,sl)).len
   return h+'</div>'}
 function uRow(c,x,soon){const cur=eqIt(c,x.slot);const it=x.it;const st=it.st||{};const w=wOf(c);
   const top=Object.keys(st).filter(k=>STAT_KO[k]&&st[k]>0&&(w[k]||(k==='dps'&&(it.sl==='ra'?w.rdps:w.dps)))&&!dupSH(k,st,w)).sort((a,b)=>(k=>k==='dps'?1e3:(w[k]||0)*st[k])(b)-(k=>k==='dps'?1e3:(w[k]||0)*st[k])(a)).slice(0,3)
-    .map(k=>{const pct=/ %$/.test(STAT_KO[k]);return (k==='dps'?'초당':pct?STAT_KO[k].slice(0,-2):STAT_KO[k].replace(' 주문력',''))+' '+(k==='dps'?st[k].toFixed(1):Math.round(st[k]))+(pct?'%':'')}).join(' · ');
+    .map(k=>{const pct=/ %$/.test(STAT_KO[k]);return (k==='dps'?'초당':pct?STAT_KO[k].slice(0,-2):STAT_KO[k].replace(' 주문력',''))+' '+(k==='dps'||(pct&&st[k]%1)?st[k].toFixed(1):Math.round(st[k]))+(pct?'%':'')}).join(' · ');
   const r=x.g/Math.max(x.base,4);const cls=x.empty?'new':r>=.5?'big':r>=.2?'mid':'sm';
   return '<details class="ur"><summary>'+itIcon(it)+'<span class="m"><span class="t"><em>'+esc(SLOT_KO[x.slot])+'</em>'+itName(it)+'</span><span class="s">'+(top?esc(top):'')+(guideHas(c,it.id)?' <i class="gd">📘</i>':'')+(soon?' · '+(it.ob||it.lv)+'레벨':'')+'</span>'+(x.bag?'<span class="s bagt">'+(x.where==='bank'?'🏦 은행에 있어요':'🎒 가방에 있어요')+' · 바로 끼세요</span>':'')+(x.nx?'<span class="s nxl">🔜 '+(x.nx.it.ob||x.nx.it.lv)+'레벨 '+esc(x.nx.it.nm)+' <b>+'+(x.nx.g>=10?Math.round(x.nx.g):x.nx.g.toFixed(1))+'</b></span>':'')+'</span><span class="ug '+cls+'">'+(x.empty?'빈 칸':'+'+(x.g>=10?Math.round(x.g):x.g.toFixed(1)))+'</span></summary>'
     +'<div class="urb">'+itStats(it,c)+dif2(it,cur,c)+'<p class="sub">'+(cur?'지금: '+esc(cur.nm)+' · ':'')+esc(srcTxt(it,1))+' · '+(it.ob>it.lv?it.ob+'레벨쯤 얻음':'Lv '+it.lv)+luckTag(it,c)+guideTag(it,c)+skTag(it,c)+'</p>'
