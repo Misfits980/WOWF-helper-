@@ -52,7 +52,7 @@ Q = {'Poor': 'p', 'Common': 'c', 'Uncommon': 'u', 'Rare': 'r', 'Epic': 'e', 'Leg
 CL = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid']
 CLS_EN = {'Warrior': 'warrior', 'Paladin': 'paladin', 'Hunter': 'hunter', 'Rogue': 'rogue', 'Priest': 'priest', 'Shaman': 'shaman', 'Mage': 'mage', 'Warlock': 'warlock', 'Druid': 'druid'}
 WPN = {'warrior': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 13, 15, 16, 18], 'paladin': [0, 1, 4, 5, 6, 7, 8], 'hunter': [0, 1, 2, 3, 6, 7, 8, 10, 13, 15, 16, 18],
-       'rogue': [2, 3, 4, 7, 13, 15, 16, 18], 'priest': [4, 10, 15, 19], 'shaman': [0, 1, 4, 5, 10, 13, 15], 'mage': [7, 10, 15, 19], 'warlock': [7, 10, 15, 19],
+       'rogue': [0, 2, 3, 4, 7, 13, 15, 16, 18], 'priest': [4, 10, 15, 19], 'shaman': [0, 1, 4, 5, 10, 13, 15], 'mage': [7, 10, 15, 19], 'warlock': [7, 10, 15, 19],
        'druid': [4, 5, 6, 10, 13, 15]}
 ARM = {'warrior': 4, 'paladin': 4, 'hunter': 3, 'shaman': 3, 'rogue': 2, 'druid': 2, 'priest': 1, 'mage': 1, 'warlock': 1}
 RELIC = {7: 'paladin', 8: 'druid', 9: 'shaman'}

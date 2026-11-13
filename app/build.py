@@ -178,7 +178,8 @@ try:
             cl = [t for t in (o_.get('lines') or []) if t.startswith('직업:')]
             if cl:
                 allow = [_KO[x.strip()] for x in cl[0][3:].split(',') if x.strip() in _KO] or allow
-        elif not allow and bin(m0).count('1') <= 3:
+        elif not allow and bin(m0).count('1') <= 3 and not (f[3] or '').startswith('2.'):
+            # 무기는 forg 표시가 적어도 숙련 규칙으로 (도적 한손 도끼처럼 포에버에서 바뀐 숙련 반영)
             continue
         m1 = mask_of(f[3] or '', allow)
         if m1 and m1 != m0:
