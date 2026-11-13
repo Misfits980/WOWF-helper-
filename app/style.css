@@ -1972,3 +1972,12 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .ampop{top:auto;margin-top:0}
 .amtop+.ampop{top:52px}
 @media (max-width:999px){.amtop+.ampop{top:92px}}
+.amleg{cursor:pointer}
+.amleg b small{font:400 10.5px -apple-system,sans-serif;color:#8f8470;margin-left:6px;letter-spacing:0}
+/* 게임 지도 표식도 같은 모양으로 */
+.gp.k-dg,.gp.k-dgd,.gp.k-mo{display:flex;align-items:center;justify-content:center;padding:0;color:#fff;border:2px solid #e8c56a;box-shadow:0 0 0 2px rgba(0,0,0,.5),0 3px 8px rgba(0,0,0,.6)}
+.gp.k-dg{background:radial-gradient(circle at 35% 30%,#9a7bf2,#4a2d8a 62%,#2a1652)}
+.gp.k-dgd{background:radial-gradient(circle at 35% 30%,#7fdc98,#2c7a46 62%,#164228);border-color:#cfe9a8}
+.gp.k-mo{background:radial-gradient(circle at 35% 30%,#ffa27a,#c2401f 62%,#7a1f0e);border-color:#ffd257}
+.gp svg{width:62%;height:62%;display:block}
+.gp.k-dg em,.gp.k-dgd em{background:#ffd257;color:#1a1206}
