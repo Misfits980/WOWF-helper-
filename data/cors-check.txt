@@ -1,0 +1,66 @@
+== textdb OPTIONS
+HTTP/1.1 204 No Content
+Server: nginx/1.14.0 (Ubuntu)
+Date: Fri, 13 Nov 2026 23:33:28 GMT
+Connection: keep-alive
+access-control-allow-credentials: true
+access-control-allow-headers: Authorization,Content-Type,Accept,Origin,User-Agent,DNT,Cache-Control,X-Mx-ReqToken,Keep-Alive,X-Requested-With,If-Modified-Since,X-CSRF-Token
+access-control-allow-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+access-control-allow-origin: *
+access-control-expose-headers: 
+access-control-max-age: 1728000
+cache-control: max-age=0, private, must-revalidate
+x-request-id: GOe-11E4HIu_tclMshQC
+
+== textdb POST
+HTTP/1.1 200 OK
+Server: nginx/1.14.0 (Ubuntu)
+Date: Fri, 13 Nov 2026 23:33:28 GMT
+Content-Type: text/plain; charset=utf-8
+Content-Length: 8
+Connection: keep-alive
+access-control-allow-credentials: true
+access-control-allow-origin: *
+access-control-expose-headers: 
+cache-control: max-age=0, private, must-revalidate
+x-request-id: GOe-12b9MMgcux1Nl2xh
+
+hello123== textdb GET
+HTTP/1.1 200 OK
+Server: nginx/1.14.0 (Ubuntu)
+Date: Fri, 13 Nov 2026 23:33:29 GMT
+Content-Type: text/plain; charset=utf-8
+Content-Length: 8
+Connection: keep-alive
+access-control-allow-credentials: true
+access-control-allow-origin: *
+access-control-expose-headers: 
+cache-control: max-age=0, private, must-revalidate
+x-request-id: GOe-13qhvGMhZSJNl2yR
+
+hello123== jsonblob POST browser UA
+HTTP/2 403 
+date: Fri, 13 Nov 2026 23:33:29 GMT
+content-type: text/html; charset=UTF-8
+cache-control: private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+expires: Thu, 01 Jan 1970 00:00:01 GMT
+referrer-policy: same-origin
+x-frame-options: SAMEORIGIN
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=y%2BT1Etjxror%2Fk%2Buk3cKLTKSBjeYXJdryArI6EZOn0NRTrcKmiOWz4NNZ693mCCaPx0%2B28Ny3HRIwdjq%2FvQiym4Hk4Iu%2BR4GbCUxZNaeRSYlf%2B1Cmq3fwUNSDRwTzU04%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a5a194ea3fac114e-ORD
+alt-svc: h3=":443"; ma=86400
+
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
+<head>
+<title>Attention Required! | Cloudflare</title>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
