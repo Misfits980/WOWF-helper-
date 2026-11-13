@@ -320,7 +320,7 @@ local function showFrame()
   local code, n = makeCode()
   if not frame then
     frame = CreateFrame("Frame", "WowfHelperFrame", UIParent)
-    frame:SetSize(480, 270)
+    frame:SetSize(480, 300)
     frame:SetPoint("CENTER")
     frame:SetFrameStrata("DIALOG")
     frame:EnableMouse(true)
@@ -350,7 +350,7 @@ local function showFrame()
 
     local scroll = CreateFrame("ScrollFrame", "WowfHelperScroll", frame, "UIPanelScrollFrameTemplate")
     scroll:SetPoint("TOPLEFT", 14, -72)
-    scroll:SetPoint("BOTTOMRIGHT", -32, 40)
+    scroll:SetPoint("BOTTOMRIGHT", -32, 58)
     local box = CreateFrame("EditBox", nil, scroll)
     box:SetMultiLine(true)
     box:SetFontObject(ChatFontNormal)
@@ -364,8 +364,11 @@ local function showFrame()
     frame.box = box
 
     frame.help = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    frame.help:SetPoint("BOTTOMLEFT", 14, 14)
+    frame.help:SetPoint("BOTTOMLEFT", 14, 32)
     frame.help:SetText("Ctrl+C 로 복사 → 앱 「내 캐릭터 → 게임에서 불러오기」에 붙여 넣기")
+    frame.off = frame:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+    frame.off:SetPoint("BOTTOMLEFT", 14, 12)
+    frame.off:SetText("끄기: /wfh 공략 (보스 창) · /wfh 알림 · /wfh 추천 지우기 · /wfh 설정 (상태 보기)")
   end
   frame.code = code
   frame.info:SetText(("끝낸 퀘스트 %d · 목록 %d(목표 %d) · 장비 %d칸 · 전문기술 %d · 특성 %s\n가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.bag, n.bank, n.rep, n.alt, n.sxp or 0))
@@ -597,7 +600,9 @@ function WowfHelper_BossCheck(leftCombat)
     f.lines[i]:Show()
   end
   for i = n + 1, 7 do f.lines[i]:Hide() end
-  f:SetHeight(32 + 16 * n)
+  if not f.foot then f.foot = f:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall"); f.foot:SetText("/wfh 공략 = 이 창 끄기") end
+  f.foot:ClearAllPoints(); f.foot:SetPoint("TOPLEFT", 10, -12 - 16 * (n + 1))
+  f:SetHeight(48 + 16 * n)
   f:Show()
 end
 function WowfHelper_BossToggle()

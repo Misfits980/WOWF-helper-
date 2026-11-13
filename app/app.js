@@ -701,7 +701,7 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
    +'<li><code>/wfh</code><span>게임 채팅창에 치면 코드 창이 떠요 → <b>Ctrl+C</b></span></li>'
    +'<li><button class="btn sm ghost" data-a="imp">코드 붙여 넣기</button><span>여기에 붙여 넣으면 끝</span></li></ol>'
    +'<div class="adcmd"><b>게임 명령어</b><span><code>/wfh</code> 코드 창</span><span><code>/wfh 점검</code> 담긴 개수 확인</span><span><code>/wfh 추천</code> 툴팁 추천 넣기 <button class="lnk" data-a="wfr">코드 만들기</button></span><span><code>/wfh 공략</code> 보스 공략 창 켜기/끄기</span></div>'
-   +'<div class="adcmd"><b>끄는 방법</b><span><code>/wfh 공략</code> 보스 공략 창 끄기 (창의 ✕ 는 그 보스만 닫기)</span><span><code>/wfh 알림</code> 레벨업·반납 알림·접속 인사 끄기</span><span><code>/wfh 추천 지우기</code> 툴팁 추천 지우기</span><span><code>/wfh 설정</code> 지금 켜고 끈 상태</span><span>애드온 전체 → 캐릭터 고르는 화면 「애드온」에서 체크 해제</span></div>'
+   +'<div class="adcmd impoff"><b>🔕 끄는 방법 (게임 채팅창)</b><span><code>/wfh 공략</code> 보스 공략 창 끄기 (창의 ✕ 는 그 보스만 닫기)</span><span><code>/wfh 알림</code> 레벨업·반납 알림·접속 인사 끄기</span><span><code>/wfh 추천 지우기</code> 툴팁 추천 지우기</span><span><code>/wfh 설정</code> 지금 켜고 끈 상태</span><span>애드온 전체 → 캐릭터 고르는 화면 「애드온」에서 체크 해제</span></div>'
    +'<p class="adt">은행은 게임에서 한 번 열어야 담겨요 · 부캐는 그 캐릭터로 한 번 접속해야 담겨요'+(isPC()?'':' · PC에서 하는 게 편해요')+'</p></div>';
   return h}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
@@ -1878,6 +1878,7 @@ function impSheet(c){let h='<div class="sh"><h2>🧩 게임에서 불러오기</
   h+='<p class="note">애드온으로 게임 안의 <b>끝낸 퀘스트 · 퀘스트 목록(진행도) · 장비 · 전문기술 · 특성 · 경험치</b>를 한 번에 옮겨요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 직접 복사해서 붙여 넣는 방식이에요. PC에서 하는 게 편해요.</p>';
   h+='<ol class="imps"><li><b>애드온 받기</b> <a class="btn sm" href="addon/WowfHelper.zip" download>WowfHelper.zip 받기</a><br><small>압축을 풀어 나온 <b>WowfHelper</b> 폴더를 와우 포에버 설치 폴더의 <b>Interface/AddOns</b> 안에 넣어요. 캐릭터 고르는 화면의 「애드온」에 안 보이면 「오래된 애드온 불러오기」를 켜 주세요.</small></li>'
    +'<li><b>게임에서</b> 채팅창에 <code>/wfh</code> 입력 → 코드 창이 떠요 (이미 글자가 다 골라져 있어요)<br><small>잘 되는지 보려면 <code>/wfh 점검</code> → 담긴 개수가 채팅창에 나와요. 레벨업·퀘스트 반납 때 「앱 코드가 바뀌었어요」 알림도 떠요.</small></li><li><b>Ctrl+C</b>로 복사 → 아래 칸에 붙여 넣기</li></ol>';
+  h+='<div class="adcmd impoff"><b>🔕 끄는 방법 (게임 채팅창)</b><span><code>/wfh 공략</code> 보스 공략 창 끄기/켜기</span><span><code>/wfh 알림</code> 알림·접속 인사 끄기/켜기</span><span><code>/wfh 추천 지우기</code> 툴팁 추천 지우기</span><span><code>/wfh 설정</code> 지금 상태 보기</span><span>애드온 전체 → 캐릭터 고르는 화면 「애드온」에서 체크 해제</span></div>';
   h+='<textarea class="inp impta" rows="4" placeholder="여기에 붙여 넣기 (WFH2; 로 시작)" data-c="impta">'+esc(ui.impraw||'')+'</textarea><div id="impres">'+impPreview(c)+'</div>';
   if(c.imported)h+='<p class="note">마지막으로 불러온 때: '+new Date(c.imported.t).toLocaleString('ko-KR')+' · 끝낸 퀘스트 '+c.imported.n+'개</p>';
   return h}
