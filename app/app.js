@@ -679,7 +679,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   h+='<h2 class="hh">레벨 '+L+' <small>지금 할 일</small></h2>';
   if(up)h+='<div class="lvup"><b>🎉 레벨 '+L+' 달성!</b><button class="btn sm" data-a="lvseen">확인</button></div>';
   /* 1. 퀘스트: 다음 갈 곳 (홈의 중심) */
-  const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);
+  const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);const i1=h.length;
   if(sec){const P=nowPlan(c,sec);const PS=planStats(c,P);const all=PS.all,dn=PS.dn;
     const next=P.filter(x=>x.get.some(y=>!y.done&&!y.prof&&y.q.min<=L)||x.turn.some(y=>!y.done&&!y.prof)).slice(0,3);
     h+='<div class="card hq"><div class="hd"><h3><img class="hic" src="img/qget.png" alt="">다음 갈 곳</h3><button class="more" data-a="tab" data-k="quest"><b>'+dn+'/'+all+'</b> 퀘스트 ›</button></div>'
@@ -691,22 +691,23 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   const U=upgrades(c,L,'ok');const D=dgNow(L);
   const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,'탈것을 배울 수 있어요 · 골드를 모아 두세요'],[60,'만렙! 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
   const row=(ic,t,sub,a,k,right,dim)=>'<div class="trow'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><img class="ti" src="'+ic+'" alt=""><span class="m"><b>'+t+'</b><span>'+sub+'</span></span>'+(right||'')+'<span class="r">›</span></div>';
-  h+='<div class="card todo">';
+  const i2=h.length;h+='<div class="card todo">';
   h+=todo.length?row('img/ui-book.png','기술 배우기','교관에서 '+esc(todo.filter(l=>l[3]).map(l=>l[1]).slice(0,2).join(', ')||'랭크 올리기'),'goc','learn','<span class="tbg">'+todo.length+'</span><button class="btn sm tbtn" data-a="trn">배웠어요</button>')
     :row('img/ui-book.png','기술','다 배웠어요'+(nextLearn?' · 다음 '+nextLearn[0]+'레벨':''),'goc','learn','<span class="tok">✓</span>',1);
   const NEW=U.filter(x=>(x.it.ob||x.it.lv)>=L-1);
   h+=U.length?row('img/ui-shield.png','장비',(NEW.length?'🆕 새로 낄 수 있는 템 <b class="hl">'+NEW.length+'개</b> · '+esc(NEW[0].it.nm):esc(U[0].it.nm)+' · '+SLOT_KO[U[0].slot]),'tab','gear','<span class="tbg">'+U.length+'</span>'):row('img/ui-shield.png','장비','지금은 더 좋은 템이 없어요','tab','gear','<span class="tok">✓</span>',1);
   h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
   if(tip)h+='<div class="trow soon"><span class="ti">📌</span><span class="m"><b>'+tip[0]+'레벨</b><span>'+tip[1]+'</span></span></div>';
-  h+='</div>';
-  /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 */
-  if(isPC()){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
+  h+='</div>';const i3=h.length;
+  /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
+  if(isPC()){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
-      h+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3><button class="more" data-a="hgo" data-k="log"><b>'+ids.length+'/40</b> 보기 ›</button></div><p class="note">반납 가능 <b>'+R.length+'</b>개 · 하는 중 '+(ids.length-R.length)+'개</p>'
+      qlC+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3><button class="more" data-a="hgo" data-k="log"><b>'+ids.length+'/40</b> 보기 ›</button></div><p class="note">반납 가능 <b>'+R.length+'</b>개 · 하는 중 '+(ids.length-R.length)+'개</p>'
         +(R.length?'<div class="hpz">'+Object.entries(G).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([z,n])=>'<span>'+esc(z)+' <b>'+n+'</b></span>').join('')+'</div>':'')+'</div>'}
-    else h+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3></div><p class="note">게임 퀘스트창을 가져오면 반납할 곳·정리할 퀘스트를 알려 줘요.</p><button class="btn sm ghost" data-a="imp">🧩 게임에서 불러오기</button></div>';
-    if(U.length)h+='<div class="card hpc"><div class="hd"><h3>⬆️ 바꾸면 좋은 장비</h3><button class="more" data-a="tab" data-k="gear">'+U.length+'개 ›</button></div>'+U.slice(0,3).map(x=>upRow(c,x)).join('')+'</div>';
-    if(D.length)h+='<div class="card hpc"><div class="hd"><h3>🏰 지금 갈 만한 던전</h3><button class="more" data-a="tab" data-k="dungeon">던전 ›</button></div>'+D.slice(0,4).map(d=>'<div class="trow" data-a="dgo" data-k="'+d.slug+'"><span class="m"><b>'+esc(d.ko)+'</b><span>'+d.lo+'–'+d.hi+'레벨 · '+esc(d.loc||'')+((c.dq&&d.q.length)?' · 퀘스트 '+d.q.filter(q=>c.dq[q.id]).length+'/'+d.q.length:'')+'</span></span><span class="r">›</span></div>').join('')+'</div>'}
+    else qlC+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3></div><p class="note">게임 퀘스트창을 가져오면 반납할 곳·정리할 퀘스트를 알려 줘요.</p><button class="btn sm ghost" data-a="imp">🧩 게임에서 불러오기</button></div>';
+    if(U.length)gC+='<div class="card hpc"><div class="hd"><h3>⬆️ 바꾸면 좋은 장비</h3><button class="more" data-a="tab" data-k="gear">'+U.length+'개 ›</button></div>'+U.slice(0,3).map(x=>upRow(c,x)).join('')+'</div>';
+    if(D.length)dC+='<div class="card hpc"><div class="hd"><h3>🏰 지금 갈 만한 던전</h3><button class="more" data-a="tab" data-k="dungeon">던전 ›</button></div>'+D.slice(0,4).map(d=>'<div class="trow" data-a="dgo" data-k="'+d.slug+'"><span class="m"><b>'+esc(d.ko)+'</b><span>'+d.lo+'–'+d.hi+'레벨 · '+esc(d.loc||'')+((c.dq&&d.q.length)?' · 퀘스트 '+d.q.filter(q=>c.dq[q.id]).length+'/'+d.q.length:'')+'</span></span><span class="r">›</span></div>').join('')+'</div>';
+    h+='<div class="hcols"><div>'+hq+qlC+dC+'</div><div>'+td+gC+'</div></div>'}
   return h+'</div>'}
 function groupBy(arr,f){const m=new Map();arr.forEach(x=>{const k=f(x);if(!m.has(k))m.set(k,[]);m.get(k).push(x)});return [...m.entries()]}
 function abIcon(name,C){if(!C)return '';const l=C.learns.find(x=>x[1]===name);return l?l[5]:''}
@@ -820,6 +821,9 @@ function nowPlan(c,S){const fq=c.fq||{};const seen=new Set();const Q=S.q.filter(
   const DIR=/^(중앙|(북|남)?(동|서)?(북|남)?쪽?)( 끝| 해안| 길)?$/;
   for(const h of L){if(!DIR.test(h.n)||h.i>=97)continue;const cnt={};const xs=[];h.get.concat(h.turn).forEach(x=>{const d=QD.get(x.q.id)||{};const nm=h.get.includes(x)?(x.q.gv||npcKo(d,'g')):x.rv;if(nm&&!latin(nm)){const n1=nm.split('/')[0].trim();cnt[n1]=(cnt[n1]||0)+1}const p=xyOf(h.get.includes(x)?(x.q.xy||(d.g&&d.g[2])):(d.r&&d.r[2]));if(p)xs.push(p)});
     const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];if(top&&top[0]){h.npc=top[0];if(xs.length)h.xy=[Math.round(xs.reduce((n,p)=>n+p[0],0)/xs.length),Math.round(xs.reduce((n,p)=>n+p[1],0)/xs.length)]}}
+  /* 「 근처 (36, 30)」처럼 NPC 이름이 빈 곳 → 퀘스트 자료에서 주는 사람 이름 */
+  for(const h of L){if(!/^\s*근처/.test(h.n)||h.npc)continue;for(const x of h.get.concat(h.turn)){const X=QDB&&QDB.get(x.q.id);const d=QD.get(x.q.id)||{};const nm=(h.get.includes(x)?((X&&X.g&&X.g[0])||npcKo(d,'g')):x.rv)||'';if(nm&&!latin(nm)){h.npc=nm.split('/')[0].trim();break}}
+    if(!h.npc){const m=h.n.match(/\((\d+), (\d+)\)$/);h.npc='이름 없는 곳';if(m)h.xy=[+m[1],+m[2]]}else{const m=h.n.match(/\((\d+), (\d+)\)$/);if(m)h.xy=[+m[1],+m[2]]}}
   /* 지도에 찍을 위치: 이름에 좌표가 없으면 그 마을 퀘스트 주는 곳 좌표 평균 */
   for(const h of L){if(h.xy||h.i>=97)continue;const m=h.n.match(/\((\d+), (\d+)\)$/);if(m){h.xy=[+m[1],+m[2]];continue}const xs=[];h.get.forEach(x=>{const d=QD.get(x.q.id)||{};const p=xyOf(x.q.xy||(d.g&&d.g[2]));if(p)xs.push(p)});h.turn.forEach(x=>{const d=QD.get(x.q.id)||{};const p=xyOf(d.r&&d.r[2]);if(p)xs.push(p)});
     if(xs.length){xs.sort((a,b)=>a[0]-b[0]);const md=xs[Math.floor(xs.length/2)];const near=xs.filter(p=>Math.hypot(p[0]-md[0],p[1]-md[1])<8);h.xy=[Math.round(near.reduce((n,p)=>n+p[0],0)/near.length),Math.round(near.reduce((n,p)=>n+p[1],0)/near.length)]}}
@@ -855,7 +859,7 @@ function nowCard(c,S){let P=nowPlan(c,S);const PS=planStats(c,P);const all=PS.al
   if(ui.rz&&!zl.some(x=>x[0]===ui.rz))ui.rz=null;
   if(zl.length>1)h+='<div class="rzc"><button class="'+(ui.rz?'':'on')+'" data-a="rz" data-k="">전체</button>'+zl.map(x=>'<button class="'+(ui.rz===x[0]?'on':'')+'" data-a="rz" data-k="'+esc(x[0])+'">'+(x[0]==='*'?'⛵ 다른 지역 반납·심부름':'<span class="ic" style="background-image:url('+ICO(zIco(x[0]))+')"></span>'+esc(x[0]))+' <small>'+x[1]+'</small></button>').join('')+'</div>';
   P=ui.rz?P.filter(H=>zOf(H)===ui.rz):P;ui._hubs={};
-  {let k=0;ui._rmp=[];P.forEach(H=>{if(!left(H)||H.i>=97)return;k++;const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const xy=H.xy||(m?[+m[2],+m[3]]:null);ui._rmp.push({k:H.k,n:k,z:H.z,xy,nm:H.npc?H.npc+' 근처':m?m[1]:H.n})})}
+  {let k=0;ui._rmp=[];P.forEach(H=>{if(!left(H)||H.i>=97)return;k++;const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const xy=H.xy||(m?[+m[2],+m[3]]:null);ui._rmp.push({k:H.k,n:k,z:H.z,xy,nm:H.npc?(H.npc==='이름 없는 곳'?H.npc:H.npc+' 근처'):m?m[1]:H.n})})}
   let n=0;
   const row=(x,turn)=>{const q=x.q;const lock=q.min>c.lv;x.imp.forEach(b=>{if(b[0]!=='chain')used.add(b[0])});
     const chn=x.imp.find(b=>b[0]==='chain');const more=chn?((chn[1].match(/\((\d+)단계\)/)||[])[1]-1):0;
@@ -870,7 +874,7 @@ function nowCard(c,S){let P=nowPlan(c,S);const PS=planStats(c,P);const all=PS.al
     const nA=todo.length-lkN.length-prN.length;const hxp=xpPct(todo.filter(x=>!lk(x)&&!x.prof).reduce((n,x)=>n+qxpAt(x.q,c.lv),0),c.lv);const cnt=prOnly?'<span class="hp">🛠️ 전문기술 '+prN.length+'</span>':lkOnly?'<span class="hp">🔒 '+Math.min(...lkN.map(x=>x.q.min))+'레벨부터</span>':L?(nA?'<span class="hp g">받기 '+nA+'</span>':'')+(turn.length?'<span class="hp r">반납 '+turn.length+'</span>':'')+(todo.some(isNew)?'<span class="hp nw">🆕 '+todo.filter(isNew).length+'</span>':'')+(hxp>=5?'<span class="hp xp">경험치 '+hxp+'%</span>':''):'<span class="hp">완료</span>';
     ui._hubs[H.k]=todo.filter(x=>!lk(x)&&!x.prof).concat(turn.filter(x=>!x.prof)).map(x=>[x.z+'|'+x.q.nm,x.q.id]);const fid=(turn[0]||todo[0]||H.get[0]||{}).q;
     const pvn=turn.map(x=>x.q.nm).concat(todo.filter(x=>!lk(x)&&!x.prof).map(x=>x.q.nm),prN.length?['🛠️전문기술 '+prN.length+'개']:[],todo.filter(lk).map(x=>'🔒'+x.q.nm));const pv=(L||prN.length)&&!open?'<span class="pv">'+esc(pvn.slice(0,2).join(', '))+(pvn.length>2?' 외 '+(pvn.length-2):'')+'</span>':'';
-    let b='<div class="st'+(L?'':lkOnly||prOnly?' lkh':' fin')+(open?' open':'')+'" data-hk="'+esc(H.k)+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):lkOnly?'🔒':prOnly?'🛠️':'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const here=(H.again?'<i class="agn">다시 들르기</i>':'')+(H.k===firstOpen?'<i class="here">지금 여기</i>':'');if(H.npc)return '<b>'+esc(H.npc)+' 근처'+here+'</b><span>'+esc(H.z)+' '+esc(H.n)+(H.xy?' · '+H.xy[0]+', '+H.xy[1]:'')+'</span>'+pv;return m?'<b>'+esc(m[1])+here+'</b><span>'+esc(H.z)+' · '+m[2]+', '+m[3]+'</span>'+pv:'<b>'+esc(H.n)+here+'</b><span>'+esc(H.z)+'</span>'+pv})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
+    let b='<div class="st'+(L?'':lkOnly||prOnly?' lkh':' fin')+(open?' open':'')+'" data-hk="'+esc(H.k)+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):lkOnly?'🔒':prOnly?'🛠️':'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const here=(H.again?'<i class="agn">다시 들르기</i>':'')+(H.k===firstOpen?'<i class="here">지금 여기</i>':'');if(H.npc)return '<b>'+esc(H.npc)+(H.npc==='이름 없는 곳'?'':' 근처')+here+'</b><span>'+esc(H.z)+(/근처/.test(H.n)?'':' '+esc(H.n))+(H.xy?' · '+H.xy[0]+', '+H.xy[1]:'')+'</span>'+pv;return m?'<b>'+esc(m[1])+here+'</b><span>'+esc(H.z)+' · '+m[2]+', '+m[3]+'</span>'+pv:'<b>'+esc(H.n)+here+'</b><span>'+esc(H.z)+'</span>'+pv})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
     if(open){const tA=todo.filter(x=>!lk(x)&&!x.prof);ui.hmore=ui.hmore||{};const all2=turn.map(x=>[x,1]).concat(tA.map(x=>[x,0]));const cap=ui.hmore[H.k]||all2.length<=10?99:8;
       b+='<div class="sb">'+all2.slice(0,cap).map(([x,t])=>row(x,t)).join('')+(all2.length>cap?'<button class="hmore" data-a="hmore" data-k="'+esc(H.k)+'">이 마을 퀘스트 '+(all2.length-cap)+'개 더 보기 ⌄</button>':'')+(lkN.length?(tA.length||turn.length?'<details class="lkd"><summary>🔒 레벨 오르면 여기서 '+lkN.length+'개 더 <small>'+Math.min(...lkN.map(x=>x.q.min))+'레벨부터</small></summary>'+lkN.map(x=>row(x,0)).join('')+'</details>':lkN.map(x=>row(x,0)).join('')):'')+(prN.length?(()=>{const my=c.profs||[];const pk=x=>{const m=x.q.nm.match(/: (.+)$/);return m?m[1]:''};const mine=x=>!my.length||!pk(x)||my.includes(pk(x));const show=prN.filter(mine).sort((a,b)=>a.q.nm.localeCompare(b.q.nm,'ko'));const hidN=prN.length-show.length;
         const names=[...new Set(prN.map(pk).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
@@ -1804,7 +1808,7 @@ async function bkImport(code,mode){try{const o=await bkDecode(code);if(!o||!Arra
 if(location.hash.startsWith('#bk=')){const code=location.hash.slice(1);history.replaceState(null,'',location.pathname);setTimeout(()=>{ui.bkpend=code;ui.sheet='bkask';render()},300)}
 function bkAskSheet(){return '<div class="sh"><h2>기록 불러오기</h2><button class="x" data-a="close">✕</button></div><p class="note">링크에 다른 기기의 캐릭터 기록이 들어 있어요. 이 기기에 불러올까요?</p><div class="bkb"><button class="btn" data-a="bkpend" data-k="merge">합치기 (지금 기록 유지)</button><button class="btn ghost" data-a="bkpend" data-k="replace">전부 바꾸기</button></div>'}
 /* ===================== 그리기 ===================== */
-function render(){const app=$('#app');const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');
+function render(){const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(c);else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
   app.innerHTML=topBar(c)+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
