@@ -1704,11 +1704,34 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .hh .hxp b,.hh .hxp em{position:relative;font-style:normal}.hh .hxp em{color:#8fc8ff}
 .pmy{margin:6px 0;font-size:13px}.pmy b{color:var(--gold);font-size:16px}.pmy small{color:var(--mute)}
 .pr2.now{border-color:var(--gold2)!important;background:#3a2c1655;box-shadow:0 0 0 1px #e8c06a55}
+/* 홈: 애드온 안내 */
+.adc h3 small{font-size:11px;color:var(--mute);font-weight:500;margin-left:4px}
+.adc .adl{margin:4px 0;font-size:13px}.adc .adl b{color:var(--gold)}
+.adc .adw{margin:6px 0;padding:7px 10px;border-radius:10px;background:#3a2c1655;border:1px solid #6b5a33;font-size:12.5px}
+.adst{list-style:none;margin:8px 0 4px;padding:0;display:grid;gap:6px;counter-reset:a}
+.adst li{display:flex;align-items:center;gap:10px;font-size:12.5px;counter-increment:a}
+.adst li::before{content:counter(a);flex:none;width:20px;height:20px;border-radius:50%;background:#3a2c16;border:1px solid var(--gold2);color:var(--gold);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.adst li>.btn,.adst li>code{flex:none}
+.adst li span{color:#cfc6b3}
+.adst code,.adt code{background:#2a251d;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12px;color:var(--gold)}
+.adt{margin:6px 0 0;font-size:11.5px;color:var(--mute)}
+/* 내용이 화면보다 짧으면 튕김 스크롤 막기 */
+html.fits,html.fits body{overscroll-behavior-y:none}
+/* 장비 칸 넘기기 */
+.snav{display:inline-flex;align-items:center;gap:4px;margin-left:auto;margin-right:6px}
+.snav button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--gold);font-size:18px;line-height:1;cursor:pointer}
+.snav small{font-size:11px;color:var(--mute);min-width:32px;text-align:center}
+.spanel .hd{display:flex;align-items:center;gap:6px}.spanel .hd h3{flex:1;min-width:0}
+.sh[data-swslot] {display:flex;align-items:center;gap:6px}.sh[data-swslot] h2{flex:1}
+@keyframes swl{from{transform:translateX(40px);opacity:.3}to{transform:none;opacity:1}}
+@keyframes swr{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}
+.spanel.swl{animation:swl .22s ease-out}.spanel.swr{animation:swr .22s ease-out}
+@media (prefers-reduced-motion:reduce){.spanel.swl,.spanel.swr{animation:none}}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=3e4eb53f"></script>
-<script>/* vef0d90 @11/13 14:51 */
-const BUILD='11/13 14:51';
+<script>/* v3cdb98 @11/13 15:10 */
+const BUILD='11/13 15:10';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2384,6 +2407,19 @@ function onboard(){const d=ui.onb;const C=d.cls?D_CLS[d.cls]:null;const first=!D
 /* ===================== 홈 ===================== */
 function routeOf(c){return ROUTE[RACE_START[c.race]||'dwarf-gnome']||[]}
 function dgNow(L){return DGS.filter(d=>L>=d.lo-1&&L<=d.hi).sort((a,b)=>a.fit-b.fit)}
+/* 🧩 홈: 게임 애드온 안내 · 마지막으로 가져온 때 */
+function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
+  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v2</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
+  if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if(im.v===2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}
+    h+='<p class="adl"><b>'+ago+'</b>에 가져왔어요 · '+got.join(' · ')+'</p>';
+    if(im.v!==2)h+='<p class="adw">옛 애드온 코드예요. 새 애드온을 받으면 <b>장비 · 전문기술 · 특성 · 경험치 · 퀘스트 진행도</b>도 같이 옮겨져요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
+    else if(Date.now()-im.t>36e5)h+='<p class="adw">한 시간 넘게 지났어요. 게임에서 <code>/wfh</code> 로 새 코드를 가져오면 퀘스트·장비가 다시 맞춰져요.</p>'}
+  else h+='<p class="note">게임에서 <b>끝낸 퀘스트 · 퀘스트창(진행도) · 장비 · 전문기술 · 특성 · 경험치</b>를 한 번에 가져와요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 복사해서 붙여 넣는 방식이에요.</p>';
+  h+='<ol class="adst"><li><a class="btn sm" href="addon/WowfHelper.zip" download>WowfHelper.zip 받기</a><span>압축 푼 <b>WowfHelper</b> 폴더를 <b>Interface/AddOns</b> 에 넣기</span></li>'
+   +'<li><code>/wfh</code><span>게임 채팅창에 치면 코드 창이 떠요 → <b>Ctrl+C</b></span></li>'
+   +'<li><button class="btn sm ghost" data-a="imp">코드 붙여 넣기</button><span>여기에 붙여 넣으면 끝</span></li></ol>'
+   +'<p class="adt"><code>/wfh 점검</code> 담긴 개수 확인 · 레벨업·퀘스트 반납 때 「앱 코드가 바뀌었어요」 알림이 떠요'+(isPC()?'':' · PC에서 하는 게 편해요')+'</p></div>';
+  return h}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   if(c.seenLv==null||c.seenLv>L)c.seenLv=L;const up=L>c.seenLv;
   h+='<h2 class="hh">레벨 '+L+' <small>지금 할 일</small>'+(myXp(c)?'<span class="hxp" title="게임에서 불러온 경험치"><i style="width:'+Math.round(myXp(c).cur/myXp(c).max*100)+'%"></i><b>경험치 '+Math.round(myXp(c).cur/myXp(c).max*100)+'%</b>'+(myXp(c).rest?'<em>휴식 '+Math.round(myXp(c).rest/myXp(c).max*100)+'%</em>':'')+'</span>':'')+'</h2>';
@@ -2408,7 +2444,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   h+=U.length?row('img/ui-shield.png','장비',(NEW.length?'🆕 새로 낄 수 있는 템 <b class="hl">'+NEW.length+'개</b> · '+esc(NEW[0].it.nm):esc(U[0].it.nm)+' · '+SLOT_KO[U[0].slot]),'tab','gear','<span class="tbg">'+U.length+'</span>'):row('img/ui-shield.png','장비','지금은 더 좋은 템이 없어요','tab','gear','<span class="tok">✓</span>',1);
   h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
   if(tip)h+='<div class="trow soon"><span class="ti">📌</span><span class="m"><b>'+tip[0]+'레벨</b><span>'+tip[1]+'</span></span></div>';
-  h+='</div>';const i3=h.length;
+  h+='</div>';const i3=h.length;const adC=addonCard(c);
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
   if(isPC()){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
@@ -2417,7 +2453,8 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
     else qlC+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3></div><p class="note">게임 퀘스트창을 가져오면 반납할 곳·정리할 퀘스트를 알려 줘요.</p><button class="btn sm ghost" data-a="imp">🧩 게임에서 불러오기</button></div>';
     if(U.length)gC+='<div class="card hpc"><div class="hd"><h3>⬆️ 바꾸면 좋은 장비</h3><button class="more" data-a="tab" data-k="gear">'+U.length+'개 ›</button></div>'+U.slice(0,3).map(x=>upRow(c,x)).join('')+'</div>';
     if(D.length)dC+='<div class="card hpc"><div class="hd"><h3>🏰 지금 갈 만한 던전</h3><button class="more" data-a="tab" data-k="dungeon">던전 ›</button></div>'+D.slice(0,4).map(d=>'<div class="trow" data-a="dgo" data-k="'+d.slug+'"><span class="m"><b>'+esc(d.ko)+'</b><span>'+d.lo+'–'+d.hi+'레벨 · '+esc(d.loc||'')+((c.dq&&d.q.length)?' · 퀘스트 '+d.q.filter(q=>c.dq[q.id]).length+'/'+d.q.length:'')+'</span></span><span class="r">›</span></div>').join('')+'</div>';
-    h+='<div class="hcols"><div>'+hq+qlC+dC+'</div><div>'+td+gC+'</div></div>'}
+    h+='<div class="hcols"><div>'+hq+qlC+dC+'</div><div>'+td+gC+adC+'</div></div>'}
+  else h+=adC;
   return h+'</div>'}
 function groupBy(arr,f){const m=new Map();arr.forEach(x=>{const k=f(x);if(!m.has(k))m.set(k,[]);m.get(k).push(x)});return [...m.entries()]}
 function abIcon(name,C){if(!C)return '';const l=C.learns.find(x=>x[1]===name);return l?l[5]:''}
@@ -2474,8 +2511,22 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
 function statChange(c,slot,it){const a=statTotals(c),b=statTotals(c,it,null,slot);const w=wOf(c);const ks=new Set([...Object.keys(a),...Object.keys(b)]);const arr=[];
   ks.forEach(k=>{const d=(b[k]||0)-(a[k]||0);if(Math.abs(d)>=.5&&STAT_KO[k])arr.push([k,d])});arr.sort((x,y)=>(w[y[0]]||0)-(w[x[0]]||0));
   return arr.length?'<div class="chg">'+arr.map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+Math.round(Math.abs(d))+' <i>→ '+Math.round(b[k]||0)+'</i></span>').join('')+'</div>':''}
+/* 장비 칸 넘기기: ‹ › 버튼 · 옆으로 밀기 (머리 → … → 원거리 순서) */
+const SLOT_ORDER=()=>DOLL_L.concat(DOLL_R,DOLL_B);
+function slotStep(c,slot,d){const O=SLOT_ORDER().filter(s=>!offLocked(c,s));let i=O.indexOf(slot);if(i<0)i=0;return O[(i+d+O.length)%O.length]}
+function slotNav(c,slot){const O=SLOT_ORDER().filter(s=>!offLocked(c,s));const i=O.indexOf(slot)+1;
+  return '<span class="snav"><button data-a="slotnav" data-k="-1" aria-label="이전 칸 '+SLOT_KO[slotStep(c,slot,-1)]+'">‹</button><small>'+i+'/'+O.length+'</small><button data-a="slotnav" data-k="1" aria-label="다음 칸 '+SLOT_KO[slotStep(c,slot,1)]+'">›</button></span>'}
+function slotGo(d){const c=me();if(!c)return;const dd=+d;ui.swd=dd>0?'l':'r';
+  if(ui.sheet&&ui.sheet.startsWith('slot:')){ui.sheet='slot:'+slotStep(c,ui.sheet.slice(5),dd);ui.isrch='';rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}
+  if(ui.gslot){ui.gslot=slotStep(c,ui.gslot,dd);rerender(true)}}
+{let sx=0,sy=0,on=false;
+  document.addEventListener('touchstart',e=>{const t=e.target.closest&&e.target.closest('.spanel,.sheet');if(!t||!t.querySelector('[data-swslot]')&&!t.matches('[data-swslot]')){on=false;return}
+    /* 옆으로 스크롤되는 표 안에서는 넘기지 않음 */
+    let p=e.target;while(p&&p!==t){if(p.scrollWidth>p.clientWidth+4&&/auto|scroll/.test(getComputedStyle(p).overflowX)){on=false;return}p=p.parentElement}
+    on=true;sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  document.addEventListener('touchend',e=>{if(!on)return;on=false;const t=e.changedTouches[0];const dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.6)slotGo(dx<0?1:-1)},{passive:true})}
 function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFor(c,slot,L,ui.ifil).slice(0,3);const {w}=cmpW(c);
-  let h='<div class="card hl spanel"><div class="hd"><h3>'+SLOT_KO[slot]+' · 지금 장비와 추천 비교</h3><button class="x" data-a="gsel" data-k="">✕</button></div>';
+  let h='<div class="card hl spanel'+(ui.swd?' sw'+ui.swd:'')+'" data-swslot="1"><div class="hd"><h3>'+SLOT_KO[slot]+' · 지금 장비와 추천 비교</h3>'+slotNav(c,slot)+'<button class="x" data-a="gsel" data-k="">✕</button></div>';ui.swd=null;
   if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div><p class="note">지금보다 좋은 게 없어요 👍</p>'}
   else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
   {const ng=(c.nogo||[]).filter(id=>{const it=IT.get(id);return it&&fits(it,slot,c)});if(ng.length)h+='<p class="note">🚫 못 얻는다고 뺀 장비 '+ng.length+'개 · <button class="lnk" data-a="nogoclr" data-k="'+slot+'">다시 넣기</button></p>'}
@@ -2490,7 +2541,7 @@ function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);co
   list.forEach(x=>{x.g=x.s-base(x.it)});
   const sorter=srt==='lv'?(a,b)=>b.it.ob-a.it.ob||b.it.lv-a.it.lv||b.g-a.g:(a,b)=>b.g-a.g;
   const now=list.filter(x=>x.it.ob<=L).sort(sorter),later=list.filter(x=>x.it.ob>L).sort((a,b)=>a.it.ob-b.it.ob||b.g-a.g);
-  let h='<div class="sh"><h2>'+SLOT_KO[slot]+'</h2><button class="x" data-a="close">✕</button></div>';
+  let h='<div class="sh" data-swslot="1"><h2>'+SLOT_KO[slot]+'</h2>'+slotNav(c,slot)+'<button class="x" data-a="close">✕</button></div>';
   h+='<div class="card hl"><div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div></div>';
   h+='<div class="srch"><input class="inp" placeholder="이름으로 찾기 (지금 끼고 있는 장비 넣기)" value="'+esc(ui.isrch)+'" data-c="isrch"></div>';
   h+='<div id="isres">';h+='<div class="chips">'+[['lv','레벨 높은 순'],['g','좋아지는 순']].map(f=>'<button class="chip'+(srt===f[0]?' on':'')+'" data-a="gsort" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
@@ -3555,7 +3606,9 @@ function render(){const app=$('#app');{const t=document.querySelector('.ttip');i
   app.innerHTML=topBar(c)+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
     +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='imp'?impSheet(c):ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):ui.sheet.startsWith('cmp:')?cmpSheet(c,ui.sheet.split(':')[1],ui.sheet.split(':')[2]):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':'')
   setTabs(true);
-  if(ui.tab==='quest'&&ui.qmode==='atlas')amInit();if(me()&&!ui.onb)navLog()}
+  if(ui.tab==='quest'&&ui.qmode==='atlas')amInit();if(me()&&!ui.onb)navLog();fitsCheck()}
+function fitsCheck(){requestAnimationFrame(()=>{const d=document.documentElement;d.classList.toggle('fits',d.scrollHeight<=window.innerHeight+2)})}
+addEventListener('resize',()=>fitsCheck());
 /* 아래 탭 줄은 화면을 다시 그려도 그대로 두고(폰에서 내리다가 탭 줄이 가운데 뜨는 현상 막기) 고른 탭만 바꿈 */
 function setTabs(on){let tb=document.getElementById('tabbar');if(!tb){tb=document.createElement('div');tb.id='tabbar';document.body.appendChild(tb)}
   const k=on?ui.tab:'';if(tb.dataset.k===k)return;tb.dataset.k=k;if(!on){tb.innerHTML='';return}
@@ -3711,6 +3764,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='cmpclr'){c.cmp=[];save();rerender(true);return}
   if(a==='ifil'){ui.ifil=k;rerender(true);return}
   if(a==='slot'){ui.sheet='slot:'+k;ui.isrch='';rerender(true);return}
+  if(a==='slotnav'){slotGo(k);return}
   if(a==='gsel'){ui.gslot=k||null;rerender(true);if(k){const p=document.querySelector('.spanel');if(p&&p.getBoundingClientRect().top>window.innerHeight-120)p.scrollIntoView({behavior:'smooth',block:'start'})}return}
   if(a==='gopanel'){ui.tab='gear';ui.gslot=k;render();const p=document.querySelector('.spanel');if(p)p.scrollIntoView({block:'start'});return}
   if(a==='qopen'){ui.sheet='q:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}

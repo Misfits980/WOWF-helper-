@@ -1698,3 +1698,26 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .hh .hxp b,.hh .hxp em{position:relative;font-style:normal}.hh .hxp em{color:#8fc8ff}
 .pmy{margin:6px 0;font-size:13px}.pmy b{color:var(--gold);font-size:16px}.pmy small{color:var(--mute)}
 .pr2.now{border-color:var(--gold2)!important;background:#3a2c1655;box-shadow:0 0 0 1px #e8c06a55}
+/* 홈: 애드온 안내 */
+.adc h3 small{font-size:11px;color:var(--mute);font-weight:500;margin-left:4px}
+.adc .adl{margin:4px 0;font-size:13px}.adc .adl b{color:var(--gold)}
+.adc .adw{margin:6px 0;padding:7px 10px;border-radius:10px;background:#3a2c1655;border:1px solid #6b5a33;font-size:12.5px}
+.adst{list-style:none;margin:8px 0 4px;padding:0;display:grid;gap:6px;counter-reset:a}
+.adst li{display:flex;align-items:center;gap:10px;font-size:12.5px;counter-increment:a}
+.adst li::before{content:counter(a);flex:none;width:20px;height:20px;border-radius:50%;background:#3a2c16;border:1px solid var(--gold2);color:var(--gold);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.adst li>.btn,.adst li>code{flex:none}
+.adst li span{color:#cfc6b3}
+.adst code,.adt code{background:#2a251d;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12px;color:var(--gold)}
+.adt{margin:6px 0 0;font-size:11.5px;color:var(--mute)}
+/* 내용이 화면보다 짧으면 튕김 스크롤 막기 */
+html.fits,html.fits body{overscroll-behavior-y:none}
+/* 장비 칸 넘기기 */
+.snav{display:inline-flex;align-items:center;gap:4px;margin-left:auto;margin-right:6px}
+.snav button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--gold);font-size:18px;line-height:1;cursor:pointer}
+.snav small{font-size:11px;color:var(--mute);min-width:32px;text-align:center}
+.spanel .hd{display:flex;align-items:center;gap:6px}.spanel .hd h3{flex:1;min-width:0}
+.sh[data-swslot] {display:flex;align-items:center;gap:6px}.sh[data-swslot] h2{flex:1}
+@keyframes swl{from{transform:translateX(40px);opacity:.3}to{transform:none;opacity:1}}
+@keyframes swr{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}
+.spanel.swl{animation:swl .22s ease-out}.spanel.swr{animation:swr .22s ease-out}
+@media (prefers-reduced-motion:reduce){.spanel.swl,.spanel.swr{animation:none}}
