@@ -245,9 +245,28 @@ h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-
 .col.wide{grid-column:1/-1}
 .epic{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:12px;background:linear-gradient(90deg,rgba(163,53,238,.14),var(--panel) 70%);border:1px solid rgba(163,53,238,.5);margin:0 12px 6px}
 .epic .ic{width:36px;height:36px;border-radius:9px;border:2px solid #a335ee}.epic .m{flex:1}.epic b{font-size:13px}.epic small{display:block;font-size:11px;color:var(--mute)}.epic .st{font-size:11px;color:#d7b4ff}
+
+/* v5: 지역 고르기 */
+.pk{margin:8px 12px 0;padding:10px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+.pk h3{margin:0;font-size:16px}.pk p{margin:3px 0 0;font-size:12px;color:var(--mute)}
+.zo{position:relative;margin:8px 12px 0;padding:10px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+.zo .t{display:flex;align-items:center;gap:9px}.zo .t>.ic{width:42px;height:42px;border-radius:11px}.zo .t .m{flex:1;min-width:0}.zo b{font-size:15px}.zo .t small{display:block;font-size:11px;color:var(--mute)}
+.zo .ck2{flex:none;width:26px;height:26px;border-radius:8px;border:2px solid #5a4f3c;display:flex;align-items:center;justify-content:center;font-weight:900}
+.zo.on{border-color:var(--gold2);background:linear-gradient(120deg,#3a2c16,var(--panel) 70%);box-shadow:0 0 14px rgba(232,192,106,.12)}.zo.on .ck2{background:#e8c06a;border-color:#e8c06a;color:#1a140a}
+.zo .st3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:8px}
+.zo .st3 div{padding:5px 6px;border-radius:9px;background:var(--bg);border:1px solid var(--line);text-align:center}.zo .st3 b{display:block;font-size:14px}.zo .st3 small{font-size:10px;color:var(--mute)}
+.zo .tgs{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}.zo .tgs span{height:20px;display:inline-flex;align-items:center;padding:0 7px;border-radius:6px;font-size:10.5px;font-weight:700;border:1px solid}
+.tg-r{color:#ffe08a;border-color:#c9a227;background:rgba(201,162,39,.15)}.tg-g{color:#a8e6a0;border-color:#4f7a3c;background:rgba(79,122,60,.16)}.tg-b{color:#a9dcff;border-color:#3f8fcf;background:rgba(63,143,207,.14)}.tg-x{color:#ffb0a6;border-color:#d0463a;background:rgba(208,70,58,.14)}.tg-m{color:var(--mute);border-color:var(--line)}
+.zo .rb{margin-top:8px}
+.gob{position:absolute;left:10px;right:10px;bottom:70px;display:flex;gap:6px}
+.gob span{height:46px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-size:14px;font-weight:800}
+.gob .a{flex:1;border:1px solid var(--gold2);background:linear-gradient(#5a4320,#3b2c15);color:var(--gold);box-shadow:0 6px 18px rgba(0,0,0,.6)}
+.gob .b{width:92px;border:1px solid var(--line);background:var(--panel);color:var(--mute);font-size:12px}
+.chg{flex:none;height:26px;display:inline-flex;align-items:center;gap:3px;padding:0 9px;border-radius:8px;border:1px solid var(--gold2);color:var(--gold);font-size:11.5px;font-weight:700;background:#3a2c16}
+.mix{display:flex;gap:4px;margin-top:5px}.mix span{height:20px;display:inline-flex;align-items:center;gap:3px;padding:0 6px 0 2px;border-radius:6px;background:var(--bg);border:1px solid var(--line);font-size:10.5px;color:#cfc6b3}.mix .ic{width:16px;height:16px;border-radius:50%}
 .notes{max-width:2100px;margin-top:16px;font-size:13px;line-height:1.7;color:#cfc6b3}.notes b{color:var(--gold)}
 @media (max-width:440px){body{padding:8px}.ph{width:100%;max-width:390px}}</style></head><body>
-<h1>퀘스트 화면 시안 4 — 「퀘스트 목록」이 아니라 「돌아다니는 순서」로</h1>
+<h1>퀘스트 화면 시안 5 — 「퀘스트 목록」이 아니라 「돌아다니는 순서」로</h1>
 <p class="lead">수양 사제 34레벨 · 잊혀진 땅 실제 자료(NPC·좌표·목표·몹·연계)로 만들었어요. 지도는 모양만 그린 그림이에요(실제는 지금 쓰는 와우 지도 위에 그려요).</p>
 <h1 style="margin-top:6px">A. 레벨업 동선</h1><div class="row3" id="R"></div><h1 style="margin-top:22px">B. 나머지 퀘스트 화면 (지도 · 지역 · 상세 · 내 퀘스트 · 모음)</h1><div class="row3" id="R2"></div><div class="notes" id="N"></div>
 <script>
@@ -280,7 +299,7 @@ const S3=sg('do',3,'하기','말렘의 궤짝','57, 18 · 가는 길',ob('inv_bo
 const S4=sg('do',4,'하기','남쪽 켄타우로스 마을','70, 75 · 37, 89',ob('inv_jewelry_ring_03','켄타우로스의 귀걸이','켄타우로스 현상금 · 콜카르 켄타우로스 30–31',7,15)+ob('achievement_reputation_05','마그람 평판 → 와루그','야비한 정책 · 75, 68',0,0)+ob('achievement_reputation_05','겔키스 평판 → 현자 우텍','이상한 동맹 · 36, 79',0,0)+'<div class="with">🔗 와루그·우텍에게서 연계 다음 퀘스트 받기 (각 5개 더)</div>',0,'<b>+7,850</b> · ⏱ 20분');
 const S5=sg('turn',5,'반납','나이젤의 야영지','66, 11 · 3개','<div class="qchip">'+qc(31,'켄타우로스 현상금')+qc(33,'회수전문회사 재료')+qc(33,'발라리엘 2단계')+'</div>',0,'반납 경험치 <b>+8,350</b>');
 const trk='<div class="trk">'+ic('inv_misc_bone_09')+'<div class="m"><small>지금 2단계 · 서릿발분노 사티로스</small><b>사티로스 발톱 3/10 · 뿔 1/10</b><div class="dots"><i class="on"></i><i class="cur"></i><i></i><i></i><i></i></div></div><span class="pl">+</span></div>';
-const zc2='<div class="zc2">'+ic('achievement_zone_desolace')+'<div class="m"><div class="t1"><b>잊혀진 땅</b><small>33–34 · 퀘스트 32 · 끝냄 7</small></div><div class="t1"><small>34 → 35 · 지금 40%</small><span class="g">다 하면 35레벨 +18%</span></div><div class="seg"><i class="d" style="width:40%"></i><i class="p" style="width:11%"></i><i class="p2" style="width:8%"></i><i class="p" style="width:12%"></i><i class="p2" style="width:9%"></i><i class="p" style="width:20%"></i></div></div></div>';
+const zc2='<div class="zc2">'+ic('achievement_zone_desolace')+'<div class="m"><div class="t1"><b>잊혀진 땅</b><small>내가 고른 곳 · 끝냄 7/28</small><span class="chg" style="margin-left:auto">바꾸기 ▾</span></div><div class="t1"><small>34 → 35 · 지금 40%</small><span class="g">다 하면 35레벨 +18%</span></div><div class="seg"><i class="d" style="width:40%"></i><i class="p" style="width:11%"></i><i class="p2" style="width:8%"></i><i class="p" style="width:12%"></i><i class="p2" style="width:9%"></i><i class="p" style="width:20%"></i></div></div></div>';
 const lgd2='<div class="lgd2"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><span style="margin-left:auto">점선 = 가는 길</span></div>';
 const now2='<div class="now2"><div class="h"><span class="k">2단계 · 지금</span><b>서릿발분노 사티로스</b><small>76, 20 · 북동쪽</small></div>'+ob('inv_misc_bone_09','사티로스 발톱','회수전문회사를 위한 재료',3,10)+ob('inv_misc_horn_01','사티로스 뿔','같은 몹에서',1,10)+'<div class="ft"><span>지도에서</span><span class="pri">다 했어요 · 3단계로 ›</span></div></div>';
 const A='<div><p class="cap">① 레벨업 첫 화면</p><div class="ph">'+TOPB+srch()+mt(0)+chips+zc2+mapc.replace('</svg></div>','</svg>'+lgd2+'</div>')+now2+nav+'</div></div>';
@@ -311,6 +330,18 @@ const E='<div><p class="cap">②-2 더 내리면 · 반납 · 동선 밖 퀘스�
 const KILL='ability_dualwield',COL='inv_misc_bag_10',TALK='inv_letter_15';
 const lvq=(l)=>'<span class="lvq '+(l<=32?'g':l<=34?'y':'o')+'">'+l+'</span>';
 const qr=(o,n,s,l,xp,ch,dn)=>'<div class="qr'+(dn?' done':'')+'"><span class="ck'+(dn?' on':'')+'"></span>'+ic(o)+'<div class="m"><b>'+n+'</b><small>'+s+'</small>'+(ch?'<span class="chn">🔗 끝내면 다음 '+ch+'개</span>':'')+'</div><div class="r">'+lvq(l)+'<span class="xp">'+xp+'</span></div></div>';
+
+/* ⓪ 지역 고르기 */
+const rb2=(a,b)=>{const L=34;const x=v=>(v-25)/(60-25)*100;return '<div class="rb"><i style="left:'+Math.max(0,x(a))+'%;width:'+(Math.min(100,x(b))-Math.max(0,x(a)))+'%"></i><em style="left:'+x(L)+'%"></em></div>'};
+const zo=(on,i,n,cont,a,b,now,hub,xp,tags)=>'<div class="zo'+(on?' on':'')+'"><div class="t">'+ic(i)+'<div class="m"><b>'+n+'</b><small>'+cont+' · Lv '+a+'–'+b+'</small></div><span class="ck2">'+(on?'✓':'')+'</span></div>'+rb2(a,b)
+ +'<div class="st3"><div><b>'+now+'</b><small>지금 할 퀘스트</small></div><div><b>'+hub+'</b><small>퀘스트 주는 곳</small></div><div><b>'+xp+'</b><small>경험치 합</small></div></div><div class="tgs">'+tags+'</div></div>';
+const Z0='<div><p class="cap">⓪ 레벨업 → 어디서 올릴지 내가 고르기</p><div class="ph">'+TOPB+srch()+mt(0)
+ +'<div class="pk"><h3>34레벨 · 어디서 올릴까요?</h3><p>갈 만한 곳 8곳 · 여러 곳 고르면 이어서 동선을 만들어요</p></div>'
+ +'<div class="fch"><span class="on">전체</span><span>칼림도어 <em>3</em></span><span>동부 왕국 <em>5</em></span><span>퀘스트 많은 순 ▾</span></div>'
+ +zo(1,'achievement_zone_desolace','잊혀진 땅','칼림도어',33,42,28,17,'26,650','<span class="tg-r">추천 루트</span><span class="tg-g">레벨 딱 맞음</span><span class="tg-b">연계 9개</span>')
+ +zo(0,'achievement_zone_stranglethorn_01','가시덤불 골짜기','동부 왕국',34,60,36,20,'25,520','<span class="tg-g">퀘스트 제일 많음</span><span class="tg-x">분쟁 지역 · 호드 많음</span><span class="tg-m">오래 머물러요 (~45)</span>')
+ +zo(0,'achievement_zone_thousandneedles_01','버섯구름 봉우리','칼림도어',30,44,17,11,'13,050','<span class="tg-b">잊혀진 땅과 섞기 좋음</span><span class="tg-m">조금 낮아요</span>')
+ +'<div class="gob"><span class="b">둘 섞기</span><span class="a">잊혀진 땅으로 동선 만들기 ›</span></div>'+nav+'</div></div>';
 /* ⑥ 지역 페이지 */
 const chc=(n,a,b,dn,tot,nx,el,warn,from)=>'<div class="chc"><div class="h">'+ic('inv_misc_note_01')+'<b>🔗 '+n+'</b><small>Lv '+a+'→'+b+' · '+dn+'/'+tot+'</small></div><div class="dots">'+Array.from({length:tot},(_,i)=>'<i class="'+(i<dn?'on':i===dn?'cur':'')+'"></i>').join('')+'</div><div class="nx">'+(from?'<b>'+from+'</b>에서 시작 · ':'')+'다음: <b>'+nx+'</b>'+(el?'<span class="el">'+el+'</span>':'')+'</div>'+(warn?'<div class="warnr">⚠ '+warn+'</div>':'')+'</div>';
 const F='<div><p class="cap">⑥ 지역 · 모음 → 지역 하나 (잊혀진 땅)</p><div class="ph">'+TOPB+srch()+mt(2)
@@ -365,8 +396,8 @@ const K='<div><p class="cap">⑩ 지역·모음 → 모음 (특별한 퀘스트)
  +'<div class="sec">연계 대작 · 보상이 좋은 긴 연계</div>'
  +'<div class="epic">'+ic('inv_misc_cape_05')+'<div class="m"><b>잊혀진 땅에서의 회수 임무</b><small>9단계 · Lv 33→40 · 아이언포지에서 시작</small></div><span class="st">0/9</span></div>'
  +'<div class="epic">'+ic('inv_staff_18')+'<div class="m"><b>발라리엘의 수색</b><small>5단계 · Lv 33 · 잊혀진 땅</small></div><span class="st">0/5</span></div>'+nav+'</div></div>';
-document.getElementById('R').innerHTML=A+B+E+C+D;document.getElementById('R2').innerHTML=F+G+H+J+K;
-document.getElementById('N').innerHTML='<b>B. 나머지 퀘스트 화면</b><br>· 맨 위 탭을 <b>레벨업 / 지도 / 지역·모음 / 내 퀘스트</b> 4개로 · 찾기 칸은 늘 맨 위<br>· ⑥ <b>지역 하나</b>: 지역 진행 막대 · 거르기 칩(지금 할 것·안 끝낸 것·연계만·보상 템) · 거점 타임라인 · 연계는 파란 카드에 진행 점과 「다음」 · 다른 지역에서 시작하는 연계 표시 · 서로 반대 평판 경고<br>· ⑦ <b>지도 탭</b>: 받기(!)·반납(?)·잡는 곳(주황 원)·내 위치 · 위에 거르기 칩 · 핀을 누르면 아래에서 거점 카드가 올라와요(퀘스트/NPC/단계 보기)<br>· ⑧ <b>퀘스트 상세</b>: 받는 곳 좌표 · 할 일 · <b>평판 변화(+/−)와 반대 진영 경고</b> · 연계 6개 전체 줄(레벨 색) · 다음 퀘스트<br>· ⑨ <b>내 퀘스트(새로)</b>: 게임 퀘스트 목록처럼 받은 것 12/25 · 반납 가능은 파랗게 위로 · 진행 막대 · 너무 낮은 건 「버려도 돼요」<br>· ⑩ <b>모음(새로)</b>: 직업 퀘스트 · 던전 퀘스트 · 연계 대작 · 전문기술 퀘스트를 한곳에<br><br><b>시안 3에서 더 다듬은 것</b><br>· ① 지역 칸과 경험치 막대를 한 칸으로 합쳐 짧게 · 지도에 받기/하기/반납 색 범례 · 지도 아래 <b>「지금 할 일」 카드</b>(지금 단계 목표 세기 + 「다 했어요 · 다음 단계로」)<br>· ② 단계마다 <b>경험치·걸리는 시간</b> · 단계 사이에 <b>가는 길</b>(방향·몇 분) · 끝낸 단계는 ✓ 작게 · 받기·반납 단계는 퀘스트를 레벨 색 칩으로 · <b>동선에 안 넣은 퀘스트</b>(호위 표시) 따로 · 맨 끝 <b>다음 구간</b> 카드<br>· 추적 줄에 5단계 진행 점 · ④ 찾기 결과를 전체/퀘스트/몹/NPC 탭으로, 몹은 「지도 ›」<br><br><b>시안 1과 크게 달라진 점</b><br>'
+document.getElementById('R').innerHTML=Z0+A+B+E+C+D;document.getElementById('R2').innerHTML=F+G+H+J+K;
+document.getElementById('N').innerHTML='<b>⓪ 어디서 올릴지 내가 고르기 (새로)</b><br>· 지금 레벨에 갈 만한 지역을 카드로 보여 주고 내가 골라요 · 카드마다 내 레벨이 지역 레벨 막대 어디쯤인지 · 지금 할 퀘스트 수 · 퀘스트 주는 곳 수 · 경험치 합 · 특징 태그(추천 루트 · 퀘스트 제일 많음 · 분쟁 지역 · 섞기 좋음 · 오래 머물러요)<br>· 대륙·정렬로 거르기 · 여러 곳 체크하면 「둘 섞기」로 이어진 동선 · 고르면 그 지역으로 ①~② 동선·지도·단계가 만들어져요 · ① 위 「바꾸기 ▾」로 언제든 다시 고르기<br><br><b>B. 나머지 퀘스트 화면</b><br>· 맨 위 탭을 <b>레벨업 / 지도 / 지역·모음 / 내 퀘스트</b> 4개로 · 찾기 칸은 늘 맨 위<br>· ⑥ <b>지역 하나</b>: 지역 진행 막대 · 거르기 칩(지금 할 것·안 끝낸 것·연계만·보상 템) · 거점 타임라인 · 연계는 파란 카드에 진행 점과 「다음」 · 다른 지역에서 시작하는 연계 표시 · 서로 반대 평판 경고<br>· ⑦ <b>지도 탭</b>: 받기(!)·반납(?)·잡는 곳(주황 원)·내 위치 · 위에 거르기 칩 · 핀을 누르면 아래에서 거점 카드가 올라와요(퀘스트/NPC/단계 보기)<br>· ⑧ <b>퀘스트 상세</b>: 받는 곳 좌표 · 할 일 · <b>평판 변화(+/−)와 반대 진영 경고</b> · 연계 6개 전체 줄(레벨 색) · 다음 퀘스트<br>· ⑨ <b>내 퀘스트(새로)</b>: 게임 퀘스트 목록처럼 받은 것 12/25 · 반납 가능은 파랗게 위로 · 진행 막대 · 너무 낮은 건 「버려도 돼요」<br>· ⑩ <b>모음(새로)</b>: 직업 퀘스트 · 던전 퀘스트 · 연계 대작 · 전문기술 퀘스트를 한곳에<br><br><b>시안 3에서 더 다듬은 것</b><br>· ① 지역 칸과 경험치 막대를 한 칸으로 합쳐 짧게 · 지도에 받기/하기/반납 색 범례 · 지도 아래 <b>「지금 할 일」 카드</b>(지금 단계 목표 세기 + 「다 했어요 · 다음 단계로」)<br>· ② 단계마다 <b>경험치·걸리는 시간</b> · 단계 사이에 <b>가는 길</b>(방향·몇 분) · 끝낸 단계는 ✓ 작게 · 받기·반납 단계는 퀘스트를 레벨 색 칩으로 · <b>동선에 안 넣은 퀘스트</b>(호위 표시) 따로 · 맨 끝 <b>다음 구간</b> 카드<br>· 추적 줄에 5단계 진행 점 · ④ 찾기 결과를 전체/퀘스트/몹/NPC 탭으로, 몹은 「지도 ›」<br><br><b>시안 1과 크게 달라진 점</b><br>'
  +'· <b>찾기는 맨 위에 항상 보이는 칸</b> 그대로 두고(누르는 버튼으로 숨기지 않아요), 쓰는 대로 바로 결과가 나와요(퀘스트 · 몹 어디서 잡는지 · NPC·지역으로 나눠서, 글자 강조, 지금 할 만한지/지난 레벨인지 표시). 아래에 최근 찾은 것.<br>'
  +'· 찾기 아래 <b>빠른 칩</b>: 동선 5단계 · 반납 가능 2 · 받을 것 5 · 보상 템 3 → 누르면 그것만.<br>'
  +'· <b>레벨 막대를 퀘스트 조각으로</b>: 지금 40% + 단계마다 경험치 조각(보라) → 「다 하면 35레벨 + 18%」가 한눈에.<br>'
