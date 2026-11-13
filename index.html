@@ -1994,8 +1994,8 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=c7fc1f7c"></script>
-<script>/* v353d52 @11/13 21:46 */
-const BUILD='11/13 21:46';
+<script>/* v022c66 @11/13 22:10 */
+const BUILD='11/13 22:10';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2149,7 +2149,16 @@ const RATEK=['hit','crit','scrit','shit','dodge','parry','exp'];const rateF=L=>L
 /* 종족 특성(포에버): 인간 정신력 +10%, 노움 최대 마나 +5% → 정신력·지능 가치가 그만큼 조금 오름. 적중·치명타 +1%(드워프·인간)는 순위를 안 바꿔서 뺌 */
 const RACEW={human:{spi:1.1},gnome:{int:1.03}};const _wr={};
 function wRace(w,c){const m=RACEW[c.race];if(!m)return w;const k=c.race+'|'+c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+(c.lv||60);if(_wr[k]&&_wr[k].b===w)return _wr[k].r;const r=Object.assign({},w);for(const x in m)if(r[x]&&(x!=='int'||r.int>=.2))r[x]=+(r[x]*m[x]).toFixed(3);_wr[k]={b:w,r};return r}
-const _wl={};function wOf(c){return wRace(wOf1(c),c)}
+/* 적중·회피막기감소 상한 (포에버): 60레벨 보스 기준 근접 8%·주문 17%·회피막기감소 6.5%, 레벨업(몹 1~2레벨 위) 근접 6%·주문 5%·회피막기감소 5%.
+   착용 장비 + 종족(드워프 적중 1%)만 셈 — 특성 적중은 모름 */
+const RACE_HIT={dwarf:1};let _hc={k:'',v:null};
+function hitInfo(c){const k=(c.eq?Object.values(c.eq).join(','):'')+'|'+c.lv+'|'+c.race+'|'+c.cls+'|'+c.spec;if(_hc.k===k)return _hc.v;
+  const w=wOf0(c);const cast=(w.shit||0)>(w.hit||0);const L=c.lv||60;const f=rateF(L);const tot={};SLOTS.forEach(([s])=>{const it=eqIt(c,s);if(it)for(const x of ['hit','exp'])if(it.st[x])tot[x]=(tot[x]||0)+it.st[x]});
+  const end=L>=58;const v={cast,hit:+((tot.hit||0)*f+(RACE_HIT[c.race]||0)).toFixed(1),cap:cast?(end?17:5):(end?8:6),exp:+((tot.exp||0)*f).toFixed(1),ecap:end?6.5:5,phys:!cast&&!w.heal};_hc={k,v};return v}
+const capF=(cur,cap)=>cur>=cap?.15:cur>=cap-1?.6:1;
+const _wcap={};function wOf(c){const w=wRace(wOf1(c),c);if(w.def)return w;const h=hitInfo(c);const fh=capF(h.hit,h.cap),fe=h.phys?capF(h.exp,h.ecap):1;if(fh===1&&fe===1)return w;
+  const k=fh+'|'+fe;if(_wcap.b===w&&_wcap.k===k)return _wcap.r;const r=Object.assign({},w);if(fh<1){if(r.hit)r.hit*=fh;if(r.shit)r.shit*=fh}if(fe<1&&r.exp)r.exp*=fe;_wcap.b=w;_wcap.k=k;_wcap.r=r;return r}
+const _wl={};
 function wOf1(c){const w=wOf0(c);if((c.lv||60)>=58||w.def)return w;const L=c.lv||60;const k=c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+L;if(_wl[k]&&_wl[k].b===w)return _wl[k].r;
   const r=Object.assign({},w,{sta:Math.max(w.sta||0,.4)});if(w.sp>=1||w.heal>=1)r.spi=Math.max(w.spi||0,.3);const f=rateF(L);RATEK.forEach(x=>{if(r[x])r[x]=+(r[x]*f).toFixed(2)});_wl[k]={b:w,r};return r}
 /* 탱커: Wowhead WoW Forever 탱커 능력치 가이드의 생존·균형·위협(TPS) 우선순위를 점수표로.
@@ -2522,8 +2531,10 @@ function guideHas(c,id,L){const G=(typeof D_GUIDE!=='undefined'&&D_GUIDE[c.cls+'
 const WSK0={rogue:[15,16],priest:[4,19],mage:[10,19],warlock:[15,19],druid:[4,10],paladin:[4,5],shaman:[4,10]};
 const WTR={0:'불리위프 스톤헤드 (아이언포지)',1:'불리위프 스톤헤드 (아이언포지)',4:'불리위프 스톤헤드 (아이언포지)',5:'불리위프 스톤헤드 (아이언포지)',3:'불리위프 스톤헤드 (아이언포지)',13:'불리위프 스톤헤드 (아이언포지) · 일예니아 문파이어 (다르나서스)',
   7:'우 핑 (스톰윈드)',8:'우 핑 (스톰윈드)',6:'우 핑 (스톰윈드)',10:'우 핑 (스톰윈드) · 일예니아 문파이어 (다르나서스)',15:'우 핑 (스톰윈드) · 빅시 와블봉크 (아이언포지) · 일예니아 문파이어 (다르나서스)',18:'우 핑 (스톰윈드) · 빅시 와블봉크 (아이언포지)',2:'일예니아 문파이어 (다르나서스)',16:'빅시 와블봉크 (아이언포지)'};
-const wskNeed=(it,c)=>{const [a,b]=(it.cs||'').split('.').map(Number);if(a!==2||!WSK0[c.cls]||WSK0[c.cls].includes(b)||!WTR[b])return null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b]}};
-const skTag=(it,c)=>{const n=wskNeed(it,c);return n?' <span class="lkt sk" title="'+esc(n.ko)+' 숙련은 '+esc(n.at)+'에게 배워요">🎓 '+esc(n.ko)+' 숙련 필요</span>':''};
+const wskNeed=(it,c)=>{const [a,b]=(it.cs||'').split('.').map(Number);if(a!==2||!WTR[b])return null;
+  if(c.wsk){const k=c.wsk[b];if(k)return k[1]&&k[0]<k[1]*.7?{ko:CS_KO[it.cs]||'무기',at:WTR[b],low:k}:null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b]}}
+  if(!WSK0[c.cls]||WSK0[c.cls].includes(b))return null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b],guess:1}};
+const skTag=(it,c)=>{const n=wskNeed(it,c);if(!n)return '';if(n.low)return ' <span class="lkt sk" title="숙련도 '+n.low[0]+'/'+n.low[1]+'">🎓 '+esc(n.ko)+' 숙련 '+n.low[0]+'/'+n.low[1]+'</span>';return ' <span class="lkt sk" title="'+esc(n.ko)+' 숙련은 '+esc(n.at)+'에게 배워요">🎓 '+esc(n.ko)+' 숙련 필요</span>'};
 const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead WoW Forever 직업 가이드 추천">📘 공략 추천</span>':'';
 function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
@@ -2702,7 +2713,8 @@ function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';const b=bestSlot(
     else if(s.k===5)parts.push('<div class="src"><b>🪙 상인 판매</b><div class="nm">'+esc(s.label.replace(/^상인 · /,''))+'</div></div>');
     else parts.push('<div class="src">'+esc(s.label)+'</div>')}
   h+=parts.length?parts.join(''):'<p class="note">출처 정보가 없어요.</p>';
-  {const n=wskNeed(it,c);if(n)h+='<div class="src"><b>🎓 '+esc(n.ko)+' 숙련이 필요해요</b><div class="nm">처음부터 배우는 무기가 아니에요. 아직 안 배웠다면 무기 전문가 '+esc(n.at)+'에게 배우세요 (10실버). 배운 뒤엔 숙련도를 1부터 올려야 해요.</div></div>'}
+  {const n=wskNeed(it,c);if(n)h+=n.low?'<div class="src"><b>🎓 '+esc(n.ko)+' 숙련도 '+n.low[0]+'/'+n.low[1]+'</b><div class="nm">숙련도가 낮으면 빗나감·스치는 공격이 많아요. 낄 거라면 사냥하면서 숙련도부터 올리세요.</div></div>'
+    :'<div class="src"><b>🎓 '+esc(n.ko)+' 숙련이 필요해요</b><div class="nm">'+(n.guess?'처음부터 배우는 무기가 아니에요. 아직 안 배웠다면':'게임에서 불러온 무기 숙련에 없어요.')+' 무기 전문가 '+esc(n.at)+'에게 배우세요 (10실버). 배운 뒤엔 숙련도를 1부터 올려야 해요.'+(n.guess?' 애드온으로 불러오면 배운 숙련을 정확히 알 수 있어요.':'')+'</div></div>'}
   if(it.arm)h+='<p class="note">전투정보실에서 가져온 장비예요.</p>';
   return h+'<p class="note"><a href="https://www.wowhead.com/forever/ko/item='+it.id+'" target="_blank" rel="noopener">와우헤드에서 자세히 ↗</a></p>'}
 
@@ -2747,17 +2759,18 @@ function repCard(c){const R=(c.rep||[]).filter(r=>r.st<8&&r.st>=3);if(!R.length)
   return '<div class="card rpc"><div class="hd"><h3>🏳️ 평판</h3>'+(R.length>4?'<button class="more" data-a="repall">'+(ui.repAll?'접기':'전체 '+R.length+'개')+' ›</button>':'')+'</div>'
     +L.map(x=>'<div class="rpr"><span class="m"><b>'+esc(x.r.nm)+'</b><small>'+x.T[1]+(x.nx?' → '+x.nx[1]+'까지 '+x.left.toLocaleString():'')+'</small></span><span class="rpb"><i style="width:'+Math.round(x.p*100)+'%"></i></span></div>').join('')+'</div>'}
 /* 🧩 홈: 게임 애드온 안내 · 마지막으로 가져온 때 */
-const ADDON_FEAT=[['📜','퀘스트','진행도(3/8)까지'],['🛡️','장비','17칸 자동 입력'],['🌳','특성','찍은 쪽으로 자동'],['⚒️','전문기술','숙련도 · 지금 단계'],['⏱️','사냥 기록','시간당 경험치'],['🎒','가방·은행','더 좋은 템 · 재료'],['💰','골드','가진 돈'],['🏳️','평판','다음 등급까지'],['👥','부캐','앱에 자동 추가'],['🎮','툴팁 추천','게임 툴팁에 표시'],['🐉','보스 공략 창','보스 기술 요약'],['🔔','알림','레벨업·반납 때']];
+const ADDON_FEAT=[['📜','퀘스트','진행도(3/8)까지'],['🛡️','장비','17칸 자동 입력'],['🌳','특성','찍은 쪽으로 자동'],['⚒️','전문기술','숙련도 · 지금 단계'],['⚔️','무기 숙련','배운 무기 · 숙련도'],['⏱️','사냥 기록','시간당 경험치'],['🎒','가방·은행','더 좋은 템 · 재료'],['💰','골드','가진 돈'],['🏳️','평판','다음 등급까지'],['👥','부캐','앱에 자동 추가'],['🎮','툴팁 추천','게임 툴팁에 표시'],['🐉','보스 공략 창','보스 기술 요약'],['🔔','알림','레벨업·반납 때']];
 const ADDON_CMD=[['/wfh','코드 창 열기'],['/wfh 점검','담긴 개수 확인'],['/wfh 추천','툴팁 추천 넣기','wfr']];
 const ADDON_OFF=[['/wfh 공략','보스 공략 창 끄기 · 켜기'],['/wfh 알림','알림 · 접속 인사 끄기 · 켜기'],['/wfh 추천 지우기','툴팁 추천 지우기'],['/wfh 설정','지금 켜고 끈 상태 보기']];
 /* 명령어 표: 왼쪽 명령어 칸 너비를 맞춤 */
 function addonCmdTable(title,rows,foot){return '<div class="acmd">'+(title?'<div class="acmh">'+title+'</div>':'')+'<div class="acmg">'+rows.map(r=>'<code>'+r[0]+'</code><span>'+r[1]+(r[2]?' <button class="lnk" data-a="'+r[2]+'">코드 만들기</button>':'')+'</span>').join('')+'</div>'+(foot?'<p class="acmf">'+foot+'</p>':'')+'</div>'}
 function addonOffHtml(){return addonCmdTable('🔕 끄는 방법 <small>게임 채팅창에 입력</small>',ADDON_OFF,'애드온 전체 끄기: 캐릭터 선택 화면 「애드온」에서 체크 해제')}
 function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
-  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
-  if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드')}
+  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.1</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
+  if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드');if(c.wsk)got.push('무기 숙련')}
     h+='<p class="adl"><b>'+ago+'</b>에 가져왔어요 · '+got.join(' · ')+'</p>';
     if((im.v||1)<3)h+='<p class="adw">'+((im.v||1)<2?'옛 애드온':'v2 애드온')+' 코드예요. 새 애드온(v3)을 받으면 아래 기능을 모두 쓸 수 있어요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
+    else if(!c.wsk&&['warrior','rogue','hunter','paladin','shaman'].includes(c.cls))h+='<p class="adw">새 애드온(v3.1)은 배운 무기 숙련과 숙련도도 가져와요. 도적 한손 도끼처럼 「숙련 필요」를 정확히 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(Date.now()-im.t>36e5)h+='<p class="adw">한 시간 넘게 지났어요. 게임에서 <code>/wfh</code> 로 새 코드를 가져오면 퀘스트·장비·가방이 다시 맞춰져요.</p>'}
   else h+='<p class="note">게임 정보를 앱으로 한 번에 가져오는 애드온이에요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 복사해서 붙여 넣는 방식이에요.</p>';
   const sec=(id,title,sub,body,open)=>'<details class="adsec"'+(open?' open':'')+'><summary><b>'+title+'</b><small>'+sub+'</small><i>⌄</i></summary><div class="adsb">'+body+'</div></details>';
@@ -2909,6 +2922,8 @@ function dollCell(c,s,ups){const it=eqIt(c,s);const sel=ui.gslot===s;const lock=
   return '<button class="dc'+(sel?' sel':'')+(it?'':' empty')+'" data-a="gsel" data-k="'+s+'"'+(lock?' disabled':'')+' aria-label="'+SLOT_KO[s]+(it?' '+esc(it.nm):' 비어 있음')+'">'
    +(it?'<span class="ic lg q-'+it.q+'" data-tip="'+it.id+'" data-ts="'+s+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
    +(ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
+function hitCapHtml(c){if(isTank(c))return '';const h=hitInfo(c);const row=(nm,v,cap)=>{const st=v>=cap?'full':v>=cap-1?'near':'low';return '<div class="hcap '+st+'"><span>'+nm+'</span><b>'+v+'%</b><i style="width:'+Math.min(100,v/cap*100)+'%"></i><small>상한 '+cap+'%'+(st==='full'?' · 다 찼어요':st==='near'?' · 거의':'')+'</small></div>'};
+  return '<div class="hcaps">'+row('적중',h.hit,h.cap)+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note">'+((c.lv||60)>=58?'보스 기준':'레벨업 기준(몹 1~2레벨 위)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+'만 셈, 특성 적중은 빼고 · 상한 넘으면 그 능력치 점수를 낮춰요</p></div>'}
 function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
 function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   const ups=new Set(SLOTS.map(x=>x[0]).filter(s=>!offLocked(c,s)&&bestFor(c,s,L,ui.ifil).length));
@@ -2916,7 +2931,7 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   const nEq=SLOTS.filter(([sl])=>eqIt(c,sl)).length,nAll=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
   let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??false))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+(ups.size?' · <em>▲ '+ups.size+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
    +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
-   +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+Math.round(tot[k]||0)+'</b></div>').join('')+'</div>'
+   +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+Math.round(tot[k]||0)+'</b></div>').join('')+'</div>'+hitCapHtml(c)
    +'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기</button></div>'
    +'<div class="acol">'+DOLL_R.map(s=>dollCell(c,s,ups)).join('')+'</div></div>'
    +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups)).join('')+'</div>';
@@ -4076,6 +4091,9 @@ function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];
 /* ===== 🧩 게임에서 불러오기 (애드온 코드 붙여넣기) ===== */
 /* 애드온 코드: WFH1(퀘스트만) / WFH2(+ 진행도 · 장비 · 전문기술 · 특성 · 경험치) 둘 다 읽어요 */
 const INV_SLOT={1:'head',2:'neck',3:'shoulder',15:'back',5:'chest',9:'wrist',10:'hands',6:'waist',7:'legs',8:'feet',11:'ring1',12:'ring2',13:'trink1',14:'trink2',16:'main',17:'off',18:'ranged'};
+/* 애드온 무기 숙련 이름 → 무기 종류 번호 (한글·영어, 띄어쓰기 없이 와요) */
+function wskCs(n){n=String(n||'');const two=/양손|Two-?Handed/i.test(n);const R=[[/석궁|Crossbow/i,18],[/마법봉|Wand/i,19],[/투척|Thrown/i,16],[/단검|Dagger/i,15],[/장착|Fist/i,13],[/지팡이|Stav|Staff/i,10],[/장창|Polearm/i,6],[/총|Gun/i,3],[/활|Bow/i,2],[/도끼|Axe/i,two?1:0],[/둔기|Mace/i,two?5:4],[/검|Sword/i,two?8:7]];
+  for(const [r,v] of R)if(r.test(n))return v;return null}
 function impParse(txt){const m=(txt||'').match(/WFH([12]);/);if(!m)return null;const ver=+m[1];
   /* 서버 이름에 띄어쓰기가 있을 수 있어서(예: CAMWOW KR 서버 1 PvE) 칸(;)으로 먼저 나누고, 숫자 부분만 공백·줄바꿈을 지움 */
   const f=txt.slice(m.index).split(';').map(x=>x.trim());if(f.length<9)return null;
@@ -4090,9 +4108,10 @@ function impParse(txt){const m=(txt||'').match(/WFH([12]);/);if(!m)return null;c
   const items=t=>{const o={};(t||'').split('.').filter(Boolean).forEach(x=>{const [a,b]=x.split('-');const id=parseInt(a,36);if(id>0)o[id]=(o[id]||0)+(+b||1)});return o};
   const S=sec.S?sec.S.split('-').map(Number):null;
   const rp=(sec.R||'').split('.').filter(Boolean).map(x=>{const a=x.split('-');return {id:+a[0]||0,st:+a[1]||0,val:+a[2]||0,nm:(a.slice(3).join('-')||'').replace(/_/g,' ')}}).filter(r=>r.nm&&r.st);
+  const ws=(sec.W||'').split(',').filter(Boolean).map(x=>{const a=x.split(':');return [wskCs(a[0]),+a[1]||0,+a[2]||0,a[0]]}).filter(x=>x[0]!=null);
   const al=(sec.A||'').split('.').filter(Boolean).map(x=>{const a=x.split('-');return {name:a[0],cls:(a[1]||'').toLowerCase(),lv:+a[2]||1,race:(a[3]||'').toLowerCase()}}).filter(a=>a.name&&CINFO[a.cls]);
   return {ver:sec.S||sec.B||sec.R?3:ver,name:f[1],realm:f[2],cls:(f[3]||'').toLowerCase(),lv:+f[4]||0,race:(f[5]||'').toLowerCase(),fac:f[6],done:d,log:l,eq,pf,tl,xp:xp&&xp.length>=2&&xp[1]>0?{cur:xp[0],max:xp[1],rest:xp[2]||0}:null,
-    sess:S&&S.length>=4?{xp:S[0],secs:S[1],hx:S[2],hs:S[3]}:null,gold:sec.G?+sec.G:null,bag:sec.B!=null?items(sec.B):null,bank:sec.K?items(sec.K):null,rep:rp,alts:al}}
+    sess:S&&S.length>=4?{xp:S[0],secs:S[1],hx:S[2],hs:S[3]}:null,gold:sec.G?+sec.G:null,bag:sec.B!=null?items(sec.B):null,bank:sec.K?items(sec.K):null,rep:rp,alts:al,wsk:sec.W!=null?ws:null}}
 /* 특성 칸 순서 → 앱 특성 (드루이드는 야성이 둘이라 지금 고른 쪽 유지) */
 function impSpec(c,P){if(!P.tl||!P.tl.length)return null;const tot=P.tl.reduce((a,b)=>a+b,0);if(tot<10)return null;const i=P.tl.indexOf(Math.max(...P.tl));const C=D_CLS[c.cls];if(!C)return null;
   if(c.cls==='druid'){if(i===1)return /^feral/.test(c.spec)?c.spec:'feral-cat';return [C.specs[0].id,null,C.specs[3]&&C.specs[3].id][i]||null}
@@ -4215,6 +4234,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     c.ql={};c.qp={};P.log.forEach(x=>{c.ql[x.id]=x.done?2:1;if(x.obj.length)c.qp[x.id]=x.obj});if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length,v:P.ver};
     const extra=[];if(P.eq.length&&ui.impEq){const ne={};P.eq.forEach(([sl,id])=>{if(IT.has(id))ne[sl]=id});c.eq=ne;extra.push('장비 '+Object.keys(ne).length+'칸')}
     if(ui.impSp){const sp=impSpec(c,P);if(sp&&sp!==c.spec){c.spec=sp;extra.push('특성')}}
+    if(P.wsk){c.wsk={};P.wsk.forEach(w=>{c.wsk[w[0]]=[w[1],w[2]]});extra.push('무기 숙련 '+P.wsk.length+'개')}
     if(P.pf.length){const ok=new Set(PROFS.map(p=>p.ko));c.profLv={};P.pf.forEach(p=>{if(ok.has(p[0]))c.profLv[p[0]]=[p[1],p[2]]});c.profs=Object.keys(c.profLv);extra.push('전문기술 '+c.profs.length+'개')}
     if(P.xp){c.xp=Object.assign({lv:P.lv,t:Date.now()},P.xp);extra.push('경험치')}
     if(P.sess)c.sess=Object.assign({t:Date.now()},P.sess);if(P.gold!=null)c.gold=P.gold;if(P.bag)c.bag=P.bag;if(P.bank)c.bank=P.bank;if(P.rep.length){c.rep=P.rep;extra.push('평판')}

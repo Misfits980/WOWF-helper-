@@ -155,6 +155,22 @@ local function professions()
   return out
 end
 
+-- 4-1) 무기 숙련: 「무기 기술」 칸 아래 이름-숙련도-최대 (포에버: 도적 한손 도끼 등 배운 것만 나와요)
+local function weaponSkills()
+  local out = {}
+  if not (GetNumSkillLines and GetSkillLineInfo) then return out end
+  local inW = false
+  for i = 1, (GetNumSkillLines() or 0) do
+    local name, isHeader, _, rank, _, _, maxRank = GetSkillLineInfo(i)
+    if isHeader then
+      inW = (name and (name:find("무기") or name:find("Weapon"))) and true or false
+    elseif inW and name and rank then
+      out[#out + 1] = { (name:gsub("[,:;%.]", "")), rank, maxRank or 0 }
+    end
+  end
+  return out
+end
+
 -- 5) 특성 포인트 (특성 칸 순서대로)
 local function talents()
   local out = {}
@@ -294,6 +310,8 @@ local function makeCode()
   for _, e in ipairs(equipment()) do eq[#eq + 1] = e[1] .. "-" .. b36(e[2]) end
   local pf = {}
   for _, p in ipairs(professions()) do pf[#pf + 1] = p[1] .. "-" .. p[2] .. "-" .. p[3] end
+  local ws = {}
+  for _, w in ipairs(weaponSkills()) do ws[#ws + 1] = w[1] .. ":" .. w[2] .. ":" .. w[3] end
   local tl = talents()
   local xp, xpMax, rest = UnitXP and UnitXP("player") or 0, UnitXPMax and UnitXPMax("player") or 0, GetXPExhaustion and GetXPExhaustion() or 0
 
@@ -309,9 +327,9 @@ local function makeCode()
     "T:" .. table.concat(tl, "-"), "X:" .. xp .. "-" .. xpMax .. "-" .. (rest or 0),
     "S:" .. sx .. "-" .. ss .. "-" .. hx .. "-" .. hs, "G:" .. (GetMoney and GetMoney() or 0),
     "B:" .. table.concat(bag, "."), "K:" .. table.concat(bank, "."),
-    "R:" .. table.concat(rp, "."), "A:" .. table.concat(al, ".") }, ";")
+    "R:" .. table.concat(rp, "."), "A:" .. table.concat(al, "."), "W:" .. table.concat(ws, ",") }, ";")
   return code, { done = #ids, log = #log, obj = nObj, eq = #eq, prof = #pf, tal = table.concat(tl, "/"), xp = xp, xpMax = xpMax,
-    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss }
+    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws }
 end
 
 -- 창
@@ -371,7 +389,7 @@ local function showFrame()
     frame.off:SetText("끄기: /wfh 공략 (보스 창) · /wfh 알림 · /wfh 추천 지우기 · /wfh 설정 (상태 보기)")
   end
   frame.code = code
-  frame.info:SetText(("끝낸 퀘스트 %d · 목록 %d(목표 %d) · 장비 %d칸 · 전문기술 %d · 특성 %s\n가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.bag, n.bank, n.rep, n.alt, n.sxp or 0))
+  frame.info:SetText(("끝낸 퀘스트 %d · 목록 %d(목표 %d) · 장비 %d칸 · 전문기술 %d · 특성 %s\n가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 무기 숙련 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.bag, n.bank, n.rep, n.alt, n.wsk or 0, n.sxp or 0))
   frame.box:SetText(code)
   frame:Show()
   frame.box:SetFocus()
