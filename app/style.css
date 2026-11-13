@@ -1894,3 +1894,6 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gp.k-dgd{background:#2f6b43;color:#fff;border-color:#6fd38a}
 /* PC: 오른쪽 확대·축소 버튼을 가리지 않게 패널을 그 왼쪽으로 */
 @media (min-width:1240px){#ampanel,.am.full #ampanel{right:58px}}
+/* 오른쪽 끝 핀의 이름표는 왼쪽으로 (잘리지 않게) */
+.gl.rt{transform:translate(calc(-100% - 14px),-50%);transform-origin:100% 50%}
+.gin[style*="--s"] .gl.rt{transform:translate(calc(-100% - 14px / var(--s)),-50%) scale(calc(1/var(--s)))}
