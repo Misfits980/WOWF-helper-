@@ -1988,3 +1988,8 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gseg.dsp button{max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lkt.both{background:#1c2c22;color:#8fe3a6;border-color:#2f5a3c}
 .dspk .chips{flex-wrap:wrap;margin-top:6px}
+.dqb{display:flex;flex-direction:column;gap:3px;margin:10px 0 4px;padding:10px 12px;border-radius:12px;border:1px solid #6b5326;background:linear-gradient(180deg,rgba(60,44,16,.55),rgba(30,22,10,.55))}
+.dqb b{font-size:13.5px;color:#f3d58a}.dqb span{font-size:12.5px;color:#e6dcc6}.dqb em{font-style:normal;color:#ffd257;font-weight:700}
+.dqb small{font-size:11px;color:#a99f8c}.dqb .btn{align-self:flex-start;margin-top:4px}
+.dqb.done{border-color:#2f5a3c;background:linear-gradient(180deg,rgba(20,50,30,.55),rgba(12,28,18,.55))}.dqb.done b{color:#8fe3a6}
+.chgc summary{cursor:pointer;font-weight:700;color:#ffe08a}.chgc .trow{cursor:default}.chgc[open] summary{margin-bottom:6px}

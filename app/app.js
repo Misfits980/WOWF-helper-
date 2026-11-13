@@ -810,6 +810,21 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
   h+=sec('off','🔕 끄는 방법','공략 창 · 알림 · 추천',addonCmdTable('',ADDON_OFF,'애드온 전체 끄기: 캐릭터 선택 화면 「애드온」에서 체크 해제'),false);
   h+='<p class="adt">은행은 게임에서 한 번 열어야 담겨요 · 부캐는 그 캐릭터로 한 번 접속해야 담겨요'+(isPC()?'':' · PC에서 하는 게 편해요')+'</p></div>';
   return h}
+/* 8) 이번 주 직업 변경 — 블리자드 포에버 핫픽스·개발 노트에서 직업별로 골라 둔 것 (화요일마다 갱신) */
+const CHG=[
+ ['2026-11-10','shaman','enhancement','고양 주술사: 힘이 가장 좋은 능력치가 되도록 조정 — 장비 추천도 힘 우선으로 바뀌었어요'],
+ ['2026-11-10','hunter','','사냥꾼 펫이 더 튼튼해져요 (클래식 수준 맷집)'],
+ ['2026-11-10','warlock','','공허방랑자가 더 튼튼해져요 (클래식 수준 맷집)'],
+ ['2026-11-10','warlock','affliction','고통: 지속 피해 주문이 Wrack과 같이 쓸 만하게 조정'],
+ ['2026-11-09','*','','던전에서 몹 잡을 때 경험치가 늘었어요'],
+ ['2026-11-06','warlock','','공허방랑자 기본 생명력 +40 · 일부 펫 기술이 오크 종족 특성을 너무 많이 받던 문제 수정'],
+ ['2026-11-06','*','','가죽세공 무두질 틀 요구 숙련도 125로 낮춤'],
+ ['2026-11-04','*','','와우 포에버 출시 — 출시 전 노트에서 직업 피해량과 몹 생명력이 같이 올랐어요']];
+function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='*'||x[1]===c.cls)&&(!x[2]||x[2]===c.spec)&&now-Date.parse(x[0])<21*D);
+  if(!L.length)return '';const mine=L.filter(x=>x[1]!=='*');
+  return '<details class="card chgc"'+(mine.length?' open':'')+'><summary>📰 최근 직업·게임 변경 <small class="mute">'+(mine.length?CINFO[c.cls][0]+' '+mine.length+'개':L.length+'개')+'</small></summary>'
+   +L.map(x=>'<div class="trow"><span class="m"><b>'+esc(x[3])+'</b><span>'+x[0].slice(5).replace('-','/')+(x[1]==='*'?' · 전체':'')+'</span></span></div>').join('')
+   +'<p class="mute" style="margin:.4em 0 0">블리자드는 화요일 점검 때 직업을 조정해요. 원문: 공식 사이트 “WoW: Forever Hotfixes”</p></details>'}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   if(c.seenLv==null||c.seenLv>L)c.seenLv=L;const up=L>c.seenLv;
   h+='<h2 class="hh">레벨 '+L+' <small>지금 할 일</small>'+(myXp(c)?'<span class="hxp" title="게임에서 불러온 경험치"><i style="width:'+Math.round(myXp(c).cur/myXp(c).max*100)+'%"></i><b>경험치 '+Math.round(myXp(c).cur/myXp(c).max*100)+'%</b>'+(myXp(c).rest?'<em>휴식 '+Math.round(myXp(c).rest/myXp(c).max*100)+'%</em>':'')+'</span>':'')+'</h2>';
@@ -834,7 +849,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   h+=U.length?row('img/ui-shield.png','장비',(NEW.length?'🆕 새로 낄 수 있는 템 <b class="hl">'+NEW.length+'개</b> · '+esc(NEW[0].it.nm):esc(U[0].it.nm)+' · '+SLOT_KO[U[0].slot]),'tab','gear','<span class="tbg">'+U.length+'</span>'):row('img/ui-shield.png','장비','지금은 더 좋은 템이 없어요','tab','gear','<span class="tok">✓</span>',1);
   h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
   h+=msRows(c);
-  h+='</div>';const i3=h.length;const adC=playCard(c)+repCard(c)+addonCard(c);
+  h+='</div>';const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c);
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
   if(isPC()){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
@@ -1429,6 +1444,23 @@ function clsQuests(c){if(!QDB)return null;const L=c.lv;const dn=id=>{const q=QDB
   const out=[],seen=new Set();for(const q of QDB.values()){if(!q.cls||!qdbOk(c,q)||mqDone(c,q)||/행사|축제|침공/.test(q.z||''))continue;if((q.m||0)>L+1||(q.lv||0)>L+5||(q.lv||0)<L-10)continue;
     if(q.pre1&&!dn(q.pre1))continue;if(q.pre&&q.pre.length&&!q.pre.some(dn))continue;if(seen.has(q.n))continue;seen.add(q.n);out.push(q)}
   return out.sort((a,b)=>(a.m||0)-(b.m||0)||a.lv-b.lv)}
+/* 야영지 전문기술 물건(1단계, 숙련 20) — 블리자드·가이드에 나온 것만 */
+const CAMP={'대장기술':['숯돌 바퀴','힘'],'재봉술':['진영 깃발','정신력 (같은 진영)'],'약초채집':['향초','지능'],'연금술':['마나 샘','마나 회복'],'채광':['자석석','근접 전투력'],'무두질':['야영 의자','치명타 2%'],'응급치료':['응급 상자','체력']};
+function restHtml(c){const L=c.lv,X=myXp(c);let h='';
+  if(X){const pct=Math.round(X.rest/X.max*100);h+='<p><b>휴식 경험치 '+pct+'%</b> '+(pct>=10?'남았어요 — 쓰는 동안 <b>몹 경험치 2배</b> (퀘스트 보상은 그대로)':'거의 없어요 — 여관·대도시에서 접속을 끊으면 8시간마다 레벨의 5%씩, 최대 150%까지 쌓여요')+'</p>'}
+  else h+='<p><b>휴식 경험치</b> 여관·대도시에서 접속을 끊으면 8시간마다 레벨의 5%씩(최대 150%) 쌓이고, 쓰는 동안 몹 경험치가 2배예요. 부캐는 여관에 세워 두세요.</p>';
+  h+='<p><b>포근한 침낭</b> '+(L>=14?'':'(14레벨부터) ')+'퀘스트로 얻어요. 쉬면 1분마다 경험치 +1%, 최대 +3% · 1시간마다 쓸 수 있어요.</p>';
+  h+='<p><b>야영지</b> 모닥불(요리)을 피우고 앉아서 쉬면 1시간 버프. 한 사람이 물건 1개씩, 모닥불 하나에 3개까지 · 직업 버프와는 겹치지 않아요.</p>';
+  const mine=(c.profs||[]).filter(p=>CAMP[p]);if(mine.length)h+='<p class="mute">내 전문기술 물건(숙련 20부터): '+mine.map(p=>esc(p)+' → <b>'+CAMP[p][0]+'</b>('+CAMP[p][1]+')').join(' · ')+'</p>';
+  else h+='<p class="mute">전문기술 숙련 20이면 야영지 물건을 만들어요: 대장기술 숯돌 바퀴(힘) · 재봉술 진영 깃발(정신력) · 약초채집 향초(지능) · 채광 자석석(전투력) · 무두질 야영 의자(치명타) 등</p>';
+  h+='<p><b>요리 음식</b> 능력치 버프 음식을 먹고 나가세요.</p>';return h}
+/* 레거시(포에버 계정 진척도): 캐릭터당 16점. 모험 트리 — Well Rested 5, Thrill of Adventure 5, Talented 5(Well Rested 5 필요) */
+function legacyHtml(c){const L=c.lv;const reag=['mage','priest','paladin','shaman','warlock','druid','rogue'].includes(c.cls);
+  const plan=L<15?[['Well Rested',5,'휴식 경험치가 최대 20% 더 빨리·더 많이 쌓여요'],['Talented',5,'특성 포인트를 더 일찍(최대 5레벨부터) 받아요'],['Thrill of Adventure',5,'몹을 잡을 때마다 생명력·마나 5% 회복 (던전 제외)']]
+    :[['Well Rested',5,'휴식 경험치가 최대 20% 더 빨리·더 많이 쌓여요'],['Thrill of Adventure',5,'몹을 잡을 때마다 생명력·마나 5% 회복 → 쉬는 시간이 줄어요 (던전 제외)'],['Gourmand',3,'음식 버프가 더 오래가요']];
+  if(reag)plan.push(['Reagent Economy',1,'직업 기술 재료 부담이 줄어요']);
+  let n=0;return '<p>레벨업용으로 이 순서로 찍으세요 (캐릭터당 16점까지):</p>'+plan.map(p=>{n+=p[1];return '<p><b>'+p[0]+' '+p[1]+'점</b> <span class="mute">누적 '+n+'</span><br><span class="mute">'+p[2]+'</span></p>'}).join('')
+   +'<p class="mute">'+(L<15?'새로 키우는 부캐는 재능(Talented)이 좋아요. 60레벨이 되면 빼고 다른 데 쓰세요.':'15레벨이 넘으면 재능(Talented)은 효과가 거의 없어요.')+''+' 재능은 휴식(Well Rested)을 5점 다 찍어야 열려요.</p>'}
 function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C=D_CLS[c.cls];const zs=S?S.z.split(' · '):[];
   const CKO=(CINFO[c.cls]||[])[0]||'';let rows=[];
   /* 1) 직업 퀘스트 */
@@ -1464,8 +1496,12 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
   /* 5) 사냥터 (퀘스트가 모자랄 때) */
   if(WLD&&zs.length){const M=[];zs.forEach(z=>(WLD.mob[z]||[]).forEach(m=>{if(m[1]<=L+1&&m[2]>=L-1)M.push([z,...m])}));M.sort((a,b)=>b[4]-a[4]);
     if(M.length)rows.push(['grd','⚔️','퀘스트가 모자라면 여기서 사냥',M.slice(0,3).map(m=>'<p><b>'+esc(m[1])+'</b> <span class="qlv '+lvCls(m[3],L)+'">'+(m[2]===m[3]?m[2]:m[2]+'–'+m[3])+'</span><br><span class="mute">'+esc(m[0])+' '+m[5]+', '+m[6]+' 근처 · '+m[4]+'마리쯤</span></p>').join('')])}
+  /* 6) 사냥 전에 챙길 것 (포에버: 휴식 경험치·침낭·야영지·음식) */
+  rows.push(['rest','💤','사냥 전에 챙길 것',restHtml(c)]);
+  /* 7) 레거시 포인트 추천 */
+  rows.push(['leg','🏅','레거시 포인트 추천',legacyHtml(c)]);
   if(!rows.length)return '';ui.lhopen=ui.lhopen||{};
-  const TI={cls:ICO('classicon_'+c.cls),trn:ICO('spell_holy_holybolt'),dg:ICO('inv_misc_bone_humanskull_01'),mv:ICO('ability_mount_gryphon_01'),grd:ICO('ability_hunter_snipershot')};
+  const TI={rest:ICO('spell_nature_sleep'),leg:ICO('inv_misc_book_07'),cls:ICO('classicon_'+c.cls),trn:ICO('spell_holy_holybolt'),dg:ICO('inv_misc_bone_humanskull_01'),mv:ICO('ability_mount_gryphon_01'),grd:ICO('ability_hunter_snipershot')};
   const sel=ui.lhsel&&rows.some(r=>r[0]===ui.lhsel)?ui.lhsel:null;
   return '<div class="lh2"><div class="lh2h"><b>레벨업 도우미</b><small>'+L+'레벨 · '+esc(CKO)+'</small></div><div class="lh2g">'+rows.map(r=>'<button class="lh2t'+(sel===r[0]?' on':'')+(r[0]==='trn'&&/배울 기술/.test(r[2])?' hot':'')+'" data-a="lhsel" data-k="'+r[0]+'"><span class="ic" style="background-image:url('+TI[r[0]]+')"></span><b>'+r[2]+'</b></button>').join('')+'</div>'
     +(sel?'<div class="lh2b">'+rows.find(r=>r[0]===sel)[3]+'</div>':'')+'</div>'}
@@ -1967,13 +2003,17 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   h+='</div></div>';
   return h}
 function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map(([nm,b],i)=>'<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(nm)+'</b></div>'+(b.tac?'<ul class="roles">'+roleLines(b.tac)+'</ul>':'')+'</div></li>').join('')+'</ol>'}
+/* 포에버: 던전 몹 경험치↓ 던전 퀘스트 경험치↑ → 퀘스트 먼저 받고 가기 */
+function dgQBanner(c,d){const S=dgState(c,d);if(!S.Q.length)return '';const notTaken=S.left.length-S.inLog.length;
+  if(S.all)return '<div class="dqb done"><b>✅ 던전 퀘스트 '+S.Q.length+'개를 다 했어요</b><small>포에버는 던전 몹 경험치가 줄어서 다시 돌면 경험치가 적어요. 템 모으기용으로 가세요.</small></div>';
+  return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>포에버는 던전 몹 경험치가 줄고 던전 퀘스트 보상이 커졌어요.</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const byBoss={};items.forEach(it=>{const s=it.src.map(i=>SRC[i]).find(s=>s&&s.k===0&&s.dg===d.slug);const b=s?s.boss:'기타';(byBoss[b]=byBoss[b]||[]).push(it)});
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
   const myUps=items.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01);
   const pcN=d.q.filter(q=>preChain(q.id).some(i=>!mqDone(c,QDB.get(i)))).length;
   let h='<div class="wrap"><div class="dhero2"><img src="'+DG_IMG(d.slug)+'" alt="" onerror="this.remove()"><div class="dt"><h2>'+esc(d.ko)+'</h2><small>'+esc(d.en)+'</small><div class="meta"><span class="pill lvp">Lv '+d.lo+'–'+d.hi+'</span>'+(d.soon?'<span class="pill soonp">🚧 개방 예정</span>':'')+(d.loc?'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_map_01')+')"></span>'+esc(d.loc)+'</span>':'')+'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_bone_humanskull_01')+')"></span>보스 '+order.length+'</span></div></div></div>';
-  const dt=ui.dtab||'route';
+  const dt=ui.dtab||'route';h+=dgQBanner(c,d);
   h+='<div class="tabs3">'+[['route','inv_misc_map02','공략',''],['loot','inv_misc_bag_10','템',myUps.length?'⭐'+myUps.length:''],['quest','inv_misc_note_01','퀘스트',d.q.length?(pcN?'⚠'+d.q.length:d.q.length):'']].map(x=>'<button class="'+(dt===x[0]?'on':'')+'" data-a="dtab" data-k="'+x[0]+'"><span class="ic" style="background-image:url('+ICO(x[1])+')"></span>'+x[2]+(x[3]!==''?' <em>'+x[3]+'</em>':'')+'</button>').join('')+'</div>';
   if(dt==='route')return h+dgRoute(c,d,dgTargets(c,d,dt))+'</div>';
   /* 1. 퀘스트 */
