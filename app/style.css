@@ -1873,3 +1873,14 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 @keyframes gpglow{from{box-shadow:0 0 0 3px #fff6cf,0 0 8px 3px rgba(255,214,90,.6)}to{box-shadow:0 0 0 4px #fff6cf,0 0 22px 10px rgba(255,214,90,.95)}}
 @media (prefers-reduced-motion:reduce){.gmap .gp.hl{animation:none}}
 .nxr3[data-st]{cursor:pointer;border-radius:10px;transition:background .15s}.nxr3.sel{background:#2e2412;box-shadow:inset 3px 0 0 var(--gold)}
+/* 지도: 내 퀘스트 · 던전 */
+.amk.k-mo,.amk.k-mr,.amk.k-mrd{border:2px solid #ffcf4a;box-shadow:0 0 0 3px rgba(255,207,74,.25)}
+.amk.k-mrd{border-color:#6fd38a;box-shadow:0 0 0 3px rgba(111,211,138,.3)}
+.amk.k-dg,.amk.k-dgd{font-size:15px;padding:2px 4px;border:2px solid #b48cff;background:rgba(30,18,46,.88)}
+.amk.k-dgd{border-color:#6fd38a;opacity:.85}
+.dgok{display:inline-block;margin-left:6px;font-size:11px;color:#8fe3a6;font-weight:600}
+.amh4{margin:10px 0 4px;font-size:12.5px;color:#e0b85a}
+.amit{display:flex;align-items:center;gap:8px;padding:4px 0;border-top:1px solid rgba(255,255,255,.06)}
+.amit span{display:flex;flex-direction:column;min-width:0}
+.amit b{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.amit small{font-size:11px;color:#a99f8c}
