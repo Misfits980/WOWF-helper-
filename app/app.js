@@ -1105,7 +1105,12 @@ function toAtlas(zone,xy){const E=DGENT[zone];if(E&&!MAPZ[zone])return toAtlas(E
 function amCanQ(c,q){const L=c.lv;const f=(ui.amf||{}).lv||'now';if(mqDone(c,q)||!qdbOk(c,q))return false;if(f==='all')return (q.m||0)<=L+5;return (q.m||0)<=L&&q.lv>=L-5&&q.lv<=L+3}
 const AMF0={g:1,r:0,rt:1,tr:0,fp:0,inn:0,my:1,dg:1,lv:'now'};
 const amF=()=>Object.assign({},AMF0,ui.amf||{});
-const AMIC={g:()=>QMK.g,r:()=>QMK.r,fp:()=>'🦅',inn:()=>'🏠',tr:()=>'<img class="qmk" src="img/ui-book.png" alt="교관">',ob:()=>'⚔️',mo:()=>'⚔️',mr:()=>QMK.r,mrd:()=>'✅',dg:()=>'🏰',dgd:()=>'✅'};
+/* 지도 표식 아이콘 (SVG) */
+const MKS={gate:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.5 21V11a7.5 7.5 0 0 1 15 0v10h-3.6v-9.2a3.9 3.9 0 0 0-7.8 0V21z"/><path fill="currentColor" d="M2.5 20.2h19v1.9h-19z"/><circle cx="12" cy="5.6" r="1.1" fill="currentColor"/></svg>',
+ check:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.6 4.6L19.5 7"/></svg>',
+ swords:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M5 4.5l10.5 10.5M19 4.5L8.5 15"/><path d="M13 17.5l4.5-4.5M6.5 13l4.5 4.5"/><path d="M16.8 16.8l2.4 2.4M7.2 16.8l-2.4 2.4"/></svg>'};
+const mk=(k,svg)=>'<span class="mk mk-'+k+'">'+svg+'</span>';
+const AMIC={g:()=>QMK.g,r:()=>QMK.r,fp:()=>'🦅',inn:()=>'🏠',tr:()=>'<img class="qmk" src="img/ui-book.png" alt="교관">',ob:()=>'⚔️',mo:()=>mk('mo',MKS.swords),mr:()=>QMK.r,mrd:()=>QMK.r,dg:()=>mk('dg',MKS.gate),dgd:()=>mk('dgd',MKS.check)};
 /* 지도에 찍을 점: 받는 곳(!)·반납(?)·교관(책)·비행(🦅)·여관(🏠) — 같은 NPC는 하나로 묶음 */
 /* 던전 입구 (대략, 지도 핀용) */
 const DGLOC={'hall-of-thanes':['아이언포지','40,55'],'ruins-of-lordaeron':['티리스팔 숲','61.9,72'],'wailing-caverns':['불모의 땅','46,36.5'],'deadmines':['서부 몰락지대','42.6,71.8'],'shadowfang-keep':['은빛소나무 숲','44.8,67.8'],
@@ -1141,7 +1146,10 @@ function amRoute(c){const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);if(!S)retur
 /* 아이템으로 시작하는 퀘스트: 「아이템 · ○○ 처치로 얻음」 */
 const gItemNote=g=>g&&g[3]==='item'?(g[4]&&g[4]!==g[0]?' · '+g[4]+'에게서 얻음':' · 아이템을 주우면 시작'):'';
 /* 지역 판별용 실제 지점들 (몹 위치 + 퀘스트 NPC) */
-const BIGZ=/^(동부 왕국|칼림도어)$/;let _ZS=null;function zoneSamples(){if(_ZS)return _ZS;if(!WLD||!QDB)return null;const S=[];const add=(z,xy)=>{z=zn(z);const t=MAPZ[z];if(!t||BIGZ.test(z))return;const a=toAtlas(z,xy);if(a)S.push([z,a.c,a.x,a.y])};
+const BIGZ=/^(동부 왕국|칼림도어)$/;
+/* 지역 이름 자리: 실제 지점들의 가운데(중앙값) — 상자 가운데는 바다일 때가 많아서 */
+let _ZCT=null;function zoneCenters(){if(_ZCT)return _ZCT;const S=zoneSamples();if(!S)return null;const G={};S.forEach(p=>{(G[p[0]]=G[p[0]]||[]).push(p)});const med=a=>{a.sort((x,y)=>x-y);return a[a.length>>1]};const R={};
+  for(const z in G){const L=G[z];if(L.length<3)continue;R[z]={c:L[0][1],x:med(L.map(p=>p[2])),y:med(L.map(p=>p[3]))}}return _ZCT=R}let _ZS=null;function zoneSamples(){if(_ZS)return _ZS;if(!WLD||!QDB)return null;const S=[];const add=(z,xy)=>{z=zn(z);const t=MAPZ[z];if(!t||BIGZ.test(z))return;const a=toAtlas(z,xy);if(a)S.push([z,a.c,a.x,a.y])};
   for(const z in (WLD.mob||{}))for(const m of WLD.mob[z])add(z,m[4]+','+m[5]);for(const q of QDB.values()){if(q.g&&q.g[2]&&q.g[3]==='npc')add(q.g[1],q.g[2]);if(q.r&&q.r[2])add(q.r[1],q.r[2])}return _ZS=S}
 /* 할 일 자리 찾기: 퀘스트 자료 좌표 → (없으면) 던전 퀘스트는 던전 입구 → 잡아야 할 몹이 사는 곳(world.json 몹 위치) */
 let _DGQ=null;const dgOfQ=id=>(_DGQ||(_DGQ=new Map(DGS.flatMap(d=>d.q.map(q=>[q.id,d])))) ).get(id);
@@ -1177,6 +1185,12 @@ function amFit(FO){const el=document.getElementById('amap');const W=el?el.client
   const ph=window.matchMedia&&matchMedia('(min-width:1000px)').matches?0:.5;/* 폰은 아래 절반이 정보 칸 */
   const s=Math.min((W-90)/Math.max(60,x1-x0),(H*(1-ph)-90)/Math.max(60,y1-y0));const z=Math.max(1.8,Math.min(3.3,3+Math.log2(s)));const s2=2**(z-3);
   return {c:P[0].c,z,cx:(x0+x1)/2,cy:(y0+y1)/2+(H*ph/2)/s2}}
+function amLegend(F){const r=(ic,t)=>'<li><span class="lgi">'+ic+'</span>'+t+'</li>';
+  return '<div class="amleg'+(ui.amleg?' on':'')+'"><b>지도 표시</b><ul>'
+   +(F.my?r('<span class="amk k-mo">'+AMIC.mo()+'</span>','내 퀘스트 할 일 (몹·물건 있는 곳)')+r('<span class="amk k-mr">'+QMK.r+'</span>','내 퀘스트 반납하는 곳')+r('<span class="amk k-mrd">'+QMK.r+'</span>','다 했어요 · 반납하러 가기'):'')
+   +(F.dg?r('<span class="amk k-dg">'+AMIC.dg()+'</span>','던전 입구')+r('<span class="amk k-dgd">'+AMIC.dgd()+'</span>','던전 퀘스트 다 함'):'')
+   +(F.g?r('<span class="amk">'+QMK.g+'</span>','받을 수 있는 퀘스트'):'')+(F.r?r('<span class="amk">'+QMK.r+'</span>','반납할 곳'):'')
+   +(F.rt?r('<span class="amh lg">1</span>','지금 할 일 마을 순서 (점선 = 이동)'):'')+'</ul></div>'}
 function amView(c){if(!QDB)qdbLoad();if(!WLD)wldLoad();const F=amF();
   if(!ui.am)ui.am=amHome(c);
   const A=ui.am;const chip=(k,lab)=>'<button class="chip'+(F[k]?' on':'')+'" data-a="amf" data-k="'+k+'">'+lab+'</button>';
@@ -1186,7 +1200,7 @@ function amView(c){if(!QDB)qdbLoad();if(!WLD)wldLoad();const F=amF();
    +'<button class="amfb'+(ui.amfo?' on':'')+'" data-a="amfo">표시 '+nOn+' ▾</button>'+gmStyleSeg(c)+(ui.amq?'':'<span class="amstl" title="퀘스트를 누르면 이렇게 보여요"><small>퀘스트 보기</small>'+amStyleSeg()+'</span>')+'</div>'
    +(ui.amfo?'<div class="ampop"><div class="chips">'+chip('my','📜 내 퀘스트')+chip('dg','🏰 던전')+chip('rt','① 동선')+chip('g',QMK.g+'받는 곳')+chip('r',QMK.r+'반납')+chip('tr',AMIC.tr()+'교관')+chip('fp','🦅 비행')+chip('inn','🏠 여관')+'</div>'
      +'<div class="chips seg">'+[['now','내 레벨 ±'],['all','모든 레벨']].map(x=>'<button class="chip'+((F.lv||'now')===x[0]?' on':'')+'" data-a="amlv2" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div></div>':'')
-   +'<div class="amctl"><button data-am="full" aria-label="전체 화면">'+(ui.amfull?'✕':'⛶')+'</button><button data-am="in" aria-label="확대">+</button><button data-am="out" aria-label="축소">−</button><button data-am="me" aria-label="지금 구간으로">◎</button></div>'
+   +'<div class="amctl"><button data-am="full" aria-label="전체 화면">'+(ui.amfull?'✕':'⛶')+'</button><button data-am="in" aria-label="확대">+</button><button data-am="out" aria-label="축소">−</button><button data-am="me" aria-label="지금 구간으로">◎</button><button data-am="leg" class="amlegb'+(ui.amleg?' on':'')+'" aria-label="지도 표시 설명">?</button></div>'+amLegend(F)
    +(QDB?'':'<div class="amload">퀘스트 자료를 불러오는 중…</div>')+(ui.amfull?'<button class="amexit" data-am="full">✕ 작게 보기</button>':ui.amback?'<button class="amexit" data-a="amback">← 보던 퀘스트로 돌아가기</button>':'')+'<div id="ampanel"></div></div>'
    +'<p class="mute src amhint">끌어서 움직이고, 두 손가락·두 번 톡·+/− 로 확대 · 번호는 「지금 할 일」 마을 순서 · 지도: wowf.io</p></div>'}
 function amHome(c){const R=amRoute(c);if(R.length)return {c:R[0].c,z:2.6,cx:R[0].x,cy:R[0].y};
@@ -1219,22 +1233,24 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
     st.L.style.transform=st.P.style.transform='';
     const X=p=>(p.x-left)*s,Y=p=>(p.y-top)*s,inV=(x,y,m)=>x>-m&&y>-m&&x<W+m&&y<H+m;
     const vis=st.pts.filter(p=>p.c===A.c);let pins='',svg='';
+    /* 땅 이름 (와우 지도처럼): 화면에서 지역이 충분히 크면 이름, 멀리서 보면 받을 퀘스트 수도 */
+    const zoneNames=(Z,RZ)=>{const ZC=zoneCenters()||{};let o='';const seen=[];
+      for(const z in MAPZ){if(ZALIAS[z]||BIGZ.test(z))continue;const t=MAPZ[z];const wpx=100*t[1]*s;if(wpx<(Z?150:120))continue;const q=ZC[z]||toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(!inV(x,y,60))continue;
+        const n=Z&&Z[z]?Z[z].n:0;const fs=Math.round(Math.max(12,Math.min(A.z<1.5?17:24,wpx/11)));if(seen.some(p=>Math.abs(p[0]-x)<60&&Math.abs(p[1]-y)<fs+6))continue;seen.push([x,y]);
+        o+='<button class="amzn'+(RZ&&RZ.has(z)?' now':'')+(A.z>=2.6?' far':'')+'" '+(n?'data-amz':'data-amzi')+'="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px;font-size:'+fs+'px"><span>'+esc(z)+'</span>'+(n?'<small>'+QMK.g+n+'</small>':'')+'</button>'}
+      return o};
     if(A.z<1.5){const Z={};vis.forEach(p=>{if(p.kind!=='g'&&p.kind!=='r')return;const o=Z[p.zone]||(Z[p.zone]={n:0,x:0,y:0,k:0});o.n+=p.qs.length;o.x+=p.x;o.y+=p.y;o.k++});
       const RZ=new Set(st.route.map(r=>r.zone));
-      for(const [z,o] of Object.entries(Z)){const x=(o.x/o.k-left)*s,y=(o.y/o.k-top)*s;if(!inV(x,y,40))continue;
-        pins+='<button class="amz'+(RZ.has(z)?' now':'')+'" data-amz="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+QMK.g+'<b>'+o.n+'</b> '+esc(z)+'</button>'}
       vis.filter(p=>!p.qs.length).forEach(p=>{const x=X(p),y=Y(p);if(inV(x,y,20))pins+='<span class="amd" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+'</span>'})
-      /* 땅 이름: 퀘스트 칩이 없는 지역도 이름을 깔아 둠 (작은 도시는 확대해야 보임) */
-      for(const z in MAPZ){if(Z[z]||ZALIAS[z])continue;const t=MAPZ[z];if(t[1]<(A.z<0.8?7:4))continue;const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(!inV(x,y,40))continue;
-        pins+='<button class="amzl" data-amzi="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+esc(z)+'</button>'}}
-    else{for(const z in MAPZ){const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(inV(x,y,60))pins+='<button class="amn" data-amzi="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+esc(z)+'</button>'}
+      pins+=zoneNames(Z,RZ)}
+    else{if(A.z<3.6)pins+=zoneNames(null,null);
       const lab=A.z>=3.3;
       /* 화면에서 26px 안에 겹치는 점은 하나로 묶음 */const HS=st.route.filter(r=>r.c===A.c).map(r=>[X(r),Y(r)]);const CL=[];vis.forEach((p,i)=>{const x=X(p),y=Y(p);if(!inV(x,y,20)||/^dg/.test(p.kind))return;if((p.kind==='g'||p.kind==='r')&&HS.some(h=>Math.abs(h[0]-x)<16&&Math.abs(h[1]-y)<16))return;const k=CL.find(o=>Math.abs(o.x-x)<26&&Math.abs(o.y-y)<26);if(k)k.m.push(i);else CL.push({x,y,m:[i]})});st.cl=CL;
       CL.forEach((o,ci)=>{if(o.m.length<2)return;const ps=o.m.map(i=>vis[i]);const n=ps.reduce((a,p)=>a+p.qs.length,0);const kinds=[...new Set(ps.map(p=>p.kind))];
         pins+='<button class="amk amcl'+(ui.amcl===ci?' sel':'')+'" data-amcl="'+ci+'" style="left:'+o.x+'px;top:'+o.y+'px">'+(kinds.length===1?AMIC[kinds[0]]():QMK.g)+'<b>'+(n||ps.length)+'</b><s>'+ps.length+'곳</s></button>'});
       const solo=new Set(CL.filter(o=>o.m.length===1).map(o=>o.m[0]));
       vis.forEach((p,i)=>{const isDg=/^dg/.test(p.kind);if(!solo.has(i)&&!isDg)return;const x=X(p),y=Y(p);if(!inV(x,y,20))return;const n=p.qs.length;const lv=n?Math.min(...p.qs.map(q=>q.lv||c.lv)):0;
-        pins+='<button class="amk k-'+p.kind+(n?' '+lvCls(lv,c.lv):'')+(ui.amsel===i?' sel':'')+'" data-amk="'+i+'" title="'+esc(p.nm||'')+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(n>1?'<b>'+n+'</b>':'')+((lab||isDg&&A.z>=2)&&p.nm?'<i>'+esc(p.nm)+'</i>':'')+'</button>'})}
+        pins+='<button class="amk k-'+p.kind+(n?' '+lvCls(lv,c.lv):'')+(ui.amsel===i?' sel':'')+'" data-amk="'+i+'" title="'+esc(p.nm||'')+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(n>1?'<b>'+n+'</b>':'')+(/^m/.test(p.kind)&&p.qs.length===1&&(c.qp||{})[p.qs[0].id]&&p.kind!=='mrd'?'<em>'+(c.qp[p.qs[0].id]).map(o=>o[0]+'/'+o[1]).join(' ')+'</em>':'')+((lab||isDg&&A.z>=2)&&p.nm?'<i>'+esc(p.nm)+'</i>':'')+'</button>'})}
     /* 동선 번호와 선 */
     const R=st.route.filter(r=>r.c===A.c);if(R.length){svg+='<polyline points="'+R.map(r=>X(r)+','+Y(r)).join(' ')+'" class="amrt"/>';
       R.forEach(r=>{const x=X(r),y=Y(r);if(inV(x,y,30))pins+='<button class="amh'+(ui.amhub===r.no?' sel':'')+'" data-amh="'+r.no+'" style="left:'+x+'px;top:'+y+'px">'+r.no+'</button>'})}
@@ -1250,7 +1266,7 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
   st.draw=draw;draw();
   const zoomAt=(dz,px,py)=>{const A=ui.am,s=2**(A.z-3),W=el.clientWidth,H=el.clientHeight;const ax=A.cx+(px-W/2)/s,ay=A.cy+(py-H/2)/s;A.z+=dz;clamp();const s2=2**(A.z-3);A.cx=ax-(px-W/2)/s2;A.cy=ay-(py-H/2)/s2;draw()};
   st.zoomAt=zoomAt;
-  el.addEventListener('pointerdown',e=>{if(e.target.closest('.amctl,#ampanel,.amtop,.ampop,.amexit'))return;el.setPointerCapture(e.pointerId);st.ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  el.addEventListener('pointerdown',e=>{if(e.target.closest('.amctl,#ampanel,.amtop,.ampop,.amexit,.amleg'))return;el.setPointerCapture(e.pointerId);st.ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(st.ptr.size===1)st.drag={x:e.clientX,y:e.clientY,dx:0,dy:0,t:e.target};else{const [a,b]=[...st.ptr.values()];const r=el.getBoundingClientRect();st.pinch={d:Math.hypot(a.x-b.x,a.y-b.y),r:1,cx:(a.x+b.x)/2-r.left,cy:(a.y+b.y)/2-r.top};st.drag=null}});
   el.addEventListener('pointermove',e=>{if(!st.ptr.has(e.pointerId))return;st.ptr.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(st.pinch&&st.ptr.size>=2){const [a,b]=[...st.ptr.values()];st.pinch.r=Math.hypot(a.x-b.x,a.y-b.y)/st.pinch.d;const o=st.pinch.cx+'px '+st.pinch.cy+'px';st.L.style.transformOrigin=st.P.style.transformOrigin=o;st.L.style.transform=st.P.style.transform='scale('+st.pinch.r+')';return}
@@ -1270,6 +1286,7 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
   el.addEventListener('wheel',e=>{if(e.target.closest('#ampanel,.ampop'))return;e.preventDefault();const r=el.getBoundingClientRect();zoomAt(e.deltaY<0?.5:-.5,e.clientX-r.left,e.clientY-r.top)},{passive:false});
   el.querySelectorAll('[data-am]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const r=el.getBoundingClientRect();const k=b.dataset.am;
     if(k==='full'){ui.amfull=!ui.amfull;document.body.classList.toggle('amfull',!!ui.amfull);if(ui.amfull){try{history.pushState({amfull:1},'')}catch(e){}}else if(history.state&&history.state.amfull){try{history.back()}catch(e){}}rerender(true);return}
+    if(k==='leg'){ui.amleg=!ui.amleg;b.classList.toggle('on',!!ui.amleg);const L=el.querySelector('.amleg');if(L)L.classList.toggle('on',!!ui.amleg);return}
     if(k==='in')zoomAt(1,r.width/2,r.height/2);else if(k==='out')zoomAt(-1,r.width/2,r.height/2);else{ui.am=amHome(c);ui.amq=null;draw();amPanel(null)}}));
   if(ui.amq)amPanel({kind:'focus'});else if(ui.amzone)amPanel({kind:'zone',zone:ui.amzone});else if(ui.amhub&&st.route.find(x=>x.no===ui.amhub))amPanel(st.route.find(x=>x.no===ui.amhub));else if(ui.amsel!=null&&st.vis&&st.vis[ui.amsel])amPanel(st.vis[ui.amsel])}
 function amRow(c,q,id){return '<div class="amrow"><button class="lhq" data-a="qopen" data-k="'+(id||q.id)+'"><span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n||q.nm)+'</b><span>'+esc(((q.o||'').length>60?(q.o||'').slice(0,58)+'…':(q.o||'')))+'</span></span></button>'+(QDB&&QDB.get(id||q.id)?'<button class="amgo" data-a="amq" data-k="'+(id||q.id)+'" title="지도에 할 일 위치 보기">📍</button>':'')+'</div>'}

@@ -349,6 +349,7 @@ html = f'''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#15130f">
 <title>와포 도우미</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&display=swap">
 <meta name="description" content="와우 포에버 얼라이언스 레벨업·장비·퀘스트·던전 도우미">
 <style>{css}</style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>

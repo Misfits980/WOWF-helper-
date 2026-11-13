@@ -1897,3 +1897,73 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 /* 오른쪽 끝 핀의 이름표는 왼쪽으로 (잘리지 않게) */
 .gl.rt{transform:translate(calc(-100% - 14px),-50%);transform-origin:100% 50%}
 .gin[style*="--s"] .gl.rt{transform:translate(calc(-100% - 14px / var(--s)),-50%) scale(calc(1/var(--s)))}
+/* ===== 지도 꾸미기 (와우 지도 느낌: 어두운 금빛 틀 · 지역 이름 · 표식) ===== */
+.amap{border-color:#5e4a22;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.amap::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(232,192,106,.28),inset 0 0 80px rgba(0,0,0,.55)}
+/* 위쪽 도구 줄: 지도 위에 어두운 띠를 깔아 글씨가 묻히지 않게 */
+.amtop{left:0;top:0;right:0;padding:8px 58px 22px 8px;background:linear-gradient(180deg,rgba(9,7,4,.86),rgba(9,7,4,.6) 55%,rgba(9,7,4,0))}
+.amseg,.amfb,.amtop .gmseg,.amstl{box-shadow:0 2px 6px rgba(0,0,0,.45)}
+.amstl{display:inline-flex;align-items:center;gap:6px;padding:2px 2px 2px 8px;border:1px solid #5e4a22;border-radius:9px;background:rgba(20,16,10,.88)}
+.amstl small{color:#bfb39a;font-size:11px}
+.amctl button{border-color:#6b5326;background:linear-gradient(180deg,rgba(38,30,16,.95),rgba(18,14,8,.95));box-shadow:0 2px 8px rgba(0,0,0,.55);transition:transform .12s}
+.amctl button:active{transform:scale(.94)}
+.amctl .amlegb{font:700 17px/1 Georgia,serif}
+.amctl .amlegb.on{background:#e0b85a;color:#1a1206}
+/* 지역 이름 */
+.amzn{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0;cursor:pointer;z-index:1;color:#f3d58a;font-family:"Gowun Batang","Noto Serif KR","AppleMyungjo",serif;font-weight:700;letter-spacing:.06em;white-space:nowrap;line-height:1.05;
+  text-shadow:0 0 2px #000,0 0 4px #000,0 1px 3px #000,0 0 12px rgba(0,0,0,.8)}
+.amzn span{transition:color .15s}
+.amzn:hover span{color:#fff3c4}
+.amzn.far{opacity:.62}
+.amzn.now span{color:#ffe9a8}
+.amzn.now::before{content:'';position:absolute;left:50%;top:50%;width:120%;height:220%;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,210,87,.22),transparent);z-index:-1;pointer-events:none}
+.amzn small{display:inline-flex;align-items:center;gap:2px;font:700 11px/1 -apple-system,"Apple SD Gothic Neo",sans-serif;letter-spacing:0;color:#fff;background:rgba(14,11,6,.82);border:1px solid rgba(224,184,90,.6);border-radius:999px;padding:2px 7px 2px 3px;text-shadow:none}
+.amzn small img.qmk{width:14px;height:14px;margin:0}
+/* 기본 핀 */
+.amk{background:rgba(16,12,7,.9);border:1px solid rgba(224,184,90,.55);box-shadow:0 2px 6px rgba(0,0,0,.6);transition:transform .12s}
+.amk:hover{transform:translate(-50%,-100%) scale(1.1);z-index:3}
+.amk i{background:rgba(12,9,5,.8);border-radius:6px;padding:1px 6px;margin-top:3px;font-size:11px;color:#f6e7c1;text-shadow:none;box-shadow:0 1px 4px rgba(0,0,0,.5)}
+.amk em{font-style:normal;font-size:10px;font-weight:700;color:#1a1206;background:#ffd257;border-radius:999px;padding:1px 5px;margin-left:2px;line-height:1.3}
+/* SVG 표식 */
+.mk{display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%}
+.mk svg{width:62%;height:62%;display:block}
+/* 던전 입구: 보라 돌문 표식 · 다 했으면 초록 */
+.amk.k-dg,.amk.k-dgd{width:30px;height:30px;padding:0;justify-content:center;border-radius:50%;border:2px solid #e8c56a;transform:translate(-50%,-50%);color:#fff;
+  background:radial-gradient(circle at 35% 30%,#9a7bf2,#4a2d8a 62%,#2a1652);box-shadow:0 0 0 2px rgba(0,0,0,.55),0 3px 10px rgba(0,0,0,.7),0 0 14px rgba(154,123,242,.45)}
+.amk.k-dgd{background:radial-gradient(circle at 35% 30%,#7fdc98,#2c7a46 62%,#164228);border-color:#cfe9a8;box-shadow:0 0 0 2px rgba(0,0,0,.55),0 3px 10px rgba(0,0,0,.7)}
+.amk.k-dg:hover,.amk.k-dgd:hover{transform:translate(-50%,-50%) scale(1.12)}
+.amk.k-dg i,.amk.k-dgd i{margin-top:5px;font-weight:700;color:#efe4ff;background:rgba(26,16,44,.88);border:1px solid rgba(154,123,242,.5)}
+.amk.k-dgd i{color:#d8f5df;background:rgba(14,36,22,.88);border-color:rgba(127,220,152,.45)}
+.amk.k-dg.sel,.amk.k-dgd.sel{box-shadow:0 0 0 3px #ffd257,0 3px 10px rgba(0,0,0,.7)}
+/* 내 퀘스트 할 일: 붉은 칼 표식 (살짝 숨쉬는 빛) */
+.amk.k-mo{width:28px;height:28px;padding:0;justify-content:center;border-radius:50%;transform:translate(-50%,-50%);color:#fff;border:2px solid #ffd257;
+  background:radial-gradient(circle at 35% 30%,#ffa27a,#c2401f 62%,#7a1f0e);box-shadow:0 0 0 2px rgba(0,0,0,.5),0 3px 10px rgba(0,0,0,.7)}
+.amk.k-mo::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(255,210,87,.7);animation:mkp 1.8s ease-out infinite;pointer-events:none}
+.amk.k-mo:hover{transform:translate(-50%,-50%) scale(1.12)}
+.amk.k-mo em{position:absolute;left:62%;top:-9px;margin:0}
+@keyframes mkp{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion:reduce){.amk.k-mo::after{animation:none;opacity:.5}}
+/* 내 퀘스트 반납 */
+.amk.k-mr{border:2px solid #ffd257;box-shadow:0 0 0 2px rgba(0,0,0,.5),0 0 10px rgba(255,210,87,.45)}
+.amk.k-mrd{border:2px solid #7fdc98;background:rgba(14,36,22,.92);box-shadow:0 0 0 2px rgba(0,0,0,.5),0 0 14px rgba(127,220,152,.65)}
+/* 동선 번호: 금화 */
+.amh{background:radial-gradient(circle at 35% 30%,#fff2b3,#ffcf4a 55%,#b47d14);border:2px solid #3a2608;box-shadow:0 0 0 2px rgba(255,210,87,.55),0 3px 8px rgba(0,0,0,.75);font-family:Georgia,serif}
+.amh.sel{background:radial-gradient(circle at 35% 30%,#fff,#ffe9a8);box-shadow:0 0 0 3px #fff,0 0 16px rgba(255,233,168,.9)}
+.amrt{stroke:#ffd257;stroke-width:3.2;stroke-dasharray:2 7;filter:drop-shadow(0 0 2px #000) drop-shadow(0 0 1px #000)}
+/* 범례 */
+.amleg{position:absolute;right:58px;top:auto;bottom:12px;z-index:6;display:none;min-width:220px;padding:10px 12px;border-radius:12px;border:1px solid #6b5326;background:rgba(14,11,6,.94);box-shadow:0 8px 24px rgba(0,0,0,.6)}
+.amleg.on{display:block}
+.amleg b{display:block;font-family:"Gowun Batang","Noto Serif KR",serif;color:#f3d58a;font-size:13.5px;margin-bottom:6px;letter-spacing:.04em}
+.amleg ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.amleg li{display:flex;align-items:center;gap:9px;font-size:12px;color:#e6dcc6}
+.amleg .lgi{position:relative;width:30px;height:30px;flex:none}
+.amleg .lgi .amk,.amleg .lgi .amh{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);cursor:default}
+.amleg .lgi .amk.k-mo::after{animation:none;opacity:.4}
+.amleg .lgi .amh.lg{width:22px;height:22px;font-size:11px}
+/* 폰: 범례는 아래 패널 위로 */
+@media (max-width:999px){.amleg{right:8px;left:8px;bottom:10px;min-width:0}}
+/* 지역 정보 칩 · 묶음 핀 */
+.amk.amcl{background:rgba(16,12,7,.92);border-color:#e0b85a}
+.amd .mk{width:18px;height:18px;border-radius:50%;background:#4a2d8a;border:1px solid #e8c56a;color:#fff}
+.amd .mk-dgd{background:#2c7a46}
+.amd .mk-mo{background:#c2401f}
