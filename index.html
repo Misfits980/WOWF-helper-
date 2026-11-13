@@ -1867,11 +1867,12 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gseg button+button{border-left:1px solid var(--line)}.gseg button.on{background:#3a2c16;color:var(--gold)}
 .pill.soonp{background:#3a2c16;color:var(--gold);border-color:var(--gold2)}.lkt.soon{background:#2e2412;color:#e8c06a;border-color:#5a4520}
 .soonm{font-style:normal;font-size:11px;color:var(--gold);font-weight:600}
+.rs .bt{margin:4px 0 0;font-size:12.5px;color:#cfc3a8;line-height:1.5}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=dca0cd20"></script>
-<script>/* v5a0afe @11/13 18:34 */
-const BUILD='11/13 18:34';
+<script src="app-data.js?v=0594202d"></script>
+<script>/* vc28719 @11/13 18:39 */
+const BUILD='11/13 18:39';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3461,7 +3462,7 @@ function dgTargets(c,d,dt){if(dt==='quest')return '';
   return '<div class="card dgt2"><button class="hd" data-a="dtab" data-k="loot"><span class="ic" style="background-image:url('+ICO('ability_hunter_snipershot')+')"></span><b>여기서 노릴 템</b><small>내 장비보다 좋은 순 '+U.length+'개 ›</small></button><div class="ltg">'
    +L.map(x=>'<button class="lt" data-a="'+(x.b?'cmpq':'info')+'" data-k="'+(x.b?x.b.s+':'+x.it.id:x.it.id)+'">'+itIcon(x.it)+(x.b&&x.b.g>.01?'<em class="g">+'+Math.round(x.b.g)+'</em>':isWish(c,x.it.id)?'<em class="g w">⭐</em>':'')+'<span class="q'+x.it.q+'">'+esc(x.it.nm)+'</span></button>').join('')+'</div></div>'}
 function dgUps(c,d){const L=c.lv;return dgItems(c,d).filter(it=>usable(it,c)&&it.lv<=Math.max(L,d.hi)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01)}
-const DG_IMG=slug=>'https://forg.gg/images/wow-forever/dungeons/'+slug+'-loading.webp';
+const DG_IMG=slug=>(typeof DG!=='undefined'&&DG[slug]&&DG[slug].wy?'https://wythic.com/dungeons/'+DG[slug].wy+'.jpg?v=2':'https://forg.gg/images/wow-forever/dungeons/'+slug+'-loading.webp')/* 신규 던전은 forg 그림이 없어 wythic.com 그림 */;
 function dgChips(c,cur){const L=c.lv;
   const near=DGS.filter(d=>L>=d.lo-1&&L<=d.hi).sort((a,b)=>b.fit-a.fit),up=DGS.filter(d=>d.lo-1>L).sort((a,b)=>a.fit-b.fit),past=DGS.filter(d=>d.hi<L).sort((a,b)=>b.fit-a.fit);
   const grp=(t,arr)=>arr.length?'<span class="dgl">'+t+'</span>'+arr.map(chip).join(''):'';
@@ -3630,7 +3631,10 @@ function stepFlags(st,fb){if(!/우두머리|희귀/.test(st.type||''))return [];
 function stepFloor(g){/* 지도 핀 번호로 단계가 몇 층인지 */const m={};(g.floors||[]).forEach(f=>f.pins.forEach(p=>{const n=parseInt(p.t);if(/^\d+!?$/.test(p.t||'')&&!m[n])m[n]=f}));return m}
 function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
   const g=DGG[d.slug];if(!g||!(g.steps&&g.steps.length)){
-    if(!(g&&g.boss)&&d.bosses.length){/* 신규·개방 예정 던전: wowf.io 보스 순서만 */const its=dgItems(c,d);
+    const W2=wyOf(d);if(!(g&&g.boss)&&W2&&W2.bosses&&W2.bosses.length){/* 신규 던전: wythic.com 공략(입구·보스 순서·기술 한 줄) */const its=dgItems(c,d);
+      return '<div class="card"><p class="note">'+esc(W2.sum||'')+'</p><p class="mute src">자료: wythic.com 공략 · 지도 위치는 추정일 수 있어요</p><ol class="route">'
+        +W2.bosses.map((b,i)=>{const n=its.filter(it=>it.src.some(x=>SRC[x]&&SRC[x].k===0&&SRC[x].dg===d.slug&&SRC[x].boss===b.npc)).length;return '<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(b.npc)+'</b>'+(b.opt?' <small class="mute">선택</small>':'')+(n?' <small class="mute">드랍 '+n+'</small>':'')+'</div>'+(b.tip?'<p class="bt">'+esc(b.tip)+'</p>':'')+'</div></li>'}).join('')+'</ol></div>'}
+    if(!(g&&g.boss)&&d.bosses.length){/* 신규·개방 예정 던전: wowf.io 보스 순서만 */const its=dgItems(c,d);if(!WY)wyLoad();
       return '<div class="card"><p class="note">'+(d.soon?'🚧 아직 열리지 않은 던전이에요. 열리면 동선·보스 기술을 채울게요. 지금은 wowf.io에 나온 <b>보스 순서</b>와 드랍만 보여 줘요.':'진행 순서 자료가 아직 없어요. 보스 순서와 드랍만 보여 줘요.')+'</p><ol class="route">'
         +d.bosses.map((b,i)=>{const n=its.filter(it=>it.src.some(x=>SRC[x]&&SRC[x].k===0&&SRC[x].dg===d.slug&&SRC[x].boss===b.nm)).length;const rare=/^mob-/.test(b.slug);return '<li class="rs boss"><span class="no">'+(rare?'◆':i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(b.nm)+'</b>'+(rare?' <small class="mute">희귀몹</small>':'')+(n?' <small class="mute">드랍 '+n+'</small>':'')+'</div></div></li>'}).join('')+'</ol></div>'}
     return '<p class="empty-st">이 던전 진행 순서 자료가 아직 없어요. 보스 공략만 보여 줘요.</p>'+(g&&g.boss?bossTacOnly(g):'')}

@@ -1861,3 +1861,4 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gseg button+button{border-left:1px solid var(--line)}.gseg button.on{background:#3a2c16;color:var(--gold)}
 .pill.soonp{background:#3a2c16;color:var(--gold);border-color:var(--gold2)}.lkt.soon{background:#2e2412;color:#e8c06a;border-color:#5a4520}
 .soonm{font-style:normal;font-size:11px;color:var(--gold);font-weight:600}
+.rs .bt{margin:4px 0 0;font-size:12.5px;color:#cfc3a8;line-height:1.5}

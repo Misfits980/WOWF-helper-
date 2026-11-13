@@ -278,6 +278,21 @@ for sq in re.findall(r"'((?:[^'\\]|\\.)*)'", PROFS_JS):
             PICO[nm_] = v_[1]
         if nm_ and nm_ in KO_ID:
             MATID[nm_] = KO_ID[nm_]
+# 한글판이 아직 없는 영문 이름 템 → wythic.com 던전 자료(data/wythic/dungeons.json)의 한글 이름으로
+_wyko = {}
+if (ROOT / 'data' / 'wythic' / 'dungeons.json').exists():
+    for _d in json.loads(rd(ROOT / 'data' / 'wythic' / 'dungeons.json')).get('dungeons', []):
+        for _b in _d.get('bosses', []):
+            for _it in _b.get('drops', []):
+                _wyko[_it[0]] = _it[1]
+        for _it in _d.get('trash', []):
+            _wyko[_it[0]] = _it[1]
+_nko = 0
+for _i, _l in enumerate(items):
+    _f = _l.split('|')
+    if len(_f) > 12 and re.search('[A-Za-z]{3}', _f[12]) and _f[0].isdigit() and _wyko.get(int(_f[0])) and not re.search('[A-Za-z]{3}', _wyko[int(_f[0])]):
+        _f[12] = _wyko[int(_f[0])]; items[_i] = '|'.join(_f); _nko += 1
+print('wythic ko names', _nko)
 ITEMS_TXT = '\n'.join(items) + '\n'
 # 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
 QLV = {}
