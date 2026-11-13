@@ -57,7 +57,13 @@ def _dgl():
 
 def _dq():
     have = set(l.split('|')[1] for l in rd(F / 'dungeon-quests.txt').splitlines() if l.startswith('B|'))
-    return rd(F / 'dungeon-quests.txt').rstrip('\n') + '\n' + '\n'.join(l for l in _dnew() if l[:2] in ('B|', 'Q|') and l.split('|')[1] not in have)
+    base = rd(F / 'dungeon-quests.txt').rstrip('\n') + '\n' + '\n'.join(l for l in _dnew() if l[:2] in ('B|', 'Q|') and l.split('|')[1] not in have)
+    # forg.gg 목록에 빠진 던전 퀘스트 (tools/dungeon-quests-extra.py)
+    ex = ROOT / 'data' / 'qdb' / 'dungeon-quests-extra.txt'
+    if ex.exists():
+        seen = set(l.split('|')[2] for l in base.splitlines() if l.startswith('Q|'))
+        base += '\n' + '\n'.join(l for l in rd(ex).splitlines() if l.startswith('Q|') and l.split('|')[2] not in seen)
+    return base
 
 
 def _guide():
