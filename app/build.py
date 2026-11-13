@@ -96,6 +96,10 @@ if (Q / 'items-extra.txt').exists():
         if len(f) > 12:
             f[7] = ';'.join(str(int(x) + off) for x in f[7].split(';') if x != '')
             f[9] = 'extra'
+            # 리치왕 시절 '곰·표범 변신 전투력'((DPS-54.8)×14)이 전투력으로 섞여 들어온 무기 → 클래식·포에버엔 없는 값이라 뺌
+            _st = dict(re.findall(r'([a-z]+)(-?[\d.]+)', f[5]))
+            if 'ap' in _st and 'dps' in _st and float(_st['dps']) > 54.8 and abs((float(_st['dps']) - 54.8) * 14 - float(_st['ap'])) <= 3:
+                f[5] = ' '.join(t for t in f[5].split() if not re.match(r'^ap-?[\d.]+$', t))
             items.append('|'.join(f))
 if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
     import sys
