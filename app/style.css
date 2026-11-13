@@ -1758,3 +1758,12 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .acmf{margin:8px 0 0;padding-top:6px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--mute)}
 .acmg{grid-template-columns:132px minmax(0,1fr)}
 .acmg code{justify-self:stretch;text-align:left;padding:3px 8px}
+/* 내 가방 비교 */
+.owt{display:inline-block;margin-left:6px;font-size:10.5px;font-weight:800;color:#8bf08b;border:1px solid #3f7a3c;border-radius:6px;padding:0 5px;vertical-align:1px;white-space:nowrap}
+.bgh{margin:12px 0 4px;font-size:13px}.bgh.good{color:#8bf08b}.bgh.bad{color:#ff9a6a}.bgh small{color:var(--mute);font-weight:500;margin-left:4px}
+.bgr .btn{flex:none}
+.bgno{margin-top:10px}.bgno summary{cursor:pointer;font-size:12.5px;color:var(--mute)}
+.owb{margin-top:10px;padding-top:8px;border-top:1px dashed var(--line)}.owb h4{margin:0 0 4px;font-size:13px}.owb h4 small{color:var(--mute);font-weight:500;margin-left:4px}
+.gsub{grid-template-columns:repeat(auto-fit,minmax(0,1fr));grid-auto-flow:column}
+.gsub button span{font-size:11px;letter-spacing:-.2px}
+@media(max-width:420px){.gsub button{padding:6px 0}.gsub button span{font-size:10.5px}}

@@ -748,9 +748,31 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
 function groupBy(arr,f){const m=new Map();arr.forEach(x=>{const k=f(x);if(!m.has(k))m.set(k,[]);m.get(k).push(x)});return [...m.entries()]}
 function abIcon(name,C){if(!C)return '';const l=C.learns.find(x=>x[1]===name);return l?l[5]:''}
 function abChip(name,icon,extra,dim){return '<span class="ab'+(dim?' no':'')+'">'+(icon?'<span class="ic" style="background-image:url('+ICO(icon)+')"></span>':'')+esc(name)+(extra?' <span class="l">'+esc(extra)+'</span>':'')+'</span>'}
+/* 애드온으로 가져온 가방·은행에 있는지 */
+const ownedOf=(c,id)=>c.bag&&c.bag[id]?'bag':c.bank&&c.bank[id]?'bank':null;
+const ownTag=(c,id)=>{const o=ownedOf(c,id);return o?'<span class="owt">'+(o==='bag'?'🎒 가방에 있어요':'🏦 은행에 있어요')+'</span>':''};
+/* 내 가방·은행의 낄 수 있는 템 전부: 칸마다 지금 것과 비교 */
+function bagAll(c){const w=wOf(c);const out=[];
+  [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.keys(B).forEach(k=>{const id=+k;const it=IT.get(id);if(!it||out.some(x=>x.it.id===id)||Object.values(c.eq||{}).includes(id))return;
+    const ok=usable(it,c)&&!(it.lv>c.lv&&!it.est);const lvUp=usable(it,c)&&it.lv>c.lv&&!it.est;let best=null;SLOTS.forEach(([sl])=>{if(!fits(it,sl,c))return;const cur=eqIt(c,sl);const g=sc(it,sl,w)-sc(cur,sl,w);if(!best||g>best.g)best={slot:sl,g,cur}});
+    if(!best)return;out.push({it,slot:best.slot,g:best.g,cur:best.cur,where,ok,lvUp,n:B[k]})}));
+  return out}
+function bagView(c){const A=bagAll(c);if(!c.bag)return '<div class="card"><p class="note">게임 애드온으로 가방·은행을 가져오면, 안에 든 장비를 지금 낀 것과 비교해 줘요.</p><button class="btn sm" data-a="imp">🧩 게임에서 가져오기</button></div>';
+  const up=A.filter(x=>x.ok&&x.g>.5).sort((a,b)=>b.g-a.g),same=A.filter(x=>x.ok&&x.g<=.5&&x.g>=-.5),down=A.filter(x=>x.ok&&x.g<-.5).sort((a,b)=>a.g-b.g),soon=A.filter(x=>x.lvUp).sort((a,b)=>a.it.lv-b.it.lv),no=A.filter(x=>!x.ok&&!x.lvUp);
+  const row=x=>'<div class="row tap bgr" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+' · '+SLOT_KO[x.slot]+(x.cur?' · 지금: '+esc(x.cur.nm):' · 지금 비어 있음')+'</span><span class="nm">'+itName(x.it)+'</span>'+diffHtml(x.it,x.cur,c)+'</span>'
+    +(x.ok?(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+x.slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain '+(x.g<-.5?'no" style="color:var(--bad)':'no')+'">'+(x.g<-.5?'지금 게 더 좋아요':'비슷해요')+'</span>'):'<span class="gain no">'+(x.lvUp?x.it.lv+'레벨부터':'못 껴요')+'</span>')+'</div>';
+  const at=c.imported?armAgo(c.imported.t)+' 가져온 가방·은행':'';
+  let h='<div class="card"><h3>🎒 내 가방·은행 장비 <small class="mute">'+A.length+'개 · '+at+'</small></h3>'+(c.bank?'':'<p class="note">은행은 게임에서 한 번 열고 다시 가져오면 같이 보여요.</p>');
+  if(!A.length)h+='<p class="note">가방·은행에 낄 수 있는 장비가 없어요.</p>';
+  if(up.length)h+='<h4 class="bgh good">⬆️ 끼면 좋아져요 · '+up.length+'</h4>'+up.map(row).join('');
+  if(same.length)h+='<h4 class="bgh">↔️ 비슷해요 · '+same.length+'</h4>'+same.map(row).join('');
+  if(soon.length)h+='<h4 class="bgh">⏳ 레벨 오르면 낄 수 있어요 · '+soon.length+'</h4>'+soon.map(row).join('');
+  if(down.length)h+='<h4 class="bgh bad">⬇️ 지금 게 더 좋아요 · '+down.length+' <small>팔거나 정리해도 돼요</small></h4>'+down.map(row).join('');
+  if(no.length)h+='<details class="bgno"><summary>🚫 이 직업·레벨로 못 끼는 것 '+no.length+'개</summary>'+no.map(row).join('')+'</details>';
+  return h+'</div>'}
 /* 가방·은행 템 중 지금보다 좋은 것 */
 function bagUps(c){const w=wOf(c);const out=[];const seen=new Set();
-  [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.keys(B).forEach(k=>{const id=+k;const it=IT.get(id);if(!it||seen.has(id)||!usable(it,c))return;
+  [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.keys(B).forEach(k=>{const id=+k;const it=IT.get(id);if(!it||seen.has(id)||!usable(it,c)||(it.lv>c.lv&&!it.est)||Object.values(c.eq||{}).includes(id))return;
     let best=null;SLOTS.forEach(([sl])=>{if(!fits(it,sl,c)||offLocked(c,sl))return;const cur=eqIt(c,sl);if(cur&&cur.id===id)return;const g=sc(it,sl,w)-sc(cur,sl,w);if(g>.5&&(!best||g>best.g))best={it,slot:sl,g,base:sc(cur,sl,w),where}});
     if(best){seen.add(id);out.push(best)}}));
   return out.sort((a,b)=>b.g-a.g)}
@@ -762,7 +784,7 @@ function wfrSheet(c){const R=wfrCode(c);return '<div class="sh"><h2>🎮 게임 
   +'<ol class="imps"><li>아래 코드를 <b>복사</b></li><li>게임 채팅창에 <code>/wfh 추천</code> → 뜬 칸에 <b>Ctrl+V</b> → 확인</li></ol>'
   +'<textarea class="inp" rows="4" readonly onclick="this.select()">'+esc(R.code)+'</textarea><button class="btn full" data-a="wfrcp">코드 복사</button>'
   +'<p class="note">장비를 바꾸거나 레벨이 오르면 추천이 달라지니, 가끔 새로 넣어 주세요. 애드온 v3부터 돼요.</p>'}
-function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+diffHtml(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
+function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+diffHtml(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
 const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
@@ -789,14 +811,15 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   h+='</div><div class="gR">';
   const nowU=upgrades(c,L,ui.ifil),soonU=upgrades(c,Math.min(60,L+5),ui.ifil,L+1);const cmpN=(c.cmp||[]).length;
   const gs=ui.gslot&&!offLocked(c,ui.gslot)?'me':(ui.gsub||'up');
-  h+='<div class="gsub">'+[['up','⬆️','바꿀 것',nowU.length],['soon','🔜','곧 낄 것',soonU.length],['cmp','⭐','찜·비교',((c.wish||[]).length+cmpN)||''],['fr','👥','친구',frList(c).length||''],['stat','📊','능력치','']].map(x=>'<button class="'+(gs===x[0]?'on':'')+'" data-a="gsub" data-k="'+x[0]+'"><i>'+x[1]+'</i><span>'+x[2]+(x[3]!==''&&x[3]!==undefined?' <b>'+x[3]+'</b>':'')+'</span></button>').join('')+'</div>';
+  h+='<div class="gsub">'+[['up','⬆️','바꿀 것',nowU.length],['soon','🔜','곧 낄 것',soonU.length]].concat(c.bag?[['bag','🎒','내 가방',bagAll(c).filter(x=>x.ok&&x.g>.5).length||'']]:[]).concat([['cmp','⭐','찜·비교',((c.wish||[]).length+cmpN)||''],['fr','👥','친구',frList(c).length||''],['stat','📊','능력치','']]).map(x=>'<button class="'+(gs===x[0]?'on':'')+'" data-a="gsub" data-k="'+x[0]+'"><i>'+x[1]+'</i><span>'+x[2]+(x[3]!==''&&x[3]!==undefined?' <b>'+x[3]+'</b>':'')+'</span></button>').join('')+'</div>';
   if(gs==='cmp'){h+=cmpView(c);return h+'</div></div>'}
+  if(gs==='bag'){h+=bagView(c);return h+'</div></div>'}
   if(gs==='fr'){h+=frView(c);return h+'</div></div>'}
   if(gs==='up'||gs==='soon'||gs==='me')h+='<div class="chips">'+[['ok','던전·퀘스트로 얻는 것만'],['all','경매장·제작 포함']].map(f=>'<button class="chip'+(ui.ifil===f[0]?' on':'')+'" data-a="ifil" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
   if(gs!=='stat'&&(W[c.cls]||{})[c.spec]&&W[c.cls][c.spec].heal&&SOLO[c.cls])h+='<div class="chips seg gmode">'+[['heal','💚 힐 위주','파티·던전'],['solo','⚔️ 사냥용','혼자 레벨업']].map(x=>'<button class="chip'+((c.gmode||'heal')===x[0]?' on':'')+'" data-a="gmode" data-k="'+x[0]+'">'+x[1]+' <span class="n">'+x[2]+'</span></button>').join('')+'</div>';
   if(gs==='stat'){const P=prioLine(c);h+='<div class="card prio"><div class="ph2"><b>📊 '+esc((CINFO[c.cls]||[])[0]||'')+' '+esc(sp?sp.name:'')+' 능력치 우선순위</b></div><div class="pl">'+P.map((x,i)=>'<span><i>'+(i+1)+'</i>'+esc(x)+'</span>').join('<em>›</em>')+'</div>'+(whyOf(c)?'<p class="note">'+esc(whyOf(c))+'</p>':'')+'<p class="mute src">기준: '+esc(c.gmode==='solo'&&W[c.cls][c.spec].heal&&SOLO[c.cls]?'사냥용 표(forg 기본표 바탕)':(WSRC[c.cls+'/'+c.spec]||'forg 기본표'))+' · forg.gg와 같은 공식</p></div>'}
   if(gs==='me')h+=slotPanel(c,ui.gslot);
-  if(gs==='up'){const BU=bagUps(c);if(BU.length)h+='<div class="card bagu"><h3>🎒 가방에 더 좋은 템이 있어요 <small class="mute">게임에서 불러온 가방·은행</small></h3>'+BU.slice(0,5).map(x=>upRow(c,x).replace('<span class="sub">','<span class="sub">'+(x.where==='bank'?'🏦 은행 · ':'🎒 가방 · '))).join('')+'</div>';
+  if(gs==='up'){const BU=bagUps(c);if(BU.length)h+='<div class="card bagu"><div class="hd"><h3>🎒 가방에 더 좋은 템이 있어요</h3><button class="more" data-a="gsub" data-k="bag">내 가방 전체 ›</button></div>'+BU.slice(0,5).map(x=>upRow(c,x).replace('<span class="sub">','<span class="sub">'+(x.where==='bank'?'🏦 은행 · ':'🎒 가방 · '))).join('')+'</div>';
     h+='<button class="wfrb" data-a="wfr">🎮 게임 툴팁에 앱 추천 넣기 <small>애드온 /wfh 추천</small></button>';
     const U=nowU.slice(0,ui.gmore?40:6);h+='<div class="card"><h3>지금 바꾸면 좋은 것 <small class="mute">'+nowU.length+'개</small></h3>'+(U.length?U.map(x=>upRow(c,x)).join(''):'<p class="note">지금 레벨에서 더 좋은 장비가 없어요 👍</p>')+(nowU.length>6&&!ui.gmore?'<button class="btn ghost full" data-a="gmore">'+(nowU.length-6)+'개 더 보기</button>':'')+'</div>'}
   if(gs==='soon'){h+='<div class="card"><h3>앞으로 5레벨 안에 낄 장비</h3>'+(soonU.length?soonU.slice(0,10).map(x=>upRow(c,x)).join(''):'<p class="note">곧 낄 더 좋은 장비가 없어요.</p>')+'</div>'}
@@ -833,7 +856,9 @@ function slotGo(d){const c=me();if(!c)return;const dd=+d;ui.swd=dd>0?'l':'r';
 function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFor(c,slot,L,ui.ifil).slice(0,3);const {w}=cmpW(c);
   let h='<div class="card hl spanel'+(ui.swd?' sw'+ui.swd:'')+'" data-swslot="1"><div class="hd"><h3>'+SLOT_KO[slot]+' · 지금 장비와 추천 비교</h3>'+slotNav(c,slot)+'<button class="x" data-a="gsel" data-k="">✕</button></div>';ui.swd=null;
   if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div><p class="note">지금보다 좋은 게 없어요 👍</p>'}
-  else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
+  else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+ownTag(c,x.it.id)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
+  if(c.bag){const w2=wOf(c);const O=bagAll(c).filter(x=>x.ok&&fits(x.it,slot,c)&&x.it.id!==(cur&&cur.id)).map(x=>Object.assign({},x,{g:sc(x.it,slot,w2)-sc(cur,slot,w2)})).sort((a,b)=>b.g-a.g);
+    h+='<div class="owb"><h4>🎒 내 가방·은행의 '+SLOT_KO[slot]+' 템 <small>'+(O.length?O.length+'개':'없어요')+'</small></h4>'+O.slice(0,5).map(x=>'<div class="row">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+'</span><span class="nm">'+itName(x.it)+'</span>'+diffHtml(x.it,cur,c)+'</span>'+(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain no">'+(x.g<-.5?'지금 게 더 좋아요':'비슷해요')+'</span>')+'</div>').join('')+'</div>'}
   {const ng=(c.nogo||[]).filter(id=>{const it=IT.get(id);return it&&fits(it,slot,c)});if(ng.length)h+='<p class="note">🚫 못 얻는다고 뺀 장비 '+ng.length+'개 · <button class="lnk" data-a="nogoclr" data-k="'+slot+'">다시 넣기</button></p>'}
   h+='<button class="btn ghost full" style="margin-top:8px" data-a="slot" data-k="'+slot+'">후보 전체 보기 · 이름으로 찾기</button></div>';
   return h}
