@@ -160,7 +160,7 @@ function syMerge(R){if(!R||!Array.isArray(R.list))return {local:false,remote:fal
   if(JSON.stringify(del)!==JSON.stringify(R.del||{}))remote=true;
   DB.list=list;DB.del=del;if(!DB.cur||!list.some(x=>x.id===DB.cur))DB.cur=(list.find(x=>x.id===R.cur)||list[0]||{}).id||null;
   return {local,remote}}
-/* --- 연동 코드 방식: jsonblob.com 에 「암호화한」 기록을 둠. 코드 = 저장 번호-열쇠, 열쇠는 기기 밖으로 안 나감 --- */
+/* --- 연동 코드 방식: textdb.dev 에 「암호화한」 기록을 둠. 코드 = 저장 번호-열쇠, 열쇠는 기기 밖으로 안 나감 --- */
 const JB='https://jsonblob.com/api/jsonBlob';
 const b64=u=>btoa(String.fromCharCode(...new Uint8Array(u))),unb64=s=>Uint8Array.from(atob(s),ch=>ch.charCodeAt(0));
 let _syK=null;async function syCK(){if(_syK&&_syK.k===SY.key+SY.bid)return _syK.c;const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(SY.key),'PBKDF2',false,['deriveKey']);
@@ -173,9 +173,13 @@ async function syDec(o){if(!o||!o.d)return null;const pt=await crypto.subtle.dec
 /* 오류 원인을 짧게 (화면에 그대로 보여 줘서 캡처로 알 수 있게) */
 const syWhy=e=>!e?'알 수 없는 오류':e.status?('저장 서비스 응답 '+e.status+(e.status===403||e.status===429?' (요청이 막혔어요)':'')):e.message==='noid'?'저장 번호를 못 받았어요':e.name==='TypeError'?'저장 서비스에 접속하지 못했어요 ('+(e.message||'').slice(0,40)+')':(e.name+': '+(e.message||'')).slice(0,60);
 const syErr=(e,mode)=>e&&e.name==='OperationError'?'연동 코드가 맞지 않아요 · 다시 넣어 주세요':e&&e.status===404?'연동 기록이 사라졌어요 · 「새 연동 코드」를 만들어 주세요':e&&e.status===401?'토큰이 맞지 않거나 만료됐어요':'인터넷 연결을 확인해 주세요 · '+syWhy(e);
-async function syGet(){if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{cache:'no-store',headers:{Accept:'application/json'}});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}const ex=r.headers.get('X-jsonblob-expires-at');if(ex)SY.exp=ex;return await syDec(await r.json())}
+/* 저장 서비스: textdb.dev (번호를 앱이 정함, t로 시작) · 예전 jsonblob(숫자 번호)도 읽기 */
+const TD='https://textdb.dev/api/data/';const isTD=()=>/^t/.test(SY.bid||'');
+async function syGet(){if(SY.bid&&isTD()){const r=await fetch(TD+'wfh-'+SY.bid,{cache:'no-store'});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}const t=(await r.text()).trim();if(!t)return null;return await syDec(JSON.parse(t))}
+  if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{cache:'no-store',headers:{Accept:'application/json'}});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}const ex=r.headers.get('X-jsonblob-expires-at');if(ex)SY.exp=ex;return await syDec(await r.json())}
   const g=await syGh('/gists/'+SY.gid);const f=g.files&&g.files[SYNC_F];let txt=f?f.content:'';if(f&&f.truncated)txt=await (await fetch(f.raw_url,{cache:'no-store'})).text();return txt?JSON.parse(txt):null}
-async function syPut(){if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{method:'PUT',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(await syEnc(syBody()))});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}return}
+async function syPut(){if(SY.bid&&isTD()){const r=await fetch(TD+'wfh-'+SY.bid,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(await syEnc(syBody()))});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}return}
+  if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{method:'PUT',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(await syEnc(syBody()))});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}return}
   await syGh('/gists/'+SY.gid,{method:'PATCH',body:JSON.stringify({files:{[SYNC_F]:{content:syBody()}}})})}
 async function syPull(quiet){if(!syOn()||syBusy)return;syBusy=true;
   try{const R=await syGet();const m=syMerge(R||{list:[]});SY.at=Date.now();SY.err=null;sySave();
@@ -186,12 +190,10 @@ async function syPush(){if(!syOn()||syBusy)return;syBusy=true;
   try{await syPut();SY.at=Date.now();SY.err=null}catch(e){SY.err=e&&e.status===404?syErr(e):'올리지 못했어요 · 다음에 다시 해요'}
   syBusy=false;sySave()}
 /* 새 연동 코드 만들기 (이 기기 기록을 올리고 코드 받기) */
-async function syMake(){const key=Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>'23456789ABCDEFGHJKLMNPQRSTUVWXYZ'[b%32]).join('');
-  try{SY={bid:'tmp',key};const body=JSON.stringify(await (async()=>{SY.bid='pending';return {v:1,init:1}})());
-    const r=await fetch(JB,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body});if(!r.ok)throw Object.assign(new Error(r.status),{status:r.status});
-    const id=r.headers.get('X-jsonblob-id')||((r.headers.get('Location')||'').split('/').pop());if(!id)throw new Error('noid');
-    SY={bid:id,key};_syK=null;await syPut();SY.at=Date.now();SY.err=null;sySave();return true}
-  catch(e){SY={err:'연동 코드를 만들지 못했어요 · '+syWhy(e)};sySave();return false}}
+async function syMake(){const rnd=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>'23456789ABCDEFGHJKLMNPQRSTUVWXYZ'[b%32]).join('');
+  SY={bid:'t'+rnd(15).toLowerCase(),key:rnd(10)};_syK=null;
+  try{await syPut();const back=await syGet();if(!back||!Array.isArray(back.list))throw new Error('verify');SY.at=Date.now();SY.err=null;sySave();return true}
+  catch(e){SY={err:'연동 코드를 만들지 못했어요 · '+(e.message==='verify'?'올린 기록을 다시 읽지 못했어요':syWhy(e))};sySave();return false}}
 const syCode=()=>SY.bid?SY.bid+'-'+SY.key:'';
 const syLink=()=>location.origin+location.pathname+'#sync='+syCode();
 /* 다른 기기에서 받은 코드로 연결 */
@@ -249,7 +251,7 @@ function syncBox(){let h='<div class="card syc"><h3>📱💻 휴대폰·컴퓨�
     +'<div class="sy2"><div><b>① 처음 기기에서</b><small>지금 기록을 올리고 연동 코드를 만들어요</small><button class="btn full" data-a="symk">연동 코드 만들기</button></div>'
     +'<div><b>② 다른 기기에서</b><small>받은 링크를 열거나 QR을 찍으면 끝 · 코드를 직접 넣어도 돼요</small><input class="inp" autocomplete="off" autocapitalize="characters" placeholder="연동 코드 (예: 1234…-7K3Q…)" data-c="syjoin"><button class="btn ghost full" style="margin-top:6px" data-a="syjn">코드로 연결</button></div></div>'
     +(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')
-    +'<p class="mute" style="font-size:12px">기록은 무료 저장 서비스(jsonblob.com)에 <b>암호화해서</b> 올려요. 열쇠는 연동 코드 안에만 있어서 서비스에서도 내용을 못 봐요. 오래 안 쓰면 지워질 수 있지만 각 기기 기록은 그대로 남아요.</p>'
+    +'<p class="mute" style="font-size:12px">기록은 무료 저장 서비스(textdb.dev)에 <b>암호화해서</b> 올려요. 열쇠는 연동 코드 안에만 있어서 서비스에서도 내용을 못 봐요. 오래 안 쓰면 지워질 수 있지만 각 기기 기록은 그대로 남아요.</p>'
     +'<details class="adsec"><summary><b>고급 · GitHub로 연동</b><small>내 GitHub 비공개 Gist에 저장</small><i>⌄</i></summary><div class="adsb">'
     +'<ol class="imps"><li><a class="lnk" href="https://github.com/settings/tokens/new?scopes=gist&description=wowf-helper" target="_blank" rel="noopener">GitHub 토큰 만들기 ↗</a> — <b>gist</b>만 체크 · 기간은 길게</li><li>휴대폰·컴퓨터 둘 다 같은 토큰을 넣기</li></ol>'
     +'<input class="inp" type="password" autocomplete="off" placeholder="ghp_로 시작하는 토큰" data-c="sytok"><button class="btn ghost full" style="margin-top:6px" data-a="syon">GitHub로 연결</button></div></details></div>';

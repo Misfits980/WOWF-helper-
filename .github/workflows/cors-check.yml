@@ -10,12 +10,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          ID=wfh-test-$RANDOM$RANDOM
+          ID=wfh-sizetest-$RANDOM$RANDOM
+          head -c 300000 /dev/urandom | base64 -w0 > /tmp/big.txt
           {
-          echo "== textdb OPTIONS"; curl -s -i -X OPTIONS -H "Origin: https://misfits980.github.io" -H "Access-Control-Request-Method: POST" -H "Access-Control-Request-Headers: content-type" https://textdb.dev/api/data/$ID | head -20
-          echo "== textdb POST"; curl -s -i -X POST -H "Origin: https://misfits980.github.io" -H "Content-Type: text/plain" -d 'hello123' https://textdb.dev/api/data/$ID | head -20
-          echo "== textdb GET"; curl -s -i -H "Origin: https://misfits980.github.io" https://textdb.dev/api/data/$ID | head -20
-          echo "== jsonblob POST browser UA"; curl -s -i -X POST -A "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1" -H "Origin: https://misfits980.github.io" -H "Content-Type: application/json" -H "Accept: application/json" -d '{"t":1}' https://jsonblob.com/api/jsonBlob | head -25
+          echo "sent $(wc -c < /tmp/big.txt)"
+          curl -s -o /dev/null -w "POST %{http_code}\n" -X POST -H "Content-Type: text/plain" --data-binary @/tmp/big.txt https://textdb.dev/api/data/$ID
+          echo "got $(curl -s https://textdb.dev/api/data/$ID | wc -c)"
+          curl -s -o /dev/null -w "POST2 %{http_code}\n" -X POST -H "Content-Type: text/plain" --data-binary 'x' https://textdb.dev/api/data/$ID
           } > data/cors-check.txt 2>&1
       - run: |
           git config user.name "github-actions[bot]"
