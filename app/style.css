@@ -2033,3 +2033,11 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .sycode{font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.5px;color:#ffe08a;word-break:break-all;padding:6px 8px;border-radius:8px;background:#1b1810;border:1px solid #4a3f28}
 .sy2{display:grid;gap:10px;margin:8px 0}@media(min-width:700px){.sy2{grid-template-columns:1fr 1fr}}
 .sy2>div{display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel2)}.sy2 small{color:var(--mute);font-size:12px}
+/* 보스 동선: 층 구분 — 줄 위에 층 표시 동그라미, 이름은 줄 오른쪽 */
+.tl2 .rfl{display:flex;align-items:center;gap:10px;margin:14px 0 4px -10px;position:relative;z-index:1;font-size:inherit;color:inherit}
+.tl2 .rfl:first-child{margin-top:2px}
+.tl2 .rfl .fln{flex:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:baseline;justify-content:center;padding-top:7px;box-sizing:border-box;background:radial-gradient(circle at 50% 35%,#3b2f17,#1c170e);border:2px solid #c9a24c;box-shadow:0 0 0 4px var(--bg);color:#e8cf8c;font-size:10px;font-weight:700;letter-spacing:-.3px}
+.tl2 .rfl .fln b{font-size:15px;line-height:1;margin-right:1px;color:#ffe08a}
+.tl2 .rfl .flt{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.tl2 .rfl .flt b{font-size:15px;color:#ffe08a;letter-spacing:-.2px}.tl2 .rfl .flt small{font-size:11px;color:var(--mute);margin-top:1px}
+.tl2 .rfl i{flex:1;height:1px;margin-left:4px;background:linear-gradient(90deg,#8a6d33,transparent)}
