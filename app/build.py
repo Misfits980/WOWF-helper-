@@ -42,6 +42,36 @@ for cid, c in cls.items():
 # 장비: forg 목록 + QuestieDB·클래식 자료로 더한 장비(data/qdb). 영어 이름은 한글로 바꿈
 import re
 Q = ROOT / 'data' / 'qdb'
+
+def _guide():
+    """Wowhead WoW Forever 레벨 20·30 가이드에 나온 템 (data/guides/wowhead-forever-l20-l30.txt) → {직업/특성: {20:[id], 30:[id]}}"""
+    p_ = ROOT / 'data' / 'guides' / 'wowhead-forever-l20-l30.txt'
+    if not p_.exists():
+        return {}
+    SPM = {'priest/shadow': 'priest/shadow-magic', 'shaman/elemental': 'shaman/elemental-combat', 'druid/feral': 'druid/feral-cat',
+           'druid/feraldps': 'druid/feral-cat', 'druid/feraltank': 'druid/feral-bear'}
+    raw = {}
+    for l in p_.read_text(encoding='utf-8').splitlines():
+        if not l.strip():
+            continue
+        if ':' in l:
+            k, v = l.split(':', 1); raw[k] = [int(x) for x in v.split()]
+        else:
+            k, v = l.split('='); raw[k] = ('=', v)
+    for k, v in list(raw.items()):
+        if isinstance(v, tuple):
+            raw[k] = raw[v[1]]
+    out = {}
+    for k, ids in raw.items():
+        sp, L = k.rsplit('/', 1)
+        if k == 'druid/feral/L30':
+            sp = 'druid/feraltank'
+        sp = SPM.get(sp, sp)
+        d = out.setdefault(sp, {})
+        d[L[1:]] = sorted(set(d.get(L[1:], []) + ids))
+    return out
+
+
 ko = {}
 if (Q / 'item-ko.txt').exists():
     for line in rd(Q / 'item-ko.txt').splitlines():
@@ -252,6 +282,7 @@ data = '\n'.join([
     'const D_ITEMS=' + js_str(ITEMS_TXT) + ';',
     'const D_SRC=' + js_str(SRC_TXT) + ';',
     'const D_QLV=' + json.dumps(QLV, separators=(',', ':')) + ';',
+    'const D_GUIDE=' + json.dumps(_guide(), separators=(',', ':')) + ';',
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(rd(F / 'dungeons.txt')) + ';',
     'const D_DQ=' + js_str(rd(F / 'dungeon-quests.txt')) + ';',

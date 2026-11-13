@@ -142,7 +142,23 @@ const _wc={};
 /* 레벨업 중(58 미만)엔 혼자 사냥하니 체력·정신력을 조금 더 쳐요 (60레벨 시뮬 값 그대로면 체력이 너무 낮게 잡힘) */
 const _wl={};function wOf(c){const w=wOf0(c);if((c.lv||60)>=58||w.def)return w;const k=c.cls+'/'+c.spec+'/'+(c.gmode||'');if(_wl[k]&&_wl[k].b===w)return _wl[k].r;
   const r=Object.assign({},w,{sta:Math.max(w.sta||0,.4)});if(w.sp>=1||w.heal>=1)r.spi=Math.max(w.spi||0,.3);_wl[k]={b:w,r};return r}
-function wOf0(c){const w=(W[c.cls]||{})[c.spec]||Object.values(W[c.cls]||{})[0]||{};
+/* 탱커: Wowhead WoW Forever 탱커 능력치 가이드의 생존·균형·위협(TPS) 우선순위를 점수표로.
+   적중 1% = 전투력 60(전사)·주문력 21(성기사), 치명타 1% = 전투력 34·주문력 12 (가이드 계산값). 힘 1 = 전투력 2 */
+const TW={
+ 'warrior/protection':{def:{sta:1,def:.9,armor:.03,agi:.6,dodge:14,parry:12,block:.25,blockp:6,str:.4,ap:.2,hit:6,crit:3,dps1h:1},
+   bal:{sta:1,hit:15,def:.6,armor:.02,str:.7,ap:.35,agi:.45,dodge:9,parry:8,crit:8,blockp:4,block:.2,dps1h:1.5},
+   off:{hit:30,crit:17,str:1,ap:.5,sta:.6,agi:.4,dps1h:2.5,def:.3,armor:.01,dodge:5,parry:5,blockp:2,block:.1}},
+ 'paladin/protection':{def:{sta:1,def:.9,armor:.03,agi:.5,blockp:7,block:.3,sp:.5,holy:.5,dodge:12,parry:10,str:.2,hit:5,int:.1,dps1h:.6},
+   bal:{sta:1,sp:.9,holy:.9,hit:18,def:.6,armor:.02,agi:.35,blockp:4,block:.2,dodge:8,parry:7,crit:8,str:.15,int:.1,dps1h:.8},
+   off:{sp:1,holy:1,hit:21,crit:12,sta:.6,str:.15,agi:.2,def:.3,armor:.01,blockp:2,dodge:4,parry:4,int:.1,dps1h:1}},
+ 'druid/feral-bear':{def:{sta:1,def:.8,armor:.04,agi:.9,dodge:12,str:.4,ap:.2,hit:5,crit:2},
+   bal:{sta:1,agi:.8,str:.7,ap:.35,armor:.03,def:.5,hit:12,crit:6,dodge:9},
+   off:{hit:25,str:1,agi:.7,ap:.5,crit:12,sta:.6,armor:.015,def:.2,dodge:4}}};
+const TMODE=[['def','🛡️ 생존','안 죽게'],['bal','⚖️ 균형','처음엔 이것'],['off','⚔️ 위협','어그로·TPS']];
+const isTank=c=>!!TW[c.cls+'/'+c.spec];
+const shieldTank=c=>c.spec==='protection'&&(c.cls==='warrior'||c.cls==='paladin');
+const _tw={};function tankW(c){const k=c.cls+'/'+c.spec+'/'+(c.tmode||'bal');if(_tw[k])return _tw[k];const w=Object.assign({},TW[c.cls+'/'+c.spec][c.tmode||'bal']);w.dps=w.dps1h||0;w.rdps=.03;return _tw[k]=w}
+function wOf0(c){if(isTank(c))return tankW(c);const w=(W[c.cls]||{})[c.spec]||Object.values(W[c.cls]||{})[0]||{};
   if(!w.heal||!SOLO[c.cls])return w;const m=c.gmode==='solo'?'solo':'heal';const k=c.cls+'/'+c.spec+'/'+m;if(_wc[k])return _wc[k];
   let r;if(m==='heal'){r=Object.assign({},w,{dpsWand:0,rdps:0})}else{r=Object.assign({},SOLO[c.cls]);r.dps=r.dpsMain??r.dps2h??0;r.rdps=r.dpsWand??0}
   return _wc[k]=r}
@@ -458,6 +474,8 @@ function profOk(it,cls,lv){const [a,b]=(it.cs||'').split('.').map(Number);
   return true}
 function usable(it,c,lv){if(!(it.mask&(1<<ci(c))))return false;if(it.allow&&!it.allow.includes(c.cls))return false;return profOk(it,c.cls,Math.max(lv||c.lv,it.lv))}
 function fits(it,slot,c){const S=SLOTS.find(s=>s[0]===slot);if(!S||!S[2].includes(it.sl))return false;
+  if(slot==='main'&&it.sl==='2h'&&c&&shieldTank(c))return false;/* 방패 탱커는 한손 무기 + 방패 */
+  if(slot==='off'&&c&&shieldTank(c)&&it.cs!=='4.6')return false;
   if(slot==='off'){if(it.sl==='1h'||(it.sl==='oh'&&it.cs!=='4.6'))return DW.has(c.cls);return true}
   return true}
 function slotsFor(it,c){return SLOTS.filter(s=>fits(it,s[0],c)).map(s=>s[0])}
@@ -484,7 +502,10 @@ const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(q
 function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(srcSure))return 'sure';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
 const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({ah:'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+'</span>'};
 function srcOk(it,mode,c){if(c&&questDoneOnly(it,c))return false;if(mode==='all')return true;return srcKind(it,c)==='sure'}
-function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s)}
+/* Wowhead 포에버 20·30레벨 가이드에 나온 템 */
+function guideHas(c,id,L){const G=(typeof D_GUIDE!=='undefined'&&D_GUIDE[c.cls+'/'+c.spec])||null;if(!G)return false;L=L||c.lv;return (L<=27&&(G['20']||[]).includes(id))||(L>=22&&L<=40&&(G['30']||[]).includes(id))}
+const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead WoW Forever 직업 가이드 추천">📘 공략 추천</span>':'';
+function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
@@ -824,7 +845,15 @@ function itStats(it,c){if(!it||!it.st)return '';const w=wOf(c);const st=it.st;co
   if(!ks.length)return '';ks.sort((a,b)=>((w[b]||0)*Math.abs(st[b])+(b==='dps'?99:0))-((w[a]||0)*Math.abs(st[a])+(a==='dps'?99:0)));
   return '<span class="its">'+ks.map(k=>{const v=st[k];const pct=/ %$/.test(STAT_KO[k]);const nm=k==='dps'?'초당 공격력':pct?STAT_KO[k].slice(0,-2):STAT_KO[k];const use=(w[k]||(k==='dps'&&(w.dps||w.rdps)))?'':' class="dim"';
     return '<i'+use+'>'+nm+' '+(v<0?'−':'')+(k==='dps'?Math.abs(v).toFixed(1):Math.round(Math.abs(v)))+(pct?'%':'')+'</i>'}).join('')+'</span>'}
-function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
+/* 바꿀 것 한 줄 (접힘): 칸·템·핵심 능력치·이득 → 누르면 지금보다·얻는 곳·버튼 */
+function uRow(c,x,soon){const cur=eqIt(c,x.slot);const it=x.it;const st=it.st||{};const w=wOf(c);
+  const top=Object.keys(st).filter(k=>STAT_KO[k]&&st[k]>0&&(w[k]||(k==='dps'&&(it.sl==='ra'?w.rdps:w.dps)))&&!(k==='heal'&&st.sp>=st.heal)).sort((a,b)=>(k=>k==='dps'?1e3:(w[k]||0)*st[k])(b)-(k=>k==='dps'?1e3:(w[k]||0)*st[k])(a)).slice(0,3)
+    .map(k=>{const pct=/ %$/.test(STAT_KO[k]);return (k==='dps'?'초당':pct?STAT_KO[k].slice(0,-2):STAT_KO[k].replace(' 주문력',''))+' '+(k==='dps'?st[k].toFixed(1):Math.round(st[k]))+(pct?'%':'')}).join(' · ');
+  const r=x.g/Math.max(x.base,4);const cls=x.empty?'new':r>=.5?'big':r>=.2?'mid':'sm';
+  return '<details class="ur"><summary>'+itIcon(it)+'<span class="m"><span class="t"><em>'+esc(SLOT_KO[x.slot])+'</em>'+itName(it)+'</span><span class="s">'+(top?esc(top):'')+(guideHas(c,it.id)?' <i class="gd">📘</i>':'')+(soon?' · '+(it.ob||it.lv)+'레벨':'')+'</span></span><span class="ug '+cls+'">'+(x.empty?'빈 칸':'+'+(x.g>=10?Math.round(x.g):x.g.toFixed(1)))+'</span></summary>'
+    +'<div class="urb">'+itStats(it,c)+dif2(it,cur,c)+'<p class="sub">'+(cur?'지금: '+esc(cur.nm)+' · ':'')+esc(srcTxt(it,1))+' · '+(it.ob>it.lv?it.ob+'레벨쯤 얻음':'Lv '+it.lv)+luckTag(it,c)+guideTag(it,c)+'</p>'
+    +'<div class="ura"><button class="btn sm" data-a="cmpq" data-k="'+x.slot+':'+it.id+'">비교·자세히</button><button class="btn sm ghost" data-a="wish" data-k="'+it.id+'">'+(isWish(c,it.id)?'⭐ 찜함':'☆ 찜')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+it.id+'">🚫 못 얻어요</button></div></div></details>'}
+function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+guideTag(x.it,c)+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
 const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
@@ -841,13 +870,14 @@ function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let
 function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   const ups=new Set(SLOTS.map(x=>x[0]).filter(s=>!offLocked(c,s)&&bestFor(c,s,L,ui.ifil).length));
   const tot=statTotals(c);const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]-a[1]).map(([k])=>k).slice(0,6);
-  let h='<div class="wrap g2"><div class="gL"><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
+  const nEq=SLOTS.filter(([sl])=>eqIt(c,sl)).length,nAll=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
+  let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??false))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+(ups.size?' · <em>▲ '+ups.size+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
    +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
    +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+Math.round(tot[k]||0)+'</b></div>').join('')+'</div>'
    +'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기</button></div>'
    +'<div class="acol">'+DOLL_R.map(s=>dollCell(c,s,ups)).join('')+'</div></div>'
    +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups)).join('')+'</div>';
-  h+='<p class="note" style="text-align:center">칸을 누르면 그 칸 추천이 나와요 · <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p>';
+  h+='<p class="note" style="text-align:center">칸을 누르면 그 칸 추천이 나와요 · <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p></details>';
   h+='</div><div class="gR">';
   const nowU=upgrades(c,L,ui.ifil),soonU=upgrades(c,Math.min(60,L+5),ui.ifil,L+1);const cmpN=(c.cmp||[]).length;
   if(ui.gsub==='soon'||ui.gsub==='stat')ui.gsub='up';const gs=ui.gslot&&!offLocked(c,ui.gslot)?'me':(ui.gsub||'up');
@@ -856,14 +886,18 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   if(gs==='bag'){h+=bagView(c);return h+'</div></div>'}
   if(gs==='fr'){h+=frView(c);return h+'</div></div>'}
   if(gs==='up'||gs==='me')h+='<div class="chips">'+[['ok','확실히 얻는 것만'],['all','경매장·운 템도']].map(f=>'<button class="chip'+(ui.ifil===f[0]?' on':'')+'" data-a="ifil" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
+  if(isTank(c)&&(gs==='up'||gs==='me'))h+='<div class="chips seg gmode tmode">'+TMODE.map(x=>'<button class="chip'+((c.tmode||'bal')===x[0]?' on':'')+'" data-a="tmode" data-k="'+x[0]+'">'+x[1]+' <span class="n">'+x[2]+'</span></button>').join('')+'</div>';
   if(gs!=='stat'&&(W[c.cls]||{})[c.spec]&&W[c.cls][c.spec].heal&&SOLO[c.cls])h+='<div class="chips seg gmode">'+[['heal','💚 힐 위주','파티·던전'],['solo','⚔️ 사냥용','혼자 레벨업']].map(x=>'<button class="chip'+((c.gmode||'heal')===x[0]?' on':'')+'" data-a="gmode" data-k="'+x[0]+'">'+x[1]+' <span class="n">'+x[2]+'</span></button>').join('')+'</div>';
   if(gs==='me')h+=slotPanel(c,ui.gslot);
   const prioCard=(()=>{const P=prioLine(c);return '<div class="card prio"><div class="ph2"><b>📊 '+esc((CINFO[c.cls]||[])[0]||'')+' '+esc(sp?sp.name:'')+' 능력치 우선순위</b></div><div class="pl">'+P.map((x,i)=>'<span><i>'+(i+1)+'</i>'+esc(x)+'</span>').join('<em>›</em>')+'</div>'+(whyOf(c)?'<p class="note">'+esc(whyOf(c))+'</p>':'')+'<p class="mute src">기준: '+esc(c.gmode==='solo'&&W[c.cls][c.spec].heal&&SOLO[c.cls]?'사냥용 표(forg 기본표 바탕)':(WSRC[c.cls+'/'+c.spec]||'forg 기본표'))+' · forg.gg와 같은 공식</p></div>'})();
-  if(gs==='up'&&nowU.length){const G=upPlaces(c,nowU);if(G.length)h+='<div class="card upp"><h3>🗺️ 어디 가면 많이 바뀌나요 <small class="mute">지금 바꿀 것 '+nowU.length+'개 기준</small></h3>'+G.slice(0,4).map(g=>'<div class="uppr" '+(g.a?'data-a="'+g.a+'" data-k="'+esc(String(g.k))+'"':'')+'><span class="ui">'+g.ic+'</span><span class="m"><b>'+(g.on?'<span class="onrt">📍 내 동선</span>':'')+esc(g.nm)+'</b><small>'+g.its.map(x=>esc(SLOT_KO[x.slot])).join(' · ')+'</small></span><span class="cnt">'+g.its.length+'칸<em>+'+Math.round(g.g)+'</em></span>'+(g.a?'<span class="r">›</span>':'')+'</div>').join('')+'</div>'}
-  if(gs==='up'){const BU=bagUps(c);if(BU.length)h+='<div class="card bagu"><div class="hd"><h3>🎒 가방에 더 좋은 템이 있어요</h3><button class="more" data-a="gsub" data-k="bag">내 가방 전체 ›</button></div>'+BU.slice(0,5).map(x=>upRow(c,x).replace('<span class="sub">','<span class="sub">'+(x.where==='bank'?'🏦 은행 · ':'🎒 가방 · '))).join('')+'</div>';
-    h+='<button class="wfrb" data-a="wfr">🎮 게임 툴팁에 앱 추천 넣기 <small>애드온 /wfh 추천</small></button>';
-    const U=nowU.slice(0,ui.gmore?40:6);h+='<div class="card"><h3>지금 바꾸면 좋은 것 <small class="mute">'+nowU.length+'개</small></h3>'+(U.length?U.map(x=>upRow(c,x)).join(''):'<p class="note">지금 레벨에서 더 좋은 장비가 없어요 👍</p>')+(nowU.length>6&&!ui.gmore?'<button class="btn ghost full" data-a="gmore">'+(nowU.length-6)+'개 더 보기</button>':'')+'</div>'}
-  if(gs==='up'&&soonU.length)h+='<details class="card fold soonf"'+(ui.soonf?' open':'')+' data-tg="soonf"><summary>🔜 곧 낄 것 <small class="mute">앞으로 5레벨 안 · '+soonU.length+'개</small></summary>'+soonU.slice(0,10).map(x=>upRow(c,x)).join('')+'</details>';
+  if(gs==='up'){const nE=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;const upS=new Set(nowU.map(x=>x.slot));
+    const U=nowU.slice().sort((a,b)=>(b.empty-a.empty)||b.g-a.g);
+    h+='<div class="card ulist"><div class="ulh"><h3>⬆️ 지금 바꿀 것 <small class="mute">'+U.length+'칸</small></h3><span class="mute">큰 순서 · 눌러서 자세히</span></div>'
+      +(U.length?U.map(x=>uRow(c,x)).join(''):'<p class="note">지금 레벨에서 더 좋은 장비가 없어요 👍</p>')
+      +(U.length&&nE-U.length>0?'<p class="uok">✓ 나머지 '+(nE-U.length)+'칸은 지금 장비가 제일 좋아요</p>':'')+'</div>';
+  if(nowU.length){const G=upPlaces(c,nowU);if(G.length)h+='<div class="card upp"><h3>🗺️ 어디 가면 많이 바뀌나요 <small class="mute">지금 바꿀 것 '+nowU.length+'개 기준</small></h3>'+G.slice(0,3).map(g=>'<div class="uppr" '+(g.a?'data-a="'+g.a+'" data-k="'+esc(String(g.k))+'"':'')+'><span class="ui">'+g.ic+'</span><span class="m"><b>'+(g.on?'<span class="onrt">📍 내 동선</span>':'')+esc(g.nm)+'</b><small>'+g.its.map(x=>esc(SLOT_KO[x.slot])).join(' · ')+'</small></span><span class="cnt">'+g.its.length+'칸<em>+'+Math.round(g.g)+'</em></span>'+(g.a?'<span class="r">›</span>':'')+'</div>').join('')+'</div>'}
+    const BU=bagUps(c);if(BU.length)h+='<div class="card bagu"><div class="hd"><h3>🎒 가방에 더 좋은 템이 있어요</h3><button class="more" data-a="gsub" data-k="bag">내 가방 전체 ›</button></div>'+BU.slice(0,5).map(x=>upRow(c,x).replace('<span class="sub">','<span class="sub">'+(x.where==='bank'?'🏦 은행 · ':'🎒 가방 · '))).join('')+'</div>'}
+  if(gs==='up'&&soonU.length)h+='<details class="card fold soonf"'+(ui.soonf?' open':'')+' data-tg="soonf"><summary>🔜 곧 낄 것 <small class="mute">앞으로 5레벨 안 · '+soonU.length+'개</small></summary>'+soonU.slice(0,12).map(x=>uRow(c,x,1)).join('')+'</details>';
   if(gs!=='up')return h+'</div></div>';
   h+='<details class="card fold statf"'+(ui.statf?' open':'')+' data-tg="statf"><summary>📊 내 능력치 · 점수 매기는 법</summary>'+prioCard;
   /* 능력치 전체 */
@@ -877,7 +911,7 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
     +'<div class="stats">'+rows.map(([k,v])=>'<div><span>'+nm(k)+'</span><b>'+(v>=1?Math.round(v*10)/10:v.toFixed(2).replace(/0$/,''))+'점</b></div>').join('')+'</div>'
     +'<p class="note">'+(c.cls==='hunter'?'사냥꾼은 원거리 무기 DPS가 제일 중요해요.':w.rdps&&w.rdps<.1?'원거리 칸은 당기기용이라 DPS는 거의 안 세고, 힘·민첩 같은 능력치를 봐요. 활·총의 전투력은 원거리 전투력이라 빼요.':'')
     +' 치명타·적중 같은 % 효과는 "착용 효과" 글에서 읽어서 넣어요. 그 밖의 특수 효과(발동 효과 등)는 점수에 안 들어가니 <b>효과</b> 표시 장비는 직접 견줘 보세요.</p></details>'}
-  return h+'</details></div></div>'}
+  return h+'</details><button class="wfrb" data-a="wfr">🎮 게임 툴팁에 앱 추천 넣기 <small>애드온 /wfh 추천</small></button></div></div>'}
 function statChange(c,slot,it){const a=statTotals(c),b=statTotals(c,it,null,slot);const w=wOf(c);const ks=new Set([...Object.keys(a),...Object.keys(b)]);const arr=[];
   ks.forEach(k=>{const d=(b[k]||0)-(a[k]||0);if(Math.abs(d)>=.5&&STAT_KO[k])arr.push([k,d])});arr.sort((x,y)=>(w[y[0]]||0)-(w[x[0]]||0));
   return arr.length?'<div class="chg">'+arr.map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+Math.round(Math.abs(d))+' <i>→ '+Math.round(b[k]||0)+'</i></span>').join('')+'</div>':''}
@@ -2090,6 +2124,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='stp'){ui.stopen=ui.stopen||{};ui.stopen[k]=!ui.stopen[k];rerender(true);if(ui.stopen[k]){const e=document.getElementById('stp-'+k);if(e&&b.classList.contains('pin'))e.scrollIntoView({block:'center',behavior:'smooth'})}return}
   if(a==='stall'){const d=DG[ui.dg];const g=DGG&&d&&DGG[d.slug];ui.stopen={};if(k==='1'&&g)g.steps.forEach(x=>ui.stopen[x.st?x.st.n:x.n]=1);rerender(true);return}
   if(a==='dfl'){ui.dfloor=+k;rerender(true);return}
+  if(a==='tmode'){c.tmode=k;save();rerender(true);toast({def:'생존 위주(덜 맞고 안 죽게)로 추천해요',bal:'생존·위협 균형으로 추천해요',off:'위협(TPS) 위주로 추천해요 — 적중·치명타·힘을 먼저 봐요'}[k]);return}
   if(a==='gmode'){c.gmode=k;save();rerender(true);toast(k==='solo'?'사냥용 기준으로 추천해요':'힐 위주 기준으로 추천해요');return}
   if(a==='bkout'||a==='bklink'){bkEncode({v:1,cur:DB.cur,list:DB.list}).then(code=>{const txt=a==='bklink'?location.origin+location.pathname+'#bk='+code:code;ui.bkcode=txt;rerender(true);
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
