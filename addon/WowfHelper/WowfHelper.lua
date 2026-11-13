@@ -1,12 +1,17 @@
--- 와포 도우미 (WowfHelper) v2
+-- 와포 도우미 (WowfHelper) v3
 -- 이 캐릭터 정보를 글자 코드로 만들어 줘요:
 --   끝낸 퀘스트 · 지금 퀘스트 목록(+ 목표 진행도) · 끼고 있는 장비 · 전문기술 숙련도 · 특성 포인트 · 경험치
+--   사냥 기록(시간당 경험치) · 가방·은행 아이템 · 골드 · 평판 · 이 컴퓨터의 부캐
+-- 앱에서 만든 「추천 코드」를 /wfh 추천 으로 넣으면 아이템 툴팁에 앱 추천이 붙어요.
+-- 보스를 대상으로 잡으면 앱의 보스 공략 요약이 작은 창으로 떠요. (/wfh 공략 으로 켜고 끄기)
 -- 게임 안에서 /wfh 를 치면 창이 뜨고, Ctrl+C 로 복사해서 앱의
 -- 「내 캐릭터 → 게임에서 불러오기」에 붙여 넣으면 돼요.
 -- 인터넷으로 보내는 건 없어요. 게임 밖으로 나가는 건 직접 복사한 글자뿐이에요.
 --
 -- /wfh        코드 창 열기
 -- /wfh 점검   (또는 /wfh test) 코드에 무엇이 몇 개 담겼는지 채팅창에 보여 주기
+-- /wfh 추천   앱의 추천 코드 붙여 넣기 (아이템 툴팁에 표시)
+-- /wfh 공략   보스 공략 창 켜기/끄기
 
 local B36 = "0123456789abcdefghijklmnopqrstuvwxyz"
 local PRE = "|cffe8c06a[와포 도우미]|r "
@@ -162,6 +167,91 @@ local function talents()
   return out
 end
 
+-- 6) 사냥 기록: 이번 접속에서 얻은 경험치 · 시간 (+ 최근 접속 5번 합)
+local sess = { xp = 0, t0 = 0, last = 0, lastMax = 0 }
+local function xpTick()
+  local cur, mx = UnitXP("player") or 0, UnitXPMax("player") or 0
+  if sess.lastMax > 0 then
+    if cur >= sess.last then sess.xp = sess.xp + (cur - sess.last)
+    else sess.xp = sess.xp + (sess.lastMax - sess.last) + cur end
+  end
+  sess.last, sess.lastMax = cur, mx
+end
+local function sessNow()
+  local secs = (time and time() or 0) - (sess.t0 or 0)
+  local hx, hs = sess.xp, secs
+  for _, h in ipairs((WowfHelperDB and WowfHelperDB.hist) or {}) do hx = hx + (h[1] or 0); hs = hs + (h[2] or 0) end
+  return sess.xp, secs, hx, hs
+end
+
+-- 7) 가방 · 은행 (아이템 번호 → 개수)
+local function bagSlots(bag)
+  if C_Container and C_Container.GetContainerNumSlots then return C_Container.GetContainerNumSlots(bag) or 0 end
+  if GetContainerNumSlots then return GetContainerNumSlots(bag) or 0 end
+  return 0
+end
+local function bagItem(bag, slot)
+  if C_Container and C_Container.GetContainerItemInfo then
+    local info = C_Container.GetContainerItemInfo(bag, slot)
+    if info then return info.itemID, info.stackCount end
+    return nil
+  end
+  if GetContainerItemID and GetContainerItemInfo then
+    local id = GetContainerItemID(bag, slot)
+    local _, count = GetContainerItemInfo(bag, slot)
+    return id, count
+  end
+end
+local function scanBags(list)
+  local t = {}
+  for _, bag in ipairs(list) do
+    for slot = 1, bagSlots(bag) do
+      local id, n = bagItem(bag, slot)
+      if id and id > 0 then t[id] = (t[id] or 0) + (n or 1) end
+    end
+  end
+  return t
+end
+local function bagsNow() return scanBags({ 0, 1, 2, 3, 4 }) end
+local function scanBank()
+  WowfHelperDB = WowfHelperDB or {}
+  WowfHelperDB.bank = scanBags({ -1, 5, 6, 7, 8, 9, 10 })
+  WowfHelperDB.bankAt = time and time() or 0
+end
+
+-- 8) 평판 (번호 · 등급 · 값 · 이름)
+local function reps()
+  local out = {}
+  if not (GetNumFactions and GetFactionInfo) then return out end
+  for i = 1, GetNumFactions() or 0 do
+    local name, _, standing, _, _, value, _, _, isHeader, _, hasRep, _, _, fid = GetFactionInfo(i)
+    if name and (not isHeader or hasRep) and standing then
+      local nm = name:gsub("[%s]", "_"):gsub("[;%.:,~%-%*]", "")
+      out[#out + 1] = (fid or 0) .. "-" .. standing .. "-" .. (value or 0) .. "-" .. nm
+    end
+  end
+  return out
+end
+
+-- 9) 이 컴퓨터의 부캐 (같은 서버, 접속할 때마다 기록)
+local function rememberMe()
+  WowfHelperAcc = WowfHelperAcc or {}
+  local realm = GetRealmName and GetRealmName() or "?"
+  WowfHelperAcc[realm] = WowfHelperAcc[realm] or {}
+  local _, cls = UnitClass("player")
+  local _, race = UnitRace("player")
+  WowfHelperAcc[realm][UnitName("player") or "?"] = { cls = cls, lv = UnitLevel("player"), race = race, t = time and time() or 0 }
+end
+local function alts()
+  local out = {}
+  local realm = GetRealmName and GetRealmName() or "?"
+  local me = UnitName("player")
+  for name, a in pairs((WowfHelperAcc and WowfHelperAcc[realm]) or {}) do
+    if name ~= me and a.cls then out[#out + 1] = name .. "-" .. a.cls .. "-" .. (a.lv or 1) .. "-" .. (a.race or "") end
+  end
+  return out
+end
+
 -- 코드 만들기
 -- WFH2;이름;서버;직업;레벨;종족;진영;D:끝낸 퀘스트;L:퀘스트 목록;E:장비;P:전문기술;T:특성;X:경험치
 local function makeCode()
@@ -204,11 +294,21 @@ local function makeCode()
   local tl = talents()
   local xp, xpMax, rest = UnitXP and UnitXP("player") or 0, UnitXPMax and UnitXPMax("player") or 0, GetXPExhaustion and GetXPExhaustion() or 0
 
+  local sx, ss, hx, hs = sessNow()
+  local bag, nb = {}, 0
+  for id, c in pairs(bagsNow()) do bag[#bag + 1] = b36(id) .. "-" .. c; nb = nb + 1 end
+  local bank, nk = {}, 0
+  for id, c in pairs((WowfHelperDB and WowfHelperDB.bank) or {}) do bank[#bank + 1] = b36(id) .. "-" .. c; nk = nk + 1 end
+  local rp, al = reps(), alts()
   local code = table.concat({ "WFH2", name, realm, cls or "", tostring(lv), race or "", faction,
     "D:" .. table.concat(parts, "."), "L:" .. table.concat(log, "."),
     "E:" .. table.concat(eq, "."), "P:" .. table.concat(pf, "."),
-    "T:" .. table.concat(tl, "-"), "X:" .. xp .. "-" .. xpMax .. "-" .. (rest or 0) }, ";")
-  return code, { done = #ids, log = #log, obj = nObj, eq = #eq, prof = #pf, tal = table.concat(tl, "/"), xp = xp, xpMax = xpMax }
+    "T:" .. table.concat(tl, "-"), "X:" .. xp .. "-" .. xpMax .. "-" .. (rest or 0),
+    "S:" .. sx .. "-" .. ss .. "-" .. hx .. "-" .. hs, "G:" .. (GetMoney and GetMoney() or 0),
+    "B:" .. table.concat(bag, "."), "K:" .. table.concat(bank, "."),
+    "R:" .. table.concat(rp, "."), "A:" .. table.concat(al, ".") }, ";")
+  return code, { done = #ids, log = #log, obj = nObj, eq = #eq, prof = #pf, tal = table.concat(tl, "/"), xp = xp, xpMax = xpMax,
+    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss }
 end
 
 -- 창
@@ -265,7 +365,7 @@ local function showFrame()
     frame.help:SetText("Ctrl+C 로 복사 → 앱 「내 캐릭터 → 게임에서 불러오기」에 붙여 넣기")
   end
   frame.code = code
-  frame.info:SetText(("끝낸 퀘스트 %d개 · 퀘스트 목록 %d개(목표 %d개)\n장비 %d칸 · 전문기술 %d개 · 특성 %s"):format(n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-"))
+  frame.info:SetText(("끝낸 퀘스트 %d · 목록 %d(목표 %d) · 장비 %d칸 · 전문기술 %d · 특성 %s\n가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.bag, n.bank, n.rep, n.alt, n.sxp or 0))
   frame.box:SetText(code)
   frame:Show()
   frame.box:SetFocus()
@@ -279,13 +379,18 @@ end
 local function selfTest()
   local ok, code, n = pcall(makeCode)
   if not ok then say("|cffff6060코드를 만들다 오류가 났어요:|r " .. tostring(code)); return end
-  say(("점검 · 끝낸 퀘스트 %d · 목록 %d · 목표 %d · 장비 %d · 전문기술 %d · 특성 %s · 경험치 %d/%d · 글자 %d자"):format(
-    n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.xp or 0, n.xpMax or 0, #code))
+  say(("점검 · 끝낸 퀘스트 %d · 목록 %d · 목표 %d · 장비 %d · 전문기술 %d · 특성 %s · 경험치 %d/%d"):format(
+    n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.xp or 0, n.xpMax or 0))
+  say(("점검 · 가방 %d종 · 은행 %d종%s · 평판 %d · 부캐 %d · 이번 접속 %d분 경험치 %d · 추천 %d개 · 보스 공략 %s · 글자 %d자"):format(
+    n.bag, n.bank, (WowfHelperDB and WowfHelperDB.bankAt) and "" or "(은행을 한 번 열어 주세요)", n.rep, n.alt, math.floor((n.ssec or 0) / 60), n.sxp or 0,
+    (WowfHelperDB and WowfHelperDB.recN) or 0, WowfHelperBoss and "있음" or "없음", #code))
   local apis = {}
   if not (C_QuestLog and C_QuestLog.GetQuestObjectives) and not GetQuestLogLeaderBoard then apis[#apis + 1] = "목표 진행도" end
   if not GetInventoryItemID then apis[#apis + 1] = "장비" end
   if not GetSkillLineInfo then apis[#apis + 1] = "전문기술" end
   if not GetTalentTabInfo then apis[#apis + 1] = "특성" end
+  if not (C_Container or GetContainerNumSlots) then apis[#apis + 1] = "가방" end
+  if not GetFactionInfo then apis[#apis + 1] = "평판" end
   if #apis > 0 then say("이 게임에서 못 읽는 것: " .. table.concat(apis, ", ")) end
 end
 
@@ -293,7 +398,10 @@ SLASH_WOWFHELPER1 = "/wfh"
 SLASH_WOWFHELPER2 = "/와포"
 SlashCmdList["WOWFHELPER"] = function(msg)
   msg = (msg or ""):lower():gsub("^%s+", ""):gsub("%s+$", "")
-  if msg == "점검" or msg == "test" or msg == "check" then selfTest() else showFrame() end
+  if msg == "점검" or msg == "test" or msg == "check" then selfTest()
+  elseif msg == "추천" or msg == "rec" then WowfHelper_RecBox()
+  elseif msg == "공략" or msg == "boss" then WowfHelper_BossToggle()
+  else showFrame() end
 end
 
 -- 레벨업 · 퀘스트 반납 · 장비 바뀜 → 「앱 코드가 바뀌었어요」 알림 (2분에 한 번만)
@@ -311,12 +419,173 @@ local ev = CreateFrame("Frame")
 ev:RegisterEvent("PLAYER_LOGIN")
 ev:RegisterEvent("PLAYER_LEVEL_UP")
 ev:RegisterEvent("QUEST_TURNED_IN")
+ev:RegisterEvent("PLAYER_XP_UPDATE")
+ev:RegisterEvent("BANKFRAME_OPENED")
+ev:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+ev:RegisterEvent("PLAYER_LOGOUT")
+ev:RegisterEvent("PLAYER_TARGET_CHANGED")
+ev:RegisterEvent("PLAYER_REGEN_ENABLED")
+local bankOpen = false
 ev:SetScript("OnEvent", function(_, e, a1)
+  if e == "PLAYER_XP_UPDATE" then xpTick(); return end
+  if e == "BANKFRAME_OPENED" then bankOpen = true; scanBank(); return end
+  if e == "PLAYERBANKSLOTS_CHANGED" then if bankOpen then scanBank() end; return end
+  if e == "PLAYER_TARGET_CHANGED" then WowfHelper_BossCheck(); return end
+  if e == "PLAYER_REGEN_ENABLED" then WowfHelper_BossCheck(true); return end
+  if e == "PLAYER_LOGOUT" then
+    -- 이번 접속 기록을 남기고 최근 5번만 보관
+    WowfHelperDB = WowfHelperDB or {}
+    local h = WowfHelperDB.hist or {}
+    local secs = (time and time() or 0) - (sess.t0 or 0)
+    if secs > 300 then table.insert(h, 1, { sess.xp, secs }) end
+    while #h > 5 do table.remove(h) end
+    WowfHelperDB.hist = h
+    rememberMe()
+    return
+  end
   if e == "PLAYER_LOGIN" then
+    sess.t0 = time and time() or 0; sess.xp = 0; sess.last = UnitXP("player") or 0; sess.lastMax = UnitXPMax("player") or 0
+    rememberMe()
     say("/wfh 를 치면 앱으로 옮길 코드가 나와요. (/wfh 점검 = 담긴 것 확인)")
   elseif e == "PLAYER_LEVEL_UP" then
+    rememberMe()
     note((a1 and (a1 .. "레벨 달성!") or "레벨업!") .. " 앱 코드가 바뀌었어요")
   elseif e == "QUEST_TURNED_IN" then
     note("퀘스트를 반납했어요. 앱 코드가 바뀌었어요")
   end
 end)
+
+-- ===== 아이템 툴팁에 앱 추천 (/wfh 추천 으로 넣은 코드) =====
+-- 코드: WFR1;U:번호-점수×10-칸.…;W:번호.번호 (번호는 36진수)
+local SLOTKO = { head = "머리", neck = "목", shoulder = "어깨", back = "등", chest = "가슴", wrist = "손목", hands = "손", waist = "허리", legs = "다리", feet = "발",
+  ring1 = "반지", ring2 = "반지", trink1 = "장신구", trink2 = "장신구", main = "주무기", off = "보조", ranged = "원거리" }
+local function parseRec(txt)
+  local i = txt:find("WFR1;", 1, true)
+  if not i then return nil end
+  local rec = { u = {}, w = {} }
+  local n = 0
+  for sec in txt:sub(i + 5):gmatch("[^;]+") do
+    local k, v = sec:match("^(%u):(.*)$")
+    if k == "U" then
+      for part in v:gmatch("[^%.]+") do
+        local id, g, sl = part:match("^(%w+)%-(%d+)%-(%a+%d?)$")
+        if id then rec.u[tonumber(id, 36)] = { tonumber(g) / 10, sl }; n = n + 1 end
+      end
+    elseif k == "W" then
+      for id in v:gmatch("[^%.]+") do local x = tonumber(id, 36); if x then rec.w[x] = true end end
+    end
+  end
+  return rec, n
+end
+
+local recBox
+function WowfHelper_RecBox()
+  if not recBox then
+    recBox = CreateFrame("Frame", "WowfHelperRecFrame", UIParent)
+    recBox:SetSize(420, 170); recBox:SetPoint("CENTER", 0, 120); recBox:SetFrameStrata("DIALOG")
+    recBox:EnableMouse(true); recBox:SetMovable(true); recBox:RegisterForDrag("LeftButton")
+    recBox:SetScript("OnDragStart", recBox.StartMoving); recBox:SetScript("OnDragStop", recBox.StopMovingOrSizing)
+    local bg = recBox:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetColorTexture(0.08, 0.07, 0.05, 0.95)
+    local t = recBox:CreateFontString(nil, "OVERLAY", "GameFontNormal"); t:SetPoint("TOPLEFT", 12, -10)
+    t:SetText("와포 도우미 · 앱 추천 코드 붙여 넣기 (Ctrl+V → 확인)")
+    local close = CreateFrame("Button", nil, recBox, "UIPanelCloseButton"); close:SetPoint("TOPRIGHT", 2, 2)
+    local eb = CreateFrame("EditBox", nil, recBox, "InputBoxTemplate")
+    eb:SetSize(380, 24); eb:SetPoint("TOPLEFT", 18, -40); eb:SetAutoFocus(true); eb:SetMaxLetters(0)
+    recBox.eb = eb
+    local info = recBox:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"); info:SetPoint("TOPLEFT", 14, -76); info:SetPoint("RIGHT", -14, 0); info:SetJustifyH("LEFT")
+    recBox.info = info
+    local ok = CreateFrame("Button", nil, recBox, "UIPanelButtonTemplate"); ok:SetSize(100, 24); ok:SetPoint("BOTTOMRIGHT", -14, 12); ok:SetText("확인")
+    local function apply()
+      local rec, n = parseRec(eb:GetText() or "")
+      if not rec then info:SetText("|cffff6060WFR1; 로 시작하는 코드가 아니에요.|r 앱 장비 탭 → 「게임 툴팁에 추천 넣기」에서 복사해 주세요."); return end
+      WowfHelperDB = WowfHelperDB or {}
+      WowfHelperDB.rec = rec; WowfHelperDB.recN = n
+      say(("추천 %d개를 넣었어요. 아이템에 마우스를 올리면 보여요."):format(n))
+      recBox:Hide()
+    end
+    ok:SetScript("OnClick", apply); eb:SetScript("OnEnterPressed", apply); eb:SetScript("OnEscapePressed", function() recBox:Hide() end)
+  end
+  local n = (WowfHelperDB and WowfHelperDB.recN) or 0
+  recBox.info:SetText(n > 0 and ("지금 들어 있는 추천: %d개 · 새 코드를 넣으면 바뀌어요"):format(n) or "앱 「장비 → 게임 툴팁에 추천 넣기」의 코드를 붙여 넣어요.")
+  recBox.eb:SetText(""); recBox:Show(); recBox.eb:SetFocus()
+end
+
+local function tipHook(tt)
+  if not tt or not tt.GetItem then return end
+  local _, link = tt:GetItem()
+  if not link then return end
+  local id = tonumber(link:match("item:(%d+)"))
+  local rec = WowfHelperDB and WowfHelperDB.rec
+  if not id or not rec then return end
+  -- 같은 툴팁에 두 번 붙지 않게
+  local nm = tt.GetName and tt:GetName()
+  if nm then
+    for i = 1, tt:NumLines() or 0 do
+      local l = _G[nm .. "TextLeft" .. i]
+      local tx = l and l:GetText()
+      if tx and (tx:find("와포 추천", 1, true) or tx:find("앱에서 찜한 템", 1, true)) then return end
+    end
+  end
+  local u = rec.u and rec.u[id]
+  if u then tt:AddLine(("|cffe8c06a와포 추천|r · %s 지금보다 |cff40ff40+%.1f|r"):format(SLOTKO[u[2]] or u[2] or "", u[1] or 0)) end
+  if rec.w and rec.w[id] then tt:AddLine("|cffffd100⭐ 앱에서 찜한 템|r") end
+  if u or (rec.w and rec.w[id]) then tt:Show() end
+end
+if GameTooltip and GameTooltip.HookScript then
+  pcall(function() GameTooltip:HookScript("OnTooltipSetItem", tipHook) end)
+  if ItemRefTooltip then pcall(function() ItemRefTooltip:HookScript("OnTooltipSetItem", tipHook) end) end
+end
+if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and Enum and Enum.TooltipDataType then
+  pcall(function() TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, function(tt) tipHook(tt) end) end)
+end
+
+-- ===== 보스 공략 창: 보스를 대상으로 잡으면 앱 공략 요약 =====
+local COL = { dz = "ff6060", int = "ffd040", dis = "60c0ff", av = "ff9a40", add = "c0c0c0", tk = "a0a0ff", hl = "60ff80", info = "cccccc" }
+local bossF
+local function bossFrame()
+  if bossF then return bossF end
+  bossF = CreateFrame("Frame", "WowfHelperBossFrame", UIParent)
+  bossF:SetSize(330, 40); bossF:SetPoint("TOP", 0, -140); bossF:SetFrameStrata("MEDIUM")
+  bossF:EnableMouse(true); bossF:SetMovable(true); bossF:RegisterForDrag("LeftButton"); bossF:SetClampedToScreen(true)
+  bossF:SetScript("OnDragStart", bossF.StartMoving); bossF:SetScript("OnDragStop", bossF.StopMovingOrSizing)
+  local bg = bossF:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetColorTexture(0.05, 0.04, 0.03, 0.85)
+  bossF.title = bossF:CreateFontString(nil, "OVERLAY", "GameFontNormal"); bossF.title:SetPoint("TOPLEFT", 10, -8)
+  local close = CreateFrame("Button", nil, bossF, "UIPanelCloseButton"); close:SetPoint("TOPRIGHT", 2, 2); close:SetScale(0.8)
+  bossF.lines = {}
+  for i = 1, 7 do
+    local l = bossF:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    l:SetPoint("TOPLEFT", 10, -10 - 16 * i); l:SetPoint("RIGHT", -10, 0); l:SetJustifyH("LEFT"); l:SetWordWrap(false)
+    bossF.lines[i] = l
+  end
+  bossF:Hide()
+  return bossF
+end
+function WowfHelper_BossCheck(leftCombat)
+  WowfHelperDB = WowfHelperDB or {}
+  if WowfHelperDB.bossOff or not WowfHelperBoss then return end
+  local f = bossFrame()
+  local name = UnitExists("target") and UnitName("target")
+  local tips = name and WowfHelperBoss[name]
+  if not tips then
+    if leftCombat or not UnitExists("target") then f:Hide() end
+    return
+  end
+  f.title:SetText("|cffe8c06a와포 공략|r · " .. name)
+  local n = 0
+  for i, raw in ipairs(tips) do
+    if i > 7 then break end
+    local t, lab, txt = raw:match("^([^|]+)|([^|]+)|(.*)$")
+    n = i
+    f.lines[i]:SetText(("|cff%s%s|r %s"):format(COL[t] or "cccccc", lab or "", txt or raw))
+    f.lines[i]:Show()
+  end
+  for i = n + 1, 7 do f.lines[i]:Hide() end
+  f:SetHeight(32 + 16 * n)
+  f:Show()
+end
+function WowfHelper_BossToggle()
+  WowfHelperDB = WowfHelperDB or {}
+  WowfHelperDB.bossOff = not WowfHelperDB.bossOff
+  if WowfHelperDB.bossOff and bossF then bossF:Hide() end
+  say(WowfHelperDB.bossOff and "보스 공략 창을 껐어요. (/wfh 공략 으로 다시 켜기)" or "보스 공략 창을 켰어요. 보스를 대상으로 잡으면 떠요.")
+end

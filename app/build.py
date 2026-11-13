@@ -214,12 +214,19 @@ def prof_ko(txt):
 PROFS_JS = prof_ko(rd(A / 'profs.js'))
 # 전문기술 화면에 쓰는 이름 → 아이콘 (만드는 아이템·재료)
 PICO = {}
+# 재료 이름 → 아이템 번호 (애드온 가방 개수와 맞추기용)
+KO_ID = {}
+for _id, _nm in sorted(ko.items()):
+    KO_ID.setdefault(_nm, _id)
+MATID = {}
 for sq in re.findall(r"'((?:[^'\\]|\\.)*)'", PROFS_JS):
     for part in re.split(r'\s*(?:,|/|→|\(|\))\s*', sq.replace("\\'", "'")):
         nm_ = re.sub(r'\s+[+]?\d+(?:~\d+)?(?:\s*등)?$', '', part.strip())
         v_ = WYN.get(nm_) or WYN.get(re.sub(r'\s*(꽃잎|잎사귀)$', '', nm_))
         if v_ and v_[1]:
             PICO[nm_] = v_[1]
+        if nm_ and nm_ in KO_ID:
+            MATID[nm_] = KO_ID[nm_]
 ITEMS_TXT = '\n'.join(items) + '\n'
 # 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
 QLV = {}
@@ -254,6 +261,7 @@ data = '\n'.join([
     'const D_CLS=' + json.dumps(slim, ensure_ascii=False, separators=(',', ':')) + ';',
     PROFS_JS,
     'const PICO=' + json.dumps(PICO, ensure_ascii=False, separators=(',', ':')) + ';',
+    'const D_MATID=' + json.dumps(MATID, ensure_ascii=False, separators=(',', ':')) + ';',
     rd(A / 'hubs.js'),
 ])
 (ROOT / 'app-data.js').write_text(data, encoding='utf-8')
@@ -281,6 +289,51 @@ html = f'''<!DOCTYPE html>
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
 print('index.html', len(html), 'app-data.js', len(data))
 
+# 애드온용 보스 공략 (abilities.txt → BossTips.lua): 한글·영어 보스 이름 둘 다로 찾기
+def _boss_lua():
+    dgg = json.loads(rd(ROOT / 'data/forg/dungeon-guide.json'))
+    en2ko = {}
+    for slug, g in dgg.items():
+        for st in g.get('steps', []):
+            if st.get('en') and st.get('nm'):
+                en2ko.setdefault(slug, {})[st['en']] = st['nm']
+    LB = {'dz': '위험', 'int': '끊기', 'av': '피하기', 'add': '쫄', 'tk': '탱커', 'hl': '치유', 'info': '참고'}
+    DK = {'magic': '마법', 'curse': '저주', 'poison': '독', 'disease': '질병', 'purge': '정화'}
+    cur = None; boss = None; T = {}
+    for l in rd(ROOT / 'data/guides/abilities.txt').split('\n'):
+        if not l or l.startswith('# '):
+            continue
+        if l[0] == '@':
+            cur = l[1:]; continue
+        if l[0] == '#':
+            boss = l[1:]; T.setdefault((cur, boss), []); continue
+        f = l.split('|')
+        if len(f) < 5 or not boss:
+            continue
+        t, _, k = f[0].partition(':')
+        lab = ('해제(' + DK.get(k, k) + ')') if t == 'dis' else LB.get(t, t)
+        x = f[4].split('→')
+        tip = (f[1] + ' — ' + x[-1].strip()) if len(x) > 1 else (f[1] + ' — ' + f[4].strip())
+        if len(tip) > 70:
+            tip = tip[:69] + '…'
+        T[(cur, boss)].append(t + '|' + lab + '|' + tip)
+    def q(v):
+        return '"' + v.replace('\\', '\\\\').replace('"', '\\"') + '"'
+    out = ['-- 자동 생성 (app/build.py) · 보스 이름(한글/영어) → 공략 줄 "종류|이름표|내용"', 'WowfHelperBoss = {}', 'local B = WowfHelperBoss']
+    n = 0
+    for (slug, en), lines in T.items():
+        if not lines:
+            continue
+        n += 1
+        out.append('do local t = {' + ', '.join(q(x) for x in lines) + '}')
+        out.append('B[' + q(en) + '] = t')
+        ko_ = en2ko.get(slug, {}).get(en)
+        if ko_ and ko_ != en:
+            out.append('B[' + q(ko_) + '] = t')
+        out.append('end')
+    (ROOT / 'addon' / 'WowfHelper' / 'BossTips.lua').write_text('\n'.join(out) + '\n', encoding='utf-8')
+    return n
+print('boss tips', _boss_lua())
 # 애드온 묶음 (addon/WowfHelper → addon/WowfHelper.zip), 내용이 같으면 그대로
 import zipfile, io
 _src = ROOT / 'addon' / 'WowfHelper'

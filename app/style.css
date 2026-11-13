@@ -1721,3 +1721,18 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 @keyframes swr{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}
 .spanel.swl{animation:swl .22s ease-out}.spanel.swr{animation:swr .22s ease-out}
 @media (prefers-reduced-motion:reduce){.spanel.swl,.spanel.swr{animation:none}}
+.adf{margin:8px 0}.adf>summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--gold)}.adf>summary small{color:var(--mute);font-weight:500;margin-left:4px}
+.adfg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:8px}
+.adfg>div{display:grid;grid-template-columns:22px 1fr;column-gap:6px;padding:6px 8px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.adfg i{font-style:normal;grid-row:1/3;font-size:16px;align-self:center}.adfg b{font-size:12.5px}.adfg span{font-size:11px;color:var(--mute);line-height:1.35}
+.adcmd{display:flex;flex-wrap:wrap;gap:4px 12px;margin:8px 0 2px;font-size:12px;color:#cfc6b3}.adcmd>b{width:100%;font-size:12px;color:var(--gold)}
+.adcmd code{background:#2a251d;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12px;color:var(--gold)}
+.plg{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.plg>div{display:flex;flex-direction:column;padding:8px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.plg small{font-size:11px;color:var(--mute)}.plg b{font-size:17px;color:var(--gold)}.plg span{font-size:11px;color:#a59d8c}
+.gld b{font-size:17px}.gg{color:#ffd100}.gs{color:#d8d8d8}.gc{color:#e0915a}
+.rpr{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--line)}.rpr .m{flex:1;min-width:0;display:flex;flex-direction:column}.rpr b{font-size:13px}.rpr small{font-size:11px;color:var(--mute)}
+.rpb{flex:none;width:110px;height:7px;border-radius:4px;background:#2a251d;overflow:hidden}.rpb i{display:block;height:100%;background:linear-gradient(90deg,#3f8f4f,#7bd987)}
+.pmat.have{border-color:#3f7a3c}.pmat .hv{margin-left:4px;font-size:10.5px;color:#8bf08b}
+.wfrb{display:flex;align-items:center;gap:8px;width:100%;margin:8px 0;padding:9px 12px;border-radius:12px;border:1px dashed var(--gold2);background:#3a2c1633;color:var(--gold);font:inherit;font-size:13px;font-weight:700;cursor:pointer}.wfrb small{color:var(--mute);font-weight:500;margin-left:auto}
+.bagu{border-color:#3f7a3c}
