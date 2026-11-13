@@ -63,6 +63,21 @@ def _dq():
     if ex.exists():
         seen = set(l.split('|')[2] for l in base.splitlines() if l.startswith('Q|'))
         base += '\n' + '\n'.join(l for l in rd(ex).splitlines() if l.startswith('Q|') and l.split('|')[2] not in seen)
+    # 보상이 빠진 퀘스트에 보상 채우기 (data/qdb/dungeon-quest-rewards.txt)
+    rf = ROOT / 'data' / 'qdb' / 'dungeon-quest-rewards.txt'
+    if rf.exists():
+        RWX = {}
+        for l in rd(rf).splitlines():
+            if l and not l.startswith('#'):
+                q, ch, ids = l.split('|'); RWX[q] = (ch, ids)
+        out = []
+        for l in base.split('\n'):
+            f = l.split('|')
+            if f[0] == 'Q' and f[2] in RWX and not f[10]:
+                while len(f) < 14: f.append('')
+                f[10] = RWX[f[2]][1]; f[12] = RWX[f[2]][0]; l = '|'.join(f)
+            out.append(l)
+        base = '\n'.join(out)
     return base
 
 
