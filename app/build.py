@@ -233,7 +233,8 @@ try:
             cl = [t for t in (o_.get('lines') or []) if t.startswith('직업:')]
             if cl:
                 allow = [_KO[x.strip()] for x in cl[0][3:].split(',') if x.strip() in _KO] or allow
-        elif not allow and bin(m0).count('1') <= 3 and not (f[3] or '').startswith('2.'):
+        elif not allow and bin(m0).count('1') <= 3 and not (f[3] or '').startswith('2.') and (f[3] or '') != '4.0' and f[2] not in ('ne', 'fi', 'tr', 'ho', 'ba'):
+            # 기타 방어구·목·반지·장신구·보조 장비·망토는 누구나 낄 수 있어서 forg의 좁은 표시(추천 직업)를 쓰지 않음 (직업 전용은 wowf 「직업:」 줄로)
             # 무기는 forg 표시가 적어도 숙련 규칙으로 (도적 한손 도끼처럼 포에버에서 바뀐 숙련 반영)
             continue
         m1 = mask_of(f[3] or '', allow)
