@@ -1282,11 +1282,24 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .cpick{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}
 .cpick .inp{min-width:0;font-size:16px;height:42px;padding:0 10px}
 .csel{appearance:none;-webkit-appearance:none;background:var(--bg);color:var(--txt);border:1px solid var(--line);border-radius:10px}
+
+/* 추천 얻는 곳 펼치기 */
+.picks{margin-top:10px}.picks h4{margin:0 0 6px;font-size:13.5px}
+.pick{border:1px solid var(--line);border-radius:10px;background:var(--bg);margin-bottom:6px;overflow:hidden}
+.pick summary{display:flex;justify-content:flex-start;text-align:left;width:100%;box-sizing:border-box;align-items:center;gap:8px;padding:7px 9px;cursor:pointer;list-style:none}.pick summary::-webkit-details-marker{display:none}
+.pick summary .ic{width:30px;height:30px;flex:none}.pick summary .m{flex:1 1 auto;align-items:flex-start;min-width:0;display:flex;flex-direction:column;line-height:1.3}
+.pick summary b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pick summary small{font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick summary .g{font-weight:800;color:#7bea7b;font-size:13px}.pick summary .ar{color:var(--mute);font-size:11px;transition:transform .15s}.pick[open] summary .ar{transform:rotate(180deg)}
+.srcl{padding:0 9px 4px;border-top:1px solid var(--line)}
+.srci{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:12.5px}.srci:last-child{border-bottom:0}
+.srci .si{width:20px;text-align:center;flex:none}.srci .sx{flex:1;min-width:0;line-height:1.35}.srci small{display:block;color:var(--mute);font-size:11px}
+.pka{display:flex;gap:6px;padding:4px 9px 9px;flex-wrap:wrap}
+.lnk{background:none;border:0;color:var(--gold);text-decoration:underline;padding:0;font:inherit;cursor:pointer}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=fae03a24"></script>
-<script>/* v8b8892 @11/13 09:23 */
-const BUILD='11/13 09:23';
+<script>/* v16f6ae @11/13 10:03 */
+const BUILD='11/13 10:03';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -1770,6 +1783,10 @@ function diffHtml(a,b,c){const w=wOf(c);const ks=new Set([...Object.keys(a?a.st:
   return '<span class="dif">'+arr.slice(0,4).map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+(k==='dps'?Math.abs(d).toFixed(1):Math.round(Math.abs(d)))+'</span>').join(' · ')+'</span>'}
 function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.src.slice(0,n||2).map(i=>{const s=SRC[i];if(!s)return '';
   if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+' · '+s.boss;if(s.k===1)return '퀘스트 「'+s.qn+'」';if(s.k===2)return '월드 드랍 (경매장)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':s.label.replace('드랍 · ','')+' 처치';if(s.k===4)return s.label.replace(/ · 경매장 거래$/,'')+' (경매장)';if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
+function srcList(it){if(!it.src.length)return '<p class="note">어디서 나오는지 아직 몰라요.</p>';
+  return '<div class="srcl">'+it.src.slice(0,6).map(i=>{const s=SRC[i];if(!s)return '';const d=s.k===0&&DG[s.dg];
+    const ico={0:'🏰',1:'📜',2:'🌍',3:'⚔️',4:'🧪',5:'🛒'}[s.k]||'•';const bn=d&&d.bosses?bossNo(d,s.boss):null;
+    return '<div class="srci"><span class="si">'+ico+'</span><span class="sx">'+esc(srcTxt({src:[i]},1))+(d?'<small>'+d.lo+'–'+d.hi+'레벨 던전'+(bn?' · '+bn+'번째 보스':'')+'</small>':'')+'</span>'+(d?'<button class="btn sm ghost" data-a="dgo" data-k="'+s.dg+'">던전 ›</button>':'')+'</div>'}).join('')+'</div>'}
 function itIcon(it,cls){return it&&(it.ic||it.icUrl)?'<span class="ic '+(cls||'')+' q-'+it.q+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic empty '+(cls||'')+'">–</span>'}
 function itName(it){return '<span class="q'+it.q+'">'+esc(it.nm)+'</span>'}
 function itMeta(it){return esc((SL_KO[it.sl]||it.sl)+(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?' · '+CS_KO[it.cs]:'')+' · Lv '+it.lv+(it.est?'?':''))+(it.ph==='extra'?' <span class="tag sm" title="클래식 자료로 더한 장비라 능력치가 조금 다를 수 있어요">능력치 대략</span>':'')}
@@ -1798,7 +1815,8 @@ function cmpTable(c,cols,w,opt){opt=opt||{};const L=c.lv;
   if(cols.length>1){const other=eq&&eq!==best?eq:cols.filter(x=>x!==best).sort((a,b)=>b.s-a.s)[0];const d=best.s-other.s;
     const why=ks.map(k=>[k,(best.it.st[k]||0)-(other.it.st[k]||0)]).filter(([k,v])=>v>0&&(w[k]||0)>0).sort((a,b)=>b[1]*(w[b[0]]||0)-a[1]*(w[a[0]]||0)).slice(0,2).map(([k,v])=>STAT_KO[k]+' +'+(k==='dps'?v.toFixed(1):Math.round(v)));
     verdict=d<.5?'<div class="cvd eq">🤝 거의 같아요 · 점수 차이 '+d.toFixed(1)+'</div>':'<div class="cvd">🏆 <b>'+esc(best.it.nm)+'</b>'+(best.eq?' (지금 착용)':'')+'이 '+(other.eq?'착용 장비':esc(other.it.nm))+'보다 <b class="good">+'+d.toFixed(1)+'점</b>'+(why.length?'<small>'+why.join(' · ')+' 덕분</small>':'')+'</div>'}
-  let h=verdict+'<div class="cbars">'+cols.map(x=>'<div class="cbar'+(x===best&&cols.length>1?' top':'')+(x.eq?' eqd':'')+'"><span class="cn">'+itIcon(x.it)+'<span class="ct"><b>'+itName(x.it)+'</b><small>'+(x.eq?'지금 착용':x.it.ob>c.lv?'🔒 '+x.it.ob+'레벨':esc(SL_KO[x.it.sl]||''))+'</small></span></span><span class="cg"><i style="width:'+Math.max(3,Math.round(x.s/mx*100))+'%"></i></span><span class="cv">'+x.s.toFixed(1)+(eq&&!x.eq?'<small class="'+(x.s-eq.s>=0?'p':'n')+'">'+(x.s-eq.s>=0?'+':'')+(x.s-eq.s).toFixed(1)+'</small>':'')+'</span>'+(opt.del&&!x.eq?'<button class="cx" data-a="cmpdel" data-k="'+x.it.id+'">✕</button>':'<span></span>')+'</div>').join('')+'</div>';
+  const whyOf=x=>{const o=eq&&eq!==x?eq:null;if(!o&&eq)return '';return ks.map(k=>[k,(x.it.st[k]||0)-(o?o.it.st[k]||0:0)]).filter(([k,v])=>v>0&&(w[k]||0)>0).sort((a,b)=>b[1]*(w[b[0]]||0)-a[1]*(w[a[0]]||0)).slice(0,2).map(([k,v])=>STAT_KO[k]+' +'+(k==='dps'?v.toFixed(1):Math.round(v))).join(' · ')};
+  let h=verdict+'<div class="cbars">'+cols.map(x=>'<div class="cbar'+(x===best&&cols.length>1?' top':'')+(x.eq?' eqd':'')+'"><span class="cn">'+itIcon(x.it)+'<span class="ct"><b>'+itName(x.it)+'</b><small>'+(x.eq?'지금 착용':x.it.ob>c.lv?'🔒 '+x.it.ob+'레벨':(whyOf(x)||esc(SL_KO[x.it.sl]||'')))+'</small></span></span><span class="cg"><i style="width:'+Math.max(3,Math.round(x.s/mx*100))+'%"></i></span><span class="cv">'+x.s.toFixed(1)+(eq&&!x.eq?'<small class="'+(x.s-eq.s>=0?'p':'n')+'">'+(x.s-eq.s>=0?'+':'')+(x.s-eq.s).toFixed(1)+'</small>':'')+'</span>'+(opt.del&&!x.eq?'<button class="cx" data-a="cmpdel" data-k="'+x.it.id+'">✕</button>':'<span></span>')+'</div>').join('')+'</div>';
   h+='<div class="cmpt" style="--n:'+cols.length+'"><div class="cr ch"><span></span>'+cols.map(x=>'<span class="cc"><b>'+itName(x.it)+'</b>'+(x.eq?'<em class="tag gd">착용 중</em>':'')+'</span>').join('')+'</div>'
    +ks.map(k=>{const vs=cols.map(x=>x.it.st[k]||0);const m=Math.max(...vs);const imp=(w[k]||0)>0;return '<div class="cr'+(imp?'':' lo')+'"><span>'+STAT_KO[k]+'</span>'+vs.map(v=>'<span class="'+(v&&v===m&&cols.length>1&&vs.filter(y=>y===m).length<cols.length?'bst':'')+'">'+(v?(k==='dps'?v.toFixed(1):Math.round(v)):'–')+'</span>').join('')+'</div>'}).join('')
    +'<div class="cr"><span>종류</span>'+cols.map(x=>'<span class="sm">'+itMeta(x.it)+'</span>').join('')+'</div>'
@@ -1949,7 +1967,7 @@ const HEALER_NOTE={paladin:1,shaman:1,druid:1};
 function offLocked(c,s){return s==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h'}
 function bestFor(c,slot,L,mode){const w=wOf(c);const cur=eqIt(c,slot);const other=slot==='ring1'?'ring2':slot==='ring2'?'ring1':slot==='trink1'?'trink2':slot==='trink2'?'trink1':null;const skip=other&&c.eq[other];
   const base=slot==='main'?sc(cur,'main',w):sc(cur,slot,w);
-  return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
+  const ng=c.nogo||[];return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
 function dollCell(c,s,ups){const it=eqIt(c,s);const sel=ui.gslot===s;const lock=offLocked(c,s);
   return '<button class="dc'+(sel?' sel':'')+(it?'':' empty')+'" data-a="gsel" data-k="'+s+'"'+(lock?' disabled':'')+' aria-label="'+SLOT_KO[s]+(it?' '+esc(it.nm):' 비어 있음')+'">'
    +(it?'<span class="ic lg q-'+it.q+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
@@ -1996,7 +2014,8 @@ function statChange(c,slot,it){const a=statTotals(c),b=statTotals(c,it,null,slot
 function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFor(c,slot,L,ui.ifil).slice(0,3);const {w}=cmpW(c);
   let h='<div class="card hl spanel"><div class="hd"><h3>'+SLOT_KO[slot]+' · 지금 장비와 추천 비교</h3><button class="x" data-a="gsel" data-k="">✕</button></div>';
   if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div><p class="note">지금보다 좋은 게 없어요 👍</p>'}
-  else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w);if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
+  else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="pick"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
+  {const ng=(c.nogo||[]).filter(id=>{const it=IT.get(id);return it&&fits(it,slot,c)});if(ng.length)h+='<p class="note">🚫 못 얻는다고 뺀 장비 '+ng.length+'개 · <button class="lnk" data-a="nogoclr" data-k="'+slot+'">다시 넣기</button></p>'}
   h+='<button class="btn ghost full" style="margin-top:8px" data-a="slot" data-k="'+slot+'">후보 전체 보기 · 이름으로 찾기</button></div>';
   return h}
 function statLine(it){const ks=Object.keys(it.st).filter(k=>STAT_KO[k]&&k!=='armor');return ks.length?'<span class="dif">'+ks.map(k=>STAT_KO[k]+' '+(k==='dps'?it.st[k].toFixed(1):'+'+Math.round(it.st[k]))).join(' · ')+'</span>':''}
@@ -2823,6 +2842,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='frsp'){const [kk,sp]=k.split('|');ui.frsp=ui.frsp||{};ui.frsp[kk]=sp;rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
   if(a==='frcopy'){const t=frText(k);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('복사했어요 · 디스코드·카톡에 붙여 넣으세요')).catch(()=>{ui.sheet=null;prompt('복사해서 쓰세요',t)});return}
+  if(a==='nogo'){const id=+k;c.nogo=c.nogo||[];if(!c.nogo.includes(id))c.nogo.push(id);const it=IT.get(id);toast('🚫 '+(it?it.nm:'')+' 뺐어요 · 다음 추천을 넣었어요');save();rerender(true);return}
+  if(a==='nogoclr'){c.nogo=(c.nogo||[]).filter(id=>{const it=IT.get(id);return !(it&&fits(it,k,c))});toast('뺀 장비를 다시 넣었어요');save();rerender(true);return}
   if(a==='wish'){const id=+k;c.wish=c.wish||[];const i=c.wish.indexOf(id);if(i>=0){c.wish.splice(i,1);toast('찜에서 뺐어요')}else{c.wish.push(id);toast('⭐ 찜했어요 · 장비 › 찜·비교')}save();rerender(true);return}
   if(a==='dgt'){ui.dgt=ui.dgt||{};ui.dgt[k]=ui.dgt[k]===false;rerender(true);return}
   if(a==='cmpdel'){c.cmp=(c.cmp||[]).filter(x=>x!==+k);save();rerender(true);return}
