@@ -713,7 +713,7 @@ function statChange(c,slot,it){const a=statTotals(c),b=statTotals(c,it,null,slot
 function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFor(c,slot,L,ui.ifil).slice(0,3);const {w}=cmpW(c);
   let h='<div class="card hl spanel"><div class="hd"><h3>'+SLOT_KO[slot]+' · 지금 장비와 추천 비교</h3><button class="x" data-a="gsel" data-k="">✕</button></div>';
   if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div><p class="note">지금보다 좋은 게 없어요 👍</p>'}
-  else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="pick"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
+  else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
   {const ng=(c.nogo||[]).filter(id=>{const it=IT.get(id);return it&&fits(it,slot,c)});if(ng.length)h+='<p class="note">🚫 못 얻는다고 뺀 장비 '+ng.length+'개 · <button class="lnk" data-a="nogoclr" data-k="'+slot+'">다시 넣기</button></p>'}
   h+='<button class="btn ghost full" style="margin-top:8px" data-a="slot" data-k="'+slot+'">후보 전체 보기 · 이름으로 찾기</button></div>';
   return h}
@@ -1230,9 +1230,9 @@ function bossBody(R,me,AB,c,WB){const shown=[];let h='';
   const abN=r=>AB.filter(a=>(a.t==='dis'?(r===me?abCan(a).has(c.cls):r==='hl'):r===me?abMine(a,c,me):a.w.includes(r)));
   h+='<div class="rtk">'+ord.map(r=>{const mine=r===me;const N=abN(r);const raw=(R[r]||[]).filter(t=>!seen(t)).slice(0,mine?3:2);raw.forEach(t=>shown.push(t));
       const nm=N.length?'<div class="rtn"><span>'+(mine?'위 「내 일」':'위 기술')+'</span>'+N.map(a=>'<i class="abk k-'+a.t+' wi">'+abIc(a)+esc(a.n)+(mine&&abCan(a).get(c.cls)?' · '+esc(abCan(a).get(c.cls)):'')+'</i>').join('')+'</div>':'';
-      return '<div class="rt'+(mine?' me':'')+'">'+ricon(r)+'<div class="rb-t"><b>'+RNM[r]+(mine?' · 내 할 일':'')+'</b>'+nm+(raw.length?'<ul>'+raw.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':N.length?'':'<p>'+NONE[r]+'</p>')+'</div></div>'}).join('')+'</div>';
+      return '<div class="rtr'+(mine?' me':'')+'">'+ricon(r)+'<div class="rb-t"><b>'+RNM[r]+(mine?' · 내 할 일':'')+'</b>'+nm+(raw.length?'<ul>'+raw.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':N.length?'':'<p>'+NONE[r]+'</p>')+'</div></div>'}).join('')+'</div>';
   const al=(R.al||[]).filter(t=>!seen(t)).slice(0,3);
-  if(al.length){h+='<div class="rt al">'+ricon('al')+'<div class="rb-t"><b>모두 알아 둘 것</b><ul>'+al.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div></div>';shown.push(...al)}
+  if(al.length){h+='<div class="rtr al">'+ricon('al')+'<div class="rb-t"><b>모두 알아 둘 것</b><ul>'+al.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div></div>';shown.push(...al)}
   /* 위에 안 나온 말만 「더 자세히」로 */
   const ex=[];['tk','dp','hl','al'].forEach(r=>(R[r]||[]).forEach(t=>{if(!seen(t)){ex.push([r,t]);shown.push(t)}}));
   const wy=AB.length&&WB&&WB.tip&&!seen(WB.tip)?WB.tip:'';
@@ -1333,7 +1333,7 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   h+=B.map(x=>{const show=lf==='all'?x.its.slice().sort((p,q)=>(x.good.includes(q)-x.good.includes(p))||(usable(q,c)-usable(p,c))):x.good;
     const bi=d.bosses.findIndex(b=>b.nm===x.nm);const im=x.nm==='기타'?'':(bossImg(d,x.nm,bi)||npcThumb((wyBoss(d,x.nm)||{}).id));
     return '<div class="bs2"><div class="h"><span class="por"'+(im?' style="background-image:url('+im+')"':'')+'>'+(im?'':'👹')+'</span><span class="m"><b>'+esc(x.nm==='기타'?'보스 외 드랍':x.nm)+(killOf(c,d.slug)[x.nm]?' <em class="kdm">✓ 잡음</em>':'')+'</b><small>'+(bi>=0?(bi+1)+'번째 보스 · ':'')+'드랍 '+x.its.length+'</small></span><span class="cnt'+(x.good.length?'':' none')+'">'+(x.good.length?'좋은 템 '+x.good.length:'좋은 템 없음')+'</span></div>'
-     +(show.length?'<div class="g2">'+show.map(tile).join('')+'</div>':'')+'</div>'}).join('');
+     +(show.length?'<div class="dgg2">'+show.map(tile).join('')+'</div>':'')+'</div>'}).join('');
   const W=wyOf(d);if(!WY)wyLoad();
   if(W&&W.trash&&W.trash.length){const T=W.trash;
     h+='<details class="trash2"><summary>🗡️ 그 밖의 몹 드랍 '+T.length+'<span class="ics">'+T.slice(0,4).map(t=>{const it=IT.get(t[0]);return it?itIcon(it):''}).join('')+'</span><i>›</i></summary><div class="sb">'+T.map(t=>{const it=IT.get(t[0]);return it?dropLine(c,it)+(t[6]?'<p class="wysrc">↳ '+esc(t[6])+'</p>':''):'<div class="wyit q'+t[4]+'"><b>'+esc(t[1])+'</b><span>'+esc([t[2],t[3]?'iLv '+t[3]:'',t[6]].filter(Boolean).join(' · '))+'</span></div>'}).join('')+'</div></details>'}
