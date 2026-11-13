@@ -1091,7 +1091,16 @@ function qSearchHtml(c,q){const nq=q.replace(/\s+/g,'');if(nq.length<1)return ''
 const MAPZ={'그늘숲':[9543.8,12.96,7040.3,8.635],'타나리스':[2080.5,33.131,8515.3,22.092],'엘윈 숲':[9206.6,16.666,6186.9,11.112],'서부 몰락지대':[8495.7,16.808,6888,11.199],'붉은마루 산맥':[10750.7,10.426,6492.2,6.946],'모단 호수':[10900.9,13.242,4530,8.829],'황야의 땅':[10941.6,11.946,5203.3,7.952],'썬더 블러프':[1727.7,5.015,6104,3.34],'달의 숲':[2637.9,11.103,1620.1,7.383],'스톰윈드':[9117,8.338,6214.2,5.559],'가시덤불 골짜기':[8878.1,30.622,7736.9,20.421],'저습지':[10130.7,19.857,3407.1,13.229],'다르나서스':[565.3,5.089,781.4,3.39],'던 모로':[9078.9,23.643,4236.8,15.763],'서부 역병지대':[9743.5,20.65,760.3,13.757],'잊혀진 땅':[-55.9,21.58,5479.2,14.386],'아이언포지':[10286.4,3.8,4569.2,2.535],'텔드랏실':[144.8,24.444,16.9,16.289],'동부 내륙지':[10699.8,18.49,1672.2,12.313],'아라시 고원':[10359.9,17.28,2440,11.518],'힐스브래드 구릉지':[9432.3,15.352,2183.6,10.243],'알터랙 산맥':[9567.9,13.443,1656.5,8.951],'먼지진흙 습지대':[2444.4,25.196,6672,16.797],'어둠의 해안':[564.6,31.425,1696.1,20.958],'불모의 땅':[715.8,48.659,4921.8,32.438],'잿빛 골짜기':[1160.1,27.675,3452.8,18.454],'악령의 숲':[1187.9,27.602,2272,18.403],'여명의 설원':[2128.4,34.075,1600.1,22.719],'운고로 분화구':[1719.8,17.765,8560.3,11.836],'돌발톱 산맥':[418.8,23.426,4296.1,15.629],'페랄라스':[-636.2,33.36,6831.9,22.243],'버섯구름 봉우리':[2185.3,21.101,7599.4,14.089],'실리더스':[758,16.72,8556.2,11.146],'슬픔의 늪':[11011.1,11.008,6994.2,7.336],'저주받은 땅':[10538.7,16.104,7448.3,10.712],'멀고어':[786.9,29.517,5567.5,19.699],'오그리마':[3742.5,6.733,4604.4,4.492],'언더시티':[9523.9,4.622,1474.7,3.07],'아즈샤라':[3548.6,24.349,3132.2,16.226],'이글거리는 협곡':[10099.1,10.707,5304.2,7.137],'불타는 평원':[10072.6,14.051,5750.8,9.375],'티리스팔 숲':[8486.6,21.72,535.7,14.433],'동부 역병지대':[11026.6,20.657,604,13.763],'듀로타':[2921.6,25.31,4828.3,16.905],'은빛소나무 숲':[8287.4,20.169,1573.2,13.5],'셴드랄라스':[1004.4,9.84,6607.6,6.569],'강물터':[10852.1,23.271,5478.4,15.542],'죽음의 고개':[10343.8,12,7111.8,8]};
 const ZALIAS={'먼지진흙 슾지대':'먼지진흙 습지대'};const zn=z=>ZALIAS[z]||z;const zEq=(a,b)=>!!a&&zn(a)===zn(b);
 const ATL={ek:{n:'eastern-kingdoms',w:5120,h:9728,ko:'동부 왕국'},ka:{n:'kalimdor',w:6400,h:10240,ko:'칼림도어'}};
-function toAtlas(zone,xy){const t=MAPZ[ZALIAS[zone]||zone];if(!t||!xy)return null;const p=String(xy).split(',').map(Number);if(p.length<2||isNaN(p[0]))return null;
+/* 지도 범위 더하기: 하이잘 산(wowf.io 지도 좌표로 맞춤), '동부 왕국' 전체 좌표 */
+Object.assign(MAPZ,{'하이잘 산':[2418.4,16.68,2671,11.09],'동부 왕국':[8192,51.2,0,97.28]});
+/* 던전·공격대 안 NPC는 지도에 못 찍으니 입구 자리로 (대략) */
+const DGENT={'검은바위 나락':['불타는 평원','29.2,38.2'],'검은바위 첨탑':['불타는 평원','29.2,38.2'],'화산 심장부':['불타는 평원','29.2,38.2'],'검은날개 둥지':['불타는 평원','29.2,38.2'],
+ '혈투의 전장':['페랄라스','59.0,44.8'],'줄구룹':['가시덤불 골짜기','53.9,17.6'],'놈리건':['던 모로','24.4,39.8'],'울다만':['황야의 땅','42.6,10.8'],'스트라솔름':['동부 역병지대','27.0,11.5'],'스트라솔룸':['동부 역병지대','27.0,11.5'],
+ '스칼로맨스':['서부 역병지대','69.7,73.2'],'아탈학카르 신전':['슬픔의 늪','69.6,53.6'],'가시덩굴 구릉':['불모의 땅','49.0,93.9'],'가시덩굴 우리':['불모의 땅','42.3,89.9'],'죽음의 폐광':['서부 몰락지대','42.6,71.8'],
+ '검은심연의 나락':['잿빛 골짜기','14.1,13.9'],'검은심연 나락':['잿빛 골짜기','14.1,13.9'],'마라우돈':['잊혀진 땅','29.1,62.6'],'줄파락':['타나리스','38.7,20.0'],'통곡의 동굴':['불모의 땅','46.0,36.5'],'로데론의 폐허':['티리스팔 숲','61.9,72.0'],
+ '영주의 전당':['아이언포지','40.0,55.0'],'깊은굴 지하철':['아이언포지','76.6,51.2'],'오닉시아의 둥지':['먼지진흙 습지대','52.5,76.6'],'안퀴라즈':['실리더스','28.6,92.4'],'안퀴라즈 폐허':['실리더스','36.5,93.5'],"Temple of Ahn'Qiraj":['실리더스','28.6,92.4'],
+ '낙스라마스':['동부 역병지대','39.9,25.8'],'그림자송곳니 성채':['은빛소나무 숲','44.8,67.8'],'스톰윈드 지하감옥':['스톰윈드','50.5,66.3']};
+function toAtlas(zone,xy){const E=DGENT[zone];if(E&&!MAPZ[zone])return toAtlas(E[0],E[1]);const t=MAPZ[ZALIAS[zone]||zone];if(!t||!xy)return null;const p=String(xy).split(',').map(Number);if(p.length<2||isNaN(p[0]))return null;
   let x=t[0]+t[1]*p[0],y=t[2]+t[3]*p[1];const c=x>=8192?'ek':'ka';if(c==='ek')x-=8192;return {c,x,y}}
 function amCanQ(c,q){const L=c.lv;const f=(ui.amf||{}).lv||'now';if(mqDone(c,q)||!qdbOk(c,q))return false;if(f==='all')return (q.m||0)<=L+5;return (q.m||0)<=L&&q.lv>=L-5&&q.lv<=L+3}
 const AMF0={g:1,r:0,rt:1,tr:0,fp:0,inn:0,lv:'now'};
@@ -1468,7 +1477,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   h+='<button class="swrow" data-a="rmap"><span class="sw'+(c.recMap?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 점선으로</small></button>';
   if(c.recMap)h+='<!--RM--><div class="gmrow">'+gmStyleSeg(c)+'</div>';
   if(c.recMap){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const P=[];
-    pts.forEach((s,i)=>{if(pts.slice(0,i).some(p=>Math.hypot(p.xy[0]-s.xy[0],p.xy[1]-s.xy[1])<2.5))return;P.push({x:s.xy[0],y:s.xy[1],k:'s'+s.type,t:String(ST.indexOf(s)+1),on:i===0,lab:i<4?s.place.split(' · ')[0].slice(0,12):''})});
+    const SP={};ui._stp=SP;pts.forEach((s,i)=>{const n=ST.indexOf(s)+1;const j=pts.slice(0,i).findIndex(p=>Math.hypot(p.xy[0]-s.xy[0],p.xy[1]-s.xy[1])<2.5);if(j>=0){SP[n]=SP[ST.indexOf(pts[j])+1];return}SP[n]=String(n);P.push({x:s.xy[0],y:s.xy[1],k:'s'+s.type,t:String(n),on:i===0,lab:i<4?s.place.split(' · ')[0].slice(0,12):''})});
     h+='<div class="rmap gm">'+gmapHtml(ST[0].zone,P.reverse(),pts.map(s=>s.xy),0,1,(c.mapStyle||'atlas')!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
   else if(c.recMap){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const W=366,H=230;const x=v=>8+v/100*(W-16),y=v=>8+v/100*(H-16);
     let m='<svg viewBox="0 0 '+W+' '+H+'" class="rmapsvg"><rect width="'+W+'" height="'+H+'" rx="12" fill="#221c14"/>';
@@ -1484,7 +1493,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
   h+='<div class="ft"><button class="q" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button><button class="p" data-a="rsdone">다 했어요 · 다음 단계</button></div></div>';
   const more=ui.rsall?ST.slice(1):ST.slice(1,5);
-  h+='<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>'<div class="nxr3"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
+  h+='<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
    +(ST.length>5?'<button class="btn ghost sm full" data-a="rsall">'+(ui.rsall?'접기':'모든 단계 보기 ('+(ST.length-1)+')')+'</button>':'')+'</div>';
   /* PC: 단계는 왼쪽, 지도는 오른쪽 */
   if(c.recMap&&isPC()){const a=h.indexOf('<!--RM-->'),b=h.indexOf('<!--/RM-->');if(a>=0&&b>a){const mp=h.slice(a+9,b);h=h.slice(0,a)+'<div class="rec2"><div class="rec2l">'+h.slice(b+10)+'</div><div class="rec2r">'+mp+'</div></div>'}}
@@ -2297,3 +2306,14 @@ document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||e.rep
   if(e.key==='?'){toast('단축키: 1~5 탭 이동 · / 퀘스트 찾기 · Esc 닫기');return}});
 /* 접는 칸 열림 상태 기억 (다시 그려도 그대로) */
 document.addEventListener('toggle',e=>{const t=e.target;if(t.dataset&&t.dataset.tg)ui[t.dataset.tg]=t.open},true);
+
+/* 추천 레벨업: 「다음 단계」 줄을 누르거나(폰) 올리면(PC) 지도에서 그 번호 핀이 빛나요 */
+function stGlow(n,on){const map=document.querySelector('.rmap');if(!map)return;const t=(ui._stp||{})[n]||String(n);
+  map.querySelectorAll('.gp.hl').forEach(x=>x.classList.remove('hl'));document.querySelectorAll('.nxr3.sel').forEach(x=>x.classList.remove('sel'));if(!on)return;
+  const pin=[...map.querySelectorAll('.gp')].find(b=>b.textContent.trim().replace(/\d+$/,m=>m)===t||b.firstChild&&b.firstChild.textContent===t);
+  const row=document.querySelector('.nxr3[data-st="'+n+'"]');if(row)row.classList.add('sel');
+  if(pin){pin.classList.add('hl');const r=map.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)map.scrollIntoView({block:'center',behavior:'smooth'})}
+  else if(on==='tap'&&!(ui._stp||{})[n])toast('이 단계는 지금 지도(같은 지역) 밖이에요')}
+document.addEventListener('click',e=>{const r=e.target.closest&&e.target.closest('.nxr3[data-st]');if(!r)return;const n=r.dataset.st;ui._stsel=ui._stsel===n?null:n;stGlow(ui._stsel||0,ui._stsel?'tap':false)});
+document.addEventListener('mouseover',e=>{if(!isPC())return;const r=e.target.closest&&e.target.closest('.nxr3[data-st]');if(r)stGlow(r.dataset.st,'hover')});
+document.addEventListener('mouseout',e=>{if(!isPC())return;const r=e.target.closest&&e.target.closest('.nxr3[data-st]');if(r&&!(e.relatedTarget&&r.contains(e.relatedTarget)))stGlow(ui._stsel||0,ui._stsel?'hover':false)});
