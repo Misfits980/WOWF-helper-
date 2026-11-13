@@ -640,11 +640,11 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   if(up)h+='<div class="lvup"><b>🎉 레벨 '+L+' 달성!</b><button class="btn sm" data-a="lvseen">확인</button></div>';
   /* 1. 퀘스트: 다음 갈 곳 (홈의 중심) */
   const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);
-  if(sec){const P=nowPlan(c,sec);const all=P.reduce((n,x)=>n+x.get.length,0),dn=P.reduce((n,x)=>n+x.get.filter(y=>y.done).length,0);
-    const next=P.filter(x=>x.get.some(y=>!y.done)||x.turn.some(y=>!y.done)).slice(0,3);
+  if(sec){const P=nowPlan(c,sec);const PS=planStats(c,P);const all=PS.all,dn=PS.dn;
+    const next=P.filter(x=>x.get.some(y=>!y.done&&y.q.min<=L)||x.turn.some(y=>!y.done)).slice(0,3);
     h+='<div class="card hq"><div class="hd"><h3><img class="hic" src="img/qget.png" alt="">다음 갈 곳</h3><button class="more" data-a="tab" data-k="quest"><b>'+dn+'/'+all+'</b> 퀘스트 ›</button></div>'
      +'<div class="pbar"><i style="width:'+(all?Math.round(dn/all*100):0)+'%"></i></div>'
-     +(next.length?next.map((x,i)=>{const g=x.get.filter(y=>!y.done).length,t=x.turn.filter(y=>!y.done).length;return '<button class="row" data-a="tab" data-k="quest"><span class="hno">'+(i+1)+'</span><span class="m"><span class="nm">'+esc(x.n)+'</span><span class="sub">'+esc(x.z)+'</span></span><span class="hqb">'+(g?'<span>'+QMK.g+g+'</span>':'')+(t?'<span>'+QMK.r+t+'</span>':'')+'</span></button>'}).join(''):'<p class="note">이 구간 퀘스트를 다 끝냈어요 👍 레벨을 올려 보세요.</p>')+'</div>'}
+     +(next.length?next.map((x,i)=>{const g=x.get.filter(y=>!y.done&&y.q.min<=L).length,t=x.turn.filter(y=>!y.done).length;const m=x.n.match(/^(.*?) \((\d+), (\d+)\)$/);return '<button class="row" data-a="tab" data-k="quest"><span class="hno">'+(i+1)+'</span><span class="m"><span class="nm">'+esc(x.npc?x.npc+' 근처':m?m[1]:x.n)+(x.again?' <small class="agn2">다시 들르기</small>':'')+'</span><span class="sub">'+esc(x.z)+(x.npc?' '+esc(x.n):'')+'</span></span><span class="hqb">'+(g?'<span>'+QMK.g+g+'</span>':'')+(t?'<span>'+QMK.r+t+'</span>':'')+'</span></button>'}).join(''):'<p class="note">이 구간 퀘스트를 다 끝냈어요 👍 레벨을 올려 보세요.</p>')+'</div>'}
   else h+='<div class="card"><p class="note">이 레벨 동선 자료가 없어요. 퀘스트 탭 지도에서 찾아보세요.</p></div>';
   /* 2. 챙길 것: 기술 · 장비 · 던전 · 곧 생기는 것 */
   const ls=(C?C.learns:[]).filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const nextLearn=ls.find(l=>l[0]>L);
@@ -786,7 +786,8 @@ function nchain(c,id,more){ui.nch=ui.nch||{};const open=!!ui.nch[id];
   h+='<ol class="nchl">'+ids.map((x,i)=>{const o=QDB.get(x);const d=mqDone(c,o);const g=o.g||[];const br=kidsOf(QPAR[x]!=null?QPAR[x]:-1).length>1;
     return '<li class="'+(d?'fin':'')+'"><button data-a="qopen" data-k="'+x+'"><span class="sn">'+(base+i+1)+'</span><span class="t"><b>'+esc(o.n)+'</b><span>'+(g[0]?esc(g[0])+(g[1]?' · '+esc(g[1]):''):'')+(br?' · 갈래':'')+'</span></span><span class="qlv '+lvCls(lvOf(x),c.lv)+'">'+(lvOf(x)||'?')+'</span>'+(d?'<em>✓</em>':'')+'</button></li>'}).join('')+'</ol>';
   return h}
-function nowCard(c,S){let P=nowPlan(c,S);const QK=new Map();P.forEach(h=>h.get.concat(h.turn).forEach(x=>{const k=x.q.id||x.z+'|'+x.q.nm;QK.set(k,(QK.get(k)||0)||x.done)}));const all=QK.size,dn=[...QK.values()].filter(Boolean).length;
+function planStats(c,P){const QK=new Map();P.forEach(h=>h.get.concat(h.turn).forEach(x=>{const k=x.q.id||x.z+'|'+x.q.nm;QK.set(k,(QK.get(k)||0)||x.done)}));return {all:QK.size,dn:[...QK.values()].filter(Boolean).length}}
+function nowCard(c,S){let P=nowPlan(c,S);const PS=planStats(c,P);const all=PS.all,dn=PS.dn;
   const lk=x=>x.q.min>c.lv;const left=H=>H.get.filter(x=>!x.done&&!lk(x)).length+H.turn.filter(x=>!x.done).length;
   const firstOpen=(P.filter(H=>!ui.rz||(ui.rz==='*'?!S.z.split(' · ').includes(H.z):H.z===ui.rz)).find(H=>left(H))||{}).k;ui.hopen=ui.hopen||{};
   const used=new Set();
@@ -848,8 +849,8 @@ function amPoints(c){const F=amF();const P=new Map();
   return [...P.values()]}
 /* 지금 할 일 동선: 마을 순서대로 번호 */
 function amRoute(c){const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);if(!S)return [];const out=[];let n=0;
-  for(const H of nowPlan(c,S)){const left=H.get.filter(x=>!x.done).length+H.turn.filter(x=>!x.done).length;if(!left||H.i>=97)continue;
-    const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);if(!m)continue;const a=toAtlas(H.z,m[2]+','+m[3]);if(!a)continue;n++;out.push({kind:'hub',no:n,nm:m[1],zone:H.z,c:a.c,x:a.x,y:a.y,H})}
+  for(const H of nowPlan(c,S)){const left=H.get.filter(x=>!x.done&&x.q.min<=c.lv).length+H.turn.filter(x=>!x.done).length;if(!left||H.i>=97)continue;n++;
+    const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const xy=m?m[2]+','+m[3]:H.xy?H.xy.join(','):'';if(!xy)continue;const a=toAtlas(H.z,xy);if(!a)continue;out.push({kind:'hub',no:n,nm:H.npc?H.npc+' 근처':m?m[1]:H.n,zone:H.z,c:a.c,x:a.x,y:a.y,H})}
   return out}
 /* 고른 퀘스트: 받는 곳 → 할 일 위치 → 반납 */
 function amFocus(id){const q=QDB&&QDB.get(id);if(!q)return null;const z=(q.g&&q.g[1])||q.z;const P=[];
