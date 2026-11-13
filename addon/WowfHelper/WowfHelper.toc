@@ -2,7 +2,7 @@
 ## Title: 와포 도우미 (WowfHelper)
 ## Notes: 퀘스트 · 장비 · 전문기술 · 특성 · 경험치 · 가방 · 평판 · 부캐 · 무기 숙련을 와포 도우미 앱으로 옮기는 코드를 만들어요. /wfh
 ## Author: Misfits980
-## Version: 3.1
+## Version: 3.2
 ## SavedVariablesPerCharacter: WowfHelperDB
 ## SavedVariables: WowfHelperAcc
 

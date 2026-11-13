@@ -615,6 +615,7 @@ for _f in ('data/forg/sources.txt', 'data/qdb/sources-extra.txt'):
         for _m in re.finditer(r'wh:npc=(\d+)', open(_p, encoding='utf-8').read()):
             _nids.add(int(_m.group(1)))
 _nz = {}
+_np = {}
 for _i in _nids:
     _r = NPC.get(_i)
     if not _r:
@@ -628,7 +629,25 @@ for _i in _nids:
         _zk = zone_name(_z)[0]
         if _zk:
             _nz[str(_i)] = _zk
+    # 장비를 떨구는 몹의 자리·레벨·희귀 여부 (앱 「네임드·희귀 몹」): [지역, x, y, 등급, 최저, 최고, 한글 이름, 자리 수]
+    _sp = _r.get(NK['spawns'])
+    if isinstance(_sp, dict) and _sp:
+        _best = None
+        for _zz in _sp:
+            _P = pts_of(_sp, _zz)
+            if not _P:
+                continue
+            _zk2, _cont = zone_name(_zz)
+            if not _zk2 or _cont in ('던전', '기타', '전장'):
+                continue
+            if not _best or len(_P) > len(_best[1]):
+                _best = (_zk2, _P)
+        if _best:
+            _xs = sorted(p[0] for p in _best[1]); _ys = sorted(p[1] for p in _best[1])
+            _np[str(_i)] = [_best[0], round(_xs[len(_xs) // 2], 1), round(_ys[len(_ys) // 2], 1), _r.get(NK['rank']) or 0,
+                            _r.get(NK['minLevel']) or 0, _r.get(NK['maxLevel']) or 0, ko_npc(_i) or '', len(_best[1])]
 W['nz'] = _nz
+W['np'] = _np
 with open(os.path.join(OUT, 'world.json'), 'w', encoding='utf-8') as f:
     json.dump(W, f, ensure_ascii=False, separators=(',', ':'))
 print('출처 몹 지역', len(_nz), '/', len(_nids))

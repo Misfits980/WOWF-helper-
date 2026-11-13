@@ -55,6 +55,35 @@ def _dgl():
     return '\n'.join(sorted(rows, key=lambda l: int(l.split('|')[4] or 0)))
 
 
+def _sets():
+    """세트 장비: wowf.io 툴팁의 「세트 이름 (0/N)」 + 부위 이름 + 「(n) 세트: 효과」 → [[이름, [부위], [[n, 효과]]]]"""
+    out = {}
+    f = ROOT / 'data' / 'qdb' / 'items-wowf.jsonl'
+    if not f.exists():
+        return []
+    for l in rd(f).splitlines():
+        try:
+            o = json.loads(l)
+        except Exception:
+            continue
+        L = o.get('lines') or []
+        for i, x in enumerate(L):
+            m = re.match(r'^(.+?) \(0/(\d+)\)$', x)
+            if not m:
+                continue
+            nm, n = m.group(1), int(m.group(2))
+            parts = L[i + 1:i + 1 + n]
+            bon = []
+            for y in L[i + 1 + n:]:
+                mb = re.match(r'^\((\d+)\) 세트: (.+)$', y)
+                if mb:
+                    bon.append([int(mb.group(1)), mb.group(2)])
+            if nm not in out or len(bon) > len(out[nm][2]):
+                out[nm] = [nm, parts, bon]
+            break
+    return list(out.values())
+
+
 def _dq():
     have = set(l.split('|')[1] for l in rd(F / 'dungeon-quests.txt').splitlines() if l.startswith('B|'))
     base = rd(F / 'dungeon-quests.txt').rstrip('\n') + '\n' + '\n'.join(l for l in _dnew() if l[:2] in ('B|', 'Q|') and l.split('|')[1] not in have)
@@ -359,6 +388,7 @@ data = '\n'.join([
     PROFS_JS,
     'const PICO=' + json.dumps(PICO, ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_MATID=' + json.dumps(MATID, ensure_ascii=False, separators=(',', ':')) + ';',
+    'const D_SETS=' + json.dumps(_sets(), ensure_ascii=False, separators=(',', ':')) + ';',
     rd(A / 'hubs.js'),
 ])
 (ROOT / 'app-data.js').write_text(data, encoding='utf-8')

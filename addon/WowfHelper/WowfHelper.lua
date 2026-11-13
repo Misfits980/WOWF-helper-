@@ -321,15 +321,17 @@ local function makeCode()
   local bank, nk = {}, 0
   for id, c in pairs((WowfHelperDB and WowfHelperDB.bank) or {}) do bank[#bank + 1] = b36(id) .. "-" .. c; nk = nk + 1 end
   local rp, al = reps(), alts()
+  local tx, nt = {}, 0
+  for nm in pairs((WowfHelperDB and WowfHelperDB.taxi) or {}) do tx[#tx + 1] = (nm:gsub("[;%^]", " ")); nt = nt + 1 end
   local code = table.concat({ "WFH2", name, realm, cls or "", tostring(lv), race or "", faction,
     "D:" .. table.concat(parts, "."), "L:" .. table.concat(log, "."),
     "E:" .. table.concat(eq, "."), "P:" .. table.concat(pf, "."),
     "T:" .. table.concat(tl, "-"), "X:" .. xp .. "-" .. xpMax .. "-" .. (rest or 0),
     "S:" .. sx .. "-" .. ss .. "-" .. hx .. "-" .. hs, "G:" .. (GetMoney and GetMoney() or 0),
     "B:" .. table.concat(bag, "."), "K:" .. table.concat(bank, "."),
-    "R:" .. table.concat(rp, "."), "A:" .. table.concat(al, "."), "W:" .. table.concat(ws, ",") }, ";")
+    "R:" .. table.concat(rp, "."), "A:" .. table.concat(al, "."), "W:" .. table.concat(ws, ","), "F:" .. table.concat(tx, "^") }, ";")
   return code, { done = #ids, log = #log, obj = nObj, eq = #eq, prof = #pf, tal = table.concat(tl, "/"), xp = xp, xpMax = xpMax,
-    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws }
+    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws, taxi = nt }
 end
 
 -- 창
@@ -389,7 +391,7 @@ local function showFrame()
     frame.off:SetText("끄기: /wfh 공략 (보스 창) · /wfh 알림 · /wfh 추천 지우기 · /wfh 설정 (상태 보기)")
   end
   frame.code = code
-  frame.info:SetText(("끝낸 퀘스트 %d · 목록 %d(목표 %d) · 장비 %d칸 · 전문기술 %d · 특성 %s\n가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 무기 숙련 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.bag, n.bank, n.rep, n.alt, n.wsk or 0, n.sxp or 0))
+  frame.info:SetText(("끝낸 퀘스트 %d · 목록 %d(목표 %d) · 장비 %d칸 · 전문기술 %d · 특성 %s\n가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 무기 숙련 %d · 비행 경로 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.bag, n.bank, n.rep, n.alt, n.wsk or 0, n.taxi or 0, n.sxp or 0))
   frame.box:SetText(code)
   frame:Show()
   frame.box:SetFocus()
@@ -461,6 +463,7 @@ ev:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
 ev:RegisterEvent("PLAYER_LOGOUT")
 ev:RegisterEvent("PLAYER_TARGET_CHANGED")
 ev:RegisterEvent("PLAYER_REGEN_ENABLED")
+ev:RegisterEvent("TAXIMAP_OPENED")
 local bankOpen = false
 ev:SetScript("OnEvent", function(_, e, a1)
   if e == "PLAYER_XP_UPDATE" then xpTick(); return end
@@ -468,6 +471,17 @@ ev:SetScript("OnEvent", function(_, e, a1)
   if e == "PLAYERBANKSLOTS_CHANGED" then if bankOpen then scanBank() end; return end
   if e == "PLAYER_TARGET_CHANGED" then WowfHelper_BossCheck(); return end
   if e == "PLAYER_REGEN_ENABLED" then WowfHelper_BossCheck(true); return end
+  if e == "TAXIMAP_OPENED" then
+    -- 비행 조련사 창을 열면 아는 비행 경로를 기억 (앱에서 안 연 곳 알려 주기)
+    WowfHelperDB = WowfHelperDB or {}
+    WowfHelperDB.taxi = WowfHelperDB.taxi or {}
+    for i = 1, (NumTaxiNodes and NumTaxiNodes() or 0) do
+      local t = TaxiNodeGetType and TaxiNodeGetType(i)
+      local nm = TaxiNodeName and TaxiNodeName(i)
+      if nm and (t == "CURRENT" or t == "REACHABLE") then WowfHelperDB.taxi[nm] = true end
+    end
+    return
+  end
   if e == "PLAYER_LOGOUT" then
     -- 이번 접속 기록을 남기고 최근 5번만 보관
     WowfHelperDB = WowfHelperDB or {}
