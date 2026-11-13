@@ -1993,3 +1993,6 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .dqb small{font-size:11px;color:#a99f8c}.dqb .btn{align-self:flex-start;margin-top:4px}
 .dqb.done{border-color:#2f5a3c;background:linear-gradient(180deg,rgba(20,50,30,.55),rgba(12,28,18,.55))}.dqb.done b{color:#8fe3a6}
 .chgc summary{cursor:pointer;font-weight:700;color:#ffe08a}.chgc .trow{cursor:default}.chgc[open] summary{margin-bottom:6px}
+.dqr .por{display:flex;align-items:center;justify-content:center;font-size:22px}
+.dqrn{margin:10px 12px 4px;font-size:13.5px;font-weight:700;color:#e9dcc0}.dqrn em{font-style:normal;font-size:11px;padding:1px 6px;border-radius:6px;background:#3a2f17;color:#ffe08a;margin-left:4px}.dqrn .mute{font-weight:400;font-size:12px}
+.tag.fv{background:#1d2b3a;color:#8fc7ff;border-color:#2f4a66}

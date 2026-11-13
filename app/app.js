@@ -272,7 +272,7 @@ function mapView(c){const L=c.lv;
   if(!QDB.size)return '<p class="empty-st">퀘스트 자료를 못 불러왔어요. 잠시 뒤에 다시 열어 주세요.</p>';
   const all=[...QDB.values()].filter(q=>qdbOk(c,q)&&q.z&&q.c!=='던전');
   const Z={};for(const q of all){const k=q.c+'|'+q.z;(Z[k]=Z[k]||{c:q.c||'기타',z:q.z,q:[]}).q.push(q)}
-  const zs=Object.values(Z).map(o=>{const lv=o.q.map(q=>q.lv).filter(x=>x>0).sort((a,b)=>a-b);o.lo=lv[Math.floor(lv.length*.1)]||0;o.hi=lv[Math.min(lv.length-1,Math.floor(lv.length*.9))]||0;o.mid=lv[Math.floor(lv.length/2)]||0;o.done=o.q.filter(q=>mqDone(c,q)).length;return o});
+  const zs=Object.values(Z).map(o=>{const lv=o.q.filter(q=>q.m>0&&q.lv-q.m<=12).map(q=>q.lv).filter(x=>x>0).sort((a,b)=>a-b);o.lo=lv[Math.floor(lv.length*.1)]||0;o.hi=lv[Math.min(lv.length-1,Math.floor(lv.length*.9))]||0;o.mid=lv[Math.floor(lv.length/2)]||0;o.done=o.q.filter(q=>mqDone(c,q)).length;return o});
   const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);const myZ=sec?sec.z.split(' · ')[0]:'';
   let mc=ui.mc||(zs.find(o=>o.z===myZ)||{}).c||'동부 왕국';
   let h='<p class="note">포에버 퀘스트 <b>'+all.length.toLocaleString()+'개</b>를 지역마다 모았어요. ⚡ 빠른 레벨업 루트에 없는 퀘스트도 다 있어요.</p>';
@@ -846,7 +846,9 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   else h+='<div class="card"><p class="note">이 레벨 동선 자료가 없어요. 퀘스트 탭 지도에서 찾아보세요.</p></div>';
   /* 2. 챙길 것: 기술 · 장비 · 던전 · 곧 생기는 것 */
   const ls=(C?C.learns:[]).filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const nextLearn=ls.find(l=>l[0]>L);
-  const U=upgrades(c,L,'ok');const D=dgNow(L);
+  const U=upgrades(c,L,'ok');
+  /* 지금 갈 던전: 내게 좋은 템(보스 드랍+퀘스트 보상)·남은 퀘스트가 많은 순 */
+  const D=dgNow(L).map(d=>{const S=dgState(c,d);const qg=S.left.reduce((n,q)=>n+q.rw.map(id=>IT.get(id)).filter(it=>it&&usable(it,c)&&!ownedOf(c,it.id)&&((bestSlot(it,c)||{}).g||0)>.01).length,0);d._v={g:S.ups.length+qg,q:S.left.length,all:S.all};return d}).sort((a,b)=>(a._v.all-b._v.all)||(b._v.g*2+b._v.q)-(a._v.g*2+a._v.q)||(a.fit-b.fit));
   const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,'탈것(훈련 100골드, 말 함께 받음)과 이중 특성이 열려요'],[60,'만렙! 빠른 탈것 훈련은 1,000골드 · 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
   const row=(ic,t,sub,a,k,right,dim)=>'<div class="trow'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><img class="ti" src="'+ic+'" alt=""><span class="m"><b>'+t+'</b><span>'+sub+'</span></span>'+(right||'')+'<span class="r">›</span></div>';
   const i2=h.length;h+='<div class="card todo">';
@@ -854,7 +856,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
     :row('img/ui-book.png','기술','다 배웠어요'+(nextLearn?' · 다음 '+nextLearn[0]+'레벨':''),'goc','learn','<span class="tok">✓</span>',1);
   const NEW=U.filter(x=>(x.it.ob||x.it.lv)>=L-1);
   h+=U.length?row('img/ui-shield.png','장비',(NEW.length?'🆕 새로 낄 수 있는 템 <b class="hl">'+NEW.length+'개</b> · '+esc(NEW[0].it.nm):esc(U[0].it.nm)+' · '+SLOT_KO[U[0].slot]),'tab','gear','<span class="tbg">'+U.length+'</span>'):row('img/ui-shield.png','장비','지금은 더 좋은 템이 없어요','tab','gear','<span class="tok">✓</span>',1);
-  h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
+  h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D[0]._v.g?' · <b class="hl">⭐ 좋은 템 '+D[0]._v.g+'</b>':'')+(D[0]._v.q?' · 퀘스트 '+D[0]._v.q:'')+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
   h+=msRows(c);
   h+='</div>';const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c);
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
@@ -864,7 +866,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
         +(R.length?'<div class="hpz">'+Object.entries(G).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([z,n])=>'<span>'+esc(z)+' <b>'+n+'</b></span>').join('')+'</div>':'')+'</div>'}
     else qlC+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3></div><p class="note">게임 퀘스트창을 가져오면 반납할 곳·정리할 퀘스트를 알려 줘요.</p><button class="btn sm ghost" data-a="imp">🧩 게임에서 불러오기</button></div>';
     if(U.length)gC+='<div class="card hpc"><div class="hd"><h3>⬆️ 바꾸면 좋은 장비</h3><button class="more" data-a="tab" data-k="gear">'+U.length+'개 ›</button></div>'+U.slice(0,3).map(x=>upRow(c,x)).join('')+'</div>';
-    if(D.length)dC+='<div class="card hpc"><div class="hd"><h3>🏰 지금 갈 만한 던전</h3><button class="more" data-a="tab" data-k="dungeon">던전 ›</button></div>'+D.map(d=>[d,dgState(c,d)]).sort((x,y)=>x[1].all-y[1].all).slice(0,4).map(([d,S])=>'<div class="trow" data-a="dgo" data-k="'+d.slug+'"><span class="m"><b>'+esc(d.ko)+(S.all?' <span class="dgok">✅ 퀘스트 다 함</span>':'')+'</b><span>'+d.lo+'–'+d.hi+'레벨 · '+esc(d.loc||'')+(S.Q.length?' · 퀘스트 '+S.done.length+'/'+S.Q.length:'')+(S.inLog.length?' · 퀘스트창 '+S.inLog.length:'')+'</span></span><span class="r">›</span></div>').join('')+'</div>';
+    if(D.length)dC+='<div class="card hpc"><div class="hd"><h3>🏰 지금 갈 만한 던전</h3><button class="more" data-a="tab" data-k="dungeon">던전 ›</button></div>'+D.map(d=>[d,dgState(c,d)]).sort((x,y)=>x[1].all-y[1].all).slice(0,4).map(([d,S])=>'<div class="trow" data-a="dgo" data-k="'+d.slug+'"><span class="m"><b>'+esc(d.ko)+(S.all?' <span class="dgok">✅ 퀘스트 다 함</span>':'')+'</b><span>'+d.lo+'–'+d.hi+'레벨 · '+esc(d.loc||'')+(S.Q.length?' · 퀘스트 '+S.done.length+'/'+S.Q.length:'')+(S.inLog.length?' · 퀘스트창 '+S.inLog.length:'')+(d._v&&d._v.g?' · <b class="hl">⭐ 좋은 템 '+d._v.g+'</b>':'')+'</span></span><span class="r">›</span></div>').join('')+'</div>';
     h+='<div class="hcols"><div>'+hq+qlC+dC+'</div><div>'+td+gC+adC+'</div></div>'}
   else h+=adC;
   return h+'</div>'}
@@ -958,7 +960,7 @@ function uRow(c,x,soon){const cur=eqIt(c,x.slot);const it=x.it;const st=it.st||{
   return '<details class="ur"><summary>'+itIcon(it)+'<span class="m"><span class="t"><em>'+esc(SLOT_KO[x.slot])+'</em>'+itName(it)+'</span><span class="s">'+(top?esc(top):'')+(guideHas(c,it.id)?' <i class="gd">📘</i>':'')+(soon?' · '+(it.ob||it.lv)+'레벨':'')+'</span>'+(x.bag?'<span class="s bagt">'+(x.where==='bank'?'🏦 은행에 있어요':'🎒 가방에 있어요')+' · 바로 끼세요</span>':'')+(x.nx?'<span class="s nxl">🔜 '+(x.nx.it.ob||x.nx.it.lv)+'레벨 '+esc(x.nx.it.nm)+' <b>+'+(x.nx.g>=10?Math.round(x.nx.g):x.nx.g.toFixed(1))+'</b></span>':'')+'</span><span class="ug '+cls+'">'+(x.empty?'빈 칸':'+'+(x.g>=10?Math.round(x.g):x.g.toFixed(1)))+'</span></summary>'
     +'<div class="urb">'+itStats(it,c)+dif2(it,cur,c)+'<p class="sub">'+(cur?'지금: '+esc(cur.nm)+' · ':'')+esc(srcTxt(it,1))+' · '+(it.ob>it.lv?it.ob+'레벨쯤 얻음':'Lv '+it.lv)+luckTag(it,c)+guideTag(it,c)+skTag(it,c)+bothTag(it)+'</p>'
     +(x.nx?'<p class="sub">🔜 '+(x.nx.it.ob||x.nx.it.lv)+'레벨쯤: <b>'+esc(x.nx.it.nm)+'</b> · '+esc(srcTxt(x.nx.it,1))+' <button class="lnk" data-a="cmpq" data-k="'+x.slot+':'+x.nx.it.id+'">보기</button></p>':'')+'<div class="ura"><button class="btn sm" data-a="cmpq" data-k="'+x.slot+':'+it.id+'">비교·자세히</button><button class="btn sm ghost" data-a="wish" data-k="'+it.id+'">'+(isWish(c,it.id)?'⭐ 찜함':'☆ 찜')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+it.id+'">🚫 못 얻어요</button></div></div></details>'}
-function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+guideTag(x.it,c)+skTag(x.it,c)+bothTag(x.it)+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
+function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+guideTag(x.it,c)+skTag(x.it,c)+bothTag(x.it)+(x.it.id>=200000?' <span class="tag fv" title="와우 포에버에서 새로 생긴 템">포에버 신규</span>':'')+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
 const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
@@ -2023,7 +2025,7 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const pcN=dqOf(c,d).filter(q=>preChain(q.id).some(i=>!mqDone(c,QDB.get(i)))).length;
   let h='<div class="wrap"><div class="dhero2"><img src="'+DG_IMG(d.slug)+'" alt="" onerror="this.remove()"><div class="dt"><h2>'+esc(d.ko)+'</h2><small>'+esc(d.en)+'</small><div class="meta"><span class="pill lvp">Lv '+d.lo+'–'+d.hi+'</span>'+(d.soon?'<span class="pill soonp">🚧 개방 예정</span>':'')+(d.loc?'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_map_01')+')"></span>'+esc(d.loc)+'</span>':'')+'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_bone_humanskull_01')+')"></span>보스 '+order.length+'</span></div></div></div>';
   const dt=ui.dtab||'route';h+=dgQBanner(c,d);
-  h+='<div class="tabs3">'+[['route','inv_misc_map02','공략',''],['loot','inv_misc_bag_10','템',myUps.length?'⭐'+myUps.length:''],['quest','inv_misc_note_01','퀘스트',d.q.length?(pcN?'⚠'+d.q.length:d.q.length):'']].map(x=>'<button class="'+(dt===x[0]?'on':'')+'" data-a="dtab" data-k="'+x[0]+'"><span class="ic" style="background-image:url('+ICO(x[1])+')"></span>'+x[2]+(x[3]!==''?' <em>'+x[3]+'</em>':'')+'</button>').join('')+'</div>';
+  h+='<div class="tabs3">'+[['route','inv_misc_map02','공략',''],['loot','inv_misc_bag_10','템',myUps.length?'⭐'+myUps.length:''],['quest','inv_misc_note_01','퀘스트',dqOf(c,d).length?(pcN?'⚠'+dqOf(c,d).length:dqOf(c,d).length):'']].map(x=>'<button class="'+(dt===x[0]?'on':'')+'" data-a="dtab" data-k="'+x[0]+'"><span class="ic" style="background-image:url('+ICO(x[1])+')"></span>'+x[2]+(x[3]!==''?' <em>'+x[3]+'</em>':'')+'</button>').join('')+'</div>';
   if(dt==='route')return h+dgRoute(c,d,dgTargets(c,d,dt))+'</div>';
   /* 1. 퀘스트 */
   if(dt==='quest'){const dq=c.dq||{};const outN=dqOf(c,d).filter(q=>!/던전 안/.test(q.start)&&q.start).length;const dn=dqOf(c,d).filter(q=>dq[q.id]).length;
@@ -2042,6 +2044,11 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
     const bi=d.bosses.findIndex(b=>b.nm===x.nm);const im=x.nm==='기타'?'':(bossImg(d,x.nm,bi)||npcThumb((wyBoss(d,x.nm)||{}).id));
     return '<div class="bs2"><div class="h"><span class="por"'+(im?' style="background-image:url('+im+'),url('+ICO('inv_misc_bone_humanskull_01')+')"':'')+'>'+(im?'':'👹')+'</span><span class="m"><b>'+esc(x.nm==='기타'?'보스 외 드랍':x.nm)+(killOf(c,d.slug)[x.nm]?' <em class="kdm">✓ 잡음</em>':'')+'</b><small>'+(bi>=0?(bi+1)+'번째 보스 · ':'')+'드랍 '+x.its.length+'</small></span><span class="cnt'+(x.good.length?'':' none')+'">'+(x.good.length?'좋은 템 '+x.good.length:'좋은 템 없음')+'</span></div>'
      +(show.length?'<div class="dgg2">'+show.map(tile).join('')+'</div>':'')+'</div>'}).join('');
+  /* 던전 퀘스트 보상 템 (보스 드랍과 따로) */
+  {const dq=c.dq||{};const QR=dqOf(c,d).map(q=>({q,its:q.rw.map(id=>IT.get(id)).filter(Boolean)})).filter(x=>x.its.length);
+   if(QR.length){const gd=it=>{if(!usable(it,c))return 0;const b=bestSlot(it,c);return b&&b.g>.01?b.g:0};const nG=QR.reduce((n,x)=>n+x.its.filter(gd).length,0);
+    h+='<div class="bs2 dqr"><div class="h"><span class="por">📜</span><span class="m"><b>던전 퀘스트 보상</b><small>퀘스트 '+QR.length+'개 · 하나 골라 받는 건 「택1」</small></span><span class="cnt'+(nG?'':' none')+'">'+(nG?'좋은 템 '+nG:'좋은 템 없음')+'</span></div>'
+     +QR.map(x=>{const show=lf==='all'?x.its:x.its.filter(gd);if(!show.length)return '';return '<p class="dqrn">'+(dq[x.q.id]?'✅ ':'')+esc(x.q.nm)+(x.q.choose&&x.its.length>1?' <em>택1</em>':'')+' <span class="mute">Lv '+x.q.lv+'</span></p><div class="dgg2">'+show.map(tile).join('')+'</div>'}).join('')+'</div>'}}
   const W=wyOf(d);if(!WY)wyLoad();
   if(W&&W.trash&&W.trash.length){const T=W.trash;
     h+='<details class="trash2"><summary>🗡️ 그 밖의 몹 드랍 '+T.length+'<span class="ics">'+T.slice(0,4).map(t=>{const it=IT.get(t[0]);return it?itIcon(it):''}).join('')+'</span><i>›</i></summary><div class="sb">'+T.map(t=>{const it=IT.get(t[0]);return it?dropLine(c,it)+(t[6]?'<p class="wysrc">↳ '+esc(t[6])+'</p>':''):'<div class="wyit q'+t[4]+'"><b>'+esc(t[1])+'</b><span>'+esc([t[2],t[3]?'iLv '+t[3]:'',t[6]].filter(Boolean).join(' · '))+'</span></div>'}).join('')+'</div></details>'}
