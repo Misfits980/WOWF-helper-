@@ -1049,12 +1049,50 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
   h+='<button class="impl" data-a="imp">🧩 게임에서 이미 한 퀘스트 불러오기 <small>고급 · 애드온</small></button>';
   h+='<details class="rall"><summary>🗺️ 1–60 전체 레벨 루트 보기</summary>'+rows.slice(pastN).join('')+'<p class="note">⛵ 배 타는 곳: '+BOAT+'</p></details>';
   return h}
+/* ===== 🎒 지금 퀘스트창 (게임에서 불러온 목록) → 동선 · 목록 ===== */
+function xyOf(t){const m=String(t||'').match(/(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
+function logStops(c,ids){const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
+  const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}else{if(s0.type!==type)s0.type='mix';if(place&&!s0.place.split(' · ').includes(place))s0.place+=' · '+place}s0.items.push({q,type});if(need)s0.need.add(need);return s0};
+  ids.forEach(id=>{const q=QDB.get(id);if(!q)return;const st=c.ql[id];const d=QD.get(id)||{};const R=q.r||[];const G=q.g||[];
+    const rz=R[1]||q.z,rxy=xyOf(R[2]);
+    if(st===2){add('turn',rz,rxy,R[0]||'반납',q)}
+    else{const t=(d.t||[])[0];const oxy=t?xyOf(t[2]):null;const rep=/평판/.test(q.o||'');if(t&&t[1]||rep){const place=t&&t[1]?t[1]:'평판 올리기 (켄타우로스 등 처치)';add('do',q.z,oxy,place,q);add('turn',rz,rxy,R[0]||'반납',q,id)}else add('turn',rz,rxy,R[0]||'가는 곳',q)}});
+  /* 가까운 곳부터, 반납은 할 일 끝난 뒤 */
+  const byZ={};St.forEach(s=>(byZ[s.zone]=byZ[s.zone]||[]).push(s));
+  const dist=(a,b)=>a&&b?Math.hypot(a[0]-b[0],a[1]-b[1]):999;
+  return Object.entries(byZ).sort((a,b)=>b[1].length-a[1].length).map(([z,L])=>{const out=[];const doneQ=new Set();const left=L.slice();
+    const readyItems=s=>s.items.filter(it=>it.type!=='turn'||!s.need.size||!it.q||!s.need.has(it.q.id)||doneQ.has(it.q.id));
+    /* 시작: 지금 반납할 게 제일 많은 곳(보통 지금 있는 마을) */
+    let cur=left.filter(s=>s.xy).sort((a,b)=>readyItems(b).filter(i=>i.type==='turn').length-readyItems(a).filter(i=>i.type==='turn').length)[0]||left[0];
+    let guard=0;
+    while(cur&&guard++<80){const R=readyItems(cur);const W=cur.items.filter(it=>!R.includes(it));
+      if(R.length){out.push(Object.assign({},cur,{items:R,type:R.every(i=>i.type==='turn')?'turn':R.every(i=>i.type==='do')?'do':'mix'}));R.forEach(it=>{if(it.type==='do')doneQ.add(it.q.id)})}
+      left.splice(left.indexOf(cur),1);
+      if(W.length){const rest=Object.assign({},cur,{items:W,type:'turn',need:new Set(W.map(i=>i.q.id))});left.push(rest)}
+      if(!left.length)break;
+      const avail=left.filter(s=>readyItems(s).length);const pool=avail.length?avail:left;
+      cur=pool.slice().sort((a,b)=>dist(cur.xy,a.xy)-dist(cur.xy,b.xy))[0]}
+    return [z,out]})}
+function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
+  if(!ids.length)return '<div class="card lgempty"><h3>🎒 지금 퀘스트창</h3><p class="note">게임 퀘스트창에 있는 퀘스트를 가져오면, 어디서 하고 어디서 반납하는지 <b>동선</b>으로 정리해 줘요.</p><button class="btn" data-a="imp">🧩 게임에서 불러오기</button></div>';
+  if(!QDB){qdbLoad();return '<p class="note">퀘스트 자료를 불러오는 중…</p>'}
+  const rdy=ids.filter(id=>ql[id]===2).length;const known=ids.filter(id=>QDB.has(id));const unk=ids.length-known.length;const v=ui.lgv||'route';
+  let h='<div class="lgh2"><span class="big">'+ids.length+'<small>/25</small></span><span class="m"><b>지금 퀘스트창</b><small>반납 가능 '+rdy+' · 하는 중 '+(ids.length-rdy)+(c.imported?' · '+new Date(c.imported.t).toLocaleDateString('ko-KR')+' 불러옴':'')+'</small></span><button class="btn sm ghost" data-a="imp">다시 불러오기</button></div>';
+  h+='<div class="chips seg">'+[['route','🧭 동선'],['list','📋 목록']].map(x=>'<button class="chip'+(v===x[0]?' on':'')+'" data-a="lgv" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
+  const qline=(q,type)=>{const st=ql[q.id];return '<button class="lgq" data-a="qopen" data-k="'+q.id+'"><span class="lvq2">'+(q.lv||'?')+'</span><span class="m"><b>'+esc(q.n)+'</b>'+(type?'<small>'+(type==='turn'?'반납'+(st===2?'':' (할 일 끝난 뒤)'):'할 일: '+esc(((QD.get(q.id)||{}).t||[]).map(t=>t[1]).filter(Boolean).slice(0,2).join(' · ')||String(q.o||'').slice(0,40)))+'</small>':'')+'</span>'+(st===2?'<em class="rdy">반납 가능</em>':'')+'</button>'};
+  if(v==='route'){
+    logStops(c,known).forEach(([z,L])=>{h+='<div class="lgz"><b>'+esc(z)+'</b><small>'+L.length+'곳</small></div><div class="lgr2">'+L.map((s,i)=>'<div class="lgs t-'+s.type+'"><span class="n">'+(i+1)+'</span><div class="b"><div class="h"><span class="k">'+(s.type==='turn'?'반납':s.type==='do'?'하기':'하기·반납')+'</span><b>'+esc(s.place)+'</b><small>'+(s.xy?s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'')+'</small>'+(s.items[0]?'<button class="mp" data-a="mmgo" data-k="'+s.items[0].q.id+'">지도</button>':'')+'</div>'+s.items.map(it=>qline(it.q,it.type)).join('')+'</div></div>').join('')+'</div>'})}
+  else{const byZ={};known.forEach(id=>{const q=QDB.get(id);(byZ[q.z]=byZ[q.z]||[]).push(q)});
+    Object.entries(byZ).forEach(([z,L])=>{L.sort((a,b)=>(ql[b.id]===2)-(ql[a.id]===2)||(a.lv||0)-(b.lv||0));h+='<div class="lgz"><b>'+esc(z)+'</b><small>'+L.length+'개</small></div><div class="lgl">'+L.map(q=>'<div class="lgli">'+qline(q,ql[q.id]===2?'turn':'do')+'<span class="acts"><button class="btn sm ghost" data-a="mmgo" data-k="'+q.id+'">지도</button><button class="btn sm" data-a="qldone" data-k="'+q.id+'">끝냈어요</button></span></div>').join('')+'</div>'})}
+  if(unk)h+='<p class="note">앱 자료에 없는 퀘스트 '+unk+'개는 빼고 보여 줘요.</p>';
+  return h}
 function quest(c){const L=c.lv;const qm=ui.qmode||'route';const q0=(ui.qsrch||'').trim();
   let h='<div class="wrap"><div class="qsearch"><span>'+qico('quest')+'</span><input class="inp" placeholder="퀘스트·NPC·지역 이름으로 찾기" value="'+esc(ui.qsrch||'')+'" data-c="qsrch">'+(q0?'<button class="x2" data-a="qsclr">✕</button>':'')+'</div>';
   h+='<div id="qsres">'+(q0?qSearchHtml(c,q0):'')+'</div><div id="qbody"'+(q0?' hidden':'')+'>';
-  h+='<div class="chips seg">'+[['route','⚡ 빠른 레벨업'],['atlas','📍 지도'],['map','🗺️ 지역 목록']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
+  h+='<div class="chips seg">'+[['route','⚡ 빠른 레벨업'],['log','🎒 퀘스트창'+(c.ql&&Object.keys(c.ql).length?' '+Object.keys(c.ql).length:'')],['atlas','📍 지도'],['map','🗺️ 지역 목록']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
   const end='</div></div>';
   if(qm==='route')return h+routeView(c)+end;
+  if(qm==='log')return h+logView(c)+end;
   if(qm==='map')return h+mapView(c)+end;
   if(qm==='atlas')return h+amView(c)+end;
   ui.qmode='map';return h+mapView(c)+end}
@@ -1544,8 +1582,10 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='lv-'||a==='lv+'){setLv(c,c.lv+(a==='lv+'?1:-1));rerender(true);return}
   if(a==='chars'){ui.sheet='chars';rerender(true);return}
   if(a==='imp'){ui.sheet='imp';rerender(true);if(!QDB)qdbLoad();return}
+  if(a==='lgv'){ui.lgv=k;rerender(true);return}
+  if(a==='qldone'){c.mq=c.mq||{};c.mq[+k]=1;if(c.ql)delete c.ql[+k];save();toast('끝냄으로 표시하고 퀘스트창에서 뺐어요');rerender(true);return}
   if(a==='impgo'){const P=ui.imp;if(!P)return;c.mq=c.mq||{};c.dq=c.dq||{};let n=0;const dqIds=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id)));P.done.forEach(id=>{if(!c.mq[id]){c.mq[id]=1;n++}if(dqIds.has(id))c.dq[id]=1});
-    c.ql={};P.log.forEach(x=>c.ql[x.id]=x.done?2:1);if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length};ui.imp=null;ui.impraw='';ui.sheet=null;save();toast('✓ 끝낸 퀘스트 '+P.done.length+'개를 불러왔어요 (새로 '+n+'개)');rerender(true);return}
+    c.ql={};P.log.forEach(x=>c.ql[x.id]=x.done?2:1);if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length};ui.imp=null;ui.impraw='';ui.sheet=null;if(P.log.length){ui.tab='quest';ui.qmode='log'}save();toast('✓ 끝낸 퀘스트 '+P.done.length+'개를 불러왔어요 (새로 '+n+'개)');rerender(true);return}
   if(a==='pick'){DB.cur=k;save();ui.sheet=null;ui.dg=null;ui.qz=null;render();window.scrollTo(0,0);toast('캐릭터를 바꿨어요');return}
   if(a==='add'){ui.sheet=null;ui.onb={name:'',race:c.race,cls:'',spec:'',lv:1};render();window.scrollTo(0,0);return}
   if(a==='del'){if(!ui.delAsk){ui.delAsk=1;rerender(true);return}DB.list=DB.list.filter(x=>x.id!==c.id);DB.cur=DB.list[0]?DB.list[0].id:null;save();ui.delAsk=0;ui.sheet=null;render();toast('지웠어요');return}
