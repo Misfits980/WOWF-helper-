@@ -688,7 +688,12 @@ function repCard(c){const R=(c.rep||[]).filter(r=>r.st<8&&r.st>=3);if(!R.length)
   return '<div class="card rpc"><div class="hd"><h3>🏳️ 평판</h3>'+(R.length>4?'<button class="more" data-a="repall">'+(ui.repAll?'접기':'전체 '+R.length+'개')+' ›</button>':'')+'</div>'
     +L.map(x=>'<div class="rpr"><span class="m"><b>'+esc(x.r.nm)+'</b><small>'+x.T[1]+(x.nx?' → '+x.nx[1]+'까지 '+x.left.toLocaleString():'')+'</small></span><span class="rpb"><i style="width:'+Math.round(x.p*100)+'%"></i></span></div>').join('')+'</div>'}
 /* 🧩 홈: 게임 애드온 안내 · 마지막으로 가져온 때 */
-const ADDON_FEAT=[['📜','퀘스트','끝낸 퀘스트 · 퀘스트창 · 목표 진행도(3/8)'],['🛡️','장비','끼고 있는 17칸 → 장비 탭 자동'],['🌳','특성','찍은 쪽으로 특성 자동'],['⚒️','전문기술','숙련도 · 지금 할 단계 표시'],['⏱️','사냥 기록','시간당 경험치 · 다음 레벨까지 몇 분'],['🎒','가방·은행','더 좋은 템 · 전문기술 재료 개수'],['💰','골드','가진 돈'],['🏳️','평판','다음 등급까지 얼마'],['👥','부캐','이 컴퓨터 캐릭터 자동 추가'],['🎮','툴팁 추천','게임 아이템 툴팁에 「와포 추천」'],['🐉','보스 공략 창','보스를 대상으로 잡으면 기술 요약'],['🔔','알림','레벨업·반납 때 「앱 코드가 바뀌었어요」']];
+const ADDON_FEAT=[['📜','퀘스트','진행도(3/8)까지'],['🛡️','장비','17칸 자동 입력'],['🌳','특성','찍은 쪽으로 자동'],['⚒️','전문기술','숙련도 · 지금 단계'],['⏱️','사냥 기록','시간당 경험치'],['🎒','가방·은행','더 좋은 템 · 재료'],['💰','골드','가진 돈'],['🏳️','평판','다음 등급까지'],['👥','부캐','앱에 자동 추가'],['🎮','툴팁 추천','게임 툴팁에 표시'],['🐉','보스 공략 창','보스 기술 요약'],['🔔','알림','레벨업·반납 때']];
+const ADDON_CMD=[['/wfh','코드 창 열기'],['/wfh 점검','담긴 개수 확인'],['/wfh 추천','툴팁 추천 넣기','wfr']];
+const ADDON_OFF=[['/wfh 공략','보스 공략 창 끄기 · 켜기'],['/wfh 알림','알림 · 접속 인사 끄기 · 켜기'],['/wfh 추천 지우기','툴팁 추천 지우기'],['/wfh 설정','지금 켜고 끈 상태 보기']];
+/* 명령어 표: 왼쪽 명령어 칸 너비를 맞춤 */
+function addonCmdTable(title,rows,foot){return '<div class="acmd"><div class="acmh">'+title+'</div><div class="acmg">'+rows.map(r=>'<code>'+r[0]+'</code><span>'+r[1]+(r[2]?' <button class="lnk" data-a="'+r[2]+'">코드 만들기</button>':'')+'</span>').join('')+'</div>'+(foot?'<p class="acmf">'+foot+'</p>':'')+'</div>'}
+function addonOffHtml(){return addonCmdTable('🔕 끄는 방법 <small>게임 채팅창에 입력</small>',ADDON_OFF,'애드온 전체 끄기: 캐릭터 선택 화면 「애드온」에서 체크 해제')}
 function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
   let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
   if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드')}
@@ -697,12 +702,12 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
     else if(Date.now()-im.t>36e5)h+='<p class="adw">한 시간 넘게 지났어요. 게임에서 <code>/wfh</code> 로 새 코드를 가져오면 퀘스트·장비·가방이 다시 맞춰져요.</p>'}
   else h+='<p class="note">게임 정보를 앱으로 한 번에 가져오는 애드온이에요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 복사해서 붙여 넣는 방식이에요.</p>';
   h+='<details class="adf"'+(im?'':' open')+'><summary>애드온으로 할 수 있는 것 <small>'+ADDON_FEAT.length+'가지</small></summary><div class="adfg">'+ADDON_FEAT.map(f=>'<div><i>'+f[0]+'</i><b>'+f[1]+'</b><span>'+f[2]+'</span></div>').join('')+'</div></details>';
-  h+='<ol class="adst"><li><a class="btn sm" href="addon/WowfHelper.zip" download>WowfHelper.zip 받기</a><span>압축 푼 <b>WowfHelper</b> 폴더를 <b>Interface/AddOns</b> 에 넣기 (원래 폴더는 지우고)</span></li>'
-   +'<li><code>/wfh</code><span>게임 채팅창에 치면 코드 창이 떠요 → <b>Ctrl+C</b></span></li>'
-   +'<li><button class="btn sm ghost" data-a="imp">코드 붙여 넣기</button><span>여기에 붙여 넣으면 끝</span></li></ol>'
-   +'<div class="adcmd"><b>게임 명령어</b><span><code>/wfh</code> 코드 창</span><span><code>/wfh 점검</code> 담긴 개수 확인</span><span><code>/wfh 추천</code> 툴팁 추천 넣기 <button class="lnk" data-a="wfr">코드 만들기</button></span><span><code>/wfh 공략</code> 보스 공략 창 켜기/끄기</span></div>'
-   +'<div class="adcmd impoff"><b>🔕 끄는 방법 (게임 채팅창)</b><span><code>/wfh 공략</code> 보스 공략 창 끄기 (창의 ✕ 는 그 보스만 닫기)</span><span><code>/wfh 알림</code> 레벨업·반납 알림·접속 인사 끄기</span><span><code>/wfh 추천 지우기</code> 툴팁 추천 지우기</span><span><code>/wfh 설정</code> 지금 켜고 끈 상태</span><span>애드온 전체 → 캐릭터 고르는 화면 「애드온」에서 체크 해제</span></div>'
-   +'<p class="adt">은행은 게임에서 한 번 열어야 담겨요 · 부캐는 그 캐릭터로 한 번 접속해야 담겨요'+(isPC()?'':' · PC에서 하는 게 편해요')+'</p></div>';
+  h+='<div class="adst2">'
+   +'<div><em>1</em><span class="t"><b>애드온 받기</b><small><b>WowfHelper</b> 폴더를 <b>Interface/AddOns</b> 에 넣기 · 원래 폴더는 지우고</small></span><a class="btn sm" href="addon/WowfHelper.zip" download>zip 받기</a></div>'
+   +'<div><em>2</em><span class="t"><b>게임에서 <code>/wfh</code></b><small>채팅창에 치면 코드 창이 떠요 → Ctrl+C</small></span></div>'
+   +'<div><em>3</em><span class="t"><b>앱에 붙여 넣기</b><small>붙여 넣으면 바로 맞춰져요</small></span><button class="btn sm ghost" data-a="imp">붙여 넣기</button></div></div>';
+  h+='<div class="acmw">'+addonCmdTable('⌨️ 게임 명령어',ADDON_CMD)+addonOffHtml()+'</div>';
+  h+='<p class="adt">은행은 게임에서 한 번 열어야 담겨요 · 부캐는 그 캐릭터로 한 번 접속해야 담겨요'+(isPC()?'':' · PC에서 하는 게 편해요')+'</p></div>';
   return h}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   if(c.seenLv==null||c.seenLv>L)c.seenLv=L;const up=L>c.seenLv;
@@ -1878,7 +1883,7 @@ function impSheet(c){let h='<div class="sh"><h2>🧩 게임에서 불러오기</
   h+='<p class="note">애드온으로 게임 안의 <b>끝낸 퀘스트 · 퀘스트 목록(진행도) · 장비 · 전문기술 · 특성 · 경험치</b>를 한 번에 옮겨요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 직접 복사해서 붙여 넣는 방식이에요. PC에서 하는 게 편해요.</p>';
   h+='<ol class="imps"><li><b>애드온 받기</b> <a class="btn sm" href="addon/WowfHelper.zip" download>WowfHelper.zip 받기</a><br><small>압축을 풀어 나온 <b>WowfHelper</b> 폴더를 와우 포에버 설치 폴더의 <b>Interface/AddOns</b> 안에 넣어요. 캐릭터 고르는 화면의 「애드온」에 안 보이면 「오래된 애드온 불러오기」를 켜 주세요.</small></li>'
    +'<li><b>게임에서</b> 채팅창에 <code>/wfh</code> 입력 → 코드 창이 떠요 (이미 글자가 다 골라져 있어요)<br><small>잘 되는지 보려면 <code>/wfh 점검</code> → 담긴 개수가 채팅창에 나와요. 레벨업·퀘스트 반납 때 「앱 코드가 바뀌었어요」 알림도 떠요.</small></li><li><b>Ctrl+C</b>로 복사 → 아래 칸에 붙여 넣기</li></ol>';
-  h+='<div class="adcmd impoff"><b>🔕 끄는 방법 (게임 채팅창)</b><span><code>/wfh 공략</code> 보스 공략 창 끄기/켜기</span><span><code>/wfh 알림</code> 알림·접속 인사 끄기/켜기</span><span><code>/wfh 추천 지우기</code> 툴팁 추천 지우기</span><span><code>/wfh 설정</code> 지금 상태 보기</span><span>애드온 전체 → 캐릭터 고르는 화면 「애드온」에서 체크 해제</span></div>';
+  h+=addonOffHtml();
   h+='<textarea class="inp impta" rows="4" placeholder="여기에 붙여 넣기 (WFH2; 로 시작)" data-c="impta">'+esc(ui.impraw||'')+'</textarea><div id="impres">'+impPreview(c)+'</div>';
   if(c.imported)h+='<p class="note">마지막으로 불러온 때: '+new Date(c.imported.t).toLocaleString('ko-KR')+' · 끝낸 퀘스트 '+c.imported.n+'개</p>';
   return h}
