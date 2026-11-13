@@ -105,6 +105,9 @@ for line in rd(F / 'items.txt').splitlines():
         f[12] = ko[int(f[0])]
     items.append('|'.join(f))
 srcs = rd(F / 'sources.txt').rstrip('\n')
+# 상인 이름이 영어로 남은 것 → 한글 (npc-en-ko.txt)
+_npcko = dict(l.split('|', 1) for l in (ROOT / 'data/qdb/npc-en-ko.txt').read_text(encoding='utf-8').splitlines() if '|' in l)
+srcs = re.sub(r'(?m)^(5~상인 · )([^~]+)', lambda m: m.group(1) + _npcko.get(m.group(2), m.group(2)), srcs)
 if (Q / 'items-extra.txt').exists():
     off = len(srcs.split('\n'))
     srcs += '\n' + rd(Q / 'sources-extra.txt').rstrip('\n')
