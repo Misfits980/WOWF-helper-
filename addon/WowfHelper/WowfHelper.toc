@@ -1,8 +1,8 @@
 ## Interface: 11507, 11508, 16001
 ## Title: 와포 도우미 (WowfHelper)
-## Notes: 끝낸 퀘스트와 지금 퀘스트 목록을 와포 도우미 앱으로 옮기는 코드를 만들어요. /wfh
+## Notes: 끝낸 퀘스트 · 퀘스트 목록(진행도) · 장비 · 전문기술 · 특성 · 경험치를 와포 도우미 앱으로 옮기는 코드를 만들어요. /wfh
 ## Author: Misfits980
-## Version: 1.0
+## Version: 2.0
 ## SavedVariablesPerCharacter: WowfHelperDB
 
 WowfHelper.lua

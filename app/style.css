@@ -1690,3 +1690,11 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 @media (min-width:900px){.tabs::after{content:'단축키  1~5 탭 · / 찾기 · Esc 닫기';margin-top:auto;padding:12px;font-size:11px;color:var(--mute);white-space:pre-line}}
 @media (min-width:1240px){#app.t-home .wrap>.hcols{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 18px;align-items:start}}
 .navlog{margin-top:10px}.navlog summary{cursor:pointer;font-size:12.5px;color:var(--mute)}.navlog textarea{width:100%;font-size:11px;font-family:ui-monospace,monospace}
+.impck{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px;cursor:pointer}.impck small{color:var(--mute)}.impck input{width:16px;height:16px;accent-color:#e8c06a}
+.qpg{flex:none;font-size:10.5px;font-weight:800;color:#ffd65a;border:1px solid #8a6f22;border-radius:6px;padding:0 5px;margin-left:6px;white-space:nowrap}
+.qpg.ok{color:#8bf08b;border-color:#3f7a3c}
+.hh .hxp{display:inline-flex;align-items:center;gap:6px;margin-left:10px;position:relative;font-size:11.5px;vertical-align:middle;padding:2px 8px;border-radius:999px;border:1px solid #6a4f8f;overflow:hidden;color:#e9dcff}
+.hh .hxp i{position:absolute;left:0;top:0;bottom:0;background:#6a4f8f55}
+.hh .hxp b,.hh .hxp em{position:relative;font-style:normal}.hh .hxp em{color:#8fc8ff}
+.pmy{margin:6px 0;font-size:13px}.pmy b{color:var(--gold);font-size:16px}.pmy small{color:var(--mute)}
+.pr2.now{border-color:var(--gold2)!important;background:#3a2c1655;box-shadow:0 0 0 1px #e8c06a55}
