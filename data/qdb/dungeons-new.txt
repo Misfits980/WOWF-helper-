@@ -8,7 +8,7 @@ Q|drowned-city|95775|horde|40|30|가라앉은 도시|||0||||
 Q|drowned-city|96774|horde|40|30|고대 구루바시 우상|||0||||
 Q|drowned-city|95791|both|40|34|소금선견자 대장||크라젝 · 가시덤불 골짜기 26.9, 77.2|0|279883,279884||1|
 Q|drowned-city|95789|both|40|34|수상쩍은 소금선견자||크라젝 · 가시덤불 골짜기 26.9, 77.2|0|279882,279930||1|
-D|kroldok-stronghold|크롤도크 보루|Krol'dok Stronghold|리버글레이드|42|40–45|5,19,13||16842
+D|kroldok-stronghold|크롤도크 보루|Krol'dok Stronghold|강물터|42|40–45|5,19,13||16842
 B|kroldok-stronghold|slavecrusher-grox=노예파괴자 그록스;twilight-commander-zarmok=황혼의 사령관 자르모크;handler-ashka=조련사 아쉬카;nar-gurk=나르구르크;overseer-mugg=감독관 머그;mob-bossman-toof=Bossman Toof
 Q|kroldok-stronghold|94981|alliance|41|38|핵심 재료||Alphonse Dumas · 강물터 64.5, 82.0|0||||
 Q|kroldok-stronghold|94980|alliance|41|38|크롤도크 거푸집|||0||||

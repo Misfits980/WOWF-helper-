@@ -7,7 +7,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 Q = ROOT / 'data' / 'qdb'; F = ROOT / 'data' / 'forg'
 NEW = [  # slug, 한글, 영문, 지역, 권장, 범위, 퀘스트 글 찾는 말
     ('drowned-city', '가라앉은 도시', 'The Drowned City', '가시덤불 골짜기', 37, '35–40', r"Drowned City|가라앉은 도시"),
-    ('kroldok-stronghold', '크롤도크 보루', "Krol'dok Stronghold", '리버글레이드', 42, '40–45', r"Krol'dok Stronghold|크롤도크 보루"),
+    ('kroldok-stronghold', '크롤도크 보루', "Krol'dok Stronghold", '강물터', 42, '40–45', r"Krol'dok Stronghold|크롤도크 보루"),
     ('alcaz-prison', '알카즈 감옥', 'Alcaz Prison', '먼지진흙 습지대', 50, '48–53', r"Alcaz Prison|알카즈 감옥"),
     ('blackmaw-hold', '검은아귀 요새', 'Blackmaw Hold', '아즈샤라', 57, '55–60', r"Blackmaw Hold|검은아귀 요새"),
     ('shapers-terrace', '구체자의 정원', "Shaper's Terrace", '운고로 분화구', 59, '58–60', r"Shaper'?s Terrace|구체자의 정원"),

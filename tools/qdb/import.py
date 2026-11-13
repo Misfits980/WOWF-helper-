@@ -252,7 +252,7 @@ def zone_name(z):
     elif 'Zephras' in g:
         cont = '제프라스 섬'
     elif 'Riverglades' in g:
-        cont = '리버글레이드'
+        cont = '동부 왕국'  # 강물터(리버글레이드)는 동부 왕국
     else:
         cont = '기타'
     return ko, cont
