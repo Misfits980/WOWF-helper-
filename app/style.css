@@ -1665,3 +1665,26 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .ttip .tt-ch{color:#ffd65a;font-weight:700;font-size:11.5px}.ttip .tt-ch small{color:#a5b0c8;font-weight:500;margin-left:4px}
 .ttip .dif .p{color:#2ee04a}.ttip .dif .n{color:#ff6a5a}
 .ttip .tt-src{margin-top:6px;color:#ffd100;font-size:11.5px}
+/* PC: 레벨업 동선 옆 지도 */
+.rmp{padding:12px}
+.rmph{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.rmpz{display:flex;gap:5px;flex-wrap:wrap;margin-left:auto}
+.rmpz button{background:var(--bg);border:1px solid var(--line);color:#d8ccad;border-radius:999px;font:inherit;font-size:11.5px;font-weight:700;padding:3px 9px;cursor:pointer}
+.rmpz button.on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+.rmpz small{color:var(--mute)}
+.gmap .gp.k-hub{background:#e8c06a;color:#1a140a;font-size:12px}
+.gmap .gp.hl{background:#fff;box-shadow:0 0 0 4px #ffe08aaa,0 1px 3px #000c;z-index:4}
+@media (min-width:1240px){.q2r{position:sticky;top:76px;max-height:calc(100vh - 90px);overflow:auto}.q2r>.card{margin-top:10px}}
+.nwr .st.hlc{border-color:#e8c06a;box-shadow:0 0 0 1px #e8c06a55}
+@media (min-width:1240px){.rec2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}.rec2r{position:sticky;top:76px}.rec2r .gmrow{justify-content:flex-start;margin-top:0}}
+.hpc .hpz{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.hpc .hpz span{font-size:12px;border:1px solid #2f6c99;color:#a9dcff;border-radius:999px;padding:2px 9px}
+.hpc .hpz b{color:#fff}
+.ttip .qe2{color:#ffd100}
+.ttip .tt-o{color:#e7dcc0;margin:4px 0;font-size:12px}
+.ttip .tt-l small{color:#a5b0c8}
+.ttip .tt-gv{font-size:12px;margin-top:2px}.ttip .tt-gv .k{display:inline-block;width:34px;color:#ffd65a;font-weight:800}.ttip .tt-gv .k.r{color:#7ec8ff}.ttip .tt-gv small{color:#a5b0c8}
+.ttip .tt-xp{margin-top:6px;color:#d7b8ff;font-weight:700}.ttip .tt-xp small{color:#a5b0c8;font-weight:500}
+.ttip .tt-rw{font-size:12px}
+.ttip .tt-rw.qc{color:#fff}.ttip .tt-rw.qu{color:#2ee04a}.ttip .tt-rw.qr{color:#3d8bff}.ttip .tt-rw.qe{color:#b65cff}.ttip .tt-rw.qp{color:#9d9d9d}
+@media (min-width:900px){.tabs::after{content:'단축키  1~5 탭 · / 찾기 · Esc 닫기';margin-top:auto;padding:12px;font-size:11px;color:var(--mute);white-space:pre-line}}
