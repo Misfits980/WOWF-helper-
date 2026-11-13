@@ -753,9 +753,14 @@ function nowPlan(c,S){const fq=c.fq||{};const seen=new Set();const Q=S.q.filter(
   const hub=(z,xy,gv)=>{const [n,i]=xy?hubOfXY(z,xy,gv):['필드·아이템에서 시작',99];const k=z+'|'+n;if(!H.has(k))H.set(k,{k,z,n,i,o:ord++,get:[],turn:[],same:0});return H.get(k)};
   for(const q of Q){const z=q.gz||q.sz;const d=QD.get(q.id)||{};const done=qd(c,z,q);
     const g=hub(z,q.xy||(d.g&&d.g[2])||'',q.gv);const it={q,z,done,imp:impOf(c,q,ctx)};g.get.push(it);
-    if(d.r&&d.r[0]&&!d.r[3]){const rn=npcKo(d,'r')||d.r[0];if(!d.r[2]){it.to=rn}else{const rz=d.r[1]||z;const r=hub(rz,d.r[2],rn);if(r!==g){r.turn.push(Object.assign({},it,{rv:rn}));it.to=r.n+(r.z!==z?' ('+r.z+')':'')}else g.same++}}
+    if(d.r&&d.r[0]&&!d.r[3]){const rn=npcKo(d,'r')||d.r[0];if(!d.r[2]){it.to=rn}else{const rz=d.r[1]||z;const r=hub(rz,d.r[2],rn);if(r!==g){r.turn.push(Object.assign({},it,{rv:rn,gh:g}));it.to=r.n+(r.z!==z?' ('+r.z+')':'')}else g.same++}}
     else g.same++}
-  return [...H.values()].filter(h=>h.get.length||h.turn.length).sort((a,b)=>(a.i>=97)-(b.i>=97)||a.o-b.o)}
+  const main=new Set(S.z.split(' · '));
+  const L=[...H.values()].filter(h=>h.get.length||h.turn.length).sort((a,b)=>(a.i>=97)-(b.i>=97)||(!main.has(a.z))-(!main.has(b.z))||a.o-b.o);
+  /* 반납할 곳이 받는 곳보다 앞에 나오면, 받은 뒤에 「다시 들르기」로 옮김 */
+  const RV=new Map();
+  for(const h of L.slice()){const keep=[];for(const t of h.turn){const gi=L.indexOf(t.gh),ti=L.indexOf(h);if(gi>ti&&!h.k.endsWith('#다시')){const k=h.k+'#다시';let r=RV.get(k);if(!r){r={k,z:h.z,n:h.n,again:1,i:h.i,o:h.o,get:[],turn:[],same:0};RV.set(k,r);L.splice(gi+1,0,r)}else{const ri=L.indexOf(r);if(gi>ri){L.splice(ri,1);L.splice(L.indexOf(t.gh)+1,0,r)}}r.turn.push(t)}else keep.push(t)}h.turn=keep}
+  return L.filter(h=>h.get.length||h.turn.length)}
 const wa=w=>{const ch=(w||'').trim().slice(-1).charCodeAt(0);return ch>=0xAC00&&ch<=0xD7A3&&(ch-0xAC00)%28?'과':'와'};
 function taskShort(q){const d=QD.get(q.id)||{};const T=tasksOf(d,q.obj||d.obj||'');if(!T.length)return '';const t=Object.assign({},T[0]);
   if(t.type==='대화'||/이야기하면 끝/.test(t.nm)){const nm=d.r&&d.r[0]?npcKo(d,'r'):'';return '💬 '+(nm?nm+wa(nm)+' 대화':'대화하기')}
@@ -772,11 +777,11 @@ function nchain(c,id,more){ui.nch=ui.nch||{};const open=!!ui.nch[id];
   h+='<ol class="nchl">'+ids.map((x,i)=>{const o=QDB.get(x);const d=mqDone(c,o);const g=o.g||[];const br=kidsOf(QPAR[x]!=null?QPAR[x]:-1).length>1;
     return '<li class="'+(d?'fin':'')+'"><button data-a="qopen" data-k="'+x+'"><span class="sn">'+(base+i+1)+'</span><span class="t"><b>'+esc(o.n)+'</b><span>'+(g[0]?esc(g[0])+(g[1]?' · '+esc(g[1]):''):'')+(br?' · 갈래':'')+'</span></span><span class="qlv '+lvCls(lvOf(x),c.lv)+'">'+(lvOf(x)||'?')+'</span>'+(d?'<em>✓</em>':'')+'</button></li>'}).join('')+'</ol>';
   return h}
-function nowCard(c,S){let P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.length+h.turn.length,0),dn=P.reduce((n,h)=>n+h.get.filter(x=>x.done).length+h.turn.filter(x=>x.done).length,0);
-  const left=H=>H.get.filter(x=>!x.done).length+H.turn.filter(x=>!x.done).length;
+function nowCard(c,S){let P=nowPlan(c,S);const QK=new Map();P.forEach(h=>h.get.concat(h.turn).forEach(x=>{const k=x.q.id||x.z+'|'+x.q.nm;QK.set(k,(QK.get(k)||0)||x.done)}));const all=QK.size,dn=[...QK.values()].filter(Boolean).length;
+  const lk=x=>x.q.min>c.lv;const left=H=>H.get.filter(x=>!x.done&&!lk(x)).length+H.turn.filter(x=>!x.done).length;
   const firstOpen=(P.filter(H=>!ui.rz||(ui.rz==='*'?!S.z.split(' · ').includes(H.z):H.z===ui.rz)).find(H=>left(H))||{}).k;ui.hopen=ui.hopen||{};
   const used=new Set();
-  const zs0=S.z.split(' · ');let h='<div class="card now nwr"><div class="nh nh2"><span class="zics">'+zs0.slice(0,3).map(z=>'<span class="ic" style="background-image:url('+ICO(zIco(z))+')"></span>').join('')+'</span><div class="m"><small>지금 구간 '+S.a+'–'+S.b+'레벨</small><h3>'+esc(zs0[0])+'</h3><span class="mute">'+(()=>{const lq=P.reduce((n,H)=>n+left(H),0),lh=P.filter(H=>left(H)).length;return lq?'남은 퀘스트 <b>'+lq+'</b> · 들를 곳 '+lh+'곳 · 1번부터 차례로':'이 구간 퀘스트를 다 했어요'})()+'</span></div><div class="ring" style="--p:'+(all?Math.round(dn/all*100):0)+'"><b>'+dn+'</b><span>/'+all+'</span></div></div>';
+  const zs0=S.z.split(' · ');let h='<div class="card now nwr"><div class="nh nh2"><span class="zics">'+zs0.slice(0,3).map(z=>'<span class="ic" style="background-image:url('+ICO(zIco(z))+')"></span>').join('')+'</span><div class="m"><small>지금 구간 '+S.a+'–'+S.b+'레벨</small><h3>'+esc(zs0[0])+'</h3><span class="mute">'+(()=>{const av=new Set(P.flatMap(H=>H.get.filter(x=>!x.done&&!lk(x)).concat(H.turn.filter(x=>!x.done)).map(x=>x.q.id||x.q.nm))).size,lh=P.filter(H=>left(H)).length,lq=all-dn;return (c.lv>=60?'만렙이에요 · 남은 건 평판·장비·연계용 퀘스트 · ':'')+(av?'지금 할 수 있는 퀘스트 <b>'+av+'</b> · 들를 곳 '+lh+'곳'+(lq>av?' · 레벨 오르면 '+(lq-av)+'개 더':''):lq?'지금은 레벨이 모자라요 · '+lq+'개는 레벨을 올리면 열려요':'이 구간 퀘스트를 다 했어요')})()+'</span></div><div class="ring" style="--p:'+(all?Math.round(dn/all*100):0)+'"><b>'+dn+'</b><span>/'+all+'</span></div></div>';
   const zMain=z=>zs0.includes(z);const zOf=H=>zMain(H.z)?H.z:'*';
   const zl=[...new Set(P.map(zOf))].map(z=>[z,P.filter(H=>zOf(H)===z).reduce((n,H)=>n+left(H),0)]).filter(x=>x[1]).sort((a,b)=>(a[0]==='*')-(b[0]==='*')||zs0.indexOf(a[0])-zs0.indexOf(b[0]));
   if(ui.rz&&!zl.some(x=>x[0]===ui.rz))ui.rz=null;
@@ -792,13 +797,14 @@ function nowCard(c,S){let P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.lengt
   const LIM=ui.hall?99:3;let shown=0,hid=0;
   h+='<div class="steps">'+P.map(H=>{if(left(H)){if(shown>=LIM){hid++;return ''}shown++}else if(!ui.hall){return ''}const real=H.i<97;if(real)n++;const L=left(H);const todo=H.get.filter(x=>!x.done).sort((a,b)=>a.q.lv-b.q.lv),turn=H.turn.filter(x=>!x.done),done=H.get.filter(x=>x.done);
     const open=ui.hopen[H.k]!=null?ui.hopen[H.k]:H.k===firstOpen;
-    const cnt=L?(todo.length?'<span class="hp g">받기 '+todo.length+'</span>':'')+(turn.length?'<span class="hp r">반납 '+turn.length+'</span>':''):'<span class="hp">완료</span>';
-    ui._hubs[H.k]=todo.concat(turn).map(x=>[x.z+'|'+x.q.nm,x.q.id]);const fid=(turn[0]||todo[0]||H.get[0]||{}).q;
-    const pvn=turn.map(x=>x.q.nm).concat(todo.map(x=>x.q.nm));const pv=L&&!open?'<span class="pv">'+esc(pvn.slice(0,2).join(', '))+(pvn.length>2?' 외 '+(pvn.length-2):'')+'</span>':'';
-    let b='<div class="st'+(L?'':' fin')+(open?' open':'')+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const here=H.k===firstOpen?'<i class="here">지금 여기</i>':'';return m?'<b>'+esc(m[1])+here+'</b><span>'+esc(H.z)+' · '+m[2]+', '+m[3]+'</span>'+pv:'<b>'+esc(H.n)+here+'</b><span>'+esc(H.z)+'</span>'+pv})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
-    if(open){b+='<div class="sb">'+(turn.length?turn.map(x=>row(x,1)).join(''):'')+todo.map(x=>row(x,0)).join('')+(L?'<div class="hft">'+(fid&&fid.id?'<button class="btn sm ghost" data-a="mmgo" data-k="'+fid.id+'">📍 지도에서 위치</button>':'')+'<button class="btn sm" data-a="hubok" data-k="'+esc(H.k)+'">✓ 여기 다 했어요</button></div>':'')+(done.length?'<div class="dn">끝낸 것 '+done.length+'개</div>'+done.map(x=>row(x,0)).join(''):'')+'</div>'}
+    const lkN=todo.filter(lk);const lkOnly=!L&&lkN.length;
+    const cnt=lkOnly?'<span class="hp">🔒 '+Math.min(...lkN.map(x=>x.q.min))+'레벨부터</span>':L?(todo.length-lkN.length?'<span class="hp g">받기 '+(todo.length-lkN.length)+'</span>':'')+(turn.length?'<span class="hp r">반납 '+turn.length+'</span>':''):'<span class="hp">완료</span>';
+    ui._hubs[H.k]=todo.filter(x=>!lk(x)).concat(turn).map(x=>[x.z+'|'+x.q.nm,x.q.id]);const fid=(turn[0]||todo[0]||H.get[0]||{}).q;
+    const pvn=turn.map(x=>x.q.nm).concat(todo.filter(x=>!lk(x)).map(x=>x.q.nm),todo.filter(lk).map(x=>'🔒'+x.q.nm));const pv=L&&!open?'<span class="pv">'+esc(pvn.slice(0,2).join(', '))+(pvn.length>2?' 외 '+(pvn.length-2):'')+'</span>':'';
+    let b='<div class="st'+(L?'':lkOnly?' lkh':' fin')+(open?' open':'')+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):lkOnly?'🔒':'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const here=(H.again?'<i class="agn">다시 들르기</i>':'')+(H.k===firstOpen?'<i class="here">지금 여기</i>':'');return m?'<b>'+esc(m[1])+here+'</b><span>'+esc(H.z)+' · '+m[2]+', '+m[3]+'</span>'+pv:'<b>'+esc(H.n)+here+'</b><span>'+esc(H.z)+'</span>'+pv})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
+    if(open){const tA=todo.filter(x=>!lk(x));b+='<div class="sb">'+(turn.length?turn.map(x=>row(x,1)).join(''):'')+tA.map(x=>row(x,0)).join('')+(lkN.length?(tA.length||turn.length?'<details class="lkd"><summary>🔒 레벨 오르면 여기서 '+lkN.length+'개 더 <small>'+Math.min(...lkN.map(x=>x.q.min))+'레벨부터</small></summary>'+lkN.map(x=>row(x,0)).join('')+'</details>':lkN.map(x=>row(x,0)).join('')):'')+(L?'<div class="hft">'+(fid&&fid.id?'<button class="btn sm ghost" data-a="mmgo" data-k="'+fid.id+'">📍 지도에서 위치</button>':'')+'<button class="btn sm" data-a="hubok" data-k="'+esc(H.k)+'">✓ 여기 다 했어요</button></div>':'')+(done.length?'<div class="dn">끝낸 것 '+done.length+'개</div>'+done.map(x=>row(x,0)).join(''):'')+'</div>'}
     return b+'</div>'}).join('')+'</div>';
-  const finN=P.filter(H=>!left(H)).length;
+  const finN=P.filter(H=>!left(H)&&!H.get.some(x=>!x.done&&lk(x))).length;
   if(hid||(!ui.hall&&finN))h+='<button class="btn ghost full sm more2" data-a="hall">'+(hid?'다음 마을 '+hid+'곳 더 보기':'')+(hid&&finN?' · ':'')+(finN?'끝낸 마을 '+finN+'곳':'')+'</button>';
   else if(ui.hall)h+='<button class="btn ghost full sm more2" data-a="hall">접기</button>';
   if(used.size)h+='<p class="legend">'+[...used].map(k=>qico(k)+' '+QIC_KO[k]).join(' · ')+'</p>';
@@ -1078,13 +1084,13 @@ function gameView(c){if(!QDB){qdbLoad();return '<p class="note">퀘스트 자료
   const R=routeOf(c);const S=R.find(s=>L>=s.a&&L<=s.b)||R.find(s=>s.a>L);const myZ=(S?S.z.split(' · '):[]).filter(z=>ZID[z]);
   let z=fq?((fq.g&&fq.g[1])||fq.z):(ui.gz||myZ[0]||'엘윈 숲');if(!ZID[z])z=myZ[0]||'엘윈 숲';
   const zs=[...new Set([z,...myZ])];
-  let h='<div class="gmtop">'+gmStyleSeg(c)+'<div class="gzs">'+zs.map(x=>'<button class="'+(x===z?'on':'')+'" data-a="gz" data-k="'+esc(x)+'">'+esc(x)+'</button>').join('')+'</div></div>';
+  let h='<div class="gmtop">'+(ui.amback?'<button class="amback" data-a="amback">← 돌아가기</button>':'')+gmStyleSeg(c)+'<div class="gzs">'+zs.map(x=>'<button class="'+(x===z?'on':'')+'" data-a="gz" data-k="'+esc(x)+'">'+esc(x)+'</button>').join('')+'</div></div>';
   const list=gmQuests(c,z);
   if(fq){const P=[];const g=xyOf(fq.g&&fq.g[2]);if(g)P.push({x:g[0],y:g[1],k:'g',t:'!',lab:fq.g[0]});
     const d=QD.get(fq.id)||{};const T=tasksOf(d,d.obj||fq.o||'');T.forEach((t,ti)=>{const ms=[...(t.where||'').matchAll(/([\d.]+),\s*([\d.]+)/g)].slice(0,8);ms.forEach((m,j)=>P.push({x:+m[1],y:+m[2],k:'o'}));if(ms[0])P.push({x:+ms[0][1],y:+ms[0][2],k:'d',t:String(ti+1),lab:t.nm})});
     const rz=(fq.r&&fq.r[1])||z;const r=xyOf(fq.r&&fq.r[2]);if(r&&rz===z)P.push({x:r[0],y:r[1],k:'r',t:'?',lab:fq.r[0]});
     const i=list.findIndex(q=>q.id===fq.id);const prev=i>0?list[i-1]:null,next=i>=0&&i<list.length-1?list[i+1]:(i<0&&list[0]?list[0]:null);
-    h+='<div class="gmw'+(ui.gfull?' full':'')+'">'+gmapHtml(z,P,null,1,!ui.gall)+'<button class="gmf2" data-a="gall">'+(ui.gall?'퀘스트 쪽 확대':'지역 전체')+'</button><button class="gmf" data-a="gfull">'+(ui.gfull?'작게':'큰 화면')+'</button><div class="gmnav"><button data-a="amq" data-k="'+(prev?prev.id:'')+'"'+(prev?'':' disabled')+'>◀</button><button data-a="amq" data-k="'+(next?next.id:'')+'"'+(next?'':' disabled')+'>▶</button></div><button class="gmx" data-a="amq" data-k="">✕</button></div>';
+    h+='<div class="gmw'+(ui.gfull?' full':'')+'">'+gmapHtml(z,P,null,1,!ui.gall)+'<button class="gmf2" data-a="gall">'+(ui.gall?'퀘스트 쪽 확대':'지역 전체')+'</button><button class="gmf" data-a="gfull">'+(ui.gfull?'작게':'큰 화면')+'</button><div class="gmnav"><button data-a="amq" data-k="'+(prev?prev.id:'')+'"'+(prev?'':' disabled')+'>◀</button><button data-a="amq" data-k="'+(next?next.id:'')+'"'+(next?'':' disabled')+'>▶</button></div><button class="gmx" data-a="'+(ui.amback?'amback':'amq')+'" data-k="">✕</button></div>';
     const lvc=lvCls(fq.lv,L);
     h+='<div class="card gmq"><div class="h"><b>'+esc(fq.n)+'</b><span class="gmlv '+lvc+'">권장 Lv '+(fq.lv||'?')+'</span><small>'+(fq.m||1)+'레벨부터 수락</small></div>'
       +'<p class="obj">'+esc(fq.o||'')+'</p>'
