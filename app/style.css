@@ -1225,3 +1225,13 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .cslot .chip{padding:4px 10px;font-size:12.5px}
 .cmpa{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .cmpt .cc .ic{display:none}
+/* 비교 막대 줄 맞춤 */
+.cbar{grid-template-columns:minmax(0,1fr) 30% 52px 18px;gap:8px}
+.cbar .cn{min-width:0}
+.cbar .ct{display:flex;flex-direction:column;min-width:0;line-height:1.25}
+.cbar .ct b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cbar .ct small{font-size:10.5px;color:var(--mute);white-space:nowrap}
+.cbar.eqd .ct small{color:#9fcf82}
+.cbar .cv{min-width:0}
+.gain .gp{font-weight:800;margin-left:2px}
+.spanel .cmpt{margin-top:4px}
