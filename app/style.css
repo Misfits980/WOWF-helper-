@@ -1892,3 +1892,5 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gp.k-mo{background:#ff8a7a;color:#1a140a;box-shadow:0 0 0 3px rgba(255,207,74,.55)}
 .gp.k-dg{background:#3a2458;color:#fff;border-color:#b48cff}
 .gp.k-dgd{background:#2f6b43;color:#fff;border-color:#6fd38a}
+/* PC: 오른쪽 확대·축소 버튼을 가리지 않게 패널을 그 왼쪽으로 */
+@media (min-width:1240px){#ampanel,.am.full #ampanel{right:58px}}
