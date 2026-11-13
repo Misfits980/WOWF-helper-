@@ -77,7 +77,8 @@ for slug, ko, en, loc, fit, rg, pat in NEW:
         nm2 = o.get('n') if o.get('n') and not re.search('[A-Za-z]{3}', o.get('n')) else nm
         rw = RW.get(int(qid), [])
         ql.append('|'.join(map(str, ['Q', slug, qid, SIDE[sd], lv or fit, mn or 0, nm2, '', start, 0, ','.join(map(str, rw)), '', '1' if len(rw) > 1 else '', ''])))
-    out.append('D|%s|%s|%s|%s|%d|%s|%d,%d,%d|soon|%s' % (slug, ko, en, loc, fit, rg, len(WB[slug]), len(items[slug]), len(ql), WY.get(slug, '')))
+    # 2026-11-13 사용자 확인: 게임에서 이미 열려 있음 (wowf.io는 아직 '개방 예정'으로 표시). 안 열린 던전은 상태 칸에 soon
+    out.append('D|%s|%s|%s|%s|%d|%s|%d,%d,%d||%s' % (slug, ko, en, loc, fit, rg, len(WB[slug]), len(items[slug]), len(ql), WY.get(slug, '')))
     out.append('B|%s|%s' % (slug, ';'.join(bl)))
     out += ql
 (Q / 'dungeons-new.txt').write_text('\n'.join(out) + '\n', encoding='utf-8')

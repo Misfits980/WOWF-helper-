@@ -1,4 +1,4 @@
-# wowf.io/ko/dungeons/<slug>(/guide) 에서 2026-11-13에 옮겨 적은 신규 던전 보스 순서·희귀몹·퀘스트 (모두 "개방 예정")
+# wowf.io/ko/dungeons/<slug>(/guide) 에서 2026-11-13에 옮겨 적은 신규 던전 보스 순서·희귀몹·퀘스트 (wowf.io는 "개방 예정"으로 표시하지만 게임에선 열려 있음 — 2026-11-13 사용자 확인)
 # W|slug|wythic id   B|slug|순서|한글|영문   R|slug|희귀몹   Q|slug|id|진영(A/H/B)|레벨|받는레벨|이름
 W|drowned-city|16550
 B|drowned-city|1|줄알라이|Zul'Alai
