@@ -1994,8 +1994,8 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=c7fc1f7c"></script>
-<script>/* v591bc6 @11/13 21:39 */
-const BUILD='11/13 21:39';
+<script>/* v353d52 @11/13 21:46 */
+const BUILD='11/13 21:46';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2036,13 +2036,13 @@ for(const c in W)for(const s in W[c]){const w=W[c][s];const r=ROLE[c+'/'+s];
 if(W.druid){Object.assign(W.druid['feral-cat'],{crit:10,hit:9});Object.assign(W.druid['feral-bear'],{dodge:12,hit:4,crit:3})}
 /* 특성별 세부: 도적은 쌍수라 적중이 1순위, 무기 DPS 비중도 큼 / 무기 전사는 양손 무기 DPS·치명타 */
 
-const WHY={rogue:'주무기 DPS가 딜을 가장 크게 정해요. 적중·치명타 1%는 민첩 10~12점만큼이에요. 원거리는 당기기용이라 점수에 안 넣어요.',
-  warrior:{arms:'양손 무기 DPS가 딜을 정해요. 적중 1%는 힘 19점, 치명타 1%는 힘 15점만큼이에요.',fury:'주무기 DPS 다음으로 치명타(힘 17점)·적중(힘 14점)이 커요.',protection:'체력·방어 숙련·회피로 덜 맞는 게 먼저예요.'},
-  hunter:'원거리 무기 DPS가 딜 대부분이에요. 그다음 민첩·적중.',priest:{discipline:'치유량·지능·정신력 순이에요. 마법봉은 레벨업 사냥용이에요.',holy:'치유량·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.','shadow-magic':'주문력·암흑 주문력·적중 순이에요. 포에버는 적중·치명타가 근접·주문 하나로 합쳐졌어요. 마법봉은 마나 아끼는 용도예요.'},
-  mage:'주문력과 지능이 중심이에요. 마법봉은 마나 아끼는 용도예요.',warlock:'주문력과 체력(생명력 전환)이 중요해요.',
+const WHY={rogue:'주무기 DPS가 딜을 가장 크게 정해요. 포에버는 「회피·막기 당할 확률 감소」(6.5%까지)와 적중(8%까지)이 민첩보다 먼저예요. 원거리는 당기기용이라 점수에 안 넣어요.',
+  warrior:{arms:'양손 무기 DPS가 딜을 정해요. 그다음 적중(8%까지)·회피·막기 감소·치명타·힘 순이에요.',fury:'무기 DPS 다음으로 적중(8%까지)·회피·막기 감소·치명타·힘 순이에요.',protection:'체력·방어 숙련·회피로 덜 맞는 게 먼저예요.'},
+  hunter:'원거리 무기 공격력이 딜 대부분이에요. 그다음 적중(8%까지)·치명타·민첩 순이에요. 지능도 특성으로 전투력이 돼요.',priest:{discipline:'치유량·5초당 마나·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.',holy:'치유량·5초당 마나·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.','shadow-magic':'주문력·암흑 주문력·적중 순이에요. 포에버는 적중·치명타가 근접·주문 하나로 합쳐졌어요. 마법봉은 마나 아끼는 용도예요.'},
+  mage:'적중(17%까지)·주문력·치명타·지능 순이에요. 마법봉은 마나 아끼는 용도예요.',warlock:'적중·주문력·치명타 순이에요(파괴는 치명타가 먼저). 체력도 생명력 전환에 좋아요.',
   paladin:{holy:'치유량·지능·5초당 마나 순이에요.',protection:'체력·방어 숙련·방패 막기 순이에요.',retribution:'양손 무기 DPS·힘·치명타 순이에요. 포에버는 징벌 특성(Champion of the Light)으로 지능이 주문력으로 바뀌어서 지능·주문력도 조금 봐요.'},
-  shaman:{'elemental-combat':'주문력·지능·치명타 순이에요.',enhancement:'무기 DPS·힘이 먼저예요. 포에버는 고양 특성(Mental Dexterity)으로 지능이 전투력으로 바뀌어서 지능도 꽤 좋아요. 11월 10일 패치 뒤로는 힘이 1순위예요.',restoration:'치유량·5초당 마나·지능 순이에요.'},
-  druid:{balance:'주문력·지능 순이에요.','feral-cat':'포에버에서는 표범도 무기 DPS가 점수에 들어가요. 민첩·힘·치명타 순이에요.','feral-bear':'체력·민첩·방어 숙련 순이에요.',restoration:'치유량·정신력·지능 순이에요.'}};
+  shaman:{'elemental-combat':'주문력·지능·치명타 순이에요.',enhancement:'무기 DPS·힘이 먼저예요. 포에버는 고양 특성(Mental Dexterity)으로 지능이 전투력으로 바뀌어서 지능도 꽤 좋아요. 11월 10일 패치 뒤로는 힘이 1순위예요.',restoration:'치유량·치명타·지능·정신력 순이에요.'},
+  druid:{balance:'적중(17%까지)·치명타·주문력·지능 순이에요.','feral-cat':'포에버에서는 표범도 무기 DPS가 점수에 들어가요. 무기 DPS·회피·막기 감소·적중·민첩·힘 순이에요.','feral-bear':'체력·민첩·방어 숙련 순이에요.',restoration:'치유량·지능·정신력·5초당 마나 순이에요.'}};
 /* ===== 점수 공식 = forg.gg와 같은 틀 =====
    1) 기본 가중치: forg.gg 장비 추천 기본표(역할별)
    2) 시뮬이 있는 특성은 포에버 시뮬레이터(wowsims/forever, 60레벨) 값으로 덮음 — 무기 DPS·적중·치명타 1% 가치 포함
@@ -2051,7 +2051,7 @@ const FB={str:{str:1,agi:.6,ap:.5,sta:.25},agi:{agi:1,str:.5,ap:.5,sta:.2},tank:
 const FL={dpsMain:1.5,dpsOff:.75};
 const FS={warrior:{arms:['str',{dps2h:2}],fury:['str',FL],protection:['tank',{dps1h:1.2}]},paladin:{holy:['heal'],protection:['tank',{str:.7,agi:.35,sp:.55,int:.3,sta:1,def:.6,armor:.02,block:.3,dps1h:.7}],retribution:['str',{agi:.5,int:.35,sp:.3,holy:.3,sta:.2,dps2h:2}]},
   hunter:{'beast-mastery':['ranged'],marksmanship:['ranged'],survival:['ranged']},rogue:{assassination:['agi',FL],combat:['agi',FL],subtlety:['agi',FL]},
-  priest:{discipline:['heal'],holy:['heal'],'shadow-magic':['cast',{shadow:.9}]},shaman:{'elemental-combat':['cast',{spi:.1,mp5:1,nature:.6,fire:.4}],enhancement:['str',{agi:.5,int:.35,sp:.12,sta:.2,dps2h:2}],restoration:['heal',{spi:.2}]},
+  priest:{discipline:['heal',{spi:.65,int:.5}],holy:['heal',{spi:.65,int:.5}],'shadow-magic':['cast',{shadow:.9}]},shaman:{'elemental-combat':['cast',{spi:.1,mp5:1,nature:.6,fire:.4}],enhancement:['str',{agi:.5,int:.35,sp:.12,sta:.2,dps2h:2}],restoration:['heal',{spi:.2}]},
   mage:{arcane:['cast',{arcane:.9}],fire:['cast',{fire:1}],frost:['cast',{frost:.8}]},warlock:{affliction:['cast',{sta:.3,shadow:.9}],demonology:['cast',{sta:.3,shadow:.8,fire:.2}],destruction:['cast',{sta:.3,shadow:.7,fire:.3}]},
   druid:{balance:['cast',{dpsWand:0,nature:.5,arcane:.5}],'feral-cat':['str',{agi:.8,dps2h:2}],'feral-bear':[null,{str:1,agi:.8,ap:.5,sta:.5,armor:.02,def:.4,dps2h:2}],restoration:['heal',{dpsWand:0}]}};
 const WSRC={};
@@ -2064,7 +2064,10 @@ for(const c in FS)for(const s in FS[c]){if(!W[c]||!W[c][s])continue;const [b,ex]
   else if(role==='cast')Object.assign(w,{scrit:10,shit:15});
   else Object.assign(w,{crit:13,hit:15});
   /* 포에버 새 능력치: 회피·막기 당할 확률 감소(근접·원거리 물리 딜) · 원거리 전투력(사냥꾼) */
-  if(role==='phys'||role==='tank')w.exp=(w.hit||0)*.9;if(c==='hunter')w.rap=w.ap??.5;
+  if(role==='phys'||role==='tank')w.exp=(w.hit||0)*(c==='rogue'||s==='feral-cat'?1.1:.85);if(c==='hunter')w.rap=w.ap??.5;
+  /* Icy Veins 포에버 우선순위(11/4): 복원 주술사는 치명타가 지능보다 위, 파괴 흑마는 치명타 > 지능 > 적중 */
+  if(c==='shaman'&&s==='restoration')w.scrit=10;
+  if(c==='warlock'&&s==='destruction'){w.scrit=Math.max(w.scrit||0,12);w.shit=Math.min(w.shit||9,9)}
   /* 화면 표시·예전 계산용 */
   w.dps=w.dpsMain??w.dps2h??w.dps1h??0;w.rdps=w.dpsRanged??w.dpsWand??0;
   W[c][s]=w;WSRC[c+'/'+s]=src}
@@ -2143,7 +2146,11 @@ const _wc={};
 /* 레벨업 중(58 미만)엔 혼자 사냥하니 체력·정신력을 조금 더 쳐요 (60레벨 시뮬 값 그대로면 체력이 너무 낮게 잡힘) */
 /* 포에버 등급(적중·치명타·회피)은 아이템에 60레벨 %로 넣어 둠 → 레벨이 낮으면 같은 등급이 % 더 큼 (60레벨 등급 × (레벨-8)/52) */
 const RATEK=['hit','crit','scrit','shit','dodge','parry','exp'];const rateF=L=>L>=58?1:Math.min(2.6,52/Math.max(2,L-8));
-const _wl={};function wOf(c){const w=wOf0(c);if((c.lv||60)>=58||w.def)return w;const L=c.lv||60;const k=c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+L;if(_wl[k]&&_wl[k].b===w)return _wl[k].r;
+/* 종족 특성(포에버): 인간 정신력 +10%, 노움 최대 마나 +5% → 정신력·지능 가치가 그만큼 조금 오름. 적중·치명타 +1%(드워프·인간)는 순위를 안 바꿔서 뺌 */
+const RACEW={human:{spi:1.1},gnome:{int:1.03}};const _wr={};
+function wRace(w,c){const m=RACEW[c.race];if(!m)return w;const k=c.race+'|'+c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+(c.lv||60);if(_wr[k]&&_wr[k].b===w)return _wr[k].r;const r=Object.assign({},w);for(const x in m)if(r[x]&&(x!=='int'||r.int>=.2))r[x]=+(r[x]*m[x]).toFixed(3);_wr[k]={b:w,r};return r}
+const _wl={};function wOf(c){return wRace(wOf1(c),c)}
+function wOf1(c){const w=wOf0(c);if((c.lv||60)>=58||w.def)return w;const L=c.lv||60;const k=c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+L;if(_wl[k]&&_wl[k].b===w)return _wl[k].r;
   const r=Object.assign({},w,{sta:Math.max(w.sta||0,.4)});if(w.sp>=1||w.heal>=1)r.spi=Math.max(w.spi||0,.3);const f=rateF(L);RATEK.forEach(x=>{if(r[x])r[x]=+(r[x]*f).toFixed(2)});_wl[k]={b:w,r};return r}
 /* 탱커: Wowhead WoW Forever 탱커 능력치 가이드의 생존·균형·위협(TPS) 우선순위를 점수표로.
    적중 1% = 전투력 60(전사)·주문력 21(성기사), 치명타 1% = 전투력 34·주문력 12 (가이드 계산값). 힘 1 = 전투력 2 */
