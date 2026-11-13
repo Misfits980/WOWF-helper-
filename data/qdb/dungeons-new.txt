@@ -25,9 +25,9 @@ Q|kroldok-stronghold|94972|horde|44|39|Tome of Twilight|||0||||
 Q|kroldok-stronghold|94968|horde|45|40|Eye of Mugg|||0||||
 D|alcaz-prison|알카즈 감옥|Alcaz Prison|먼지진흙 습지대|50|48–53|5,16,10||16620
 B|alcaz-prison|overseer-wrex=감독관 렉스;tidemistress-ca-zass=해일여제 카자스;katerina-the-cleaner=청소부 카테리나;the-questioner=심문관;blazeroar=불길포효
-Q|alcaz-prison|96381|alliance|53|48|약간의 지저분한 일||Sully McCleary · 먼지진흙 슾지대 63.5, 42.3|0||||
+Q|alcaz-prison|96381|alliance|53|48|약간의 지저분한 일||Sully McCleary · 먼지진흙 습지대 63.5, 42.3|0||||
 Q|alcaz-prison|96772|alliance|53|46|용의 일지 위치·보상||대마법사 랜달록 · 알터랙 산맥 15.3, 73.9|0||||
-Q|alcaz-prison|95262|alliance|53|48|비밀 감옥||Sully McCleary · 먼지진흙 슾지대 63.5, 42.3|0||||
+Q|alcaz-prison|95262|alliance|53|48|비밀 감옥||Sully McCleary · 먼지진흙 습지대 63.5, 42.3|0||||
 Q|alcaz-prison|95263|alliance|53|48|Somber News|||0||||
 Q|alcaz-prison|95309|horde|53|48|오크를 구하라|||0||||
 Q|alcaz-prison|95483|horde|53|48|Thrall Needs to Know|||0||||

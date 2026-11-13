@@ -1884,3 +1884,11 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .amit span{display:flex;flex-direction:column;min-width:0}
 .amit b{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .amit small{font-size:11px;color:#a99f8c}
+.amdgw{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 10px;margin-top:6px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:inherit;cursor:pointer;flex-wrap:wrap}
+.amdgw b{font-size:13px;flex:1 1 60%}
+.amdgw small{order:3;flex-basis:100%;font-size:11px;color:#a99f8c}
+.amdgw i{font-style:normal;color:#e0b85a}
+.amdgb{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.gp.k-mo{background:#ff8a7a;color:#1a140a;box-shadow:0 0 0 3px rgba(255,207,74,.55)}
+.gp.k-dg{background:#3a2458;color:#fff;border-color:#b48cff}
+.gp.k-dgd{background:#2f6b43;color:#fff;border-color:#6fd38a}
