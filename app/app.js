@@ -146,7 +146,8 @@ const SYNC_K='wfh_sync',SYNC_DESC='wowf-helper sync (와포 도우미 기록)',S
 let SY=(()=>{try{return JSON.parse(localStorage.getItem(SYNC_K))||{}}catch(e){return {}}})();
 const sySave=()=>{try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}};
 let syT=null,syBusy=false;
-function syQueue(){if(!SY.tok||!SY.gid)return;clearTimeout(syT);syT=setTimeout(()=>syPush(),4000)}
+const syOn=()=>!!(SY.bid&&SY.key)||!!(SY.tok&&SY.gid);
+function syQueue(){if(!syOn())return;clearTimeout(syT);syT=setTimeout(()=>syPush(),4000)}
 async function syGh(path,opt){const r=await fetch('https://api.github.com'+path,Object.assign({cache:'no-store'},opt||{},{headers:{'Authorization':'Bearer '+SY.tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'}}));
   if(!r.ok){const e=new Error(String(r.status));e.status=r.status;throw e}return r.status===204?null:r.json()}
 const syBody=()=>JSON.stringify({v:1,t:Date.now(),cur:DB.cur,list:DB.list,del:DB.del||{}});
@@ -159,27 +160,98 @@ function syMerge(R){if(!R||!Array.isArray(R.list))return {local:false,remote:fal
   if(JSON.stringify(del)!==JSON.stringify(R.del||{}))remote=true;
   DB.list=list;DB.del=del;if(!DB.cur||!list.some(x=>x.id===DB.cur))DB.cur=(list.find(x=>x.id===R.cur)||list[0]||{}).id||null;
   return {local,remote}}
-async function syPull(quiet){if(!SY.tok||!SY.gid||syBusy)return;syBusy=true;
-  try{const g=await syGh('/gists/'+SY.gid);const f=g.files&&g.files[SYNC_F];let txt=f?f.content:'';if(f&&f.truncated)txt=await (await fetch(f.raw_url,{cache:'no-store'})).text();
-    const R=txt?JSON.parse(txt):null;const m=syMerge(R||{list:[]});SY.at=Date.now();SY.err=null;sySave();
-    if(m.local){saveRaw();if(!quiet)toast('다른 기기의 기록을 가져왔어요');if(typeof rerender==='function')rerender(true)}
+/* --- 연동 코드 방식: jsonblob.com 에 「암호화한」 기록을 둠. 코드 = 저장 번호-열쇠, 열쇠는 기기 밖으로 안 나감 --- */
+const JB='https://jsonblob.com/api/jsonBlob';
+const b64=u=>btoa(String.fromCharCode(...new Uint8Array(u))),unb64=s=>Uint8Array.from(atob(s),ch=>ch.charCodeAt(0));
+let _syK=null;async function syCK(){if(_syK&&_syK.k===SY.key+SY.bid)return _syK.c;const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(SY.key),'PBKDF2',false,['deriveKey']);
+  const c=await crypto.subtle.deriveKey({name:'PBKDF2',salt:new TextEncoder().encode('wfh-sync:'+SY.bid),iterations:150000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);_syK={k:SY.key+SY.bid,c};return c}
+async function syZip(txt,zip){if(typeof CompressionStream==='undefined')return null;const s=new Blob([txt]).stream().pipeThrough(zip?new CompressionStream('gzip'):new DecompressionStream('gzip'));return new Uint8Array(await new Response(s).arrayBuffer())}
+async function syEnc(txt){const iv=crypto.getRandomValues(new Uint8Array(12));const z=await syZip(txt,true);const data=z||new TextEncoder().encode(txt);
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await syCK(),data);return {v:1,z:z?1:0,iv:b64(iv),d:b64(ct)}}
+async function syDec(o){if(!o||!o.d)return null;const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(o.iv)},await syCK(),unb64(o.d));
+  return JSON.parse(o.z?new TextDecoder().decode(await syZip(new Blob([pt]),false)):new TextDecoder().decode(pt))}
+const syErr=(e,mode)=>e&&e.name==='OperationError'?'연동 코드가 맞지 않아요 · 다시 넣어 주세요':e&&e.status===404?'연동 기록이 사라졌어요 · 「새 연동 코드」를 만들어 주세요':e&&e.status===401?'토큰이 맞지 않거나 만료됐어요':'인터넷 연결을 확인해 주세요';
+async function syGet(){if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{cache:'no-store',headers:{Accept:'application/json'}});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}const ex=r.headers.get('X-jsonblob-expires-at');if(ex)SY.exp=ex;return await syDec(await r.json())}
+  const g=await syGh('/gists/'+SY.gid);const f=g.files&&g.files[SYNC_F];let txt=f?f.content:'';if(f&&f.truncated)txt=await (await fetch(f.raw_url,{cache:'no-store'})).text();return txt?JSON.parse(txt):null}
+async function syPut(){if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{method:'PUT',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(await syEnc(syBody()))});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}return}
+  await syGh('/gists/'+SY.gid,{method:'PATCH',body:JSON.stringify({files:{[SYNC_F]:{content:syBody()}}})})}
+async function syPull(quiet){if(!syOn()||syBusy)return;syBusy=true;
+  try{const R=await syGet();const m=syMerge(R||{list:[]});SY.at=Date.now();SY.err=null;sySave();
+    if(m.local){saveRaw();if(!quiet)toast('다른 기기의 기록을 가져왔어요');if(DB.list.length&&ui.onb){ui.onb=null;render()}else rerender(true)}
     syBusy=false;if(m.remote||!R)await syPush()}
-  catch(e){syBusy=false;SY.err=e.status===401?'토큰이 맞지 않거나 만료됐어요':e.status===404?'연동 기록을 못 찾았어요 (다시 연결해 주세요)':'인터넷 연결을 확인해 주세요';sySave()}}
-async function syPush(){if(!SY.tok||!SY.gid||syBusy)return;syBusy=true;
-  try{await syGh('/gists/'+SY.gid,{method:'PATCH',body:JSON.stringify({files:{[SYNC_F]:{content:syBody()}}})});SY.at=Date.now();SY.err=null}catch(e){SY.err=e.status===401?'토큰이 맞지 않거나 만료됐어요':'올리지 못했어요 · 다음에 다시 해요'}
+  catch(e){syBusy=false;SY.err=syErr(e);sySave()}}
+async function syPush(){if(!syOn()||syBusy)return;syBusy=true;
+  try{await syPut();SY.at=Date.now();SY.err=null}catch(e){SY.err=e&&e.status===404?syErr(e):'올리지 못했어요 · 다음에 다시 해요'}
   syBusy=false;sySave()}
+/* 새 연동 코드 만들기 (이 기기 기록을 올리고 코드 받기) */
+async function syMake(){const key=Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>'23456789ABCDEFGHJKLMNPQRSTUVWXYZ'[b%32]).join('');
+  try{SY={bid:'tmp',key};const body=JSON.stringify(await (async()=>{SY.bid='pending';return {v:1,init:1}})());
+    const r=await fetch(JB,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body});if(!r.ok)throw Object.assign(new Error(r.status),{status:r.status});
+    const id=r.headers.get('X-jsonblob-id')||((r.headers.get('Location')||'').split('/').pop());if(!id)throw new Error('noid');
+    SY={bid:id,key};_syK=null;await syPut();SY.at=Date.now();SY.err=null;sySave();return true}
+  catch(e){SY={err:'연동 코드를 만들지 못했어요 · 인터넷을 확인하고 다시 해 주세요'};sySave();return false}}
+const syCode=()=>SY.bid?SY.bid+'-'+SY.key:'';
+const syLink=()=>location.origin+location.pathname+'#sync='+syCode();
+/* 다른 기기에서 받은 코드로 연결 */
+async function syJoin(code){const m=String(code||'').trim().replace(/^.*#sync=/,'').match(/^([A-Za-z0-9]+)-([2-9A-Z]{10})$/);if(!m){toast('코드 모양이 달라요. 처음부터 끝까지 넣어 주세요');return false}
+  SY={bid:m[1],key:m[2]};_syK=null;sySave();await syPull(true);if(SY.err){const er=SY.err;SY={err:er};sySave();return false}return true}
 async function syConnect(tok){SY={tok:tok.trim()};
   try{const L=await syGh('/gists?per_page=100');let g=(L||[]).find(x=>x.description===SYNC_DESC);
     if(!g)g=await syGh('/gists',{method:'POST',body:JSON.stringify({description:SYNC_DESC,public:false,files:{[SYNC_F]:{content:syBody()}}})});
     SY.gid=g.id;sySave();await syPull(true);return true}
   catch(e){SY={err:e.status===401?'토큰이 맞지 않아요. gist 권한으로 다시 만들어 주세요':'연결하지 못했어요 · 인터넷을 확인해 주세요'};sySave();return false}}
-function syncBox(){const on=SY.tok&&SY.gid;let h='<div class="card syc"><h3>📱💻 휴대폰·컴퓨터 자동 연동</h3>';
-  if(on)return h+'<p class="note">✅ 연결됐어요'+(SY.at?' · 마지막으로 맞춘 때 <b>'+armAgo(SY.at)+'</b>':'')+'. 이 기기에서 고치면 몇 초 뒤 올라가고, 앱을 열거나 돌아올 때 다른 기기 기록을 가져와요.</p>'+(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')
-    +'<div class="bkb"><button class="btn sm" data-a="sygo">🔄 지금 맞추기</button><button class="btn sm ghost" data-a="syoff">연결 끊기</button></div><p class="mute" style="font-size:12px">끊어도 기록은 이 기기와 GitHub 양쪽에 남아요.</p></div>';
-  return h+'<p class="note">휴대폰과 컴퓨터에서 같은 캐릭터·장비·끝낸 퀘스트를 자동으로 맞춰요. 내 GitHub 계정의 <b>비공개 Gist</b> 한 개에 기록을 저장해요 (다른 사람은 못 봐요).</p>'
-    +'<ol class="imps"><li><a class="lnk" href="https://github.com/settings/tokens/new?scopes=gist&description=wowf-helper" target="_blank" rel="noopener">GitHub 토큰 만들기 ↗</a> — <b>gist</b>만 체크된 채로 맨 아래 「Generate token」 · 기간은 길게(No expiration 가능)</li><li>나온 토큰(<code>ghp_</code>로 시작)을 복사해서 아래에 붙여 넣기</li><li>휴대폰·컴퓨터 <b>둘 다</b> 같은 토큰을 넣으면 끝</li></ol>'
-    +'<input class="inp" type="password" autocomplete="off" placeholder="ghp_로 시작하는 토큰" data-c="sytok"><button class="btn full" style="margin-top:6px" data-a="syon">연결하기</button>'
-    +(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')+'<p class="mute" style="font-size:12px">토큰은 이 기기 브라우저에만 저장되고, GitHub 말고 다른 곳으로는 보내지 않아요. 토큰 권한은 gist뿐이라 저장소는 못 건드려요.</p></div>'}
+/* ===== QR 코드 (바이트 모드 · 오류 정정 L · 1~10버전) — 연동 링크를 다른 기기 카메라로 찍기 ===== */
+function qrMatrix(text){const data=Array.from(new TextEncoder().encode(text));
+  const ECC=[-1,7,10,15,20,26,18,20,24,30,18],NB=[-1,1,1,1,1,1,2,2,2,2,4];
+  const rawMods=v=>{let r=(16*v+128)*v+64;if(v>=2){const n=Math.floor(v/7)+2;r-=(25*n-10)*n-55;if(v>=7)r-=36}return r};
+  const dataCw=v=>Math.floor(rawMods(v)/8)-ECC[v]*NB[v];
+  let ver=1;for(;ver<=10;ver++){const cc=ver<10?8:16;if(4+cc+data.length*8<=dataCw(ver)*8)break}if(ver>10)return null;
+  /* 비트 만들기 */
+  const bits=[];const put=(val,len)=>{for(let i=len-1;i>=0;i--)bits.push((val>>>i)&1)};
+  put(4,4);put(data.length,ver<10?8:16);data.forEach(b=>put(b,8));const cap=dataCw(ver)*8;put(0,Math.min(4,cap-bits.length));put(0,(8-bits.length%8)%8);
+  for(let p=0xEC;bits.length<cap;p^=0xEC^0x11)put(p,8);
+  const dcw=[];for(let i=0;i<bits.length;i+=8){let b=0;for(let j=0;j<8;j++)b=(b<<1)|bits[i+j];dcw.push(b)}
+  /* 리드-솔로몬 */
+  const mul=(x,y)=>{let z=0;for(let i=7;i>=0;i--){z=(z<<1)^((z>>>7)*0x11D);z^=((y>>>i)&1)*x}return z&255};
+  const div=d=>{const r=new Array(d).fill(0);r[d-1]=1;let root=1;for(let i=0;i<d;i++){for(let j=0;j<r.length;j++){r[j]=mul(r[j],root);if(j+1<r.length)r[j]^=r[j+1]}root=mul(root,2)}return r};
+  const rem=(dat,dv)=>{const r=new Array(dv.length).fill(0);for(const b of dat){const f=b^r.shift();r.push(0);dv.forEach((c,i)=>r[i]^=mul(c,f))}return r};
+  const nb=NB[ver],ec=ECC[ver],raw=Math.floor(rawMods(ver)/8),nShort=nb-raw%nb,shortLen=Math.floor(raw/nb),dv=div(ec);const blocks=[];
+  for(let i=0,k=0;i<nb;i++){const dat=dcw.slice(k,k+shortLen-ec+(i<nShort?0:1));k+=dat.length;const e=rem(dat,dv);if(i<nShort)dat.push(0);blocks.push(dat.concat(e))}
+  const all=[];for(let i=0;i<blocks[0].length;i++)blocks.forEach((b,j)=>{if(i!==shortLen-ec||j>=nShort)all.push(b[i])});
+  /* 모듈 그리기 */
+  const N=ver*4+17;const M=[...Array(N)].map(()=>new Array(N).fill(false)),F=[...Array(N)].map(()=>new Array(N).fill(false));
+  const set=(x,y,d)=>{M[y][x]=d;F[y][x]=true};
+  for(let i=0;i<N;i++){set(6,i,i%2===0);set(i,6,i%2===0)}
+  [[3,3],[N-4,3],[3,N-4]].forEach(([cx,cy])=>{for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++){const x=cx+dx,y=cy+dy;if(x<0||y<0||x>=N||y>=N)continue;const d=Math.max(Math.abs(dx),Math.abs(dy));set(x,y,d!==2&&d!==4)}});
+  if(ver>1){const n=Math.floor(ver/7)+2,step=Math.ceil((ver*4+4)/(n*2-2))*2;const pos=[6];for(let p=N-7;pos.length<n;p-=step)pos.splice(1,0,p);
+    pos.forEach((y,i)=>pos.forEach((x,j)=>{if((i===0&&j===0)||(i===0&&j===n-1)||(i===n-1&&j===0))return;for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)set(x+dx,y+dy,Math.max(Math.abs(dx),Math.abs(dy))!==1)}))}
+  const fmt=mask=>{const d=(1<<3)|mask;let r=d;for(let i=0;i<10;i++)r=(r<<1)^((r>>>9)*0x537);const b=((d<<10)|r)^0x5412;const g=i=>((b>>>i)&1)===1;
+    for(let i=0;i<=5;i++)set(8,i,g(i));set(8,7,g(6));set(8,8,g(7));set(7,8,g(8));for(let i=9;i<15;i++)set(14-i,8,g(i));
+    for(let i=0;i<8;i++)set(N-1-i,8,g(i));for(let i=8;i<15;i++)set(8,N-15+i,g(i));set(8,N-8,true)};
+  fmt(0);
+  if(ver>=7){let r=ver;for(let i=0;i<12;i++)r=(r<<1)^((r>>>11)*0x1F25);const b=(ver<<12)|r;for(let i=0;i<18;i++){const d=((b>>>i)&1)===1,a=N-11+i%3,c=Math.floor(i/3);set(a,c,d);set(c,a,d)}}
+  let i=0;for(let right=N-1;right>=1;right-=2){if(right===6)right=5;for(let v=0;v<N;v++)for(let j=0;j<2;j++){const x=right-j,up=((right+1)&2)===0,y=up?N-1-v:v;if(!F[y][x]&&i<all.length*8){M[y][x]=((all[i>>>3]>>>(7-(i&7)))&1)===1;i++}}}
+  /* 마스크 0: (x+y)%2==0 뒤집기 */
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(!F[y][x]&&(x+y)%2===0)M[y][x]=!M[y][x];
+  return M}
+function qrSvg(text){const M=qrMatrix(text);if(!M)return '';const N=M.length,q=4;let p='';
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(M[y][x])p+='M'+(x+q)+','+(y+q)+'h1v1h-1z';
+  return '<svg viewBox="0 0 '+(N+q*2)+' '+(N+q*2)+'" shape-rendering="crispEdges" role="img" aria-label="연동 QR"><rect width="100%" height="100%" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>'}
+function syncBox(){let h='<div class="card syc"><h3>📱💻 휴대폰·컴퓨터 자동 연동</h3>';
+  if(SY.bid&&SY.key){h+='<p class="note">✅ 연결됐어요'+(SY.at?' · 마지막으로 맞춘 때 <b>'+armAgo(SY.at)+'</b>':'')+'. 고치면 몇 초 뒤 올라가고, 앱을 열거나 돌아올 때 다른 기기 기록을 가져와요.</p>'+(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'');
+    h+='<div class="syq">'+(ui.syqr?'<div class="qr">'+qrSvg(syLink())+'</div>':'')+'<div class="syt"><small>다른 기기에 넣을 연동 코드</small><b class="sycode">'+esc(syCode())+'</b><div class="bkb"><button class="btn sm" data-a="sycp">🔗 링크 복사</button><button class="btn sm ghost" data-a="syqr">'+(ui.syqr?'QR 닫기':'📷 QR 보기')+'</button></div></div></div>'
+      +'<p class="mute" style="font-size:12px">다른 기기에서 QR을 찍거나, 링크를 카톡 「나와의 채팅」으로 보내서 열면 바로 연결돼요. 코드를 아는 사람은 기록을 볼 수 있으니 남한테는 보내지 마세요.</p>'
+      +'<div class="bkb"><button class="btn sm" data-a="sygo">🔄 지금 맞추기</button><button class="btn sm ghost" data-a="syoff">연결 끊기</button></div></div>';return h}
+  if(SY.tok&&SY.gid)return h+'<p class="note">✅ GitHub로 연결됐어요'+(SY.at?' · 마지막으로 맞춘 때 <b>'+armAgo(SY.at)+'</b>':'')+'.</p>'+(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')+'<div class="bkb"><button class="btn sm" data-a="sygo">🔄 지금 맞추기</button><button class="btn sm ghost" data-a="syoff">연결 끊기</button></div></div>';
+  h+='<p class="note">휴대폰과 컴퓨터에서 같은 캐릭터·장비·끝낸 퀘스트를 자동으로 맞춰요. 로그인은 필요 없어요.</p>'
+    +'<div class="sy2"><div><b>① 처음 기기에서</b><small>지금 기록을 올리고 연동 코드를 만들어요</small><button class="btn full" data-a="symk">연동 코드 만들기</button></div>'
+    +'<div><b>② 다른 기기에서</b><small>받은 링크를 열거나 QR을 찍으면 끝 · 코드를 직접 넣어도 돼요</small><input class="inp" autocomplete="off" autocapitalize="characters" placeholder="연동 코드 (예: 1234…-7K3Q…)" data-c="syjoin"><button class="btn ghost full" style="margin-top:6px" data-a="syjn">코드로 연결</button></div></div>'
+    +(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')
+    +'<p class="mute" style="font-size:12px">기록은 무료 저장 서비스(jsonblob.com)에 <b>암호화해서</b> 올려요. 열쇠는 연동 코드 안에만 있어서 서비스에서도 내용을 못 봐요. 오래 안 쓰면 지워질 수 있지만 각 기기 기록은 그대로 남아요.</p>'
+    +'<details class="adsec"><summary><b>고급 · GitHub로 연동</b><small>내 GitHub 비공개 Gist에 저장</small><i>⌄</i></summary><div class="adsb">'
+    +'<ol class="imps"><li><a class="lnk" href="https://github.com/settings/tokens/new?scopes=gist&description=wowf-helper" target="_blank" rel="noopener">GitHub 토큰 만들기 ↗</a> — <b>gist</b>만 체크 · 기간은 길게</li><li>휴대폰·컴퓨터 둘 다 같은 토큰을 넣기</li></ol>'
+    +'<input class="inp" type="password" autocomplete="off" placeholder="ghp_로 시작하는 토큰" data-c="sytok"><button class="btn ghost full" style="margin-top:6px" data-a="syon">GitHub로 연결</button></div></details></div>';
+  return h}
 const me=()=>DB.list.find(c=>c.id===DB.cur)||null;
 const newId=()=>'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 function specOf(c){const C=D_CLS[c.cls];return (C&&C.specs.find(s=>s.id===c.spec))||(C&&C.specs[0])}
@@ -924,7 +996,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   h+=U.length?row('img/ui-shield.png','장비',(NEW.length?'🆕 새로 낄 수 있는 템 <b class="hl">'+NEW.length+'개</b> · '+esc(NEW[0].it.nm):esc(U[0].it.nm)+' · '+SLOT_KO[U[0].slot]),'tab','gear','<span class="tbg">'+U.length+'</span>'):row('img/ui-shield.png','장비','지금은 더 좋은 템이 없어요','tab','gear','<span class="tok">✓</span>',1);
   h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D[0]._v.g?' · <b class="hl">⭐ 좋은 템 '+D[0]._v.g+'</b>':'')+(D[0]._v.q?' · 퀘스트 '+D[0]._v.q:'')+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
   h+=msRows(c);
-  h+='</div>';const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c)+'<button class="syl'+(SY.gid?' on':'')+'" data-a="chars">'+(SY.gid?'📱💻 기기 연동 켜짐'+(SY.err?' · ⚠ '+esc(SY.err):SY.at?' · '+armAgo(SY.at)+' 맞춤':''):'📱💻 휴대폰·컴퓨터 자동 연동 켜기')+' ›</button>';
+  h+='</div>';const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c)+'<button class="syl'+(syOn()?' on':'')+'" data-a="chars">'+(syOn()?'📱💻 기기 연동 켜짐'+(SY.err?' · ⚠ '+esc(SY.err):SY.at?' · '+armAgo(SY.at)+' 맞춤':''):'📱💻 휴대폰·컴퓨터 자동 연동 켜기')+' ›</button>';
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
   if(isPC()){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
@@ -2508,7 +2580,11 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
   if(a==='syon'){const t=document.querySelector('[data-c=sytok]');const v=t&&t.value.trim();if(!v){toast('토큰을 먼저 붙여 넣으세요');return}toast('연결하는 중…');syConnect(v).then(ok=>{toast(ok?'연결됐어요! 다른 기기에도 같은 토큰을 넣어 주세요':'연결하지 못했어요');rerender(true)});return}
   if(a==='sygo'){toast('맞추는 중…');syPull().then(()=>{toast(SY.err?SY.err:'맞췄어요');rerender(true)});return}
-  if(a==='syoff'){SY={};sySave();toast('연결을 끊었어요');rerender(true);return}
+  if(a==='syoff'){SY={};_syK=null;sySave();toast('연결을 끊었어요');rerender(true);return}
+  if(a==='symk'){toast('연동 코드를 만드는 중…');syMake().then(ok=>{ui.syqr=ok&&isPC();toast(ok?'만들었어요! 다른 기기에서 링크를 열거나 QR을 찍어 주세요':'만들지 못했어요');rerender(true)});return}
+  if(a==='syjn'){const t=document.querySelector('[data-c=syjoin]');const v=t&&t.value.trim();if(!v){toast('연동 코드를 먼저 넣어 주세요');return}toast('연결하는 중…');syJoin(v).then(ok=>{toast(ok?'연결됐어요! 기록을 맞췄어요':(SY.err||'연결하지 못했어요'));rerender(true)});return}
+  if(a==='sycp'){const t=syLink();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('링크를 복사했어요 · 다른 기기에서 열면 연결돼요'),()=>{prompt('이 링크를 복사하세요',t)});return}
+  if(a==='syqr'){ui.syqr=!ui.syqr;rerender(true);return}
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
   if(a==='dtab'){ui.dtab=k;rerender(true);return}
   if(a==='lf'){ui.lf=k;rerender(true);return}
@@ -2631,9 +2707,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset&&(e
 try{const v=JSON.parse(sessionStorage.getItem('wfh_view')||'null');if(v&&['home','gear','quest','dungeon','class'].includes(v.tab)){ui.tab=v.tab;if(v.qmode)ui.qmode=v.qmode;if(v.tab==='dungeon'&&v.dg)ui.dg=v.dg;NAVW='새로고침 복원';if(v.tab==='quest'||v.tab==='dungeon')qdbLoad();if(v.tab==='dungeon')dggLoad()}}catch(e){}
 render();
 /* 기기 연동: 열 때 · 다시 돌아올 때 · 켜 둔 동안 2분마다 다른 기기 기록 가져오기 */
-{setTimeout(()=>syPull(),1500);let syLast=Date.now();
-  document.addEventListener('visibilitychange',()=>{if(!SY.gid)return;if(!document.hidden&&Date.now()-syLast>20e3){syLast=Date.now();syPull()}else if(document.hidden&&syT){clearTimeout(syT);syPush()}});
-  setInterval(()=>{if(SY.gid&&!document.hidden&&!document.querySelector('input:focus,textarea:focus')){syLast=Date.now();syPull(true)}},120e3)}
+{/* 받은 연동 링크(#sync=코드)로 열면 바로 연결 */
+  const hm=location.hash.match(/^#sync=([A-Za-z0-9]+-[2-9A-Z]{10})$/);if(hm){history.replaceState(null,'',location.pathname+location.search);if(!(SY.bid&&SY.key+''&&syCode()===hm[1])){toast('연동 코드로 연결하는 중…');syJoin(hm[1]).then(ok=>{toast(ok?'연결됐어요! 이 기기와 다른 기기 기록을 맞췄어요':(SY.err||'연결하지 못했어요'));render()})}}
+  setTimeout(()=>syPull(),1500);let syLast=Date.now();
+  document.addEventListener('visibilitychange',()=>{if(!syOn())return;if(!document.hidden&&Date.now()-syLast>20e3){syLast=Date.now();syPull()}else if(document.hidden&&syT){clearTimeout(syT);syPush()}});
+  setInterval(()=>{if(syOn()&&!document.hidden&&!document.querySelector('input:focus,textarea:focus')){syLast=Date.now();syPull(true)}},120e3)}
 
 /* 던전 고르는 줄: 마우스 휠·끌기로 옆으로 넘기기 (PC) */
 document.addEventListener('wheel',e=>{const dc=e.target.closest&&e.target.closest('.dchips');if(!dc||Math.abs(e.deltaX)>Math.abs(e.deltaY))return;

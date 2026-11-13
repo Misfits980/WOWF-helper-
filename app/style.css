@@ -2027,3 +2027,9 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .lhh4{margin:12px 0 4px;font-size:13.5px;color:#ffe08a}.lhh4:first-child{margin-top:0}
 .syc ol.imps{margin:6px 0 8px 18px;padding:0;font-size:13px}.syc ol.imps li{margin:3px 0}
 .syl{display:block;width:100%;margin:10px 0;padding:10px 12px;border-radius:12px;border:1px dashed #4f7aa6;background:#141c27;color:#8fc7ff;font-size:13.5px;text-align:left}.syl.on{border-style:solid;border-color:#2f4a66;color:#9fd59f}
+.syq{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.syq .qr{width:180px;height:180px;flex:none;border-radius:10px;overflow:hidden}.syq .qr svg{width:100%;height:100%;display:block}
+.syq .syt{flex:1;min-width:200px;display:flex;flex-direction:column;gap:6px}.syq small{color:var(--mute);font-size:12px}
+.sycode{font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:.5px;color:#ffe08a;word-break:break-all;padding:6px 8px;border-radius:8px;background:#1b1810;border:1px solid #4a3f28}
+.sy2{display:grid;gap:10px;margin:8px 0}@media(min-width:700px){.sy2{grid-template-columns:1fr 1fr}}
+.sy2>div{display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--panel2)}.sy2 small{color:var(--mute);font-size:12px}
