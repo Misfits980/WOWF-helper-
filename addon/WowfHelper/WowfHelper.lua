@@ -464,6 +464,7 @@ ev:RegisterEvent("PLAYER_LOGOUT")
 ev:RegisterEvent("PLAYER_TARGET_CHANGED")
 ev:RegisterEvent("PLAYER_REGEN_ENABLED")
 ev:RegisterEvent("TAXIMAP_OPENED")
+ev:RegisterEvent("QUEST_COMPLETE")
 local bankOpen = false
 ev:SetScript("OnEvent", function(_, e, a1)
   if e == "PLAYER_XP_UPDATE" then xpTick(); return end
@@ -471,6 +472,35 @@ ev:SetScript("OnEvent", function(_, e, a1)
   if e == "PLAYERBANKSLOTS_CHANGED" then if bankOpen then scanBank() end; return end
   if e == "PLAYER_TARGET_CHANGED" then WowfHelper_BossCheck(); return end
   if e == "PLAYER_REGEN_ENABLED" then WowfHelper_BossCheck(true); return end
+  if e == "QUEST_COMPLETE" then
+    -- 퀘스트 반납 창: 앱에서 정한 보상이 몇 번째인지 알려 주고 그 칸에 표시
+    local rec = WowfHelperDB and WowfHelperDB.rec
+    local qid = GetQuestID and GetQuestID()
+    local pick = rec and rec.p and qid and rec.p[qid]
+    for i = 1, 10 do
+      local b = _G["QuestInfoRewardsFrameQuestInfoItem" .. i]
+      if b and b.wfhTag then b.wfhTag:Hide() end
+    end
+    if pick then
+      for i = 1, (GetNumQuestChoices and GetNumQuestChoices() or 0) do
+        local link = GetQuestItemLink and GetQuestItemLink("choice", i)
+        local id = link and tonumber(link:match("item:(%d+)"))
+        if id == pick then
+          say(("앱 추천 보상: %d번째 %s"):format(i, link))
+          local b = _G["QuestInfoRewardsFrameQuestInfoItem" .. i]
+          if b then
+            if not b.wfhTag then
+              b.wfhTag = b:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+              b.wfhTag:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", -4, 2)
+              b.wfhTag:SetText("|cff8fc7ff< 와포 추천|r")
+            end
+            b.wfhTag:Show()
+          end
+        end
+      end
+    end
+    return
+  end
   if e == "TAXIMAP_OPENED" then
     -- 비행 조련사 창을 열면 아는 비행 경로를 기억 (앱에서 안 연 곳 알려 주기)
     WowfHelperDB = WowfHelperDB or {}
@@ -512,7 +542,7 @@ local SLOTKO = { head = "머리", neck = "목", shoulder = "어깨", back = "등
 local function parseRec(txt)
   local i = txt:find("WFR1;", 1, true)
   if not i then return nil end
-  local rec = { u = {}, w = {} }
+  local rec = { u = {}, w = {}, p = {}, pi = {} }
   local n = 0
   for sec in txt:sub(i + 5):gmatch("[^;]+") do
     local k, v = sec:match("^(%u):(.*)$")
@@ -523,6 +553,13 @@ local function parseRec(txt)
       end
     elseif k == "W" then
       for id in v:gmatch("[^%.]+") do local x = tonumber(id, 36); if x then rec.w[x] = true end end
+    elseif k == "P" then
+      -- 퀘스트 보상 고르기: 퀘스트번호-템번호 (36진수)
+      for part in v:gmatch("[^%.]+") do
+        local q, it = part:match("^(%w+)%-(%w+)$")
+        q, it = q and tonumber(q, 36), it and tonumber(it, 36)
+        if q and it then rec.p[q] = it; rec.pi[it] = true end
+      end
     end
   end
   return rec, n
@@ -579,7 +616,9 @@ local function tipHook(tt)
   local u = rec.u and rec.u[id]
   if u then tt:AddLine(("|cffe8c06a와포 추천|r · %s 지금보다 |cff40ff40+%.1f|r"):format(SLOTKO[u[2]] or u[2] or "", u[1] or 0)) end
   if rec.w and rec.w[id] then tt:AddLine("|cffffd100⭐ 앱에서 찜한 템|r") end
-  if u or (rec.w and rec.w[id]) then tt:Show() end
+  local pk = rec.pi and rec.pi[id]
+  if pk then tt:AddLine("|cff8fc7ff와포: 퀘스트 보상으로 고를 템|r") end
+  if u or (rec.w and rec.w[id]) or pk then tt:Show() end
 end
 if GameTooltip and GameTooltip.HookScript then
   pcall(function() GameTooltip:HookScript("OnTooltipSetItem", tipHook) end)

@@ -450,7 +450,9 @@ function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=cha
     return '<button class="rt2'+(best?' best':'')+(it&&!use?' no':'')+'" data-a="'+(it?'info':'')+'" data-k="'+x[0]+'"><span class="ic q-'+x[3]+'" style="background-image:url('+ICO(x[2])+')"></span><span class="rn q'+x[3]+'">'+esc(x[1])+(x[4]>1?' ×'+x[4]:'')+'</span>'+(best?'<span class="rb">★ 추천</span>':b&&b.g>.01?'<span class="rb s">좋아짐</span>':it&&!use?'<span class="rb nx">못 씀</span>':'')+'</button>'};
   if(R.ch||R.fx||R.xp||R.money||R.rep){h+='<h5>보상</h5>';
     if(R.ch&&R.ch.length){let bi=-1,bg=.01;R.ch.forEach((x,i)=>{const it=IT.get(x[0]);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});
-      h+='<p>아래의 보상 중 한 가지를 선택할 수 있습니다:</p><div class="rgrid">'+R.ch.map((x,i)=>tile(x,i===bi)).join('')+'</div>'}
+      h+='<p>아래의 보상 중 한 가지를 선택할 수 있습니다:</p><div class="rgrid">'+R.ch.map((x,i)=>tile(x,i===bi)).join('')+'</div>';
+      {const pk=(c.rwPick||{})[id];const cur=pk&&R.ch.some(x=>x[0]===pk)?pk:(bi>=0?R.ch[bi][0]:0);
+       h+='<div class="rpk"><b>📌 고를 템</b>'+R.ch.map(x=>'<button class="'+(x[0]===cur?'on':'')+'" data-a="rwpick" data-k="'+id+':'+x[0]+'">'+esc(x[1])+'</button>').join('')+'<small>'+(pk?'직접 정했어요':'앱 추천대로')+' · 애드온에 「추천 코드」를 넣으면 게임에서 반납할 때 이 템을 알려 줘요</small></div>'}}
     if(R.fx&&R.fx.length)h+='<p>받게 될 아이템:</p><div class="rgrid">'+R.fx.map(x=>tile(x,false)).join('')+'</div>';
     const ex=[];if(R.xp)ex.push('경험치 <b>'+R.xp.toLocaleString()+'</b>');if(R.money)ex.push('<b>'+money(R.money).trim()+'</b>');(R.rep||[]).forEach(r=>ex.push(esc(r[0])+' 평판 <b>'+esc(r[1])+'</b>'));
     if(ex.length)h+='<p>추가로 받게 될 보상:</p><p class="pex">'+ex.join(' · ')+'</p>'}
@@ -938,9 +940,16 @@ function bagUps(c){const w=wOf(c);const out=[];const seen=new Set();
   return out.sort((a,b)=>b.g-a.g)}
 /* 🎮 애드온 툴팁용 추천 코드: WFR1;U:번호-점수×10-칸.…;W:찜 */
 function wfrCode(c){const U=[];const seen=new Set();SLOTS.forEach(([sl])=>{if(offLocked(c,sl))return;bestFor(c,sl,c.lv,ui.ifil||'ok').slice(0,6).forEach(x=>{if(seen.has(x.it.id))return;seen.add(x.it.id);U.push(x.it.id.toString(36)+'-'+Math.max(1,Math.round(x.g*10))+'-'+sl)})});
-  const W=(c.wish||[]).map(id=>(+id).toString(36));return {code:'WFR1;U:'+U.join('.')+';W:'+W.join('.'),n:U.length,w:W.length}}
+  const W=(c.wish||[]).map(id=>(+id).toString(36));const P=rwPicks(c).map(([q,i])=>q.toString(36)+'-'+i.toString(36));
+  return {code:'WFR1;U:'+U.join('.')+';W:'+W.join('.')+';P:'+P.join('.'),n:U.length,w:W.length,p:P.length}}
+/* 퀘스트 보상 고르기: 퀘스트창·지금/다음 구간·던전 퀘스트 중 「골라 받는 보상」이 있는 것 → [퀘스트, 템] */
+function rwChoices(id){const R=RWD.get(id);if(R&&R.ch&&R.ch.length)return R.ch.map(x=>x[0]);const d=dgOfQ(id);const q=d&&d.q.find(x=>x.id===id);return q&&q.choose&&q.rw.length>1?q.rw:[]}
+function rwPickFor(c,id){const ch=rwChoices(id);if(ch.length<2)return 0;const pk=(c.rwPick||{})[id];if(pk&&ch.includes(pk))return pk;let bi=0,bg=.01;ch.forEach(i=>{const it=IT.get(i);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});return bi}
+function rwPicks(c){const L=c.lv;const ids=new Set(Object.keys(c.ql||{}).map(Number));Object.keys(c.rwPick||{}).forEach(k=>ids.add(+k));
+  routeOf(c).filter(S=>S.b>=L-1&&S.a<=L+6).forEach(S=>S.q.forEach(q=>{if(q.id)ids.add(q.id)}));dgNow(L).forEach(d=>dqOf(c,d).forEach(q=>ids.add(q.id)));
+  const out=[];ids.forEach(id=>{const i=rwPickFor(c,id);if(i)out.push([id,i])});return out.slice(0,150)}
 function wfrSheet(c){const R=wfrCode(c);return '<div class="sh"><h2>🎮 게임 툴팁에 앱 추천 넣기</h2><button class="x" data-a="close">✕</button></div>'
-  +'<p class="note">게임에서 템에 마우스를 올리면 「<b>와포 추천 · 머리 지금보다 +11</b>」, 찜한 템은 「⭐ 앱에서 찜한 템」이 붙어요. 칸마다 추천 6개까지, 모두 <b>'+R.n+'개</b>'+(R.w?' · 찜 '+R.w+'개':'')+'.</p>'
+  +'<p class="note">게임에서 템에 마우스를 올리면 「<b>와포 추천 · 머리 지금보다 +11</b>」, 찜한 템은 「⭐ 앱에서 찜한 템」이 붙어요. 칸마다 추천 6개까지, 모두 <b>'+R.n+'개</b>'+(R.w?' · 찜 '+R.w+'개':'')+'.'+(R.p?' 퀘스트 보상 고르기 <b>'+R.p+'개</b>도 들어 있어서, 퀘스트를 반납할 때 고를 템을 알려 줘요 (애드온 v3.2).':'')+'</p>'
   +'<ol class="imps"><li>아래 코드를 <b>복사</b></li><li>게임 채팅창에 <code>/wfh 추천</code> → 뜬 칸에 <b>Ctrl+V</b> → 확인</li></ol>'
   +'<textarea class="inp" rows="4" readonly onclick="this.select()">'+esc(R.code)+'</textarea><button class="btn full" data-a="wfrcp">코드 복사</button>'
   +'<p class="note">장비를 바꾸거나 레벨이 오르면 추천이 달라지니, 가끔 새로 넣어 주세요. 애드온 v3부터 돼요.</p>'}
@@ -1848,6 +1857,22 @@ function dgTargets(c,d,dt){if(dt==='quest')return '';
   const L=W.concat(U).slice(0,5);if(!L.length)return '';
   return '<div class="card dgt2"><button class="hd" data-a="dtab" data-k="loot"><span class="ic" style="background-image:url('+ICO('ability_hunter_snipershot')+')"></span><b>여기서 노릴 템</b><small>내 장비보다 좋은 순 '+U.length+'개 ›</small></button><div class="ltg">'
    +L.map(x=>'<button class="lt" data-a="'+(x.b?'cmpq':'info')+'" data-k="'+(x.b?x.b.s+':'+x.it.id:x.it.id)+'">'+itIcon(x.it)+(x.b&&x.b.g>.01?'<em class="g">+'+Math.round(x.b.g)+'</em>':isWish(c,x.it.id)?'<em class="g w">⭐</em>':'')+'<span class="q'+x.it.q+'">'+esc(x.it.nm)+'</span></button>').join('')+'</div></div>'}
+/* 🏁 던전 끝나고 정리: 끝낸 퀘스트·얻은 템·다음 던전 */
+function dgEndItems(c,d){const its=dgItems(c,d).concat(dqOf(c,d).flatMap(q=>q.rw.map(i=>IT.get(i)).filter(Boolean)));const seen=new Set();
+  return its.filter(it=>{if(seen.has(it.id))return false;seen.add(it.id);return usable(it,c)}).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01).sort((a,b)=>b.b.g-a.b.g)}
+function dgEndSheet(c,slug){const d=DG[slug];if(!d||!ui.de)return '';const L=c.lv;let h='<div class="sh"><h2>🏁 '+esc(d.ko)+' 정리</h2><button class="x" data-a="close">✕</button></div>';
+  const R=ui.de.res;
+  if(R){h+='<div class="der"><p>🎉 수고했어요!'+(R.dur?' <b>'+R.dur+'분</b>':'')+' · 보스 <b>'+R.nk+'</b> · 퀘스트 <b>'+R.nq+'개</b> 끝냄'+(R.eqd.length?' · 착용 <b>'+R.eqd.length+'개</b>':'')+'</p>'+(R.eqd.length?'<p class="mute">'+R.eqd.map(esc).join(' · ')+'</p>':'')+'</div>';
+    const nx=dgNow(L).filter(x=>x.slug!==slug).map(x=>{const S=dgState(c,x);return {x,S,g:S.ups.length,q:S.left.length}}).filter(o=>!o.S.all||o.g).sort((a,b)=>(b.g*2+b.q)-(a.g*2+a.q)).slice(0,3);
+    h+='<h3>다음 던전 추천</h3>'+(nx.length?nx.map(({x,g,q})=>'<button class="srow" data-a="dgo" data-k="'+x.slug+'"><span class="qlv '+lvCls(x.fit||x.lo,L)+'">'+x.lo+'</span><span class="t"><b>🏰 '+esc(x.ko)+'</b><span>'+x.lo+'–'+x.hi+'레벨'+(g?' · ⭐ 좋은 템 '+g:'')+(q?' · 퀘스트 '+q:'')+'</span></span></button>').join(''):'<p class="note">지금 레벨에 더 갈 던전이 없어요. 퀘스트로 레벨을 올려요.</p>');
+    return h+'<button class="btn ghost full" data-a="close">닫기</button>'}
+  const kl=killOf(c,slug);const nk=Object.keys(kl).filter(x=>x!=='_s').length;const dur=kl._s?Math.round((Date.now()-kl._s)/60000):0;
+  h+='<p class="note">'+(dur?'⏱️ '+dur+'분 · ':'')+'보스 '+nk+'마리 잡음. 끝낸 퀘스트와 얻은 템을 고르고 「정리하기」를 눌러요.</p>';
+  const S=dgState(c,d);
+  if(S.left.length)h+='<h3>끝낸 던전 퀘스트</h3><div class="dechk">'+S.left.map(q=>'<button class="'+(ui.de.q.has(q.id)?'on':'')+'" data-a="deq" data-k="'+q.id+'"><i>'+(ui.de.q.has(q.id)?'✓':'')+'</i><span>'+esc(q.nm)+((c.ql||{})[q.id]?' <small>퀘스트창에 있음</small>':'')+'</span></button>').join('')+'</div>';
+  const U=dgEndItems(c,d).slice(0,12);
+  if(U.length)h+='<h3>얻은 템 <small class="mute">고르면 바로 껴요 (칸마다 하나)</small></h3><div class="dechk">'+U.map(({it,b})=>'<button class="'+(ui.de.i.has(it.id)?'on':'')+'" data-a="dei" data-k="'+it.id+'"><i>'+(ui.de.i.has(it.id)?'✓':'')+'</i>'+itIcon(it)+'<span><b class="q'+it.q+'">'+esc(it.nm)+'</b> <small>'+esc(SL_KO[it.sl]||'')+' · +'+Math.round(b.g)+'</small></span></button>').join('')+'</div>';
+  return h+'<button class="btn full" data-a="deok" data-k="'+slug+'">정리하기</button><button class="btn ghost full" style="margin-top:6px" data-a="rkclr">체크만 지우기</button>'}
 function dgUps(c,d){const L=c.lv;return dgItems(c,d).filter(it=>usable(it,c)&&it.lv<=Math.max(L,d.hi)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01)}
 const DG_IMG=slug=>(typeof DG!=='undefined'&&DG[slug]&&DG[slug].wy?'https://wythic.com/dungeons/'+DG[slug].wy+'.jpg?v=2':'https://forg.gg/images/wow-forever/dungeons/'+slug+'-loading.webp')/* 신규 던전은 forg 그림이 없어 wythic.com 그림 */;
 function dgChips(c,cur){const L=c.lv;
@@ -2034,9 +2059,9 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   const nBoss=S.filter(x=>x.kind==='boss').length,nSkip=S.filter(x=>x.st.skip).length,nQ=S.filter(x=>x.st.q&&x.st.q.length).length;
   const B2=BL(S);const nk=B2.filter(x=>KL[x.st.nm]).length;const on=!!KL._s;
   let h='<div class="card ready2"><div class="ready"><div class="roles">'+['tk','dp','hl'].map(r=>'<button class="'+(r===me?'on':'')+'" data-a="drole" data-k="'+r+'" aria-label="'+RNM[r]+'">'+ricon(r)+'</button>').join('')+'</div>'
-   +(on?'<div class="prog2'+(nk===B2.length?' all':'')+'"><span>보스 <b>'+nk+'/'+B2.length+'</b>'+(nk===B2.length?' 🎉':'')+'</span><span class="bar"><i style="width:'+Math.round(nk/Math.max(1,B2.length)*100)+'%"></i></span><button class="btn sm '+(nk===B2.length?'':'ghost')+'" data-a="rkend">끝내기</button></div>'
+   +(on?'<div class="prog2'+(nk===B2.length?' all':'')+'"><span>보스 <b>'+nk+'/'+B2.length+'</b>'+(nk===B2.length?' 🎉':'')+'</span><span class="bar"><i style="width:'+Math.round(nk/Math.max(1,B2.length)*100)+'%"></i></span><button class="btn sm '+(nk===B2.length?'':'ghost')+'" data-a="rkend">끝내고 정리</button></div>'
        :'<button class="go" data-a="rkgo"><span class="ic" style="background-image:url('+ICO('ability_warrior_charge')+')"></span>던전 시작</button>')+'</div>'
-   +(on?'':'<p class="rhint">'+RNM[me]+' 기준으로 보여 줘요 · 시작하면 보스 잡을 때마다 ✓</p>')+'</div>';
+   +(on?'':'<p class="rhint">'+RNM[me]+' 기준으로 보여 줘요 · 시작하면 보스 잡을 때마다 ✓'+(()=>{const r=(c.dgRuns||[]).filter(x=>x.d===d.slug);return r.length?' · 지난번 '+new Date(r[0].t).toLocaleDateString('ko-KR',{month:'numeric',day:'numeric'})+(r[0].m?' '+r[0].m+'분':'')+(r.length>1?' (모두 '+r.length+'번)':''):''})()+'</p>')+'</div>';
   h+=tg||'';
   if(g.prep&&g.prep.length)h+='<details class="warn2"><summary><span class="ic" style="background-image:url('+ICO('inv_misc_book_09')+')"></span>들어가기 전에 알아 둘 것 '+g.prep.length+'개<i>⌄</i></summary><ul>'+g.prep.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></details>';
   if(g.sum)h+='<details class="card sum2"><summary><p>'+esc(g.sum)+'</p><span class="more">더 보기 ›</span></summary><p>'+esc(g.sum)+'</p></details>';
@@ -2331,7 +2356,7 @@ function render(){const app=$('#app');{const t=document.querySelector('.ttip');i
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(dspView(c));else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
   app.innerHTML=topBar(c)+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
-    +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='imp'?impSheet(c):ui.sheet==='wfr'?wfrSheet(c):ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):ui.sheet.startsWith('cmp:')?cmpSheet(c,ui.sheet.split(':')[1],ui.sheet.split(':')[2]):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':'')
+    +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='imp'?impSheet(c):ui.sheet==='wfr'?wfrSheet(c):ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):ui.sheet.startsWith('dgend:')?dgEndSheet(c,ui.sheet.slice(6)):ui.sheet.startsWith('cmp:')?cmpSheet(c,ui.sheet.split(':')[1],ui.sheet.split(':')[2]):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':'')
   setTabs(true);
   if(ui.tab==='quest'&&ui.qmode==='atlas')amInit();if(me()&&!ui.onb)navLog();fitsCheck()}
 function fitsCheck(){requestAnimationFrame(()=>{const d=document.documentElement;d.classList.toggle('fits',d.scrollHeight<=window.innerHeight+2)})}
@@ -2378,6 +2403,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='gz'){ui.gz=k;ui.amq=null;rerender(true);return}
   if(a==='rmap'){c.recMap=!c.recMap;save();rerender(true);return}
   if(a==='lhsel'){ui.lhsel=ui.lhsel===k?null:k;rerender(true);return}
+  if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};if(c.rwPick[q]===i)delete c.rwPick[q];else c.rwPick[q]=i;save();toast('고를 템을 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}
   if(a==='fpk'){c.fpk=c.fpk||{};if(c.fpk[k])delete c.fpk[k];else c.fpk[k]=1;save();rerender(true);return}
   if(a==='lgv'){c.lgRoute=!c.lgRoute;save();rerender(true);return}
   if(a==='qlrm'){if(c.ql){const was=c.ql[+k];delete c.ql[+k];save();rerender(true);toastUndo('퀘스트창에서 뺐어요 (포기)',()=>{const cc=me();cc.ql=cc.ql||{};cc.ql[+k]=was;save();rerender(true)})}return}
@@ -2434,7 +2460,15 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='lf'){ui.lf=k;rerender(true);return}
   if(a==='rk'){c.dk=c.dk||{};const m=c.dk[ui.dg]=c.dk[ui.dg]||{};if(!m._s)m._s=Date.now();if(m[k])delete m[k];else{m[k]=Date.now();toast('✓ '+k+' 잡음')}save();rerender(true);return}
   if(a==='rkgo'){c.dk=c.dk||{};c.dk[ui.dg]={_s:Date.now()};save();toast('시작! 보스 잡으면 ✓ 눌러 주세요');rerender(true);return}
-  if(a==='rkend'){if(c.dk)delete c.dk[ui.dg];save();toast('수고했어요! 체크를 지웠어요');rerender(true);return}
+  if(a==='rkend'){const d=DG[ui.dg];if(!d)return;const S=dgState(c,d);const ups=dgEndItems(c,d);
+    ui.de={q:new Set(S.left.filter(q=>(c.ql||{})[q.id]).map(q=>q.id)),i:new Set(),res:null};ui.sheet='dgend:'+d.slug;rerender(true);return}
+  if(a==='rkclr'){if(c.dk)delete c.dk[ui.dg];save();ui.sheet=null;toast('체크를 지웠어요');rerender(true);return}
+  if(a==='deq'||a==='dei'){const S=a==='deq'?ui.de.q:ui.de.i;const v=+k;if(S.has(v))S.delete(v);else{if(a==='dei'){const it=IT.get(v);const bs=bestSlot(it,c);[...S].forEach(o=>{const b2=bestSlot(IT.get(o),c);if(b2&&bs&&b2.s===bs.s)S.delete(o)})}S.add(v)}rerender(true);return}
+  if(a==='deok'){const d=DG[k];if(!d)return;const kl=killOf(c,d.slug);const nk=Object.keys(kl).filter(x=>x!=='_s').length;const dur=kl._s?Math.round((Date.now()-kl._s)/60000):0;
+    c.dq=c.dq||{};ui.de.q.forEach(id=>{c.dq[id]=1;if(c.ql)delete c.ql[id]});const eqd=[];c.eq=c.eq||{};
+    ui.de.i.forEach(id=>{const it=IT.get(id);const b2=it&&bestSlot(it,c);if(b2){c.eq[b2.s]=id;if(b2.s==='main'&&it.sl==='2h')delete c.eq.off;eqd.push(it.nm)}});
+    c.dgRuns=c.dgRuns||[];c.dgRuns.unshift({d:d.slug,t:Date.now(),m:dur,k:nk,q:ui.de.q.size,i:eqd.length});c.dgRuns=c.dgRuns.slice(0,30);if(c.dk)delete c.dk[d.slug];save();
+    ui.de.res={d:d.slug,dur,nk,nq:ui.de.q.size,eqd};rerender(true);return}
   if(a==='nch'){ui.nch=ui.nch||{};ui.nch[k]=!ui.nch[k];rerender(true);return}
   if(a==='chx'){ui.chopen=ui.chopen||{};ui.chopen[k]=b.dataset.f?false:true;rerender(true);return}
   if(a==='mmgo'){ui.amback={sheet:ui.sheet,tab:ui.tab,qmode:ui.qmode,dg:ui.dg,dtab:ui.dtab,y:window.scrollY,id:+k};try{history.pushState({amback:1},'')}catch(e){}ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=+k;const FO=amFocus(+k);if(FO&&FO.P[0])ui.am=amFit(FO);render();window.scrollTo(0,0);return}
