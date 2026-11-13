@@ -551,6 +551,13 @@ function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
     for(const x of list.slice(0,1)){let g;
       if(slot==='main'&&x.it.sl==='2h')g=x.s-(sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w));else g=x.s-base;
       if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):base,empty:!eqIt(c,tgt)})}}
+  /* 양손 무기 추천과 보조 추천이 같이 나오지 않게: 양손 vs (한손+보조) 중 나은 쪽만 */
+  const mi=out.findIndex(o=>o.slot==='main'&&o.it.sl==='2h'),oi=out.findIndex(o=>o.slot==='off');
+  if(mi>=0&&oi>=0){const m=out[mi],o=out[oi];const two=m.base+m.g;const offS=o.base+o.g;
+    const m1=cands(c,'main',L,mode).find(x=>x.it.sl!=='2h'&&x.it.id!==o.it.id&&(minLv==null||x.it.ob>=minLv));const curM=eqIt(c,'main');
+    const oneS=Math.max(m1?m1.s:0,curM&&curM.sl!=='2h'?sc(curM,'main',w):0);
+    if(two>=oneS+offS)out.splice(oi,1);
+    else{if(m1&&(!curM||m1.s>sc(curM,'main',w)+.01)){const b0=sc(curM,'main',w);out[mi]={slot:'main',it:m1.it,g:m1.s-b0,base:b0,empty:!curM}}else out.splice(mi,1)}}
   return out.sort((a,b)=>(b.empty-a.empty)||(b.g/Math.max(b.base,4))-(a.g/Math.max(a.base,4)))}
 function gainTag(g,base,empty){if(empty)return '<span class="gain new">빈 칸 채우기</span>';if(g<-.5)return '<span class="gain no" style="color:var(--bad)">나빠짐</span>';if(!(g>.01))return '<span class="gain no">변화 없음</span>';const r=g/Math.max(base,4);const n=' <b class="gp">+'+(g>=10?Math.round(g):g.toFixed(1))+'</b>';return r>=.5?'<span class="gain big">크게 좋아짐'+n+'</span>':r>=.2?'<span class="gain mid">좋아짐'+n+'</span>':'<span class="gain sm">조금 좋아짐'+n+'</span>'}
 const PCTK={crit:1,hit:1,scrit:1,shit:1,dodge:1,parry:1,blockp:1,exp:1};
@@ -2119,13 +2126,14 @@ function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const ME=ui.tlv
 function talView(c,C,sp,L){const pts=Math.max(0,L-9);const st=sp.steps.filter(s=>s[0]<=60);
   const by=lv=>{const m={};st.filter(s=>s[0]<=lv).forEach(s=>{const t=C.talents[s[1]];if(t)m[t[1]]=(m[t[1]]||0)+1});return m};
   const now=by(L),fin=by(60);
-  const row=(s,big)=>{const t=C.talents[s[1]]||[s[1],'',1,'',''];const st_=s[0]<L?'done':s[0]===L?'now':'soon';
-    return '<div class="tr2 '+st_+(big?' big':'')+'"><span class="lvb '+lvCls(s[0],L)+'">'+s[0]+'</span><span class="m"><span class="l1"><b>'+esc(t[0])+'</b><span class="rk">'+s[2]+'/'+t[2]+'</span><span class="tt">'+esc(t[1])+'</span>'+(st_==='done'?'<span class="ok">✓</span>':st_==='now'?'<span class="nw">지금</span>':'')+'</span>'+(t[4]?'<span class="d">'+esc(t[4])+'</span>':'')+'</span></div>'};
+  const row=(s,big,rep)=>{const t=C.talents[s[1]]||[s[1],'',1,'',''];const st_=s[0]<L?'done':s[0]===L?'now':'soon';
+    return '<div class="tr2 '+st_+(big?' big':'')+'"><span class="lvb '+lvCls(s[0],L)+'">'+s[0]+'</span><span class="m"><span class="l1"><b>'+esc(t[0])+'</b><span class="rk">'+s[2]+'/'+t[2]+'</span><span class="tt">'+esc(t[1])+'</span>'+(st_==='done'?'<span class="ok">✓</span>':st_==='now'?'<span class="nw">지금</span>':'')+'</span>'+(t[4]&&!rep?'<span class="d">'+esc(t[4])+'</span>':'')+'</span></div>'};
+  const rows=(a,big)=>a.map((s,i)=>row(s,big,i>0&&a[i-1][1]===s[1])).join('');
   let h=talGrid(c,C,sp,L);
   const cur=st.filter(s=>s[0]>=L-1&&s[0]<=L+3);
-  if(L>=9&&cur.length)h+='<div class="card"><h3>📌 지금 찍을 특성</h3>'+cur.map(s=>row(s,1)).join('')+'</div>';
+  if(L>=9&&cur.length)h+='<div class="card"><h3>📌 지금 찍을 특성</h3>'+rows(cur,1)+'</div>';
   const grp={};st.forEach(s=>{const k=Math.floor(s[0]/10)*10;(grp[k]=grp[k]||[]).push(s)});
-  h+='<div class="card"><h3>📜 10~60 레벨별 순서</h3>'+Object.entries(grp).map(([k,arr])=>{const open=L>=+k&&L<+k+10;return '<details class="tg"'+(open?' open':'')+'><summary><b>'+k+'~'+(+k+9)+'레벨</b><span class="mute">'+arr.length+'개'+(arr.every(s=>s[0]<L)?' · 다 찍음 ✓':'')+'</span></summary>'+arr.map(s=>row(s,0)).join('')+'</details>'}).join('')
+  h+='<div class="card"><h3>📜 10~60 레벨별 순서</h3>'+Object.entries(grp).map(([k,arr])=>{const open=L>=+k&&L<+k+10;return '<details class="tg"'+(open?' open':'')+'><summary><b>'+k+'~'+(+k+9)+'레벨</b><span class="mute">'+arr.length+'개'+(arr.every(s=>s[0]<L)?' · 다 찍음 ✓':'')+'</span></summary>'+rows(arr,0)+'</details>'}).join('')
    +'<p class="note"><a href="https://forg.gg/forever/classes/'+c.cls+'?spec='+sp.id+'" target="_blank" rel="noopener">forg.gg에서 특성 트리로 보기 ↗</a></p></div>';
   return h}
 /* ===== 직업: 기술 습득 (교관 다녀온 레벨 기준) ===== */

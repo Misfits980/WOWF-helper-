@@ -354,6 +354,8 @@ html = f'''<!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#15130f">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="img/apple-touch-icon.png"><link rel="icon" href="img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="와포 도우미"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>와포 도우미</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&display=swap">
 <meta name="description" content="와우 포에버 얼라이언스 레벨업·장비·퀘스트·던전 도우미">
@@ -362,6 +364,7 @@ html = f'''<!DOCTYPE html>
 <script src="app-data.js?v={ver}"></script>
 <script>/* v{aver} @{stamp} */
 {app}</script>
+<script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{{}}))</script>
 </body></html>'''
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
 print('index.html', len(html), 'app-data.js', len(data))

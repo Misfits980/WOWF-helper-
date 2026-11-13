@@ -701,7 +701,7 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
 @media (hover:hover) and (pointer:fine){
   .dcb{display:flex;align-items:center;justify-content:center;position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:34px;height:54px;border-radius:10px;border:1px solid var(--line);background:rgba(20,18,14,.92);color:#ffe08a;font-size:24px;cursor:pointer}
   .dcb.l{left:4px}.dcb.r{right:4px}
-  .dchips{padding-left:44px;padding-right:44px;scrollbar-width:none;cursor:grab}
+  .dcw .dchips{padding-left:44px;padding-right:44px;scrollbar-width:none;cursor:grab}
   .dchips::-webkit-scrollbar{display:none}
   .dchips.drag{cursor:grabbing;user-select:none}
 }
