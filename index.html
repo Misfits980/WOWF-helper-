@@ -1432,11 +1432,18 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 
 .rtn{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:4px}.rtn>span{font-size:11px;color:var(--mute);margin-right:2px}
 .rtr.me .rtn .abk{height:24px;font-size:11.5px}
+
+/* 게임에서 불러오기 */
+.imps{margin:8px 0;padding-left:20px;font-size:13px;line-height:1.6}.imps li{margin-bottom:8px}.imps small{color:var(--mute)}.imps code{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:0 5px}
+.imps .btn{margin-left:6px;vertical-align:middle}
+.impta{width:100%;font-family:ui-monospace,monospace;font-size:12px}
+.impok{margin-top:8px;padding:10px 12px;border-radius:12px;background:rgba(60,120,50,.12);border:1px solid #4f7a3c;font-size:13px}.impok ul{margin:6px 0 10px;padding-left:18px;line-height:1.6}.impok .warn{color:#ffb36b;font-size:12.5px}
+.impl{display:flex;align-items:center;gap:6px;width:100%;margin:10px 0;padding:10px 12px;border-radius:12px;border:1px dashed var(--line);background:none;color:#cfc6b3;font-size:13px;font-family:inherit;cursor:pointer;text-align:left}.impl small{margin-left:auto;color:var(--mute);font-size:11px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=3e4eb53f"></script>
-<script>/* v26437e @11/13 10:41 */
-const BUILD='11/13 10:41';
+<script>/* v56d049 @11/13 12:21 */
+const BUILD='11/13 12:21';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2484,6 +2491,7 @@ function routeView(c){const L=c.lv;const R=routeOf(c);let prevC=null;const fq=c.
     h+='<details class="rpast"><summary><span class="lvb lv-x">1–'+pastLv+'</span> ✓ 지나온 길 '+trail.length+'곳<span class="more">펼치기</span></summary><p class="trail">'+trail.map(esc).join(' → ')+'</p>'+rows.slice(0,pastN).join('')+'</details>'}
   const curS=R.find(S=>L>=S.a&&L<=S.b);const nxS=R.find(S=>S.a>L);h+='<div class="q2">'+(curS?nowCard(c,curS):'')+lvHelp(c,curS,nxS)+'</div>';
   if(nxS)h+='<div class="nextln"><span class="lvb">'+nxS.a+'–'+nxS.b+'</span><span>다음 구간 · <b>'+esc(nxS.z)+'</b></span></div>';
+  h+='<button class="impl" data-a="imp">🧩 게임에서 이미 한 퀘스트 불러오기 <small>고급 · 애드온</small></button>';
   h+='<details class="rall"><summary>🗺️ 1–60 전체 레벨 루트 보기</summary>'+rows.slice(pastN).join('')+'<p class="note">⛵ 배 타는 곳: '+BOAT+'</p></details>';
   return h}
 function quest(c){const L=c.lv;const qm=ui.qmode||'route';const q0=(ui.qsrch||'').trim();
@@ -2902,12 +2910,31 @@ function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];
   return h+'<p class="note"><a href="'+esc(sel.src)+'" target="_blank" rel="noopener">원본 가이드 ↗</a></p></div>'}
 
 /* ===================== 캐릭터 관리 시트 ===================== */
+/* ===== 🧩 게임에서 불러오기 (애드온 코드 붙여넣기) ===== */
+function impParse(txt){const i=(txt||'').indexOf('WFH1;');if(i<0)return null;const f=txt.slice(i).trim().split(/\s+/)[0].split(';');if(f.length<9)return null;
+  const d=[];let cur=0;(f[7]||'').replace(/^D:/,'').split('.').filter(Boolean).forEach(x=>{const v=parseInt(x,36);if(!isNaN(v)){cur+=v;d.push(cur)}});
+  const l=(f[8]||'').replace(/^L:/,'').split('.').filter(Boolean).map(x=>({id:parseInt(x.replace('*',''),36),done:x.endsWith('*')})).filter(x=>!isNaN(x.id));
+  return {name:f[1],realm:f[2],cls:(f[3]||'').toLowerCase(),lv:+f[4]||0,race:(f[5]||'').toLowerCase(),fac:f[6],done:d,log:l}}
+function impPreview(c){const P=ui.imp;if(!P)return ui.impraw?'<p class="note warn">코드를 못 읽었어요. 게임 창의 글자를 처음부터 끝까지 다 복사했는지 봐 주세요 (WFH1; 로 시작해요).</p>':'';
+  const known=P.done.filter(id=>QDB&&QDB.has(id)).length;const ld=P.log.filter(x=>x.done).length;
+  return '<div class="impok"><b>'+esc(P.name)+'</b> · '+(CINFO[P.cls]?CINFO[P.cls][0]:esc(P.cls))+' '+P.lv+'레벨'+(P.realm?' · '+esc(P.realm):'')
+   +'<ul><li>끝낸 퀘스트 <b>'+P.done.length+'개</b>'+(QDB?' (앱 자료에 있는 것 '+known+'개)':'')+'</li><li>지금 퀘스트 목록 <b>'+P.log.length+'개</b>'+(ld?' · 다 해서 반납만 남은 것 '+ld+'개':'')+'</li>'+(P.lv&&P.lv!==c.lv?'<li>레벨을 <b>'+c.lv+' → '+P.lv+'</b>로 맞춰요</li>':'')+'</ul>'
+   +(P.cls&&P.cls!==c.cls?'<p class="warn">⚠ 지금 캐릭터('+CINFO[c.cls][0]+')와 직업이 달라요. 맞는 캐릭터를 골랐는지 확인해 주세요.</p>':'')
+   +'<button class="btn full" data-a="impgo">이 캐릭터에 적용하기</button><p class="note">이미 체크한 건 그대로 두고, 끝낸 것만 더해요.</p></div>'}
+function impSheet(c){let h='<div class="sh"><h2>🧩 게임에서 불러오기</h2><button class="x" data-a="close">✕</button></div>';
+  h+='<p class="note">애드온으로 게임 안의 <b>끝낸 퀘스트</b>와 <b>지금 퀘스트 목록</b>을 한 번에 옮겨요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 직접 복사해서 붙여 넣는 방식이에요. PC에서 하는 게 편해요.</p>';
+  h+='<ol class="imps"><li><b>애드온 받기</b> <a class="btn sm" href="addon/WowfHelper.zip" download>WowfHelper.zip 받기</a><br><small>압축을 풀어 나온 <b>WowfHelper</b> 폴더를 와우 포에버 설치 폴더의 <b>Interface/AddOns</b> 안에 넣어요. 캐릭터 고르는 화면의 「애드온」에 안 보이면 「오래된 애드온 불러오기」를 켜 주세요.</small></li>'
+   +'<li><b>게임에서</b> 채팅창에 <code>/wfh</code> 입력 → 코드 창이 떠요 (이미 글자가 다 골라져 있어요)</li><li><b>Ctrl+C</b>로 복사 → 아래 칸에 붙여 넣기</li></ol>';
+  h+='<textarea class="inp impta" rows="4" placeholder="여기에 붙여 넣기 (WFH1; 로 시작)" data-c="impta">'+esc(ui.impraw||'')+'</textarea><div id="impres">'+impPreview(c)+'</div>';
+  if(c.imported)h+='<p class="note">마지막으로 불러온 때: '+new Date(c.imported.t).toLocaleString('ko-KR')+' · 끝낸 퀘스트 '+c.imported.n+'개</p>';
+  return h}
 function charsSheet(){const c=me();let h='<div class="sh"><h2>내 캐릭터</h2><button class="x" data-a="close">✕</button></div>';
   h+=DB.list.map(x=>{const sp=specOf(x);return '<div class="row">'+clsIcon(x.cls)+'<span class="m"><span class="nm" style="color:'+CINFO[x.cls][1]+'">'+esc(x.name||CINFO[x.cls][0])+(x.id===DB.cur?' <span class="tag gd">지금</span>':'')+'</span><span class="sub">'+esc((sp?sp.name+' ':'')+CINFO[x.cls][0])+' · 레벨 '+x.lv+'</span></span>'+(x.id===DB.cur?'':'<button class="btn sm" data-a="pick" data-k="'+x.id+'">이 캐릭터로</button>')+'</div>'}).join('');
   h+='<button class="btn full" style="margin-top:10px" data-a="add">＋ 부캐 추가</button>';
   if(c){h+='<h3>지금 캐릭터 고치기</h3><input class="inp" maxlength="12" value="'+esc(c.name)+'" placeholder="이름" data-c="cname"><div class="chips" style="margin-top:6px">'+RACES.map(r=>'<button class="chip'+(c.race===r[0]?' on':'')+'" data-a="crace" data-k="'+r[0]+'">'+r[1]+'</button>').join('')+'</div>';
     h+='<div class="chips">'+CL.map(k=>'<button class="chip'+(c.cls===k?' on':'')+'" data-a="ccls" data-k="'+k+'">'+CINFO[k][0]+'</button>').join('')+'</div><p class="note">직업을 바꾸면 장비 칸이 비워져요.</p>';
     h+='<div class="card">'+armBox(c)+'</div>';
+    h+='<div class="card"><h3>🧩 게임에서 불러오기 <small class="mute">고급</small></h3><p class="note">애드온 코드를 붙여 넣으면 게임에서 끝낸 퀘스트가 한 번에 체크돼요.</p><button class="btn sm" data-a="imp">불러오기 열기</button></div>';
     h+='<div class="card bk2"><h3>💾 기록 백업</h3><p class="note">캐릭터·장비·끝낸 퀘스트는 이 휴대폰 브라우저에만 저장돼요. 캐시를 지우거나 폰을 바꾸기 전에 내보내 두세요.</p>'
       +'<div class="bkb"><button class="btn sm" data-a="bkout">📤 내보내기 (코드 복사)</button><button class="btn sm ghost" data-a="bklink">🔗 링크로 옮기기</button></div>'
       +(ui.bkcode?'<textarea class="inp bkta" readonly rows="3">'+esc(ui.bkcode)+'</textarea>':'')
@@ -2931,7 +2958,7 @@ function render(){const app=$('#app');const c=me();app.className='t-'+(c?ui.tab:
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(c);else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
   app.innerHTML=topBar(c)+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
-    +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):ui.sheet.startsWith('cmp:')?cmpSheet(c,ui.sheet.split(':')[1],ui.sheet.split(':')[2]):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':'')
+    +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='imp'?impSheet(c):ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):ui.sheet.startsWith('cmp:')?cmpSheet(c,ui.sheet.split(':')[1],ui.sheet.split(':')[2]):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':'')
   setTabs(true);
   if(ui.tab==='quest'&&ui.qmode==='atlas')amInit()}
 /* 아래 탭 줄은 화면을 다시 그려도 그대로 두고(폰에서 내리다가 탭 줄이 가운데 뜨는 현상 막기) 고른 탭만 바꿈 */
@@ -2961,6 +2988,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='tab'){ui.tab=k;ui.amback=null;if(k==='quest'||k==='dungeon')qdbLoad();if(k==='dungeon')dggLoad();if(k!=='dungeon')ui.dg=null;render();window.scrollTo(0,0);const dc=document.querySelector('.dchips');if(dc){const on=dc.querySelector('.on');if(on)dc.scrollLeft=on.offsetLeft-20}return}
   if(a==='lv-'||a==='lv+'){setLv(c,c.lv+(a==='lv+'?1:-1));rerender(true);return}
   if(a==='chars'){ui.sheet='chars';rerender(true);return}
+  if(a==='imp'){ui.sheet='imp';rerender(true);if(!QDB)qdbLoad();return}
+  if(a==='impgo'){const P=ui.imp;if(!P)return;c.mq=c.mq||{};c.dq=c.dq||{};let n=0;const dqIds=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id)));P.done.forEach(id=>{if(!c.mq[id]){c.mq[id]=1;n++}if(dqIds.has(id))c.dq[id]=1});
+    c.ql={};P.log.forEach(x=>c.ql[x.id]=x.done?2:1);if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length};ui.imp=null;ui.impraw='';ui.sheet=null;save();toast('✓ 끝낸 퀘스트 '+P.done.length+'개를 불러왔어요 (새로 '+n+'개)');rerender(true);return}
   if(a==='pick'){DB.cur=k;save();ui.sheet=null;ui.dg=null;ui.qz=null;render();window.scrollTo(0,0);toast('캐릭터를 바꿨어요');return}
   if(a==='add'){ui.sheet=null;ui.onb={name:'',race:c.race,cls:'',spec:'',lv:1};render();window.scrollTo(0,0);return}
   if(a==='del'){if(!ui.delAsk){ui.delAsk=1;rerender(true);return}DB.list=DB.list.filter(x=>x.id!==c.id);DB.cur=DB.list[0]?DB.list[0].id:null;save();ui.delAsk=0;ui.sheet=null;render();toast('지웠어요');return}
@@ -3073,6 +3103,7 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
 let srchT=null;
 document.addEventListener('change',e=>{const t=e.target;if(t.dataset&&t.dataset.c==='cmpslot'){const c=me();if(!c||!t.value)return;ui.cmpslot=t.value;c.cmp=bestFor(c,t.value,c.lv,ui.ifil).slice(0,3).map(x=>x.it.id);save();rerender(true)}});
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset.c==='onb-name'){ui.onb.name=t.value;return}
+  if(t.dataset.c==='impta'){ui.impraw=t.value;ui.imp=impParse(t.value);const b=document.getElementById('impres');const c=me();if(b&&c)b.innerHTML=impPreview(c);return}
   if(t.dataset.c==='qsrch'){ui.qsrch=t.value;clearTimeout(srchT);srchT=setTimeout(()=>{const box=document.getElementById('qsres'),bd=document.getElementById('qbody');const c=me();if(!box||!c)return;const q=ui.qsrch.trim();box.innerHTML=q?qSearchHtml(c,q):'';if(bd)bd.hidden=!!q},250);return}
   if(t.dataset.c==='csrch'){ui.csrch=t.value;clearTimeout(srchT);srchT=setTimeout(()=>{const b=document.getElementById('csres');const c=me();if(b&&c)b.innerHTML=cmpSearch(c)},250);return}
   if(t.dataset.c==='isrch'){ui.isrch=t.value;clearTimeout(srchT);srchT=setTimeout(isrchUpd,250)}});

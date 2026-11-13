@@ -280,3 +280,17 @@ html = f'''<!DOCTYPE html>
 </body></html>'''
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
 print('index.html', len(html), 'app-data.js', len(data))
+
+# 애드온 묶음 (addon/WowfHelper → addon/WowfHelper.zip), 내용이 같으면 그대로
+import zipfile, io
+_src = ROOT / 'addon' / 'WowfHelper'
+if _src.exists():
+    _buf = io.BytesIO()
+    with zipfile.ZipFile(_buf, 'w', zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(_src.iterdir()):
+            zi = zipfile.ZipInfo('WowfHelper/' + f.name, date_time=(2026, 1, 1, 0, 0, 0))
+            zi.compress_type = zipfile.ZIP_DEFLATED
+            z.writestr(zi, f.read_bytes())
+    _out = ROOT / 'addon' / 'WowfHelper.zip'
+    if not _out.exists() or _out.read_bytes() != _buf.getvalue():
+        _out.write_bytes(_buf.getvalue())
