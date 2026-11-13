@@ -1588,11 +1588,25 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .gin svg polyline{stroke-width:2.5}
 .gmf2{position:absolute;right:86px;top:6px;background:#000a;color:#e7dcc0;border:1px solid #6b5a33;border-radius:6px;font:inherit;font-size:11px;font-weight:700;padding:3px 8px;cursor:pointer;z-index:4}
 .gmw.full .gmf2{top:14px;right:100px}
+/* 레벨업 동선 다듬기 */
+.nh2 .mute b{color:var(--gold)}
+.rzc{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:10px 12px 2px}
+.rzc button{flex:none;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 11px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:#d8ccad;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.rzc button .ic{width:18px;height:18px;border-radius:50%;background-size:cover}
+.rzc button small{color:var(--mute);font-weight:600}
+.rzc button.on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+.sh2 .hc{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.hp{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:1px 7px;border:1px solid #6b5a33;color:var(--mute);white-space:nowrap}
+.hp.g{color:#ffd65a;border-color:#8a6f22;background:#ffd65a14}
+.hp.r{color:#7ec8ff;border-color:#2f6c99;background:#7ec8ff14}
+.sh2 .hn .pv{font-size:11.5px;color:#cfc6b3;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh2 .hn b .here{font-style:normal;font-size:10.5px;font-weight:800;color:#1a140a;background:#e8c06a;border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.hft{display:flex;gap:6px;justify-content:flex-end;padding:8px 0 4px;border-top:1px dashed var(--line);margin-top:4px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=3e4eb53f"></script>
-<script>/* v4663d3 @11/13 13:06 */
-const BUILD='11/13 13:06';
+<script>/* vce6e7f @11/13 13:19 */
+const BUILD='11/13 13:19';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2366,11 +2380,15 @@ function nchain(c,id,more){ui.nch=ui.nch||{};const open=!!ui.nch[id];
   h+='<ol class="nchl">'+ids.map((x,i)=>{const o=QDB.get(x);const d=mqDone(c,o);const g=o.g||[];const br=kidsOf(QPAR[x]!=null?QPAR[x]:-1).length>1;
     return '<li class="'+(d?'fin':'')+'"><button data-a="qopen" data-k="'+x+'"><span class="sn">'+(base+i+1)+'</span><span class="t"><b>'+esc(o.n)+'</b><span>'+(g[0]?esc(g[0])+(g[1]?' · '+esc(g[1]):''):'')+(br?' · 갈래':'')+'</span></span><span class="qlv '+lvCls(lvOf(x),c.lv)+'">'+(lvOf(x)||'?')+'</span>'+(d?'<em>✓</em>':'')+'</button></li>'}).join('')+'</ol>';
   return h}
-function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.length,0),dn=P.reduce((n,h)=>n+h.get.filter(x=>x.done).length,0);
+function nowCard(c,S){let P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.length+h.turn.length,0),dn=P.reduce((n,h)=>n+h.get.filter(x=>x.done).length+h.turn.filter(x=>x.done).length,0);
   const left=H=>H.get.filter(x=>!x.done).length+H.turn.filter(x=>!x.done).length;
-  const firstOpen=(P.find(H=>left(H))||{}).k;ui.hopen=ui.hopen||{};
+  const firstOpen=(P.filter(H=>!ui.rz||H.z===ui.rz).find(H=>left(H))||{}).k;ui.hopen=ui.hopen||{};
   const used=new Set();
-  const zs0=S.z.split(' · ');let h='<div class="card now nwr"><div class="nh nh2"><span class="zics">'+zs0.slice(0,3).map(z=>'<span class="ic" style="background-image:url('+ICO(zIco(z))+')"></span>').join('')+'</span><div class="m"><small>지금 구간 '+S.a+'–'+S.b+'레벨</small><h3>'+esc(zs0[0])+'</h3><span class="mute">'+(zs0.length>1?esc(zs0.slice(1).join(' · '))+' 함께 · ':'')+'위에서부터 차례로</span></div><div class="ring" style="--p:'+(all?Math.round(dn/all*100):0)+'"><b>'+dn+'</b><span>/'+all+'</span></div></div>';
+  const zs0=S.z.split(' · ');let h='<div class="card now nwr"><div class="nh nh2"><span class="zics">'+zs0.slice(0,3).map(z=>'<span class="ic" style="background-image:url('+ICO(zIco(z))+')"></span>').join('')+'</span><div class="m"><small>지금 구간 '+S.a+'–'+S.b+'레벨</small><h3>'+esc(zs0[0])+'</h3><span class="mute">'+(()=>{const lq=P.reduce((n,H)=>n+left(H),0),lh=P.filter(H=>left(H)).length;return lq?'남은 퀘스트 <b>'+lq+'</b> · 들를 곳 '+lh+'곳 · 1번부터 차례로':'이 구간 퀘스트를 다 했어요'})()+'</span></div><div class="ring" style="--p:'+(all?Math.round(dn/all*100):0)+'"><b>'+dn+'</b><span>/'+all+'</span></div></div>';
+  const zl=[...new Set(P.map(H=>H.z))].map(z=>[z,P.filter(H=>H.z===z).reduce((n,H)=>n+left(H),0)]).filter(x=>x[1]);
+  if(ui.rz&&!zl.some(x=>x[0]===ui.rz))ui.rz=null;
+  if(zl.length>1)h+='<div class="rzc"><button class="'+(ui.rz?'':'on')+'" data-a="rz" data-k="">전체</button>'+zl.map(x=>'<button class="'+(ui.rz===x[0]?'on':'')+'" data-a="rz" data-k="'+esc(x[0])+'"><span class="ic" style="background-image:url('+ICO(zIco(x[0]))+')"></span>'+esc(x[0])+' <small>'+x[1]+'</small></button>').join('')+'</div>';
+  const P0=P;P=ui.rz?P.filter(H=>H.z===ui.rz):P;ui._hubs={};
   let n=0;
   const row=(x,turn)=>{const q=x.q;const lock=q.min>c.lv;x.imp.forEach(b=>{if(b[0]!=='chain')used.add(b[0])});
     const chn=x.imp.find(b=>b[0]==='chain');const more=chn?((chn[1].match(/\((\d+)단계\)/)||[])[1]-1):0;
@@ -2381,9 +2399,11 @@ function nowCard(c,S){const P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.len
   const LIM=ui.hall?99:3;let shown=0,hid=0;
   h+='<div class="steps">'+P.map(H=>{if(left(H)){if(shown>=LIM){hid++;return ''}shown++}else if(!ui.hall){return ''}const real=H.i<97;if(real)n++;const L=left(H);const todo=H.get.filter(x=>!x.done).sort((a,b)=>a.q.lv-b.q.lv),turn=H.turn.filter(x=>!x.done),done=H.get.filter(x=>x.done);
     const open=ui.hopen[H.k]!=null?ui.hopen[H.k]:H.k===firstOpen;
-    const cnt=L?(todo.length?QMK.g+'받을 퀘 '+todo.length:'')+(todo.length&&turn.length?'<br>':'')+(turn.length?QMK.r+'반납할 퀘 '+turn.length:''):'완료';
-    let b='<div class="st'+(L?'':' fin')+(open?' open':'')+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);return m?'<b>'+esc(m[1])+'</b><span>'+esc(H.z)+' · 좌표 '+m[2]+', '+m[3]+'</span>':'<b>'+esc(H.n)+'</b><span>'+esc(H.z)+'</span>'})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
-    if(open){b+='<div class="sb">'+(turn.length?turn.map(x=>row(x,1)).join(''):'')+todo.map(x=>row(x,0)).join('')+(done.length?'<div class="dn">끝낸 것 '+done.length+'개</div>'+done.map(x=>row(x,0)).join(''):'')+'</div>'}
+    const cnt=L?(todo.length?'<span class="hp g">받기 '+todo.length+'</span>':'')+(turn.length?'<span class="hp r">반납 '+turn.length+'</span>':''):'<span class="hp">완료</span>';
+    ui._hubs[H.k]=todo.concat(turn).map(x=>[x.z+'|'+x.q.nm,x.q.id]);const fid=(turn[0]||todo[0]||H.get[0]||{}).q;
+    const pvn=turn.map(x=>x.q.nm).concat(todo.map(x=>x.q.nm));const pv=L&&!open?'<span class="pv">'+esc(pvn.slice(0,2).join(', '))+(pvn.length>2?' 외 '+(pvn.length-2):'')+'</span>':'';
+    let b='<div class="st'+(L?'':' fin')+(open?' open':'')+'"><button class="sh2" data-a="hub" data-k="'+esc(H.k)+'"><span class="no">'+(L?(real?n:'·'):'✓')+'</span><span class="hn">'+(()=>{const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const here=H.k===firstOpen?'<i class="here">지금 여기</i>':'';return m?'<b>'+esc(m[1])+here+'</b><span>'+esc(H.z)+' · '+m[2]+', '+m[3]+'</span>'+pv:'<b>'+esc(H.n)+here+'</b><span>'+esc(H.z)+'</span>'+pv})()+'</span><span class="hc">'+cnt+'</span><span class="cv">'+(open?'⌃':'⌄')+'</span></button>';
+    if(open){b+='<div class="sb">'+(turn.length?turn.map(x=>row(x,1)).join(''):'')+todo.map(x=>row(x,0)).join('')+(L?'<div class="hft">'+(fid&&fid.id?'<button class="btn sm ghost" data-a="mmgo" data-k="'+fid.id+'">📍 지도에서 위치</button>':'')+'<button class="btn sm" data-a="hubok" data-k="'+esc(H.k)+'">✓ 여기 다 했어요</button></div>':'')+(done.length?'<div class="dn">끝낸 것 '+done.length+'개</div>'+done.map(x=>row(x,0)).join(''):'')+'</div>'}
     return b+'</div>'}).join('')+'</div>';
   const finN=P.filter(H=>!left(H)).length;
   if(hid||(!ui.hall&&finN))h+='<button class="btn ghost full sm more2" data-a="hall">'+(hid?'다음 마을 '+hid+'곳 더 보기':'')+(hid&&finN?' · ':'')+(finN?'끝낸 마을 '+finN+'곳':'')+'</button>';
@@ -3385,6 +3405,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='drole'){c.drole=k;save();rerender(true);return}
   if(a==='bo'){ui.bopen=ui.bopen||{};const cur=b.closest('.st').classList.contains('open');ui.bopen[k]=!cur;rerender(true);return}
   if(a==='mh'){ui.mhopen=ui.mhopen||{};const cur=b.closest('.st').classList.contains('open');ui.mhopen[k]=!cur;rerender(true);return}
+  if(a==='rz'){ui.rz=k||null;ui.hall=false;rerender(true);return}
+  if(a==='hubok'){const it=(ui._hubs||{})[k]||[];c.fq=c.fq||{};c.mq=c.mq||{};it.forEach(([fk,id])=>{c.fq[fk]=1;if(id)c.mq[id]=1});ui.hopen=ui.hopen||{};ui.hopen[k]=false;save();toast(it.length+'개 끝냄으로 표시했어요 · 다음 곳을 열었어요');rerender(true);return}
   if(a==='hall'){ui.hall=!ui.hall;rerender(true);return}
   if(a==='qsclr'){ui.qsrch='';render();return}
   if(a==='hub'){ui.hopen=ui.hopen||{};const cur=b.closest('.st').classList.contains('open');ui.hopen[k]=!cur;rerender(true);return}

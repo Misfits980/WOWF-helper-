@@ -1582,3 +1582,17 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .gin svg polyline{stroke-width:2.5}
 .gmf2{position:absolute;right:86px;top:6px;background:#000a;color:#e7dcc0;border:1px solid #6b5a33;border-radius:6px;font:inherit;font-size:11px;font-weight:700;padding:3px 8px;cursor:pointer;z-index:4}
 .gmw.full .gmf2{top:14px;right:100px}
+/* 레벨업 동선 다듬기 */
+.nh2 .mute b{color:var(--gold)}
+.rzc{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:10px 12px 2px}
+.rzc button{flex:none;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 11px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:#d8ccad;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.rzc button .ic{width:18px;height:18px;border-radius:50%;background-size:cover}
+.rzc button small{color:var(--mute);font-weight:600}
+.rzc button.on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+.sh2 .hc{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.hp{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:1px 7px;border:1px solid #6b5a33;color:var(--mute);white-space:nowrap}
+.hp.g{color:#ffd65a;border-color:#8a6f22;background:#ffd65a14}
+.hp.r{color:#7ec8ff;border-color:#2f6c99;background:#7ec8ff14}
+.sh2 .hn .pv{font-size:11.5px;color:#cfc6b3;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh2 .hn b .here{font-style:normal;font-size:10.5px;font-weight:800;color:#1a140a;background:#e8c06a;border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.hft{display:flex;gap:6px;justify-content:flex-end;padding:8px 0 4px;border-top:1px dashed var(--line);margin-top:4px}
