@@ -1,0 +1,95 @@
+# wowf.io/ko/dungeons/<slug>(/guide) 에서 2026-11-13에 옮겨 적은 신규 던전 보스 순서·희귀몹·퀘스트 (모두 "개방 예정")
+# W|slug|wythic id   B|slug|순서|한글|영문   R|slug|희귀몹   Q|slug|id|진영(A/H/B)|레벨|받는레벨|이름
+W|drowned-city|16550
+B|drowned-city|1|줄알라이|Zul'Alai
+B|drowned-city|2|바르타카|Var'Taka
+B|drowned-city|3|대장 드레드라이즈|Captain Dreadrise
+B|drowned-city|4|죽지 않는 수호자|Deathless Guardians
+B|drowned-city|5|태고의 정령|Primeval Elemental
+B|drowned-city|6|독사 민로스|Min'loth the Serpent
+R|drowned-city|Gill
+R|drowned-city|Umbra
+R|drowned-city|Pyromancer Braxton
+Q|drowned-city|97130|A|40|34|고대 구루바시의 비밀
+Q|drowned-city|95787|A|40|30|다시 한번 물속으로
+Q|drowned-city|95788|A|40|30|가라앉은 도시의 마법
+Q|drowned-city|95776|H|38|30|착한 소금비늘은 죽은 소금비늘뿐...
+Q|drowned-city|95775|H|40|30|가라앉은 도시
+Q|drowned-city|96774|H|40|30|고대 구루바시 우상
+Q|drowned-city|95791|B|40|34|소금선견자 대장
+Q|drowned-city|95789|B|40|34|수상쩍은 소금선견자
+W|kroldok-stronghold|16842
+B|kroldok-stronghold|1|노예파괴자 그록스|Slavecrusher Grox
+B|kroldok-stronghold|2|황혼의 사령관 자르모크|Twilight Commander Zarmok
+B|kroldok-stronghold|3|조련사 아쉬카|Handler Ashka
+B|kroldok-stronghold|4|나르구르크|Nar'gurk
+B|kroldok-stronghold|5|감독관 머그|Overseer Mugg
+R|kroldok-stronghold|Bossman Toof
+Q|kroldok-stronghold|94981|A|41|38|Key Ingredients
+Q|kroldok-stronghold|94980|A|41|38|Krol'dok Moulding
+Q|kroldok-stronghold|94998|A|42|38|Curios of Curiosity
+Q|kroldok-stronghold|94997|A|42|38|Lingering Essence
+Q|kroldok-stronghold|94983|A|42|38|Twilight Mementos
+Q|kroldok-stronghold|94984|A|44|39|Tome of Twilight
+Q|kroldok-stronghold|94982|A|45|40|Eye of Mugg
+Q|kroldok-stronghold|96771|A|45|37|명가의 복수
+Q|kroldok-stronghold|94973|H|41|38|Krol'dok Moulding
+Q|kroldok-stronghold|94974|H|41|38|핵심 재료
+Q|kroldok-stronghold|94975|H|42|38|복수의 증표
+Q|kroldok-stronghold|94972|H|44|39|Tome of Twilight
+Q|kroldok-stronghold|94968|H|45|40|Eye of Mugg
+W|alcaz-prison|16620
+B|alcaz-prison|1|감독관 렉스|Overseer Wrex
+B|alcaz-prison|2|해일여제 카자스|Tidemistress Ca'zass
+B|alcaz-prison|3|청소부 카테리나|Katerina the Cleaner
+B|alcaz-prison|4|심문관|The Questioner
+B|alcaz-prison|5|불길포효|Blazeroar
+Q|alcaz-prison|96381|A|53|48|A Bit of Wet Work
+Q|alcaz-prison|96772|A|53|46|The Dragon's Journal
+Q|alcaz-prison|95262|A|53|48|The Secret Prison
+Q|alcaz-prison|95263|A|53|48|Somber News
+Q|alcaz-prison|95309|H|53|48|오크를 구하라
+Q|alcaz-prison|95483|H|53|48|Thrall Needs to Know
+Q|alcaz-prison|96332|H|53|48|작은 복수
+Q|alcaz-prison|96334|H|53|48|핏빛 붉은 복면
+Q|alcaz-prison|96335|B|53|48|The Man in the Iron Chains
+Q|alcaz-prison|96337|B|53|48|금보다 귀한 것
+W|blackmaw-hold|16554
+B|blackmaw-hold|1|마른아귀|Withermaw
+B|blackmaw-hold|2|간수 임판|Impaan the Imprisoner
+B|blackmaw-hold|3|장로 주술사 핏빛갈기|Elder Shaman Bloodmane
+B|blackmaw-hold|4|꺾이지 않는 해골주둥이|Bonesnout the Unbroken
+B|blackmaw-hold|5|바록스 블릭후프|Varrox Bleakhoof
+B|blackmaw-hold|6|검은아귀 거수|Blackmaw Behemoth
+B|blackmaw-hold|7|속박 풀린 영혼|Unbound Spirit
+R|blackmaw-hold|Moontouched Wanderer
+R|blackmaw-hold|Gortek the Apprentice
+R|blackmaw-hold|Tunnelweb Matriarch
+Q|blackmaw-hold|92344|A|55|45|Get to the Roots of It
+Q|blackmaw-hold|97173|A|59|52|Blackmaw Magic
+Q|blackmaw-hold|92343|H|55|45|Get to the Roots of It
+Q|blackmaw-hold|97198|H|59|52|Blackmaw Magic
+Q|blackmaw-hold|92067|B|55|50|Feeding Time!
+Q|blackmaw-hold|92066|B|55|47|The Twin Bears
+Q|blackmaw-hold|92070|B|57|47|A Lost Memento
+Q|blackmaw-hold|92069|B|58|45|Claws That Rend, Tusks that Gore
+Q|blackmaw-hold|97327|B|60|55|Blackmaw Pouches
+Q|blackmaw-hold|96246|B|60|55|Blackmaw Pouches
+Q|blackmaw-hold|92065|B|60|55|Blackmaw Reclamation
+W|shapers-terrace|16667
+B|shapers-terrace|1|티타노사우루스|Titanosaur
+B|shapers-terrace|2|갈퀴발톱 라바사우루스|Ravasaur Hunters
+B|shapers-terrace|3|천둥발굽|Thunderhoof
+B|shapers-terrace|4|맹독마루|Venomridge
+B|shapers-terrace|5|암컷 공포뿔|Direhorn Matriarch
+B|shapers-terrace|6|잉걸불|Cinder
+B|shapers-terrace|7|왕 오프|King Op
+B|shapers-terrace|8|눈갈퀴|Snowtalon
+B|shapers-terrace|9|쏜살|Bolt
+B|shapers-terrace|10|비트릭스|Vitrix
+B|shapers-terrace|11|나나야|Nanaya
+Q|shapers-terrace|95925|A|60|55|Mapping the Way Forward
+Q|shapers-terrace|95924|A|60|55|Panic at the Digsite
+Q|shapers-terrace|95928|H|60|55|Crystalline Elements
+Q|shapers-terrace|97049|H|60|55|Essence of Seeping Slimes
+Q|shapers-terrace|95926|H|60|55|The Dark Crystal

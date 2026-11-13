@@ -34,6 +34,20 @@ for l in (F / 'rewards.jsonl').read_text(encoding='utf-8').splitlines():
         o = json.loads(l); RW[o['id']] = [c[0] for c in o.get('ch') or []]
 for k, v in QI.items():
     if not RW.get(k): RW[k] = v
+# wowf.io 보스 순서·퀘스트(진영) — data/qdb/dungeons-wowf.txt
+WB = collections.defaultdict(list); WR = collections.defaultdict(list); WQ = collections.defaultdict(list); WY = {}
+for l in (Q / 'dungeons-wowf.txt').read_text(encoding='utf-8').splitlines():
+    if not l or l.startswith('#'): continue
+    f = l.split('|')
+    if f[0] == 'B': WB[f[1]].append((f[3], f[4]))
+    elif f[0] == 'R': WR[f[1]].append(f[2])
+    elif f[0] == 'Q': WQ[f[1]].append(f[2:])
+    elif f[0] == 'W': WY[f[1]] = f[2]
+QK = {}
+for l in (Q / 'quests.jsonl').read_text(encoding='utf-8').splitlines():
+    if l: o = json.loads(l); QK[o['id']] = o
+SIDE = {'A': 'alliance', 'H': 'horde', 'B': 'both'}
+slugify = lambda x: re.sub(r'[^a-z0-9]+', '-', x.lower()).strip('-')
 quests = collections.defaultdict(list)
 for l in (Q / 'quests.jsonl').read_text(encoding='utf-8').splitlines():
     if not l: continue
@@ -47,9 +61,24 @@ for l in (Q / 'quests.jsonl').read_text(encoding='utf-8').splitlines():
             break
 out = []
 for slug, ko, en, loc, fit, rg, pat in NEW:
-    b = boss[slug]
-    out.append('D|%s|%s|%s|%s|%d|%s|%d,%d,%d' % (slug, ko, en, loc, fit, rg, len(b), len(items[slug]), len(quests[slug])))
-    out.append('B|%s|%s' % (slug, ';'.join('%s=%s' % kv for kv in b.items())))
-    out += quests[slug]
+    names = {}  # 드랍에서 찾은 보스 이름 → slug
+    for bs, nm in boss[slug].items(): names[nm] = bs
+    bl = []
+    for k2, e2 in WB[slug]:
+        bl.append('%s=%s' % (names.get(k2) or slugify(e2), k2))
+    for r2 in WR[slug]:
+        bl.append('%s=%s' % (names.get(r2) or 'mob-' + slugify(r2), r2))
+    known = set(x.split('=')[1] for x in bl)
+    bl += ['%s=%s' % (bs, nm) for bs, nm in boss[slug].items() if nm not in known]
+    ql = []
+    for qid, sd, lv, mn, nm in WQ[slug]:
+        o = QK.get(int(qid)) or {}; g = o.get('g') or []
+        start = '%s · %s %s' % (g[0], g[1], (g[2] or '').replace(',', ', ')) if len(g) > 2 and g[2] else ''
+        nm2 = o.get('n') if o.get('n') and not re.search('[A-Za-z]{3}', o.get('n')) else nm
+        rw = RW.get(int(qid), [])
+        ql.append('|'.join(map(str, ['Q', slug, qid, SIDE[sd], lv or fit, mn or 0, nm2, '', start, 0, ','.join(map(str, rw)), '', '1' if len(rw) > 1 else '', ''])))
+    out.append('D|%s|%s|%s|%s|%d|%s|%d,%d,%d|soon|%s' % (slug, ko, en, loc, fit, rg, len(WB[slug]), len(items[slug]), len(ql), WY.get(slug, '')))
+    out.append('B|%s|%s' % (slug, ';'.join(bl)))
+    out += ql
 (Q / 'dungeons-new.txt').write_text('\n'.join(out) + '\n', encoding='utf-8')
 print('\n'.join(out))

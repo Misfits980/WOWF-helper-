@@ -1859,3 +1859,5 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gseg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#1b1610}
 .gseg button{height:32px;padding:0 10px;border:0;background:transparent;color:#bfb399;font:600 12.5px/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
 .gseg button+button{border-left:1px solid var(--line)}.gseg button.on{background:#3a2c16;color:var(--gold)}
+.pill.soonp{background:#3a2c16;color:var(--gold);border-color:var(--gold2)}.lkt.soon{background:#2e2412;color:#e8c06a;border-color:#5a4520}
+.soonm{font-style:normal;font-size:11px;color:var(--gold);font-weight:600}
