@@ -112,6 +112,20 @@ h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-
 .qck{display:flex;gap:6px;padding:0 12px 12px}.qck span{flex:1;text-align:center;font-size:12.5px;padding:7px;border-radius:9px;border:1px solid var(--line);color:var(--mute)}.qck .on{border-color:#4f7a3c;color:var(--good);background:#1d2a17}
 .qx{margin:8px 12px;padding:10px 12px;border-radius:14px;background:rgba(110,140,220,.08);border:1px solid rgba(110,140,220,.35);font-size:12.5px;line-height:1.5;color:#cfd6ee}.qx b{color:#9db4f2}.qx .ws{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}.qx .ws span{font-size:11px;padding:2px 8px;border-radius:7px;border:1px solid rgba(110,140,220,.4)}.qx .ws .on{background:rgba(110,140,220,.25);color:#e0e8ff}
 
+
+/* 보스 기술 강조 */
+.tags .k{border-width:1px;font-weight:700}.k.dis{color:#d7b4ff;border-color:#8a5cd6;background:rgba(138,92,214,.16)}.k.int{color:#ffe08a;border-color:#c9a227;background:rgba(201,162,39,.15)}.k.av{color:#a9dcff;border-color:#3f8fcf;background:rgba(63,143,207,.16)}.k.add{color:#ffc08a;border-color:#c46a2a;background:rgba(196,106,42,.16)}.k.dz{color:#ffb0a6;border-color:#d0463a;background:rgba(208,70,58,.2)}
+.lgd{display:flex;gap:4px;flex-wrap:wrap;margin:0 12px 8px}.lgd span{font-size:10.5px;padding:1px 7px;border-radius:6px;border:1px solid}
+.dz{display:flex;gap:8px;align-items:flex-start;margin-top:8px;padding:8px 10px;border-radius:10px;background:linear-gradient(90deg,rgba(208,70,58,.28),rgba(208,70,58,.08));border:1px solid #d0463a;box-shadow:0 0 12px rgba(208,70,58,.25);font-size:12.5px;line-height:1.45}
+.dz .ic{width:32px;height:32px;border-radius:7px;border:2px solid #d0463a;flex:none}.dz b{display:block;color:#ffb0a6;font-size:13px}.dz .ph5{display:inline-block;margin-left:4px;font-size:10.5px;color:#fff;background:#d0463a;border-radius:5px;padding:0 5px;vertical-align:1px}
+.skl{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.skr{display:flex;gap:8px;align-items:center;padding:6px 8px 6px 7px;border-radius:9px;background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--line)}
+.skr .ic{width:28px;height:28px;border-radius:6px;flex:none}.skr .m{flex:1;min-width:0}.skr b{font-size:12.5px}.skr small{display:block;font-size:11px;color:var(--mute);line-height:1.35}
+.skr .k{flex:none;font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:6px;border:1px solid}
+.skr.dis{border-left-color:#8a5cd6}.skr.int{border-left-color:#c9a227}.skr.av{border-left-color:#3f8fcf}.skr.add{border-left-color:#c46a2a}
+.skr.mine{background:rgba(90,160,80,.1);border-color:#4f7a3c;border-left-color:#8a5cd6}
+.skr .mi{display:inline-flex;align-items:center;gap:2px;margin-left:5px;font-size:10px;font-weight:800;color:#7bea7b;border:1px solid #4f7a3c;border-radius:5px;padding:0 4px;vertical-align:1px}.skr .mi img{width:12px;height:12px}
+
 @media (max-width:440px){body{padding:8px}.ph{width:100%;max-width:390px}}
 </style></head><body>
 <h1>던전 화면 시안 · 붉은십자군 수도원: 도서관</h1>
@@ -134,14 +148,20 @@ const U=[['inv_wand_04','환영 마법막대',52,''],['inv_weapon_shortblade_07'
 const loot='<div class="card"><div class="hd">'+ic('ability_hunter_snipershot')+'<b>여기서 노릴 템</b><small>내 장비보다 좋은 순 ›</small></div><div class="loot">'+U.map(u=>'<div class="lt">'+ic(u[0],u[3])+'<em class="g">+'+u[2]+'</em><span>'+u[1]+'</span></div>').join('')+'</div></div>';
 const warn='<div class="warn">'+ic('inv_misc_book_09')+'들어가기 전에 알아 둘 것 4개<i>⌄</i></div>';
 const bossHd='<div class="tlh"><b>보스 동선</b><small>보스 2 · 물건 4</small><span>모두 펼치기</span></div>';
-const b1open='<div class="bn open"><span class="por" style="background-image:url('+NPC(2040)+')"></span><span class="no">1</span><div class="nm"><b>사냥개조련사 록시</b><span class="lvb">Lv 34</span><span class="ck"></span></div><div class="tags"><span>'+ic('ability_hunter_beastcall')+'쫄 나옴</span><span>'+ic('spell_holy_dispelmagic')+'해제</span></div>'
- +'<div class="skill"><b>'+ic('inv_misc_bone_humanskull_01')+'우두머리 기술</b>사냥개를 데리고 나오고 <b style="display:inline;color:#f0c8a8">피의 욕망</b>으로 공격 속도를 올려요. 사냥개를 광역으로 먼저 정리하세요.</div>'
- +'<div class="me"><b><img src="../img/role-hl.png">힐러 (나)</b>피의 욕망은 <b style="display:inline;color:#cfe8b0">마법 해제</b>로 지우고, 탱커 체력 위주로 치유하세요.</div>'
- +'<div class="drops">'+ic('inv_boots_05','u')+ic('inv_shoulder_05','u')+ic('inv_misc_cape_11')+'<small>드랍 3 · 내게 좋은 2</small></div></div>';
+const sk=(c,i,n,d,k,mine)=>'<div class="skr '+c+(mine?' mine':'')+'">'+ic(i)+'<div class="m"><b>'+n+'</b>'+(mine?'<span class="mi"><img src="../img/role-hl.png">내 일</span>':'')+'<small>'+d+'</small></div><span class="k '+c+'">'+k+'</span></div>';
+const tg=(c,i,t)=>'<span class="k '+c+'">'+ic(i)+t+'</span>';
+const b1open='<div class="bn open"><span class="por" style="background-image:url('+NPC(2040)+')"></span><span class="no">1</span><div class="nm"><b>사냥개조련사 록시</b><span class="lvb">Lv 34</span><span class="ck"></span></div><div class="tags">'+tg('add','ability_hunter_beastcall','쫄')+tg('dis','spell_nature_bloodlust','해제')+'</div>'
+ +'<div class="skl">'+sk('dis','spell_nature_bloodlust','피의 욕망','공격 속도가 빨라져요 → 마법 해제로 지우기','해제',1)+sk('add','ability_hunter_beastcall','사냥개 데려옴','사냥개부터 광역으로 정리','쫄 먼저')+'</div>'
+ +'<div class="drops">'+ic('ability_hunter_beastcall')+ic('inv_staff_18')+'<small>드랍 3 · 내게 좋은 것 없음</small></div></div>';
 const obj=(n,t,f)=>'<div class="obj">'+ic('inv_misc_book_0'+n)+'<span>'+t+'</span>'+(f?'<span class="fa">'+f+'</span>':'')+'<em>· 건너뛰어도 됨</em></div>';
-const b2='<div class="bn"><span class="por" style="background-image:url('+NPC(5266)+')"></span><span class="no">6</span><div class="nm"><b>신비술사 도안</b><span class="lvb">Lv 37</span><span class="ck"></span></div><div class="tags"><span>'+ic('ability_kick')+'끊기</span><span>'+ic('spell_nature_wispsplode')+'폭발 피하기</span><span>'+ic('inv_misc_bag_10')+'내 템 3</span></div></div>';
+const b2='<div class="bn"><span class="por" style="background-image:url('+NPC(5266)+')"></span><span class="no">6</span><div class="nm"><b>신비술사 도안</b><span class="lvb">Lv 37</span><span class="ck"></span></div><div class="tags">'+tg('dz','spell_fire_selfdestruct','대폭발 도망')+tg('int','spell_nature_polymorph','변이')+tg('av','spell_nature_wispsplode','붙지 말기')+'</div></div>';
+const b2open='<div class="bn open" style="border-color:#d0463a"><span class="por" style="background-image:url('+NPC(5266)+');border-color:#d0463a"></span><span class="no">6</span><div class="nm"><b>신비술사 도안</b><span class="lvb">Lv 37</span><span class="ck"></span></div><div class="tags">'+tg('dz','spell_fire_selfdestruct','대폭발 도망')+tg('int','spell_nature_polymorph','변이')+tg('av','spell_nature_wispsplode','붙지 말기')+'</div>'
+ +'<div class="dz">'+ic('spell_fire_selfdestruct')+'<div><b>⚠ 비전 보호막 → 대폭발 <span class="ph5">체력 50%</span></b>보호막이 보이면 <b style="display:inline;color:#fff">전원 멀리</b> 달아났다가, 폭발이 끝나면 다시 붙어요. 여기서 전멸이 제일 많아요.</div></div>'
+ +'<div class="skl">'+sk('int','spell_nature_polymorph','변이','파티원이 양이 돼요 → 해제해 주거나 기다리기','풀기',1)+sk('av','spell_nature_wispsplode','비전 폭발','가까이 있는 사람 모두 피해 → 원거리는 떨어져서','거리')+sk('int','spell_shadow_impphaseshift','침묵','잠깐 주문을 못 써요 → 미리 체력 채워 두기','대비',1)+'</div>'
+ +'<div class="drops">'+ic('inv_wand_04','u')+ic('inv_weapon_shortblade_07','u')+ic('inv_boots_05','u')+'<small>드랍 6 · 내게 좋은 것 4</small></div></div>';
 const A='<div><p class="cap">① 공략 탭 첫 화면</p><div class="ph">'+TOPB+hero+tabs(0)+ready+loot+warn+sum+nav+'</div></div>';
-const B='<div><p class="cap">② 아래로 내리면 · 보스 동선</p><div class="ph">'+TOPB+bossHd+'<div class="tl">'+b1open+obj(2,'티탄 신화','얼라이언스')+obj(3,'언데드 위협의 기원','호드')+obj(4,'타락의 개요','호드')+obj(5,'마력의 의식','마법사')+b2+'</div>'+nav+'</div></div>';
+const lgd='<div class="lgd"><span class="k dz">⚠ 위험</span><span class="k int">끊기·풀기</span><span class="k dis">해제</span><span class="k av">피하기</span><span class="k add">쫄</span></div>';
+const B='<div><p class="cap">② 보스 동선 · 기술 색깔로 구분</p><div class="ph">'+TOPB+bossHd+lgd+'<div class="tl">'+b1open+obj(2,'티탄 신화','얼라이언스')+obj(3,'언데드 위협의 기원','호드')+obj(4,'타락의 개요','호드')+obj(5,'마력의 의식','마법사')+b2+'</div>'+nav+'</div></div>';
 const ci=(n,t,sl,g,u,o)=>'<div class="ci'+(o||'')+'">'+ic(n,u)+'<div class="m"><b class="'+u+'">'+t+'</b><small>'+sl+'</small></div>'+(g?'<em class="g">+'+g+'</em>':'')+'</div>';
 const C='<div><p class="cap">③ 템 탭 · 다시 정리</p><div class="ph">'+TOPB+hero+tabs(1)
  +'<div class="lsum">'+ic('inv_wand_04')+'<div><b>환영 마법막대</b><small>이 던전 최고 · 신비술사 도안 · 마법봉</small></div><span class="g">+52</span></div>'
@@ -161,6 +181,7 @@ const D='<div><p class="cap">④ 퀘스트 탭 · 새로</p><div class="ph">'+TO
  +'<div class="qck"><span class="on">✓ 받았어요</span><span>끝냈어요</span></div></div>'
  +'<div class="qx"><b>🔗 다른 날개와 이어진 퀘스트</b><br>「빛의 이름으로!」는 록시(여기) · 헤로드(무기고) · 모그레인과 화이트메인(대성당)을 모두 잡아야 끝나요.<div class="ws"><span class="on">도서관 ✓ 록시</span><span>무기고 · 헤로드</span><span>대성당 · 모그레인·화이트메인</span></div></div>'
  +nav+'</div></div>';
-document.getElementById('R').innerHTML=A+B+C+D;
-document.getElementById('N').innerHTML='<b>바뀌는 점</b><br>① 위 태그 줄을 없애고 던전 그림 위에 Lv·지역·보스 수만 올림 · 탭 3개에만 숫자 · 역할 고르기와 「던전 시작」을 한 줄로 · 노릴 템은 아이콘 5칸(+점수) · 주의는 접힌 한 줄 · 설명은 3줄<br>② 보스는 얼굴 사진 + 세로 동선 선 · 표시(끊기·해제·쫄 나옴·폭발 피하기)는 게임 아이콘 칩 · 펼치면 「우두머리 기술」 + 「내 역할」 두 칸만 · 드랍은 아이콘 줄 · 책 같은 물건은 선 위 작은 점(진영 표시)<br>③ 템: 맨 위에 이 던전 최고 템 한 줄(+점수) · 「내게 좋은 것 / 전부 / 부위」 거르기 · 보스별 2칸 카드(아이콘·이름·부위·+점수, 못 쓰는 건 흐리게) · 잡몹 드랍은 한 줄로 접기<br>④ 퀘스트: 「받음 0/1」 체크 · 퀘스트마다 받기 → 던전 안 → 반납 세 단계(지도·동선 번호로 바로 가기) · 진영·레벨·선행 태그 · 보상 아이콘(+점수) · 받았어요/끝냈어요 버튼 · 다른 날개와 이어진 퀘스트는 파란 칸으로 따로';
+const E='<div><p class="cap">⑤ 위험한 보스 펼치면</p><div class="ph">'+TOPB+bossHd+lgd+'<div class="tl">'+obj(5,'마력의 의식','마법사')+b2open+'</div>'+nav+'</div></div>';
+document.getElementById('R').innerHTML=A+B+E+C+D;
+document.getElementById('N').innerHTML='<b>바뀌는 점</b><br>★ 보스 기술: 색깔로 할 일 구분(빨강 위험 · 노랑 끊기/풀기 · 보라 해제 · 파랑 피하기 · 주황 쫄) · 전멸 기술은 빨간 칸으로 맨 위 + 체력 % 표시 · 내 역할이 할 일은 초록 「내 일」 표시 · 접혀 있어도 머리 태그가 같은 색<br>① 위 태그 줄을 없애고 던전 그림 위에 Lv·지역·보스 수만 올림 · 탭 3개에만 숫자 · 역할 고르기와 「던전 시작」을 한 줄로 · 노릴 템은 아이콘 5칸(+점수) · 주의는 접힌 한 줄 · 설명은 3줄<br>② 보스는 얼굴 사진 + 세로 동선 선 · 표시(끊기·해제·쫄 나옴·폭발 피하기)는 게임 아이콘 칩 · 펼치면 「우두머리 기술」 + 「내 역할」 두 칸만 · 드랍은 아이콘 줄 · 책 같은 물건은 선 위 작은 점(진영 표시)<br>③ 템: 맨 위에 이 던전 최고 템 한 줄(+점수) · 「내게 좋은 것 / 전부 / 부위」 거르기 · 보스별 2칸 카드(아이콘·이름·부위·+점수, 못 쓰는 건 흐리게) · 잡몹 드랍은 한 줄로 접기<br>④ 퀘스트: 「받음 0/1」 체크 · 퀘스트마다 받기 → 던전 안 → 반납 세 단계(지도·동선 번호로 바로 가기) · 진영·레벨·선행 태그 · 보상 아이콘(+점수) · 받았어요/끝냈어요 버튼 · 다른 날개와 이어진 퀘스트는 파란 칸으로 따로';
 </script></body></html>
