@@ -1981,3 +1981,5 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gp.k-mo{background:radial-gradient(circle at 35% 30%,#ffa27a,#c2401f 62%,#7a1f0e);border-color:#ffd257}
 .gp svg{width:62%;height:62%;display:block}
 .gp.k-dg em,.gp.k-dgd em{background:#ffd257;color:#1a1206}
+.gp.k-mo svg{stroke-width:2.8}
+.gmap .gl{background:rgba(12,9,5,.72);padding:1px 6px;border-radius:6px;text-shadow:none}
