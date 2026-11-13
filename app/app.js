@@ -1121,15 +1121,29 @@ const AB={};{let cu=null,bo=null;(typeof D_AB==='string'?D_AB:'').split('\n').fo
 const ABK={dz:'위험',int:'끊기',dis:'해제',av:'피하기',add:'쫄',tk:'탱커',hl:'치유',info:'참고'};
 const ABDK={magic:'마법',curse:'저주',poison:'독',disease:'질병',purge:'정화'};
 const DISP={magic:['priest','paladin'],curse:['mage','druid'],poison:['druid','paladin','shaman'],disease:['priest','paladin','shaman'],purge:['shaman','priest']};
+/* 기술 아이콘: 영어 이름으로 찾고, 없으면 종류별 기본 아이콘 */
+const ABICO=[[/cleave|frontal|arcing smash|sweeping/i,'ability_warrior_cleave'],[/fire nova|flame vents|fiery burst|avatar of flame/i,'spell_fire_sealoffire'],[/flamestrike|fire storm|flame spike|combust/i,'spell_fire_selfimmolation'],[/fireball|immolate|flame shock|flame breath|dragon gun/i,'spell_fire_fireball02'],
+ [/polymorph|manamorph/i,'spell_nature_polymorph'],[/bloodlust/i,'spell_nature_bloodlust'],[/beast|hound|worg|chomper|ferra|verek|boar/i,'ability_hunter_beastcall'],[/shadow word: pain/i,'spell_shadow_shadowwordpain'],[/curse of weakness|enfeeble/i,'spell_shadow_curseofmannoroth'],[/curse of tongues/i,'spell_shadow_curseoftounges'],[/curse/i,'spell_shadow_curseofsargeras'],
+ [/poison|saliva|toxic|venom|mother's milk|acid splash/i,'spell_nature_corrosivebreath'],[/psychic scream|fear|terrify|intimidating|roar/i,'spell_shadow_psychicscream'],[/sleep|slumber/i,'spell_nature_sleep'],[/healing touch|healing wave|holy light|heal|cooking|regeneration|healing ward/i,'spell_nature_healingtouch'],
+ [/chain|bolt\b.*chain|megavolt|forked/i,'spell_nature_chainlightning'],[/lightning|thundershock/i,'spell_nature_lightning'],[/frost nova|freeze|chill/i,'spell_frost_frostnova'],[/frostbolt|frost armor|ice tomb|icicle/i,'spell_frost_frostbolt02'],[/amnennar|wrath/i,'spell_frost_frostshock'],
+ [/drain life|soul drain|drain vitality|butcher drain|leech/i,'spell_shadow_lifedrain02'],[/shadow bolt|void bolt|mind blast/i,'spell_shadow_shadowbolt'],[/dominate|domination|insanity|possess|hex|arugal's curse/i,'spell_shadow_charm'],[/root|entangle|vines|net\b/i,'spell_nature_stranglevines'],
+ [/whirlwind|barrage/i,'ability_whirlwind'],[/charge/i,'ability_warrior_charge'],[/thunderclap|thundercrack/i,'ability_thunderclap'],[/stomp|trample|tremor|slam|knockout/i,'ability_warstomp'],[/knock|uppercut|repulsive/i,'ability_kick'],
+ [/divine shield|divine|purity|immun/i,'spell_holy_divineintervention'],[/hammer of justice/i,'spell_holy_sealofmight'],[/shield/i,'spell_holy_powerwordshield'],[/arcane explosion|bounding mana|focal|arcane bolt|arcane blast|counterspell|mass polymorph|detonation|bubble/i,'spell_nature_wispsplode'],
+ [/raise dead|skeleton|zombie|spawn|summon|spectre|elemental|guardian|shard|totem|reinforcement|adds?\b|waves?|minion|seven|cronies|horde|golem|broodling|spider|murloc|naga|trainee|warder|illusion/i,'spell_shadow_raisedead'],[/unholy frenzy|frenzy|enrage|rage|howling/i,'ability_druid_challangingroar'],
+ [/disarm/i,'ability_warrior_disarm'],[/rend|bite|claw|puncture/i,'ability_gouge'],[/plague|disease/i,'spell_shadow_creepingplague'],[/anti-magic/i,'spell_shadow_antimagicshell'],[/mana burn|debilitate|silence|sand storm|sonic/i,'spell_shadow_manaburn'],[/smoke bomb|bomb/i,'inv_misc_bomb_02'],
+ [/teleport|shadow port|portal/i,'spell_shadow_teleport'],[/thorns/i,'spell_nature_thorns'],[/dust|storm/i,'spell_nature_cyclone'],[/acid breath|breath/i,'spell_nature_acid_01'],[/strike|thrash|hits|smash|sunder|mortal/i,'ability_warrior_savageblow'],[/fel timbers|cloud|vent/i,'spell_shadow_corpseexplode'],[/sacrifice/i,'spell_shadow_sacrificialshield'],[/sinister/i,'spell_shadow_ritualofsacrifice'],[/underwater/i,'spell_shadow_demonbreath'],[/shoot|multi-shot|volley|throw/i,'ability_marksmanship']];
+const ABDEF={dz:'spell_fire_selfdestruct',int:'ability_kick',av:'ability_rogue_sprint',add:'spell_shadow_raisedead',tk:'ability_warrior_defensivestance',hl:'spell_holy_flashheal',info:'inv_misc_questionmark',magic:'spell_holy_dispelmagic',curse:'spell_nature_removecurse',poison:'spell_nature_nullifypoison',disease:'spell_nature_nullifydisease',purge:'spell_nature_purge'};
+function abIco(a){const f=ABICO.find(x=>x[0].test(a.e));return f?f[1]:(a.t==='dis'?ABDEF[a.k]:ABDEF[a.t])||'inv_misc_questionmark'}
+const abIc=(a,cl)=>'<span class="ic'+(cl?' '+cl:'')+'" style="background-image:url('+ICO(abIco(a))+')"></span>';
 function abOf(d,st){const A=AB[d.slug];if(!A)return null;return A[st.en]||A[st.nm]||null}
 function abMine(a,c,me){if(a.t==='dis')return (DISP[a.k]||[]).includes(c.cls);return a.w.includes(me)}
-function abChips(L){const o=['dz','int','dis','av','add'];const ts=[...new Set(L.map(a=>a.t))].filter(t=>o.includes(t)).sort((a,b)=>o.indexOf(a)-o.indexOf(b)).slice(0,3);return ts.map(t=>'<i class="abk k-'+t+'">'+ABK[t]+'</i>').join('')}
+function abChips(L){const o=['dz','int','dis','av','add'];const ts=[...new Set(L.map(a=>a.t))].filter(t=>o.includes(t)).sort((a,b)=>o.indexOf(a)-o.indexOf(b)).slice(0,2);return ts.map(t=>'<i class="abk k-'+t+' wi">'+abIc(L.find(a=>a.t===t))+ABK[t]+'</i>').join('')}
 function abList(L,c,me){const ord={dz:0,int:2,dis:2,av:3,add:4,tk:5,hl:6,info:7};
   const dz=L.filter(a=>a.t==='dz'),rest=L.filter(a=>a.t!=='dz').map(a=>({a,m:abMine(a,c,me)})).sort((x,y)=>(y.m-x.m)||(ord[x.a.t]-ord[y.a.t]));
   const sp=x=>{const i=x.indexOf('→');return i<0?[x,'']:[x.slice(0,i).trim(),x.slice(i+1).trim()]};
   let h='<div class="abl">';
-  h+=dz.map(a=>{const [w,dd]=sp(a.x);return '<div class="abdz"><b>⚠ '+esc(a.n)+'<small>'+esc(a.e)+'</small></b><p>'+esc(w)+(dd?'<br><strong>→ '+esc(dd)+'</strong>':'')+'</p></div>'}).join('');
-  h+=rest.map(({a,m})=>{const [w,dd]=sp(a.x);return '<div class="abr k-'+a.t+(m?' mine':'')+'"><span class="m"><b>'+esc(a.n)+(m?'<em class="mi">'+ricon(me,'sm')+'내 일</em>':'')+'</b><small>'+esc(w)+(dd?' → <span class="do">'+esc(dd)+'</span>':'')+'</small></span><i class="abk k-'+a.t+'">'+(a.t==='dis'&&a.k?ABDK[a.k]+' 해제':ABK[a.t])+'</i></div>'}).join('');
+  h+=dz.map(a=>{const [w,dd]=sp(a.x);return '<div class="abdz">'+abIc(a)+'<div><b>⚠ '+esc(a.n)+'</b><p>'+esc(w)+(dd?'<br><strong>→ '+esc(dd)+'</strong>':'')+'</p></div></div>'}).join('');
+  h+=rest.map(({a,m})=>{const [w,dd]=sp(a.x);return '<div class="abr k-'+a.t+(m?' mine':'')+'">'+abIc(a)+'<span class="m"><b>'+esc(a.n)+(m?'<em class="mi">'+ricon(me,'sm')+'내 일</em>':'')+'</b><small>'+esc(w)+(dd?' → <span class="do">'+esc(dd)+'</span>':'')+'</small></span><i class="abk k-'+a.t+'">'+(a.t==='dis'&&a.k?ABDK[a.k]+' 해제':ABK[a.t])+'</i></div>'}).join('');
   return h+'<p class="mute src">공략 모음: method.gg · warcrafttavern · wow.gg · wythic · 오리지널 던전은 클래식 자료로 보충</p></div>'}
 function wyBoss(d,nm){const W=wyOf(d);if(!W)return null;const n=wnz(nm);if(!n)return null;const all=(W.bosses||[]).concat(W.extra||[]);
   return all.find(b=>wnz(b.npc)===n)||all.find(b=>{const m=wnz(b.npc);return m.length>1&&(m.includes(n)||n.includes(m))})||null}
@@ -1191,8 +1205,14 @@ function roleSplit(texts,sp){/* 공략 문장을 역할별로: tk 탱커 · dp �
   for(const r of ['tk','dp','hl','al','how']){R[r]=R[r].map((t,i)=>({t:t.replace(/\s*\((?=[A-Za-z]|\d+% [A-Za-z])[^)]*\)/g,''),i})).sort((a,b)=>act(a.t)-act(b.t)||a.i-b.i).map(x=>x.t)}
   return R}
 const RNONE={tk:'공략에 따로 적힌 건 없어요. 보스를 잡고 파티 반대쪽으로 돌려 세우면 돼요.',dp:'공략에 따로 적힌 건 없어요. 탱커가 자리 잡은 뒤 보스에 집중하세요.',hl:'공략에 해제할 것이 따로 없어요. 탱커 체력 위주로 치유하세요.'};
-function roleMine(R,me){const L=R[me]||[];let h='';if(R.how&&R.how.length)h+='<div class="rb-how"><b>🔑 만나는 법</b><ul>'+R.how.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div>';
-  if(L.length)h+='<div class="rb-r me">'+ricon(me)+'<div class="rb-t"><b>'+RNM[me]+' (나)</b><ul>'+L.slice(0,3).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div></div>';return h?'<div class="rbox">'+h+'</div>':''}
+function roleMine(R,me,AB,c){let h='';if(R.how&&R.how.length)h+='<div class="rb-how"><b>🔑 만나는 법</b><ul>'+R.how.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div>';
+  /* 역할마다 할 일: 기술 목록에서 그 역할 몫 → 없으면 공략 글 → 없으면 평소대로 · 내 역할은 크게 */
+  const doOf=a=>{const i=a.x.indexOf('→');return (i<0?a.x:a.x.slice(i+1)).trim()};
+  const linesOf=r=>{const L=(AB||[]).filter(a=>(a.t==='dis'?(r==='hl'||(c&&(DISP[a.k]||[]).includes(c.cls)&&r===me)):a.w.includes(r))).map(a=>'<b>'+esc(a.n)+'</b> '+esc(doOf(a)));return L.length?L:(R[r]||[]).map(esc)};
+  const NONE={tk:'보스를 일행 반대로 돌리고 어그로 유지',dp:'쫄 먼저, 보스는 그다음',hl:'탱커 위주로 치유'};
+  const ord=[me,...['tk','dp','hl'].filter(r=>r!==me)];
+  h+='<div class="rtk">'+ord.map(r=>{const L=linesOf(r);const mine=r===me;return '<div class="rt'+(mine?' me':'')+'">'+ricon(r)+'<div class="rb-t"><b>'+RNM[r]+(mine?' · 내 할 일':'')+'</b>'+(L.length?'<ul>'+L.slice(0,mine?4:2).map(t=>'<li>'+t+'</li>').join('')+'</ul>':'<p>'+NONE[r]+'</p>')+'</div></div>'}).join('')+'</div>';
+  return '<div class="rbox">'+h+'</div>'}
 function roleBox(R,me){/* 내 역할 먼저, 나머지는 한 줄씩 */
   const ord=[me,...['tk','dp','hl'].filter(r=>r!==me)];let h='<div class="rbox">'+(R.how&&R.how.length?'<div class="rb-how"><b>🔑 만나는 법</b><ul>'+R.how.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul></div>':'');
   for(const r of ord){const L=R[r];const mine=r===me;if(!mine&&!L.length)continue;
@@ -1254,8 +1274,8 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
       if(RS.how.some(t=>/준비 칸|만드는 법/.test(t))&&g.prep){/* 준비 칸에서 같은 물건 얘기를 찾아 같이 보여 줌 */const W=(RS.how.join(' ').match(/[가-힣]{2,}/g)||[]).map(w=>w.replace(/(?:에서|으로|을|를|이|가|은|는|의|에|로)$/,'')).filter(w=>w.length>=2&&!(d.ko||'').includes(w)&&!/^(희귀|우두머리|입니다|나옵니다|하수도|작은|원형|의식진|쓰면|만드는|법은|준비|칸|있습니다|위)$/.test(w));
         g.prep.filter(x=>W.some(w=>x.includes(w))).forEach(x=>{if(!RS.how.includes(x))RS.how.push(x)});RS.how=RS.how.filter(t=>!/위 준비 칸에 있/.test(t)||RS.how.length===1)}const full=[fb&&fb.tac,st.note!==(fb&&fb.tac)?st.note:''].filter(Boolean);
       const WB=x.kind!=='obj'?wyBoss(d,st.nm):null;
-      r+='<div class="rrb">'+(RS.loc.length?'<p class="rloc">📍 '+esc(RS.loc.join(' '))+'</p>':'')+(x.AB&&x.AB.length?abList(x.AB,c,me)+(WB&&WB.tip?'<details class="more3"><summary>wythic 공략 글 보기</summary><p>'+esc(WB.tip)+'</p></details>':''):WB&&WB.tip?'<div class="rb-wy"><b>⚔️ 우두머리 기술 · 공략</b><p>'+esc(WB.tip)+'</p><small>wythic.com</small></div>':'')+(x.kind==='obj'?(full.length?'<p class="onote">'+esc(full.join(' '))+'</p>':''):x.AB&&x.AB.length?roleMine(RS,me):roleBox(RS,me))
-      +(x.kind!=='obj'&&(full.length||x.AB)?'<details class="more3"><summary>'+(x.AB&&x.AB.length?'역할별 공략·설명 전체 보기':'설명 전체 보기')+'</summary>'+(x.AB&&x.AB.length?roleBox(Object.assign({},RS,{how:[]}),me):'')+full.map(t=>'<p>'+esc(t)+'</p>').join('')+'</details>':'')
+      r+='<div class="rrb">'+(RS.loc.length?'<p class="rloc">📍 '+esc(RS.loc.join(' '))+'</p>':'')+(x.AB&&x.AB.length?abList(x.AB,c,me)+(WB&&WB.tip?'<details class="more3"><summary>wythic 공략 글 보기</summary><p>'+esc(WB.tip)+'</p></details>':''):WB&&WB.tip?'<div class="rb-wy"><b>⚔️ 우두머리 기술 · 공략</b><p>'+esc(WB.tip)+'</p><small>wythic.com</small></div>':'')+(x.kind==='obj'?(full.length?'<p class="onote">'+esc(full.join(' '))+'</p>':''):x.AB&&x.AB.length?roleMine(RS,me,x.AB,c):roleBox(RS,me))
+      +(x.kind!=='obj'&&(full.length||x.AB)?'<details class="more3"><summary>'+(x.AB&&x.AB.length?'공략 글 전체 보기':'설명 전체 보기')+'</summary>'+(x.AB&&x.AB.length?roleBox(Object.assign({},RS,{how:[]}),me):'')+full.map(t=>'<p>'+esc(t)+'</p>').join('')+'</details>':'')
       +(!(x.AB&&x.AB.length)&&fb&&fb.sp&&fb.sp.length?'<div class="spl">'+fb.sp.map(y=>'<span class="sp" title="'+esc(y[1])+'">'+esc(y[0])+(y[2]?y[2].split(',').map(t=>'<em class="t-'+t+'">'+(TAGKO[t]||t)+'</em>').join(''):'')+'</span>').join('')+'</div>':'')
       +(st.q||[]).map(q=>'<button class="rq" data-a="qopen" data-k="'+q[0]+'">'+qico('dg')+' '+esc(q[1])+'</button>').join('')
       +(good?'<button class="rgood" data-a="dtab" data-k="loot">'+qico('gear')+' 이 보스 내 템 '+good+'개 보기 ›</button>':'')+'</div>'}
