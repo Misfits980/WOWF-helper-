@@ -115,12 +115,15 @@ def convert(jsonl_text, equip_text, src_index):
             m = re.match(r'^직업:\s*(.+)$', t)
             if m:
                 allow = [CKO[x.strip()] for x in m.group(1).split(',') if x.strip() in CKO]; continue
-            m = re.match(r'^(\d+)\s*-\s*(\d+)\s*(?:피해|공격력)', t)
-            if m:
-                lo, hi = int(m.group(1)), int(m.group(2)); continue
-            m = re.search(r'속도\s*([\d.]+)', t)
-            if m:
-                spd = float(m.group(1)); continue
+            m = re.search(r'(\d+)\s*-\s*(\d+)\s*(?:피해|공격력)|(?:피해|공격력)\s*(\d+)\s*-\s*(\d+)', t)
+            m2 = re.search(r'속도\s*([\d.]+)', t)
+            if m and not lo:
+                g = [x for x in m.groups() if x]
+                lo, hi = int(g[0]), int(g[1])
+            if m2:
+                spd = float(m2.group(1))
+            if m or m2:
+                continue
             m = re.match(r'^방어도\s*(\d+)', t)
             if m:
                 if cs == '4.6':
@@ -130,9 +133,14 @@ def convert(jsonl_text, equip_text, src_index):
             m = re.match(r'^\+(\d+)\s*(.+)$', body)
             if m and m.group(2).strip() in STAT:
                 k = STAT[m.group(2).strip()]; st[k] = st.get(k, 0) + int(m.group(1)); continue
+            if t.startswith('착용 효과') and re.search(r'확률|사용 시|초 동안|적중 시|공격 시', body):
+                eff = True; continue
             if t.startswith('착용 효과'):
                 m = re.search(r'최대 (\d+)', body) or re.search(r'(\d+)만큼', body)
                 v = int(m.group(1)) if m else 0
+                mh = re.search(r'치유량이 최대 (\d+)만큼,\s*주문 공격력이 최대 (\d+)', body)
+                if mh:
+                    st['heal'] = st.get('heal', 0) + int(mh.group(1)); st['sp'] = st.get('sp', 0) + int(mh.group(2)); continue
                 if v and re.search(r'피해.*치유|치유.*피해', body):
                     st['sp'] = st.get('sp', 0) + v; st['heal'] = st.get('heal', 0) + v
                 elif v and '치유' in body:
