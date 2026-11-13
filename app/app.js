@@ -1180,7 +1180,10 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
       const RZ=new Set(st.route.map(r=>r.zone));
       for(const [z,o] of Object.entries(Z)){const x=(o.x/o.k-left)*s,y=(o.y/o.k-top)*s;if(!inV(x,y,40))continue;
         pins+='<button class="amz'+(RZ.has(z)?' now':'')+'" data-amz="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+QMK.g+'<b>'+o.n+'</b> '+esc(z)+'</button>'}
-      vis.filter(p=>!p.qs.length).forEach(p=>{const x=X(p),y=Y(p);if(inV(x,y,20))pins+='<span class="amd" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+'</span>'})}
+      vis.filter(p=>!p.qs.length).forEach(p=>{const x=X(p),y=Y(p);if(inV(x,y,20))pins+='<span class="amd" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+'</span>'})
+      /* 땅 이름: 퀘스트 칩이 없는 지역도 이름을 깔아 둠 (작은 도시는 확대해야 보임) */
+      for(const z in MAPZ){if(Z[z]||ZALIAS[z])continue;const t=MAPZ[z];if(t[1]<(A.z<0.8?7:4))continue;const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(!inV(x,y,40))continue;
+        pins+='<button class="amzl" data-amzi="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+esc(z)+'</button>'}}
     else{for(const z in MAPZ){const q=toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(inV(x,y,60))pins+='<button class="amn" data-amzi="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px">'+esc(z)+'</button>'}
       const lab=A.z>=3.3;
       /* 화면에서 26px 안에 겹치는 점은 하나로 묶음 */const HS=st.route.filter(r=>r.c===A.c).map(r=>[X(r),Y(r)]);const CL=[];vis.forEach((p,i)=>{const x=X(p),y=Y(p);if(!inV(x,y,20))return;if((p.kind==='g'||p.kind==='r')&&HS.some(h=>Math.abs(h[0]-x)<16&&Math.abs(h[1]-y)<16))return;const k=CL.find(o=>Math.abs(o.x-x)<26&&Math.abs(o.y-y)<26);if(k)k.m.push(i);else CL.push({x,y,m:[i]})});st.cl=CL;

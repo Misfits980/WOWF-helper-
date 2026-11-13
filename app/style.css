@@ -1862,3 +1862,9 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .pill.soonp{background:#3a2c16;color:var(--gold);border-color:var(--gold2)}.lkt.soon{background:#2e2412;color:#e8c06a;border-color:#5a4520}
 .soonm{font-style:normal;font-size:11px;color:var(--gold);font-weight:600}
 .rs .bt{margin:4px 0 0;font-size:12.5px;color:#cfc3a8;line-height:1.5}
+/* 우리 지도: 땅 이름 */
+.amzl{position:absolute;transform:translate(-50%,-50%);background:none;border:0;padding:0;font:700 11.5px/1.1 inherit;font-family:inherit;color:#fbf0d4;letter-spacing:.02em;white-space:nowrap;cursor:pointer;text-shadow:0 0 3px #000,0 0 6px #000,0 1px 2px #000;z-index:3}
+.amzl:hover{color:var(--gold)}
+@media (min-width:700px){.amzl{font-size:12.5px}}
+/* 지도: 그림 칸(z-index 0~2)이 핀 위로 올라오던 문제 → 두 층을 따로 쌓기 (끌 때만 핀이 보이던 원인) */
+.amL{z-index:0;isolation:isolate}.amP{z-index:1}
