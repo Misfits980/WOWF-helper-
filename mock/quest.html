@@ -404,11 +404,31 @@ h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-
 .qrow .pl2{flex:none;width:30px;height:30px;border-radius:9px;border:1px solid var(--gold2);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;background:#3a2c16}
 .qrow.in .pl2{background:#2f5a24;border-color:#7bea7b;color:#fff;font-size:13px}.qrow.lock{opacity:.55}.qrow.lock .pl2{border-color:var(--line);color:var(--mute);background:none}
 .sug{margin:2px 0 8px;padding:7px 9px;border-radius:10px;background:rgba(63,143,207,.08);border:1px solid rgba(63,143,207,.35);font-size:11.5px;color:#cfe4ff}
+
+/* v10: 단순하게 */
+.plmini{display:flex;align-items:center;gap:8px;margin:10px 12px 0;padding:8px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.plmini .ics{display:flex}.plmini .ics .ic{width:22px;height:22px;border-radius:50%;border:2px solid var(--panel);margin-right:-6px}
+.plmini .m{flex:1;margin-left:6px;min-width:0}.plmini b{font-size:13px}.plmini small{display:block;font-size:10.5px;color:var(--mute)}
+.plmini .c{flex:none;font-size:12px;color:var(--gold);font-weight:700}
+.nxl2{margin:12px 14px 0}.nxl2 .hd{display:flex;align-items:center;margin-bottom:2px}.nxl2 .hd b{font-size:13px;color:var(--mute)}.nxl2 .hd span{margin-left:auto;font-size:12px;color:var(--gold);font-weight:700}
+.nxr.ed{gap:8px}.nxr .dr{color:#6b6150;letter-spacing:-2px;font-size:14px}.nxr .rm{flex:none;width:26px;height:26px;border-radius:50%;background:rgba(208,70,58,.18);border:1px solid #d0463a;color:#ff9a8a;display:flex;align-items:center;justify-content:center;font-weight:900}
+.nxr.mine b::after{content:'내가 넣음';margin-left:6px;font-size:10px;font-weight:800;color:#7bea7b;border:1px solid #4f7a3c;border-radius:5px;padding:0 4px;vertical-align:1px}
+.addq{margin:8px 14px 0;height:40px;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:11px;border:1px dashed var(--gold2);color:var(--gold);font-size:13px;font-weight:700}
+.edbar{position:absolute;left:10px;right:10px;bottom:70px;display:flex;gap:6px}.edbar span{height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;font-weight:800;font-size:13.5px}.edbar .a{flex:1;background:linear-gradient(#5a4320,#3b2c15);border:1px solid var(--gold2);color:var(--gold)}.edbar .b{width:150px;white-space:nowrap;background:var(--panel);border:1px solid var(--line);color:var(--mute);font-size:12.5px}
+.qsheet{position:absolute;left:0;right:0;bottom:62px;border-radius:20px 20px 0 0;background:var(--panel);border-top:1px solid var(--gold2);box-shadow:0 -12px 30px rgba(0,0,0,.6);padding:6px 14px 14px}
+.qsheet .grab{width:40px;height:4px;border-radius:2px;background:#5a4f3c;margin:0 auto 10px}
+.qsheet .h{display:flex;gap:10px;align-items:center}.qsheet .h .ic{width:40px;height:40px;border-radius:10px}.qsheet .h b{font-size:16px;display:block}.qsheet .h small{font-size:11.5px;color:var(--mute)}
+.qsheet p{font-size:12.5px;color:#d9cfba;line-height:1.5;margin:10px 0}
+.qsheet .acts{display:flex;gap:6px}.qsheet .acts span{flex:1;height:42px;display:flex;align-items:center;justify-content:center;border-radius:11px;font-weight:800;font-size:13px}
+.qsheet .acts .p{background:linear-gradient(#5a4320,#3b2c15);border:1px solid var(--gold2);color:var(--gold)}.qsheet .acts .q{border:1px solid var(--line);color:var(--mute)}
+.qsheet .more{display:block;text-align:center;margin-top:9px;font-size:12px;color:var(--mute)}
+.toast{position:absolute;left:50%;top:330px;transform:translateX(-50%);padding:9px 14px;border-radius:12px;background:rgba(20,40,16,.96);border:1px solid #4f7a3c;color:#c8f5b8;font-size:13px;font-weight:700;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.6)}
+.rules{max-width:1300px;margin:6px 0 14px;padding:12px 14px;border-radius:12px;background:#17140f;border:1px solid #3a3226;font-size:13px;line-height:1.75;color:#d9cfba}.rules b{color:var(--gold)}
 .notes{max-width:2100px;margin-top:16px;font-size:13px;line-height:1.7;color:#cfc6b3}.notes b{color:var(--gold)}
 @media (max-width:440px){body{padding:8px}.ph{width:100%;max-width:390px}}</style></head><body>
-<h1>퀘스트 화면 시안 9 — 「퀘스트 목록」이 아니라 「돌아다니는 순서」로</h1>
+<h1>퀘스트 화면 시안 10 — 「퀘스트 목록」이 아니라 「돌아다니는 순서」로</h1>
 <p class="lead">수양 사제 34레벨 · 잊혀진 땅 실제 자료(NPC·좌표·목표·몹·연계)로 만들었어요. 지도는 모양만 그린 그림이에요(실제는 지금 쓰는 와우 지도 위에 그려요).</p>
-<h1 style="margin-top:6px">A. 레벨업 동선</h1><div class="row3" id="R"></div><h1 style="margin-top:22px">D. 내가 직접 동선 짜기</h1><div class="row3" id="R4"></div><h1 style="margin-top:22px">C. 연계 퀘스트 · 위치 동선</h1><div class="row3" id="R3"></div><h1 style="margin-top:22px">B. 나머지 퀘스트 화면 (지도 · 지역 · 상세 · 내 퀘스트 · 모음)</h1><div class="row3" id="R2"></div><div class="notes" id="N"></div>
+<h1 style="margin-top:6px">E. 최종 정리 — 복잡하지 않게</h1><div class="rules" id="RULES"></div><div class="row3" id="R0"></div><h1 style="margin-top:22px">A. 레벨업 동선 (자세한 버전들)</h1><div class="row3" id="R"></div><h1 style="margin-top:22px">D. 내가 직접 동선 짜기</h1><div class="row3" id="R4"></div><h1 style="margin-top:22px">C. 연계 퀘스트 · 위치 동선</h1><div class="row3" id="R3"></div><h1 style="margin-top:22px">B. 나머지 퀘스트 화면 (지도 · 지역 · 상세 · 내 퀘스트 · 모음)</h1><div class="row3" id="R2"></div><div class="notes" id="N"></div>
 <script>
 const I=n=>'https://wow.zamimg.com/images/wow/icons/large/'+n+'.jpg';
 const ic=(n,c)=>'<span class="ic '+(c||'')+'" style="background-image:url('+I(n)+')"></span>';
@@ -595,6 +615,23 @@ const D3='<div><p class="cap">D3 · 「＋ 퀘스트 담기」 · 찾기·추천
  +qrow('lock','inv_misc_note_01','회수전문회사를 위한 재료','33 · 먼저 아이언포지 「회수 임무」','🔒')
  +qrow('','inv_misc_note_01','경호원 고용','35 · 호위 · 2명 추천','＋')
  +'</div>'+nav+'</div></div>';
+
+/* E: 단순하게 */
+const plmini='<div class="plmini"><div class="ics">'+ic('achievement_zone_desolace')+ic('achievement_zone_thousandneedles_01')+ic('achievement_zone_dustwallowmarsh')+'</div><div class="m"><b>칼림도어에서 쭉</b><small>잊혀진 땅 → 버섯구름 → 먼지진흙 · 지금 1/3</small></div><span class="c">바꾸기</span></div>';
+const nx=(n,c,t,sub,x,cls,ed)=>'<div class="nxr '+(cls||'')+'">'+(ed?'<span class="dr">⋮⋮</span>':'')+'<span class="n '+c+'">'+n+'</span><div class="m"><b>'+t+'</b><small>'+sub+'</small></div>'+(ed?'<span class="rm">−</span>':'<span class="x">'+x+'</span>')+'</div>';
+const E1='<div><p class="cap">E1 · 기본 화면은 이것만</p><div class="ph">'+TOPB+srch()+mt(0)+plmini+scroll
+ +'<div class="nxl2"><div class="hd"><b>다음 단계</b><span>편집</span></div>'+nx(3,'do','말렘의 궤짝','발라리엘의 수색 2/5','+1,950')+nx(4,'do','남쪽 켄타우로스 마을','귀걸이 15 · 평판 2','+7,850')+'<div class="lvup">35레벨 달성 · 여기쯤</div>'+nx(5,'turn','나이젤의 야영지 반납','3개 한 번에','+8,350')+'</div>'+nav+'</div></div>';
+const E2='<div><p class="cap">E2 · 아무 퀘스트나 누르면 「내 동선에 넣기」 한 번</p><div class="ph">'+TOPB+srch()+mt(2)+'<div class="zh2" style="opacity:.5">'+ic('achievement_zone_desolace')+'<div class="m"><b>잊혀진 땅</b><small>퀘스트 57</small></div></div>'
+ +'<div class="toast">✓ 4단계 「남쪽 켄타우로스 마을」에 넣었어요 · 되돌리기</div>'
+ +'<div class="qsheet"><div class="grab"></div><div class="h">'+ic('achievement_reputation_06')+'<div><b>이상한 동맹</b><small>잊혀진 땅 · 35 · 대령 펜리가스트 · 연계 6</small></div></div>'
+ +'<p>겔키스 평판을 우호적까지 올린 뒤 현자 우텍(36, 79)과 대화해요. 하는 곳이 4단계와 같아서 거기에 넣을게요.</p>'
+ +'<div class="acts"><span class="p">＋ 내 동선에 넣기</span><span class="q">지도</span></div><span class="more">자세히 보기 (연계 · 평판 · 보상) ›</span></div>'+nav+'</div></div>';
+const E3='<div><p class="cap">E3 · 「편집」을 누르면 같은 목록에서 바로</p><div class="ph">'+TOPB+srch()+mt(0)+plmini
+ +'<div class="nxl2" style="margin-top:14px"><div class="hd"><b>내 동선 고치는 중</b><span>다 했어요</span></div>'
+ +nx(2,'do','서릿발분노 사티로스','발톱·뿔 10','',0,1)+nx(3,'do','말렘의 궤짝','발라리엘의 수색 2/5','',0,1)+nx(4,'do','남쪽 켄타우로스 마을','귀걸이 15 · 평판 2 · 이상한 동맹','', 'mine',1)+nx(5,'turn','나이젤의 야영지 반납','3개 한 번에','',0,1)+'</div>'
+ +'<div class="addq">＋ 퀘스트 찾아 넣기</div>'
+ +'<div class="fq" style="margin-top:10px">끌어서 순서 바꾸기 · − 로 빼기 · 바뀌면 경험치·35레벨 선이 바로 다시 계산돼요</div>'
+ +'<div class="edbar"><span class="b">앱 추천으로 되돌리기</span><span class="a">다 했어요</span></div>'+nav+'</div></div>';
 /* ⑥ 지역 페이지 */
 const chc=(n,a,b,dn,tot,nx,el,warn,from)=>'<div class="chc"><div class="h">'+ic('inv_misc_note_01')+'<b>🔗 '+n+'</b><small>Lv '+a+'→'+b+' · '+dn+'/'+tot+'</small></div><div class="dots">'+Array.from({length:tot},(_,i)=>'<i class="'+(i<dn?'on':i===dn?'cur':'')+'"></i>').join('')+'</div><div class="nx">'+(from?'<b>'+from+'</b>에서 시작 · ':'')+'다음: <b>'+nx+'</b>'+(el?'<span class="el">'+el+'</span>':'')+'</div>'+(warn?'<div class="warnr">⚠ '+warn+'</div>':'')+'</div>';
 const F='<div><p class="cap">⑥ 지역 · 모음 → 지역 하나 (잊혀진 땅)</p><div class="ph">'+TOPB+srch()+mt(2)
@@ -649,7 +686,8 @@ const K='<div><p class="cap">⑩ 지역·모음 → 모음 (특별한 퀘스트)
  +'<div class="sec">연계 대작 · 보상이 좋은 긴 연계</div>'
  +'<div class="epic">'+ic('inv_misc_cape_05')+'<div class="m"><b>잊혀진 땅에서의 회수 임무</b><small>9단계 · Lv 33→40 · 아이언포지에서 시작</small></div><span class="st">0/9</span></div>'
  +'<div class="epic">'+ic('inv_staff_18')+'<div class="m"><b>발라리엘의 수색</b><small>5단계 · Lv 33 · 잊혀진 땅</small></div><span class="st">0/5</span></div>'+nav+'</div></div>';
-document.getElementById('R').innerHTML=A7+DS+B+E+C+D;document.getElementById('R2').innerHTML=F+G+H+J+K;document.getElementById('R3').innerHTML=CA+CB+CC;document.getElementById('R4').innerHTML=D1+mkD2()+D3;
+document.getElementById('RULES').innerHTML='<b>답답하지 않게 지킬 규칙</b><br>1. <b>첫 화면은 세 가지만</b>: 지금 계획(한 줄) · 지금 할 일(양피지) · 다음 단계. 나머지(지도·연계·친구·던전 넣기)는 눌러야 나와요.<br>2. <b>처음엔 앱 추천 그대로</b> 써요. 직접 짜기는 따로 큰 편집 화면이 아니라, 아무 퀘스트에서 <b>「＋ 내 동선에 넣기」 한 번</b> → 가장 가까운 단계에 알아서 들어가요(되돌리기 바로 가능).<br>3. 순서 바꾸기·빼기는 <b>같은 목록에서 「편집」 켜고</b> 끌기·− 만. 이름 붙이기·여러 개 저장은 없애고 <b>캐릭터마다 내 동선 하나</b>, 자동 저장. 언제든 「앱 추천으로 되돌리기」.<br>4. 경고는 <b>문제가 있을 때만</b> 한 줄로(앞 퀘스트 필요 · 레벨 높음). 평소엔 안 보여요.<br>5. 숫자는 꼭 필요한 것만: 경험치 · 35레벨 선. 시간·친구·비행 같은 건 「자세히」 안으로.<br>6. 시안 D(큰 편집 화면·지도에서 담기)는 <b>원하는 사람만</b> 「편집 → 지도에서 담기」로 들어가는 고급 기능으로.';
+document.getElementById('R').innerHTML=A7+DS+B+E+C+D;document.getElementById('R2').innerHTML=F+G+H+J+K;document.getElementById('R3').innerHTML=CA+CB+CC;document.getElementById('R4').innerHTML=D1+mkD2()+D3;document.getElementById('R0').innerHTML=E1+E2+E3;
 document.getElementById('N').innerHTML='<b>D. 내가 직접 동선 짜기</b><br>· 시작: 맨 위 계획 카드의 「＋ 직접 고르기」 또는 앱 동선에서 「고치기」(앱 동선을 복사해서 시작) · 이름 붙여 <b>저장</b>, 친구에게 <b>공유</b>(글로 복사)<br>· D1 편집: 단계·퀘스트를 <b>⋮⋮ 잡고 끌어서</b> 순서 바꾸기 · ✕로 빼기 · 위에 퀘스트 수·경험치·시간·「끝나면 35 +12%」가 바로 바뀌어요 · <b>문제 알려 주기</b>: 「먼저 아이언포지 회수 임무를 받아야 해요」(앞 퀘스트), 「37레벨 단계는 아직 못 받아요」 · ＋ 단계 / 장소·메모(귀환석·비행·상인) / 던전 · 「↯ 순서 자동 정리」로 가까운 순 다시 맞추기<br>· D2 지도에서 담기: 핀을 누르면 「＋ 2개 담기」 · 누른 순서대로 번호와 점선 · 아래 담은 것 줄 → 「동선에 넣기」<br>· D3 퀘스트 담기: 찾기 · 이 지역/가까운 순/연계 이어서/던전 퀘 · 같은 곳에서 할 수 있는 것 추천 · 앞 퀘스트가 필요한 건 🔒<br><br><b>C. 연계 퀘스트 (실제 연계 자료)</b><br>· C1 동선 단계 안: 연계 퀘스트는 파란 줄로 「2/5」 진행 점 · <b>같은 NPC에서 바로 이어지는 건 그 단계에 같이 넣어요</b>(와루그 → 콜카르 공격·눈물의 파편·와루그의 물건) · 레벨이 높아 나중에 할 건 점선 「나중에」(칸 샤카 37 · 칸 흐라사 42 → 마라우돈 열쇠) · 여러 곳을 오가는 연계는 <b>왕복을 줄이게 순서를 바꿔 넣고</b> 금색 줄로 알려 줘요<br>· C2 연계 하나: 진행 막대 · <b>연계 지도</b>(1·3·5 발라리엘 → 2 궤짝 → 4 달린다 말렘, 실제 좌표) · 단계마다 어디서 받고 어디로 가는지 + <b>내 동선 몇 단계 때 하는지</b><br>· C3 계획의 연계 모음: 단계별 레벨 점이 <b>계획의 어느 지역 때인지 색</b>으로 · 「마라우돈 열쇠」 같은 던전 연결 · 반대 평판 · 다른 대륙 시작 · 계획 밖 단계 표시<br><br><b>시안 7</b><br>· 계획 고르기를 따로 화면으로 빼지 않고 <b>레벨업 맨 위 가로 카드</b>로(칼림도어에서 쭉 ✓ · 가시덤불 위주 · ＋ 직접 고르기) · 고르면 아래가 바로 바뀌어요<br>· 막대 그래프 대신 <b>여정 줄</b>: 지역 그림 동그라미가 선으로 이어지고, 지금 지역은 금색 「지금」, 넣은 던전은 보라 네모 칸, 끝에 「＋ 던전 넣기」<br>· <b>편의 칩</b>: 귀환석 위치 · 비행 경로 몇 개 열었는지 · 직업 퀘스트 · 같은 구간 친구<br>· ①-b <b>던전 넣기</b>: 계획 레벨에 맞는 던전을 켜고 끄기 · 내 템 수·던전 퀘스트 수·시간 · 켜면 어디쯤 끼워 넣는지와 「던전 퀘스트를 1단계 받기에 넣어요」 · 던전 경험치만큼 뒤 퀘스트를 줄여 줌<br><br><b>시안 6 · 레벨업을 「계획」으로</b><br>· ⓪ 지역 하나가 아니라 <b>34 → 40 계획</b>을 골라요: 레벨 막대 위에 지역이 색 구간으로 이어지고, 던전 들를 레벨·배 타는 곳이 아이콘으로, 내 레벨은 초록 줄 · 계획마다 퀘스트 수·들를 던전·걸리는 시간 · 같은 구간 <b>친구</b>(전투정보실 레벨) · 「직접 고르기」로 지역을 하나씩 섞기<br>· ① 맨 위 <b>계획 줄</b>(지금 어디쯤인지 + 계획 바꾸기) · 화면의 주인공은 <b>양피지 「지금 할 일」</b> 하나(게임 퀘스트 목록 느낌의 글꼴, 목표 세기, 잡을 몹, 이 단계 경험치와 35레벨까지 남은 양) · 지도는 작게 · 다음 단계는 테두리 없이 조용하게, 중간에 <b>「35레벨 달성 · 여기쯤」</b> 선<br><br><b>⓪ 어디서 올릴지 내가 고르기</b><br>· 지금 레벨에 갈 만한 지역을 카드로 보여 주고 내가 골라요 · 카드마다 내 레벨이 지역 레벨 막대 어디쯤인지 · 지금 할 퀘스트 수 · 퀘스트 주는 곳 수 · 경험치 합 · 특징 태그(추천 루트 · 퀘스트 제일 많음 · 분쟁 지역 · 섞기 좋음 · 오래 머물러요)<br>· 대륙·정렬로 거르기 · 여러 곳 체크하면 「둘 섞기」로 이어진 동선 · 고르면 그 지역으로 ①~② 동선·지도·단계가 만들어져요 · ① 위 「바꾸기 ▾」로 언제든 다시 고르기<br><br><b>B. 나머지 퀘스트 화면</b><br>· 맨 위 탭을 <b>레벨업 / 지도 / 지역·모음 / 내 퀘스트</b> 4개로 · 찾기 칸은 늘 맨 위<br>· ⑥ <b>지역 하나</b>: 지역 진행 막대 · 거르기 칩(지금 할 것·안 끝낸 것·연계만·보상 템) · 거점 타임라인 · 연계는 파란 카드에 진행 점과 「다음」 · 다른 지역에서 시작하는 연계 표시 · 서로 반대 평판 경고<br>· ⑦ <b>지도 탭</b>: 받기(!)·반납(?)·잡는 곳(주황 원)·내 위치 · 위에 거르기 칩 · 핀을 누르면 아래에서 거점 카드가 올라와요(퀘스트/NPC/단계 보기)<br>· ⑧ <b>퀘스트 상세</b>: 받는 곳 좌표 · 할 일 · <b>평판 변화(+/−)와 반대 진영 경고</b> · 연계 6개 전체 줄(레벨 색) · 다음 퀘스트<br>· ⑨ <b>내 퀘스트(새로)</b>: 게임 퀘스트 목록처럼 받은 것 12/25 · 반납 가능은 파랗게 위로 · 진행 막대 · 너무 낮은 건 「버려도 돼요」<br>· ⑩ <b>모음(새로)</b>: 직업 퀘스트 · 던전 퀘스트 · 연계 대작 · 전문기술 퀘스트를 한곳에<br><br><b>시안 3에서 더 다듬은 것</b><br>· ① 지역 칸과 경험치 막대를 한 칸으로 합쳐 짧게 · 지도에 받기/하기/반납 색 범례 · 지도 아래 <b>「지금 할 일」 카드</b>(지금 단계 목표 세기 + 「다 했어요 · 다음 단계로」)<br>· ② 단계마다 <b>경험치·걸리는 시간</b> · 단계 사이에 <b>가는 길</b>(방향·몇 분) · 끝낸 단계는 ✓ 작게 · 받기·반납 단계는 퀘스트를 레벨 색 칩으로 · <b>동선에 안 넣은 퀘스트</b>(호위 표시) 따로 · 맨 끝 <b>다음 구간</b> 카드<br>· 추적 줄에 5단계 진행 점 · ④ 찾기 결과를 전체/퀘스트/몹/NPC 탭으로, 몹은 「지도 ›」<br><br><b>시안 1과 크게 달라진 점</b><br>'
  +'· <b>찾기는 맨 위에 항상 보이는 칸</b> 그대로 두고(누르는 버튼으로 숨기지 않아요), 쓰는 대로 바로 결과가 나와요(퀘스트 · 몹 어디서 잡는지 · NPC·지역으로 나눠서, 글자 강조, 지금 할 만한지/지난 레벨인지 표시). 아래에 최근 찾은 것.<br>'
  +'· 찾기 아래 <b>빠른 칩</b>: 동선 5단계 · 반납 가능 2 · 받을 것 5 · 보상 템 3 → 누르면 그것만.<br>'
