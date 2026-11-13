@@ -1197,9 +1197,9 @@ function amView(c){if(!QDB)qdbLoad();if(!WLD)wldLoad();const F=amF();
   const nOn=['rt','g','r','tr','fp','inn','my','dg'].filter(k=>F[k]).length;
   return '<div class="am'+(ui.amfull?' full':'')+'"><div id="amap" class="amap"><div class="amL"></div><div class="amP"></div>'
    +'<div class="amtop">'+(ui.amback?'<button class="amback" data-a="amback">← 퀘스트로</button>':'')+'<div class="amseg">'+['ek','ka'].map(k=>'<button class="'+(A.c===k?'on':'')+'" data-a="amc" data-k="'+k+'">'+ATL[k].ko+'</button>').join('')+'</div>'
-   +'<button class="amfb'+(ui.amfo?' on':'')+'" data-a="amfo">표시 '+nOn+' ▾</button>'+gmStyleSeg(c)+(ui.amq?'':'<span class="amstl" title="퀘스트를 누르면 이렇게 보여요"><small>퀘스트 보기</small>'+amStyleSeg()+'</span>')+'</div>'
+   +'<button class="amfb'+(ui.amfo?' on':'')+'" data-a="amfo">표시 '+nOn+' ▾</button>'+gmStyleSeg(c)+'</div>'
    +(ui.amfo?'<div class="ampop"><div class="chips">'+chip('my','📜 내 퀘스트')+chip('dg','🏰 던전')+chip('rt','① 동선')+chip('g',QMK.g+'받는 곳')+chip('r',QMK.r+'반납')+chip('tr',AMIC.tr()+'교관')+chip('fp','🦅 비행')+chip('inn','🏠 여관')+'</div>'
-     +'<div class="chips seg">'+[['now','내 레벨 ±'],['all','모든 레벨']].map(x=>'<button class="chip'+((F.lv||'now')===x[0]?' on':'')+'" data-a="amlv2" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div></div>':'')
+     +'<div class="ampopr"><small>퀘스트 누르면</small>'+amStyleSeg()+'</div><div class="chips seg">'+[['now','내 레벨 ±'],['all','모든 레벨']].map(x=>'<button class="chip'+((F.lv||'now')===x[0]?' on':'')+'" data-a="amlv2" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div></div>':'')
    +'<div class="amctl"><button data-am="full" aria-label="전체 화면">'+(ui.amfull?'✕':'⛶')+'</button><button data-am="in" aria-label="확대">+</button><button data-am="out" aria-label="축소">−</button><button data-am="me" aria-label="지금 구간으로">◎</button><button data-am="leg" class="amlegb'+(ui.amleg?' on':'')+'" aria-label="지도 표시 설명">?</button></div>'+amLegend(F)
    +(QDB?'':'<div class="amload">퀘스트 자료를 불러오는 중…</div>')+(ui.amfull?'<button class="amexit" data-am="full">✕ 작게 보기</button>':ui.amback?'<button class="amexit" data-a="amback">← 보던 퀘스트로 돌아가기</button>':'')+'<div id="ampanel"></div></div>'
    +'<p class="mute src amhint">끌어서 움직이고, 두 손가락·두 번 톡·+/− 로 확대 · 번호는 「지금 할 일」 마을 순서 · 지도: wowf.io</p></div>'}
@@ -1235,9 +1235,12 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
     const vis=st.pts.filter(p=>p.c===A.c);let pins='',svg='';
     /* 땅 이름 (와우 지도처럼): 화면에서 지역이 충분히 크면 이름, 멀리서 보면 받을 퀘스트 수도 */
     const zoneNames=(Z,RZ)=>{const ZC=zoneCenters()||{};let o='';const seen=[];
+      /* 동선 번호·던전 표식과 겹치면 이름을 위/아래로 비켜 놓기 */const OB=[...st.route.filter(r=>r.c===A.c),...vis.filter(p=>/^(dg|mo)/.test(p.kind))].map(p=>[X(p),Y(p)]).filter(p=>inV(p[0],p[1],80));
       for(const z in MAPZ){if(ZALIAS[z]||BIGZ.test(z))continue;const t=MAPZ[z];const wpx=100*t[1]*s;if(wpx<(Z?150:120))continue;const q=ZC[z]||toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(!inV(x,y,60))continue;
-        const n=Z&&Z[z]?Z[z].n:0;const fs=Math.round(Math.max(12,Math.min(A.z<1.5?17:24,wpx/11)));if(seen.some(p=>Math.abs(p[0]-x)<60&&Math.abs(p[1]-y)<fs+6))continue;seen.push([x,y]);
-        o+='<button class="amzn'+(RZ&&RZ.has(z)?' now':'')+(A.z>=2.6?' far':'')+'" '+(n?'data-amz':'data-amzi')+'="'+esc(z)+'" style="left:'+x+'px;top:'+y+'px;font-size:'+fs+'px"><span>'+esc(z)+'</span>'+(n?'<small>'+QMK.g+n+'</small>':'')+'</button>'}
+        const n=Z&&Z[z]?Z[z].n:0;const fs=Math.round(Math.max(12,Math.min(A.z<1.5?17:24,wpx/11)));const hw=z.length*fs*.55+16,hh=fs/2+(n?20:14);
+        let y2=y;for(const k of [0,-1,1,-2,2]){const yy=y+k*(hh+8);if(!OB.some(p=>Math.abs(p[0]-x)<hw&&Math.abs(p[1]-yy)<hh)){y2=yy;break}}
+        if(seen.some(p=>Math.abs(p[0]-x)<60&&Math.abs(p[1]-y2)<fs+6))continue;seen.push([x,y2]);const y_=y2;
+        o+='<button class="amzn'+(RZ&&RZ.has(z)?' now':'')+(A.z>=2.6?' far':'')+'" '+(n?'data-amz':'data-amzi')+'="'+esc(z)+'" style="left:'+x+'px;top:'+y_+'px;font-size:'+fs+'px"><span>'+esc(z)+'</span>'+(n?'<small>'+QMK.g+n+'</small>':'')+'</button>'}
       return o};
     if(A.z<1.5){const Z={};vis.forEach(p=>{if(p.kind!=='g'&&p.kind!=='r')return;const o=Z[p.zone]||(Z[p.zone]={n:0,x:0,y:0,k:0});o.n+=p.qs.length;o.x+=p.x;o.y+=p.y;o.k++});
       const RZ=new Set(st.route.map(r=>r.zone));
