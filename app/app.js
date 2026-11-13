@@ -170,7 +170,9 @@ async function syEnc(txt){const iv=crypto.getRandomValues(new Uint8Array(12));co
   const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await syCK(),data);return {v:1,z:z?1:0,iv:b64(iv),d:b64(ct)}}
 async function syDec(o){if(!o||!o.d)return null;const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(o.iv)},await syCK(),unb64(o.d));
   return JSON.parse(o.z?new TextDecoder().decode(await syZip(new Blob([pt]),false)):new TextDecoder().decode(pt))}
-const syErr=(e,mode)=>e&&e.name==='OperationError'?'연동 코드가 맞지 않아요 · 다시 넣어 주세요':e&&e.status===404?'연동 기록이 사라졌어요 · 「새 연동 코드」를 만들어 주세요':e&&e.status===401?'토큰이 맞지 않거나 만료됐어요':'인터넷 연결을 확인해 주세요';
+/* 오류 원인을 짧게 (화면에 그대로 보여 줘서 캡처로 알 수 있게) */
+const syWhy=e=>!e?'알 수 없는 오류':e.status?('저장 서비스 응답 '+e.status+(e.status===403||e.status===429?' (요청이 막혔어요)':'')):e.message==='noid'?'저장 번호를 못 받았어요':e.name==='TypeError'?'저장 서비스에 접속하지 못했어요 ('+(e.message||'').slice(0,40)+')':(e.name+': '+(e.message||'')).slice(0,60);
+const syErr=(e,mode)=>e&&e.name==='OperationError'?'연동 코드가 맞지 않아요 · 다시 넣어 주세요':e&&e.status===404?'연동 기록이 사라졌어요 · 「새 연동 코드」를 만들어 주세요':e&&e.status===401?'토큰이 맞지 않거나 만료됐어요':'인터넷 연결을 확인해 주세요 · '+syWhy(e);
 async function syGet(){if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{cache:'no-store',headers:{Accept:'application/json'}});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}const ex=r.headers.get('X-jsonblob-expires-at');if(ex)SY.exp=ex;return await syDec(await r.json())}
   const g=await syGh('/gists/'+SY.gid);const f=g.files&&g.files[SYNC_F];let txt=f?f.content:'';if(f&&f.truncated)txt=await (await fetch(f.raw_url,{cache:'no-store'})).text();return txt?JSON.parse(txt):null}
 async function syPut(){if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{method:'PUT',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(await syEnc(syBody()))});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}return}
@@ -189,7 +191,7 @@ async function syMake(){const key=Array.from(crypto.getRandomValues(new Uint8Arr
     const r=await fetch(JB,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body});if(!r.ok)throw Object.assign(new Error(r.status),{status:r.status});
     const id=r.headers.get('X-jsonblob-id')||((r.headers.get('Location')||'').split('/').pop());if(!id)throw new Error('noid');
     SY={bid:id,key};_syK=null;await syPut();SY.at=Date.now();SY.err=null;sySave();return true}
-  catch(e){SY={err:'연동 코드를 만들지 못했어요 · 인터넷을 확인하고 다시 해 주세요'};sySave();return false}}
+  catch(e){SY={err:'연동 코드를 만들지 못했어요 · '+syWhy(e)};sySave();return false}}
 const syCode=()=>SY.bid?SY.bid+'-'+SY.key:'';
 const syLink=()=>location.origin+location.pathname+'#sync='+syCode();
 /* 다른 기기에서 받은 코드로 연결 */
