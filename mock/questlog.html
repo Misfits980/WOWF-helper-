@@ -1,0 +1,207 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>퀘스트창 · PC 시안</title><style>
+:root{--bg:#15130f;--panel:#1f1b15;--panel2:#26211a;--line:#3a3226;--txt:#efe6d2;--mute:#a59d8c;--gold:#e8c06a;--gold2:#b8913e;--good:#7bea7b;--bad:#ff7b6b}
+*{box-sizing:border-box}body{margin:0;background:#0b0a08;color:var(--txt);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:18px}
+h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-size:13px;margin:0 0 14px}
+.row3{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.cap{font-size:13px;color:var(--gold);font-weight:700;margin:0 0 6px}
+.ph{width:390px;height:820px;overflow:hidden;background:var(--bg);border:1px solid #333;border-radius:26px;position:relative;font-size:14px}
+.ic{display:inline-block;background:#000 center/cover;border-radius:6px;flex:none}
+.top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.top .ic{width:38px;height:38px;border-radius:9px}.top b{font-size:16px}.top small{display:block;color:var(--mute);font-size:12px}
+.lv{margin-left:auto;display:flex;gap:6px;align-items:center}.lv span{border:1px solid var(--line);border-radius:10px;padding:6px 10px;color:var(--mute)}.lv b{border:1.5px solid var(--gold2);color:var(--gold);border-radius:10px;padding:5px 14px;font-size:18px}
+.nav{position:absolute;left:0;right:0;bottom:0;height:62px;border-top:1px solid var(--line);background:rgba(24,21,17,.98);display:flex;justify-content:space-around;align-items:center;font-size:11px;color:var(--mute)}
+.nav span{display:flex;flex-direction:column;align-items:center;gap:2px}.nav img{width:24px;height:24px}.nav .on{color:var(--gold)}
+.card{margin:8px 12px;padding:10px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+/* 모드 탭 + 찾기 */
+.mbar{display:flex;gap:6px;margin:10px 12px 0;align-items:center}
+.tabs3{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.tabs3 span{display:flex;align-items:center;justify-content:center;gap:5px;height:34px;border-radius:9px;color:var(--mute);font-size:13px;font-weight:700}
+.tabs3 .ic{width:18px;height:18px;border-radius:5px;opacity:.7}.tabs3 .on{background:#3a2c16;color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold2)}.tabs3 .on .ic{opacity:1}
+.sbtn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--mute)}
+/* 지역 히어로 */
+.zh{position:relative;margin:10px 12px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line);height:118px;background:linear-gradient(120deg,#3a2c16,#1a1712 70%)}
+.zh .bgi{position:absolute;right:-20px;top:-20px;width:170px;height:170px;border-radius:50%;background:center/cover;opacity:.35;filter:saturate(.8)}
+.zh .t{position:absolute;left:14px;right:14px;bottom:10px}
+.zh small{font-size:11px;color:#c9bfa8;letter-spacing:.3px}.zh h2{margin:2px 0 0;font-size:21px;text-shadow:0 2px 6px #000}
+.meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 3px;border-radius:999px;background:rgba(20,16,10,.82);border:1px solid rgba(232,192,106,.35);font-size:12px;font-weight:600;line-height:1}
+.pill .ic{width:18px;height:18px;border-radius:50%}.pill.lvp{padding-left:9px;color:#8bd37a;border-color:rgba(139,211,122,.5)}
+.ring{position:absolute;right:14px;top:12px;width:58px;height:58px;border-radius:50%;background:conic-gradient(#e8c06a 0 22%,#2a251d 22% 100%);display:flex;align-items:center;justify-content:center}
+.ring b{width:46px;height:46px;border-radius:50%;background:#1a1712;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1}.ring b small{font-size:9.5px;color:var(--mute);margin-top:2px}
+/* 진행 줄 */
+.goal{display:flex;align-items:center;gap:10px}
+.goal .ic{width:34px;height:34px;border-radius:9px}.goal .m{flex:1;min-width:0}.goal b{font-size:13.5px}.goal small{display:block;font-size:11.5px;color:var(--mute)}
+.bar{height:6px;border-radius:3px;background:#2a251d;margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#8a7440,#e8c06a)}
+.goal .x{flex:none;font-size:12px;color:var(--good);font-weight:800}
+/* 거점 타임라인 */
+.tlh{display:flex;align-items:center;gap:8px;margin:12px 14px 6px}.tlh b{font-size:15px}.tlh small{color:var(--mute);font-size:12px}.tlh span{margin-left:auto;font-size:11.5px;color:var(--mute);border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+.tl{position:relative;margin:0 12px 0 14px;padding-left:30px}
+.tl::before{content:'';position:absolute;left:21px;top:20px;bottom:10px;width:2px;background:linear-gradient(#b8913e,#5d4a28)}
+.hub{position:relative;margin:0 0 9px;border-radius:14px;background:var(--panel);border:1px solid var(--line);padding:9px 12px 9px 40px}
+.hub .nd{position:absolute;left:-23px;top:9px;width:42px;height:42px;border-radius:50%;background:#000 center/cover;border:2px solid var(--gold2);box-shadow:0 0 0 3px var(--bg)}
+.hub .no{position:absolute;left:8px;top:36px;width:20px;height:20px;border-radius:50%;background:var(--gold2);color:#1a140a;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+.hub .hn{display:flex;align-items:center;gap:6px}.hub .hn b{font-size:15px}.hub .hn small{font-size:11.5px;color:var(--mute)}
+.hub .cts{margin-left:auto;display:flex;gap:4px}
+.ct{display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 7px 0 3px;border-radius:7px;font-size:11px;font-weight:700;border:1px solid;line-height:1}
+.ct .ic{width:16px;height:16px;border-radius:4px}.ct.get{color:#ffe08a;border-color:#c9a227;background:rgba(201,162,39,.15)}.ct.turn{color:#a9dcff;border-color:#3f8fcf;background:rgba(63,143,207,.16)}
+.hub.open{border-color:var(--gold2)}.hub.sm{padding-top:8px;padding-bottom:8px}
+.ql{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.qr{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.qr .ck{width:22px;height:22px;border-radius:50%;border:2px solid #5a4f3c;flex:none}.qr .ck.on{background:#2f5a24;border-color:#7bea7b}
+.qr .ic{width:28px;height:28px;border-radius:7px}
+.qr .m{flex:1;min-width:0;line-height:1.3}.qr b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qr small{display:block;font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qr .r{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.lvq{font-size:11px;font-weight:800;border-radius:6px;padding:1px 6px;border:1px solid}.lvq.g{color:#8bd37a;border-color:#4f7a3c}.lvq.y{color:#ffe08a;border-color:#c9a227}.lvq.o{color:#ffb44a;border-color:#c46a2a}
+.xp{font-size:10.5px;color:#b9a7e8}
+.chn{display:inline-flex;align-items:center;gap:3px;margin-top:3px;font-size:10.5px;color:#9fd2ff;background:#1d3a52;border-radius:6px;padding:1px 6px}
+.qr.done{opacity:.5}.qr.done b{text-decoration:line-through}
+.more2{display:block;text-align:center;margin-top:6px;font-size:12px;color:var(--mute)}
+/* 펼친 퀘스트 */
+.qc{margin:8px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--gold2);overflow:hidden}
+.qc .h{display:flex;align-items:center;gap:9px;padding:10px 12px;background:linear-gradient(90deg,#3a2c16,var(--panel))}
+.qc .h .ic{width:36px;height:36px;border-radius:9px}.qc .h .m{flex:1}.qc .h b{font-size:16px;display:block}.qc .h small{font-size:11.5px;color:var(--mute)}
+.tg{display:flex;gap:5px;padding:2px 12px 8px;flex-wrap:wrap}.tg span{display:inline-flex;align-items:center;height:20px;font-size:10.5px;padding:0 7px;border-radius:6px;background:var(--bg);color:var(--mute);border:1px solid var(--line)}.tg .f{background:#1f2b4a;color:#9fd2ff;border-color:#2c4270}.tg .c{background:#1d3a52;color:#9fd2ff;border-color:#2c5a7a}
+.obj{margin:0 12px 8px;padding:9px 11px;border-radius:10px;background:rgba(232,192,106,.08);border:1px solid rgba(232,192,106,.3)}
+.obj b{display:block;font-size:12px;color:var(--gold);margin-bottom:4px}.obj .o{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0}.obj .o .ic{width:24px;height:24px}.obj .o em{margin-left:auto;font-style:normal;font-size:12px;color:var(--mute)}
+.qs{position:relative;margin:0 12px;padding-left:22px}
+.qs::before{content:'';position:absolute;left:8px;top:12px;bottom:14px;width:2px;background:#5d4a28}
+.qst{position:relative;display:flex;gap:8px;align-items:flex-start;padding:6px 0;font-size:12.5px;line-height:1.45}
+.qst::before{content:attr(data-n);position:absolute;left:-22px;top:6px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:2px solid var(--gold2);color:var(--gold);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.qst .k{flex:none;width:44px;font-size:11px;font-weight:700;white-space:nowrap}.qst .k.g{color:#ffd65a}.qst .k.o{color:#ffb44a}.qst .k.r{color:#7ec8ff}
+.qst small{color:var(--mute)}.qst .mp{margin-left:auto;flex:none;font-size:11px;color:var(--gold);border:1px solid var(--gold2);border-radius:7px;padding:1px 7px}
+.rw{margin:8px 12px;padding:9px 11px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.rw .hd{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mute)}.rw .hd b{color:#b9a7e8}.rw .hd .gd{color:#ffd65a}
+.rws{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.rwi{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;padding:6px 3px;border-radius:9px;border:1px solid var(--line)}
+.rwi .ic{width:40px;height:40px;border-radius:9px;border:2px solid #3a7bd5}.rwi .ic.u{border-color:#2fbf4f}
+.rwi span{font-size:10.5px;line-height:1.2;color:#cfc6b3;height:25px;overflow:hidden}.rwi small{font-size:10px;color:#8bd37a}
+.rwi .g{position:absolute;top:-6px;right:-3px;background:#24361d;border:1px solid #4f7a3c;color:var(--good);font-weight:800;font-size:10.5px;border-radius:7px;padding:0 5px;font-style:normal}
+.rwi.best{border-color:#4f7a3c;background:rgba(60,120,50,.12)}
+.chain{display:flex;align-items:center;gap:4px;margin:6px 12px 2px;font-size:11.5px;color:var(--mute)}.chain i{width:16px;height:6px;border-radius:3px;background:#2a251d}.chain i.on{background:#e8c06a}.chain i.cur{background:#e8c06a;box-shadow:0 0 0 2px rgba(232,192,106,.35)}
+.btns{display:flex;gap:6px;padding:8px 12px 12px}.btns span{flex:1;text-align:center;height:38px;display:flex;align-items:center;justify-content:center;font-size:13px;border-radius:10px;border:1px solid var(--line);color:var(--mute);font-weight:700}.btns .on{border-color:#4f7a3c;color:var(--good);background:#1d2a17}.btns .pri{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+/* 도우미 타일 */
+.hg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 12px}
+.ht{padding:10px;border-radius:14px;background:var(--panel);border:1px solid var(--line);min-height:96px}
+.ht .hd{display:flex;align-items:center;gap:7px}.ht .hd .ic{width:26px;height:26px}.ht .hd b{font-size:13.5px}
+.ht p{margin:6px 0 0;font-size:11.5px;color:var(--mute);line-height:1.45}.ht p b{color:var(--txt)}
+.ht .ics{display:flex;gap:4px;margin-top:7px}.ht .ics .ic{width:24px;height:24px}
+.ht .new{font-size:10px;color:#1a140a;background:#ffd65a;border-radius:5px;padding:0 4px;font-weight:800;margin-left:auto}
+.ht.hot{border-color:var(--gold2);background:linear-gradient(160deg,#3a2c16,var(--panel) 70%)}
+/* 1-60 길 */
+.track{position:relative;margin:4px 12px 10px;height:58px}
+.track .ln{position:absolute;left:4px;right:4px;top:22px;height:4px;border-radius:2px;background:#2a251d}.track .ln i{display:block;width:55%;height:100%;background:linear-gradient(90deg,#5d4a28,#e8c06a);border-radius:2px}
+.track .st{position:absolute;top:10px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px}
+.track .st .ic{width:26px;height:26px;border-radius:50%;border:2px solid #5d4a28}.track .st.on .ic{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,192,106,.25);width:30px;height:30px}
+.track .st small{font-size:9.5px;color:var(--mute);white-space:nowrap}.track .st.on small{color:var(--gold);font-weight:800}
+/* 지역 목록 */
+.cont{display:flex;gap:6px;margin:10px 12px 4px;overflow:hidden}.cont span{flex:none;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 11px 0 4px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;color:var(--mute)}
+.cont .ic{width:24px;height:24px;border-radius:50%}.cont .on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+.sec{margin:12px 14px 6px;font-size:13px;font-weight:800;color:var(--gold)}
+.zf{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 12px}
+.zc{position:relative;padding:10px;border-radius:14px;border:1px solid var(--gold2);background:linear-gradient(160deg,#3a2c16,var(--panel) 75%);overflow:hidden}
+.zc .ic{width:40px;height:40px;border-radius:10px}.zc b{display:block;font-size:14px;margin-top:6px}.zc small{display:block;font-size:11px;color:var(--mute)}
+.zc .hot{display:inline-block;margin-top:5px;font-size:11px;font-weight:800;color:#1a140a;background:#ffd65a;border-radius:6px;padding:1px 6px}
+.rb{position:relative;height:6px;border-radius:3px;background:#2a251d;margin-top:7px}.rb i{position:absolute;top:0;bottom:0;border-radius:3px;background:#5d4a28}.rb em{position:absolute;top:-3px;width:3px;height:12px;border-radius:2px;background:#7bea7b;box-shadow:0 0 4px #7bea7b}
+.zl{margin:6px 12px;display:flex;flex-direction:column;gap:5px}
+.zr{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.zr .ic{width:34px;height:34px;border-radius:9px}.zr .m{flex:1;min-width:0}.zr b{font-size:13.5px}.zr small{display:block;font-size:11px;color:var(--mute)}
+.zr .lvr{flex:none;width:86px}.zr .lvr span{display:block;text-align:right;font-size:11px;color:var(--mute)}.zr.past{opacity:.5}
+
+.ph{height:820px}
+.seg3{display:flex;gap:4px;margin:8px 12px 0;padding:4px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.seg3>span{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;height:32px;border-radius:9px;color:var(--mute);font-size:12.5px;font-weight:700}.seg3>.on{background:#3a2c16;color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold2)}
+.seg3 .ic{width:16px;height:16px;border-radius:4px}
+.lgh{display:flex;align-items:center;gap:10px;margin:8px 12px 0;padding:10px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+.lgh .big{font-size:24px;font-weight:900;color:var(--gold)}.lgh .big small{font-size:13px;color:var(--mute)}.lgh .m{flex:1}.lgh .m small{display:block;font-size:11px;color:var(--mute)}
+.lgh .rb{height:30px;display:flex;align-items:center;padding:0 10px;border-radius:9px;border:1px solid var(--line);font-size:12px;color:var(--mute)}
+.vt{display:flex;align-items:center;gap:8px;margin:8px 12px 0;font-size:12px;color:var(--mute)}
+.vt .sw{width:40px;height:24px;border-radius:12px;background:#2a251d;border:1px solid var(--line);position:relative;flex:none}.vt .sw::after{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#6b6150}
+.vt .sw.on{background:#5a4320;border-color:var(--gold2)}.vt .sw.on::after{left:19px;background:#e8c06a}
+.vt b{color:var(--txt);font-size:12.5px}.vt .r{margin-left:auto}
+.zg{display:flex;align-items:center;gap:6px;margin:12px 14px 4px;font-size:13px;font-weight:800}.zg .ic{width:20px;height:20px;border-radius:50%}.zg small{margin-left:auto;font-weight:400;color:var(--mute);font-size:11px}
+.li{display:flex;align-items:center;gap:8px;margin:0 12px 5px;padding:8px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.li .ic{width:28px;height:28px;border-radius:7px}.li .m{flex:1;min-width:0;line-height:1.3}.li b{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.li small{font-size:10.5px;color:var(--mute);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .pg{flex:none;width:52px;text-align:right}.li .pg span{display:block;font-size:11px;font-weight:800}.li .pg .bar{height:4px;margin-top:3px}
+.li.rdy{border-color:#3f8fcf;background:rgba(63,143,207,.09)}.li.rdy .pg span{color:#a9dcff}
+.lvq{font-size:11px;font-weight:800;border-radius:6px;padding:1px 6px;border:1px solid;flex:none}.lvq.g{color:#8bd37a;border-color:#4f7a3c}.lvq.y{color:#ffe08a;border-color:#c9a227}.lvq.o{color:#ffb44a;border-color:#c46a2a}
+.rt2{position:relative;margin:4px 12px 0 14px;padding-left:28px}.rt2::before{content:'';position:absolute;left:11px;top:14px;bottom:14px;width:2px;background:linear-gradient(#b8913e,#5d4a28)}
+.rs{position:relative;margin-bottom:6px;padding:7px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.rs .n{position:absolute;left:-28px;top:7px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;background:var(--bg);border:2px solid #c46a2a;color:#ffc08a;box-shadow:0 0 0 3px var(--bg)}
+.rs.t .n{border-color:#3f8fcf;color:#a9dcff}
+.rs .h{display:flex;align-items:center;gap:6px}.rs .k{height:19px;display:inline-flex;align-items:center;padding:0 6px;border-radius:6px;font-size:10.5px;font-weight:800;border:1px solid #c46a2a;color:#ffc08a;background:rgba(196,106,42,.15)}.rs.t .k{border-color:#3f8fcf;color:#a9dcff;background:rgba(63,143,207,.15)}
+.rs .h b{font-size:13px}.rs .h small{margin-left:auto;font-size:10.5px;color:var(--mute)}.rs .q{font-size:11.5px;color:#cfc6b3;margin-top:3px}
+.mm2{margin:8px 12px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}.mm2 svg{display:block;width:100%;height:auto}
+/* PC */
+.pc{width:1280px;height:800px;overflow:hidden;background:var(--bg);border:1px solid #333;border-radius:14px;position:relative;font-size:14px}
+.pc .top{padding:10px 18px}
+.pcbar{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--line)}
+.pcbar .tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}.pcbar .tabs>span{display:flex;align-items:center;gap:6px;height:32px;padding:0 14px;border-radius:9px;color:var(--mute);font-weight:700;font-size:13px}.pcbar .tabs>.on{background:#3a2c16;color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold2)}.pcbar .tabs .ic{width:18px;height:18px}
+.pcbar .srch{flex:1;margin:0;max-width:420px}
+.pcbar .vt{margin:0 0 0 auto}
+.pcg{display:grid;grid-template-columns:340px 1fr 340px;height:calc(100% - 128px)}
+.pcl{border-right:1px solid var(--line);overflow:hidden;padding-bottom:10px}
+.pcm{position:relative;overflow:hidden}.pcm svg{display:block;width:100%;height:100%}
+.pcr{border-left:1px solid var(--line);overflow:hidden;padding:0 0 10px}
+.pcm .aflt{position:absolute;left:12px;top:12px;display:flex;gap:6px}.pcm .aflt span{height:30px;display:inline-flex;align-items:center;gap:5px;padding:0 11px;border-radius:999px;background:rgba(20,16,10,.9);border:1px solid var(--line);font-size:12px;color:#cfc6b3}.pcm .aflt .on{border-color:var(--gold2);color:var(--gold)}
+.pcm .ctl{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:6px}.pcm .ctl span{width:36px;height:36px;border-radius:10px;background:rgba(20,16,10,.9);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:#cfc6b3}
+.pcm .lgd{position:absolute;left:12px;bottom:12px;display:flex;gap:10px;padding:6px 10px;border-radius:10px;background:rgba(20,16,10,.9);border:1px solid var(--line);font-size:11.5px;color:var(--mute)}.pcm .lgd i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.pcr .dh{padding:14px 16px 10px;background:linear-gradient(160deg,#3a2c16,var(--bg) 80%);border-bottom:1px solid var(--line)}
+.pcr .dh .t{display:flex;gap:10px;align-items:center}.pcr .dh .ic{width:42px;height:42px;border-radius:10px}.pcr .dh b{font-size:17px;display:block}.pcr .dh small{font-size:11.5px;color:var(--mute)}
+.pcr .sec2{padding:10px 16px 0}.pcr .sec2 h4{margin:0 0 6px;font-size:12px;color:var(--gold)}
+.ob{display:flex;align-items:center;gap:7px;font-size:12.5px;margin-bottom:5px}.ob .ic{width:24px;height:24px;border-radius:6px}.ob .m{flex:1}.ob .m small{display:block;color:var(--mute);font-size:10.5px}.ob b.c{font-variant-numeric:tabular-nums}
+.st5{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;padding:5px 0;border-bottom:1px solid #2a251d}.st5 .k{flex:none;width:42px;font-size:11px;font-weight:800}.st5 .k.g{color:#ffd65a}.st5 .k.o{color:#ffb44a}.st5 .k.r{color:#7ec8ff}.st5 small{display:block;color:var(--mute);font-size:11px}
+.btns2{display:flex;gap:6px;padding:12px 16px 0}.btns2 span{flex:1;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid var(--line);font-size:12.5px;font-weight:800;color:var(--mute)}.btns2 .p{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+.chd{display:flex;gap:3px;margin:4px 0}.chd i{flex:1;height:6px;border-radius:3px;background:#2a3a4a}.chd i.on{background:#7bea7b}.chd i.cur{background:#7ec8ff}
+.pcl .li{margin:0 10px 5px}.pcl .zg{margin:12px 12px 4px}.pcl .rt2{margin:4px 10px 0 12px}
+.cap2{font-size:13px;color:var(--gold);font-weight:700;margin:18px 0 6px}
+.notes{max-width:1280px;margin-top:16px;font-size:13px;line-height:1.75;color:#cfc6b3}.notes b{color:var(--gold)}
+</style></head><body><h1>퀘스트창 · PC 시안</h1><p class="lead">게임에서 불러온 퀘스트창을 목록/동선 중 골라 보기 · PC 넓은 화면 배치 · 이름·좌표·목표는 실제 자료, 진행 숫자는 예시</p><div class="row3" id="R"></div><div id="P"></div><div class="notes" id="N"></div><script>
+const I=n=>'https://wow.zamimg.com/images/wow/icons/large/'+n+'.jpg';
+const ic=(n,c)=>'<span class="ic '+(c||'')+'" style="background-image:url('+I(n)+')"></span>';
+const TOPB='<div class="top"><span class="ic" style="background-image:url('+I('classicon_priest')+')"></span><div><b>사제</b><small>수양 사제 · 노움 ▾</small></div><div class="lv"><span>−</span><b>34</b><span>+</span></div></div>';
+const nav='<div class="nav"><span><img src="../img/ui-banner.png">홈</span><span><img src="../img/ui-shield.png">장비</span><span class="on"><img src="../img/ui-quest.png">퀘스트</span><span><img src="../img/ui-eye.png">던전</span><span><img src="../img/ui-prof.png">직업</span></div>';
+const srch='<div class="srch" style="margin:10px 12px 0;display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--mute);font-size:13.5px">'+ic('inv_misc_spyglass_02')+'퀘스트 · NPC · 몹 · 지역 이름으로 찾기</div>';
+const tabs=a=>'<div class="seg3">'+[['inv_misc_map_02','레벨업'],['inv_misc_bag_10','퀘스트창 7'],['inv_misc_map_01','지도'],['inv_misc_book_09','지역']].map((x,i)=>'<span class="'+(i===a?'on':'')+'">'+ic(x[0])+x[1]+'</span>').join('')+'</div>';
+const lvq=l=>'<span class="lvq '+(l<=32?'g':l<=34?'y':'o')+'">'+l+'</span>';
+const Q=[ // id,name,lv,icon,sub,progress,ready
+ [1387,'켄타우로스 현상금',31,'inv_jewelry_ring_03','귀걸이 15/15 · 반납: 하사관 멜킨스 67, 11','반납',1],
+ [1458,'회수전문회사를 위한 재료',33,'inv_misc_bone_09','발톱 3/10 · 뿔 1/10 · 서릿발분노 76, 20','20%',0],
+ [5561,'코도 길들이기',34,'ability_hunter_beastcall','늙은 코도 51, 59 → 스크래블스크류','0%',0],
+ [1382,'이상한 동맹',35,'achievement_reputation_06','겔키스 평판 · 현자 우텍 36, 79','40%',0],
+ [1385,'야비한 정책',35,'achievement_reputation_05','마그람 평판 · 와루그 75, 68','35%',0],
+ [1386,'콜카르 공격',32,'ability_dualwield','콜카르 켄타우로스 6/12 · 와루그','50%',0],
+ [1438,'발라리엘의 수색',33,'inv_misc_note_01','달린다 말렘 55, 26 찾아가기','연계 3/5',0]];
+const li=q=>'<div class="li'+(q[6]?' rdy':'')+'">'+ic(q[3])+'<div class="m"><b>'+q[1]+'</b><small>'+q[4]+'</small></div>'+lvq(q[2])+'<div class="pg"><span>'+q[5]+'</span>'+(q[6]?'':'<div class="bar"><i style="width:'+(parseInt(q[5])||10)+'%"></i></div>')+'</div></div>';
+const head=(on,noVt)=>'<div class="lgh"><span class="big">7<small>/25</small></span><div class="m"><b>지금 퀘스트창</b><small>반납 가능 1 · 하는 중 6 · 오늘 12:31 불러옴</small></div><span class="rb">다시 불러오기</span></div>'
+ +(noVt?'':'<div class="vt"><span class="sw'+(on?' on':'')+'"></span><span><b>동선으로 보기</b> · 하는 순서대로 정리</span><span class="r">정렬: 반납 먼저 ▾</span></div>');
+const M1='<div><p class="cap">① 퀘스트창 · 기본은 그냥 목록</p><div class="ph">'+TOPB+srch+tabs(1)+head(0)+'<div class="zg">'+ic('achievement_zone_desolace')+'잊혀진 땅<small>7개</small></div>'+Q.map(li).join('')+nav+'</div></div>';
+/* 동선 켰을 때 */
+const map=(W,H,route,plan)=>{const x=v=>v/100*W,y=v=>v/100*H;let s='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g'+W+'" cx="45%" cy="55%"><stop offset="0" stop-color="#5b4a32"/><stop offset=".75" stop-color="#2f261a"/><stop offset="1" stop-color="#1a1610"/></radialGradient></defs><rect width="'+W+'" height="'+H+'" fill="url(#g'+W+')"/><path d="M0 0 H'+W+' V'+(H*.09)+' Q'+(W*.8)+' '+(H*.16)+' '+(W*.6)+' '+(H*.1)+' T0 '+(H*.1)+'Z" fill="#26404e" opacity=".7"/><path d="M'+(W*.5)+' '+(H*.6)+' q'+(W*.16)+' '+(-H*.09)+' '+(W*.33)+' '+(-H*.02)+' v'+(H*.45)+' h'+(-W*.52)+'z" fill="#3d2f20" opacity=".7"/>';
+ const P=[[66.6,10.4,'멜킨스','t'],[75.7,19.5,'사티로스','d'],[66.6,10.4,'',''],[51,59,'늙은 코도','d'],[61,62,'스크래블스크류','t'],[70,74,'콜카르·마그람','d'],[75,68.2,'와루그','t'],[54.9,26.1,'달린다 말렘','t'],[36.2,79.2,'현자 우텍','t']];
+ if(plan){const R=[[66.6,10.4],[75.7,19.5],[56.5,17.8],[69.7,74.8],[37.8,88.5],[66.6,10.4]];s+='<polyline points="'+R.map(p=>x(p[0])+','+y(p[1])).join(' ')+'" fill="none" stroke="#e8c06a" stroke-width="2.5" stroke-dasharray="7 6" opacity=".9"/>';[[66.6,10.4,'#ffd65a','1','나이젤의 야영지 (1·5)'],[75.7,19.5,'#ff9a4a','2','사티로스 · 지금'],[56.5,17.8,'#ff9a4a','3','말렘의 궤짝'],[69.7,74.8,'#ff9a4a','4','마그람 마을'],[37.8,88.5,'#ff9a4a','4','겔키스 마을']].forEach(p=>{s+='<circle cx="'+x(p[0])+'" cy="'+y(p[1])+'" r="12" fill="'+p[2]+'" stroke="#1a140a" stroke-width="2.5"/><text x="'+x(p[0])+'" y="'+(y(p[1])+4.5)+'" text-anchor="middle" font-size="12" font-weight="900" fill="#1a140a">'+p[3]+'</text><text x="'+(x(p[0])+16)+'" y="'+(y(p[1])+4)+'" font-size="11" font-weight="700" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-width:3px">'+p[4]+'</text>'});return s+'<circle cx="'+x(73)+'" cy="'+y(22)+'" r="7" fill="#7bea7b" stroke="#fff" stroke-width="2"/></svg>'}
+ if(route){const R=[[66.6,10.4],[75.7,19.5],[66.6,10.4],[54.9,26.1],[51,59],[61,62],[70,74],[75,68.2],[36.2,79.2]];s+='<polyline points="'+R.map(p=>x(p[0])+','+y(p[1])).join(' ')+'" fill="none" stroke="#e8c06a" stroke-width="2.5" stroke-dasharray="7 6" opacity=".9"/>'}
+ const pin=(a,b,c,t,l)=>{s+='<circle cx="'+x(a)+'" cy="'+y(b)+'" r="12" fill="'+c+'" stroke="#1a140a" stroke-width="2.5"/><text x="'+x(a)+'" y="'+(y(b)+4.5)+'" text-anchor="middle" font-size="12" font-weight="900" fill="#1a140a">'+t+'</text>'+(l?'<text x="'+(x(a)+16)+'" y="'+(y(b)+4)+'" font-size="11" font-weight="700" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-width:3px">'+l+'</text>':'')};
+ const pts=route?[[66.6,10.4,'#7ec8ff','1','멜킨스 (반납 · 3)'],[75.7,19.5,'#ff9a4a','2','사티로스'],[54.9,26.1,'#7ec8ff','4','달린다 말렘'],[51,59,'#ff9a4a','5','늙은 코도'],[61,62,'#7ec8ff','6','스크래블스크류'],[70,74,'#ff9a4a','7','콜카르 · 평판'],[75,68.2,'#7ec8ff','8','와루그'],[36.2,79.2,'#7ec8ff','9','현자 우텍']]
+  :[[66.6,10.4,'#7ec8ff','?','멜킨스'],[75.7,19.5,'#ff9a4a','!','사티로스'],[54.9,26.1,'#7ec8ff','?','달린다 말렘'],[51,59,'#ff9a4a','!','늙은 코도'],[70,74,'#ff9a4a','!','콜카르'],[75,68.2,'#7ec8ff','?','와루그'],[36.2,79.2,'#7ec8ff','?','현자 우텍']];
+ pts.forEach(p=>pin(...p));
+ s+='<circle cx="'+x(60)+'" cy="'+y(30)+'" r="7" fill="#7bea7b" stroke="#fff" stroke-width="2"/>';
+ return s+'</svg>'};
+const rs=(n,t,k,pl,xy,qs)=>'<div class="rs'+(t?' t':'')+'"><span class="n">'+n+'</span><div class="h"><span class="k">'+k+'</span><b>'+pl+'</b><small>'+xy+'</small></div><div class="q">'+qs+'</div></div>';
+const ROUTE=rs(1,1,'반납','하사관 멜킨스','67, 11','켄타우로스 현상금')+rs(2,0,'하기','서릿발분노 사티로스','76, 20','회수전문회사 재료 · 발톱 3/10 · 뿔 1/10')+rs(3,1,'반납','멜킨스 · 크렐디그 운고르','67, 11','회수전문회사 재료')+rs(4,1,'가기','달린다 말렘','55, 26','발라리엘의 수색 3/5')+rs(5,0,'하기','늙은 코도','51, 59','코도 길들이기');
+const M2='<div><p class="cap">② 「동선으로 보기」를 켜면</p><div class="ph">'+TOPB+srch+tabs(1)+head(1)+'<div class="mm2">'+map(366,180,1)+'</div><div class="rt2">'+ROUTE+'</div>'+nav+'</div></div>';
+/* PC 1: 퀘스트창 */
+const pcbar=(a)=>'<div class="pcbar"><div class="tabs">'+[['inv_misc_map_02','레벨업'],['inv_misc_bag_10','퀘스트창 7'],['inv_misc_map_01','지도'],['inv_misc_book_09','지역·모음']].map((x,i)=>'<span class="'+(i===a?'on':'')+'">'+ic(x[0])+x[1]+'</span>').join('')+'</div>'+srch.replace('margin:10px 12px 0','margin:0;flex:1;max-width:420px')+'<div class="vt"><span class="sw on"></span><span><b>동선으로 보기</b></span></div></div>';
+const det='<div class="dh"><div class="t">'+ic('inv_misc_bone_09')+'<div><b>회수전문회사를 위한 재료</b><small>잊혀진 땅 · 33 · 연계 2/5</small></div></div><div class="chd"><i class="on"></i><i class="cur"></i><i></i><i></i><i></i></div></div>'
+ +'<div class="sec2"><h4>할 일</h4><div class="ob">'+ic('inv_misc_bone_09')+'<div class="m">서릿발분노의 사티로스 발톱<small>서릿발분노 76, 20</small></div><b class="c">3/10</b></div><div class="ob">'+ic('inv_misc_horn_01')+'<div class="m">서릿발분노의 사티로스 뿔<small>같은 몹</small></div><b class="c">1/10</b></div></div>'
+ +'<div class="sec2"><h4>어디서</h4><div class="st5"><span class="k g">받기</span><span>크렐디그 운고르<small>잊혀진 땅 66, 10 · 받음</small></span></div><div class="st5"><span class="k o">하는 곳</span><span>서릿발분노 사티로스<small>76, 20 · 암살자·요술사·배반자 31–32</small></span></div><div class="st5"><span class="k r">반납</span><span>크렐디그 운고르<small>받은 곳 그대로</small></span></div></div>'
+ +'<div class="sec2"><h4>보상</h4><span style="font-size:12.5px">경험치 <b style="color:#c8b8ff">+2,650</b> · 2골드 10실버 · 다음: 스콜파시 독 (35)</span></div>'
+ +'<div class="btns2"><span>지도에서 크게</span><span class="p">끝냈어요</span></div>';
+const P1='<div><p class="cap2">③ PC · 퀘스트창 — 왼쪽 목록/동선 · 가운데 지도 · 오른쪽 자세히</p><div class="pc">'+TOPB.replace('class="top"','class="top" style="padding:10px 18px"')+pcbar(1)+'<div class="pcg"><div class="pcl">'+head(1,1)+'<div class="rt2">'+ROUTE+rs(6,1,'반납','스크래블스크류','61, 62','코도 길들이기')+'</div></div><div class="pcm">'+map(600,660,1)+'<div class="aflt"><span class="on">퀘스트창 7</span><span>! 받을 수 있는 것</span><span>잡는 곳</span></div><div class="ctl"><span>＋</span><span>－</span><span>◎</span></div><div class="lgd"><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납·가기</span><span><i style="background:#7bea7b"></i>나</span><span>점선 = 순서</span></div></div><div class="pcr">'+det+'</div></div></div></div>';
+/* PC 2: 레벨업 */
+const scroll='<div style="margin:14px 16px 0;padding:14px;border-radius:6px 6px 14px 14px;background:linear-gradient(180deg,#f2e2bd,#e3cc98);color:#3b2a14;box-shadow:inset 0 0 0 1px #b8913e,inset 0 0 26px rgba(120,80,20,.35)"><div style="font-size:11.5px;font-weight:800;color:#8a4b10">2단계 · 지금 할 일</div><div style="font-size:21px;font-weight:800;font-family:Noto Serif KR,AppleMyungjo,serif">서릿발분노 사티로스</div><div style="font-size:12px;color:#6b5330">잊혀진 땅 76, 20 · 북동쪽 언덕</div><div style="margin-top:9px;font-size:14px;font-family:Noto Serif KR,serif">사티로스 발톱 <b>3/10</b> · 뿔 <b>1/10</b></div><div style="display:flex;gap:6px;margin-top:10px"><span style="flex:1;height:36px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1px solid #a8864a;font-weight:800;color:#5a4120">지도</span><span style="flex:1;height:36px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#4a3416;color:#f2d38a;font-weight:800">다 했어요 · 다음</span></div></div>';
+const plans='<div style="padding:12px 12px 0"><div style="font-size:12px;color:var(--gold);font-weight:800;margin-bottom:6px">계획</div>'+[['칼림도어에서 쭉','잊혀진 땅 → 버섯구름 → 먼지진흙 · 퀘스트 58',1],['가시덤불 골짜기 위주','퀘스트 42 · 배 1번',0],['내 동선','직접 고른 7곳',0]].map(p=>'<div style="padding:9px 11px;border-radius:12px;margin-bottom:6px;background:'+(p[2]?'linear-gradient(160deg,#3a2c16,var(--panel) 70%)':'var(--panel)')+';border:1px solid '+(p[2]?'var(--gold2)':'var(--line)')+'"><b style="font-size:13.5px">'+p[0]+'</b><small style="display:block;font-size:11px;color:var(--mute)">'+p[1]+'</small></div>').join('')+'</div>';
+const stg='<div style="padding:6px 12px"><div style="font-size:12px;color:var(--gold);font-weight:800;margin:8px 0 6px">동선 5단계</div>'+[['1','반납','나이젤의 야영지 · 5개 받기','✓'],['2','하기','서릿발분노 사티로스','지금'],['3','하기','말렘의 궤짝',''],['4','하기','남쪽 켄타우로스 마을',''],['5','반납','나이젤의 야영지 · 3개','']].map(s=>'<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--line);opacity:'+(s[3]==='✓'?.5:1)+'"><span style="width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;border:2px solid '+(s[1]==='반납'?'#3f8fcf':'#c46a2a')+'">'+s[0]+'</span><span style="flex:1;font-size:13px">'+s[2]+'</span><small style="color:'+(s[3]==='지금'?'var(--gold)':'var(--mute)')+';font-weight:800">'+s[3]+'</small></div>').join('')+'<div style="text-align:center;margin:6px 0;font-size:12px;font-weight:800;color:#7bea7b">— 35레벨 달성 · 4단계쯤 —</div></div>';
+const P2='<div><p class="cap2">④ PC · 레벨업 — 왼쪽 계획·단계 · 가운데 지도 · 오른쪽 지금 할 일</p><div class="pc">'+TOPB.replace('class="top"','class="top" style="padding:10px 18px"')+pcbar(0).replace('<span class="sw on"></span><span><b>동선으로 보기</b></span>','<span class="sw on"></span><span><b>단계 보기</b></span>')+'<div class="pcg"><div class="pcl">'+plans+stg+'</div><div class="pcm">'+map(600,660,0,1)+'<div class="aflt"><span class="on">이번 동선</span><span>! 받기</span><span>잡는 곳</span></div><div class="ctl"><span>＋</span><span>－</span><span>◎</span></div></div><div class="pcr">'+scroll+'<div class="sec2" style="margin-top:12px"><h4>다음 단계</h4><div class="st5"><span class="k o">하기</span><span>말렘의 궤짝<small>서쪽 길 · +1,950</small></span></div><div class="st5"><span class="k o">하기</span><span>남쪽 켄타우로스 마을<small>귀걸이 15 · 평판 2 · +7,850</small></span></div><div class="st5"><span class="k r">반납</span><span>나이젤의 야영지<small>3개 한 번에 · +8,350</small></span></div></div></div></div></div></div>';
+document.getElementById('R').innerHTML=M1+M2;document.getElementById('P').innerHTML=P1+P2;
+document.getElementById('N').innerHTML='<b>바뀌는 점</b><br>· 퀘스트창은 <b>기본이 그냥 목록</b>(반납 가능이 위, 진행 막대). 동선은 강요하지 않고 <b>「동선으로 보기」 스위치</b>를 켜야 나와요 — 지도 탭의 「단계 보기 / 간단히」처럼 고른 게 기억돼요.<br>· 동선을 켜면 작은 지도에 순서 점선 + 하기(주황)·반납(파랑) 단계 목록.<br>· <b>PC</b>는 한 화면에 세 칸: 왼쪽(목록·동선·계획) · 가운데 큰 지도(고른 것만 핀) · 오른쪽(누른 퀘스트 자세히 / 지금 할 일 양피지). 왼쪽에서 누르면 지도가 그 자리로 가고 오른쪽이 바뀌어요. 위에는 탭 · 찾기 · 스위치가 한 줄.<br>· 지금 PC는 폰 화면을 넓게 늘린 모양이라 빈칸이 많은데, 이렇게 지도를 가운데 두면 폰보다 한눈에 보여요.';
+</script></body></html>
