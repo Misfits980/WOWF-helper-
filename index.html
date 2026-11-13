@@ -1994,8 +1994,8 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=c7fc1f7c"></script>
-<script>/* va2b1ea @11/13 21:30 */
-const BUILD='11/13 21:30';
+<script>/* v591bc6 @11/13 21:39 */
+const BUILD='11/13 21:39';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2040,8 +2040,8 @@ const WHY={rogue:'주무기 DPS가 딜을 가장 크게 정해요. 적중·치�
   warrior:{arms:'양손 무기 DPS가 딜을 정해요. 적중 1%는 힘 19점, 치명타 1%는 힘 15점만큼이에요.',fury:'주무기 DPS 다음으로 치명타(힘 17점)·적중(힘 14점)이 커요.',protection:'체력·방어 숙련·회피로 덜 맞는 게 먼저예요.'},
   hunter:'원거리 무기 DPS가 딜 대부분이에요. 그다음 민첩·적중.',priest:{discipline:'치유량·지능·정신력 순이에요. 마법봉은 레벨업 사냥용이에요.',holy:'치유량·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.','shadow-magic':'주문력·암흑 주문력·적중 순이에요. 포에버는 적중·치명타가 근접·주문 하나로 합쳐졌어요. 마법봉은 마나 아끼는 용도예요.'},
   mage:'주문력과 지능이 중심이에요. 마법봉은 마나 아끼는 용도예요.',warlock:'주문력과 체력(생명력 전환)이 중요해요.',
-  paladin:{holy:'치유량·지능·5초당 마나 순이에요.',protection:'체력·방어 숙련·방패 막기 순이에요.',retribution:'양손 무기 DPS·힘·치명타 순이에요.'},
-  shaman:{'elemental-combat':'주문력·지능·치명타 순이에요.',enhancement:'양손 무기 DPS·힘·민첩 순이에요.',restoration:'치유량·5초당 마나·지능 순이에요.'},
+  paladin:{holy:'치유량·지능·5초당 마나 순이에요.',protection:'체력·방어 숙련·방패 막기 순이에요.',retribution:'양손 무기 DPS·힘·치명타 순이에요. 포에버는 징벌 특성(Champion of the Light)으로 지능이 주문력으로 바뀌어서 지능·주문력도 조금 봐요.'},
+  shaman:{'elemental-combat':'주문력·지능·치명타 순이에요.',enhancement:'무기 DPS·힘이 먼저예요. 포에버는 고양 특성(Mental Dexterity)으로 지능이 전투력으로 바뀌어서 지능도 꽤 좋아요. 11월 10일 패치 뒤로는 힘이 1순위예요.',restoration:'치유량·5초당 마나·지능 순이에요.'},
   druid:{balance:'주문력·지능 순이에요.','feral-cat':'포에버에서는 표범도 무기 DPS가 점수에 들어가요. 민첩·힘·치명타 순이에요.','feral-bear':'체력·민첩·방어 숙련 순이에요.',restoration:'치유량·정신력·지능 순이에요.'}};
 /* ===== 점수 공식 = forg.gg와 같은 틀 =====
    1) 기본 가중치: forg.gg 장비 추천 기본표(역할별)
@@ -2049,9 +2049,9 @@ const WHY={rogue:'주무기 DPS가 딜을 가장 크게 정해요. 적중·치�
    3) 탱커는 시뮬이 딜 기준이라 생존 능력치(forg 탱커 표)를 쓰고 적중·치명타만 조금 더함 */
 const FB={str:{str:1,agi:.6,ap:.5,sta:.25},agi:{agi:1,str:.5,ap:.5,sta:.2},tank:{str:1,agi:.6,ap:.5,sta:.6,def:.4,armor:.01,block:.2},heal:{heal:1,int:.6,spi:.5,mp5:1.5,sta:.1,dpsWand:.5},cast:{sp:1,int:.5,spi:.3,sta:.15,dpsWand:1},ranged:{agi:1,ap:.4,int:.3,sta:.2,dpsRanged:2.5}};
 const FL={dpsMain:1.5,dpsOff:.75};
-const FS={warrior:{arms:['str',{dps2h:2}],fury:['str',FL],protection:['tank',{dps1h:1.2}]},paladin:{holy:['heal'],protection:['tank',{str:.7,agi:.35,sp:.55,int:.3,sta:1,def:.6,armor:.02,block:.3,dps1h:.7}],retribution:['str',{agi:.5,int:.2,sta:.2,dps2h:2}]},
+const FS={warrior:{arms:['str',{dps2h:2}],fury:['str',FL],protection:['tank',{dps1h:1.2}]},paladin:{holy:['heal'],protection:['tank',{str:.7,agi:.35,sp:.55,int:.3,sta:1,def:.6,armor:.02,block:.3,dps1h:.7}],retribution:['str',{agi:.5,int:.35,sp:.3,holy:.3,sta:.2,dps2h:2}]},
   hunter:{'beast-mastery':['ranged'],marksmanship:['ranged'],survival:['ranged']},rogue:{assassination:['agi',FL],combat:['agi',FL],subtlety:['agi',FL]},
-  priest:{discipline:['heal'],holy:['heal'],'shadow-magic':['cast',{shadow:.9}]},shaman:{'elemental-combat':['cast',{spi:.1,mp5:1,nature:.6,fire:.4}],enhancement:['str',{agi:.5,int:.2,sta:.2,dps2h:2}],restoration:['heal',{spi:.2}]},
+  priest:{discipline:['heal'],holy:['heal'],'shadow-magic':['cast',{shadow:.9}]},shaman:{'elemental-combat':['cast',{spi:.1,mp5:1,nature:.6,fire:.4}],enhancement:['str',{agi:.5,int:.35,sp:.12,sta:.2,dps2h:2}],restoration:['heal',{spi:.2}]},
   mage:{arcane:['cast',{arcane:.9}],fire:['cast',{fire:1}],frost:['cast',{frost:.8}]},warlock:{affliction:['cast',{sta:.3,shadow:.9}],demonology:['cast',{sta:.3,shadow:.8,fire:.2}],destruction:['cast',{sta:.3,shadow:.7,fire:.3}]},
   druid:{balance:['cast',{dpsWand:0,nature:.5,arcane:.5}],'feral-cat':['str',{agi:.8,dps2h:2}],'feral-bear':[null,{str:1,agi:.8,ap:.5,sta:.5,armor:.02,def:.4,dps2h:2}],restoration:['heal',{dpsWand:0}]}};
 const WSRC={};
@@ -2064,7 +2064,7 @@ for(const c in FS)for(const s in FS[c]){if(!W[c]||!W[c][s])continue;const [b,ex]
   else if(role==='cast')Object.assign(w,{scrit:10,shit:15});
   else Object.assign(w,{crit:13,hit:15});
   /* 포에버 새 능력치: 회피·막기 당할 확률 감소(근접·원거리 물리 딜) · 원거리 전투력(사냥꾼) */
-  if(role==='phys'||role==='tank')w.exp=(w.hit||0)*.8;if(c==='hunter')w.rap=w.ap??.5;
+  if(role==='phys'||role==='tank')w.exp=(w.hit||0)*.9;if(c==='hunter')w.rap=w.ap??.5;
   /* 화면 표시·예전 계산용 */
   w.dps=w.dpsMain??w.dps2h??w.dps1h??0;w.rdps=w.dpsRanged??w.dpsWand??0;
   W[c][s]=w;WSRC[c+'/'+s]=src}
@@ -2141,8 +2141,10 @@ const SOLO={priest:{sp:1,shadow:.6,holy:.4,int:.6,spi:.6,mp5:.6,sta:.25,heal:.3,
   druid:{sp:1,nature:.5,arcane:.5,int:.5,spi:.3,heal:.25,sta:.2,scrit:8,shit:10}};
 const _wc={};
 /* 레벨업 중(58 미만)엔 혼자 사냥하니 체력·정신력을 조금 더 쳐요 (60레벨 시뮬 값 그대로면 체력이 너무 낮게 잡힘) */
-const _wl={};function wOf(c){const w=wOf0(c);if((c.lv||60)>=58||w.def)return w;const k=c.cls+'/'+c.spec+'/'+(c.gmode||'');if(_wl[k]&&_wl[k].b===w)return _wl[k].r;
-  const r=Object.assign({},w,{sta:Math.max(w.sta||0,.4)});if(w.sp>=1||w.heal>=1)r.spi=Math.max(w.spi||0,.3);_wl[k]={b:w,r};return r}
+/* 포에버 등급(적중·치명타·회피)은 아이템에 60레벨 %로 넣어 둠 → 레벨이 낮으면 같은 등급이 % 더 큼 (60레벨 등급 × (레벨-8)/52) */
+const RATEK=['hit','crit','scrit','shit','dodge','parry','exp'];const rateF=L=>L>=58?1:Math.min(2.6,52/Math.max(2,L-8));
+const _wl={};function wOf(c){const w=wOf0(c);if((c.lv||60)>=58||w.def)return w;const L=c.lv||60;const k=c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+L;if(_wl[k]&&_wl[k].b===w)return _wl[k].r;
+  const r=Object.assign({},w,{sta:Math.max(w.sta||0,.4)});if(w.sp>=1||w.heal>=1)r.spi=Math.max(w.spi||0,.3);const f=rateF(L);RATEK.forEach(x=>{if(r[x])r[x]=+(r[x]*f).toFixed(2)});_wl[k]={b:w,r};return r}
 /* 탱커: Wowhead WoW Forever 탱커 능력치 가이드의 생존·균형·위협(TPS) 우선순위를 점수표로.
    적중 1% = 전투력 60(전사)·주문력 21(성기사), 치명타 1% = 전투력 34·주문력 12 (가이드 계산값). 힘 1 = 전투력 2 */
 const TW={
