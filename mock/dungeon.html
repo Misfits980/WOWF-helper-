@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>던전 화면 시안</title>
+<style>
+:root{--bg:#15130f;--panel:#1f1b15;--panel2:#26211a;--line:#3a3226;--txt:#efe6d2;--mute:#a59d8c;--gold:#e8c06a;--gold2:#b8913e;--good:#7bea7b;--bad:#ff7b6b}
+*{box-sizing:border-box}body{margin:0;background:#0b0a08;color:var(--txt);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:18px}
+h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-size:13px;margin:0 0 14px}
+.row3{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.cap{font-size:13px;color:var(--gold);font-weight:700;margin:0 0 6px}
+.ph{width:390px;height:800px;overflow:hidden;background:var(--bg);border:1px solid #333;border-radius:26px;position:relative;font-size:14px}
+.ic{display:inline-block;background:#000 center/cover;border-radius:6px;flex:none}
+.top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.top .ic{width:38px;height:38px;border-radius:9px}.top b{font-size:16px}.top small{display:block;color:var(--mute);font-size:12px}
+.lv{margin-left:auto;display:flex;gap:6px;align-items:center}.lv span{border:1px solid var(--line);border-radius:10px;padding:6px 10px;color:var(--mute)}.lv b{border:1.5px solid var(--gold2);color:var(--gold);border-radius:10px;padding:5px 14px;font-size:18px}
+.strip{display:flex;gap:8px;padding:10px 12px;overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(#1b1f26,#15130f)}
+.chipd{flex:none;display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.chipd.on{border-color:#6ea0ff;box-shadow:0 0 0 1px #6ea0ff inset}.chipd .ic{width:34px;height:34px}.chipd b{font-size:13.5px;display:block}.chipd small{font-size:11px;color:#8bd37a}
+/* 히어로 */
+.hero{position:relative;height:150px;margin:10px 12px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#222 center/cover}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 20%,rgba(10,8,5,.92) 92%)}
+.hero .t{position:absolute;left:14px;right:14px;bottom:10px;z-index:2}
+.hero h2{margin:0;font-size:21px;text-shadow:0 2px 6px #000}.hero .en{font-size:11px;color:#c9bfa8}
+.hero .meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 4px;border-radius:999px;background:rgba(20,16,10,.82);border:1px solid rgba(232,192,106,.35);font-size:12px;font-weight:600}
+.pill .ic{width:18px;height:18px;border-radius:50%}.pill.lvp{padding-left:9px;color:#8bd37a;border-color:rgba(139,211,122,.5)}
+/* 탭 */
+.tabs3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:10px 12px;padding:4px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.tabs3 button{display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 4px;border:0;border-radius:9px;background:none;color:var(--mute);font-size:13px;font-weight:600;font-family:inherit}
+.tabs3 .ic{width:20px;height:20px;border-radius:5px;opacity:.7}.tabs3 em{font-style:normal;background:#3a2c16;color:var(--gold);border-radius:8px;padding:0 6px;font-size:11.5px}
+.tabs3 .on{background:#3a2c16;color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold2)}.tabs3 .on .ic{opacity:1}
+/* 파티 준비 */
+.card{margin:8px 12px;padding:10px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+.ready{display:flex;align-items:center;gap:8px}
+.roles{display:flex;gap:4px;padding:3px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.roles span{width:40px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;opacity:.5}
+.roles span img{width:24px;height:24px}.roles .on{opacity:1;background:#2a3a24;box-shadow:inset 0 0 0 1.5px #7bea7b}
+.go{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:44px;border-radius:12px;border:1px solid var(--gold2);background:linear-gradient(#5a4320,#3b2c15);color:var(--gold);font-weight:800;font-size:15px}
+.go .ic{width:22px;height:22px}
+.prog{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:var(--mute)}
+.prog .bar{flex:1;height:6px;border-radius:3px;background:#2a251d}.prog .bar i{display:block;width:0;height:100%}
+.sum{font-size:13px;line-height:1.55;color:#d9cfba;margin:0}.sum b{color:var(--gold)}
+.more{color:var(--gold);font-size:12px}
+/* 노릴 템 */
+.hd{display:flex;align-items:center;gap:7px;margin-bottom:8px}.hd .ic{width:22px;height:22px}.hd b{font-size:14px;color:var(--gold)}.hd small{margin-left:auto;color:var(--mute);font-size:11.5px}
+.loot{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.lt{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.lt .ic{width:50px;height:50px;border-radius:10px;border:2px solid #3a7bd5;position:relative}
+.lt .ic.u{border-color:#2fbf4f}
+.lt .g{margin-top:-14px;z-index:2;background:#24361d;border:1px solid #4f7a3c;color:var(--good);font-weight:800;font-size:11px;border-radius:7px;padding:0 5px}
+.lt span{font-size:10.5px;line-height:1.2;color:#cfc6b3;height:26px;overflow:hidden}
+/* 주의 */
+.warn{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:12px;margin:8px 12px;background:rgba(232,180,60,.1);border:1px solid rgba(232,180,60,.4);color:#f2c96b;font-size:13px;font-weight:600}
+.warn .ic{width:22px;height:22px}.warn i{margin-left:auto;font-style:normal;color:var(--mute)}
+/* 타임라인 */
+.tlh{display:flex;align-items:center;gap:8px;margin:12px 14px 6px}.tlh b{font-size:15px}.tlh small{color:var(--mute);font-size:12px}.tlh span{margin-left:auto;font-size:11.5px;color:var(--mute);border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+.tl{position:relative;margin:0 12px 0 14px;padding-left:30px}
+.tl::before{content:'';position:absolute;left:23px;top:20px;bottom:20px;width:2px;background:linear-gradient(#b8913e,#5d4a28)}
+.bn{position:relative;margin:0 0 10px;border-radius:14px;background:var(--panel);border:1px solid var(--line);padding:10px 12px 10px 48px}
+.bn .por{position:absolute;left:-22px;top:8px;width:52px;height:52px;border-radius:50%;background:#000 center/cover;border:2px solid var(--gold2);box-shadow:0 0 0 3px var(--bg)}
+.bn .no{position:absolute;left:18px;top:44px;width:20px;height:20px;border-radius:50%;background:var(--gold2);color:#1a140a;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+.bn .nm{display:flex;align-items:center;gap:6px}.bn .nm b{font-size:15.5px}.bn .nm .lvb{font-size:11px;color:#8bd37a;border:1px solid #4f7a3c;border-radius:6px;padding:0 5px}
+.bn .ck{margin-left:auto;width:24px;height:24px;border-radius:7px;border:2px solid #5a4f3c}
+.tags{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}.tags span{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#cfc6b3;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:1px 7px 1px 2px}.tags .ic{width:16px;height:16px;border-radius:4px}
+.bn.open{border-color:var(--gold2)}
+.skill{margin-top:8px;padding:8px 10px;border-radius:10px;background:rgba(150,60,40,.13);border:1px solid rgba(200,90,60,.35);font-size:12.5px;line-height:1.5}.skill b{display:flex;align-items:center;gap:5px;color:#f0a27a;font-size:12px;margin-bottom:2px}.skill b .ic{width:16px;height:16px}
+.me{margin-top:6px;padding:8px 10px;border-radius:10px;background:rgba(90,160,80,.12);border:1px solid #4f7a3c;font-size:12.5px;line-height:1.5}.me b{display:flex;align-items:center;gap:5px;color:#9fdf8a;font-size:12px;margin-bottom:2px}.me img{width:16px;height:16px}
+.drops{display:flex;gap:6px;margin-top:8px;align-items:center}.drops .ic{width:30px;height:30px;border-radius:7px;border:1.5px solid #3a7bd5}.drops .ic.u{border-color:#2fbf4f}.drops small{font-size:11px;color:var(--mute);margin-left:2px}
+.obj{position:relative;display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:6px 10px 6px 18px;font-size:12.5px;color:#cfc6b3}
+.obj::before{content:'';position:absolute;left:-12px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#5d4a28;border:2px solid var(--bg)}
+.obj .ic{width:22px;height:22px;border-radius:5px}.obj em{font-style:normal;color:var(--mute);font-size:11px}.obj .fa{font-size:10.5px;padding:0 5px;border-radius:5px;background:#1d3a52;color:#9fd2ff}
+/* 템 탭 */
+.flt{display:flex;gap:6px;margin:4px 12px 4px}.flt span{font-size:12.5px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}.flt .on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+.bs{margin:8px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line);padding:10px 12px}
+.bs .h{display:flex;align-items:center;gap:8px}.bs .h .por{width:38px;height:38px;border-radius:50%;background:#000 center/cover;border:2px solid var(--gold2)}.bs .h b{font-size:14.5px}.bs .h small{display:block;font-size:11.5px;color:var(--mute)}
+.ig{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.it{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;padding:6px 2px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.it .ic{width:42px;height:42px;border-radius:9px;border:2px solid #3a7bd5}.it .ic.u{border-color:#2fbf4f}.it b{font-size:10.5px;line-height:1.2;height:25px;overflow:hidden;color:#9fc4ff}.it b.u{color:#7bea7b}.it small{font-size:10px;color:var(--mute)}
+.it .g{font-size:11px;font-weight:800;color:var(--good)}.it.best{border-color:#4f7a3c;box-shadow:inset 0 0 0 1px rgba(123,234,123,.3)}.it .no{color:var(--mute);font-size:10.5px}
+.nav{position:absolute;left:0;right:0;bottom:0;height:62px;border-top:1px solid var(--line);background:rgba(24,21,17,.98);display:flex;justify-content:space-around;align-items:center;font-size:11px;color:var(--mute)}
+.nav span{display:flex;flex-direction:column;align-items:center;gap:2px}.nav img{width:24px;height:24px}.nav .on{color:var(--gold)}
+.notes{max-width:1240px;margin-top:16px;font-size:13px;line-height:1.7;color:#cfc6b3}.notes b{color:var(--gold)}
+</style></head><body>
+<h1>던전 화면 시안 · 붉은십자군 수도원: 도서관</h1>
+<p class="lead">이모지 대신 게임 아이콘 · 숫자는 한 곳에만 · 첫 화면에 「준비 → 노릴 템 → 보스」가 다 보이게</p>
+<div class="row3" id="R"></div>
+<div class="notes" id="N"></div>
+<script>
+const I=n=>'https://wow.zamimg.com/images/wow/icons/large/'+n+'.jpg';
+const ic=(n,c)=>'<span class="ic '+(c||'')+'" style="background-image:url('+I(n)+')"></span>';
+const NPC=(id)=>'https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/'+(id&255)+'/'+id+'.webp';
+const top='<div class="top"><span class="ic" style="background-image:url('+I('classicon_priest')+')"></span><div><b>사제</b><small>수양 사제 · 노움 ▾</small></div><div class="lv"><span>−</span><b>34</b><span>+</span></div></div>'
+ +'<div class="strip"><div class="chipd on">'+ic('inv_misc_book_11')+'<div><b>붉은십자군: 도서관</b><small>33–41 · 지금</small></div></div><div class="chipd">'+ic('inv_gizmo_01')+'<div><b>놈리건</b><small>29–38 · 지금</small></div></div></div>';
+const nav='<div class="nav"><span><img src="../img/ui-banner.png">홈</span><span><img src="../img/ui-shield.png">장비</span><span><img src="../img/ui-quest.png">퀘스트</span><span class="on"><img src="../img/ui-eye.png">던전</span><span><img src="../img/ui-prof.png">직업</span></div>';
+const hero='<div class="hero" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/sm-library-loading.webp)"><div class="t"><h2>붉은십자군 수도원: 도서관</h2><span class="en">Scarlet Monastery · Library</span><div class="meta"><span class="pill lvp">Lv 33–41</span><span class="pill">'+ic('inv_misc_map_01')+'티리스팔 숲</span><span class="pill">'+ic('inv_misc_bone_humanskull_01')+'보스 2</span></div></div></div>';
+const tabs=a=>'<div class="tabs3"><button class="'+(a==0?'on':'')+'">'+ic('inv_misc_map_02')+'공략</button><button class="'+(a==1?'on':'')+'">'+ic('inv_misc_bag_10')+'템 <em>⭐5</em></button><button>'+ic('inv_misc_note_01')+'퀘스트 <em>1</em></button></div>';
+const ready='<div class="card"><div class="ready"><div class="roles"><span><img src="../img/role-tk.png"></span><span><img src="../img/role-dp.png"></span><span class="on"><img src="../img/role-hl.png"></span></div><div class="go">'+ic('ability_warrior_charge')+'던전 시작</div></div><div class="prog">보스 0/2<div class="bar"><i></i></div>약 25분</div></div>';
+const sum='<div class="card"><p class="sum">사냥개조련사 <b>록시</b>와 신비술사 <b>도안</b>이 지키는 도서관 날개. 서고에서 퀘스트 책을 줍고, 도안이 체력 절반에 쓰는 폭발만 피하면 쉬워요. <span class="more">더 보기 ›</span></p></div>';
+const U=[['inv_wand_04','환영 마법막대',52,''],['inv_weapon_shortblade_07','최면의 단검',50,''],['inv_boots_05','도서관 실내화',18,'u'],['inv_shoulder_05','도안의 어깨보호대',15,'u'],['inv_chest_cloth_25','도안의 로브',4,'u']];
+const loot='<div class="card"><div class="hd">'+ic('ability_hunter_snipershot')+'<b>여기서 노릴 템</b><small>내 장비보다 좋은 순 ›</small></div><div class="loot">'+U.map(u=>'<div class="lt">'+ic(u[0],u[3])+'<em class="g">+'+u[2]+'</em><span>'+u[1]+'</span></div>').join('')+'</div></div>';
+const warn='<div class="warn">'+ic('inv_misc_book_09')+'들어가기 전에 알아 둘 것 4개<i>⌄</i></div>';
+const bossHd='<div class="tlh"><b>보스 동선</b><small>보스 2 · 물건 4</small><span>모두 펼치기</span></div>';
+const b1open='<div class="bn open"><span class="por" style="background-image:url('+NPC(2040)+')"></span><span class="no">1</span><div class="nm"><b>사냥개조련사 록시</b><span class="lvb">Lv 34</span><span class="ck"></span></div><div class="tags"><span>'+ic('ability_hunter_beastcall')+'쫄 나옴</span><span>'+ic('spell_holy_dispelmagic')+'해제</span></div>'
+ +'<div class="skill"><b>'+ic('inv_misc_bone_humanskull_01')+'우두머리 기술</b>사냥개를 데리고 나오고 <b style="display:inline;color:#f0c8a8">피의 욕망</b>으로 공격 속도를 올려요. 사냥개를 광역으로 먼저 정리하세요.</div>'
+ +'<div class="me"><b><img src="../img/role-hl.png">힐러 (나)</b>피의 욕망은 <b style="display:inline;color:#cfe8b0">마법 해제</b>로 지우고, 탱커 체력 위주로 치유하세요.</div>'
+ +'<div class="drops">'+ic('inv_boots_05','u')+ic('inv_shoulder_05','u')+ic('inv_misc_cape_11')+'<small>드랍 3 · 내게 좋은 2</small></div></div>';
+const obj=(n,t,f)=>'<div class="obj">'+ic('inv_misc_book_0'+n)+'<span>'+t+'</span>'+(f?'<span class="fa">'+f+'</span>':'')+'<em>· 건너뛰어도 됨</em></div>';
+const b2='<div class="bn"><span class="por" style="background-image:url('+NPC(5266)+')"></span><span class="no">6</span><div class="nm"><b>신비술사 도안</b><span class="lvb">Lv 37</span><span class="ck"></span></div><div class="tags"><span>'+ic('ability_kick')+'끊기</span><span>'+ic('spell_nature_wispsplode')+'폭발 피하기</span><span>'+ic('inv_misc_bag_10')+'내 템 3</span></div></div>';
+const A='<div><p class="cap">① 공략 탭 첫 화면</p><div class="ph">'+top+hero+tabs(0)+ready+loot+warn+sum+nav+'</div></div>';
+const B='<div><p class="cap">② 아래로 내리면 · 보스 동선</p><div class="ph">'+top+bossHd+'<div class="tl">'+b1open+obj(2,'티탄 신화','얼라이언스')+obj(3,'언데드 위협의 기원','호드')+obj(4,'타락의 개요','호드')+obj(5,'마력의 의식','마법사')+b2+'</div>'+nav+'</div></div>';
+const it=(n,t,g,u,best)=>'<div class="it'+(best?' best':'')+'">'+ic(n,u)+'<b class="'+u+'">'+t+'</b>'+(g?'<span class="g">+'+g+'</span>':'<span class="no">–</span>')+'</div>';
+const C='<div><p class="cap">③ 템 탭 · 보스별 아이콘 칸</p><div class="ph">'+top+hero+tabs(1)+'<div class="flt"><span class="on">⭐ 내게 좋은 것</span><span>전부 보기</span></div>'
+ +'<div class="bs"><div class="h"><span class="por" style="background-image:url('+NPC(5266)+')"></span><div><b>신비술사 도안</b><small>드랍 5 · 내게 좋은 4</small></div></div><div class="ig">'+it('inv_wand_04','환영 마법막대',52,'',1)+it('inv_weapon_shortblade_07','최면의 단검',50,'')+it('inv_shoulder_05','도안의 어깨보호대',15,'u')+it('inv_chest_cloth_25','도안의 로브',4,'u')+'</div></div>'
+ +'<div class="bs"><div class="h"><span class="por" style="background-image:url('+NPC(2040)+')"></span><div><b>사냥개조련사 록시</b><small>드랍 3 · 내게 좋은 1</small></div></div><div class="ig">'+it('inv_boots_05','도서관 실내화',18,'u',1)+it('inv_misc_cape_11','사냥개 조련사 망토',0,'')+it('inv_weapon_rifle_01','붉은십자군 장총',0,'')+'</div></div>'+nav+'</div></div>';
+document.getElementById('R').innerHTML=A+B+C;
+document.getElementById('N').innerHTML='<b>바뀌는 점</b><br>① 위 태그 줄을 없애고 던전 그림 위에 Lv·지역·보스 수만 올림 · 탭 3개에만 숫자 · 역할 고르기와 「던전 시작」을 한 줄로 · 노릴 템은 아이콘 5칸(+점수) · 주의는 접힌 한 줄 · 설명은 3줄<br>② 보스는 얼굴 사진 + 세로 동선 선 · 표시(끊기·해제·쫄 나옴·폭발 피하기)는 게임 아이콘 칩 · 펼치면 「우두머리 기술」 + 「내 역할」 두 칸만 · 드랍은 아이콘 줄 · 책 같은 물건은 선 위 작은 점(진영 표시)<br>③ 템은 보스별 4칸 아이콘 격자 · 내게 좋은 것만 기본 · 가장 좋은 템은 초록 테두리';
+</script></body></html>
