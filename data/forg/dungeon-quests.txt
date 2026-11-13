@@ -118,6 +118,17 @@ B|sm-library|houndmaster-loksey=사냥개조련사 록시;arcanist-doan=신비�
 Q|sm-library|1049|horde|38|28|타락의 개요||현자 트루스시커 · 썬더 블러프 34.4, 46.9|0|7747,17508,7749||1|
 Q|sm-library|1050|alliance|38|28|티탄 신화||사서 메이 페일더스트 · 아이언포지 75.0, 12.5|0|7746|||
 Q|sm-library|1160|horde|36|26|지혜의 시험||파쿠알 핀탈라스 · 언더시티 57.8, 65.4|1||||
+B|drowned-city|zul-alai=줄알라이;var-taka=바르타카;captain-dreadrise=대장 드레드라이즈;deathless-guardians=죽지 않는 수호자;primeval-elemental=태고의 정령;minloth-the-serpent=독사 민로스
+Q|drowned-city|95799|alliance|40|30|Findings for the Explorer's League||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279880,279881||1|
+Q|drowned-city|95798|alliance|40|30|The Web of Magic||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279879,279878||1|
+Q|drowned-city|95788|alliance|40|30|Magics of the Drowned City||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0||||
+Q|drowned-city|95787|alliance|40|30|Take Two With Water||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0||||
+Q|drowned-city|97130|alliance|40|34|Ancient Gurubashi Secrets||시작 · 알터랙 산맥|0||||
+Q|drowned-city|95789|both|40|34|수상쩍은 소금선견자|가라앉은 도시의 소금선견자 해적에게서 부두가 깃든 유물 10개를 수집해야 합니다.|크라젝 · 가시덤불 골짜기 51.6, 26.8|0|279882,279930||1|
+Q|drowned-city|95791|both|40|34|소금선견자 대장|가라앉은 도시에서 소금선견자 검시관 3명과 대장 드레드라이즈를 처치해야 합니다.|크라젝 · 가시덤불 골짜기 51.6, 26.8|0|279883,279884||1|
+Q|drowned-city|95776|horde|38|30|The Only Good Brinescale...||사령관 아그로고쉬 · 가시덤불 골짜기 32.2, 28.9|0|279889,279888||1|
+Q|drowned-city|96774|horde|40|30|Ancient Gurubashi Idol||Mazu'kon · 멀고어 32.5, 20.7|0||||
+Q|drowned-city|95775|horde|40|30|The Drowned City||킨윌레이 · 가시덤불 골짜기 32.3, 27.7|0||||
 B|sm-armory|herod=헤로드
 B|razorfen-downs|tuten-kash=투텐카쉬;mordresh-fire-eye=불꽃눈 모드레쉬;glutton=게걸먹보;ragglesnout=너덜주둥이;amnennar-the-coldbringer=혹한의 암네나르;plaguemaw-the-rotting=썩어가는 역병아귀
 Q|razorfen-downs|6626|both|35|28|악의 무리||미리암 문싱어 · 입구 앞|0||||
@@ -129,6 +140,20 @@ Q|razorfen-downs|3341|horde|42|37|암네나르 처치||앤드류 브로넬 · �
 B|sm-cathedral|scarlet-commander-mograine=붉은십자군 사령관 모그레인;high-inquisitor-whitemane=종교재판관 화이트메인;high-inquisitor-fairbanks=종교재판관 페어뱅크스
 Q|sm-cathedral|1053|alliance|40|34|빛의 이름으로!||경건한 신자 랄레이 · 힐스브래드 구릉지 51.5, 58.4|1|6829,6830,6831,11262||1|
 Q|sm-cathedral|1048|horde|42|33|붉은십자군 수도원으로||바리마트라스 · 언더시티 56.3, 92.2|0|6802,6803,10711||1|
+B|kroldok-stronghold|slavecrusher-grox=노예파괴자 그록스;twilight-commander-zarmok=황혼의 사령관 자르모크;nargurk=나르구르크;handler-ashka=조련사 아쉬카;bossman-toof=두목 투프;overseer-mugg=감독관 머그
+Q|kroldok-stronghold|94982|alliance|45|40|Eye of Mugg||시작 · 강물터|0|279852,279853,279480||1|
+Q|kroldok-stronghold|94981|alliance|41|38|Key Ingredients||시작 · 강물터|0|267089|||
+Q|kroldok-stronghold|94980|alliance|41|38|Krol'dok Moulding||아이템에서 시작|0||||
+Q|kroldok-stronghold|94998|alliance|42|38|Curios of Curiosity||시작 · 강물터|0|279850|||
+Q|kroldok-stronghold|94997|alliance|42|38|Lingering Essence||시작 · 강물터|0||||
+Q|kroldok-stronghold|94983|alliance|42|38|Twilight Mementos||시작 · 강물터|0||||
+Q|kroldok-stronghold|94984|alliance|44|39|Tome of Twilight||시작 · 강물터|0|279854,279855||1|
+Q|kroldok-stronghold|96771|alliance|45|37|Vengeance of the Highborne||시작 · 알터랙 산맥|0||||
+Q|kroldok-stronghold|94968|horde|45|40|Eye of Mugg||시작 · 강물터|0|279852,279853,279480||1|
+Q|kroldok-stronghold|94974|horde|41|38|Key Ingredients||시작 · 강물터|0|267089|||
+Q|kroldok-stronghold|94973|horde|41|38|Krol'dok Moulding||아이템에서 시작|0||||
+Q|kroldok-stronghold|94975|horde|42|38|A Token of Vengeance||시작 · 강물터|0|267090|||
+Q|kroldok-stronghold|94972|horde|44|39|Tome of Twilight||시작 · 강물터|0|279859,279860||1|
 B|uldaman|eric-the-swift=날쌘돌이 에릭;baelog=밸로그;olaf=올라프;revelosh=레벨로쉬;ironaya=아이로나야;obsidian-sentinel=흑요석 파수꾼;ancient-stone-keeper=고대 바위 문지기;galgann-firehammer=갈간 파이어해머;grimlok=그림로크;archaedas=아카에다스
 Q|uldaman|2418|both|36|30|마법석||리글퍼즈 · 황야의 땅 42.4, 52.9|0|9522,10358,10359||1|
 Q|uldaman|709|both|40|30|멸망의 해결책||실성한 텔두린 · 황야의 땅 51.4, 76.9|0|4746|||
@@ -174,6 +199,7 @@ Q|maraudon|7046|both|49|41|셀레브라스의 홀||시작 · 던전 안|1|17191|
 Q|maraudon|7064|horde|51|45|대지와 씨앗의 오염||셀렌드라 · 잊혀진 땅 26.9, 77.7|0|17705,17743,17753||1|
 Q|maraudon|7065|alliance|51|45|대지와 씨앗의 오염||수호자 마란디스 · 잊혀진 땅 63.8, 10.7|0|17705,17743,17753||1|
 Q|maraudon|7066|both|51|45|생명의 씨앗||시작 · 던전 안|0||||
+B|alcaz-prison|overseer-wrex=감독관 렉스;tidemistress-cazass=해일여제 카자스;katerina-the-cleaner=청소부 카테리나;the-questioner=심문관;blazeroar=불길포효
 B|temple-of-atal-hakkar|atal-alarion=아탈알라리온;spawn-of-hakkar=학카르의 피조물;gasher=게이셔;loro=로로;hukku=후쿠;zolo=졸로;mijan=마이잔;zul-lor=줄로;jammal-an-the-prophet=예언자 잠말란;ogom-the-wretched=비운의 오그옴;avatar-of-hakkar=학카르의 화신;dreamscythe=드림사이드;weaver=위버;morphaz=몰파즈;hazzas=하자스;shade-of-eranikus=에라니쿠스의 사령
 Q|temple-of-atal-hakkar|1445|horde|50|38|아탈학카르 신전||펠제룰 · 슬픔의 늪 47.9, 54.8|1|1490|||
 Q|temple-of-atal-hakkar|1475|alliance|50|41|아탈학카르 신전으로||브로한 캐스크벨리 · 스톰윈드 69.5, 40.4|1|1490|||
@@ -231,6 +257,7 @@ Q|dire-maul-east|7488|alliance|57|54|레스텐드리스의 그물||라트로니�
 Q|dire-maul-east|7441|both|58|54|푸실린과 노쇠한 아즈토르딘||아즈토르딘 · 페랄라스 76.9, 37.4|0|18411,18410||1|
 Q|dire-maul-east|8967|both|60|58|군주 발타라크의 아뮬렛 왼쪽 조각||시작 · 검은바위 산|1||||
 Q|dire-maul-east|8990|both|60|58|군주 발타라크의 아뮬렛 오른쪽 조각||시작 · 검은바위 산|1||||
+B|blackmaw-hold|withermaw=마른아귀;impaan-the-imprisoner=간수 임판;elder-shaman-bloodmane=장로 주술사 핏빛갈기;bonesnout-the-unbroken=꺾이지 않는 해골주둥이;varrox-bleakhoof=바록스 블릭후프;blackmaw-behemoth=검은아귀 거수;unbound-spirit=속박 풀린 영혼
 B|lower-blackrock-spire|highlord-omokk=대군주 오모크;spirestone-butcher=뾰족바위일족 학살자;spirestone-battle-lord=뾰족바위일족 전투대장;spirestone-lord-magus=뾰족바위일족 마법사장;burning-felguard=불타는 지옥군단병;shadow-hunter-vosh-gajin=어둠사냥꾼 보쉬가진;crystal-fang=수정 맹독거미;war-master-voone=대장군 부네;mor-grayhoof=모르 그레이후프;bannok-grimaxe=반노크 그림액스;mother-smolderweb=여왕 불그물거미;urok-doomhowl=우로크 둠하울;quartermaster-zigris=병참장교 지그리스;halycon=할리콘;gizrul-the-slavener=흉포한 기즈룰;ghok-bashguud=고크 배시구드;overlord-wyrmthalak=대군주 웜타라크
 Q|lower-blackrock-spire|4788|both|58|40|마지막 서판||발굴조사단장 아이언부트 · 타나리스 66.9, 24.0|1||||
 Q|lower-blackrock-spire|4701|alliance|59|55|검은늑대 위협의 근원 파괴||헬렌디스 리버혼 · 불타는 평원 85.8, 69.0|0|15824,15825,15827||1|
@@ -286,6 +313,7 @@ Q|scholomance|5531|both|60|57|베티나 비글징크||존경받는 리어니드 
 Q|scholomance|4771|both|60|57|여명의 계략||베티나 비글징크 · 동부 역병지대 71.7, 49.9|1|15853,15854||1|
 Q|scholomance|8969|both|60|58|군주 발타라크의 아뮬렛 왼쪽 조각||시작 · 검은바위 산|1||||
 Q|scholomance|8992|both|60|58|군주 발타라크의 아뮬렛 오른쪽 조각||시작 · 검은바위 산|1||||
+B|shapers-terrace|titanosaur=티타노사우루스;ravasaur-hunters=갈퀴발톱 라바사우루스;thunderhoof=천둥발굽;venomridge=맹독마루;direhorn-matriarch=암컷 공포뿔;cinder=잉걸불;king-op=왕 오프;snowtalon=눈갈퀴;bolt=쏜살;vitrix=비트릭스;nanaya=나나야
 B|stratholme-dead|magistrate-barthilas=집정관 발실라스;stonespine=뾰족바위;baroness-anastari=남작부인 아나스타리;black-guard-swordsmith=검은호위대 검제작자;nerub-enkan=네룹엔칸;maleki-the-pallid=냉혈한 말레키;ramstein-the-gorger=먹보 람스타인;baron-rivendare=남작 리븐데어
 Q|stratholme-dead|5125|both|60|55|아우리우스의 복수||아우리우스 · 던전 안|1|17044,17045||1|
 Q|stratholme-dead|5213|both|60|55|활성 역병 인자||베티나 비글징크 · 동부 역병지대 71.7, 49.9|1|13209,19812||1|

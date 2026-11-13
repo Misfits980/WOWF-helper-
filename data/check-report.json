@@ -1,5 +1,5 @@
 {
- "퀘스트 수": 3926,
+ "퀘스트 수": 3925,
  "영어로 남은 퀘스트 이름": [
   [
    9269,
@@ -59,39 +59,9 @@
  ],
  "반납 NPC 없는 퀘스트": [
   [
-   961,
-   "생각 중인 오누",
-   "어둠의 해안"
-  ],
-  [
    7402,
    "현상 수배: 오크!",
    "알터랙 계곡"
-  ],
-  [
-   8847,
-   "훈장 10개를 전쟁 물자와 교환",
-   "안퀴라즈 전쟁"
-  ],
-  [
-   8848,
-   "훈장 15개를 전쟁 물자와 교환",
-   "안퀴라즈 전쟁"
-  ],
-  [
-   8849,
-   "훈장 20개를 전쟁 물자와 교환",
-   "안퀴라즈 전쟁"
-  ],
-  [
-   8850,
-   "훈장 30개를 전쟁 물자와 교환",
-   "안퀴라즈 전쟁"
-  ],
-  [
-   81951,
-   "The Liminal and the Arcane",
-   "스톰윈드"
   ],
   [
    89015,
@@ -481,10 +451,6 @@
    "명예의 전장: 1주 차 위치·보상"
   ],
   [
-   97029,
-   "엘루비아나 위치·보상"
-  ],
-  [
    98898,
    "검은창 군도의 충돌"
   ]
@@ -771,8 +737,209 @@
    20
   ]
  ],
- "장비 수": 9790,
- "영어 이름 장비": [],
+ "장비 수": 9848,
+ "영어 이름 장비": [
+  [
+   "279474",
+   "Dustwallow Dirk",
+   "forg"
+  ],
+  [
+   "279831",
+   "Fatebound Buckler",
+   "forg"
+  ],
+  [
+   "279833",
+   "Courier's Clasp",
+   "forg"
+  ],
+  [
+   "279891",
+   "Guidance of Ursoc",
+   "forg"
+  ],
+  [
+   "279892",
+   "Wisdom of Ursol",
+   "forg"
+  ],
+  [
+   "280009",
+   "Titanosaur Scale Pendant",
+   "wowf"
+  ],
+  [
+   "280010",
+   "Gargantuan Wristguards",
+   "wowf"
+  ],
+  [
+   "280011",
+   "Deeproar Cord",
+   "wowf"
+  ],
+  [
+   "280012",
+   "Talon of Tor'Rel",
+   "wowf"
+  ],
+  [
+   "280013",
+   "Frostfang Mail Vest",
+   "wowf"
+  ],
+  [
+   "280014",
+   "Raptorscale Bulwark",
+   "wowf"
+  ],
+  [
+   "280015",
+   "Venomvessel Ring",
+   "wowf"
+  ],
+  [
+   "280016",
+   "Spiderchitin Wrap",
+   "wowf"
+  ],
+  [
+   "280017",
+   "Octoclaw Chain Boots",
+   "wowf"
+  ],
+  [
+   "280018",
+   "Hammer of Thundering Hooves",
+   "wowf"
+  ],
+  [
+   "280019",
+   "Dinofrill Casque",
+   "wowf"
+  ],
+  [
+   "280020",
+   "Deep Jungle Rifle",
+   "wowf"
+  ],
+  [
+   "280021",
+   "Tooth of the Matriarch",
+   "wowf"
+  ],
+  [
+   "280022",
+   "Scaleguard Scimitar",
+   "wowf"
+  ],
+  [
+   "280023",
+   "Nanaya's Control Spire",
+   "wowf"
+  ],
+  [
+   "280024",
+   "Legplates of Reinforced Crystal",
+   "wowf"
+  ],
+  [
+   "280025",
+   "Leggings of Curation",
+   "wowf"
+  ],
+  [
+   "280026",
+   "Albinofur Grips",
+   "wowf"
+  ],
+  [
+   "280031",
+   "Sparklance Wand",
+   "wowf"
+  ],
+  [
+   "280032",
+   "Bolt's Charged Eyeball",
+   "wowf"
+  ],
+  [
+   "280056",
+   "Flameslash Crescent",
+   "wowf"
+  ],
+  [
+   "280063",
+   "Bloodfur Bulwark",
+   "wowf"
+  ],
+  [
+   "280065",
+   "Behemoth Bones",
+   "wowf"
+  ],
+  [
+   "280069",
+   "Shamanic Wristguards",
+   "wowf"
+  ],
+  [
+   "280070",
+   "Veilpiercer Girdle",
+   "wowf"
+  ],
+  [
+   "280077",
+   "Fist of Revelation",
+   "wowf"
+  ],
+  [
+   "280078",
+   "Apprentice's Protective Treads",
+   "wowf"
+  ],
+  [
+   "280079",
+   "Lunarlight Robe",
+   "wowf"
+  ],
+  [
+   "280080",
+   "Claymore of Two Moons",
+   "wowf"
+  ],
+  [
+   "280085",
+   "Tunnelweb Pincer",
+   "wowf"
+  ],
+  [
+   "287028",
+   "Tormented Cuffs",
+   "wowf"
+  ],
+  [
+   "287032",
+   "Den Champion's Binding",
+   "wowf"
+  ],
+  [
+   "287034",
+   "Grove Subjugator's Blade",
+   "wowf"
+  ],
+  [
+   "287036",
+   "Satyr's Touch",
+   "wowf"
+  ],
+  [
+   "287037",
+   "Shaper's Robe",
+   "wowf"
+  ]
+ ],
  "능력치가 레벨에 비해 지나친 장비": [
   [
    "279841",
@@ -792,49 +959,49 @@
    "280604",
    "폭풍의 분노",
    "1",
-   "sta15 int12 dps35.63",
+   "sta15 int12 dps35.63 int12 sta15",
    "forg"
   ],
   [
    "280605",
    "파도인도자의 발톱",
    "1",
-   "sta5 dps18.13 sp28 heal86 crit2",
+   "sta5 dps18.13 sp28 heal86 heal86 sp28 crit2",
    "forg"
   ],
   [
    "280607",
    "번개의 손아귀",
    "1",
-   "int6 dps18.18 sp46 heal46 crit1",
+   "int6 dps18.18 sp46 heal46 sp46 heal46 crit1",
    "forg"
   ],
   [
    "22589",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta31 int32 spi24 dps64.37 sp150 heal150 scrit2",
+   "sta31 int32 spi24 dps64.37 sp150 heal150 int32 sta31 hit2 sp150 spi24 crit2",
    "forg"
   ],
   [
    "22630",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta30 int29 dps64.37 sp150 heal150",
+   "sta30 int29 dps64.37 sp150 heal150 int29 sta30 crit2 sp183 heal33",
    "forg"
   ],
   [
    "22631",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta28 int28 spi27 dps64.37 heal300 sp120",
+   "sta28 int28 spi27 dps64.37 heal30 sp120 int28 sta28 heal242 sp120 spi27",
    "forg"
   ],
   [
    "22799",
    "영혼의 추적자",
    "60",
-   "dps63.59 sta30 int31 ap124 sp126 heal126",
+   "dps63.59 sta30 int31 sp126 heal126",
    "extra"
   ],
   [
@@ -850,6 +1017,83 @@
    "60",
    "dps41.58 sta8 int11 sp126 heal126 mp510",
    "extra"
+  ],
+  [
+   "276902",
+   "아이의 인생 첫 활",
+   "1",
+   "sta5 ap7 dps25.18",
+   "wowf"
+  ],
+  [
+   "281586",
+   "세월숲 건설 망치",
+   "1",
+   "int10 sta8 spi4 dps26.25",
+   "wowf"
+  ],
+  [
+   "281732",
+   "복원된 활",
+   "1",
+   "dps24.62",
+   "wowf"
+  ],
+  [
+   "281733",
+   "복원된 마법봉",
+   "1",
+   "dps44.71",
+   "wowf"
+  ],
+  [
+   "288900",
+   "대지진의 망치",
+   "1",
+   "ap11 dps31.29",
+   "wowf"
+  ],
+  [
+   "289292",
+   "야수의 분노 망치",
+   "1",
+   "str7 sta6 armor47 dps27.89",
+   "wowf"
+  ],
+  [
+   "289294",
+   "우레폭풍 - 바람추적자의 성검",
+   "1",
+   "agi0 sta0 dps33.95",
+   "wowf"
+  ],
+  [
+   "289295",
+   "설퍼라스 - 라그나로스의 손",
+   "1",
+   "str0 sta0 dps44.19",
+   "wowf"
+  ],
+  [
+   "289296",
+   "축복의 지팡이",
+   "1",
+   "int18 sta6 spi7 heal112 sp37 scrit2.0 crit2.0 dps30.0",
+   "wowf"
+  ],
+  [
+   "289297",
+   "저주의 지팡이",
+   "1",
+   "int18 sta13 mp54 shadow40 dps40.5",
+   "wowf"
+  ],
+  [
+   "289303",
+   "라크델라 - 고대수호자의 장궁",
+   "1",
+   "crit0.57 rap10 dps24.14",
+   "wowf"
   ]
  ],
  "출처 없는 장비": 127,
@@ -1909,20 +2153,26 @@
    ]
   ]
  ],
- "진행 순서 없는 던전": [],
+ "진행 순서 없는 던전": [
+  "drowned-city",
+  "kroldok-stronghold",
+  "alcaz-prison",
+  "blackmaw-hold",
+  "shapers-terrace"
+ ],
  "지도 없는 던전": [],
  "요약": {
-  "퀘스트 수": 3926,
+  "퀘스트 수": 3925,
   "영어로 남은 퀘스트 이름": 11,
-  "반납 NPC 없는 퀘스트": 72,
-  "레벨 0 퀘스트": 17,
+  "반납 NPC 없는 퀘스트": 66,
+  "레벨 0 퀘스트": 16,
   "레벨이 거꾸로 이어진 연계(5레벨 이상)": 35,
-  "장비 수": 9790,
-  "영어 이름 장비": 0,
-  "능력치가 레벨에 비해 지나친 장비": 11,
+  "장비 수": 9848,
+  "영어 이름 장비": 40,
+  "능력치가 레벨에 비해 지나친 장비": 22,
   "출처 없는 장비": 127,
   "이름 같은 장비(번호 다름)": 131,
-  "진행 순서 없는 던전": 0,
+  "진행 순서 없는 던전": 5,
   "지도 없는 던전": 0
  }
 }

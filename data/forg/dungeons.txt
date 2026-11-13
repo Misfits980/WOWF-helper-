@@ -12,19 +12,24 @@ gnomeregan|놈리건|Gnomeregan|던 모로|32|29–38|6,19,19
 razorfen-kraul|가시덩굴 우리|Razorfen Kraul|불모의 땅|32|29–38|9,27,6
 sm-graveyard|붉은십자군 수도원: 묘지|Scarlet Monastery: Graveyard|티리스팔 숲|32|30–38|5,15,2
 sm-library|붉은십자군 수도원: 도서관|Scarlet Monastery: Library|티리스팔 숲|35|33–41|2,10,3
+drowned-city|가라앉은 도시|The Drowned City|가시덤불 골짜기 해안|36|35–40|6,12,10
 sm-armory|붉은십자군 수도원: 무기고|Scarlet Monastery: Armory|티리스팔 숲|38|36–44|1,4,0
 razorfen-downs|가시덩굴 구릉|Razorfen Downs|불모의 땅|40|37–46|6,18,7
 sm-cathedral|붉은십자군 수도원: 대성당|Scarlet Monastery: Cathedral|티리스팔 숲|40|38–46|3,10,2
+kroldok-stronghold|크롤도크 보루|Krol&#x27;dok Stronghold|강물터|41|40–45|6,23,13
 uldaman|울다만|Uldaman|황야의 땅|44|41–51|10,26,22
 zul-farrak|줄파락|Zul&#x27;Farrak|타나리스|47|44–54|12,30,10
 maraudon|마라우돈|Maraudon|잊혀진 땅|49|46–55|9,34,11
+alcaz-prison|알카즈 감옥|Alcaz Prison|알카즈 섬|49|48–53|5,12,10
 temple-of-atal-hakkar|아탈학카르 신전|The Temple of Atal&#x27;Hakkar|슬픔의 늪|53|50–60|16,39,8
 blackrock-depths|검은바위 나락|Blackrock Depths|검은바위 산|54|52–60|29,106,40
 dire-maul-east|혈투의 전장: 동쪽|Dire Maul: East|페랄라스|55|54–60|6,29,7
+blackmaw-hold|검은아귀 요새|Blackmaw Hold|아즈샤라|56|55–60|7,0,7
 lower-blackrock-spire|검은바위 첨탑 하층|Lower Blackrock Spire|검은바위 산|56|55–60|17,68,24
 dire-maul-north|혈투의 전장: 북쪽|Dire Maul: North|페랄라스|56|56–60|7,30,7
 dire-maul-west|혈투의 전장: 서쪽|Dire Maul: West|페랄라스|56|56–60|7,39,11
 scholomance|스칼로맨스|Scholomance|서부 역병지대|58|58–60|15,101,12
+shapers-terrace|구체자의 정원|Shaper&#x27;s Terrace|운고로 분화구|58|58–60|11,0,5
 stratholme-dead|스트라솔름: 저승|Stratholme: Dead|동부 역병지대|58|58–60|8,65,6
 stratholme-live|스트라솔름: 이승|Stratholme: Live|동부 역병지대|58|58–60|12,54,10
 upper-blackrock-spire|검은바위 첨탑 상층|Upper Blackrock Spire|검은바위 산|59|59–60|9,71,13
