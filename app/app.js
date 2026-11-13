@@ -137,7 +137,49 @@ const BOAT='동부 왕국 ↔ 칼림도어: 저습지 <b>메네실 항구</b>에
 /* ===================== 저장 ===================== */
 const KEY='wowf2';
 let DB=(()=>{try{const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.list)return o}catch(e){}return {cur:null,list:[]}})();
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}};
+const saveRaw=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}};
+/* 저장할 때 지금 캐릭터에 고친 시각을 남기고(기기 연동 합치기용), 연동 중이면 몇 초 뒤 올림 */
+const save=()=>{const c=DB.list.find(x=>x.id===DB.cur);if(c)c._t=Date.now();saveRaw();syQueue()};
+/* ===== 📱💻 휴대폰·컴퓨터 자동 연동: 내 GitHub 비공개 Gist 한 개에 기록을 두고 서로 맞춤 =====
+   토큰(gist 권한만)은 이 기기 브라우저에만 저장. 캐릭터마다 더 늦게 고친 쪽이 이김. 지운 캐릭터는 지운 시각을 같이 남김 */
+const SYNC_K='wfh_sync',SYNC_DESC='wowf-helper sync (와포 도우미 기록)',SYNC_F='wowf-helper.json';
+let SY=(()=>{try{return JSON.parse(localStorage.getItem(SYNC_K))||{}}catch(e){return {}}})();
+const sySave=()=>{try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}};
+let syT=null,syBusy=false;
+function syQueue(){if(!SY.tok||!SY.gid)return;clearTimeout(syT);syT=setTimeout(()=>syPush(),4000)}
+async function syGh(path,opt){const r=await fetch('https://api.github.com'+path,Object.assign({cache:'no-store'},opt||{},{headers:{'Authorization':'Bearer '+SY.tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'}}));
+  if(!r.ok){const e=new Error(String(r.status));e.status=r.status;throw e}return r.status===204?null:r.json()}
+const syBody=()=>JSON.stringify({v:1,t:Date.now(),cur:DB.cur,list:DB.list,del:DB.del||{}});
+function syMerge(R){if(!R||!Array.isArray(R.list))return {local:false,remote:false};
+  const del=Object.assign({},DB.del||{});for(const k in R.del||{})del[k]=Math.max(del[k]||0,R.del[k]);
+  const rm={};R.list.forEach(x=>{rm[x.id]=x});const out=[];let local=false,remote=false;const seen=new Set();
+  DB.list.forEach(l=>{seen.add(l.id);const r=rm[l.id];if(r&&(r._t||0)>(l._t||0)){out.push(r);local=true}else{out.push(l);if(!r||(l._t||0)>(r._t||0))remote=true}});
+  R.list.forEach(r=>{if(!seen.has(r.id)){out.push(r);local=true}});
+  const list=out.filter(x=>{const dd=del[x.id];if(dd&&dd>=(x._t||0)){if(rm[x.id])remote=true;if(DB.list.some(y=>y.id===x.id))local=true;return false}return true});
+  if(JSON.stringify(del)!==JSON.stringify(R.del||{}))remote=true;
+  DB.list=list;DB.del=del;if(!DB.cur||!list.some(x=>x.id===DB.cur))DB.cur=(list.find(x=>x.id===R.cur)||list[0]||{}).id||null;
+  return {local,remote}}
+async function syPull(quiet){if(!SY.tok||!SY.gid||syBusy)return;syBusy=true;
+  try{const g=await syGh('/gists/'+SY.gid);const f=g.files&&g.files[SYNC_F];let txt=f?f.content:'';if(f&&f.truncated)txt=await (await fetch(f.raw_url,{cache:'no-store'})).text();
+    const R=txt?JSON.parse(txt):null;const m=syMerge(R||{list:[]});SY.at=Date.now();SY.err=null;sySave();
+    if(m.local){saveRaw();if(!quiet)toast('다른 기기의 기록을 가져왔어요');if(typeof rerender==='function')rerender(true)}
+    syBusy=false;if(m.remote||!R)await syPush()}
+  catch(e){syBusy=false;SY.err=e.status===401?'토큰이 맞지 않거나 만료됐어요':e.status===404?'연동 기록을 못 찾았어요 (다시 연결해 주세요)':'인터넷 연결을 확인해 주세요';sySave()}}
+async function syPush(){if(!SY.tok||!SY.gid||syBusy)return;syBusy=true;
+  try{await syGh('/gists/'+SY.gid,{method:'PATCH',body:JSON.stringify({files:{[SYNC_F]:{content:syBody()}}})});SY.at=Date.now();SY.err=null}catch(e){SY.err=e.status===401?'토큰이 맞지 않거나 만료됐어요':'올리지 못했어요 · 다음에 다시 해요'}
+  syBusy=false;sySave()}
+async function syConnect(tok){SY={tok:tok.trim()};
+  try{const L=await syGh('/gists?per_page=100');let g=(L||[]).find(x=>x.description===SYNC_DESC);
+    if(!g)g=await syGh('/gists',{method:'POST',body:JSON.stringify({description:SYNC_DESC,public:false,files:{[SYNC_F]:{content:syBody()}}})});
+    SY.gid=g.id;sySave();await syPull(true);return true}
+  catch(e){SY={err:e.status===401?'토큰이 맞지 않아요. gist 권한으로 다시 만들어 주세요':'연결하지 못했어요 · 인터넷을 확인해 주세요'};sySave();return false}}
+function syncBox(){const on=SY.tok&&SY.gid;let h='<div class="card syc"><h3>📱💻 휴대폰·컴퓨터 자동 연동</h3>';
+  if(on)return h+'<p class="note">✅ 연결됐어요'+(SY.at?' · 마지막으로 맞춘 때 <b>'+armAgo(SY.at)+'</b>':'')+'. 이 기기에서 고치면 몇 초 뒤 올라가고, 앱을 열거나 돌아올 때 다른 기기 기록을 가져와요.</p>'+(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')
+    +'<div class="bkb"><button class="btn sm" data-a="sygo">🔄 지금 맞추기</button><button class="btn sm ghost" data-a="syoff">연결 끊기</button></div><p class="mute" style="font-size:12px">끊어도 기록은 이 기기와 GitHub 양쪽에 남아요.</p></div>';
+  return h+'<p class="note">휴대폰과 컴퓨터에서 같은 캐릭터·장비·끝낸 퀘스트를 자동으로 맞춰요. 내 GitHub 계정의 <b>비공개 Gist</b> 한 개에 기록을 저장해요 (다른 사람은 못 봐요).</p>'
+    +'<ol class="imps"><li><a class="lnk" href="https://github.com/settings/tokens/new?scopes=gist&description=wowf-helper" target="_blank" rel="noopener">GitHub 토큰 만들기 ↗</a> — <b>gist</b>만 체크된 채로 맨 아래 「Generate token」 · 기간은 길게(No expiration 가능)</li><li>나온 토큰(<code>ghp_</code>로 시작)을 복사해서 아래에 붙여 넣기</li><li>휴대폰·컴퓨터 <b>둘 다</b> 같은 토큰을 넣으면 끝</li></ol>'
+    +'<input class="inp" type="password" autocomplete="off" placeholder="ghp_로 시작하는 토큰" data-c="sytok"><button class="btn full" style="margin-top:6px" data-a="syon">연결하기</button>'
+    +(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')+'<p class="mute" style="font-size:12px">토큰은 이 기기 브라우저에만 저장되고, GitHub 말고 다른 곳으로는 보내지 않아요. 토큰 권한은 gist뿐이라 저장소는 못 건드려요.</p></div>'}
 const me=()=>DB.list.find(c=>c.id===DB.cur)||null;
 const newId=()=>'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 function specOf(c){const C=D_CLS[c.cls];return (C&&C.specs.find(s=>s.id===c.spec))||(C&&C.specs[0])}
@@ -790,7 +832,7 @@ function repCard(c){const R=(c.rep||[]).filter(r=>r.st<8&&r.st>=3);if(!R.length)
     +L.map(x=>'<div class="rpr"><span class="m"><b>'+esc(x.r.nm)+'</b><small>'+x.T[1]+(x.nx?' → '+x.nx[1]+'까지 '+x.left.toLocaleString():'')+'</small></span><span class="rpb"><i style="width:'+Math.round(x.p*100)+'%"></i></span></div>').join('')+'</div>'}
 /* 🧩 홈: 게임 애드온 안내 · 마지막으로 가져온 때 */
 const ADDON_FEAT=[['📜','퀘스트','진행도(3/8)까지'],['🛡️','장비','17칸 자동 입력'],['🌳','특성','찍은 쪽으로 자동'],['⚒️','전문기술','숙련도 · 지금 단계'],['⚔️','무기 숙련','배운 무기 · 숙련도'],['🦅','비행 경로','연 곳 · 안 연 곳'],['⏱️','사냥 기록','시간당 경험치'],['🎒','가방·은행','더 좋은 템 · 재료'],['💰','골드','가진 돈'],['🏳️','평판','다음 등급까지'],['👥','부캐','앱에 자동 추가'],['🎮','툴팁 추천','게임 툴팁에 표시'],['🐉','보스 공략 창','보스 기술 요약'],['🔔','알림','레벨업·반납 때']];
-const ADDON_CMD=[['/wfh','코드 창 열기'],['/wfh 점검','담긴 개수 확인'],['/wfh 추천','툴팁 추천 넣기','wfr']];
+const ADDON_CMD=[['/wfh','코드 창 열기'],['/wfh 다음','앱 동선의 다음 갈 곳 보기'],['/wfh 도움','명령어 모두 보기'],['/wfh 점검','담긴 개수 확인'],['/wfh 추천','툴팁 추천 · 보상 고르기 · 동선 넣기','wfr']];
 const ADDON_OFF=[['/wfh 공략','보스 공략 창 끄기 · 켜기'],['/wfh 알림','알림 · 접속 인사 끄기 · 켜기'],['/wfh 추천 지우기','툴팁 추천 지우기'],['/wfh 설정','지금 켜고 끈 상태 보기']];
 /* 명령어 표: 왼쪽 명령어 칸 너비를 맞춤 */
 function addonCmdTable(title,rows,foot){return '<div class="acmd">'+(title?'<div class="acmh">'+title+'</div>':'')+'<div class="acmg">'+rows.map(r=>'<code>'+r[0]+'</code><span>'+r[1]+(r[2]?' <button class="lnk" data-a="'+r[2]+'">코드 만들기</button>':'')+'</span>').join('')+'</div>'+(foot?'<p class="acmf">'+foot+'</p>':'')+'</div>'}
@@ -829,6 +871,7 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
     else if(Date.now()-im.t>36e5)h+='<p class="adw">한 시간 넘게 지났어요. 게임에서 <code>/wfh</code> 로 새 코드를 가져오면 퀘스트·장비·가방이 다시 맞춰져요.</p>'}
   else h+='<p class="note">게임 정보를 앱으로 한 번에 가져오는 애드온이에요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 복사해서 붙여 넣는 방식이에요.</p>';
   const sec=(id,title,sub,body,open)=>'<details class="adsec"'+(open?' open':'')+'><summary><b>'+title+'</b><small>'+sub+'</small><i>⌄</i></summary><div class="adsb">'+body+'</div></details>';
+  const h0=h;h='';
   h+=sec('feat','✨ 할 수 있는 것',ADDON_FEAT.length+'가지','<div class="adfg">'+ADDON_FEAT.map(f=>'<div><i>'+f[0]+'</i><b>'+f[1]+'</b><span>'+f[2]+'</span></div>').join('')+'</div>',false);
   h+=sec('start','🚀 시작하기','3단계 · 받기 → /wfh → 붙여 넣기','<div class="adst2">'
    +'<div><em>1</em><span class="t"><b>애드온 받기</b><small><b>WowfHelper</b> 폴더를 <b>Interface/AddOns</b> 에 넣기 · 원래 폴더는 지우고</small></span><a class="btn sm" href="addon/WowfHelper.zip" download>zip 받기</a></div>'
@@ -836,8 +879,10 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
    +'<div><em>3</em><span class="t"><b>앱에 붙여 넣기</b><small>붙여 넣으면 바로 맞춰져요</small></span><button class="btn sm ghost" data-a="imp">붙여 넣기</button></div></div>',!im);
   h+=sec('cmd','⌨️ 게임 명령어','/wfh · 점검 · 추천',addonCmdTable('',ADDON_CMD),false);
   h+=sec('off','🔕 끄는 방법','공략 창 · 알림 · 추천',addonCmdTable('',ADDON_OFF,'애드온 전체 끄기: 캐릭터 선택 화면 「애드온」에서 체크 해제'),false);
-  h+='<p class="adt">은행은 게임에서 한 번 열어야 담겨요 · 부캐는 그 캐릭터로 한 번 접속해야 담겨요'+(isPC()?'':' · PC에서 하는 게 편해요')+'</p></div>';
-  return h}
+  h+='<p class="adt">은행은 게임에서 한 번 열어야 담겨요 · 부캐는 그 캐릭터로 한 번 접속해야 담겨요'+(isPC()?'':' · PC에서 하는 게 편해요')+'</p>';
+  /* 이미 가져온 적 있으면 안내는 접어 둠 */
+  h=im?h0+'<details class="adsec adall"><summary><b>📖 애드온 안내</b><small>할 수 있는 것 · 명령어 · 끄는 방법</small><i>⌄</i></summary><div class="adsb">'+h+'</div></details>':h0+h;
+  return h+'</div>'}
 /* 8) 이번 주 직업 변경 — 블리자드 포에버 핫픽스·개발 노트에서 직업별로 골라 둔 것 (화요일마다 갱신) */
 const CHG=[
  ['2026-11-10','shaman','enhancement','고양 주술사: 힘이 가장 좋은 능력치가 되도록 조정 — 장비 추천도 힘 우선으로 바뀌었어요'],
@@ -879,7 +924,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   h+=U.length?row('img/ui-shield.png','장비',(NEW.length?'🆕 새로 낄 수 있는 템 <b class="hl">'+NEW.length+'개</b> · '+esc(NEW[0].it.nm):esc(U[0].it.nm)+' · '+SLOT_KO[U[0].slot]),'tab','gear','<span class="tbg">'+U.length+'</span>'):row('img/ui-shield.png','장비','지금은 더 좋은 템이 없어요','tab','gear','<span class="tok">✓</span>',1);
   h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D[0]._v.g?' · <b class="hl">⭐ 좋은 템 '+D[0]._v.g+'</b>':'')+(D[0]._v.q?' · 퀘스트 '+D[0]._v.q:'')+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
   h+=msRows(c);
-  h+='</div>';const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c);
+  h+='</div>';const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c)+'<button class="syl'+(SY.gid?' on':'')+'" data-a="chars">'+(SY.gid?'📱💻 기기 연동 켜짐'+(SY.err?' · ⚠ '+esc(SY.err):SY.at?' · '+armAgo(SY.at)+' 맞춤':''):'📱💻 휴대폰·컴퓨터 자동 연동 켜기')+' ›</button>';
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
   if(isPC()){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
@@ -941,7 +986,12 @@ function bagUps(c){const w=wOf(c);const out=[];const seen=new Set();
 /* 🎮 애드온 툴팁용 추천 코드: WFR1;U:번호-점수×10-칸.…;W:찜 */
 function wfrCode(c){const U=[];const seen=new Set();SLOTS.forEach(([sl])=>{if(offLocked(c,sl))return;bestFor(c,sl,c.lv,ui.ifil||'ok').slice(0,6).forEach(x=>{if(seen.has(x.it.id))return;seen.add(x.it.id);U.push(x.it.id.toString(36)+'-'+Math.max(1,Math.round(x.g*10))+'-'+sl)})});
   const W=(c.wish||[]).map(id=>(+id).toString(36));const P=rwPicks(c).map(([q,i])=>q.toString(36)+'-'+i.toString(36));
-  return {code:'WFR1;U:'+U.join('.')+';W:'+W.join('.')+';P:'+P.join('.'),n:U.length,w:W.length,p:P.length}}
+  const N=nextStops(c).map(x=>x.join('~'));
+  return {code:'WFR1;U:'+U.join('.')+';W:'+W.join('.')+';P:'+P.join('.')+';N:'+N.join('^'),n:U.length,w:W.length,p:P.length,nx:N.length}}
+/* 게임 /wfh 다음 용: 지금 구간에서 남은 들를 곳 6개 [곳, 지역, x, y, 할 퀘스트 수] */
+function nextStops(c){const L=c.lv;const S0=routeOf(c).find(S=>L>=S.a&&L<=S.b);if(!S0)return [];const cl=t=>String(t||'').replace(/[~^;]/g,' ').trim();
+  return nowPlan(c,S0).filter(H=>H.i<97&&(H.get.some(x=>!x.done&&!x.prof)||H.turn.some(x=>!x.done))).slice(0,6).map(H=>{const m=String(H.n).match(/^(.*?) \((\d+), (\d+)\)$/);const xy=H.xy||(m?[+m[2],+m[3]]:null);
+    return [cl(H.npc?H.npc:(m?m[1]:H.n)),cl(H.z),xy?Math.round(xy[0]):'',xy?Math.round(xy[1]):'',H.get.filter(x=>!x.done&&!x.prof).length+H.turn.filter(x=>!x.done).length]})}
 /* 퀘스트 보상 고르기: 퀘스트창·지금/다음 구간·던전 퀘스트 중 「골라 받는 보상」이 있는 것 → [퀘스트, 템] */
 function rwChoices(id){const R=RWD.get(id);if(R&&R.ch&&R.ch.length)return R.ch.map(x=>x[0]);const d=dgOfQ(id);const q=d&&d.q.find(x=>x.id===id);return q&&q.choose&&q.rw.length>1?q.rw:[]}
 function rwPickFor(c,id){const ch=rwChoices(id);if(ch.length<2)return 0;const pk=(c.rwPick||{})[id];if(pk&&ch.includes(pk))return pk;let bi=0,bg=.01;ch.forEach(i=>{const it=IT.get(i);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});return bi}
@@ -949,7 +999,7 @@ function rwPicks(c){const L=c.lv;const ids=new Set(Object.keys(c.ql||{}).map(Num
   routeOf(c).filter(S=>S.b>=L-1&&S.a<=L+6).forEach(S=>S.q.forEach(q=>{if(q.id)ids.add(q.id)}));dgNow(L).forEach(d=>dqOf(c,d).forEach(q=>ids.add(q.id)));
   const out=[];ids.forEach(id=>{const i=rwPickFor(c,id);if(i)out.push([id,i])});return out.slice(0,150)}
 function wfrSheet(c){const R=wfrCode(c);return '<div class="sh"><h2>🎮 게임 툴팁에 앱 추천 넣기</h2><button class="x" data-a="close">✕</button></div>'
-  +'<p class="note">게임에서 템에 마우스를 올리면 「<b>와포 추천 · 머리 지금보다 +11</b>」, 찜한 템은 「⭐ 앱에서 찜한 템」이 붙어요. 칸마다 추천 6개까지, 모두 <b>'+R.n+'개</b>'+(R.w?' · 찜 '+R.w+'개':'')+'.'+(R.p?' 퀘스트 보상 고르기 <b>'+R.p+'개</b>도 들어 있어서, 퀘스트를 반납할 때 고를 템을 알려 줘요 (애드온 v3.2).':'')+'</p>'
+  +'<p class="note">게임에서 템에 마우스를 올리면 「<b>와포 추천 · 머리 지금보다 +11</b>」, 찜한 템은 「⭐ 앱에서 찜한 템」이 붙어요. 칸마다 추천 6개까지, 모두 <b>'+R.n+'개</b>'+(R.w?' · 찜 '+R.w+'개':'')+'.'+(R.p?' 퀘스트 보상 고르기 <b>'+R.p+'개</b>도 들어 있어서, 퀘스트를 반납할 때 고를 템을 알려 줘요 (애드온 v3.2).':'')+(R.nx?' 게임에서 <code>/wfh 다음</code> 하면 앱 동선의 다음 갈 곳 '+R.nx+'곳을 보여 줘요.':'')+'</p>'
   +'<ol class="imps"><li>아래 코드를 <b>복사</b></li><li>게임 채팅창에 <code>/wfh 추천</code> → 뜬 칸에 <b>Ctrl+V</b> → 확인</li></ol>'
   +'<textarea class="inp" rows="4" readonly onclick="this.select()">'+esc(R.code)+'</textarea><button class="btn full" data-a="wfrcp">코드 복사</button>'
   +'<p class="note">장비를 바꾸거나 레벨이 오르면 추천이 달라지니, 가끔 새로 넣어 주세요. 애드온 v3부터 돼요.</p>'}
@@ -1550,10 +1600,10 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
     if(M.length)rows.push(['grd','⚔️','퀘스트가 모자라면 여기서 사냥',M.slice(0,3).map(m=>'<p><b>'+esc(m[1])+'</b> <span class="qlv '+lvCls(m[3],L)+'">'+(m[2]===m[3]?m[2]:m[2]+'–'+m[3])+'</span><br><span class="mute">'+esc(m[0])+' '+m[5]+', '+m[6]+' 근처 · '+m[4]+'마리쯤</span></p>').join('')])}
   /* 비행 경로: 이 구간·다음 구간 지역에서 아직 안 연 곳 */
   if(WLD&&WLD.fp){const zz=[...new Set(zs.concat(NX?NX.z.split(' · '):[]).map(zn))];const F=WLD.fp.filter(f=>zz.includes(zn(f[1])));
-    if(F.length){const st=F.map(f=>({f,k:fpKnown(c,f)}));const un=st.filter(x=>!x.k);
+    const st0=F.map(f=>({f,k:fpKnown(c,f)}));if(F.length&&st0.some(x=>!x.k)){const st=st0;const un=st.filter(x=>!x.k);
       rows.push(['fp','🦅',un.length?'안 연 비행 경로 '+un.length+'곳':'비행 경로 다 열었어요',
         '<p class="mute">'+(c.taxi?'애드온에서 가져온 비행 경로로 확인했어요.':'애드온 v3.2로 가져오면 자동으로 확인해요. 연 곳은 「열었어요」를 눌러 주세요.')+' 지나가는 길에 비행 조련사와 대화하면 열려요.</p>'
-        +st.sort((a,b)=>a.k-b.k).map(({f,k})=>'<div class="fpr'+(k?' ok':'')+'"><span class="m"><b>'+(k?'✅ ':'🦅 ')+esc(f[1])+'</b><small>'+esc(f[0])+' · '+esc(f[2].replace(',',', '))+'</small></span>'+(k==='m'||!k?'<button class="btn sm '+(k?'ghost':'')+'" data-a="fpk" data-k="'+esc(f[0]+'|'+f[1])+'">'+(k?'취소':'열었어요')+'</button>':'')+'</div>').join('')])}}
+        +st.sort((a,b)=>(!!a.k)-(!!b.k)).map(({f,k})=>'<div class="fpr'+(k?' ok':'')+'"><span class="m"><b>'+(k?'✅ ':'🦅 ')+esc(f[1])+'</b><small>'+esc(f[0])+' · '+esc(f[2].replace(',',', '))+'</small></span>'+(k==='m'||!k?'<button class="btn sm '+(k?'ghost':'')+'" data-a="fpk" data-k="'+esc(f[0]+'|'+f[1])+'">'+(k?'취소':'열었어요')+'</button>':'')+'</div>').join('')])}}
   /* 네임드·희귀 몹: 이 구간 지역에서 장비를 떨구는 몹 (자리: 퀘스트 자료의 몹 위치) */
   if(WLD){const zz=zs.map(zn);const out=[];
     if(WLD.np){const M=mobDropsById();for(const id in M){const p=WLD.np[id];if(!p||!zz.includes(zn(p[0])))continue;if(p[5]&&(p[5]<L-4||p[4]>L+5))continue;out.push({z:p[0],m:[p[6]||M[id].nm,p[4],p[5],p[7],p[1],p[2]],rank:p[3],its:M[id].its})}}
@@ -1569,11 +1619,11 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
     if(IQ.length)rows.push(['itq','📜','주워서 시작하는 퀘스트 '+IQ.length+'개',
       '<p class="mute">몹이 떨구거나 바닥에 있는 아이템을 주우면 시작돼요. 보이면 꼭 챙기세요.</p>'+IQ.sort((a,b)=>(a.lv||0)-(b.lv||0)).slice(0,8).map(q=>'<button class="iqr" data-a="qopen" data-k="'+q.id+'"><span class="qlv '+lvCls(q.lv,L)+'">'+(q.lv||'?')+'</span><span class="m"><b>📦 '+esc(q.g[0])+'</b><small>'+(q.g[4]?esc(q.g[4])+'에게서 · ':'')+esc(q.g[1]||'')+(q.g[2]?' '+esc(q.g[2].replace(',',', ')):'')+' → 「'+esc(q.n)+'」</small></span></button>').join('')])}
   /* 6) 사냥 전에 챙길 것 (포에버: 휴식 경험치·침낭·야영지·음식) */
-  rows.push(['rest','💤','사냥 전에 챙길 것',restHtml(c)]);
-  /* 7) 레거시 포인트 추천 */
-  rows.push(['leg','🏅','레거시 포인트 추천',legacyHtml(c)]);
+  /* 레벨업 팁: 휴식·야영지·음식 + 레거시 포인트 (한 칸으로) */
+  rows.push(['tip','💡','레벨업 팁 · 휴식·레거시','<h4 class="lhh4">💤 사냥 전에 챙길 것</h4>'+restHtml(c)+'<h4 class="lhh4">🏅 레거시 포인트 추천</h4>'+legacyHtml(c)]);
   if(!rows.length)return '';ui.lhopen=ui.lhopen||{};
-  const TI={fp:ICO('ability_hunter_pet_wolf'),rare:ICO('inv_misc_head_dragon_01'),itq:ICO('inv_misc_note_02'),rest:ICO('spell_nature_sleep'),leg:ICO('inv_misc_book_07'),cls:ICO('classicon_'+c.cls),trn:ICO('spell_holy_holybolt'),dg:ICO('inv_misc_bone_humanskull_01'),mv:ICO('ability_mount_gryphon_01'),grd:ICO('ability_hunter_snipershot')};
+  {const PR={trn:0,cls:1,dg:2,mv:3,fp:4,rare:5,itq:6,grd:7,tip:9};rows.sort((a,b)=>(PR[a[0]]??8)-(PR[b[0]]??8))}
+  const TI={tip:ICO('inv_misc_book_09'),fp:ICO('ability_hunter_pet_wolf'),rare:ICO('inv_misc_head_dragon_01'),itq:ICO('inv_misc_note_02'),rest:ICO('spell_nature_sleep'),leg:ICO('inv_misc_book_07'),cls:ICO('classicon_'+c.cls),trn:ICO('spell_holy_holybolt'),dg:ICO('inv_misc_bone_humanskull_01'),mv:ICO('ability_mount_gryphon_01'),grd:ICO('ability_hunter_snipershot')};
   const sel=ui.lhsel&&rows.some(r=>r[0]===ui.lhsel)?ui.lhsel:null;
   return '<div class="lh2"><div class="lh2h"><b>레벨업 도우미</b><small>'+L+'레벨 · '+esc(CKO)+'</small></div><div class="lh2g">'+rows.map(r=>'<button class="lh2t'+(sel===r[0]?' on':'')+(r[0]==='trn'&&/배울 기술/.test(r[2])?' hot':'')+'" data-a="lhsel" data-k="'+r[0]+'"><span class="ic" style="background-image:url('+TI[r[0]]+')"></span><b>'+r[2]+'</b></button>').join('')+'</div>'
     +(sel?'<div class="lh2b">'+rows.find(r=>r[0]===sel)[3]+'</div>':'')+'</div>'}
@@ -2327,6 +2377,7 @@ function charsSheet(){const c=me();let h='<div class="sh"><h2>내 캐릭터</h2>
     h+='<div class="card">'+armBox(c)+'</div>';
     h+='<details class="navlog"><summary>🧾 문제 신고용 · 최근 화면 이동 기록</summary><p class="note">화면이 저절로 바뀌었다면 아래 기록을 복사해서 보내 주세요. 언제, 무엇 때문에 바뀌었는지 남아 있어요.</p><textarea class="inp" readonly rows="6">'+esc((()=>{try{return JSON.parse(sessionStorage.getItem('wfh_nav')||'[]').map(r=>r.join('  ')).join('\n')}catch(e){return ''}})())+'</textarea></details>';
     h+='<div class="card"><h3>🧩 게임에서 불러오기 <small class="mute">고급</small></h3><p class="note">애드온 코드를 붙여 넣으면 게임에서 끝낸 퀘스트가 한 번에 체크돼요.</p><button class="btn sm" data-a="imp">불러오기 열기</button></div>';
+    h+=syncBox();
     h+='<div class="card bk2"><h3>💾 기록 백업</h3><p class="note">캐릭터·장비·끝낸 퀘스트는 이 휴대폰 브라우저에만 저장돼요. 캐시를 지우거나 폰을 바꾸기 전에 내보내 두세요.</p>'
       +'<div class="bkb"><button class="btn sm" data-a="bkout">📤 내보내기 (코드 복사)</button><button class="btn sm ghost" data-a="bklink">🔗 링크로 옮기기</button></div>'
       +(ui.bkcode?'<textarea class="inp bkta" readonly rows="3">'+esc(ui.bkcode)+'</textarea>':'')
@@ -2421,7 +2472,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     ui.impExtra=extra.join(' · ');ui.imp=null;ui.impraw='';ui.sheet=null;if(P.log.length){ui.tab='quest';ui.qmode='log'}save();toast('✓ 끝낸 퀘스트 '+P.done.length+'개를 불러왔어요 (새로 '+n+'개)'+(ui.impExtra?' · '+ui.impExtra:''));ui.impEq=null;ui.impSp=null;rerender(true);return}
   if(a==='pick'){DB.cur=k;save();ui.sheet=null;ui.dg=null;ui.qz=null;render();window.scrollTo(0,0);toast('캐릭터를 바꿨어요');return}
   if(a==='add'){ui.sheet=null;ui.onb={name:'',race:c.race,cls:'',spec:'',lv:1};render();window.scrollTo(0,0);return}
-  if(a==='del'){if(!ui.delAsk){ui.delAsk=1;rerender(true);return}DB.list=DB.list.filter(x=>x.id!==c.id);DB.cur=DB.list[0]?DB.list[0].id:null;save();ui.delAsk=0;ui.sheet=null;render();toast('지웠어요');return}
+  if(a==='del'){if(!ui.delAsk){ui.delAsk=1;rerender(true);return}DB.del=DB.del||{};DB.del[c.id]=Date.now();DB.list=DB.list.filter(x=>x.id!==c.id);DB.cur=DB.list[0]?DB.list[0].id:null;save();ui.delAsk=0;ui.sheet=null;render();toast('지웠어요');return}
   if(a==='crace'){c.race=k;save();rerender(true);return}
   if(a==='armlink'){c.arm=k;armApply(c);rerender(true);return}
   if(a==='armnow'){armApply(c);rerender(true);return}
@@ -2455,6 +2506,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='gmode'){c.gmode=k;save();rerender(true);toast(k==='solo'?'사냥용 기준으로 추천해요':'힐 위주 기준으로 추천해요');return}
   if(a==='bkout'||a==='bklink'){bkEncode({v:1,cur:DB.cur,list:DB.list}).then(code=>{const txt=a==='bklink'?location.origin+location.pathname+'#bk='+code:code;ui.bkcode=txt;rerender(true);
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
+  if(a==='syon'){const t=document.querySelector('[data-c=sytok]');const v=t&&t.value.trim();if(!v){toast('토큰을 먼저 붙여 넣으세요');return}toast('연결하는 중…');syConnect(v).then(ok=>{toast(ok?'연결됐어요! 다른 기기에도 같은 토큰을 넣어 주세요':'연결하지 못했어요');rerender(true)});return}
+  if(a==='sygo'){toast('맞추는 중…');syPull().then(()=>{toast(SY.err?SY.err:'맞췄어요');rerender(true)});return}
+  if(a==='syoff'){SY={};sySave();toast('연결을 끊었어요');rerender(true);return}
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
   if(a==='dtab'){ui.dtab=k;rerender(true);return}
   if(a==='lf'){ui.lf=k;rerender(true);return}
@@ -2576,6 +2630,10 @@ document.addEventListener('input',e=>{const t=e.target;if(t.dataset.c==='onb-nam
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset&&(e.target.dataset.c==='lv'||e.target.dataset.c==='onb-lv'))e.target.blur()});
 try{const v=JSON.parse(sessionStorage.getItem('wfh_view')||'null');if(v&&['home','gear','quest','dungeon','class'].includes(v.tab)){ui.tab=v.tab;if(v.qmode)ui.qmode=v.qmode;if(v.tab==='dungeon'&&v.dg)ui.dg=v.dg;NAVW='새로고침 복원';if(v.tab==='quest'||v.tab==='dungeon')qdbLoad();if(v.tab==='dungeon')dggLoad()}}catch(e){}
 render();
+/* 기기 연동: 열 때 · 다시 돌아올 때 · 켜 둔 동안 2분마다 다른 기기 기록 가져오기 */
+{setTimeout(()=>syPull(),1500);let syLast=Date.now();
+  document.addEventListener('visibilitychange',()=>{if(!SY.gid)return;if(!document.hidden&&Date.now()-syLast>20e3){syLast=Date.now();syPull()}else if(document.hidden&&syT){clearTimeout(syT);syPush()}});
+  setInterval(()=>{if(SY.gid&&!document.hidden&&!document.querySelector('input:focus,textarea:focus')){syLast=Date.now();syPull(true)}},120e3)}
 
 /* 던전 고르는 줄: 마우스 휠·끌기로 옆으로 넘기기 (PC) */
 document.addEventListener('wheel',e=>{const dc=e.target.closest&&e.target.closest('.dchips');if(!dc||Math.abs(e.deltaX)>Math.abs(e.deltaY))return;

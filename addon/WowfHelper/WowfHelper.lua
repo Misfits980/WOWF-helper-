@@ -340,7 +340,7 @@ local function showFrame()
   local code, n = makeCode()
   if not frame then
     frame = CreateFrame("Frame", "WowfHelperFrame", UIParent)
-    frame:SetSize(480, 300)
+    frame:SetSize(480, 320)
     frame:SetPoint("CENTER")
     frame:SetFrameStrata("DIALOG")
     frame:EnableMouse(true)
@@ -369,7 +369,7 @@ local function showFrame()
     close:SetPoint("TOPRIGHT", 2, 2)
 
     local scroll = CreateFrame("ScrollFrame", "WowfHelperScroll", frame, "UIPanelScrollFrameTemplate")
-    scroll:SetPoint("TOPLEFT", 14, -72)
+    scroll:SetPoint("TOPLEFT", 14, -84)
     scroll:SetPoint("BOTTOMRIGHT", -32, 58)
     local box = CreateFrame("EditBox", nil, scroll)
     box:SetMultiLine(true)
@@ -388,10 +388,10 @@ local function showFrame()
     frame.help:SetText("Ctrl+C 로 복사 → 앱 「내 캐릭터 → 게임에서 불러오기」에 붙여 넣기")
     frame.off = frame:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
     frame.off:SetPoint("BOTTOMLEFT", 14, 12)
-    frame.off:SetText("끄기: /wfh 공략 (보스 창) · /wfh 알림 · /wfh 추천 지우기 · /wfh 설정 (상태 보기)")
+    frame.off:SetText("명령어 모두 보기: /wfh 도움 · 다음 갈 곳: /wfh 다음")
   end
   frame.code = code
-  frame.info:SetText(("끝낸 퀘스트 %d · 목록 %d(목표 %d) · 장비 %d칸 · 전문기술 %d · 특성 %s\n가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 무기 숙련 %d · 비행 경로 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.prof, n.tal ~= "" and n.tal or "-", n.bag, n.bank, n.rep, n.alt, n.wsk or 0, n.taxi or 0, n.sxp or 0))
+  frame.info:SetText(("퀘스트 · 끝냄 %d · 퀘스트창 %d (목표 %d)\n캐릭터 · 장비 %d칸 · 특성 %s · 전문기술 %d · 무기 숙련 %d\n그 밖 · 가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 비행 경로 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.tal ~= "" and n.tal or "-", n.prof, n.wsk or 0, n.bag, n.bank, n.rep, n.alt, n.taxi or 0, n.sxp or 0))
   frame.box:SetText(code)
   frame:Show()
   frame.box:SetFocus()
@@ -435,7 +435,24 @@ SlashCmdList["WOWFHELPER"] = function(msg)
   elseif msg == "설정" or msg == "status" then
     say(("설정 · 보스 공략 창 %s · 알림 %s · 툴팁 추천 %s"):format(D.bossOff and "|cffff6060꺼짐|r" or "|cff40ff40켜짐|r",
       D.noteOff and "|cffff6060꺼짐|r" or "|cff40ff40켜짐|r", (D.recN or 0) > 0 and ("|cff40ff40" .. D.recN .. "개|r") or "없음"))
+    local np, nt = 0, 0
+    for _ in pairs((D.rec and D.rec.p) or {}) do np = np + 1 end
+    for _ in pairs(D.taxi or {}) do nt = nt + 1 end
+    say(("담긴 것 · 보상 고르기 %d개 · 다음 갈 곳 %d곳 · 기억한 비행 경로 %d곳"):format(np, (D.rec and D.rec.n) and #D.rec.n or 0, nt))
     say("끄고 켜기: /wfh 공략 · /wfh 알림 · /wfh 추천 지우기 · 애드온 전체는 캐릭터 고르는 화면의 「애드온」에서")
+  elseif msg == "도움" or msg == "help" or msg == "?" then
+    say("명령어 · |cffffd100/wfh|r 앱으로 옮길 코드 · |cffffd100/wfh 다음|r 다음 갈 곳 · |cffffd100/wfh 추천|r 앱 추천 코드 넣기")
+    say("|cffffd100/wfh 점검|r 담긴 개수 · |cffffd100/wfh 설정|r 켜고 끈 상태 · |cffffd100/wfh 공략|r 보스 창 · |cffffd100/wfh 알림|r 알림 · |cffffd100/wfh 추천 지우기|r")
+  elseif msg == "다음" or msg == "next" then
+    local L = D.rec and D.rec.n
+    if not L or #L == 0 then say("앱 동선이 없어요. 앱 「장비 → 게임 툴팁에 추천 넣기」 코드를 /wfh 추천 으로 넣어 주세요.")
+    else
+      for i = 1, math.min(3, #L) do
+        local x = L[i]
+        say(("%d. |cffffd100%s|r · %s%s · 퀘스트 %d개"):format(i, x[1], x[2], (x[3] and x[4]) and (" " .. x[3] .. ", " .. x[4]) or "", x[5] or 0))
+      end
+      say("|cff999999앱에서 코드를 다시 넣으면 새 동선으로 바뀌어요.|r")
+    end
   elseif msg == "추천" or msg == "rec" then WowfHelper_RecBox()
   elseif msg == "공략" or msg == "boss" then WowfHelper_BossToggle()
   else showFrame() end
@@ -553,6 +570,13 @@ local function parseRec(txt)
       end
     elseif k == "W" then
       for id in v:gmatch("[^%.]+") do local x = tonumber(id, 36); if x then rec.w[x] = true end end
+    elseif k == "N" then
+      -- 앱 동선의 다음 갈 곳: 곳~지역~x~y~퀘스트수 (^ 로 나눔)
+      rec.n = {}
+      for part in v:gmatch("[^%^]+") do
+        local nm, z, x, y, q = part:match("^([^~]*)~([^~]*)~([^~]*)~([^~]*)~([^~]*)$")
+        if nm then rec.n[#rec.n + 1] = { nm, z, tonumber(x), tonumber(y), tonumber(q) or 0 } end
+      end
     elseif k == "P" then
       -- 퀘스트 보상 고르기: 퀘스트번호-템번호 (36진수)
       for part in v:gmatch("[^%.]+") do
@@ -587,7 +611,9 @@ function WowfHelper_RecBox()
       if not rec then info:SetText("|cffff6060WFR1; 로 시작하는 코드가 아니에요.|r 앱 장비 탭 → 「게임 툴팁에 추천 넣기」에서 복사해 주세요."); return end
       WowfHelperDB = WowfHelperDB or {}
       WowfHelperDB.rec = rec; WowfHelperDB.recN = n
-      say(("추천 %d개를 넣었어요. 아이템에 마우스를 올리면 보여요."):format(n))
+      local np = 0
+      for _ in pairs(rec.p or {}) do np = np + 1 end
+      say(("추천 %d개 · 보상 고르기 %d개 · 다음 갈 곳 %d곳을 넣었어요. (/wfh 다음 · /wfh 도움)"):format(n, np, rec.n and #rec.n or 0))
       recBox:Hide()
     end
     ok:SetScript("OnClick", apply); eb:SetScript("OnEnterPressed", apply); eb:SetScript("OnEscapePressed", function() recBox:Hide() end)

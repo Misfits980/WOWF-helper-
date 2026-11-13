@@ -2024,3 +2024,6 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .dechk button.on{border-color:#7a6a3a;background:#2a2416}.dechk button.on i{background:#e2b84f;border-color:#e2b84f}
 .dechk button .ic{width:30px;height:30px;flex:none}.dechk small{color:var(--mute);font-size:12px}
 .der{padding:12px;border-radius:12px;background:#1f2a1a;border:1px solid #3d6b3d;margin-bottom:10px}.der p{margin:2px 0}
+.lhh4{margin:12px 0 4px;font-size:13.5px;color:#ffe08a}.lhh4:first-child{margin-top:0}
+.syc ol.imps{margin:6px 0 8px 18px;padding:0;font-size:13px}.syc ol.imps li{margin:3px 0}
+.syl{display:block;width:100%;margin:10px 0;padding:10px 12px;border-radius:12px;border:1px dashed #4f7aa6;background:#141c27;color:#8fc7ff;font-size:13.5px;text-align:left}.syl.on{border-style:solid;border-color:#2f4a66;color:#9fd59f}
