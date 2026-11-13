@@ -266,7 +266,7 @@ function qdbToQD(q){const drop=t=>t[2]&&t[2].length?t[2].map(x=>x[0]+(x[1]?' (Lv
 const MC_ORDER=['동부 왕국','칼림도어','리버글레이드','제프라스 섬','직업','기타'];
 const MC_IC={'동부 왕국':'🏰','칼림도어':'🌴','리버글레이드':'🌊','제프라스 섬':'🏝️','던전':'⚔️','직업':'🎓','기타':'🎉'};
 function qd(c,z,q){return !!((c.fq||{})[z+'|'+q.nm]||(q.id&&(c.mq||{})[q.id]))}
-function mqDone(c,q){return !!((c.mq||{})[q.id]||(c.fq||{})[q.z+'|'+q.n])}
+function mqDone(c,q){return !!((c.mq||{})[q.id]||(c.dq||{})[q.id]||(c.fq||{})[q.z+'|'+q.n])}
 function mapView(c){const L=c.lv;
   if(!QDB){qdbLoad();return '<p class="empty-st">맵 전체 퀘스트를 불러오는 중이에요…</p>'}
   if(!QDB.size)return '<p class="empty-st">퀘스트 자료를 못 불러왔어요. 잠시 뒤에 다시 열어 주세요.</p>';
@@ -422,7 +422,9 @@ function miniMap(id,d,nm){const X=QDB&&QDB.get(id);const P=[];
 function chainOf0(id){const d=QD.get(id);if(d&&d.ch&&d.ch.length>1)return d.ch;for(const o of QD.values())if(o.ch&&o.ch.length>1&&o.ch.some(r=>r[6]===id))return o.ch.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r});return null}
 /* 연계 정보는 한 곳 기준: Questie 포에버 자료(갈래·보정 포함)가 있으면 그걸, 없을 때만 forg·wowf 연계 표 */
 function chainOf(id){const X=QDB&&QDB.get(id);if(X){const b=X._ch;return b?b.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r}):(QKIDS[id]?null:(X._root!==id?null:null))}return chainOf0(id)}
-function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=chainOf(id);if(chx){d.ch=chx;d.cn=chx.length;d.cc=(chx.find(r=>r[5])||[0])[0]}const R=RWD.get(id)||{};const L=c.lv;
+function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=chainOf(id);if(chx){d.ch=chx;d.cn=chx.length;d.cc=(chx.find(r=>r[5])||[0])[0]}let R=RWD.get(id)||{};const L=c.lv;
+  /* 보상 자료에 템이 없으면 던전 퀘스트 목록의 보상 템으로 채움 */
+  if(!(R.ch&&R.ch.length)&&!(R.fx&&R.fx.length)){const dd=dgOfQ(id);const dq=dd&&dd.q.find(x=>x.id===id);if(dq&&dq.rw.length){const its=dq.rw.map(i=>IT.get(i)).filter(Boolean).map(it=>[it.id,it.nm,it.ic,it.q,1]);if(its.length)R=Object.assign({},R,dq.choose&&its.length>1?{ch:its}:{fx:its})}}
   const nm=base.nm,obj=base.obj||d.obj||'';let h='<div class="parch"><div class="ph"><h4>'+esc(nm)+'</h4>'+(base.place?'<span class="ptag">'+base.place+'</span>':'')+'</div>';
   {let tg=base.tags||'';if(chx||(d.ch&&d.ch.length>1))tg=tg.replace('<span class="tag pre">앞 퀘스트 먼저</span>','');if(tg.trim())h+='<div class="ptags">'+tg+'</div>'}
   h+='<h5>퀘스트 임무</h5><p>'+esc(obj)+'</p>';
@@ -468,12 +470,14 @@ function questSheet(c,id){id=+id;const f=questById(id);const d=QD.get(id)||{};co
   const q=f?f.q:X?{nm:X.n,lv:X.lv,obj:X.o,min:X.m}:{nm:cr?cr[1]:'퀘스트 '+id,lv:cr?cr[2]:'',obj:d.obj};
   if(X){let h='<div class="sh"><h2>['+(X.lv||'?')+'] '+esc(X.n)+'</h2><button class="x" data-a="close">✕</button></div>';
     h+=parch(c,id,{nm:X.n,obj:X.o,place:esc(X.z||''),tags:(X.m>c.lv?'<span class="tag">'+X.m+'레벨부터</span>':''),done:mqDone(c,X),kind:'mq',ck:String(id),pre:X.pre});
+    {const dd=dgOfQ(id);if(dd)h+='<button class="btn full" style="margin-top:8px" data-a="dgo" data-k="'+dd.slug+'">🏰 '+esc(dd.ko)+' 던전 보기</button>'}
     return h+'<button class="btn ghost full" style="margin-top:8px" data-a="mzgo" data-k="'+esc((X.c||'기타')+'|'+X.z)+'">'+esc(X.z||'')+' 퀘스트 전체 보기</button>'}
   let h='<div class="sh"><h2>['+(q.lv||'?')+'] '+esc(q.nm)+'</h2><button class="x" data-a="close">✕</button></div>';
   const place=f&&f.dg?'🏰 '+esc(f.dg.ko)+' 퀘스트':f?esc(f.z)+' '+(CONT[f.z]?CONT_IC[CONT[f.z]]:''):'';
   const ck=f&&!f.dg?f.z+'|'+q.nm:String(id);const kind=f&&!f.dg?'fq':'dq';const done=f?!!((f.dg?c.dq:c.fq)||{})[ck]:null;
   h+=parch(c,id,{nm:q.nm,obj:q.obj,gv:q.gv,xy:q.xy,place,tags:chainTag(id,q)+(q.min>c.lv?'<span class="tag">'+q.min+'레벨부터</span>':''),done:f?done:null,kind,ck});
   if(f&&!f.dg)h+='<button class="btn ghost full" style="margin-top:8px" data-a="goz" data-k="'+esc(f.z)+'">'+esc(f.z)+' 퀘스트 목록으로</button>';
+  if(f&&f.dg)h+='<button class="btn full" style="margin-top:8px" data-a="dgo" data-k="'+f.dg.slug+'">🏰 '+esc(f.dg.ko)+' 던전 보기</button>';
   return h}
 const T_IC={'처치':'⚔️','수집':'📦','사용':'✋','대화':'💬','탐험':'🧭','획득':'📦','호위':'🛡️','상호작용':'✋','전달':'📨','파괴':'💥','조사':'🔍'};
 const T_KO={'처치':'잡기','수집':'모으기','사용':'사용하기','대화':'대화하기','탐험':'찾아가기','획득':'얻기','호위':'호위하기','상호작용':'눌러서 조사','전달':'전달하기','파괴':'부수기','조사':'조사하기'};
@@ -570,7 +574,7 @@ function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.
 function srcList(it){if(!it.src.length)return '<p class="note">어디서 나오는지 아직 몰라요.</p>';
   return '<div class="srcl">'+it.src.slice(0,6).map(i=>{const s=SRC[i];if(!s)return '';const d=s.k===0&&DG[s.dg];
     const ico={0:'🏰',1:'📜',2:'🌍',3:'⚔️',4:'🧪',5:'🛒'}[s.k]||'•';const bn=d&&d.bosses?bossNo(d,s.boss):null;
-    return '<div class="srci"><span class="si">'+ico+'</span><span class="sx">'+esc(srcTxt({src:[i]},1))+(d?'<small>'+d.lo+'–'+d.hi+'레벨 던전'+(bn?' · '+bn+'번째 보스':'')+'</small>':'')+'</span>'+(d?'<button class="btn sm ghost" data-a="dgo" data-k="'+s.dg+'">던전 ›</button>':'')+'</div>'}).join('')+'</div>'}
+    return '<div class="srci"><span class="si">'+ico+'</span><span class="sx">'+esc(srcTxt({src:[i]},1))+(d?'<small>'+d.lo+'–'+d.hi+'레벨 던전'+(bn?' · '+bn+'번째 보스':'')+'</small>':'')+'</span>'+(d?'<button class="btn sm ghost" data-a="dgo" data-k="'+s.dg+'">던전 ›</button>':s.k===1&&srcQid(s)?(()=>{const qi=srcQid(s);const dd=dgOfQ(qi);return dd?'<button class="btn sm ghost" data-a="dgo" data-k="'+dd.slug+'">던전 ›</button>':'<button class="btn sm ghost" data-a="qopen" data-k="'+qi+'">퀘스트 ›</button>'})():'')+'</div>'}).join('')+'</div>'}
 /* ===== 🖱️ PC: 아이템 아이콘에 마우스를 올리면 와우 툴팁처럼 전체 능력치 ===== */
 const TIP_BASE=['str','agi','sta','int','spi'];
 function itemTipHtml(c,it,slot){const st=it.st||{};const QC={p:'qp',c:'qc',u:'qu',r:'qr',e:'qe',l:'ql'}[it.q]||'qc';
@@ -610,7 +614,7 @@ function questTipHtml(c,id){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!
   document.addEventListener('scroll',hide,true);document.addEventListener('click',hide,true)})();
 function itIcon(it,cls){return it&&(it.ic||it.icUrl)?'<span class="ic '+(cls||'')+' q-'+it.q+'" data-tip="'+it.id+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic empty '+(cls||'')+'">–</span>'}
 function itName(it){return '<span class="q'+it.q+'">'+esc(it.nm)+'</span>'}
-function itMeta(it){return esc((SL_KO[it.sl]||it.sl)+(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?' · '+CS_KO[it.cs]:'')+' · Lv '+it.lv+(it.est?'?':''))+(it.ph==='extra'?' <span class="tag sm" title="클래식 자료로 더한 장비라 능력치가 조금 다를 수 있어요">능력치 대략</span>':'')}
+function itMeta(it){return esc((SL_KO[it.sl]||it.sl)+(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?' · '+CS_KO[it.cs]:'')+' · '+(it.lv<=1&&it.ob>1?'착용 레벨 제한 없음 · '+it.ob+'레벨쯤 얻음':'Lv '+it.lv+(it.est?'?':'')))+(it.ph==='extra'?' <span class="tag sm" title="클래식 자료로 더한 장비라 능력치가 조금 다를 수 있어요">능력치 대략</span>':'')}
 
 function bossNo(d,boss){const i=d.bosses.findIndex(b=>b.nm===boss);return i>=0?i+1:null}
 function findZoneQuest(name){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.nm===name)return {q,S};return null}
@@ -714,8 +718,9 @@ function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';const b=bestSlot(
   if(dq){seen.add('dq');const q=dq.q,d=dq.d;parts.push('<div class="src"><b>📜 던전 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div><div class="obj">'+esc(q.obj)+'</div><div class="sub">'+esc(startTxt(q.start))+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 먼저':'')+'</div><div class="sub">던전: '+esc(d.ko)+' ('+esc(d.loc)+' · 권장 '+d.lo+'–'+d.hi+')'+(q.boss.length?' · 목표: '+q.boss.map(x=>esc(x.replace(/^(\d+) /,'$1번 '))).join(', '):'')+'</div>'+(q.choose&&q.rw.length>1?'<div class="sub">보상 '+q.rw.length+'개 중 하나를 골라요</div>':'')+'<button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 보기</button></div>')}
   for(const i of it.src){const s=SRC[i];if(!s)continue;
     if(s.k===0){const d=DG[s.dg];const n=d?bossNo(d,s.boss):null;parts.push('<div class="src"><b>🏰 던전 보스 드랍</b><div class="nm">'+esc(d?d.ko:s.dn)+(n?' · '+n+'번째 보스':'')+' 「'+esc(s.boss)+'」</div>'+(d?'<div class="sub">'+esc(d.loc)+' · 권장 레벨 '+d.lo+'–'+d.hi+(d.bosses.length?' · 보스 '+d.bosses.length+'마리 중 '+(n||'?')+'번째':'')+'</div><button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 보기</button>':'')+'</div>')}
-    else if(s.k===1){const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);if(m){if(seen.has('dq'))continue;const d=DGS.find(x=>x.ko===m[1]);parts.push('<div class="src"><b>📜 던전 퀘스트 보상</b><div class="nm">'+esc(m[1])+' 퀘스트 중 하나</div>'+(d?'<button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 퀘스트 보기</button>':'')+'</div>');continue}
+    else if(s.k===1){if(dq&&srcQid(s)===dq.q.id)continue;const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);if(m){if(seen.has('dq'))continue;const d=DGS.find(x=>x.ko===m[1]);parts.push('<div class="src"><b>📜 던전 퀘스트 보상</b><div class="nm">'+esc(m[1])+' 퀘스트 중 하나</div>'+(d?'<button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 퀘스트 보기</button>':'')+'</div>');continue}
       const f=findZoneQuest(s.qn);if(f){const q=f.q;const z=q.gz||q.sz;parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div>'+(q.obj?'<div class="obj">'+esc(q.obj)+'</div>':'')+'<div class="sub">'+esc(z)+' '+contTag(z)+'</div><div class="sub">'+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 '+q.pre+'개 먼저':'')+(q.ch?' · 연계 '+q.ch+'개 이어짐':'')+'</div><button class="btn sm" data-a="goz" data-k="'+esc(z)+'">이 지역 퀘스트 보기</button></div>')}
+      else if(QDB&&QDB.get(srcQid(s))){const X=QDB.get(srcQid(s));parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(X.n)+'」 <span class="lvb '+lvCls(X.lv,c.lv)+'">'+(X.lv||'?')+'</span></div><div class="sub">'+esc(X.z||'')+(X.g&&X.g[0]?' · '+esc(X.g[0]):'')+' · '+(X.m||1)+'레벨부터'+(mqDone(c,X)?' · ✅ 했어요':'')+'</div><button class="btn sm" data-a="qopen" data-k="'+X.id+'">퀘스트 보기</button></div>')}
       else parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(s.qn)+'」</div><div class="sub">레벨링 경로에 없는 퀘스트예요. <a href="https://www.wowhead.com/forever/ko/'+esc(s.href.replace('wh:','').replace('=','='))+'" target="_blank" rel="noopener">와우헤드에서 보기 ↗</a></div></div>')}
     else if(s.k===3)parts.push('<div class="src"><b>⚔️ 몹 드랍</b><div class="nm">'+esc(s.label.replace('드랍 · ',''))+'</div><div class="sub">이 몹을 잡으면 낮은 확률로 나와요.</div></div>');
     else if(s.k===2)parts.push('<div class="src"><b>🎲 월드 드랍</b><div class="sub">레벨 맞는 필드 몹에게서 무작위로 나와요. 경매장에서 사는 게 빨라요.</div></div>');
@@ -1179,9 +1184,16 @@ function qSearchHtml(c,q){const nq=q.replace(/\s+/g,'');if(nq.length<1)return ''
   for(const x of QDB.values()){if(!qdbOk(c,x))continue;const a=hit(x.n),b=x.g&&hit(x.g[0]),z=hit(x.z);if(!(a||b||z))continue;
     R.push({x,sc:(x.n.replace(/\s+/g,'').startsWith(nq)?0:a?1:b?2:3)*100+Math.abs((x.lv||L)-L)})}
   R.sort((a,b)=>a.sc-b.sc);const n=R.length;
-  if(!n)return '<p class="empty-st">"'+esc(q)+'"(으)로 찾은 퀘스트가 없어요.</p>';
-  return '<p class="mute sr">'+n+'개 찾음'+(n>40?' · 가까운 레벨 40개만':'')+'</p><div class="srl">'+R.slice(0,40).map(({x})=>{const d=mqDone(c,x);
-    return '<button class="srow'+(d?' done':'')+'" data-a="qopen" data-k="'+x.id+'"><span class="qlv '+lvCls(x.lv,L)+'">'+(x.lv||'?')+'</span><span class="t"><b>'+esc(x.n)+'</b><span>'+esc(x.z||'')+(x.g&&x.g[0]?' · '+esc(x.g[0]):'')+(x.m>L?' · 🔒'+x.m+'레벨부터':'')+'</span></span>'+(d?'<span class="ok">✓</span>':'')+'</button>'}).join('')+'</div>'}
+  /* 던전·장비도 같이 찾기 */
+  const DH=DGS.filter(d=>hit(d.ko)||(d.en||'').toLowerCase().replace(/\s+/g,'').includes(nq.toLowerCase())).slice(0,5);
+  const IH=nq.length<2?[]:ITEMS.filter(it=>hit(it.nm)).map(it=>({it,u:usable(it,c),b:usable(it,c)?bestSlot(it,c):null})).map(x=>Object.assign(x,{now:x.u&&(x.it.ob||x.it.lv)<=L+3})).sort((x,y)=>(y.now-x.now)||(y.u-x.u)||(((y.b||{}).g||0)-((x.b||{}).g||0))||(Math.abs(x.it.lv-L)-Math.abs(y.it.lv-L))).slice(0,8);
+  let ex='';
+  if(DH.length)ex+='<p class="mute sr">던전 '+DH.length+'개</p><div class="srl">'+DH.map(d=>{const S=dgState(c,d);return '<button class="srow" data-a="dgo" data-k="'+d.slug+'"><span class="qlv '+lvCls(d.fit||d.lo,L)+'">'+d.lo+'</span><span class="t"><b>🏰 '+esc(d.ko)+'</b><span>'+d.lo+'–'+d.hi+'레벨 · '+esc(d.loc||'')+(S.Q.length?' · 퀘스트 '+S.done.length+'/'+S.Q.length:'')+'</span></span></button>'}).join('')+'</div>';
+  if(IH.length)ex+='<p class="mute sr">장비 '+IH.length+'개'+(IH.length>=8?' (나한테 맞는 순 8개)':'')+'</p><div class="srl">'+IH.map(({it,u,b})=>'<button class="srow" data-a="'+(b&&b.g>.01?'cmpq':'info')+'" data-k="'+(b&&b.g>.01?b.s+':'+it.id:it.id)+'"><span class="sric">'+itIcon(it)+'</span><span class="t"><b class="q'+it.q+'">'+esc(it.nm)+'</b><span>'+esc((SL_KO[it.sl]||'')+(it.lv<=1&&it.ob>1?' · '+it.ob+'레벨쯤 얻음':' · Lv '+it.lv)+(u?'':' · 못 씀')+' · '+srcTxt(it,1))+'</span></span>'+(b&&b.g>.01?'<em class="g">+'+Math.round(b.g)+'</em>':'')+'</button>').join('')+'</div>';
+  const exD=DH.length?ex.slice(0,ex.indexOf('<p class="mute sr">장비')>=0?ex.indexOf('<p class="mute sr">장비'):ex.length):'';const exI=ex.slice(exD.length);const QN=IH.length?15:40;
+  if(!n)return ex+(ex?'':'<p class="empty-st">"'+esc(q)+'"(으)로 찾은 퀘스트·던전·장비가 없어요.</p>');
+  return exD+'<p class="mute sr">퀘스트 '+n+'개 찾음'+(n>QN?' · 가까운 레벨 '+QN+'개만':'')+'</p><div class="srl">'+R.slice(0,QN).map(({x})=>{const d=mqDone(c,x);
+    return '<button class="srow'+(d?' done':'')+'" data-a="qopen" data-k="'+x.id+'"><span class="qlv '+lvCls(x.lv,L)+'">'+(x.lv||'?')+'</span><span class="t"><b>'+esc(x.n)+'</b><span>'+esc(x.z||'')+(x.g&&x.g[0]?' · '+esc(x.g[0]):'')+(x.m>L?' · 🔒'+x.m+'레벨부터':'')+'</span></span>'+(d?'<span class="ok">✓</span>':'')+'</button>'}).join('')+'</div>'+exI}
 /* ===================== 📍 지도로 퀘스트 보기 (대륙 지도: wowf.io 지도 그림) ===================== */
 /* 지역 좌표(%) → 대륙 지도 좌표: [a,b,c,d] → x=a+b·X, y=c+d·Y (wowf.io 지점으로 맞춘 값, 오차 1픽셀 안) */
 const MAPZ={'그늘숲':[9543.8,12.96,7040.3,8.635],'타나리스':[2080.5,33.131,8515.3,22.092],'엘윈 숲':[9206.6,16.666,6186.9,11.112],'서부 몰락지대':[8495.7,16.808,6888,11.199],'붉은마루 산맥':[10750.7,10.426,6492.2,6.946],'모단 호수':[10900.9,13.242,4530,8.829],'황야의 땅':[10941.6,11.946,5203.3,7.952],'썬더 블러프':[1727.7,5.015,6104,3.34],'달의 숲':[2637.9,11.103,1620.1,7.383],'스톰윈드':[9117,8.338,6214.2,5.559],'가시덤불 골짜기':[8878.1,30.622,7736.9,20.421],'저습지':[10130.7,19.857,3407.1,13.229],'다르나서스':[565.3,5.089,781.4,3.39],'던 모로':[9078.9,23.643,4236.8,15.763],'서부 역병지대':[9743.5,20.65,760.3,13.757],'잊혀진 땅':[-55.9,21.58,5479.2,14.386],'아이언포지':[10286.4,3.8,4569.2,2.535],'텔드랏실':[144.8,24.444,16.9,16.289],'동부 내륙지':[10699.8,18.49,1672.2,12.313],'아라시 고원':[10359.9,17.28,2440,11.518],'힐스브래드 구릉지':[9432.3,15.352,2183.6,10.243],'알터랙 산맥':[9567.9,13.443,1656.5,8.951],'먼지진흙 습지대':[2444.4,25.196,6672,16.797],'어둠의 해안':[564.6,31.425,1696.1,20.958],'불모의 땅':[715.8,48.659,4921.8,32.438],'잿빛 골짜기':[1160.1,27.675,3452.8,18.454],'악령의 숲':[1187.9,27.602,2272,18.403],'여명의 설원':[2128.4,34.075,1600.1,22.719],'운고로 분화구':[1719.8,17.765,8560.3,11.836],'돌발톱 산맥':[418.8,23.426,4296.1,15.629],'페랄라스':[-636.2,33.36,6831.9,22.243],'버섯구름 봉우리':[2185.3,21.101,7599.4,14.089],'실리더스':[758,16.72,8556.2,11.146],'슬픔의 늪':[11011.1,11.008,6994.2,7.336],'저주받은 땅':[10538.7,16.104,7448.3,10.712],'멀고어':[786.9,29.517,5567.5,19.699],'오그리마':[3742.5,6.733,4604.4,4.492],'언더시티':[9523.9,4.622,1474.7,3.07],'아즈샤라':[3548.6,24.349,3132.2,16.226],'이글거리는 협곡':[10099.1,10.707,5304.2,7.137],'불타는 평원':[10072.6,14.051,5750.8,9.375],'티리스팔 숲':[8486.6,21.72,535.7,14.433],'동부 역병지대':[11026.6,20.657,604,13.763],'듀로타':[2921.6,25.31,4828.3,16.905],'은빛소나무 숲':[8287.4,20.169,1573.2,13.5],'셴드랄라스':[1004.4,9.84,6607.6,6.569],'강물터':[10852.1,23.271,5478.4,15.542],'죽음의 고개':[10343.8,12,7111.8,8]};
@@ -1747,7 +1759,7 @@ function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
   if(unk)h+='<p class="note">앱 자료에 없는 퀘스트 '+unk+'개는 빼고 보여 줘요.</p>';
   return h}
 function quest(c){const L=c.lv;if(ui.qmode==='route')ui.qmode='rec';const qm=ui.qmode||'rec';const q0=(ui.qsrch||'').trim();
-  let h='<div class="wrap"><div class="qsearch"><span>'+qico('quest')+'</span><input class="inp" placeholder="퀘스트·NPC·지역 이름으로 찾기" value="'+esc(ui.qsrch||'')+'" data-c="qsrch">'+(q0?'<button class="x2" data-a="qsclr">✕</button>':'')+'</div>';
+  let h='<div class="wrap"><div class="qsearch"><span>'+qico('quest')+'</span><input class="inp" placeholder="퀘스트·장비·던전·NPC·지역 이름으로 찾기" value="'+esc(ui.qsrch||'')+'" data-c="qsrch">'+(q0?'<button class="x2" data-a="qsclr">✕</button>':'')+'</div>';
   h+='<div id="qsres">'+(q0?qSearchHtml(c,q0):'')+'</div><div id="qbody"'+(q0?' hidden':'')+'>';
   h+='<div class="chips seg">'+[['rec','⭐ 레벨업'],['log','🎒 퀘스트창'+(c.ql&&Object.keys(c.ql).length?' '+Object.keys(c.ql).length:'')],['atlas','📍 지도'],['map','🗺️ 지역 목록']].map(m=>'<button class="chip'+(qm===m[0]?' on':'')+'" data-a="qmode" data-k="'+m[0]+'">'+m[1]+'</button>').join('')+'</div>';
   const end='</div></div>';
@@ -1778,7 +1790,7 @@ function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
     const extra=(q.boss.length?'<p class="npc">🎯 던전 안 목표: <b>'+q.boss.map(b=>esc(b.replace(/^(\d+) /,'$1번 '))).join(', ')+'</b></p>':'')+((QD.get(q.id)||{}).g&&(QD.get(q.id)||{}).g[0]&&!inside?'':'<p class="npc">'+esc((()=>{let t=startTxt(q.start);const o=QD.get(q.id);if(o&&o.g&&latin(o.g[0])){const k=npcKo(o,'g');if(k&&!latin(k))t=t.split(o.g[0]).join(k)}return t})())+'</p>');
     const rwHtml=rw.length?'<div class="rgrid">'+rw.map(it=>'<button class="rt2" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="rn q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</div>':'';
     const body=(chainOf(q.id)||((QD.get(q.id)||{}).ch||[]).length>1?'':preChainBox(c,q.id))+parch(c,q.id,{nm:q.nm,obj:q.obj,place:inside?'던전 안에서 시작':'던전 외부 시작',tags,extra,rwHtml,done:dn,kind:'dq',ck:String(q.id),pre:q.pre});
-    return qFold({key:'d'+q.id,done:dn,lock,lv:q.lv,nm:q.nm,body,side:(pc.length?'<span class="pcw'+(pcl?'':' ok')+'">'+(pcl?'⚠️ 앞 연계 '+pcl+'개':'✓ 연계 끝')+'</span>':'')+(q.cls?esc((CINFO[c.cls]||[''])[0])+' 직업':q.side==='alliance'?'얼라이언스':'')})};
+    return qFold({key:'d'+q.id,done:dn,lock,lv:q.lv,nm:q.nm,body,side:(rw.some(it=>usable(it,c)&&((bestSlot(it,c)||{}).g||0)>.01)?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+(pc.length?'<span class="pcw'+(pcl?'':' ok')+'">'+(pcl?'⚠️ 앞 연계 '+pcl+'개':'✓ 연계 끝')+'</span>':'')+(q.cls?esc((CINFO[c.cls]||[''])[0])+' 직업':q.side==='alliance'?'얼라이언스':'')})};
   if(flat)return dqOf(c,d).map(row).join('');
   return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+outQ.map(row).join(''):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')}
 function startTxt(s){if(!s)return '아이템을 주워서 시작';if(/^시작 · 던전 안/.test(s))return '던전 안에서 받아요';const m=s.match(/^시작 (.+) · 던전 안$/);if(m)return '던전 안 '+m[1]+'에게 받아요';if(/^시작 · /.test(s))return s.replace(/^시작 · /,'')+'에서 시작';return '받는 곳: '+s}
