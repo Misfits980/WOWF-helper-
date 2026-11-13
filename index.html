@@ -1993,8 +1993,8 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=2b954dc1"></script>
-<script>/* vf5c4ac @11/13 20:26 */
-const BUILD='11/13 20:26';
+<script>/* v58ceb9 @11/13 20:44 */
+const BUILD='11/13 20:44';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3231,8 +3231,11 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
     const vis=st.pts.filter(p=>p.c===A.c);let pins='',svg='';
     /* 땅 이름 (와우 지도처럼): 화면에서 지역이 충분히 크면 이름, 멀리서 보면 받을 퀘스트 수도 */
     const zoneNames=(Z,RZ)=>{const ZC=zoneCenters()||{};let o='';const seen=[];
+      /* 화면에 보이는 실제 지점들 (지역 가운데가 화면 밖이면 보이는 부분 가운데에 이름) */const VS={};(zoneSamples()||[]).forEach(p=>{if(p[1]!==A.c)return;const x=X({x:p[2]}),y=Y({y:p[3]});if(x<30||y<80||x>W-70||y>H-50)return;(VS[p[0]]=VS[p[0]]||[]).push([x,y])});
+      const med=a=>{a=a.slice().sort((u,v)=>u-v);return a[a.length>>1]};
       /* 동선 번호·던전 표식과 겹치면 이름을 위/아래로 비켜 놓기 */const OB=[...st.route.filter(r=>r.c===A.c),...vis.filter(p=>/^(dg|mo)/.test(p.kind))].map(p=>[X(p),Y(p)]).filter(p=>inV(p[0],p[1],80));
-      for(const z in MAPZ){if(ZALIAS[z]||BIGZ.test(z))continue;const t=MAPZ[z];const wpx=100*t[1]*s;if(wpx<(Z?150:120))continue;const q=ZC[z]||toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;const x=X(q),y=Y(q);if(!inV(x,y,60))continue;
+      for(const z in MAPZ){if(ZALIAS[z]||BIGZ.test(z))continue;const t=MAPZ[z];const wpx=100*t[1]*s;if(wpx<(Z?150:120))continue;const q=ZC[z]||toAtlas(z,'50,50');if(!q||q.c!==A.c)continue;let x=X(q),y=Y(q);
+        if(!(x>20&&y>70&&x<W-60&&y<H-40)){const L=VS[z];if(!L||L.length<2)continue;x=med(L.map(p=>p[0]));y=med(L.map(p=>p[1]))}
         const n=Z&&Z[z]?Z[z].n:0;const fs=Math.round(Math.max(12,Math.min(A.z<1.5?17:24,wpx/11)));const hw=z.length*fs*.55+16,hh=fs/2+(n?20:14);
         let y2=y;for(const k of [0,-1,1,-2,2]){const yy=y+k*(hh+8);if(!OB.some(p=>Math.abs(p[0]-x)<hw&&Math.abs(p[1]-yy)<hh)){y2=yy;break}}
         if(seen.some(p=>Math.abs(p[0]-x)<60&&Math.abs(p[1]-y2)<fs+6))continue;seen.push([x,y2]);const y_=y2;
