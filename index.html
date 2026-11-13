@@ -1876,9 +1876,9 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .amL{z-index:0;isolation:isolate}.amP{z-index:1}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=0594202d"></script>
-<script>/* vd7f322 @11/13 18:53 */
-const BUILD='11/13 18:53';
+<script src="app-data.js?v=3bd3314c"></script>
+<script>/* vdcbaa0 @11/13 19:00 */
+const BUILD='11/13 19:00';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2258,7 +2258,7 @@ function fixChain(ch){if(!ch||!QDB)return ch;const ids=new Set(ch.map(r=>r[6]));
 /* ===== 퀘스트 창 안 작은 지도: 받는 곳 ❗ · 할 일 ⚔️ · 반납 ❓ ===== */
 const AMNT={ek:[[3,5],[5,10],[10,19],[20,38]],ka:[[4,6],[7,12],[13,23],[25,40]]};
 function miniMap(id,d,nm){const X=QDB&&QDB.get(id);const P=[];
-  const G=(X&&X.g&&X.g[2]&&X.g[3]!=='item')?X.g:(d.g&&d.g[2]?d.g:null);const R=(X&&X.r&&X.r[2])?X.r:(d.r&&d.r[2]&&!d.r[3]?d.r:null);
+  const G=(X&&X.g&&X.g[2])?X.g:(d.g&&d.g[2]?d.g:null);const R=(X&&X.r&&X.r[2])?X.r:(d.r&&d.r[2]&&!d.r[3]?d.r:null);
   const gz=G&&G[1]||(X&&X.z)||'';
   const add=(kind,zone,xy,name)=>{const a=toAtlas(zone,xy);if(a)P.push(Object.assign(a,{kind,nm:name}))};
   if(G)add('g',G[1]||gz,G[2],npcKo(d,'g')||G[0]);
@@ -2989,8 +2989,10 @@ function amRoute(c){const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);if(!S)retur
     const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const xy=m?m[2]+','+m[3]:H.xy?H.xy.join(','):'';if(!xy)continue;const a=toAtlas(H.z,xy);if(!a)continue;out.push({kind:'hub',no:n,nm:H.npc?H.npc+' 근처':m?m[1]:H.n,zone:H.z,c:a.c,x:a.x,y:a.y,H})}
   return out}
 /* 고른 퀘스트: 받는 곳 → 할 일 위치 → 반납 */
+/* 아이템으로 시작하는 퀘스트: 「아이템 · ○○ 처치로 얻음」 */
+const gItemNote=g=>g&&g[3]==='item'?(g[4]&&g[4]!==g[0]?' · '+g[4]+'에게서 얻음':' · 아이템을 주우면 시작'):'';
 function amFocus(id){const q=QDB&&QDB.get(id);if(!q)return null;const z=(q.g&&q.g[1])||q.z;const P=[];
-  if(q.g&&q.g[2]){const a=toAtlas(q.g[1],q.g[2]);if(a)P.push(Object.assign(a,{kind:'g',nm:q.g[0]}))}
+  if(q.g&&q.g[2]){const a=toAtlas(q.g[1],q.g[2]);if(a)P.push(Object.assign(a,{kind:'g',nm:q.g[3]==='item'&&q.g[4]&&q.g[4]!==q.g[0]?q.g[4]+' (시작 아이템)':q.g[0]}))}
   const d=QD.get(id);if(d){for(const t of tasksOf(d,d.obj||q.o||'')){const m=(t.where||'').match(/([\d.]+),\s*([\d.]+)/);if(!m)continue;const a=toAtlas(z,m[1]+','+m[2]);if(a)P.push(Object.assign(a,{kind:'ob',nm:t.nm}))}}
   if(q.r&&q.r[2]){const a=toAtlas(q.r[1]||z,q.r[2]);if(a)P.push(Object.assign(a,{kind:'r',nm:q.r[0]}))}
   return P.length?{q,P}:null}
@@ -3000,7 +3002,7 @@ function amStepPanel(c,FO){const q=FO.q;const d=QD.get(q.id)||{};const ch=(chain
   const T=tasksOf(d,d.obj||q.o||'');const dn=mqDone(c,q);
   let h='<div class="card amcard ams"><div class="amsh"><b>'+esc(q.n)+'</b><span class="qlv '+lvCls(q.lv,c.lv)+'">'+(q.lv||'?')+'</span>'+amStyleSeg()+'</div>';
   const obj=d.obj||q.o;if(obj)h+='<p class="amso">'+esc(obj)+'</p>';
-  h+='<div class="amsl">'+(q.g?'<div><span class="k g">'+QMK.g+'받는 곳</span><span>'+esc(q.g[0]||'')+(q.g[1]?' <small>'+esc(q.g[1])+(q.g[2]?' '+esc(q.g[2]):'')+'</small>':'')+'</span></div>':'')
+  h+='<div class="amsl">'+(q.g?'<div><span class="k g">'+QMK.g+'받는 곳</span><span>'+esc((q.g[0]||'')+gItemNote(q.g))+(q.g[1]?' <small>'+esc(q.g[1])+(q.g[2]?' '+esc(q.g[2]):'')+'</small>':'')+'</span></div>':'')
     +T.map(t=>'<div><span class="k o">◎ 할 일</span><span>'+esc(t.nm)+(t.where?' <small>'+esc(t.where)+'</small>':'')+'</span></div>').join('')
     +(q.r?'<div><span class="k r">'+QMK.r+'반납</span><span>'+esc(q.r[0]||'')+(q.r[1]?' <small>'+esc(q.r[1])+(q.r[2]?' '+esc(q.r[2]):'')+'</small>':'')+'</span></div>':'')+'</div>';
   if(!FO.P.some(x=>x.kind==='ob'))h+='<p class="mute amsx">할 일 위치 자료가 없어서 받는 곳·반납하는 곳만 지도에 보여요.</p>';

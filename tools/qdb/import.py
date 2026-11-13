@@ -318,6 +318,20 @@ def who(st):
                 return [getter(i), zone_name(z)[0] if z else None, xy, 'npc' if kind == 0 else 'obj'], z
     ids = arr(st[2]) if len(st) > 2 else None
     if ids:
+        # 아이템으로 시작하는 퀘스트: 그 아이템을 떨구는 몹(또는 물건)의 첫 자리를 받는 곳으로 (지도에 받는 곳이 안 나오던 문제)
+        r = ITEM.get(ids[0]) or {}
+        for n in arr(r.get(IK['npcDrops'])) or []:
+            nr = NPC.get(n) if isinstance(n, int) else None
+            if nr:
+                z, xy = first_spawn(nr.get(NK['spawns']))
+                if z and xy:
+                    return [ko_item(ids[0]), zone_name(z)[0], xy, 'item', ko_npc(n)], z
+        for o in arr(r.get(IK['objectDrops'])) or []:
+            orr = OBJ.get(o) if isinstance(o, int) else None
+            if orr:
+                z, xy = first_spawn(orr.get(OK['spawns']))
+                if z and xy:
+                    return [ko_item(ids[0]), zone_name(z)[0], xy, 'item', ko_obj(o)], z
         return [ko_item(ids[0]), None, None, 'item'], None
     return None, None
 
