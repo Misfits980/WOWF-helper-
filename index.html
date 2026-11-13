@@ -1625,8 +1625,8 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=3e4eb53f"></script>
-<script>/* va8a809 @11/13 13:58 */
-const BUILD='11/13 13:58';
+<script>/* v14bc43 @11/13 14:02 */
+const BUILD='11/13 14:02';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3299,7 +3299,10 @@ function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];
 
 /* ===================== 캐릭터 관리 시트 ===================== */
 /* ===== 🧩 게임에서 불러오기 (애드온 코드 붙여넣기) ===== */
-function impParse(txt){const i=(txt||'').indexOf('WFH1;');if(i<0)return null;const f=txt.slice(i).trim().split(/\s+/)[0].split(';');if(f.length<9)return null;
+function impParse(txt){const i=(txt||'').indexOf('WFH1;');if(i<0)return null;
+  /* 서버 이름에 띄어쓰기가 있을 수 있어서(예: CAMWOW KR 서버 1 PvE) 칸(;)으로 먼저 나누고, 숫자 부분만 공백·줄바꿈을 지움 */
+  const f=txt.slice(i).split(';').map(x=>x.trim());if(f.length<9)return null;
+  f[7]=(f[7]||'').replace(/\s+/g,'');f[8]=(f[8]||'').replace(/\s+/g,'').replace(/[^0-9a-zA-Z.*:].*$/,'');
   const d=[];let cur=0;(f[7]||'').replace(/^D:/,'').split('.').filter(Boolean).forEach(x=>{const v=parseInt(x,36);if(!isNaN(v)){cur+=v;d.push(cur)}});
   const l=(f[8]||'').replace(/^L:/,'').split('.').filter(Boolean).map(x=>({id:parseInt(x.replace('*',''),36),done:x.endsWith('*')})).filter(x=>!isNaN(x.id));
   return {name:f[1],realm:f[2],cls:(f[3]||'').toLowerCase(),lv:+f[4]||0,race:(f[5]||'').toLowerCase(),fac:f[6],done:d,log:l}}
