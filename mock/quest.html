@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>퀘스트 화면 시안</title>
+<style>
+:root{--bg:#15130f;--panel:#1f1b15;--panel2:#26211a;--line:#3a3226;--txt:#efe6d2;--mute:#a59d8c;--gold:#e8c06a;--gold2:#b8913e;--good:#7bea7b;--bad:#ff7b6b}
+*{box-sizing:border-box}body{margin:0;background:#0b0a08;color:var(--txt);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:18px}
+h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-size:13px;margin:0 0 14px}
+.row3{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.cap{font-size:13px;color:var(--gold);font-weight:700;margin:0 0 6px}
+.ph{width:390px;height:820px;overflow:hidden;background:var(--bg);border:1px solid #333;border-radius:26px;position:relative;font-size:14px}
+.ic{display:inline-block;background:#000 center/cover;border-radius:6px;flex:none}
+.top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.top .ic{width:38px;height:38px;border-radius:9px}.top b{font-size:16px}.top small{display:block;color:var(--mute);font-size:12px}
+.lv{margin-left:auto;display:flex;gap:6px;align-items:center}.lv span{border:1px solid var(--line);border-radius:10px;padding:6px 10px;color:var(--mute)}.lv b{border:1.5px solid var(--gold2);color:var(--gold);border-radius:10px;padding:5px 14px;font-size:18px}
+.nav{position:absolute;left:0;right:0;bottom:0;height:62px;border-top:1px solid var(--line);background:rgba(24,21,17,.98);display:flex;justify-content:space-around;align-items:center;font-size:11px;color:var(--mute)}
+.nav span{display:flex;flex-direction:column;align-items:center;gap:2px}.nav img{width:24px;height:24px}.nav .on{color:var(--gold)}
+.card{margin:8px 12px;padding:10px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+/* 모드 탭 + 찾기 */
+.mbar{display:flex;gap:6px;margin:10px 12px 0;align-items:center}
+.tabs3{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.tabs3 span{display:flex;align-items:center;justify-content:center;gap:5px;height:34px;border-radius:9px;color:var(--mute);font-size:13px;font-weight:700}
+.tabs3 .ic{width:18px;height:18px;border-radius:5px;opacity:.7}.tabs3 .on{background:#3a2c16;color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold2)}.tabs3 .on .ic{opacity:1}
+.sbtn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--mute)}
+/* 지역 히어로 */
+.zh{position:relative;margin:10px 12px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line);height:118px;background:linear-gradient(120deg,#3a2c16,#1a1712 70%)}
+.zh .bgi{position:absolute;right:-20px;top:-20px;width:170px;height:170px;border-radius:50%;background:center/cover;opacity:.35;filter:saturate(.8)}
+.zh .t{position:absolute;left:14px;right:14px;bottom:10px}
+.zh small{font-size:11px;color:#c9bfa8;letter-spacing:.3px}.zh h2{margin:2px 0 0;font-size:21px;text-shadow:0 2px 6px #000}
+.meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 3px;border-radius:999px;background:rgba(20,16,10,.82);border:1px solid rgba(232,192,106,.35);font-size:12px;font-weight:600;line-height:1}
+.pill .ic{width:18px;height:18px;border-radius:50%}.pill.lvp{padding-left:9px;color:#8bd37a;border-color:rgba(139,211,122,.5)}
+.ring{position:absolute;right:14px;top:12px;width:58px;height:58px;border-radius:50%;background:conic-gradient(#e8c06a 0 22%,#2a251d 22% 100%);display:flex;align-items:center;justify-content:center}
+.ring b{width:46px;height:46px;border-radius:50%;background:#1a1712;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;line-height:1}.ring b small{font-size:9.5px;color:var(--mute);margin-top:2px}
+/* 진행 줄 */
+.goal{display:flex;align-items:center;gap:10px}
+.goal .ic{width:34px;height:34px;border-radius:9px}.goal .m{flex:1;min-width:0}.goal b{font-size:13.5px}.goal small{display:block;font-size:11.5px;color:var(--mute)}
+.bar{height:6px;border-radius:3px;background:#2a251d;margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#8a7440,#e8c06a)}
+.goal .x{flex:none;font-size:12px;color:var(--good);font-weight:800}
+/* 거점 타임라인 */
+.tlh{display:flex;align-items:center;gap:8px;margin:12px 14px 6px}.tlh b{font-size:15px}.tlh small{color:var(--mute);font-size:12px}.tlh span{margin-left:auto;font-size:11.5px;color:var(--mute);border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+.tl{position:relative;margin:0 12px 0 14px;padding-left:30px}
+.tl::before{content:'';position:absolute;left:21px;top:20px;bottom:10px;width:2px;background:linear-gradient(#b8913e,#5d4a28)}
+.hub{position:relative;margin:0 0 9px;border-radius:14px;background:var(--panel);border:1px solid var(--line);padding:9px 12px 9px 40px}
+.hub .nd{position:absolute;left:-23px;top:9px;width:42px;height:42px;border-radius:50%;background:#000 center/cover;border:2px solid var(--gold2);box-shadow:0 0 0 3px var(--bg)}
+.hub .no{position:absolute;left:8px;top:36px;width:20px;height:20px;border-radius:50%;background:var(--gold2);color:#1a140a;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+.hub .hn{display:flex;align-items:center;gap:6px}.hub .hn b{font-size:15px}.hub .hn small{font-size:11.5px;color:var(--mute)}
+.hub .cts{margin-left:auto;display:flex;gap:4px}
+.ct{display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 7px 0 3px;border-radius:7px;font-size:11px;font-weight:700;border:1px solid;line-height:1}
+.ct .ic{width:16px;height:16px;border-radius:4px}.ct.get{color:#ffe08a;border-color:#c9a227;background:rgba(201,162,39,.15)}.ct.turn{color:#a9dcff;border-color:#3f8fcf;background:rgba(63,143,207,.16)}
+.hub.open{border-color:var(--gold2)}.hub.sm{padding-top:8px;padding-bottom:8px}
+.ql{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.qr{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.qr .ck{width:22px;height:22px;border-radius:50%;border:2px solid #5a4f3c;flex:none}.qr .ck.on{background:#2f5a24;border-color:#7bea7b}
+.qr .ic{width:28px;height:28px;border-radius:7px}
+.qr .m{flex:1;min-width:0;line-height:1.3}.qr b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qr small{display:block;font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qr .r{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.lvq{font-size:11px;font-weight:800;border-radius:6px;padding:1px 6px;border:1px solid}.lvq.g{color:#8bd37a;border-color:#4f7a3c}.lvq.y{color:#ffe08a;border-color:#c9a227}.lvq.o{color:#ffb44a;border-color:#c46a2a}
+.xp{font-size:10.5px;color:#b9a7e8}
+.chn{display:inline-flex;align-items:center;gap:3px;margin-top:3px;font-size:10.5px;color:#9fd2ff;background:#1d3a52;border-radius:6px;padding:1px 6px}
+.qr.done{opacity:.5}.qr.done b{text-decoration:line-through}
+.more2{display:block;text-align:center;margin-top:6px;font-size:12px;color:var(--mute)}
+/* 펼친 퀘스트 */
+.qc{margin:8px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--gold2);overflow:hidden}
+.qc .h{display:flex;align-items:center;gap:9px;padding:10px 12px;background:linear-gradient(90deg,#3a2c16,var(--panel))}
+.qc .h .ic{width:36px;height:36px;border-radius:9px}.qc .h .m{flex:1}.qc .h b{font-size:16px;display:block}.qc .h small{font-size:11.5px;color:var(--mute)}
+.tg{display:flex;gap:5px;padding:2px 12px 8px;flex-wrap:wrap}.tg span{display:inline-flex;align-items:center;height:20px;font-size:10.5px;padding:0 7px;border-radius:6px;background:var(--bg);color:var(--mute);border:1px solid var(--line)}.tg .f{background:#1f2b4a;color:#9fd2ff;border-color:#2c4270}.tg .c{background:#1d3a52;color:#9fd2ff;border-color:#2c5a7a}
+.obj{margin:0 12px 8px;padding:9px 11px;border-radius:10px;background:rgba(232,192,106,.08);border:1px solid rgba(232,192,106,.3)}
+.obj b{display:block;font-size:12px;color:var(--gold);margin-bottom:4px}.obj .o{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0}.obj .o .ic{width:24px;height:24px}.obj .o em{margin-left:auto;font-style:normal;font-size:12px;color:var(--mute)}
+.qs{position:relative;margin:0 12px;padding-left:22px}
+.qs::before{content:'';position:absolute;left:8px;top:12px;bottom:14px;width:2px;background:#5d4a28}
+.qst{position:relative;display:flex;gap:8px;align-items:flex-start;padding:6px 0;font-size:12.5px;line-height:1.45}
+.qst::before{content:attr(data-n);position:absolute;left:-22px;top:6px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:2px solid var(--gold2);color:var(--gold);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.qst .k{flex:none;width:44px;font-size:11px;font-weight:700;white-space:nowrap}.qst .k.g{color:#ffd65a}.qst .k.o{color:#ffb44a}.qst .k.r{color:#7ec8ff}
+.qst small{color:var(--mute)}.qst .mp{margin-left:auto;flex:none;font-size:11px;color:var(--gold);border:1px solid var(--gold2);border-radius:7px;padding:1px 7px}
+.rw{margin:8px 12px;padding:9px 11px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.rw .hd{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mute)}.rw .hd b{color:#b9a7e8}.rw .hd .gd{color:#ffd65a}
+.rws{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.rwi{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;padding:6px 3px;border-radius:9px;border:1px solid var(--line)}
+.rwi .ic{width:40px;height:40px;border-radius:9px;border:2px solid #3a7bd5}.rwi .ic.u{border-color:#2fbf4f}
+.rwi span{font-size:10.5px;line-height:1.2;color:#cfc6b3;height:25px;overflow:hidden}.rwi small{font-size:10px;color:#8bd37a}
+.rwi .g{position:absolute;top:-6px;right:-3px;background:#24361d;border:1px solid #4f7a3c;color:var(--good);font-weight:800;font-size:10.5px;border-radius:7px;padding:0 5px;font-style:normal}
+.rwi.best{border-color:#4f7a3c;background:rgba(60,120,50,.12)}
+.chain{display:flex;align-items:center;gap:4px;margin:6px 12px 2px;font-size:11.5px;color:var(--mute)}.chain i{width:16px;height:6px;border-radius:3px;background:#2a251d}.chain i.on{background:#e8c06a}.chain i.cur{background:#e8c06a;box-shadow:0 0 0 2px rgba(232,192,106,.35)}
+.btns{display:flex;gap:6px;padding:8px 12px 12px}.btns span{flex:1;text-align:center;height:38px;display:flex;align-items:center;justify-content:center;font-size:13px;border-radius:10px;border:1px solid var(--line);color:var(--mute);font-weight:700}.btns .on{border-color:#4f7a3c;color:var(--good);background:#1d2a17}.btns .pri{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+/* 도우미 타일 */
+.hg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 12px}
+.ht{padding:10px;border-radius:14px;background:var(--panel);border:1px solid var(--line);min-height:96px}
+.ht .hd{display:flex;align-items:center;gap:7px}.ht .hd .ic{width:26px;height:26px}.ht .hd b{font-size:13.5px}
+.ht p{margin:6px 0 0;font-size:11.5px;color:var(--mute);line-height:1.45}.ht p b{color:var(--txt)}
+.ht .ics{display:flex;gap:4px;margin-top:7px}.ht .ics .ic{width:24px;height:24px}
+.ht .new{font-size:10px;color:#1a140a;background:#ffd65a;border-radius:5px;padding:0 4px;font-weight:800;margin-left:auto}
+.ht.hot{border-color:var(--gold2);background:linear-gradient(160deg,#3a2c16,var(--panel) 70%)}
+/* 1-60 길 */
+.track{position:relative;margin:4px 12px 10px;height:58px}
+.track .ln{position:absolute;left:4px;right:4px;top:22px;height:4px;border-radius:2px;background:#2a251d}.track .ln i{display:block;width:55%;height:100%;background:linear-gradient(90deg,#5d4a28,#e8c06a);border-radius:2px}
+.track .st{position:absolute;top:10px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px}
+.track .st .ic{width:26px;height:26px;border-radius:50%;border:2px solid #5d4a28}.track .st.on .ic{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,192,106,.25);width:30px;height:30px}
+.track .st small{font-size:9.5px;color:var(--mute);white-space:nowrap}.track .st.on small{color:var(--gold);font-weight:800}
+/* 지역 목록 */
+.cont{display:flex;gap:6px;margin:10px 12px 4px;overflow:hidden}.cont span{flex:none;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 11px 0 4px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;color:var(--mute)}
+.cont .ic{width:24px;height:24px;border-radius:50%}.cont .on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+.sec{margin:12px 14px 6px;font-size:13px;font-weight:800;color:var(--gold)}
+.zf{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 12px}
+.zc{position:relative;padding:10px;border-radius:14px;border:1px solid var(--gold2);background:linear-gradient(160deg,#3a2c16,var(--panel) 75%);overflow:hidden}
+.zc .ic{width:40px;height:40px;border-radius:10px}.zc b{display:block;font-size:14px;margin-top:6px}.zc small{display:block;font-size:11px;color:var(--mute)}
+.zc .hot{display:inline-block;margin-top:5px;font-size:11px;font-weight:800;color:#1a140a;background:#ffd65a;border-radius:6px;padding:1px 6px}
+.rb{position:relative;height:6px;border-radius:3px;background:#2a251d;margin-top:7px}.rb i{position:absolute;top:0;bottom:0;border-radius:3px;background:#5d4a28}.rb em{position:absolute;top:-3px;width:3px;height:12px;border-radius:2px;background:#7bea7b;box-shadow:0 0 4px #7bea7b}
+.zl{margin:6px 12px;display:flex;flex-direction:column;gap:5px}
+.zr{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.zr .ic{width:34px;height:34px;border-radius:9px}.zr .m{flex:1;min-width:0}.zr b{font-size:13.5px}.zr small{display:block;font-size:11px;color:var(--mute)}
+.zr .lvr{flex:none;width:86px}.zr .lvr span{display:block;text-align:right;font-size:11px;color:var(--mute)}.zr.past{opacity:.5}
+.notes{max-width:1700px;margin-top:16px;font-size:13px;line-height:1.7;color:#cfc6b3}.notes b{color:var(--gold)}
+@media (max-width:440px){body{padding:8px}.ph{width:100%;max-width:390px}}
+</style></head><body>
+<h1>퀘스트 화면 시안</h1>
+<p class="lead">던전 화면과 같은 모양(그림 머리 · 아이콘 탭 · 타임라인 · 아이콘 칩)으로 맞춘 안이에요. 이름·레벨·경험치는 수양 사제 34레벨 실제 자료예요.</p>
+<div class="row3" id="R"></div>
+<div class="notes" id="N"></div>
+<script>
+const I=n=>'https://wow.zamimg.com/images/wow/icons/large/'+n+'.jpg';
+const ic=(n,c)=>'<span class="ic '+(c||'')+'" style="background-image:url('+I(n)+')"></span>';
+const TOPB='<div class="top"><span class="ic" style="background-image:url('+I('classicon_priest')+')"></span><div><b>사제</b><small>수양 사제 · 노움 ▾</small></div><div class="lv"><span>−</span><b>34</b><span>+</span></div></div>';
+const nav='<div class="nav"><span><img src="../img/ui-banner.png">홈</span><span><img src="../img/ui-shield.png">장비</span><span class="on"><img src="../img/ui-quest.png">퀘스트</span><span><img src="../img/ui-eye.png">던전</span><span><img src="../img/ui-prof.png">직업</span></div>';
+const mbar=a=>'<div class="mbar"><div class="tabs3">'+[['inv_misc_map_02','레벨업'],['inv_misc_map_01','지도'],['inv_misc_book_09','지역']].map((x,i)=>'<span class="'+(i===a?'on':'')+'">'+ic(x[0])+x[1]+'</span>').join('')+'</div><span class="sbtn">🔍</span></div>';
+const KILL='ability_dualwield',COL='inv_misc_bag_10',TALK='inv_letter_15',ESC='ability_hunter_beastcall';
+const lvq=(l)=>'<span class="lvq '+(l<=32?'g':l<=34?'y':'o')+'">'+l+'</span>';
+const qr=(o,n,s,l,xp,ch,dn)=>'<div class="qr'+(dn?' done':'')+'"><span class="ck'+(dn?' on':'')+'"></span>'+ic(o)+'<div class="m"><b>'+n+'</b><small>'+s+'</small>'+(ch?'<span class="chn">🔗 끝내면 다음 '+ch+'개</span>':'')+'</div><div class="r">'+lvq(l)+'<span class="xp">'+xp+'</span></div></div>';
+const hero='<div class="zh"><span class="bgi" style="background-image:url('+I('achievement_zone_desolace')+')"></span><div class="ring"><b>7<small>/32</small></b></div><div class="t"><small>지금 레벨업 구간</small><h2>잊혀진 땅</h2><div class="meta"><span class="pill lvp">33–34 · 지금</span><span class="pill">'+ic('inv_misc_map_01')+'+ 가시덤불 · 저습지</span><span class="pill">'+ic('inv_misc_note_01')+'퀘스트 32</span></div></div></div>';
+const goal='<div class="card goal">'+ic('spell_holy_borrowedtime')+'<div class="m"><b>다 하면 <span style="color:var(--gold)">35레벨</span>까지 · 경험치 72,400</b><small>남은 퀘스트 25개 · 지금 거점에서 5개 받기</small><div class="bar"><i style="width:22%"></i></div></div><span class="x">22%</span></div>';
+const tlh='<div class="tlh"><b>갈 곳 순서</b><small>거점 3 · 위에서부터</small><span>다음 마을 12곳</span></div>';
+const hub1='<div class="hub open"><span class="nd" style="background-image:url('+I('achievement_zone_desolace')+')"></span><span class="no">1</span><div class="hn"><div><b>나이젤의 야영지</b><br><small>잊혀진 땅 · 66, 79</small></div><div class="cts"><span class="ct get">'+ic('inv_misc_note_01')+'받기 5</span><span class="ct turn">'+ic('inv_letter_15')+'반납 1</span></div></div>'
+ +'<div class="ql">'+qr(KILL,'켄타우로스 현상금','켄타우로스의 귀걸이 15개',31,'+3,750',0,1)+qr(TALK,'발라리엘의 수색','발렘의 쾌락과 대화',33,'+1,950',0)+qr(COL,'회수전문회사를 위한 재료','사티로스 발톱 10개 외 1',33,'+2,650',0)+qr(KILL,'이상한 동맹','겔키스 일족 평판 3000',35,'+2,050',4)+qr(KILL,'야비한 정책','마그람 일족 평판 3000',35,'+2,050',5)+'</div></div>';
+const hub2='<div class="hub sm"><span class="nd" style="background-image:url('+I('inv_misc_tournaments_banner_scourge')+')"></span><span class="no">2</span><div class="hn"><div><b>에델 레소르의 탑</b><br><small>잊혀진 땅 · 38, 27</small></div><div class="cts"><span class="ct get">'+ic('inv_misc_note_01')+'받기 2</span></div></div></div>';
+const hub3='<div class="hub sm"><span class="nd" style="background-image:url('+I('inv_gizmo_02')+')"></span><span class="no">3</span><div class="hn"><div><b>스크래블스크류 야영지</b><br><small>잊혀진 땅 · 52, 53</small></div><div class="cts"><span class="ct get">'+ic('inv_misc_note_01')+'받기 1</span></div></div></div>';
+const A='<div><p class="cap">① 레벨업 첫 화면</p><div class="ph">'+TOPB+mbar(0)+hero+goal+tlh+'<div class="tl">'+hub1+hub2+hub3+'</div>'+nav+'</div></div>';
+/* ② 펼친 퀘스트 */
+const qc='<div class="qc"><div class="h">'+ic(KILL)+'<div class="m"><b>이상한 동맹</b><small>잊혀진 땅 · 권장 35 · 30레벨부터</small></div>'+lvq(35)+'</div>'
+ +'<div class="tg"><span class="f">얼라이언스</span><span class="c">🔗 연계 1/5</span><span>평판 겔키스 일족</span></div>'
+ +'<div class="obj"><b>할 일</b><div class="o">'+ic('achievement_reputation_05')+'<span>겔키스 일족 평판 <b style="color:var(--txt)">우호적 3000</b></span><em>마그람 켄타우로스 처치</em></div></div>'
+ +'<div class="qs"><div class="qst" data-n="1"><span class="k g">받기</span><span>현자 엄마 가르노드<br><small>겔키스 마을 · 37, 79</small></span><span class="mp">지도 ›</span></div>'
+ +'<div class="qst" data-n="2"><span class="k o">하는 곳</span><span>마그람 마을 주변<br><small>남동쪽 · 갈 길에 「야비한 정책」과 같이</small></span><span class="mp">지도 ›</span></div>'
+ +'<div class="qst" data-n="3"><span class="k r">반납</span><span>받은 곳 그대로<br><small>끝내면 「겔키스의 시련」으로 이어져요</small></span></div></div>'
+ +'<div class="chain">연계<i class="cur"></i><i></i><i></i><i></i><i></i><span style="margin-left:4px">다음 4개 · 마지막 보상 <b style="color:#9fc4ff">켄타우로스 망토</b></span></div>'
+ +'<div class="rw"><div class="hd"><b>경험치 +2,050</b> · <span class="gd">3골드 40실버</span> · 하나 고르기</div><div class="rws">'
+ +'<div class="rwi best">'+ic('inv_misc_cape_05','u')+'<em class="g">+12</em><span>사막바람 망토</span><small>지능 +5 · 치유량 +7</small></div>'
+ +'<div class="rwi">'+ic('inv_gauntlets_17')+'<span>바람결 장갑</span><small style="color:var(--mute)">사슬 · 못 씀</small></div>'
+ +'<div class="rwi">'+ic('inv_boots_02')+'<em class="g">+3</em><span>모래걸음 장화</span><small>체력 +4</small></div></div></div>'
+ +'<div class="btns"><span class="on">✓ 받았어요</span><span>끝냈어요</span><span class="pri">지도에서</span></div></div>';
+const B='<div><p class="cap">② 퀘스트를 누르면</p><div class="ph">'+TOPB+mbar(0)+'<div class="tl" style="margin-top:12px">'+'<div class="hub open"><span class="nd" style="background-image:url('+I('achievement_zone_desolace')+')"></span><span class="no">1</span><div class="hn"><div><b>나이젤의 야영지</b><br><small>잊혀진 땅 · 66, 79</small></div><div class="cts"><span class="ct get">'+ic('inv_misc_note_01')+'받기 5</span></div></div><div class="ql">'+qr(KILL,'켄타우로스 현상금','켄타우로스의 귀걸이 15개',31,'+3,750',0,1)+qr(TALK,'발라리엘의 수색','발렘의 쾌락과 대화',33,'+1,950',0)+'</div></div></div>'+qc+nav+'</div></div>';
+/* ③ 아래로 내리면: 도우미 + 다음 길 */
+const tiles='<div class="hg">'
+ +'<div class="ht hot"><div class="hd">'+ic('spell_holy_holybolt')+'<b>배울 기술</b><span class="new">새 2</span></div><p><b>신성한 은총 4단계</b> 외 7개 · 아이언포지 교관</p><div class="ics">'+ic('spell_holy_heal')+ic('spell_holy_renew')+ic('spell_shadow_shadowwordpain')+ic('spell_holy_powerwordshield')+'</div></div>'
+ +'<div class="ht"><div class="hd">'+ic('classicon_priest')+'<b>직업 퀘스트</b></div><p>지금은 없어요 · 다음은 <b>50레벨</b> 「세나리온 의회 지원」</p></div>'
+ +'<div class="ht"><div class="hd">'+ic('inv_misc_bone_humanskull_01')+'<b>갈 만한 던전</b></div><p><b>붉은십자군: 도서관</b> · 내 템 5개<br>가시덩굴 우리 · 놈리건</p></div>'
+ +'<div class="ht"><div class="hd">'+ic('inv_chest_cloth_25')+'<b>퀘스트 보상 템</b></div><p>이 구간 보상 중 <b style="color:var(--good)">좋아지는 것 3개</b></p><div class="ics">'+ic('inv_misc_cape_05')+ic('inv_boots_02')+ic('inv_jewelry_ring_05')+'</div></div></div>';
+const hunt='<div class="card goal">'+ic('ability_hunter_snipershot')+'<div class="m"><b>퀘스트가 모자라면 여기서 사냥</b><small>마그람 켄타우로스 (33–35) · 남동쪽 · 「이상한 동맹」과 같이</small></div><span class="x" style="color:var(--gold)">›</span></div>';
+const nxt='<div class="card"><div class="goal">'+ic('achievement_zone_stranglethorn_01')+'<div class="m"><b>다음 구간 35–39</b><small>가시덤불 골짜기 · 잊혀진 땅 · 버섯구름 봉우리</small></div><span class="x" style="color:var(--mute)">›</span></div></div>';
+const track='<div class="sec">1–60 길</div><div class="track"><div class="ln"><i></i></div>'
+ +[[4,'achievement_zone_elwynnforest','1'],[16,'achievement_zone_westfall_01','15'],[30,'achievement_zone_wetlands_01','24'],[45,'achievement_zone_ashenvale_01','30'],[57,'achievement_zone_desolace','34',1],[70,'achievement_zone_stranglethorn_01','38'],[84,'achievement_zone_tanaris_01','45'],[96,'achievement_zone_winterspring','55']].map(s=>'<div class="st'+(s[3]?' on':'')+'" style="left:'+s[0]+'%">'+ic(s[1])+'<small>'+s[2]+'</small></div>').join('')+'</div>';
+const C='<div><p class="cap">③ 아래로 내리면 · 도우미와 다음 길</p><div class="ph">'+TOPB+'<div class="sec" style="margin-top:12px">레벨업 도우미</div>'+tiles+hunt+nxt+track+nav+'</div></div>';
+/* ④ 지역 목록 */
+const rb=(a,b)=>{const L=34;const x=v=>(v-1)/59*100;return '<div class="rb"><i style="left:'+x(a)+'%;width:'+(x(b)-x(a))+'%"></i><em style="left:'+x(L)+'%"></em></div>'};
+const zc=(i,n,a,b,h)=>'<div class="zc">'+ic(i)+'<b>'+n+'</b><small>'+a+'–'+b+'레벨 · 퀘스트 '+h[0]+'</small><span class="hot">지금 할 것 '+h[1]+'</span>'+rb(a,b)+'</div>';
+const zr=(i,n,a,b,q,p)=>'<div class="zr'+(p?' past':'')+'">'+ic(i)+'<div class="m"><b>'+n+'</b><small>퀘스트 '+q+'개</small></div><div class="lvr"><span>'+a+'–'+b+'</span>'+rb(a,b)+'</div></div>';
+const D='<div><p class="cap">④ 지역 탭</p><div class="ph">'+TOPB+mbar(2)+'<div class="cont"><span>'+ic('achievement_zone_easternkingdoms_01')+'동부 왕국</span><span class="on">'+ic('achievement_zone_kalimdor_01')+'칼림도어</span><span>'+ic('achievement_zone_azuremystisle_01')+'섬</span></div>'
+ +'<div class="sec">내 레벨에 맞는 곳</div><div class="zf">'+zc('achievement_zone_desolace','잊혀진 땅',33,42,[57,28])+zc('achievement_zone_thousandneedles_01','버섯구름 봉우리',30,44,[39,17])+zc('achievement_zone_dustwallowmarsh','먼지진흙 습지대',35,53,[32,13])+zc('achievement_zone_ashenvale_01','잿빛 골짜기',20,32,[54,5])+'</div>'
+ +'<div class="sec">다른 지역</div><div class="zl">'+zr('achievement_zone_feralas','페랄라스',43,50,51)+zr('achievement_zone_tanaris_01','타나리스',45,60,102)+zr('achievement_zone_stonetalon_01','돌발톱 산맥',21,28,27,1)+zr('achievement_zone_darkshore_01','어둠의 해안',13,21,76,1)+'</div>'+nav+'</div></div>';
+document.getElementById('R').innerHTML=A+B+C+D;
+document.getElementById('N').innerHTML='<b>바뀌는 점</b><br>① 맨 위 「레벨업 / 지도 / 지역」 아이콘 탭 + 🔍 찾기 버튼 · 지금 지역을 그림 머리로(진행 동그라미 7/32) · 「다 하면 35레벨까지 · 경험치」 진행 막대 · 거점을 던전 보스처럼 타임라인으로(동그라미 번호 · 받기/반납 칩) · 퀘스트 한 줄 = 체크 동그라미 · 종류 아이콘(처치·수집·대화) · 레벨 색(초록 쉬움·노랑 맞음·주황 높음) · 경험치 · 연계 칩<br>② 퀘스트를 누르면 카드가 펼쳐져요: 할 일 상자 · 받기 → 하는 곳 → 반납 3단계(지도 바로 가기) · 연계 진행 막대 · 보상은 아이콘 3칸 + 내 장비보다 좋아지는 점수와 이유 · 받았어요/끝냈어요/지도에서 버튼<br>③ 레벨업 도우미를 2×2 아이콘 타일로(배울 기술·직업 퀘스트·갈 만한 던전·보상 템) · 사냥 자리·다음 구간 한 줄 · 1–60 길을 지역 아이콘 선으로 보여 주고 지금 위치 강조<br>④ 지역 탭: 대륙 아이콘 칩 · 「내 레벨에 맞는 곳」 큰 카드 2×2(지금 할 것 개수) · 지역마다 레벨 막대에 내 레벨 초록 표시 · 지나간 지역은 흐리게';
+</script></body></html>
