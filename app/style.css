@@ -1410,3 +1410,8 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .rt.me .ri{width:26px;height:26px}.rt.me .rb-t>b{font-size:14px;color:#9fdf8a}.rt.me ul{font-size:13.5px;color:#efe6d2}.rt.me li b{color:#c8f5b8}
 
 .rrh .fl2{flex-wrap:nowrap}
+
+.acl{display:flex;align-items:center;gap:3px;margin-top:3px;flex-wrap:wrap}
+.acl .ic{width:16px;height:16px;border-radius:50%;opacity:.45;flex:none}.acl .ic.on{opacity:1;box-shadow:0 0 0 1.5px #7bea7b}
+.acl em{font-style:normal;font-size:11px;color:#9fdf8a;margin-left:3px}.acl em b{color:#c8f5b8}.acl em.no{color:var(--mute)}
+.rt li u{text-decoration:none;color:#c8f5b8;font-weight:700}
