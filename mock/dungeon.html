@@ -116,8 +116,8 @@ h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-
 /* 보스 기술 강조 */
 .tags .k{border-width:1px;font-weight:700}.k.dis{color:#d7b4ff;border-color:#8a5cd6;background:rgba(138,92,214,.16)}.k.int{color:#ffe08a;border-color:#c9a227;background:rgba(201,162,39,.15)}.k.av{color:#a9dcff;border-color:#3f8fcf;background:rgba(63,143,207,.16)}.k.add{color:#ffc08a;border-color:#c46a2a;background:rgba(196,106,42,.16)}.k.dz{color:#ffb0a6;border-color:#d0463a;background:rgba(208,70,58,.2)}
 .lgd{display:flex;gap:4px;flex-wrap:wrap;margin:0 12px 8px}.lgd span{font-size:10.5px;padding:1px 7px;border-radius:6px;border:1px solid}
-.dz{display:flex;gap:8px;align-items:flex-start;margin-top:8px;padding:8px 10px;border-radius:10px;background:linear-gradient(90deg,rgba(208,70,58,.28),rgba(208,70,58,.08));border:1px solid #d0463a;box-shadow:0 0 12px rgba(208,70,58,.25);font-size:12.5px;line-height:1.45}
-.dz .ic{width:32px;height:32px;border-radius:7px;border:2px solid #d0463a;flex:none}.dz b{display:block;color:#ffb0a6;font-size:13px}.dz .ph5{display:inline-block;margin-left:4px;font-size:10.5px;color:#fff;background:#d0463a;border-radius:5px;padding:0 5px;vertical-align:1px}
+.dzb{display:flex;gap:8px;align-items:flex-start;margin-top:8px;padding:8px 10px;border-radius:10px;background:linear-gradient(90deg,rgba(208,70,58,.28),rgba(208,70,58,.08));border:1px solid #d0463a;box-shadow:0 0 12px rgba(208,70,58,.25);font-size:12.5px;line-height:1.45}
+.dzb .ic{width:32px;height:32px;border-radius:7px;border:2px solid #d0463a;flex:none}.dzb b{display:block;color:#ffb0a6;font-size:13px}.dzb .ph5{display:inline-block;margin-left:4px;font-size:10.5px;color:#fff;background:#d0463a;border-radius:5px;padding:0 5px;vertical-align:1px}
 .skl{margin-top:8px;display:flex;flex-direction:column;gap:5px}
 .skr{display:flex;gap:8px;align-items:center;padding:6px 8px 6px 7px;border-radius:9px;background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--line)}
 .skr .ic{width:28px;height:28px;border-radius:6px;flex:none}.skr .m{flex:1;min-width:0}.skr b{font-size:12.5px}.skr small{display:block;font-size:11px;color:var(--mute);line-height:1.35}
@@ -136,7 +136,7 @@ h1{font-size:18px;color:var(--gold);margin:0 0 4px}.lead{color:var(--mute);font-
 .skr .m b{display:inline-flex;align-items:center;gap:5px;line-height:1.2}
 .skr .mi{margin-left:6px;height:16px;box-sizing:border-box;vertical-align:middle}
 .skr .k{min-width:40px;height:20px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;line-height:1}
-.dz{align-items:center}.dz .ic{display:block}
+.dzb{align-items:center}.dzb .ic{display:block}
 .obj{align-items:center}
 .ci .why{display:block;font-size:10px;color:#8bd37a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
@@ -170,7 +170,7 @@ const b1open='<div class="bn open"><span class="por" style="background-image:url
 const obj=(n,t,f)=>'<div class="obj">'+ic('inv_misc_book_0'+n)+'<span>'+t+'</span>'+(f?'<span class="fa">'+f+'</span>':'')+'<em>· 건너뛰어도 됨</em></div>';
 const b2='<div class="bn"><span class="por" style="background-image:url('+NPC(5266)+')"></span><span class="no">6</span><div class="nm"><b>신비술사 도안</b><span class="lvb">Lv 37</span><span class="ck"></span></div><div class="tags">'+tg('dz','spell_fire_selfdestruct','대폭발 도망')+tg('int','spell_nature_polymorph','변이')+tg('av','spell_nature_wispsplode','붙지 말기')+'</div></div>';
 const b2open='<div class="bn open" style="border-color:#d0463a"><span class="por" style="background-image:url('+NPC(5266)+');border-color:#d0463a"></span><span class="no">6</span><div class="nm"><b>신비술사 도안</b><span class="lvb">Lv 37</span><span class="ck"></span></div><div class="tags">'+tg('dz','spell_fire_selfdestruct','대폭발 도망')+tg('int','spell_nature_polymorph','변이')+tg('av','spell_nature_wispsplode','붙지 말기')+'</div>'
- +'<div class="dz">'+ic('spell_fire_selfdestruct')+'<div><b>⚠ 비전 보호막 → 대폭발 <span class="ph5">체력 50%</span></b>보호막이 보이면 <b style="display:inline;color:#fff">전원 멀리</b> 달아났다가, 폭발이 끝나면 다시 붙어요. 여기서 전멸이 제일 많아요.</div></div>'
+ +'<div class="dzb">'+ic('spell_fire_selfdestruct')+'<div><b>⚠ 비전 보호막 → 대폭발 <span class="ph5">체력 50%</span></b>보호막이 보이면 <b style="display:inline;color:#fff">전원 멀리</b> 달아났다가, 폭발이 끝나면 다시 붙어요. 여기서 전멸이 제일 많아요.</div></div>'
  +'<div class="skl">'+sk('int','spell_nature_polymorph','변이','파티원이 양이 돼요 → 해제해 주거나 기다리기','풀기',1)+sk('av','spell_nature_wispsplode','비전 폭발','가까이 있는 사람 모두 피해 → 원거리는 떨어져서','거리')+sk('int','spell_shadow_impphaseshift','침묵','잠깐 주문을 못 써요 → 미리 체력 채워 두기','대비',1)+'</div>'
  +'<div class="drops">'+ic('inv_wand_04','u')+ic('inv_weapon_shortblade_07','u')+ic('inv_boots_05','u')+'<small>드랍 6 · 내게 좋은 것 4</small></div></div>';
 const A='<div><p class="cap">① 공략 탭 첫 화면</p><div class="ph">'+TOPB+hero+tabs(0)+ready+loot+warn+sum+nav+'</div></div>';
