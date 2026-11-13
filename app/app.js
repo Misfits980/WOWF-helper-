@@ -701,6 +701,7 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
    +'<li><code>/wfh</code><span>게임 채팅창에 치면 코드 창이 떠요 → <b>Ctrl+C</b></span></li>'
    +'<li><button class="btn sm ghost" data-a="imp">코드 붙여 넣기</button><span>여기에 붙여 넣으면 끝</span></li></ol>'
    +'<div class="adcmd"><b>게임 명령어</b><span><code>/wfh</code> 코드 창</span><span><code>/wfh 점검</code> 담긴 개수 확인</span><span><code>/wfh 추천</code> 툴팁 추천 넣기 <button class="lnk" data-a="wfr">코드 만들기</button></span><span><code>/wfh 공략</code> 보스 공략 창 켜기/끄기</span></div>'
+   +'<div class="adcmd"><b>끄는 방법</b><span><code>/wfh 공략</code> 보스 공략 창 끄기 (창의 ✕ 는 그 보스만 닫기)</span><span><code>/wfh 알림</code> 레벨업·반납 알림·접속 인사 끄기</span><span><code>/wfh 추천 지우기</code> 툴팁 추천 지우기</span><span><code>/wfh 설정</code> 지금 켜고 끈 상태</span><span>애드온 전체 → 캐릭터 고르는 화면 「애드온」에서 체크 해제</span></div>'
    +'<p class="adt">은행은 게임에서 한 번 열어야 담겨요 · 부캐는 그 캐릭터로 한 번 접속해야 담겨요'+(isPC()?'':' · PC에서 하는 게 편해요')+'</p></div>';
   return h}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';

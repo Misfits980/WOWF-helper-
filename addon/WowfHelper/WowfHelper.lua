@@ -12,6 +12,9 @@
 -- /wfh 점검   (또는 /wfh test) 코드에 무엇이 몇 개 담겼는지 채팅창에 보여 주기
 -- /wfh 추천   앱의 추천 코드 붙여 넣기 (아이템 툴팁에 표시)
 -- /wfh 공략   보스 공략 창 켜기/끄기
+-- /wfh 알림   레벨업·반납 알림과 접속 인사 켜기/끄기
+-- /wfh 추천 지우기   넣어 둔 툴팁 추천 지우기
+-- /wfh 설정   지금 켜고 끈 상태 보기
 
 local B36 = "0123456789abcdefghijklmnopqrstuvwxyz"
 local PRE = "|cffe8c06a[와포 도우미]|r "
@@ -398,7 +401,18 @@ SLASH_WOWFHELPER1 = "/wfh"
 SLASH_WOWFHELPER2 = "/와포"
 SlashCmdList["WOWFHELPER"] = function(msg)
   msg = (msg or ""):lower():gsub("^%s+", ""):gsub("%s+$", "")
+  WowfHelperDB = WowfHelperDB or {}
+  local D = WowfHelperDB
   if msg == "점검" or msg == "test" or msg == "check" then selfTest()
+  elseif msg == "추천 지우기" or msg == "추천끄기" or msg == "추천 끄기" or msg == "rec off" then
+    D.rec = nil; D.recN = 0; say("툴팁 추천을 지웠어요. (다시 넣으려면 /wfh 추천)")
+  elseif msg == "알림" or msg == "note" then
+    D.noteOff = not D.noteOff
+    say(D.noteOff and "레벨업·반납 알림과 접속 인사를 껐어요. (/wfh 알림 으로 다시 켜기)" or "알림을 켰어요.")
+  elseif msg == "설정" or msg == "status" then
+    say(("설정 · 보스 공략 창 %s · 알림 %s · 툴팁 추천 %s"):format(D.bossOff and "|cffff6060꺼짐|r" or "|cff40ff40켜짐|r",
+      D.noteOff and "|cffff6060꺼짐|r" or "|cff40ff40켜짐|r", (D.recN or 0) > 0 and ("|cff40ff40" .. D.recN .. "개|r") or "없음"))
+    say("끄고 켜기: /wfh 공략 · /wfh 알림 · /wfh 추천 지우기 · 애드온 전체는 캐릭터 고르는 화면의 「애드온」에서")
   elseif msg == "추천" or msg == "rec" then WowfHelper_RecBox()
   elseif msg == "공략" or msg == "boss" then WowfHelper_BossToggle()
   else showFrame() end
@@ -409,6 +423,7 @@ local lastNote = 0
 local function note(why)
   WowfHelperDB = WowfHelperDB or {}
   WowfHelperDB.changed = true
+  if WowfHelperDB.noteOff then return end
   local t = GetTime and GetTime() or 0
   if t - lastNote < 120 then return end
   lastNote = t
@@ -446,7 +461,7 @@ ev:SetScript("OnEvent", function(_, e, a1)
   if e == "PLAYER_LOGIN" then
     sess.t0 = time and time() or 0; sess.xp = 0; sess.last = UnitXP("player") or 0; sess.lastMax = UnitXPMax("player") or 0
     rememberMe()
-    say("/wfh 를 치면 앱으로 옮길 코드가 나와요. (/wfh 점검 = 담긴 것 확인)")
+    if not (WowfHelperDB and WowfHelperDB.noteOff) then say("/wfh 를 치면 앱으로 옮길 코드가 나와요. (/wfh 설정 = 켜고 끄기)") end
   elseif e == "PLAYER_LEVEL_UP" then
     rememberMe()
     note((a1 and (a1 .. "레벨 달성!") or "레벨업!") .. " 앱 코드가 바뀌었어요")
@@ -551,6 +566,7 @@ local function bossFrame()
   local bg = bossF:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetColorTexture(0.05, 0.04, 0.03, 0.85)
   bossF.title = bossF:CreateFontString(nil, "OVERLAY", "GameFontNormal"); bossF.title:SetPoint("TOPLEFT", 10, -8)
   local close = CreateFrame("Button", nil, bossF, "UIPanelCloseButton"); close:SetPoint("TOPRIGHT", 2, 2); close:SetScale(0.8)
+  close:SetScript("OnClick", function() bossF:Hide(); bossF.hiddenFor = UnitName("target"); say("이 보스 공략 창을 닫았어요. 아예 끄려면 /wfh 공략") end)
   bossF.lines = {}
   for i = 1, 7 do
     local l = bossF:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
@@ -566,6 +582,7 @@ function WowfHelper_BossCheck(leftCombat)
   local f = bossFrame()
   local name = UnitExists("target") and UnitName("target")
   local tips = name and WowfHelperBoss[name]
+  if tips and f.hiddenFor == name then return end
   if not tips then
     if leftCombat or not UnitExists("target") then f:Hide() end
     return
