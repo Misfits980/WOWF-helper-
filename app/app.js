@@ -577,10 +577,12 @@ function wishView(c){const ids=(c.wish||[]).filter(id=>IT.get(id));const L=c.lv;
 function cmpView(c){const {csp,w}=cmpW(c);const ids=(c.cmp||[]).filter(id=>IT.get(id));const L=c.lv;
   let h=wishView(c)+'<div class="card cmpc"><h3>⚖️ 장비 비교</h3>'+cmpBasis(c,csp);
   /* 칸 골라 후보 3개 자동으로 담기 */
-  const SL=SLOTS.map(x=>x[0]).filter(s=>!offLocked(c,s)&&bestFor(c,s,L,ui.ifil).length);
-  h+='<div class="cpick">'+(SL.length?'<select class="inp csel" data-c="cmpslot"><option value="">칸 골라 후보 3개 담기 ▾</option>'+SL.map(s=>'<option value="'+s+'"'+(ui.cmpslot===s?' selected':'')+'>'+SLOT_KO[s]+'</option>').join('')+'</select>':'')
-   +'<input class="inp" placeholder="🔍 이름으로 찾아 담기" value="'+esc(ui.csrch||'')+'" data-c="csrch"></div><div id="csres">'+cmpSearch(c)+'</div>';
-  if(!ids.length)return h+'<p class="note">위에서 칸을 고르거나 이름으로 찾아 담아 보세요. 장비를 누르면 나오는 창의 <b>⚖ 비교에 담기</b>로도 담을 수 있어요. 최대 3개, 같은 부위면 지금 착용 장비도 같이 나와요.</p></div>';
+  /* 칸을 한 번 누르면 「지금 장비 + 추천 3개」 바로 비교 (드롭다운 없이) */
+  const SL=SLOT_ORDER().filter(s=>!offLocked(c,s));
+  h+='<div class="cslh">칸을 누르면 <b>지금 장비와 추천 3개</b>를 바로 비교해요</div><div class="csl">'+SL.map(s=>{const it=eqIt(c,s);const b=bestFor(c,s,L,ui.ifil)[0];const own=c.bag&&bagAll(c).some(x=>x.ok&&x.slot===s&&x.g>.5);
+    return '<button class="'+(ui.cmpslot===s&&ids.length?'on':'')+'" data-a="cmpslot" data-k="'+s+'" title="'+SLOT_KO[s]+'">'+(it?'<span class="ic q-'+it.q+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic empty">'+SLOT_KO[s].replace(/ \d/,'').slice(0,2)+'</span>')+'<small>'+SLOT_KO[s]+'</small>'+(b?'<em>+'+(b.g>=10?Math.round(b.g):b.g.toFixed(1))+'</em>':'')+(own?'<i>🎒</i>':'')+'</button>'}).join('')+'</div>'
+   +'<input class="inp csr" placeholder="🔍 이름으로 찾아서 담기" value="'+esc(ui.csrch||'')+'" data-c="csrch"><div id="csres">'+cmpSearch(c)+'</div>';
+  if(!ids.length)return h+'<p class="note">숫자(+12) = 그 칸에서 가장 좋은 추천이 얼마나 좋아지는지 · 🎒 = 내 가방·은행에 더 좋은 템이 있어요</p></div>';
   const its=ids.map(id=>IT.get(id));const slot=cmpSlot(its[0],c);const same=its.every(it=>cmpSlot(it,c)===slot);
   const cur=same&&slot?eqIt(c,slot):null;const cols=(cur&&!ids.includes(cur.id)?[{it:cur,eq:1,slot}]:[]).concat(its.map(it=>({it,slot:same?slot:null})));
   h+=cmpTable(c,cols,w,{del:1});
@@ -2098,7 +2100,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='cmpgo'){ui.sheet=null;ui.tab='gear';ui.gsub='cmp';ui.gslot=null;render();window.scrollTo(0,0);return}
   if(a==='cmpsp'){ui.cmpsp=k;rerender(true);return}
   if(a==='cmpq'){ui.sheet='cmp:'+k;rerender(true);return}
-  if(a==='cmpslot'){ui.cmpslot=k;c.cmp=bestFor(c,k,c.lv,ui.ifil).slice(0,3).map(x=>x.it.id);save();rerender(true);return}
+  if(a==='cmpslot'){ui.cmpslot=k;const own=c.bag?bagAll(c).filter(x=>x.ok&&fits(x.it,k,c)&&x.g>.5).map(x=>x.it.id):[];const rec=bestFor(c,k,c.lv,ui.ifil).map(x=>x.it.id).filter(id=>!own.includes(id));
+    c.cmp=own.slice(0,1).concat(rec).slice(0,3);if(!c.cmp.length){const cur=eqIt(c,k);const alt=cands(c,k,c.lv,ui.ifil).filter(x=>!cur||x.it.id!==cur.id).sort((a,b)=>b.s-a.s).slice(0,2).map(x=>x.it.id);c.cmp=alt.length?alt:(cur?[cur.id]:[]);toast(SLOT_KO[k]+' · 지금 게 제일 좋아요 👍 '+(alt.length?'다음 후보와 견줘요':''))}save();rerender(true);
+    setTimeout(()=>{const t=document.querySelector('.cmpc .cmpt,.cmpc table');if(t&&t.getBoundingClientRect().top>innerHeight-80)t.scrollIntoView({behavior:'smooth',block:'start'})},30);return}
   if(a==='fro'){ui.fropen=ui.fropen||{};ui.fropen[k]=!ui.fropen[k];rerender(true);return}
   if(a==='frsp'){const [kk,sp]=k.split('|');ui.frsp=ui.frsp||{};ui.frsp[kk]=sp;rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}

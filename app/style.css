@@ -1767,3 +1767,14 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gsub{grid-template-columns:repeat(auto-fit,minmax(0,1fr));grid-auto-flow:column}
 .gsub button span{font-size:11px;letter-spacing:-.2px}
 @media(max-width:420px){.gsub button{padding:6px 0}.gsub button span{font-size:10.5px}}
+/* 비교: 칸 고르기 */
+.cslh{font-size:12px;color:var(--mute);margin:10px 0 6px}.cslh b{color:#d8ccad}
+.csl{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.csl button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px 5px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:#cfc6b3;font:inherit;cursor:pointer;min-width:0}
+.csl button .ic{width:34px;height:34px;border-radius:7px;background-size:cover;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--mute)}
+.csl button .ic.empty{border:1px dashed var(--line)}
+.csl button small{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.csl button em{position:absolute;top:2px;right:2px;font-style:normal;font-size:9.5px;font-weight:800;color:#8bf08b;background:#1a2a1acc;border-radius:5px;padding:0 3px}
+.csl button i{position:absolute;top:2px;left:3px;font-style:normal;font-size:11px}
+.csl button.on{border-color:var(--gold2);background:#3a2c16;color:var(--gold)}
+.csr{margin-top:8px;width:100%}
