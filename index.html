@@ -1605,8 +1605,8 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=3e4eb53f"></script>
-<script>/* vce6e7f @11/13 13:19 */
-const BUILD='11/13 13:19';
+<script>/* v9b9121 @11/13 13:22 */
+const BUILD='11/13 13:22';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2382,13 +2382,14 @@ function nchain(c,id,more){ui.nch=ui.nch||{};const open=!!ui.nch[id];
   return h}
 function nowCard(c,S){let P=nowPlan(c,S);const all=P.reduce((n,h)=>n+h.get.length+h.turn.length,0),dn=P.reduce((n,h)=>n+h.get.filter(x=>x.done).length+h.turn.filter(x=>x.done).length,0);
   const left=H=>H.get.filter(x=>!x.done).length+H.turn.filter(x=>!x.done).length;
-  const firstOpen=(P.filter(H=>!ui.rz||H.z===ui.rz).find(H=>left(H))||{}).k;ui.hopen=ui.hopen||{};
+  const firstOpen=(P.filter(H=>!ui.rz||(ui.rz==='*'?!S.z.split(' · ').includes(H.z):H.z===ui.rz)).find(H=>left(H))||{}).k;ui.hopen=ui.hopen||{};
   const used=new Set();
   const zs0=S.z.split(' · ');let h='<div class="card now nwr"><div class="nh nh2"><span class="zics">'+zs0.slice(0,3).map(z=>'<span class="ic" style="background-image:url('+ICO(zIco(z))+')"></span>').join('')+'</span><div class="m"><small>지금 구간 '+S.a+'–'+S.b+'레벨</small><h3>'+esc(zs0[0])+'</h3><span class="mute">'+(()=>{const lq=P.reduce((n,H)=>n+left(H),0),lh=P.filter(H=>left(H)).length;return lq?'남은 퀘스트 <b>'+lq+'</b> · 들를 곳 '+lh+'곳 · 1번부터 차례로':'이 구간 퀘스트를 다 했어요'})()+'</span></div><div class="ring" style="--p:'+(all?Math.round(dn/all*100):0)+'"><b>'+dn+'</b><span>/'+all+'</span></div></div>';
-  const zl=[...new Set(P.map(H=>H.z))].map(z=>[z,P.filter(H=>H.z===z).reduce((n,H)=>n+left(H),0)]).filter(x=>x[1]);
+  const zMain=z=>zs0.includes(z);const zOf=H=>zMain(H.z)?H.z:'*';
+  const zl=[...new Set(P.map(zOf))].map(z=>[z,P.filter(H=>zOf(H)===z).reduce((n,H)=>n+left(H),0)]).filter(x=>x[1]).sort((a,b)=>(a[0]==='*')-(b[0]==='*')||zs0.indexOf(a[0])-zs0.indexOf(b[0]));
   if(ui.rz&&!zl.some(x=>x[0]===ui.rz))ui.rz=null;
-  if(zl.length>1)h+='<div class="rzc"><button class="'+(ui.rz?'':'on')+'" data-a="rz" data-k="">전체</button>'+zl.map(x=>'<button class="'+(ui.rz===x[0]?'on':'')+'" data-a="rz" data-k="'+esc(x[0])+'"><span class="ic" style="background-image:url('+ICO(zIco(x[0]))+')"></span>'+esc(x[0])+' <small>'+x[1]+'</small></button>').join('')+'</div>';
-  const P0=P;P=ui.rz?P.filter(H=>H.z===ui.rz):P;ui._hubs={};
+  if(zl.length>1)h+='<div class="rzc"><button class="'+(ui.rz?'':'on')+'" data-a="rz" data-k="">전체</button>'+zl.map(x=>'<button class="'+(ui.rz===x[0]?'on':'')+'" data-a="rz" data-k="'+esc(x[0])+'">'+(x[0]==='*'?'⛵ 다른 지역 반납·심부름':'<span class="ic" style="background-image:url('+ICO(zIco(x[0]))+')"></span>'+esc(x[0]))+' <small>'+x[1]+'</small></button>').join('')+'</div>';
+  P=ui.rz?P.filter(H=>zOf(H)===ui.rz):P;ui._hubs={};
   let n=0;
   const row=(x,turn)=>{const q=x.q;const lock=q.min>c.lv;x.imp.forEach(b=>{if(b[0]!=='chain')used.add(b[0])});
     const chn=x.imp.find(b=>b[0]==='chain');const more=chn?((chn[1].match(/\((\d+)단계\)/)||[])[1]-1):0;
