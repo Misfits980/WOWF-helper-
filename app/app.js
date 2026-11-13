@@ -494,7 +494,32 @@ function srcList(it){if(!it.src.length)return '<p class="note">어디서 나오�
   return '<div class="srcl">'+it.src.slice(0,6).map(i=>{const s=SRC[i];if(!s)return '';const d=s.k===0&&DG[s.dg];
     const ico={0:'🏰',1:'📜',2:'🌍',3:'⚔️',4:'🧪',5:'🛒'}[s.k]||'•';const bn=d&&d.bosses?bossNo(d,s.boss):null;
     return '<div class="srci"><span class="si">'+ico+'</span><span class="sx">'+esc(srcTxt({src:[i]},1))+(d?'<small>'+d.lo+'–'+d.hi+'레벨 던전'+(bn?' · '+bn+'번째 보스':'')+'</small>':'')+'</span>'+(d?'<button class="btn sm ghost" data-a="dgo" data-k="'+s.dg+'">던전 ›</button>':'')+'</div>'}).join('')+'</div>'}
-function itIcon(it,cls){return it&&(it.ic||it.icUrl)?'<span class="ic '+(cls||'')+' q-'+it.q+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic empty '+(cls||'')+'">–</span>'}
+/* ===== 🖱️ PC: 아이템 아이콘에 마우스를 올리면 와우 툴팁처럼 전체 능력치 ===== */
+const TIP_BASE=['str','agi','sta','int','spi'];
+function itemTipHtml(c,it,slot){const st=it.st||{};const QC={p:'qp',c:'qc',u:'qu',r:'qr',e:'qe',l:'ql'}[it.q]||'qc';
+  const eqd=slot&&c.eq&&c.eq[slot]===it.id;const cur=slot&&!eqd?eqIt(c,slot):null;
+  let h='<div class="tt-n '+QC+'">'+esc(it.nm)+'</div>'+(eqd?'<div class="tt-eq">지금 끼고 있어요</div>':'');
+  h+='<div class="tt-m"><span>'+esc(SL_KO[it.sl]||it.sl||'')+'</span><span>'+esc(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?CS_KO[it.cs]:'')+'</span></div>';
+  if(st.dps)h+='<div class="tt-l">초당 공격력 '+st.dps.toFixed(1)+'</div>';
+  if(st.armor)h+='<div class="tt-l">방어도 '+Math.round(st.armor)+'</div>';
+  TIP_BASE.forEach(k=>{if(st[k])h+='<div class="tt-l">'+(st[k]>0?'+':'')+Math.round(st[k])+' '+STAT_KO[k]+'</div>'});
+  Object.keys(st).filter(k=>!TIP_BASE.includes(k)&&k!=='dps'&&k!=='armor'&&STAT_KO[k]).forEach(k=>{h+='<div class="tt-g">착용 효과: '+STAT_KO[k].replace(/ %$/,'')+' '+(/%$/.test(STAT_KO[k])?st[k]+'%':'+'+Math.round(st[k]))+'</div>'});
+  if(it.eff)h+='<div class="tt-g">착용 효과: 특수 효과 있음 (게임 툴팁 확인)</div>';
+  h+='<div class="tt-lv">'+(it.lv>1?'최소 레벨 '+it.lv+(it.est?'?':''):'')+'</div>';
+  if(cur){const d=diffHtml(it,cur,c);h+='<div class="tt-cmp"><div class="tt-ch">지금 낀 것과 비교 <small>'+esc(cur.nm)+'</small></div>'+(d||'<span class="dif">달라지는 능력치 없음</span>')+'</div>'}
+  else if(slot&&!c.eq?.[slot])h+='<div class="tt-cmp"><div class="tt-ch">이 칸은 비어 있어요</div></div>';
+  if(eqd){const b=bestFor(c,slot,c.lv,ui.ifil||'ok')[0];if(b&&b.it&&b.it.id!==it.id)h+='<div class="tt-cmp"><div class="tt-ch">추천으로 바꾸면 <small>'+esc(b.it.nm)+'</small></div>'+(diffHtml(b.it,it,c)||'')+'</div>'}
+  h+='<div class="tt-src">얻는 곳: '+esc(srcTxt(it,3))+'</div>';
+  return h}
+(()=>{if(!(window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches))return;let tip=null,cur=null;
+  const hide=()=>{if(tip)tip.style.display='none';cur=null};
+  document.addEventListener('mouseover',e=>{const el=e.target.closest&&e.target.closest('[data-tip]');if(!el){if(cur)hide();return}if(el===cur)return;const c=me();const it=c&&IT.get(+el.dataset.tip);if(!it){hide();return}
+    cur=el;const slot=el.dataset.ts||((el.closest('[data-k*=":"]')||{dataset:{}}).dataset.k||'').split(':')[0]||'';
+    if(!tip){tip=document.createElement('div');tip.className='ttip';document.body.appendChild(tip)}
+    tip.innerHTML=itemTipHtml(c,it,SLOT_KO[slot]?slot:'');tip.style.display='block';
+    const r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;let x=r.right+10,y=r.top;if(x+tw>innerWidth-8)x=r.left-tw-10;if(x<8)x=8;if(y+th>innerHeight-8)y=innerHeight-th-8;if(y<8)y=8;tip.style.left=x+'px';tip.style.top=y+'px'});
+  document.addEventListener('scroll',hide,true);document.addEventListener('click',hide,true)})();
+function itIcon(it,cls){return it&&(it.ic||it.icUrl)?'<span class="ic '+(cls||'')+' q-'+it.q+'" data-tip="'+it.id+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic empty '+(cls||'')+'">–</span>'}
 function itName(it){return '<span class="q'+it.q+'">'+esc(it.nm)+'</span>'}
 function itMeta(it){return esc((SL_KO[it.sl]||it.sl)+(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?' · '+CS_KO[it.cs]:'')+' · Lv '+it.lv+(it.est?'?':''))+(it.ph==='extra'?' <span class="tag sm" title="클래식 자료로 더한 장비라 능력치가 조금 다를 수 있어요">능력치 대략</span>':'')}
 
@@ -677,7 +702,7 @@ function bestFor(c,slot,L,mode){const w=wOf(c);const cur=eqIt(c,slot);const othe
   const ng=c.nogo||[];return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
 function dollCell(c,s,ups){const it=eqIt(c,s);const sel=ui.gslot===s;const lock=offLocked(c,s);
   return '<button class="dc'+(sel?' sel':'')+(it?'':' empty')+'" data-a="gsel" data-k="'+s+'"'+(lock?' disabled':'')+' aria-label="'+SLOT_KO[s]+(it?' '+esc(it.nm):' 비어 있음')+'">'
-   +(it?'<span class="ic lg q-'+it.q+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
+   +(it?'<span class="ic lg q-'+it.q+'" data-tip="'+it.id+'" data-ts="'+s+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
    +(ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
 function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
 function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);

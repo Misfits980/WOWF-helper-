@@ -1548,13 +1548,13 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .gmap.noimg::before{content:'지도 그림을 못 불러왔어요';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#a59d8c;font-size:12px}
 .gmap svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .gz{position:absolute;left:8px;top:6px;font-size:11px;font-weight:800;color:#fff;background:#000a;border-radius:6px;padding:2px 7px}
-.gp{position:absolute;transform:translate(-50%,-50%);min-width:22px;height:22px;border-radius:50%;border:2px solid #1a140a;font:900 13px/18px system-ui,sans-serif;text-align:center;padding:0 3px;cursor:pointer;box-shadow:0 1px 3px #000c;z-index:2}
-.gp.k-g{background:#ffd200;color:#3a2500}
-.gp.k-r{background:#ffd200;color:#3a2500}
-.gp.k-d{background:#ff8a3d;color:#1a140a;font-size:11px}
-.gp.k-sget{background:#ffd65a;color:#1a140a}.gp.k-sdo{background:#ff9a4a;color:#1a140a}.gp.k-sturn{background:#7ec8ff;color:#1a140a}
-.gp.on{width:28px;height:28px;font-size:14px;line-height:24px;box-shadow:0 0 0 3px #ffe08a88,0 1px 3px #000c;z-index:3}
-.gp em{position:absolute;right:-8px;top:-8px;font-style:normal;font-size:9.5px;line-height:14px;min-width:14px;border-radius:7px;background:#c0392b;color:#fff;border:1px solid #1a140a}
+.gmap .gp{position:absolute;transform:translate(-50%,-50%);min-width:22px;height:22px;border-radius:50%;border:2px solid #1a140a;font:900 13px/18px system-ui,sans-serif;text-align:center;padding:0 3px;cursor:pointer;box-shadow:0 1px 3px #000c;z-index:2}
+.gmap .gp.k-g{background:#ffd200;color:#3a2500}
+.gmap .gp.k-r{background:#ffd200;color:#3a2500}
+.gmap .gp.k-d{background:#ff8a3d;color:#1a140a;font-size:11px}
+.gmap .gp.k-sget{background:#ffd65a;color:#1a140a}.gmap .gp.k-sdo{background:#ff9a4a;color:#1a140a}.gmap .gp.k-sturn{background:#7ec8ff;color:#1a140a}
+.gmap .gp.on{width:28px;height:28px;font-size:14px;line-height:24px;box-shadow:0 0 0 3px #ffe08a88,0 1px 3px #000c;z-index:3}
+.gmap .gp em{position:absolute;right:-8px;top:-8px;font-style:normal;font-size:9.5px;line-height:14px;min-width:14px;border-radius:7px;background:#c0392b;color:#fff;border:1px solid #1a140a}
 .gpo{position:absolute;transform:translate(-50%,-50%);width:9%;aspect-ratio:1.5;border-radius:50%;background:radial-gradient(#ff8a3d55,#ff8a3d22 60%,transparent 72%);border:1px dashed #ffb070aa;pointer-events:none;z-index:1}
 .gl{position:absolute;transform:translate(14px,-50%);font-size:10.5px;font-weight:800;color:#fff;white-space:nowrap;text-shadow:0 0 3px #000,0 0 3px #000,0 1px 2px #000;pointer-events:none;z-index:2;max-width:40%;overflow:hidden;text-overflow:ellipsis}
 .gmf{position:absolute;right:8px;top:6px;background:#000a;color:#ffe08a;border:1px solid #c9a22788;border-radius:6px;font:inherit;font-size:11px;font-weight:700;padding:3px 8px;cursor:pointer;z-index:4}
@@ -1653,3 +1653,15 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .lgwhy.hard{color:#ff9a6a;border:1px solid #a0502c}
 .lg3x .lg3r{opacity:.85}
 .lg3a .ib.rm{border-color:#a0502c;color:#ffb08a}
+/* 아이템 툴팁 (PC 마우스) */
+.ttip{position:fixed;z-index:200;display:none;width:280px;padding:10px 12px;border-radius:8px;background:rgba(10,14,30,.96);border:1px solid #5a6a8a;box-shadow:0 0 0 1px #000,0 6px 20px #000a;font-size:12.5px;line-height:1.45;color:#fff;pointer-events:none}
+.ttip .tt-n{font-size:14px;font-weight:800}
+.ttip .tt-eq{font-size:11px;color:#a59d8c}
+.ttip .tt-m{display:flex;justify-content:space-between;color:#fff}
+.ttip .tt-l{color:#fff}
+.ttip .tt-g{color:#2ee04a}
+.ttip .tt-lv{color:#fff;opacity:.85}
+.ttip .tt-cmp{margin-top:6px;padding-top:6px;border-top:1px solid #2c3550}
+.ttip .tt-ch{color:#ffd65a;font-weight:700;font-size:11.5px}.ttip .tt-ch small{color:#a5b0c8;font-weight:500;margin-left:4px}
+.ttip .dif .p{color:#2ee04a}.ttip .dif .n{color:#ff6a5a}
+.ttip .tt-src{margin-top:6px;color:#ffd100;font-size:11.5px}
