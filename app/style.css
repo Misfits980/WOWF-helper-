@@ -1138,3 +1138,32 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .trow.dim .ti{filter:grayscale(.7);opacity:.6}
 .tbg{flex:none;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--gold2);color:#1a140a;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .tok{flex:none;color:#9fcf82;font-weight:800}
+/* 지도: 퀘스트 단계 보기 (wythic처럼) */
+.amob{fill:rgba(255,214,90,.16);stroke:#ffd65a;stroke-width:2.5;stroke-dasharray:6 4}
+.amseg2{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.amseg2 button{background:none;border:0;color:var(--mute);font-size:11.5px;padding:3px 8px;font-family:inherit}
+.amseg2 button.on{background:#3a2c16;color:var(--gold);font-weight:700}
+.ams .amsh{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.ams .amsh>b{flex:1;min-width:0;font-size:16px;color:var(--gold)}
+.ams .amsh .qlv{flex:none;font-size:11px;font-weight:700;border-radius:5px;padding:0 6px;line-height:18px;border:1px solid var(--line)}
+.ams .amsh .x{background:none;border:0;color:var(--mute);font-size:15px;padding:2px 4px}
+.amso{margin:2px 0 8px;font-size:13.5px;line-height:1.5;color:#e8dcc0}
+.amsl{display:flex;flex-direction:column;gap:5px;font-size:13px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.amsl>div{display:flex;gap:8px;align-items:flex-start}
+.amsl .k{flex:none;width:68px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:2px}
+.amsl .k.g{color:#ffd65a}.amsl .k.o{color:#ffb44a}.amsl .k.r{color:#7ec8ff}
+.amsl .k img{width:13px;height:13px}
+.amsl small{color:var(--mute)}
+.amsx{font-size:12px;margin:6px 0 0}
+.amsn{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:8px 0 4px}
+.amsn span{font-size:12.5px;color:var(--mute)}.amsn b{color:var(--gold)}
+.amsn button[disabled]{opacity:.35}
+.amsc{list-style:none;margin:4px 0 0;padding:0;max-height:180px;overflow:auto;scrollbar-width:none}
+.amsc li button{display:flex;align-items:center;gap:8px;width:100%;padding:5px 6px;border:0;border-radius:8px;background:none;color:inherit;text-align:left;font-family:inherit;font-size:13px}
+.amsc li .n{flex:none;width:18px;color:var(--mute);font-size:11.5px;text-align:right}
+.amsc li b{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amsc li em{font-style:normal;color:var(--mute);font-size:11.5px}
+.amsc li.on button{background:rgba(255,214,90,.12);box-shadow:inset 0 0 0 1.5px #ffd65a}
+.amsc li.on b{color:#ffd65a}
+.amsc li.fin b{text-decoration:line-through;opacity:.55}
+.amsb{display:flex;align-items:center;gap:8px;margin-top:8px}
