@@ -6,19 +6,23 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 ADD = {
     'gnomeregan': [95041, 2238],
     'deadmines': [92753],
-    'shadowfang-keep': [1654],
-    'razorfen-kraul': [1701, 96264],
+    'shadowfang-keep': [1654, 1740, 78261],
+    'hall-of-thanes': [96390],
+    'whelgar-excavation': [484, 276, 277, 275],
+    'razorfen-kraul': [1701, 96264, 1100],
     'sm-library': [96800, 1951],
     'razorfen-downs': [96773, 93604],
     'uldaman': [2398, 2200, 2278, 1956],
     'zul-farrak': [2769, 96770],
     'maraudon': [93404],
-    'temple-of-atal-hakkar': [96603, 8232, 8236, 8253, 8257, 8418, 8422, 8425, 9053],
+    'temple-of-atal-hakkar': [4143, 96603, 8232, 8236, 8253, 8257, 8418, 8422, 8425, 9053],
     'dire-maul-north': [7429, 5519],
     'dire-maul-east': [7463, 5526],
     'dire-maul-west': [7498, 7499, 7500, 7501, 7502, 7503, 7504, 7505, 7506],
     'lower-blackrock-spire': [4743],
-    'blackrock-depths': [4295],
+    'blackrock-depths': [4295, 4262, 7848],
+    'upper-blackrock-spire': [6821],
+    'scholomance': [5537, 5344],
 }
 Q = {}
 for l in open(ROOT / 'data/qdb/quests.jsonl', encoding='utf-8'):
@@ -40,7 +44,7 @@ for slug, ids in ADD.items():
             print('없음', slug, i); continue
         g = q.get('g') or ['', '', '', '']
         where = g[1] or ''
-        inside = where and (where in DGN.get(slug, '') or DGN.get(slug, '').startswith(where))
+        inside = i in (1100,) or where and (where in DGN.get(slug, '') or DGN.get(slug, '').startswith(where))
         start = (g[0] or '시작') + ' · ' + ('던전 안' if inside else (where + (' ' + g[2].replace(',', ', ') if g[2] else '')).strip())
         pre = 1 if (q.get('pre') or q.get('pre1')) else 0
         rw, ch = RW.get(i, ([], 0))
