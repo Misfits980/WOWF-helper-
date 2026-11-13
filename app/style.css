@@ -1605,3 +1605,14 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .lkd[open]>summary{color:#d8ccad}
 .hmore{display:block;width:100%;margin:6px 0 2px;padding:9px;border-radius:10px;border:1px dashed var(--gold2);background:#3a2c1655;color:var(--gold);font:inherit;font-size:12.5px;font-weight:800;cursor:pointer}
 .agn2{color:#a9dcff;font-size:10.5px;font-weight:800;margin-left:4px}
+.gin .gt{position:absolute;display:block;max-width:none}
+.gmap.nomap{background-color:#221c14;background-image:repeating-linear-gradient(0deg,transparent 0 9.8%,#3a3122 9.8% 10%),repeating-linear-gradient(90deg,transparent 0 9.8%,#3a3122 9.8% 10%)}
+.toast.undo{display:flex;align-items:center;gap:10px;padding:6px 6px 6px 16px;white-space:nowrap}.toast.undo button{background:var(--gold2);color:#1a140a;border:0;border-radius:999px;font:inherit;font-size:13px;font-weight:800;padding:5px 12px;cursor:pointer}
+.mypf{display:flex;flex-wrap:wrap;gap:5px;padding:2px 0 8px}
+.mypf button{background:var(--bg);border:1px solid var(--line);color:#d8ccad;border-radius:999px;font:inherit;font-size:11.5px;font-weight:700;padding:3px 9px;cursor:pointer}
+.mypf button.on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
+.pht{display:flex;align-items:center;gap:8px}.pht .mypb{margin-left:auto}
+.newq{display:inline-block;font-size:10.5px;font-weight:800;color:#8bf08b;margin-left:6px;white-space:nowrap}
+.nh2 .mute .newq{margin-left:0;font-size:inherit}
+.hp.nw{color:#8bf08b;border-color:#3f7a3c;background:#8bf08b14}
+.hp.xp{color:#d7b8ff;border-color:#6a4f8f;background:#d7b8ff12}
