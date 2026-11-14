@@ -260,6 +260,12 @@ def main():
         names.setdefault(v, []).append(k)
     ids = [int(x) for x in sys.argv[3:]] or sorted(i for i in names if os.path.exists(os.path.join(maps, f'{i}.jpg')))
     out = os.path.join(ROOT, 'data', 'route'); os.makedirs(out, exist_ok=True)
+    # 게임 지형으로 만든 지역(tools/terrain/build_terrain.py)은 덮어쓰지 않음
+    tf = os.path.join(out, 'terrain.txt')
+    terr = set(int(x) for x in open(tf, encoding='utf-8').read().split() if x.isdigit()) if os.path.exists(tf) else set()
+    if terr:
+        print('지형 격자 유지', len(terr), '지역')
+    ids = [i for i in ids if i not in terr]
     t = time.time(); SP = spawns(qdb, set(ids)); print('몹 자리', round(time.time() - t), '초')
     for i in ids:
         p = os.path.join(maps, f'{i}.jpg')

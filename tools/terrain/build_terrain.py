@@ -220,6 +220,8 @@ def main():
     rdir = os.path.join(repo, 'data', 'route')
     ids = sorted(int(f[:-4]) for f in os.listdir(rdir) if f.endswith('.png'))
     T = {}
+    tf = os.path.join(rdir, 'terrain.txt')
+    done = set(int(x) for x in open(tf, encoding='utf-8').read().split() if x.isdigit()) if os.path.exists(tf) else set()
     for zid in ids:
         if only and zid not in only:
             continue
@@ -238,7 +240,12 @@ def main():
         old = np.array(Image.open(p)) if os.path.exists(p) else None
         g, st = zone_grid(T[nm], rects[zid], old, LQ)
         Image.fromarray(g, 'L').save(p, optimize=True)
+        done.add(zid)
         print(zid, nm, '절벽칸', st['steep'], '물칸', st['swim'], '자료없음', st['nodata'])
+    # 이 목록에 있는 지역은 tools/route/build_grid.py(지도 그림·몹 자리 격자)가 덮어쓰지 않음
+    with open(tf, 'w', encoding='utf-8') as f:
+        f.write('# 게임 지형으로 만든 걷기 격자 (tools/terrain/build_terrain.py). build_grid.py는 이 지역을 건너뜀\n')
+        f.write('\n'.join(str(z) for z in sorted(done)) + '\n')
 
 
 if __name__ == '__main__':
