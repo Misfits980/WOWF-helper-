@@ -241,3 +241,12 @@ details.card>summary,details>summary{cursor:pointer}
 .rmapf .rmn{flex-basis:100%;order:9;font-size:11px;color:#a99a7a;margin-top:2px}
 .rmapf{flex-wrap:wrap}
 .scroll2 .isl{margin:6px 0 4px;padding:6px 8px;border-radius:4px;background:rgba(40,90,140,.12);border:1px solid rgba(40,90,140,.35);color:#1f3550;font-size:12.5px}
+.qnb{display:flex!important;align-items:center;min-width:0;gap:0}
+.qnb .qn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.qnb .chtag{flex:none}
+.sh2 .hn b{white-space:normal;overflow:visible;line-height:1.35}.sh2 .hn b .here,.sh2 .hn b .agn{display:inline-block;white-space:nowrap}
+/* 예전 파란 톤이 남아 있던 칸 → 청동 톤 (반납=파랑 같은 뜻 있는 색은 그대로) */
+.mv{background:linear-gradient(180deg,#221a10,#17110a)!important;border-color:#5d4622!important;color:#e6d3a3!important;border-radius:6px!important}
+.rpk{background:rgba(199,154,58,.08)!important;border-color:rgba(199,154,58,.35)!important}
+.nchb{border-color:rgba(199,154,58,.4)!important;background:rgba(199,154,58,.1)!important;color:#e6c97a!important}
+.tag.ct{border-color:#5d4622;color:#d8c08a}

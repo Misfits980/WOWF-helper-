@@ -266,9 +266,7 @@ function syncBox(){let h='<div class="card syc"><h3>📱💻 휴대폰·컴퓨�
     +'<div><b>② 다른 기기에서</b><small>받은 링크를 열거나 QR을 찍으면 끝 · 코드를 직접 넣어도 돼요</small><input class="inp" autocomplete="off" autocapitalize="characters" placeholder="연동 코드 (예: 1234…-7K3Q…)" data-c="syjoin"><button class="btn ghost full" style="margin-top:6px" data-a="syjn">코드로 연결</button></div></div>'
     +(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')
     +'<p class="mute" style="font-size:12px">기록은 무료 저장 서비스(textdb.dev)에 <b>암호화해서</b> 올려요. 열쇠는 연동 코드 안에만 있어서 서비스에서도 내용을 못 봐요. 오래 안 쓰면 지워질 수 있지만 각 기기 기록은 그대로 남아요.</p>'
-    +'<details class="adsec"><summary><b>고급 · GitHub로 연동</b><small>내 GitHub 비공개 Gist에 저장</small><i>⌄</i></summary><div class="adsb">'
-    +'<ol class="imps"><li><a class="lnk" href="https://github.com/settings/tokens/new?scopes=gist&description=wowf-helper" target="_blank" rel="noopener">GitHub 토큰 만들기 ↗</a> — <b>gist</b>만 체크 · 기간은 길게</li><li>휴대폰·컴퓨터 둘 다 같은 토큰을 넣기</li></ol>'
-    +'<input class="inp" type="password" autocomplete="off" placeholder="ghp_로 시작하는 토큰" data-c="sytok"><button class="btn ghost full" style="margin-top:6px" data-a="syon">GitHub로 연결</button></div></details></div>';
+    +'</div>';
   return h}
 const me=()=>DB.list.find(c=>c.id===DB.cur)||null;
 const newId=()=>'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
@@ -548,7 +546,7 @@ function miniMap(id,d,nm){const X=QDB&&QDB.get(id);const P=[];
   if(R&&!(G&&R[2]===G[2]&&R[0]===G[0]))add('r',R[1]||gz,R[2],npcKo(d,'r')||R[0]);
   if(!P.length)return '';const c0=P[0].c;const Q=P.filter(p=>p.c===c0);
   const xs=Q.map(p=>p.x),ys=Q.map(p=>p.y);const w=Math.max(...xs)-Math.min(...xs),hh=Math.max(...ys)-Math.min(...ys);
-  let z=3;while(z>0&&(w*2**(z-3)>560||hh*2**(z-3)>170))z--;const s=2**(z-3),span=256*2**(3-z);
+  const MW=Math.min(560,Math.max(180,Math.min(window.innerWidth,720)-130));/* 폰에서는 칸이 좁으니 핀이 칸 밖으로 안 나가게 더 멀리서 보기 */let z=3;while(z>0&&(w*2**(z-3)>MW||hh*2**(z-3)>170))z--;const s=2**(z-3),span=256*2**(3-z);
   const cx=(Math.min(...xs)+Math.max(...xs))/2,cy=(Math.min(...ys)+Math.max(...ys))/2;const T=ATL[c0];const [nx,ny]=AMNT[c0][z];
   const tx0=Math.max(0,Math.floor((cx-460/s)/span)),tx1=Math.min(nx-1,Math.floor((cx+460/s)/span)),ty0=Math.max(0,Math.floor((cy-140/s)/span)),ty1=Math.min(ny-1,Math.floor((cy+140/s)/span));
   let t='';for(let x=tx0;x<=tx1;x++)for(let y=ty0;y<=ty1;y++)t+='<img src="https://assets.wowf.io/world/atlas/'+T.n+'/'+z+'/'+x+'_'+y+'.webp" style="left:'+((x*span-cx)*s)+'px;top:'+((y*span-cy)*s)+'px" alt="" loading="lazy" draggable="false" onerror="this.style.visibility=\'hidden\'">';
@@ -1748,7 +1746,7 @@ function routeView(c,emb){const L=c.lv;const R=routeOf(c);let prevC=null;const f
     if(pastN)h=h.replace(/<details class="rpast">[\s\S]*?<\/details>/,'');}
   else h+='<div class="q2">'+nc+'<div class="q2r">'+(isPC()&&curS?routeMapPanel(c):'')+lvHelp(c,curS,nxS)+'</div></div>';
   if(nxS)h+='<div class="nextln"><span class="lvb">'+nxS.a+'–'+nxS.b+'</span><span>다음 구간 · <b>'+esc(nxS.z)+'</b></span></div>';
-  h+='<button class="impl" data-a="imp">🧩 게임에서 이미 한 퀘스트 불러오기 <small>고급 · 애드온</small></button>';
+  h+='<button class="impl" data-a="imp">🧩 게임에서 이미 한 퀘스트 불러오기 <small>애드온</small></button>';
   h+='<details class="rall"><summary>🗺️ 1–60 전체 레벨 루트 보기</summary>'+(emb?rows.join(''):rows.slice(pastN).join(''))+'<p class="note">⛵ 배 타는 곳: '+BOAT+'</p></details>';
   return h}
 /* PC(넓은 화면)에서만 옆에 지도 */
@@ -1951,13 +1949,13 @@ function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
   let h='<div class="lgh2 lg3h"><span class="big">'+ids.length+'<small>/'+QLMAX+'</small></span><span class="m"><b>지금 퀘스트창 <i class="lgfree'+(free<=5?' low':'')+'">'+(free>0?free+'칸 남음':'꽉 찼어요')+'</i></b><span class="lgbar"><i style="width:'+Math.min(100,ids.length/QLMAX*100)+'%"></i></span><small>반납 가능 '+rdy+' · 하는 중 '+(ids.length-rdy)+(c.imported?' · '+new Date(c.imported.t).toLocaleDateString('ko-KR')+' 불러옴':'')+'</small></span><button class="btn sm ghost" data-a="imp">다시 불러오기</button></div>';
   if(nextGet)h+='<p class="lgwarn'+(nextGet>free?' bad':'')+'">'+(nextGet>free?'⚠ ':'📥 ')+'다음 갈 곳 <b>'+esc(nextHub)+'</b>에서 받을 퀘스트 '+nextGet+'개 · '+(nextGet>free?'자리가 '+(nextGet-free)+'칸 모자라요. 아래 「정리해도 되는 퀘스트」를 먼저 버려 보세요':'자리는 충분해요')+'</p>';
   h+='<button class="swrow" data-a="lgv"><span class="sw'+(v==='route'?' on':'')+'"></span><b>동선으로 보기</b><small>하는 순서대로 정리</small></button>';
-  const qline=(q,type)=>{const st=ql[q.id];return '<button class="lgq" data-a="qopen" data-k="'+q.id+'"><span class="lvq2">'+(q.lv||'?')+'</span><span class="m"><b>'+esc(q.n)+chTag(q.id)+'</b>'+(type?'<small>'+(type==='turn'?'반납'+(st===2?'':' (할 일 끝난 뒤)'):'할 일: '+esc(((QD.get(q.id)||{}).t||[]).map(t=>t[1]).filter(Boolean).slice(0,2).join(' · ')||String(q.o||'').slice(0,40)))+'</small>':'')+'</span>'+(st===2?'<em class="rdy">반납 가능</em>':'')+'</button>'};
+  const qline=(q,type)=>{const st=ql[q.id];return '<button class="lgq" data-a="qopen" data-k="'+q.id+'"><span class="lvq2">'+(q.lv||'?')+'</span><span class="m"><b class="qnb"><span class="qn">'+esc(q.n)+'</span>'+chTag(q.id)+'</b>'+(type?'<small>'+(type==='turn'?'반납'+(st===2?'':' (할 일 끝난 뒤)'):'할 일: '+esc(((QD.get(q.id)||{}).t||[]).map(t=>t[1]).filter(Boolean).slice(0,2).join(' · ')||String(q.o||'').slice(0,40)))+'</small>':'')+'</span>'+(st===2?'<em class="rdy">반납 가능</em>':'')+'</button>'};
   if(v==='route'){
     logStops(c,known).forEach(([z,L])=>{h+='<div class="lgz"><b>'+esc(z)+'</b><small>'+L.length+'곳</small></div><div class="lgr2">'+L.map((s,i)=>'<div class="lgs t-'+s.type+'"><span class="n">'+(i+1)+'</span><div class="b"><div class="h"><span class="k">'+(s.type==='turn'?'반납':s.type==='do'?'하기':'하기·반납')+'</span><b>'+esc(s.place)+'</b><small>'+(s.xy?s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'')+'</small>'+(s.items[0]?'<button class="mp" data-a="mmgo" data-k="'+s.items[0].q.id+'">지도</button>':'')+'</div>'+s.items.map(it=>qline(it.q,it.type)).join('')+'</div></div>').join('')+'</div>'})}
   else{const L=c.lv;const DQ={};DGS.forEach(d=>d.q.forEach(x=>{DQ[x.id]=d}));
     const why=q=>{const d=(q.lv||L)-L;if(d<=-8)return ['old','경험치 거의 없음 ('+q.lv+')'];if(d>=5)return ['hard',d+'레벨 높음 · 나중에'];return null};
     const row=(q,extra,rm)=>{const st=ql[q.id];const d0=QD.get(q.id)||{};const tk=tasksOf(d0,q.o||d0.obj||'').map(t=>t.nm).filter(Boolean).slice(0,2).join(' · ')||objClause(q.o||'');const talk=/반납하는 NPC와 이야기하면 끝나요/.test(tk);
-      const r=q.r||[];return '<div class="lg3r'+(st===2?' rdy':'')+'"><button class="lg3m" data-a="qopen" data-k="'+q.id+'"><span class="lvq2 '+lvCls(q.lv||L,L)+'">'+(q.lv||'?')+'</span><span class="m"><b>'+esc(q.n)+chTag(q.id)+'</b><small>'+(st===2||talk?(talk&&st!==2?'대화만 하면 끝 → ':'반납 → ')+esc(r[0]||'?'):'할 일: '+esc(tk))+'</small></span>'+qpHtml(c,q.id)+(extra||'')+'</button><span class="lg3a"><button class="ib" data-a="mmgo" data-k="'+q.id+'" title="지도">📍</button>'+(rm?'<button class="ib rm" data-a="qlrm" data-k="'+q.id+'" title="게임에서 포기했어요">🗑</button>':'<button class="ib ok" data-a="qldone" data-k="'+q.id+'" title="끝냈어요">✓</button>')+'</span></div>'};
+      const r=q.r||[];return '<div class="lg3r'+(st===2?' rdy':'')+'"><button class="lg3m" data-a="qopen" data-k="'+q.id+'"><span class="lvq2 '+lvCls(q.lv||L,L)+'">'+(q.lv||'?')+'</span><span class="m"><b class="qnb"><span class="qn">'+esc(q.n)+'</span>'+chTag(q.id)+'</b><small>'+(st===2||talk?(talk&&st!==2?'대화만 하면 끝 → ':'반납 → ')+esc(r[0]||'?'):'할 일: '+esc(tk))+'</small></span>'+qpHtml(c,q.id)+(extra||'')+'</button><span class="lg3a"><button class="ib" data-a="mmgo" data-k="'+q.id+'" title="지도">📍</button>'+(rm?'<button class="ib rm" data-a="qlrm" data-k="'+q.id+'" title="게임에서 포기했어요">🗑</button>':'<button class="ib ok" data-a="qldone" data-k="'+q.id+'" title="끝냈어요">✓</button>')+'</span></div>'};
     const Q=known.map(id=>QDB.get(id));const used=new Set();const cur=S0?S0.z.split(' · '):[];
     /* 1) 반납하러 가기: 반납할 곳(지역·NPC)별로 */
     const R=Q.filter(q=>ql[q.id]===2);if(R.length){const G={};R.forEach(q=>{const r=q.r||[];const k=(r[1]||q.z);(G[k]=G[k]||[]).push(q);used.add(q.id)});
@@ -2420,7 +2418,7 @@ function skRow(lv,arr,L,R,cls){const nw=arr.filter(l=>l[3]),rk=arr.filter(l=>!l[
   rk.sort((a,b)=>(R.has(b[1])?1:0)-(R.has(a[1])?1:0));const mine=rk.filter(l=>R.has(l[1])).length;
   return '<div class="sk2 '+(cls||'')+(dim?' later':'')+'"><span class="lvb '+lvCls(lv,L)+'">'+lv+'</span><div class="m">'
    +nw.map(l=>'<span class="skn'+(R.has(l[1])?' my':'')+'">'+(l[5]?'<span class="ic" style="background-image:url('+ICO(l[5])+')"></span>':'')+'<b>'+esc(l[1])+'</b><small>새 기술</small></span>').join('')
-   +(rk.length?'<button class="skr'+(op?' on':'')+'" data-a="skx" data-k="'+lv+'"><span class="skl">랭크↑ '+rk.length+'개'+(mine?' · 내 기술 '+mine:'')+'</span><span class="ics">'+rk.slice(0,8).map(l=>'<span class="ic'+(R.has(l[1])?' my':'')+'" style="background-image:url('+ICO(l[5]||'inv_misc_questionmark')+')"></span>').join('')+(rk.length>8?'<em>+'+(rk.length-8)+'</em>':'')+'</span><span class="cv">'+(op?'⌃':'⌄')+'</span></button>'
+   +(rk.length?'<button class="skr'+(op?' on':'')+'" data-a="skx" data-k="'+lv+'"><span class="skl">랭크↑ '+rk.length+'개'+(mine?' · 내 기술 '+mine:'')+'</span><span class="ics">'+rk.slice(0,window.innerWidth<400?3:5).map(l=>'<span class="ic'+(R.has(l[1])?' my':'')+'" style="background-image:url('+ICO(l[5]||'inv_misc_questionmark')+')"></span>').join('')+(rk.length>(window.innerWidth<400?3:5)?'<em>+'+(rk.length-(window.innerWidth<400?3:5))+'</em>':'')+'</span><span class="cv">'+(op?'⌃':'⌄')+'</span></button>'
      +(op?'<div class="skrl">'+rk.map(l=>'<span'+(R.has(l[1])?' class="my"':'')+'>'+esc(l[1])+' <small>'+l[2]+'</small></span>').join('')+'</div>':''):'')
    +'</div></div>'}
 function profView(c){const sel=PROFS.find(p=>p.id===ui.pf)||PROFS[0];
@@ -2501,8 +2499,8 @@ function charsSheet(){const c=me();let h='<div class="sh"><h2>내 캐릭터</h2>
   if(c){h+='<h3>지금 캐릭터 고치기</h3><label class="flab">캐릭터 이름</label><input class="inp" maxlength="12" value="'+esc(c.name)+'" placeholder="비우면 「'+esc(CINFO[c.cls][0])+'」로 보여요" data-c="cname"><label class="flab">종족</label><div class="chips wr">'+RACES.map(r=>'<button class="chip'+(c.race===r[0]?' on':'')+'" data-a="crace" data-k="'+r[0]+'">'+r[1]+'</button>').join('')+'</div>';
     h+='<label class="flab">직업</label><div class="chips wr">'+CL.map(k=>'<button class="chip'+(c.cls===k?' on':'')+'" data-a="ccls" data-k="'+k+'">'+CINFO[k][0]+'</button>').join('')+'</div><p class="note">직업을 바꾸면 장비 칸이 비워져요.</p>';
     h+='<div class="card">'+armBox(c)+'</div>';
-    h+='<details class="navlog"><summary>🧾 문제 신고용 · 최근 화면 이동 기록</summary><p class="note">화면이 저절로 바뀌었다면 아래 기록을 복사해서 보내 주세요. 언제, 무엇 때문에 바뀌었는지 남아 있어요.</p><textarea class="inp" readonly rows="6">'+esc((()=>{try{return JSON.parse(sessionStorage.getItem('wfh_nav')||'[]').map(r=>r.join('  ')).join('\n')}catch(e){return ''}})())+'</textarea></details>';
-    h+='<div class="card"><h3>🧩 게임에서 불러오기 <small class="mute">고급</small></h3><p class="note">애드온 코드를 붙여 넣으면 게임에서 끝낸 퀘스트가 한 번에 체크돼요.</p><button class="btn sm" data-a="imp">불러오기 열기</button></div>';
+    /* (개발용 「최근 화면 이동 기록」은 정리함) */
+    h+='<div class="card"><h3>🧩 게임에서 불러오기</h3><p class="note">애드온 코드를 붙여 넣으면 게임에서 끝낸 퀘스트가 한 번에 체크돼요.</p><button class="btn sm" data-a="imp">불러오기 열기</button></div>';
     h+=syncBox();
     h+='<div class="card bk2"><h3>💾 기록 백업</h3><p class="note">캐릭터·장비·끝낸 퀘스트는 이 휴대폰 브라우저에만 저장돼요. 캐시를 지우거나 폰을 바꾸기 전에 내보내 두세요.</p>'
       +'<div class="bkb"><button class="btn sm" data-a="bkout">📤 내보내기 (코드 복사)</button><button class="btn sm ghost" data-a="bklink">🔗 링크로 옮기기</button></div>'
