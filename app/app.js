@@ -1782,7 +1782,12 @@ function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?''
   /* 이름표가 겹치면 뒤의 것은 숨기기 */
   const lab=[];pins.forEach(p=>{if(!p.lab)return;if(lab.some(q=>Math.abs(q.x-p.x)*sc<16&&Math.abs(q.y-p.y)*sc<7)||pins.some(q=>q!==p&&(q.x-p.x)*sc>1&&(q.x-p.x)*sc<15&&Math.abs(q.y-p.y)*sc<4))p.lab='';else lab.push(p)});/* 이름표가 오른쪽 다른 핀을 덮어도 숨김 */
   let s='<div class="gmap'+(big?' big':'')+(!u&&!A?' nomap':'')+(A?' atl':'')+'"'+(A?' style="aspect-ratio:'+A.ar+'"':'')+'><div class="gin"'+tf+'>'+(u?'<img src="'+u+'" alt="'+esc(z)+' 지도" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">':A?A.im:'');
-  if(line&&line.length>1)s+='<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="'+line.map(p=>p[0]+','+p[1]).join(' ')+'" fill="none" stroke="#ffd65a" stroke-width="2.5" stroke-dasharray="7 6" vector-effect="non-scaling-stroke"/></svg>';
+  /* 동선 선: 가는 순서만 보여 주는 직선이라, 먼 이동(산·물을 돌아가거나 배·비행)은 흐리게 + 가운데에 방향 화살표 */
+  if(line&&line.length>1){let sv='';for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i];const d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d<.5)continue;const far=d>32;
+      sv+='<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="'+(far?'#ffd65a88':'#ffd65a')+'" stroke-width="'+(far?1.6:2.5)+'" stroke-dasharray="'+(far?'3 6':'7 6')+'" vector-effect="non-scaling-stroke"/>'}
+    s+='<svg viewBox="0 0 100 100" preserveAspectRatio="none">'+sv+'</svg>';
+    /* 방향 화살표(가운데) — 지도가 늘어나도 모양이 안 찌그러지게 HTML로 */
+    for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i];const d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d<7)continue;s+='<i class="gar" style="left:'+((a[0]+b[0])/2).toFixed(2)+'%;top:'+((a[1]+b[1])/2).toFixed(2)+'%;--a:'+Math.atan2(b[1]-a[1],(b[0]-a[0])*(A?+A.ar:1024/683)).toFixed(3)+'rad"></i>'}}
   pins.forEach(p=>{s+=(p.k==='o'?'<span class="gpo" style="left:'+p.x+'%;top:'+p.y+'%"></span>':'<button class="gp k-'+p.k+(p.on?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%"'+(p.a?' data-a="'+p.a+'" data-k="'+esc(String(p.id))+'"':'')+(p.hk?' data-hk="'+esc(p.hk)+'"':'')+'>'+(p.ic||esc(p.t||''))+(p.c>1?'<em>'+p.c+'</em>':'')+'</button>')+(p.lab?'<span class="gl'+(p.x>68?' rt':'')+'" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.lab)+'</span>':'')});
   return s+'</div><span class="gz">'+esc(z)+(sc>1?' · 확대':'')+(!u&&!A?' · 지도 그림 없음 (좌표만)':'')+'</span></div>'}
 function gmQuests(c,z){if(!QDB)return [];const L=c.lv;return [...QDB.values()].filter(q=>q.z===z&&qdbOk(c,q)&&!mqDone(c,q)&&(q.m||0)<=L+1&&(q.lv||0)>=L-6&&(q.lv||0)<=L+5).sort((a,b)=>(a.lv||0)-(b.lv||0))}
@@ -1881,7 +1886,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   if(recMapOn(c))h+='<!--RM--><div class="gmrow">'+gmStyleSeg(c)+'</div>';
   if(recMapOn(c)){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const P=[];
     const SP={};ui._stp=SP;pts.forEach((s,i)=>{const n=ST.indexOf(s)+1;const j=pts.slice(0,i).findIndex(p=>Math.hypot(p.xy[0]-s.xy[0],p.xy[1]-s.xy[1])<2.5);if(j>=0){SP[n]=SP[ST.indexOf(pts[j])+1];return}SP[n]=String(n);P.push({x:s.xy[0],y:s.xy[1],k:'s'+s.type,t:String(n),on:i===0,lab:i<4?s.place.split(' · ')[0].slice(0,12):''})});
-    h+='<div class="rmap gm">'+gmapHtml(ST[0].zone,P.reverse(),pts.map(s=>s.xy),0,1,(c.mapStyle||'atlas')!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
+    h+='<div class="rmap gm">'+gmapHtml(ST[0].zone,P.reverse(),pts.map(s=>s.xy),0,1,(c.mapStyle||'atlas')!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><small class="rmn">선은 가는 순서 · 흐린 선은 먼 길(산·물은 돌아가요)</small><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
   else if(recMapOn(c)){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const W=366,H=230;const x=v=>8+v/100*(W-16),y=v=>8+v/100*(H-16);
     let m='<svg viewBox="0 0 '+W+' '+H+'" class="rmapsvg"><rect width="'+W+'" height="'+H+'" rx="12" fill="#221c14"/>';
     for(let i=10;i<100;i+=10)m+='<line x1="'+x(i)+'" y1="0" x2="'+x(i)+'" y2="'+H+'" stroke="#2c251b"/><line x1="0" y1="'+y(i)+'" x2="'+W+'" y2="'+y(i)+'" stroke="#2c251b"/>';
@@ -1891,6 +1896,8 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
     h+='<div class="rmap">'+m+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">진짜 지도에서 크게 ›</button></div></div>'}
   if(recMapOn(c))h+='<!--/RM-->';
   h+='<div class="scroll2"><div class="k">1단계 · 지금 할 일 · '+RST[s0.type][0]+'</div><h3>'+esc(s0.place)+'</h3><div class="wh">'+esc(s0.zone)+xy(s0)+' · '+s0.items.length+'개</div>';
+  {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오가면 알려 주기 */const ISL=[['페더문','페더문 요새는 섬이에요. 페랄라스 서쪽 해안 선착장(31, 39 근처)에서 배를 타고 건너요.']];const isl=x=>x?ISL.find(i=>x.place.includes(i[0])):null;
+   const hit=isl(s0)||isl(ST[1]);if(hit)h+='<div class="isl">⛵ '+esc(hit[1])+'</div>'}
   h+=s0.items.map(it=>{const q=it.q;if(it.type==='do'&&q.cnt.length)return q.cnt.map((o,i)=>{const k=q.id+'|'+i;const v=(c.qc||{})[k]||0;return '<div class="ob4"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+'</small></span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+v+'/'+o[1]+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
     return '<div class="ob4"><span class="m">'+esc(q.nm)+'<small>'+(it.type==='get'?esc(q.g[0]||'')+' · Lv '+q.lv:it.type==='turn'?'반납 · '+esc(q.r[0]||''):esc(q.o?q.o.nm:'평판 올리기'))+'</small></span>'+(it.type==='turn'&&(RWD.get(q.id)||{}).xp?'<span class="xp">+'+((RWD.get(q.id)||{}).xp).toLocaleString()+'</span>':'')+'</div>'}).join('');
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
