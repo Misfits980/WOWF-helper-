@@ -44,6 +44,7 @@ def parse_stats(lines):
             m=re.match(r'^([가-힣 ]+?)\s*\+(\d+)$',body)
             if m: v,name=int(m.group(2)),m.group(1).strip()
         if m:
+            if name=='주문력': add('sp',v); add('heal',v); continue  # 「주문력」= 피해와 치유 모두 (「주문 공격력」은 피해만, 「치유량」은 치유만)
             if name in PRI: add(PRI[name],v); continue
             if name in RATE: k,r=RATE[name]; add(k,v/r); continue
             mm=re.match(r'^(화염|냉기|암흑|비전|자연|신성)\s*(?:주문\s*)?공격력$',name)
@@ -145,6 +146,29 @@ def eff_stats(lines):
         if k:
             st[k] = st.get(k, 0) + v
     return st
+
+
+def has_special(lines):
+    """점수로 못 세는 특수 효과(발동·사용·직업 기술 강화 등)가 있나. 「+N 능력치」·「최대 N만큼 치유/피해」·적중/치명타 %는 숫자 능력치라 아님"""
+    for raw in lines or []:
+        t = raw.strip()
+        if t.startswith(('사용 효과', '적중 시')):
+            return True
+        if not t.startswith('착용 효과'):
+            continue
+        b = re.sub(r'^착용 효과:\s*', '', t)
+        if re.match(r'^\+\d+\s*\S', b):
+            continue
+        if re.search(r'확률|초 동안|적중 시|공격 시|시전 시|사용 시', b):
+            return True
+        if re.search(r'최대 \d+만큼', b) and re.search(r'치유|피해|주문', b):
+            continue
+        if eff_stats([t]):
+            continue
+        if re.search(r'5초마다 \d+의 마나|5초당 \d+', b) or re.match(r'^(?:전투력|방어도|방어 숙련도|모든 저항력)이 \d+만큼 증가합니다\.?$', b):
+            continue
+        return True
+    return False
 
 
 def mask_of(cs, allow):
@@ -299,5 +323,5 @@ def convert(jsonl_text, equip_text, src_index):
         if not mask:
             continue
         stxt = ' '.join('%s%s' % (k, v) for k, v in st.items())
-        out.append('|'.join(map(str, [iid, str(lv or 1) + est, sl, cs, o.get('q') or 'u', stxt, 1 if eff else '', ';'.join(map(str, refs)), mask, 'wowf', ','.join(allow or []), '', o['nm'].replace('|', '/'), o.get('ic') or ''])))
+        out.append('|'.join(map(str, [iid, str(lv or 1) + est, sl, cs, o.get('q') or 'u', stxt, 1 if has_special(o.get('lines')) else '', ';'.join(map(str, refs)), mask, 'wowf', ','.join(allow or []), '', o['nm'].replace('|', '/'), o.get('ic') or ''])))
     return out
