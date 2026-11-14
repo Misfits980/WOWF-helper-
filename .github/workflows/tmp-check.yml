@@ -1,0 +1,21 @@
+name: tmp-check
+on:
+  push:
+    paths: ['.github/workflows/tmp-check.yml']
+jobs:
+  c:
+    runs-on: ubuntu-latest
+    steps:
+      - name: armory talents probe
+        run: |
+          curl -s -L -A "Mozilla/5.0" -H "accept-language: ko" "https://worldofwarcraft.blizzard.com/ko-kr/forever/kr/armory/character/%EA%B0%9C%EC%B6%94-%ED%94%BC%EC%B6%94" -o p.html; wc -c p.html
+          grep -o '"[a-zA-Z]*[Tt]alent[a-zA-Z]*"' p.html | sort | uniq -c | head -20
+          grep -o '"[a-zA-Z]*[Ss]pec[a-zA-Z]*"' p.html | sort | uniq -c | head -20
+          python3 - <<'PY'
+          import re
+          h=open('p.html',encoding='utf-8',errors='ignore').read()
+          for k in ['talent','Talent','specialization']:
+              for m in list(re.finditer(k,h))[:3]:
+                  print('==',k,h[max(0,m.start()-200):m.end()+400].replace('\n',' '))
+          PY
+          curl -s -L -A "Mozilla/5.0" "https://worldofwarcraft.blizzard.com/ko-kr/forever/kr/armory/character/%EA%B0%9C%EC%B6%94-%ED%94%BC%EC%B6%94/talents" -o t.html; wc -c t.html; grep -o '"[a-zA-Z]*[Tt]alent[a-zA-Z]*"' t.html | sort | uniq -c | head
