@@ -44,6 +44,9 @@ jobs:
         continue-on-error: true
       - run: python3 tools/qdb/import.py /tmp/qdb /tmp/qz
       - run: python3 tools/apply-quest-places.py
+      - run: python3 tools/quest-obj-ko.py
+        timeout-minutes: 15
+        continue-on-error: true
       - name: 클래식 장비 자료로 장비 더하기
         run: |
           git clone -q --depth 1 --filter=blob:none --sparse https://github.com/nexus-devs/wow-classic-items /tmp/nx
