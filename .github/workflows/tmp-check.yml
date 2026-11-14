@@ -7,16 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: urls
+      - name: probe
         run: |
-          cat tools/tmp-urls.txt | xargs -P 8 -I{} sh -c 'r=$(curl -s -o /dev/null -L --max-time 20 -w "%{http_code} %{size_download}" "{}"); echo "$r {}"' > res.txt
-          echo "== 총"; wc -l < res.txt
-          echo "== 상태"; cut -d' ' -f1 res.txt | sort | uniq -c
-          echo "== 실패"; grep -v '^200 ' res.txt | head -200
-          echo "== 작은 파일"; awk '$1==200 && $2<300' res.txt | head -50
-      - name: wowhead probe
+          for u in "https://nether.wowhead.com/forever/tooltip/item/281732?locale=1" "https://nether.wowhead.com/forever/tooltip/item/281732?locale=ko"; do echo "### $u"; curl -s --max-time 20 "$u" | head -c 160; echo; sleep 2; done
+          for d in alcaz-prison blackmaw-hold shapers-terrace drowned-city; do
+            echo "### forg $d"; curl -s -L --max-time 20 -A "Mozilla/5.0" "https://forg.gg/wow/forever/dungeons/$d" | grep -o 'https://[^"]*\.\(webp\|jpg\|png\)\|/images/[^"]*\.\(webp\|jpg\|png\)' | sort -u | grep -i -v "icons/" | head -12; sleep 2; done
+      - name: icons
         run: |
-          for u in "https://nether.wowhead.com/tooltip/item/281732?dataEnv=4&locale=0" "https://nether.wowhead.com/forever/tooltip/item/281732" "https://nether.wowhead.com/tooltip/item/281732?dataEnv=18" "https://nether.wowhead.com/tooltip/item/281732?dataEnv=19" "https://nether.wowhead.com/tooltip/item/281732?dataEnv=20" "https://nether.wowhead.com/tooltip/item/281732?dataEnv=21" "https://www.wowhead.com/forever/item=281732?xml" "https://wowf.io/ko/item/281732" "https://forg.gg/wow/forever/items/281732"; do
-            echo "### $u"; curl -s -L --max-time 20 -A "Mozilla/5.0" "$u" | head -c 700; echo; sleep 2; done
-          echo "### wowf icon grep"; curl -s -L -A "Mozilla/5.0" "https://wowf.io/ko/item/281732" | grep -o 'icons/[a-z]*/[a-z0-9_]*\.\(jpg\|png\)' | head
-          curl -s -L -A "Mozilla/5.0" "https://www.wowhead.com/forever/item=281732" | grep -o '"icon":"[^"]*"\|icons/[a-z]*/[a-z0-9_]*\.jpg' | head -5
+          while read id kind; do
+            j=$(curl -s --max-time 20 "https://nether.wowhead.com/forever/tooltip/item/$id")
+            ic=$(echo "$j" | grep -o '"icon":"[^"]*"' | head -1 | cut -d'"' -f4)
+            ko=""
+            if [ "$kind" = "en" ]; then sleep 1; ko=$(curl -s --max-time 20 "https://nether.wowhead.com/forever/tooltip/item/$id?locale=1" | grep -o '"name":"[^"]*"' | head -1 | cut -d'"' -f4); fi
+            echo "ICN|$id|$ic|$ko"
+            sleep 1
+          done < tools/tmp-ids.txt
