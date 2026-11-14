@@ -5,4 +5,4 @@ jobs:
   clean:
     runs-on: ubuntu-latest
     steps:
-      - run: git push -q https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git --delete tmp-shots || true
+      - run: git init -q && git push -q https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git --delete tmp-shots || true
