@@ -10079,3 +10079,8 @@ Isaac Pearson|이삭 피어슨
 Summoned Incubus|소환된 인큐버스
 Cyriden Farseeker|시리든 파시커
 Relathor Moonsong|렐라토르 문송
+The Lost One|잃어버린 자
+Den'dralass|덴드랄라스
+Mystmane|안개갈기
+Stone Watcher|바위 감시병
+Zippie Fizzbolt|지피 피즈볼트
