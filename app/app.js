@@ -1757,7 +1757,7 @@ function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?''
   let tf='',sc=1;if(zoom){const xs=pins.map(p=>p.x),ys=pins.map(p=>p.y);if(xs.length){const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);sc=Math.max(1,Math.min(2.6,100/(Math.max(x1-x0,(y1-y0)*1.2)+24)));
     if(sc>1.05){const cl=(v,lo)=>Math.max(lo,Math.min(0,v));const tx=cl(50-(x0+x1)/2*sc,100-100*sc),ty=cl(50-(y0+y1)/2*sc,100-100*sc);tf=' style="--s:'+sc.toFixed(2)+';transform:translate('+tx.toFixed(1)+'%,'+ty.toFixed(1)+'%) scale('+sc.toFixed(2)+')"'}else sc=1}}
   /* 이름표가 겹치면 뒤의 것은 숨기기 */
-  const lab=[];pins.forEach(p=>{if(!p.lab)return;if(lab.some(q=>Math.abs(q.x-p.x)*sc<16&&Math.abs(q.y-p.y)*sc<7))p.lab='';else lab.push(p)});
+  const lab=[];pins.forEach(p=>{if(!p.lab)return;if(lab.some(q=>Math.abs(q.x-p.x)*sc<16&&Math.abs(q.y-p.y)*sc<7)||pins.some(q=>q!==p&&(q.x-p.x)*sc>1&&(q.x-p.x)*sc<15&&Math.abs(q.y-p.y)*sc<4))p.lab='';else lab.push(p)});/* 이름표가 오른쪽 다른 핀을 덮어도 숨김 */
   let s='<div class="gmap'+(big?' big':'')+(!u&&!A?' nomap':'')+'"'+(A?' style="aspect-ratio:'+A.ar+'"':'')+'><div class="gin"'+tf+'>'+(u?'<img src="'+u+'" alt="'+esc(z)+' 지도" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">':A?A.im:'');
   if(line&&line.length>1)s+='<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="'+line.map(p=>p[0]+','+p[1]).join(' ')+'" fill="none" stroke="#ffd65a" stroke-width="2.5" stroke-dasharray="7 6" vector-effect="non-scaling-stroke"/></svg>';
   pins.forEach(p=>{s+=(p.k==='o'?'<span class="gpo" style="left:'+p.x+'%;top:'+p.y+'%"></span>':'<button class="gp k-'+p.k+(p.on?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%"'+(p.a?' data-a="'+p.a+'" data-k="'+esc(String(p.id))+'"':'')+(p.hk?' data-hk="'+esc(p.hk)+'"':'')+'>'+(p.ic||esc(p.t||''))+(p.c>1?'<em>'+p.c+'</em>':'')+'</button>')+(p.lab?'<span class="gl'+(p.x>68?' rt':'')+'" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.lab)+'</span>':'')});
@@ -2321,7 +2321,7 @@ function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const ME=ui.tlv
   const P=58,CS=44,O=7;const nowIds=ME?new Set():new Set(st.filter(s=>s[0]>=L&&s[0]<=L+1).map(s=>s[1]));
   let h='<div class="card talsum"><h3>🌳 '+esc(sp.name)+' 특성</h3>'
     +(ME?'<p class="note">칸을 누르면 1포인트씩 찍혀요 · 쓴 포인트 <b>'+used+'</b>/51 · 필요 레벨 <b>'+(used?used+9:'-')+'</b>'+(used>Math.max(0,L-9)?' <span class="warn">(지금 Lv '+L+'보다 높아요)</span>':'')+'</p>'
-      :'<p class="note">레벨 '+L+' · 특성 포인트 <b>'+Math.max(0,L-9)+'개</b>'+(L<10?' (10레벨부터 1개씩 생겨요)':'')+' · 가이드대로 찍은 모습</p>')
+      :'<p class="note">레벨 '+V+' · 특성 포인트 <b>'+Math.max(0,V-9)+'개</b>'+(V<10?' (10레벨부터 1개씩 생겨요)':'')+' · 가이드대로 찍은 모습'+(V!==L?' <span class="mute">(지금은 Lv '+L+')</span>':'')+'</p>')
     +'<div class="chips seg tlv"><button class="chip'+(!ME&&V===L?' on':'')+'" data-a="tlv" data-k="now">지금 Lv '+L+'</button><button class="chip'+(!ME&&V===60?' on':'')+'" data-a="tlv" data-k="60">60 완성</button><button class="chip'+(ME?' on':'')+'" data-a="tlv" data-k="me">✏️ 직접 찍기</button></div>'
     +(ME?'<div class="tcbtn"><button class="btn sm ghost" data-a="tfill" data-k="'+L+'">가이드대로 Lv '+L+'까지 채우기</button><button class="btn sm ghost" data-a="tfill" data-k="60">가이드 60 완성으로</button><button class="btn sm ghost" data-a="tclr">모두 지우기</button></div>':'')
     +'<div class="chips seg ttabs">'+C.trees.map((t,i)=>'<button class="chip'+(t===main?' on':'')+'" data-a="ttree" data-k="'+esc(t)+'"><img src="'+TICO(C.tic&&C.tic[i])+'" alt="" onerror="this.remove()">'+esc(t)+' <b>'+pts(t)+'</b></button>').join('')+'</div>';

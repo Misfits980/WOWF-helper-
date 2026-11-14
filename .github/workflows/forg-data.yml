@@ -57,6 +57,9 @@ jobs:
       - run: python3 tools/item-icons.py && python3 app/build.py
         timeout-minutes: 10
         continue-on-error: true
+      - run: python3 tools/npc-ko.py && python3 app/build.py
+        timeout-minutes: 12
+        continue-on-error: true
       - run: python3 tools/data-check.py
         continue-on-error: true
       - name: 자료 커밋

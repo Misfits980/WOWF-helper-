@@ -138,7 +138,20 @@ def _dq():
                 f[10] = RWX[f[2]][1]; f[12] = RWX[f[2]][0]; l = '|'.join(f)
             out.append(l)
         base = '\n'.join(out)
-    return base
+    # 영어로 남은 던전 퀘스트 이름 → QDB 한글 이름
+    QN = {}
+    if (Q / 'quests.jsonl').exists():
+        for line in rd(Q / 'quests.jsonl').splitlines():
+            o = json.loads(line)
+            if o.get('n') and not re.search('[A-Za-z]{3}', o['n']):
+                QN[str(o['id'])] = o['n']
+    out = []
+    for l in base.split('\n'):
+        f = l.split('|')
+        if f[0] == 'Q' and len(f) > 6 and re.search('[A-Za-z]{3}', f[6]) and QN.get(f[2]):
+            f[6] = QN[f[2]]; l = '|'.join(f)
+        out.append(l)
+    return '\n'.join(out)
 
 
 def _guide():
@@ -425,6 +438,25 @@ if (Q / 'quests.jsonl').exists():
         o = json.loads(line)
         if o['id'] in want:
             QLV[o['id']] = max(o.get('m') or 0, (o.get('lv') or 0) - 3)
+# 출처 이름(드랍 몹·상인 등)이 영어로 남은 것 → 한글 (npc-en-ko.txt)
+_QKO = {}
+if (Q / 'quests.jsonl').exists():
+    for _ln in rd(Q / 'quests.jsonl').splitlines():
+        _o = json.loads(_ln)
+        if _o.get('n') and not re.search('[A-Za-z]{3}', _o['n']):
+            _QKO[str(_o['id'])] = _o['n']
+def _srcko(l):
+    f = l.split('~')
+    if len(f) > 1:
+        m = re.match(r'^(.*· )([A-Za-z][^~]*)$', f[1])
+        if m:
+            qi = re.search(r'(?:quest=|/quest/)(\d+)', f[2] if len(f) > 2 else '')
+            if qi and _QKO.get(qi.group(1)):
+                f[1] = m.group(1) + _QKO[qi.group(1)]
+            elif _npcko.get(m.group(2).strip()):
+                f[1] = m.group(1) + _npcko[m.group(2).strip()]
+    return '~'.join(f)
+srcs = '\n'.join(_srcko(l) for l in srcs.split('\n'))
 SRC_TXT = srcs + '\n'
 
 def js_str(s):
