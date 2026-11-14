@@ -2051,11 +2051,12 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .tl2 .rfl .flt b{font-size:15px;color:#ffe08a;letter-spacing:-.2px}.tl2 .rfl .flt small{font-size:11px;color:var(--mute);margin-top:1px}
 .tl2 .rfl i{flex:1;height:1px;margin-left:4px;background:linear-gradient(90deg,#8a6d33,transparent)}
 .dqro{margin:2px 0 8px;font-size:12.5px;color:var(--mute,#9aa)}
+.lvhi{font-size:18px;line-height:1;width:20px;text-align:center;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=e698f348"></script>
-<script>/* v455832 @11/14 10:00 */
-const BUILD='11/14 10:00';
+<script>/* v76d831 @11/14 10:22 */
+const BUILD='11/14 10:22';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3778,7 +3779,7 @@ function routeView(c,emb){const L=c.lv;const R=routeOf(c);let prevC=null;const f
   const curS=R.find(S=>L>=S.a&&L<=S.b);const nxS=R.find(S=>S.a>L);const nc=curS?nowCard(c,curS):'';
   if(emb){/* 레벨업 한 화면: 위는 한 단계씩, 여기는 마을별 체크 (접힘) */
     const PS=curS?planStats(c,nowPlan(c,curS)):null;
-    h+='<div class="lvx"><div class="lvxl">'+(nc?'<details class="lvhub"'+((ui.lvhub??isPC())?' open':'')+' data-tg="lvhub"><summary><span class="ic">📋</span><b>마을별로 한눈에 보기</b><small>'+esc(curS.z.split(' · ')[0])+(PS?' · 퀘스트 '+PS.dn+'/'+PS.all:'')+' · 체크해 가며 보기</small><span class="chev">⌄</span></summary>'+nc+'</details>':'')+'</div><div class="lvxr">'+routeGear(c)+lvHelp(c,curS,nxS)+'</div></div>';
+    h+='<div class="lvx"><div class="lvxl">'+(nc?'<details class="lvhub"'+((ui.lvhub??isPC())?' open':'')+' data-tg="lvhub"><summary><span class="lvhi">📋</span><b>마을별로 한눈에 보기</b><small>'+esc(curS.z.split(' · ')[0])+(PS?' · 퀘스트 '+PS.dn+'/'+PS.all:'')+' · 체크해 가며 보기</small><span class="chev">⌄</span></summary>'+nc+'</details>':'')+'</div><div class="lvxr">'+routeGear(c)+lvHelp(c,curS,nxS)+'</div></div>';
     if(pastN)h=h.replace(/<details class="rpast">[\s\S]*?<\/details>/,'');}
   else h+='<div class="q2">'+nc+'<div class="q2r">'+(isPC()&&curS?routeMapPanel(c):'')+lvHelp(c,curS,nxS)+'</div></div>';
   if(nxS)h+='<div class="nextln"><span class="lvb">'+nxS.a+'–'+nxS.b+'</span><span>다음 구간 · <b>'+esc(nxS.z)+'</b></span></div>';
@@ -4550,11 +4551,16 @@ function render(){const app=$('#app');{const t=document.querySelector('.ttip');i
   if(ui.tab==='quest'&&ui.qmode==='atlas')amInit();if(me()&&!ui.onb)navLog();fitsCheck()}
 function fitsCheck(){requestAnimationFrame(()=>{const d=document.documentElement;d.classList.toggle('fits',d.scrollHeight<=window.innerHeight+2)})}
 addEventListener('resize',()=>fitsCheck());
+/* iOS 사파리: 키보드가 닫히거나 내용이 짧아져 문서 끝보다 더 내려간 채로 남으면 아래 탭바가 화면 중간에 떠 있는 문제 → 스크롤을 끝에 맞추고 다시 그리게 함 */
+function vpFix(){requestAnimationFrame(()=>{const d=document.documentElement;const max=Math.max(0,d.scrollHeight-window.innerHeight);if(window.scrollY>max)window.scrollTo(0,max);else window.scrollTo(window.scrollX,window.scrollY);const t=document.querySelector('.tabs');if(t){t.style.bottom='1px';requestAnimationFrame(()=>{t.style.bottom=''})}})}
+addEventListener('focusout',e=>{if(e.target&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))setTimeout(vpFix,60)});
+if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(vpFix,60));
+addEventListener('pageshow',vpFix);
 /* 아래 탭 줄은 화면을 다시 그려도 그대로 두고(폰에서 내리다가 탭 줄이 가운데 뜨는 현상 막기) 고른 탭만 바꿈 */
 function setTabs(on){let tb=document.getElementById('tabbar');if(!tb){tb=document.createElement('div');tb.id='tabbar';document.body.appendChild(tb)}
   const k=on?ui.tab:'';if(tb.dataset.k===k)return;tb.dataset.k=k;if(!on){tb.innerHTML='';return}
   const nav=tb.querySelector('.tabs');if(nav){nav.querySelectorAll('button[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===ui.tab))}else tb.innerHTML=tabs()}
-function rerender(keepScroll){const y=window.scrollY;const sh=document.querySelector('.sheet');const sy=sh?sh.scrollTop:0;render();if(keepScroll)window.scrollTo(0,y);const s2=document.querySelector('.sheet');if(s2&&keepScroll)s2.scrollTop=sy}
+function rerender(keepScroll){const y=window.scrollY;const sh=document.querySelector('.sheet');const sy=sh?sh.scrollTop:0;render();if(keepScroll){window.scrollTo(0,y);vpFix()}const s2=document.querySelector('.sheet');if(s2&&keepScroll)s2.scrollTop=sy}
 function setLv(c,v){v=Math.max(1,Math.min(60,parseInt(v,10)||c.lv));if(v!==c.lv){c.lv=v;save()}}
 
 /* ===================== 이벤트 ===================== */
