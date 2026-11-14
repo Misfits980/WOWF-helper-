@@ -220,7 +220,7 @@ details.card>summary,details>summary{cursor:pointer}
 .scroll2 h3{font-size:21px;margin:2px 0 2px}
 .chips.wr{flex-wrap:wrap;overflow:visible}
 .flab{display:block;margin:10px 0 4px;font-size:12.5px;color:#d8b866;font-weight:700}
-.gmap.atl{background:radial-gradient(ellipse at 50% 50%,#173c4c,#0d2430 80%)}
+.gmap.atl{background:#0a1311}
 .chtag{display:inline-block;margin-left:6px;padding:0 6px;border-radius:4px;font-style:normal;font-size:11px;font-weight:700;line-height:1.6;vertical-align:1px;color:#ffd98a;background:rgba(199,154,58,.18);border:1px solid rgba(199,154,58,.5);white-space:nowrap}
 .armrq{display:grid;grid-template-columns:84px 1fr auto;gap:6px;align-items:center;margin:6px 0}.armrq .inp{height:40px}
 
@@ -250,3 +250,32 @@ details.card>summary,details>summary{cursor:pointer}
 .rpk{background:rgba(199,154,58,.08)!important;border-color:rgba(199,154,58,.35)!important}
 .nchb{border-color:rgba(199,154,58,.4)!important;background:rgba(199,154,58,.1)!important;color:#e6c97a!important}
 .tag.ct{border-color:#5d4622;color:#d8c08a}
+/* 같은 자리 여러 단계: 「1·2·7」 알약 모양 */
+.gmap .gp:has(.gpm){border-radius:11px;padding:0 6px;width:auto;white-space:nowrap}
+.gmap .gp .gpm{font-size:10.5px;font-weight:900;letter-spacing:-.2px}
+
+/* ===== 큰 지도에서 퀘스트 하나 볼 때 (폰 편하게) ===== */
+.ams .amsh b{flex:1;min-width:0;font-family:var(--title);color:var(--gold);font-size:16.5px;text-shadow:0 1px 0 #000;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.amsmin{flex:none;margin-left:auto;border:1px solid #6b5126;background:linear-gradient(180deg,#30251a,#1b140c);color:#f2d98e;border-radius:5px;font-size:12px;font-weight:700;padding:4px 8px;cursor:pointer}
+.ams .amso{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;margin:2px 0 6px}
+.ams .amsl>div{padding:3px 0}
+.ams .amsx{font-size:11.5px;margin:4px 0}
+.amscd{margin:4px 0 0}.amscd>summary{cursor:pointer;font-size:12.5px;color:#d8b866;padding:4px 0}
+.amsb{flex-wrap:wrap}.amsb .btn.on{border-color:#e1b84f;color:var(--gold)}
+.ams.min .amsn{margin:4px 0 0}
+/* 고른 퀘스트 표시를 크게·또렷하게 */
+.amf{font-size:19px;padding:3px 6px;border-radius:8px;border:2px solid #ffd65a;background:rgba(26,18,6,.9);box-shadow:0 0 0 2px #000,0 0 14px rgba(255,214,90,.6);animation:amfp 1.6s ease-in-out infinite}
+.amf.k-ob{border-color:#ff9a4a;box-shadow:0 0 0 2px #000,0 0 14px rgba(255,154,74,.6)}
+.amf.k-r{border-color:#7ec8ff;box-shadow:0 0 0 2px #000,0 0 14px rgba(126,200,255,.6)}
+.amf i{font-size:12px;font-weight:800;color:#fff3cf;background:rgba(10,7,3,.78);padding:1px 6px;border-radius:4px;margin-top:4px}
+@keyframes amfp{50%{box-shadow:0 0 0 2px #000,0 0 22px rgba(255,214,90,.95)}}
+@media (prefers-reduced-motion:reduce){.amf{animation:none}}
+/* 폰: 퀘스트 볼 때 위 버튼줄은 「← 퀘스트로」만, 오른쪽 버튼은 작게 */
+@media (max-width:999px){
+  .am.amfoc .amseg,.am.amfoc .amfb,.am.amfoc .gmseg,.am.amfoc .ampop{display:none!important}
+  .am.amfoc .amtop{padding-bottom:10px;background:linear-gradient(180deg,rgba(9,7,4,.8),rgba(9,7,4,0))}
+  .am.amfoc .amctl button{width:34px;height:34px;font-size:17px}
+  .am.amfoc .amctl [data-am="leg"]{display:none}
+  .am.amfoc #ampanel{max-height:46%}
+}
+.amf.up i{top:auto;bottom:100%;margin:0 0 4px}
