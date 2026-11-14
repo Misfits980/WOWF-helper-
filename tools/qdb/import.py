@@ -336,6 +336,93 @@ def who(st):
     return None, None
 
 
+def spawn_pts(sp):
+    """spawns {지역: [[x,y],…]} → {지역: [(x,y),…]} (좌표 없는 점·-1 은 버림)"""
+    out = {}
+    if not isinstance(sp, dict):
+        return out
+    for z, pts in sp.items():
+        L = []
+        for p in arr(pts) or []:
+            p = arr(p)
+            if p and len(p) >= 2 and all(isinstance(v, (int, float)) for v in p[:2]) and 0 <= p[0] <= 100 and 0 <= p[1] <= 100:
+                L.append((float(p[0]), float(p[1])))
+        if L and isinstance(z, int):
+            out.setdefault(z, []).extend(L)
+    return out
+
+
+def cluster(pts, eps=7.0):
+    """가까운 점끼리 묶어 [가운데x, 가운데y, 반지름, 점 수] (많은 순, 최대 3곳)"""
+    C = []
+    for x, y in pts:
+        best = None
+        for c in C:
+            d = ((c[0] / c[2] - x) ** 2 + (c[1] / c[2] - y) ** 2) ** .5
+            if d < eps and (best is None or d < best[0]):
+                best = (d, c)
+        if best:
+            c = best[1]
+            c[0] += x; c[1] += y; c[2] += 1; c[3].append((x, y))
+        else:
+            C.append([x, y, 1, [(x, y)]])
+    out = []
+    for sx, sy, n, P in C:
+        cx, cy = sx / n, sy / n
+        ds = sorted(((x - cx) ** 2 + (y - cy) ** 2) ** .5 for x, y in P)
+        r = ds[int(len(ds) * .85)] if len(ds) > 1 else 0
+        out.append([round(cx, 1), round(cy, 1), round(max(2.5, min(r + 1.5, 14)), 1), n])
+    out.sort(key=lambda c: -c[3])
+    top = out[0][3] if out else 0
+    return [c for c in out if c[3] >= max(1, top * .2)][:3]
+
+
+def task_places(spawn_dicts, zones, any_cont=False):
+    """할 일 자리: 몹·물건이 나오는 점들을 지역별로 모아, 퀘스트 지역(없으면 점이 가장 많은 지역)에서 묶음
+    → [지역 한글 이름, [x, y, 반지름, 점 수], …] 또는 None"""
+    agg = {}
+    for sp in spawn_dicts:
+        for z, L in spawn_pts(sp).items():
+            agg.setdefault(z, []).extend(L)
+    if not agg:
+        return None
+    z = next((zz for zz in zones if zz in agg), None)
+    if z is None:
+        # 퀘스트 지역에 없으면 같은 대륙에서 점이 가장 많은 지역 (다른 대륙이면 엉뚱한 곳일 때가 많아서 뺌)
+        qc = zone_name(zones[0])[1] if zones and not any_cont else None
+        cand = [k for k in agg if not qc or zone_name(k)[1] == qc]
+        if not cand:
+            return None
+        z = max(cand, key=lambda k: len(agg[k]))
+    zk = zone_name(z)[0]
+    if not zk:
+        return None
+    cl = cluster(agg[z])
+    return [zk] + cl if cl else None
+
+
+def drop_spawns(item_id):
+    r = ITEM.get(item_id)
+    if not r:
+        return []
+    sp = []
+    for n in (arr(r.get(IK['npcDrops'])) or [])[:12]:
+        nr = NPC.get(n) if isinstance(n, int) else None
+        if nr:
+            sp.append(nr.get(NK['spawns']))
+    for o in (arr(r.get(IK['objectDrops'])) or [])[:12]:
+        orr = OBJ.get(o) if isinstance(o, int) else None
+        if orr:
+            sp.append(orr.get(OK['spawns']))
+    if not any(spawn_pts(x) for x in sp):
+        # 떨구는 곳이 없으면 파는 상인 자리(호드 상인은 뺌)
+        for n in (arr(r.get(IK['vendors'])) or [])[:8]:
+            nr = NPC.get(n) if isinstance(n, int) else None
+            if nr and nr.get(NK['friendlyToFaction']) != 'H':
+                sp.append(nr.get(NK['spawns']))
+    return sp
+
+
 def droppers(item_id, near_zone):
     r = ITEM.get(item_id)
     if not r:
@@ -462,6 +549,9 @@ for qid, q in sorted(QUEST.items()):
         r[0] = FN[(qid, 'r')]
     tasks = []
     ob = arr(G('objectives')) or []
+    zq = G('zoneOrSort')
+    zpref = [z for z in (zq if isinstance(zq, int) and zq > 0 else None, gz) if isinstance(z, int)]
+    anyc = not (isinstance(zq, int) and zq > 0)
     for kind, label in ((0, '처치'), (1, '사용'), (2, '수집')):
         lst = arr(ob[kind]) if len(ob) > kind else None
         for e in lst or []:
@@ -469,16 +559,23 @@ for qid, q in sorted(QUEST.items()):
             if not e or not isinstance(e[0], int):
                 continue
             if kind == 0:
-                tasks.append([label, ko_npc(e[0]), None])
+                t = [label, ko_npc(e[0]), None, task_places([(NPC.get(e[0]) or {}).get(NK['spawns'])], zpref, anyc)]
             elif kind == 1:
-                tasks.append([label, ko_obj(e[0]), None])
+                t = [label, ko_obj(e[0]), None, task_places([(OBJ.get(e[0]) or {}).get(OK['spawns'])], zpref, anyc)]
             else:
-                tasks.append([label, ko_item(e[0]), droppers(e[0], gz)])
+                t = [label, ko_item(e[0]), droppers(e[0], gz), task_places(drop_spawns(e[0]), zpref, anyc)]
+            if t[3] is None:
+                t.pop()
+            tasks.append(t)
     kc = arr(ob[4]) if len(ob) > 4 else None
     for e in kc or []:
         e = arr(e)
         if e and len(e) > 1 and isinstance(e[1], int):
-            tasks.append(['처치', ko_npc(e[1]), None])
+            ids = [i for i in (arr(e[0]) or []) if isinstance(i, int)] + [e[1]]
+            t = ['처치', ko_npc(e[1]), None, task_places([(NPC.get(i) or {}).get(NK['spawns']) for i in ids], zpref, anyc)]
+            if t[3] is None:
+                t.pop()
+            tasks.append(t)
     rec = {'id': qid, 'n': name, 'lv': G('questLevel') or 0, 'm': G('requiredLevel') or 0, 'z': zone, 'c': cont, 'o': obj, 'g': g, 'r': r}
     if tasks:
         rec['t'] = tasks

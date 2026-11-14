@@ -340,3 +340,5 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 /* 퀘스트 창 작은 지도: 다른 지역에 있는 받는 곳·반납 곳은 글로 */
 .mmx{position:absolute;left:8px;bottom:8px;max-width:calc(100% - 140px);font-size:11.5px;line-height:1.35;color:#f3e6c4;background:rgba(20,16,10,.86);padding:4px 8px;border-radius:6px;border:1px solid #5a4422}
 .mmx img{width:14px;height:14px;vertical-align:-2px}
+/* 할 일 구역 (몹·물건이 나오는 곳) */
+.mma{position:absolute;transform:translate(-50%,-50%);border-radius:50%;border:2px dashed rgba(255,138,122,.85);background:rgba(255,120,90,.16);pointer-events:none;z-index:1}
