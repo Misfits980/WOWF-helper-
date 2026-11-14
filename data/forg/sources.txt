@@ -2,9 +2,14 @@
 1~퀘스트 · 반납 기한 초과~/forever/quest/96800
 1~퀘스트 · 도서관의 친구~wh:quest=78150
 1~퀘스트 · 젤토스의 뿔~wh:quest=78307
+1~알카즈 감옥 · 퀘스트 보상~dg:alcaz-prison
+1~크롤도크 보루 · 퀘스트 보상~dg:kroldok-stronghold
 1~달라란 · 퀘스트 보상~dg:city-of-dalaran
 1~로데론의 폐허 · 퀘스트 보상~dg:ruins-of-lordaeron
+1~가라앉은 도시 · 퀘스트 보상~dg:drowned-city
+1~검은아귀 요새 · 퀘스트 보상~dg:blackmaw-hold
 1~영주의 전당 · 퀘스트 보상~dg:hall-of-thanes
+1~구체자의 정원 · 퀘스트 보상~dg:shapers-terrace
 1~퀘스트 · 폭풍우의 병기~wh:quest=96016
 1~웰가르 발굴 현장 · 퀘스트 보상~dg:whelgar-excavation
 1~퀘스트 · 뒤틀린 증오~/forever/quest/98403
@@ -397,13 +402,12 @@
 3~드랍 · Singer~wh:npc=2600
 0~놈리건 · 멕기니어 텔마플러그~dg:gnomeregan
 1~퀘스트 · 배고픈 오우거~/forever/quest/1177
-1~퀘스트 · Ground to Keep~wh:quest=92867
+1~퀘스트 · 지켜 낼 터전~wh:quest=92867
 3~드랍 · Syndicate Assassin~wh:npc=2246
 3~드랍 · Kovork~wh:npc=2603
 3~드랍 · Skhowl~wh:npc=2452
 1~울다만 · 퀘스트 보상~dg:uldaman
 3~드랍 · Scarlet Centurion~wh:npc=4301
-1~가시덩굴 구릉 · 퀘스트 보상~dg:razorfen-downs
 1~퀘스트 · 기젤톤 대상단~/forever/quest/5943
 3~드랍 · Crushridge Warmonger~wh:npc=2287
 3~드랍 · Nether Sorceress~wh:npc=4684
@@ -411,100 +415,96 @@
 0~붉은십자군 수도원: 도서관 · 신비술사 도안~dg:sm-library
 3~드랍 · Ironeye the Invincible~wh:npc=5935
 3~드랍 · Scarlet Champion~wh:npc=4302
-0~가시덩굴 구릉 · 썩어가는 역병아귀~dg:razorfen-downs
-1~퀘스트 · Ghost-o-plasm Round Up~/forever/quest/6134
+1~가시덩굴 구릉 · 퀘스트 보상~dg:razorfen-downs
+1~퀘스트 · 유령의 플라스마 모으기~/forever/quest/6134
 0~가라앉은 도시 · 줄알라이~dg:drowned-city
 3~드랍 · Venture Co. Tinkerer~wh:npc=677
-1~퀘스트 · Drowned Sorrows~/forever/quest/664
-1~퀘스트 · Sunken Treasure~/forever/quest/666
+1~퀘스트 · 비통한 마음~/forever/quest/664
+1~퀘스트 · 가라앉은 보물~/forever/quest/666
 1~퀘스트 · 칸 흐라사~/forever/quest/1380
 1~퀘스트 · 칸 흐라사~/forever/quest/1381
-1~퀘스트 · Celestial Power~wh:quest=1958
+1~퀘스트 · 천공의 힘~wh:quest=1958
 1~붉은십자군 수도원: 도서관 · 퀘스트 보상~dg:sm-library
 3~드랍 · Digmaster Shovelphlange~wh:npc=7057
-0~가시덩굴 구릉 · 너덜주둥이~dg:razorfen-downs
-1~퀘스트 · The Completed Orb of Dar'Orahil~wh:quest=4964
+1~퀘스트 · 완성된 다르오라힐의 보주~wh:quest=4964
 1~퀘스트 · 칸 젠~wh:quest=93196
 1~퀘스트 · 칸 젠~/forever/quest/93128
 0~가라앉은 도시 · 바르타카~dg:drowned-city
 0~가라앉은 도시 · 대장 드레드라이즈~dg:drowned-city
 0~가라앉은 도시 · 태고의 정령~dg:drowned-city
 3~드랍 · Lo'Grosh~wh:npc=2453
-1~퀘스트 · Excelsior~/forever/quest/628
-1~퀘스트 · Mazen's Behest~wh:quest=1364
+1~퀘스트 · 덩치큰 바다악어 가죽~/forever/quest/628
+1~퀘스트 · 마젠의 부탁~wh:quest=1364
 0~가시덩굴 구릉 · 불꽃눈 모드레쉬~dg:razorfen-downs
 0~붉은십자군 수도원: 대성당 · 종교재판관 페어뱅크스~dg:sm-cathedral
-1~가라앉은 도시 · 퀘스트 보상~dg:drowned-city
 3~드랍 · Dustbelcher Shaman~wh:npc=2718
-1~퀘스트 · Keep An Eye Out~/forever/quest/576
-1~퀘스트 · Stone Is Better than Cloth~/forever/quest/716
+1~퀘스트 · 잃어버린 눈~/forever/quest/576
+1~퀘스트 · 돌로 만든 보호구~/forever/quest/716
 0~붉은십자군 수도원: 무기고 · 헤로드~dg:sm-armory
 0~울다만 · 레벨로쉬~dg:uldaman
 0~울다만 · 날쌘돌이 에릭~dg:uldaman
 0~울다만 · 올라프~dg:uldaman
 0~울다만 · 아이로나야~dg:uldaman
+0~가시덩굴 구릉 · 너덜주둥이~dg:razorfen-downs
+0~가시덩굴 구릉 · 썩어가는 역병아귀~dg:razorfen-downs
 0~가시덩굴 구릉 · 게걸먹보~dg:razorfen-downs
 0~가시덩굴 구릉 · 투텐카쉬~dg:razorfen-downs
 1~마라우돈 · 퀘스트 보상~dg:maraudon
 0~가라앉은 도시 · 독사 민로스~dg:drowned-city
 0~울다만 · 밸로그~dg:uldaman
 0~가시덩굴 구릉 · 혹한의 암네나르~dg:razorfen-downs
-1~퀘스트 · Sweet Amber~/forever/quest/53
-1~퀘스트 · Akiris by the Bundle~/forever/quest/617
+1~퀘스트 · 달콤한 황색 맥주~/forever/quest/53
+1~퀘스트 · 아키리스 묶음~/forever/quest/617
 1~붉은십자군 수도원: 대성당 · 퀘스트 보상~dg:sm-cathedral
 0~붉은십자군 수도원: 대성당 · 종교재판관 화이트메인~dg:sm-cathedral
 0~붉은십자군 수도원: 대성당 · 붉은십자군 사령관 모그레인~dg:sm-cathedral
 0~크롤도크 보루 · 노예파괴자 그록스~dg:kroldok-stronghold
-1~크롤도크 보루 · 퀘스트 보상~dg:kroldok-stronghold
-1~퀘스트 · Scrounging~/forever/quest/733
-1~퀘스트 · The Mark of Quality~/forever/quest/2821
-1~퀘스트 · Deliver to MacKinley~/forever/quest/2874
-1~퀘스트 · Delivering the Relic~/forever/quest/2871
-1~퀘스트 · Shadoweaver~wh:quest=3379
-1~퀘스트 · Southsea Shakedown~/forever/quest/8366
+1~퀘스트 · 자재 모으기~/forever/quest/733
+1~퀘스트 · 최고의 품질~/forever/quest/2821
+1~퀘스트 · 맥킨리에게 배달~/forever/quest/2874
+1~퀘스트 · 유물 전달~/forever/quest/2871
+1~퀘스트 · 그림자매듭~wh:quest=3379
+1~퀘스트 · 남쪽바다해적단 처리반~/forever/quest/8366
 5~상인 · Rettrick~wh:npc=265576
 0~크롤도크 보루 · 황혼의 사령관 자르모크~dg:kroldok-stronghold
 0~크롤도크 보루 · 조련사 아쉬카~dg:kroldok-stronghold
 5~상인 · Friz Frazzlespark~wh:npc=255897
 1~퀘스트 · 훌륭한 도서관의 친구~wh:quest=82208
-1~퀘스트 · Partial Mystical Notes~wh:quest=95384
+1~퀘스트 · 부분적인 신비한 기록~wh:quest=95384
 0~크롤도크 보루 · 두목 투프~dg:kroldok-stronghold
 0~울다만 · 고대 바위 문지기~dg:uldaman
 0~줄파락 · 산다르 듄리버~dg:zul-farrak
 1~줄파락 · 퀘스트 보상~dg:zul-farrak
-1~퀘스트 · A Hero's Welcome~/forever/quest/4266
-1~퀘스트 · Ledger from Tanaris~/forever/quest/4450
+1~퀘스트 · 영웅 환영~/forever/quest/4266
+1~퀘스트 · 타나리스의 장부~/forever/quest/4450
 0~크롤도크 보루 · 나르구르크~dg:kroldok-stronghold
 0~울다만 · 갈간 파이어해머~dg:uldaman
 0~울다만 · 그림로크~dg:uldaman
-1~퀘스트 · Doling Justice~/forever/quest/2972
+1~퀘스트 · 정의의 실현~/forever/quest/2972
 0~줄파락 · 제릴리스~dg:zul-farrak
-0~줄파락 · 더스트레이스~dg:zul-farrak
 0~줄파락 · 의술사 줌라~dg:zul-farrak
 0~크롤도크 보루 · 감독관 머그~dg:kroldok-stronghold
-0~줄파락 · 안투술~dg:zul-farrak
-1~퀘스트 · Rescue OOX-22/FE!~/forever/quest/2767
-1~퀘스트 · Gahz'ridian~/forever/quest/3161
-1~퀘스트 · The Dunemaul Compound~/forever/quest/5863
-1~퀘스트 · Improved Quality~/forever/quest/7733
-1~퀘스트 · STOLEN: Smithing Tuyere and Lookout's Spyglass~/forever/quest/7728
-1~퀘스트 · Timbermaw Ally~/forever/quest/8460
+1~퀘스트 · OOX-22/FE 구출!~/forever/quest/2767
+1~퀘스트 · 가즈리디안~/forever/quest/3161
+1~퀘스트 · 모래망치 주둔지~/forever/quest/5863
+1~퀘스트 · 품질 향상~/forever/quest/7733
+1~퀘스트 · 도난품: 가열로 바람구멍 및 감시병의 망원경~/forever/quest/7728
+1~퀘스트 · 나무구렁일족~/forever/quest/8460
 0~울다만 · 아카에다스~dg:uldaman
 0~줄파락 · 어둠의사제 세즈지즈~dg:zul-farrak
-1~퀘스트 · Wandering Shay~/forever/quest/2845
-1~퀘스트 · Fiery Menace!~/forever/quest/7724
-1~아탈학카르 신전 · 퀘스트 보상~dg:temple-of-atal-hakkar
+1~퀘스트 · 방황하는 샤이~/forever/quest/2845
+1~퀘스트 · 뒤꽁무니에서 불을 뿜는 거미~/forever/quest/7724
 0~줄파락 · 족장 우코르즈 샌드스칼프~dg:zul-farrak
-1~퀘스트 · The Morrow Stone~/forever/quest/2942
-1~퀘스트 · Prayer to Elune~/forever/quest/3378
+1~퀘스트 · 반짝이는 돌~/forever/quest/2942
+1~퀘스트 · 엘룬께 올리는 기도문~/forever/quest/3378
 0~마라우돈 · 군주 바일텅~dg:maraudon
-1~퀘스트 · WANTED: Overseer Maltorius~/forever/quest/7701
-1~퀘스트 · Set Them Ablaze!~/forever/quest/3463
+1~퀘스트 · 현상수배: 감독관 말토류스~/forever/quest/7701
+1~퀘스트 · 불 공격!~/forever/quest/3463
 0~아탈학카르 신전 · 아탈알라리온~dg:temple-of-atal-hakkar
 0~마라우돈 · 정원사 메슬로크~dg:maraudon
 0~마라우돈 · 녹시온~dg:maraudon
 0~마라우돈 · 칼날채찍~dg:maraudon
-1~퀘스트 · Return to Tymor~wh:quest=3461
+1~퀘스트 · 티모르에게 돌아가기~wh:quest=3461
 0~검은바위 나락 · 사냥개조련사 그렙마르~dg:blackrock-depths
 0~검은바위 나락 · 대심문관 게르스탄~dg:blackrock-depths
 0~검은바위 나락 · 불의군주 록코르~dg:blackrock-depths
@@ -512,22 +512,23 @@
 5~상인 · Linken~wh:npc=8737
 0~마라우돈 · 저주받은 셀레브라스~dg:maraudon
 0~알카즈 감옥 · 해일여제 카자스~dg:alcaz-prison
-1~퀘스트 · Saving Sharpbeak~/forever/quest/2994
-1~퀘스트 · Rise, Obsidion!~/forever/quest/3566
+1~퀘스트 · 뾰족부리 구출~/forever/quest/2994
+1~퀘스트 · 일어나라, 흑요암이여!~/forever/quest/3566
 0~검은바위 나락 · 화염술사 로어그레인~dg:blackrock-depths
 1~검은바위 나락 · 퀘스트 보상~dg:blackrock-depths
-1~퀘스트 · Ogre Head On A Stick = Party~/forever/quest/3825
+1~퀘스트 · 창에 꽂은 오우거 가면~/forever/quest/3825
 0~아탈학카르 신전~dg:temple-of-atal-hakkar
 0~마라우돈 · 썩은아귀~dg:maraudon
 0~마라우돈 · 산사태~dg:maraudon
 3~드랍 · High Interrogator Gerstahn~wh:npc=9018
 0~알카즈 감옥 · 심문관~dg:alcaz-prison
+1~아탈학카르 신전 · 퀘스트 보상~dg:temple-of-atal-hakkar
 0~아탈학카르 신전 · 학카르의 화신~dg:temple-of-atal-hakkar
 0~검은바위 나락 · 왕거미 헤드룸~dg:blackrock-depths
 0~검은바위 나락 · 파괴자 오크토르~dg:blackrock-depths
-1~퀘스트 · Further Corruption~/forever/quest/4906
-1~퀘스트 · A Little Slime Goes a Long Way~wh:quest=4513
-1~퀘스트 · Return to Tinkee~/forever/quest/4810
+1~퀘스트 · 오염의 확산~/forever/quest/4906
+1~퀘스트 · 수액괴물 견본 수집~wh:quest=4513
+1~퀘스트 · 팅키에게 돌아가는 길~/forever/quest/4810
 0~마라우돈 · 공주 테라드라스~dg:maraudon
 0~알카즈 감옥 · 청소부 카테리나~dg:alcaz-prison
 0~아탈학카르 신전 · 예언자 잠말란~dg:temple-of-atal-hakkar
@@ -536,25 +537,23 @@
 0~검은바위 나락 · 그리즐~dg:blackrock-depths
 0~검은바위 나락 · 팔란스~dg:blackrock-depths
 0~검은바위 나락 · 파이너스 다크바이어~dg:blackrock-depths
-1~퀘스트 · The Mighty U'cha~/forever/quest/4301
-1~퀘스트 · Shizzle's Flyer~/forever/quest/4503
-1~퀘스트 · Beware of Pterrordax~/forever/quest/4501
+1~퀘스트 · 쉬즐의 비행선~/forever/quest/4503
+1~퀘스트 · 테러닥스 주의~/forever/quest/4501
 0~검은바위 나락 · 플러거 스파즈링~dg:blackrock-depths
 1~퀘스트 · Runecloth~/forever/quest/6031
 5~상인 · Lhara~wh:npc=14846
-1~퀘스트 · Trolls of a Feather~wh:quest=8422
+1~퀘스트 · 트롤의 깃털~wh:quest=8422
 1~퀘스트 · Just Compensation~wh:quest=8933
 5~상인 · Zippie Fizzbolt~wh:npc=265577
 0~알카즈 감옥 · 불길포효~dg:alcaz-prison
-1~알카즈 감옥 · 퀘스트 보상~dg:alcaz-prison
 0~아탈학카르 신전 · 에라니쿠스의 사령~dg:temple-of-atal-hakkar
 0~검은바위 나락~dg:blackrock-depths
 0~검은바위 나락 · 베레크~dg:blackrock-depths
 0~검은바위 나락 · 밸가르~dg:blackrock-depths
 0~검은바위 나락 · 사령관 앵거포지~dg:blackrock-depths
-1~퀘스트 · Ancient Spirit~/forever/quest/4261
+1~퀘스트 · 고대의 정령~/forever/quest/4261
 0~검은바위 첨탑 상층 · 제드 룬와처~dg:upper-blackrock-spire
-1~퀘스트 · Strange Sources~/forever/quest/4842
+1~퀘스트 · 이상한 근원~/forever/quest/4842
 3~드랍 · Verek~wh:npc=9042
 1~퀘스트 · Heroes of Old~/forever/quest/2701
 0~검은바위 나락 · 광신자 고로쉬~dg:blackrock-depths
@@ -564,22 +563,21 @@
 0~스트라솔름: 이승 · 스컬~dg:stratholme-live
 0~스트라솔름: 이승 · 용서받지 못한 자~dg:stratholme-live
 1~퀘스트 · In Dreams~wh:quest=5944
-1~퀘스트 · Wildkin of Elune~/forever/quest/4902
+1~퀘스트 · 엘룬의 올빼미야수~/forever/quest/4902
 0~스칼로맨스 · 조교 말리시아~dg:scholomance
 0~스칼로맨스 · 군주 알렉세이 바로브~dg:scholomance
 0~검은바위 나락 · 헐레이 블랙브레스~dg:blackrock-depths
-1~퀘스트 · Uncovering Past Secrets~/forever/quest/6845
+1~퀘스트 · 과거의 비밀 밝히기~/forever/quest/6845
 3~드랍 · Warder Stilgiss~wh:npc=9041
 0~검은바위 나락 · 마그무스~dg:blackrock-depths
-1~검은아귀 요새 · 퀘스트 보상~dg:blackmaw-hold
 0~검은바위 나락 · 사자 화염채찍~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 뾰족바위일족 전투대장~dg:lower-blackrock-spire
 0~스트라솔름: 이승 · 하스싱어 포레스턴~dg:stratholme-live
-1~퀘스트 · A Final Blow~/forever/quest/5242
+1~퀘스트 · 마지막 일격~/forever/quest/5242
 0~혈투의 전장: 동쪽 · 레스텐드리스~dg:dire-maul-east
 0~혈투의 전장: 동쪽 · 제브림 쏜후프~dg:dire-maul-east
 0~혈투의 전장: 동쪽 · 히드로스폰~dg:dire-maul-east
-1~퀘스트 · Winterfall Activity~/forever/quest/8464
+1~퀘스트 · 눈사태일족의 동태~/forever/quest/8464
 5~상인 · Dala Fairmaw~wh:npc=256629
 0~검은바위 나락 · 골렘 군주 아젤마크~dg:blackrock-depths
 0~검은바위 나락 · 제왕 다그란 타우릿산~dg:blackrock-depths
@@ -588,7 +586,7 @@
 0~검은바위 첨탑 하층 · 뾰족바위일족 마법사장~dg:lower-blackrock-spire
 0~스트라솔름: 저승 · 집정관 발실라스~dg:stratholme-dead
 0~스트라솔름: 이승 · 잔혹한 티미~dg:stratholme-live
-1~퀘스트 · High Chief Winterfall~/forever/quest/5121
+1~퀘스트 · 대부족장 눈사태~/forever/quest/5121
 1~검은바위 첨탑 하층 · 퀘스트 보상~dg:lower-blackrock-spire
 0~스트라솔름: 저승 · 네룹엔칸~dg:stratholme-dead
 0~검은바위 첨탑 하층 · 대장군 부네~dg:lower-blackrock-spire
@@ -596,7 +594,7 @@
 0~스트라솔름: 저승 · 먹보 람스타인~dg:stratholme-dead
 0~혈투의 전장: 동쪽 · 칼날바람 알진~dg:dire-maul-east
 1~퀘스트 · Confront Yeh'kinya~wh:quest=8181
-1~퀘스트 · Wanted - Deathclasp, Terror of the Sands~/forever/quest/8283
+1~퀘스트 · 현상 수배: 사막의 난폭자 죽음의 갈고리~/forever/quest/8283
 1~퀘스트 · Enchanted Azsharite Fel Weaponry~/forever/quest/3625
 0~검은바위 첨탑 하층 · 반노크 그림액스~dg:lower-blackrock-spire
 0~검은바위 첨탑 상층 · 기스~dg:upper-blackrock-spire
@@ -667,10 +665,9 @@
 0~스트라솔름: 저승 · 냉혈한 말레키~dg:stratholme-dead
 0~혈투의 전장: 서쪽 · 군주 헬누라스~dg:dire-maul-west
 0~스칼로맨스 · 죽음의 기사 다크리버~dg:scholomance
-1~퀘스트 · Into The Maw of Madness~/forever/quest/8306
+1~퀘스트 · 광란의 하이브레갈로~/forever/quest/8306
 1~퀘스트 · Stalwart's Battlegear~/forever/quest/8574
 0~스칼로맨스 · 코르모크~dg:scholomance
-1~구체자의 정원 · 퀘스트 보상~dg:shapers-terrace
 0~검은바위 첨탑 상층 · 사령관 드라키사스~dg:upper-blackrock-spire
 0~검은바위 첨탑 상층 · 괴수~dg:upper-blackrock-spire
 0~스트라솔름: 이승 · 발나자르~dg:stratholme-live

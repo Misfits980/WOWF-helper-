@@ -11,16 +11,16 @@ Q|hall-of-thanes|96393|alliance|16|9|구 아이언포지 침입||대지선견자
 Q|hall-of-thanes|96394|alliance|15|10|안식 없는 죽음||아파드라 던월 · 아이언포지 33.2, 47.9|0|279897,280095||1|
 Q|hall-of-thanes|98423|alliance|16|9|이해의 조약||이해의 조약|0||||
 B|ruins-of-lordaeron|witherfang=쇠퇴송곳니;the-baron=남작;viktor-the-vile=비열한 빅토르;the-abandoned=버려진 자;bjork=비요크;rathmael=라스마엘;lordaeron-captain=로데론 부대장
-Q|ruins-of-lordaeron|95250|alliance|21|16|흉측한 생명체||시작 · 던전 안|0|279864,279865,279867||1|
-Q|ruins-of-lordaeron|95195|alliance|22|16|피투성이 휘장||피투성이 휘장|0|279868,279869||1|
+Q|ruins-of-lordaeron|95250|alliance|21|15|흉측한 생명체||시작 · 던전 안|0|279864,279865,279867||1|
+Q|ruins-of-lordaeron|95195|alliance|22|15|피투성이 휘장||피투성이 휘장|0|279868,279869||1|
 Q|ruins-of-lordaeron|92415|alliance|22|15|내가 사랑한다는 걸 기억해||피로 얼룩진 양피지|0|279870|||
-Q|ruins-of-lordaeron|95189|alliance|22|16|로데론의 문장||로데론의 문장|0|280567|||
+Q|ruins-of-lordaeron|95189|alliance|22|15|로데론의 문장||로데론의 문장|0|280567|||
 Q|ruins-of-lordaeron|92422|horde|22|15|라스마엘의 격노||죽음경비병 크리스토프 · 티리스팔 숲 65.3, 60.2|1|251533,251534||1|
 Q|ruins-of-lordaeron|92421|horde|22|15|빛의 정의||Morbin Lightbane · 언더시티 58.1, 89.5|0|279874,279875||1|
 Q|ruins-of-lordaeron|92401|horde|22|15|두려움에 찬 부탁||타비사 하트위버 · 은빛소나무 숲 44.5, 43.0|0|251485,251486||1|
 Q|ruins-of-lordaeron|95216|horde|22|15|새로운 역병||시어도어 그리프스 · 언더시티 46.3, 71.9|1|279876,279877||1|
 Q|ruins-of-lordaeron|97288|horde|21|15|끝없는 고통||흉측한 머리|0||||
-Q|ruins-of-lordaeron|95204|horde|22|16|로데론의 문장||로데론의 문장|0|280567|||
+Q|ruins-of-lordaeron|95204|horde|22|15|로데론의 문장||로데론의 문장|0|280567|||
 B|wailing-caverns|lord-cobrahn=군주 코브란;lady-anacondra=여군주 아나콘드라;kresh=크레쉬;lord-serpentis=군주 서펜티스;deviate-faerie-dragon=돌연변이 요정용;lord-pythas=군주 피타스;skum=스컴;verdan-the-everliving=영생의 베르단;mutanus-the-devourer=걸신들린 무타누스
 Q|wailing-caverns|1486|both|17|13|돌연변이 통가죽||날팍 · 입구 앞|0|918,6480|||
 Q|wailing-caverns|1491|both|18|13|영리해지는 음료||메보크 미지릭스 · 불모의 땅 62.4, 37.6|1||||
@@ -127,7 +127,7 @@ Q|drowned-city|97130|alliance|40|34|Ancient Gurubashi Secrets||시작 · 알터�
 Q|drowned-city|95789|both|40|34|수상쩍은 소금선견자|가라앉은 도시의 소금선견자 해적에게서 부두가 깃든 유물 10개를 수집해야 합니다.|크라젝 · 가시덤불 골짜기 51.6, 26.8|0|279882,279930||1|
 Q|drowned-city|95791|both|40|34|소금선견자 대장|가라앉은 도시에서 소금선견자 검시관 3명과 대장 드레드라이즈를 처치해야 합니다.|크라젝 · 가시덤불 골짜기 51.6, 26.8|0|279883,279884||1|
 Q|drowned-city|95776|horde|38|30|The Only Good Brinescale...||사령관 아그로고쉬 · 가시덤불 골짜기 32.2, 28.9|0|279889,279888||1|
-Q|drowned-city|96774|horde|40|30|Ancient Gurubashi Idol||Mazu'kon · 멀고어 32.5, 20.7|0||||
+Q|drowned-city|96774|horde|40|30|고대 구루바시 우상||Mazu'kon · 멀고어 32.5, 20.7|0||||
 Q|drowned-city|95775|horde|40|30|The Drowned City||킨윌레이 · 가시덤불 골짜기 32.3, 27.7|0||||
 B|sm-armory|herod=헤로드
 B|razorfen-downs|tuten-kash=투텐카쉬;mordresh-fire-eye=불꽃눈 모드레쉬;glutton=게걸먹보;ragglesnout=너덜주둥이;amnennar-the-coldbringer=혹한의 암네나르;plaguemaw-the-rotting=썩어가는 역병아귀
@@ -162,10 +162,10 @@ Q|uldaman|1360|alliance|43|33|보물 찾기||크롬 스타우트암 · 아이언
 Q|uldaman|722|alliance|40|35|비밀의 아뮬렛||해머토 그레즈 · 황야의 땅 37.9, 10.6|1||||
 Q|uldaman|2240|alliance|40|35|비밀 석실||밸로그 · 던전 안|0|9626,9627||1|
 Q|uldaman|1139|alliance|45|35|잃어버린 결의의 서판||조언자 벨그룸 · 아이언포지 77.3, 9.7|1|6723|||
-Q|uldaman|17|alliance|42|36|울다만에서 재료 찾기||가크 힐터치 · 모단 호수 37.1, 49.4|1|9030|||
+Q|uldaman|17|alliance|42|38|울다만에서 재료 찾기||가크 힐터치 · 모단 호수 37.1, 49.4|1|9030|||
 Q|uldaman|2198|alliance|41|37|부서진 목걸이||부서진 목걸이 · 1층 일부 구역|0||||
 Q|uldaman|2199|alliance|41|37|정보의 대가||탈바쉬 델 키젤 · 아이언포지 36.4, 3.6|1||||
-Q|uldaman|2201|alliance|43|40|보석 찾기||성기사의 유해 · 던전 안|1||||
+Q|uldaman|2201|alliance|43|37|보석 찾기||성기사의 유해 · 던전 안|1||||
 Q|uldaman|2204|alliance|44|37|목걸이 복원||시작 · 던전 안|1|7673|||
 Q|uldaman|2279|alliance|47|40|백금 원반||노르간논의 원반 · 던전 안|1||||
 Q|uldaman|2342|horde|43|33|보물 되찾기||패트릭 가레트 · 언더시티 62.3, 48.6|0||||
@@ -174,7 +174,7 @@ Q|uldaman|2283|horde|41|37|목걸이 회수||드란 드로퍼스 · 오그리마
 Q|uldaman|2338|horde|42|37|일지 번역||자칼 모스멜드 · 황야의 땅 2.4, 46.1|1||||
 Q|uldaman|2339|horde|44|37|보석과 마력원천 찾기||자칼 모스멜드 · 황야의 땅 2.4, 46.1|1||||
 Q|uldaman|2340|horde|44|37|보석 전달||자칼 모스멜드 · 황야의 땅 2.4, 46.1|1||||
-Q|uldaman|2341|horde|44|40|목걸이 회수 - 3차 시도||드란 드로퍼스 · 오그리마 59.5, 36.6|1|7888|||
+Q|uldaman|2341|horde|44|37|목걸이 회수 - 3차 시도||드란 드로퍼스 · 오그리마 59.5, 36.6|1|7888|||
 Q|uldaman|2280|horde|47|40|백금 원반||노르간논의 원반 · 던전 안|1||||
 B|zul-farrak|antu-sul=안투술;theka-the-martyr=순교자 데카;witch-doctor-zum-rah=의술사 줌라;nekrum-gutchewer=네크룸 거트츄어;shadowpriest-sezz-ziz=어둠의사제 세즈지즈;sergeant-bly=하사관 블라이;hydromancer-velratha=유체술사 벨라타;gahz-rilla=가즈릴라;chief-ukorz-sandscalp=족장 우코르즈 샌드스칼프;sandarr-dunereaver=산다르 듄리버;zerillis=제릴리스;dustwraith=더스트레이스
 Q|zul-farrak|2864|both|45|40|트란렉||크라젝 · 가시덤불 골짜기 27.0, 77.2|0||||
@@ -198,11 +198,11 @@ Q|maraudon|7044|both|49|41|마라우돈의 전설||카빈드라 · 잊혀진 땅
 Q|maraudon|7046|both|49|41|셀레브라스의 홀||시작 · 던전 안|1|17191|||
 Q|maraudon|7064|horde|51|45|대지와 씨앗의 오염||셀렌드라 · 잊혀진 땅 26.9, 77.7|0|17705,17743,17753||1|
 Q|maraudon|7065|alliance|51|45|대지와 씨앗의 오염||수호자 마란디스 · 잊혀진 땅 63.8, 10.7|0|17705,17743,17753||1|
-Q|maraudon|7066|both|51|45|생명의 씨앗||시작 · 던전 안|0||||
+Q|maraudon|7066|both|51|39|생명의 씨앗||시작 · 던전 안|0||||
 B|alcaz-prison|overseer-wrex=감독관 렉스;tidemistress-cazass=해일여제 카자스;katerina-the-cleaner=청소부 카테리나;the-questioner=심문관;blazeroar=불길포효
 B|temple-of-atal-hakkar|atal-alarion=아탈알라리온;spawn-of-hakkar=학카르의 피조물;gasher=게이셔;loro=로로;hukku=후쿠;zolo=졸로;mijan=마이잔;zul-lor=줄로;jammal-an-the-prophet=예언자 잠말란;ogom-the-wretched=비운의 오그옴;avatar-of-hakkar=학카르의 화신;dreamscythe=드림사이드;weaver=위버;morphaz=몰파즈;hazzas=하자스;shade-of-eranikus=에라니쿠스의 사령
 Q|temple-of-atal-hakkar|1445|horde|50|38|아탈학카르 신전||펠제룰 · 슬픔의 늪 47.9, 54.8|1|1490|||
-Q|temple-of-atal-hakkar|1475|alliance|50|41|아탈학카르 신전으로||브로한 캐스크벨리 · 스톰윈드 69.5, 40.4|1|1490|||
+Q|temple-of-atal-hakkar|1475|alliance|50|38|아탈학카르 신전으로||브로한 캐스크벨리 · 스톰윈드 69.5, 40.4|1|1490|||
 Q|temple-of-atal-hakkar|3380|horde|51|46|가라앉은 사원||의술사 우제리 · 페랄라스 74.4, 43.4|0||||
 Q|temple-of-atal-hakkar|3446|both|51|46|심연의 늪||마본 리벳시커 · 타나리스 52.7, 45.9|1||||
 Q|temple-of-atal-hakkar|3447|both|51|46|돌무리의 비밀||마본 리벳시커 · 타나리스 52.7, 45.9|1|10773|||
@@ -285,8 +285,8 @@ Q|lower-blackrock-spire|8989|both|60|58|군주 발타라크의 아뮬렛 오른�
 B|dire-maul-north|guard-mol-dar=경비병 몰다르;stomper-kreeg=천둥발 크리그;guard-fengus=경비병 펜구스;guard-slip-kik=경비병 슬립킥;captain-kromcrush=대장 크롬크러쉬;king-gordok=왕 고르독;cho-rush-the-observer=정찰병 초루쉬
 Q|dire-maul-north|1193|both|60|56|부서진 함정||부서진 함정 · 던전 안|0||||
 Q|dire-maul-north|5518|both|60|56|고르독 오우거 위장복||노트 팀블잭 · 던전 안|0|18258|||
-Q|dire-maul-north|5525|both|60|57|노트 구출 대작전||노트 팀블잭 · 던전 안|0||||
-Q|dire-maul-north|5528|both|60|57|고르독 술 맛보기||천둥발 크리그 · 던전 안|0|18269,18284|||
+Q|dire-maul-north|5525|both|60|56|노트 구출 대작전||노트 팀블잭 · 던전 안|0||||
+Q|dire-maul-north|5528|both|60|56|고르독 술 맛보기||천둥발 크리그 · 던전 안|0|18269,18284|||
 Q|dire-maul-north|7703|both|60|56|고르독 일 마무리||대장 크롬크러쉬 · 던전 안|0|18366,18367,18368,18369||1|
 B|dire-maul-west|tendris-warpwood=굽이나무 텐드리스;illyanna-ravenoak=일샨나 레이븐오크;magister-kalendris=마술사 칼렌드리스;tsu-zee=츄지;immol-thar=이몰타르;lord-hel-nurath=군주 헬누라스;prince-tortheldrin=왕자 토르텔드린
 Q|dire-maul-west|7461|both|60|56|내면의 광기||셴드랄라 고대인 · 던전 안|0||||
@@ -337,7 +337,7 @@ Q|upper-blackrock-spire|4907|both|60|57|팅키 스팀보일||펠노크 스틸스
 Q|upper-blackrock-spire|4734|both|60|57|알껍질 냉동||팅키 스팀보일 · 불타는 평원 65.2, 24.0|1|12144|||
 Q|upper-blackrock-spire|4735|both|60|57|알 수집||팅키 스팀보일 · 불타는 평원 65.2, 24.0|1||||
 Q|upper-blackrock-spire|4974|horde|60|55|호드를 위하여!||스랄 · 오그리마 31.7, 37.8|1|13966,13968,13965||1|
-Q|upper-blackrock-spire|5047|both|60|55|핍 퀵윗, 명을 받듭니다!||시작 · 던전 안|0||||
+Q|upper-blackrock-spire|5047|both|60|57|핍 퀵윗, 명을 받듭니다!||시작 · 던전 안|0||||
 Q|upper-blackrock-spire|5102|alliance|60|55|사령관 드라키사스 처치||치안대장 맥스웰 · 불타는 평원 84.7, 69.0|1|13966,13968,13965||1|
 Q|upper-blackrock-spire|5127|both|60|55|악마의 룬||로락스 · 여명의 설원 63.8, 73.8|1|12696,9224,12849|||
 Q|upper-blackrock-spire|5160|both|60|57|대섭정||아우비 · 던전 안|0||||
