@@ -1794,10 +1794,10 @@ const lo_=(v,m)=>v-m;
 function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?'':gmUrl(z);const A=u?null:gmAtlasBg(z);
   let tf='',sc=1;if(zoom){const xs=pins.map(p=>p.x),ys=pins.map(p=>p.y);if(xs.length){const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);sc=Math.max(1,Math.min(2.6,100/(Math.max(x1-x0,(y1-y0)*1.2)+24)));
     /* 지도 가장자리에 붙은 핀도 반쯤 잘리지 않게 바깥으로 조금(최대 9%) 비켜 보일 수 있게 함 */
-    const M=9;const cl=(v,lo,want)=>Math.max(lo-M,Math.min(M,v));
+    const M=4;/* 가장자리 핀이 반쯤 잘리지 않게 최대 4%만 바깥으로 비킴(빈 바탕이 크게 보이지 않게) */
     let tx=50-(x0+x1)/2*sc,ty=50-(y0+y1)/2*sc;tx=Math.max(lo_(100-100*sc,M),Math.min(M,tx));ty=Math.max(lo_(100-100*sc,M),Math.min(M,ty));
-    /* 핀이 칸 안쪽 6% 안에 들어오게 다시 확인 */tx=Math.min(tx,6-x0*sc);tx=Math.max(tx,94-x1*sc);ty=Math.min(ty,8-y0*sc);ty=Math.max(ty,92-y1*sc);
-    if(sc>1.05||y0<6||x0<5||x1>95||y1>94)tf=' style="--s:'+sc.toFixed(2)+';transform:translate('+tx.toFixed(1)+'%,'+ty.toFixed(1)+'%) scale('+sc.toFixed(2)+')"';else sc=1}}
+    tx=Math.max(lo_(100-100*sc,M),Math.min(M,Math.min(tx,5-x0*sc)));ty=Math.max(lo_(100-100*sc,M),Math.min(M,Math.min(ty,6-y0*sc)));tx=Math.min(M,Math.max(tx,95-x1*sc));ty=Math.min(M,Math.max(ty,94-y1*sc));
+    if(sc>1.05||y0<5||x0<5||x1>95||y1>95)tf=' style="--s:'+sc.toFixed(2)+';transform:translate('+tx.toFixed(1)+'%,'+ty.toFixed(1)+'%) scale('+sc.toFixed(2)+')"';else sc=1}}
   /* 이름표가 겹치면 뒤의 것은 숨기기 */
   const lab=[];pins.forEach(p=>{if(!p.lab)return;if(lab.some(q=>Math.abs(q.x-p.x)*sc<16&&Math.abs(q.y-p.y)*sc<7)||pins.some(q=>q!==p&&(q.x-p.x)*sc>1&&(q.x-p.x)*sc<15&&Math.abs(q.y-p.y)*sc<4))p.lab='';else lab.push(p)});/* 이름표가 오른쪽 다른 핀을 덮어도 숨김 */
   let s='<div class="gmap'+(big?' big':'')+(!u&&!A?' nomap':'')+(A?' atl':'')+'"'+(A?' style="aspect-ratio:'+A.ar+'"':'')+'><div class="gin"'+tf+'>'+(u?'<img src="'+u+'" alt="'+esc(z)+' 지도" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">':A?A.im:'');
