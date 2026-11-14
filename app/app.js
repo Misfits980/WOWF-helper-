@@ -859,11 +859,13 @@ function frGuess(A){const C=D_CLS[A.cls];const t={};Object.values(A.gear).forEac
   const S=C.specs.find(x=>ROLE[A.cls+'/'+x.id]===role)||C.specs.find(x=>/딜/.test(role)&&/딜/.test(ROLE[A.cls+'/'+x.id]||''))||C.specs[0];return S.id}
 function frChar(k){const A=ARM[k];ui.frsp=ui.frsp||{};const spec=ui.frsp[k]||frGuess(A);const eq={};Object.values(A.gear).forEach(g=>{const s=ARM_SLOT[g.slot];if(s){armItem(g);eq[s]=g.id}});
   return {cls:A.cls,spec,lv:A.level||1,race:A.race,eq,gmode:'heal',name:A.name,key:k}}
+function eqScore(c){const w=wOf(c);return SLOTS.reduce((a,[sl])=>a+(offLocked(c,sl)?0:sc(eqIt(c,sl),sl,w)),0)}
 function frScore(fc){const w=wOf(fc);return Object.entries(fc.eq).reduce((a,[s,id])=>a+sc(IT.get(id),s,w),0)}
 function frView(c){const ks=frList(c);if(!ARM_OK)return '<p class="note">전투정보실 자료를 불러오는 중…</p>';
   if(!ks.length)return '<div class="card"><p class="note">전투정보실에 등록된 친구가 없어요. data/armory/chars.txt에 이름을 넣으면 20분마다 불러와요.</p></div>';
   ui.fropen=ui.fropen||{};const mw=wOf(c);
-  let h='<p class="note">전투정보실에 있는 친구 '+ks.length+'명 · 점수는 친구 직업·전문화 기준 · 전투정보실은 로그아웃할 때 바뀌어요</p>';
+  let h='<div class="card frme">'+clsIcon(c.cls)+'<span class="m"><b>나 ('+esc(c.name||CINFO[c.cls][0])+')</b><span>'+c.lv+' · '+esc((specOf(c)||{}).name||'')+' '+esc(CINFO[c.cls][0])+'</span></span><span class="frs"><b>'+Math.round(eqScore(c))+'</b><small>장비 점수</small></span></div>';
+  h+='<p class="note">전투정보실에 있는 친구 '+ks.length+'명 · 점수는 각자 직업·전문화 기준이라 같은 직업·전문화끼리 견줘야 정확해요 · 전투정보실은 로그아웃할 때 바뀌어요</p>';
   h+=ks.map(k=>{const A=ARM[k];const fc=frChar(k);const C=D_CLS[fc.cls];const sp=C.specs.find(x=>x.id===fc.spec);const role=ROLE[fc.cls+'/'+fc.spec]||'';
     const U=upgrades(fc,fc.lv,'ok');const tot=frScore(fc);const op=!!ui.fropen[k];
     /* 내가 끼면 좋은 친구 템 */
@@ -1205,15 +1207,17 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   const ups=new Set(SLOTS.map(x=>x[0]).filter(s=>!offLocked(c,s)&&bestFor(c,s,L,ui.ifil).length));
   const tot=statTotals(c);const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]-a[1]).map(([k])=>k).slice(0,6);
   const nEq=SLOTS.filter(([sl])=>eqIt(c,sl)).length,nAll=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
-  let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??false))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+(ups.size?' · <em>▲ '+ups.size+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
+  const nowU=upgrades(c,L,ui.ifil),myS=Math.round(eqScore(c)),upS=Math.round(nowU.reduce((a,x)=>a+(x.g||0),0));
+  let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??false))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+' · 점수 <b class="gscs">'+myS+'</b>'+(ups.size?' · <em>▲ '+ups.size+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
    +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
+   +'<div class="gsc" title="착용 장비 능력치 × 내 전문화 점수표를 모두 더한 값"><b>'+myS+'</b><span>장비 점수</span>'+(upS>=1?'<em>추천대로 바꾸면 +'+upS+'</em>':'')+'</div>'
    +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+Math.round(tot[k]||0)+'</b></div>').join('')+'</div>'+hitCapHtml(c)
    +'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기</button></div>'
    +'<div class="acol">'+DOLL_R.map(s=>dollCell(c,s,ups)).join('')+'</div></div>'
    +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups)).join('')+'</div>';
   h+='<p class="note" style="text-align:center">칸을 누르면 그 칸 추천이 나와요 · <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p></details>';
   h+='</div><div class="gR">';
-  const nowU=upgrades(c,L,ui.ifil),soonU=upgrades(c,Math.min(60,L+5),ui.ifil,L+1);const cmpN=(c.cmp||[]).length;
+  const soonU=upgrades(c,Math.min(60,L+5),ui.ifil,L+1);const cmpN=(c.cmp||[]).length;
   if(ui.gsub==='soon'||ui.gsub==='stat')ui.gsub='up';const gs=ui.gslot&&!offLocked(c,ui.gslot)?'me':(ui.gsub||'up');
   h+='<div class="gsub">'+[['up','img/ui-shield.png','바꿀 것',nowU.length]].concat(c.bag?[['bag','inv_misc_bag_08','내 가방',bagAll(c).filter(x=>x.ok&&x.g>.5).length||'']]:[]).concat([['cmp','img/ui-target.png','찜·비교',((c.wish||[]).length+cmpN)||''],['fr','spell_holy_prayeroffortitude','친구',frList(c).length||'']]).map(x=>'<button class="'+(gs===x[0]?'on':'')+'" data-a="gsub" data-k="'+x[0]+'">'+gic(x[1],'lg')+'<span>'+x[2]+(x[3]!==''&&x[3]!==undefined?' <b>'+x[3]+'</b>':'')+'</span></button>').join('')+'</div>';
   if(gs==='cmp'){h+=cmpView(c);return h+'</div></div>'}

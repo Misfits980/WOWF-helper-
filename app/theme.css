@@ -356,3 +356,13 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 /* 여정 줄: 지금 레벨 구간(now)과 따로 눌러 본 구간(sel) 구분 */
 .jn2.sel .c{border-color:#8fb8ff;box-shadow:0 0 0 3px var(--bg),0 0 0 5px rgba(143,184,255,.35)}.jn2.sel b{color:#cfe0ff}
 .note.mvn{margin:10px 2px 0;padding:9px 12px;border-radius:10px;background:#1f2a1b;border:1px solid #3d5a34;color:#cfe6c4}
+/* 내 장비 점수 */
+.amid .gsc{display:flex;flex-direction:column;align-items:center;margin:8px 0 2px;padding:5px 16px;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.18)}
+.amid .gsc b{font-size:22px;margin:0;line-height:1.1;color:var(--gold);font-variant-numeric:tabular-nums}
+.amid .gsc span{font-size:11px;color:var(--mute)}
+.amid .gsc em{font-style:normal;font-size:11px;color:var(--good);margin-top:2px}
+.dollf summary .gscs{color:var(--gold)}
+.frme{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.frme .m{flex:1;display:flex;flex-direction:column;min-width:0}
+.frme .m span{font-size:12px;color:var(--mute)}
+.dollf summary>b{white-space:nowrap;flex:none}
