@@ -1,0 +1,12 @@
+name: tmp-check
+on: { push: { paths: ['.github/workflows/tmp-check.yml'] } }
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for loc in kokr enus; do for p in forever classic; do for id in 16593 2521 2665 16591 616; do
+            u="https://wow.zamimg.com/images/wow/$p/maps/$loc/original/$id.jpg"
+            echo "$(curl -s -o /tmp/m.jpg -w '%{http_code} %{size_download}' "$u") $u"
+            [ -s /tmp/m.jpg ] && file /tmp/m.jpg | cut -c1-120
+          done; done; done
