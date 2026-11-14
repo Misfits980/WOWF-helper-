@@ -8,7 +8,7 @@ const PROFS=[
   [135,167,'Fire Oil',51,'Firefin Snapper 2, Empty Vial 1','한 번에 2개'],[167,200,'Greater Discolored Healing Potion',47,'Kingsblood 1, Murloc Eye 1, Leaded Vial 1',''],
   [200,208,'절연 니오다인 (Insulating Gniodine)',10,'Crate of Tainted Gniodine Solution 5, Leaded Vial 1','도안 아이템'],[208,235,'Elixir of Defense',35,'Wild Steelbloom 1, Goldthorn 1, Leaded Vial 1',''],
   [235,260,'Stonescale Oil',45,'Stonescale Eel 1, Leaded Vial 1','한 번에 2개'],[260,267,'Elixir of Greater Agility',9,'Sungrass 1, Goldthorn 1, Crystal Vial 1',''],
-  [267,289,'Draught of Detect Demon',28,'Gromsblood 2, Crystal Vial 1','275~280은 Essence of Fire'],[289,300,'Greater Arcane Protection Potion',11,'Dream Dust 1, Dreamfoil 1, Crystal Vial 1','도안 아이템']]},
+  [267,289,'Draught of Detect Demon',28,'Gromsblood 2, Crystal Vial 1','275~280은 불의 정수'],[289,300,'Greater Arcane Protection Potion',11,'Dream Dust 1, Dreamfoil 1, Crystal Vial 1','도안 아이템']]},
  {id:'bs',ko:'대장기술',en:'Blacksmithing',k:'c',pair:'채광',src:'https://metabot.gg/en/wow-forever/professions/blacksmithing',steps:[
   [1,36,'Rough Sharpening Stone',44,'Rough Stone 1',''],[36,83,'Rough Grinding Stone',121,'Rough Stone 2',''],[83,111,'Heavy Weightstone',36,'Heavy Stone 1',''],[111,127,'Iron Buckle',17,'Iron Bar 1',''],
   [127,137,'Patterned Bronze Bracers',13,'Bronze Bar 5, Coarse Grinding Stone 2',''],[137,145,'Silvered Bronze Boots',10,'Bronze Bar 6, Silver Bar 1, Coarse Grinding Stone 2',''],[145,154,'Silvered Bronze Gauntlets',14,'Bronze Bar 8, Silver Bar 1, Coarse Grinding Stone 2',''],
@@ -53,7 +53,7 @@ const PROFS=[
  {id:'mine',ko:'채광',en:'Mining',k:'g',src:'https://timesaver.gg/tools/wow-forever/professions/mining',gather:[
   [1,'구리 광맥','서부 몰락지대, 그늘숲, 모단 호수'],[65,'주석 광맥','저습지, 그늘숲, 모단 호수'],[75,'은 광맥','아라시 고원, 알터랙 산맥, 가시덤불 골짜기'],[125,'철 광맥','아라시 고원, 알터랙 산맥, 가시덤불 골짜기'],
   [155,'금 광맥','아라시 고원, 알터랙 산맥, 가시덤불 골짜기'],[175,'미스릴 광맥','황야의 땅, 동부 내륙지, 알터랙 산맥'],[230,'진은 광맥 / 검은무쇠 광맥','황야의 땅, 동부 내륙지 / 이글거리는 협곡'],[245,'작은 토륨 광맥','여명의 설원, 슬픔의 늪, 저주받은 땅'],[275,'풍부한 토륨 광맥','여명의 설원, 아즈샤라']],
-  tips:['훈련비만 들어요(모두 5골 55실버). 캐면서 올리는 전문기술이에요.','포에버 신규 캠프: 20 자석석(근접 전투력 버프), 140 Rock Garden, 300 Molten Foundry','제련(Copper Bar 1~66, Bronze 66~100, Silver 100~125)도 기술이 올라요(metabot)']},
+  tips:['훈련비만 들어요(모두 5골 55실버). 캐면서 올리는 전문기술이에요.','포에버 신규 캠프: 20 자석석(근접 전투력 버프), 140 Rock Garden, 300 Molten Foundry','제련(Copper Bar 1~66, Bronze Bar 66~100, Silver Bar 100~125)도 기술이 올라요(metabot)']},
  {id:'herb',ko:'약초채집',en:'Herbalism',k:'g',src:'https://timesaver.gg/tools/wow-forever/professions/herbalism',gather:[
   [1,'평화꽃 · 은엽수','던 모로, 엘윈 숲, 모단 호수, 어둠해안'],[15,'뱀뿌리','던 모로, 엘윈 숲, 붉은마루 산맥'],[50,'마법초 · 쇠풀','잿빛 골짜기, 어둠해안, 서부 몰락지대'],[70,'찔레가시','그늘숲, 잿빛 골짜기, 서부 몰락지대'],
   [85,'갈래물풀','가시덤불 골짜기, 저습지, 잿빛 골짜기'],[100,'생채기풀','돌발톱 산맥, 힐스브래드 구릉지, 저습지'],[115,'야생 철쭉 · 무덤이끼','아라시 고원, 가시덤불 골짜기, 그늘숲, 저습지'],[125,'왕꽃잎풀','가시덤불 골짜기, 저습지, 잿빛 골짜기'],
@@ -68,6 +68,6 @@ const PROFS=[
  {id:'fish',ko:'낚시',en:'Fishing',k:'s',src:'https://timesaver.gg/tools/wow-forever/professions/fishing',gather:[
   [1,'시작 지역 (25부터 안 놓침)','던 모로, 엘윈 숲, 텔드랏실'],[75,'저레벨 지역','모단 호수, 어둠해안, 서부 몰락지대, 아이언포지, 스톰윈드'],[150,'중간 지역','잿빛 골짜기, 그늘숲, 힐스브래드 구릉지, 붉은마루 산맥, 저습지'],
   [225,'중상 지역','아라시 고원, 먼지진흙 습지대, 가시덤불 골짜기, 슬픔의 늪, 알터랙 산맥'],[300,'고레벨 지역','아즈샤라, 악령의 숲, 페랄라스, 타나리스, 동부 내륙지, 운고로 분화구']],
-  tips:['미끼를 쓰면 빨라요: Shiny Bauble +25, Nightcrawlers +50, Aquadynamic Fish Attractor +100(기계공학)','낚싯대: Strong Fishing Pole +5, Big Iron Fishing Pole +20','포에버 신규: 140 Fishing Rack, 300 Fishing Hut (희귀 물고기)']}
+  tips:['미끼를 쓰면 빨라요: 반짝이는 싸구려 장신구 +25, Nightcrawlers +50, Aquadynamic Fish Attractor +100(기계공학)','낚싯대: 튼튼한 낚싯대 +5, Big Iron Fishing Pole +20','포에버 신규: 140 Fishing Rack, 300 Fishing Hut (희귀 물고기)']}
 ];
 const PROF_TIPS=['다음 단계는 상한보다 25 앞에서 배우세요: 기술 50에 숙련(레벨 10), 125에 전문(레벨 20), 200에 장인(레벨 35)','주황색 도안은 항상, 노란색은 대부분, 초록색은 가끔 기술이 올라요. 회색은 안 올라요','제작 횟수는 실패까지 포함한 대략적인 수예요. 재료를 먼저 다 모아 두면 한 번에 올릴 수 있어요','채집 전문기술은 레벨업하면서 같이 올리면 따로 시간 안 써요','metabot 제작 루트의 일부 도안 습득 기술은 사이트가 추정한 값이에요. 훈련사에 없으면 조금 뒤에 다시 가 보세요'];
