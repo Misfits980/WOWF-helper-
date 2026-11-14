@@ -1870,8 +1870,8 @@ function gmAtlasBg(z){const t=MAPZ[ZALIAS[z]||z];if(!t)return null;let x0=t[0];c
   return {im,ar:(w/h).toFixed(3)}}
 const lo_=(v,m)=>v-m;
 /* ── 길 따라 동선 ──
-   data/route/<지역번호>.png = 걷기 비용 격자(지도 3px = 1칸). 1 길·순찰 길, 5 몹·NPC가 있는 땅, ~115 몹 없는 평지, 150 물, 255 산·지역 밖.
-   tools/route/build_grid.py 가 QuestieDB 몹·NPC 자리와 지역 지도 그림으로 만든다. 지역을 처음 그릴 때 그 지역 것만 받는다. */
+   data/route/<지역번호>.png = 걷기 비용 격자(지도 3px = 1칸). 1 길·순찰 길, 5~40 걸을 수 있는 땅(비탈일수록 큼), 70 험한 비탈, 150 물(헤엄), 200 깊은 바다, 255 절벽·용암·지역 밖.
+   tools/terrain/build_terrain.py 가 포에버 게임 지형(높이·물)으로 만든다(도시는 tools/route/build_grid.py 것 그대로). 지역을 처음 그릴 때 그 지역 것만 받는다. */
 const RG={};let rgT=0;
 /* 동굴·광산처럼 보이는 하위 지역 이름 (여관·건물 안은 빼려고) */
 const CAVE_RE=/광산|동굴|굴|갱도|채석장|지하|무덤|구덩이|은신처|하수도|납골당|소굴|틈새|우물/;
@@ -1884,8 +1884,10 @@ function rgGrid(z){const id=rgId(z);if(!id)return null;const g=RG[id];if(g)retur
 function rgRedraw(){if(AM&&AM.draw&&document.getElementById('amap'))AM.draw();else if(document.querySelector('.gmap'))rerender(true)}
 /* 두 점(지역 % 좌표) 사이 길: A* → 곧게 펴기 → 모서리 다듬기. 산·지역 밖을 꼭 지나야 하거나 너무 돌아가면 far(배·비행으로 보고 흐린 직선) */
 function rgPath(z,a,b){const g=rgGrid(z);if(!g)return null;const key=(+a[0]).toFixed(1)+','+(+a[1]).toFixed(1)+'>'+(+b[0]).toFixed(1)+','+(+b[1]).toFixed(1);const hit=g.P.get(key);if(hit)return hit;
-  const {w,h,c}=g;const gx=v=>Math.max(0,Math.min(w-1,Math.floor(v/100*w))),gy=v=>Math.max(0,Math.min(h-1,Math.floor(v/100*h)));
+  const {w,h}=g;let c=g.c;const gx=v=>Math.max(0,Math.min(w-1,Math.floor(v/100*w))),gy=v=>Math.max(0,Math.min(h-1,Math.floor(v/100*h)));
   const s=gy(a[1])*w+gx(a[0]),t=gy(b[1])*w+gx(b[0]),tx=t%w,ty=(t/w)|0,N=w*h;
+  /* 출발·도착점 바로 둘레(4칸)의 절벽·물은 걸을 수 있다고 봄: NPC가 언덕 위·건물 안·물가에 서 있어도 그 둘레 때문에 멀리 돌아가지 않게 */
+  [s,t].forEach(e=>{const ex=e%w,ey=(e/w)|0;for(let y=Math.max(0,ey-4);y<=Math.min(h-1,ey+4);y++)for(let x=Math.max(0,ex-4);x<=Math.min(w-1,ex+4);x++){const j=y*w+x;if(c[j]>=150&&(x-ex)**2+(y-ey)**2<=16){if(c===g.c)c=g.c.slice();c[j]=8}}});
   const G=new Float32Array(N).fill(1e30),PV=new Int32Array(N).fill(-1),CL=new Uint8Array(N);const HF=[],HI=[];
   const push=(f,i)=>{let k=HF.length;HF.push(f);HI.push(i);while(k>0){const p=(k-1)>>1;if(HF[p]<=f)break;HF[k]=HF[p];HI[k]=HI[p];k=p}HF[k]=f;HI[k]=i};
   const pop=()=>{const top=HI[0],f=HF.pop(),i=HI.pop(),n=HF.length;if(n){let k=0;for(;;){const l=2*k+1;if(l>=n)break;const r=l+1,m=r<n&&HF[r]<HF[l]?r:l;if(HF[m]>=f)break;HF[k]=HF[m];HI[k]=HI[m];k=m}HF[k]=f;HI[k]=i}return top};
