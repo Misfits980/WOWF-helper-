@@ -69,7 +69,25 @@ Q = ROOT / 'data' / 'qdb'
 def _dnew():
     """포에버 신규 던전 (tools/dungeons-new.py → data/qdb/dungeons-new.txt)"""
     p_ = ROOT / 'data' / 'qdb' / 'dungeons-new.txt'
-    return [l for l in p_.read_text(encoding='utf-8').splitlines() if l.strip()] if p_.exists() else []
+    if not p_.exists():
+        return []
+    fx = _nmfix()
+    out = []
+    for l in p_.read_text(encoding='utf-8').splitlines():
+        if not l.strip():
+            continue
+        if l.startswith('B|') and fx:
+            l = re.sub(r'=([^;|]+)', lambda m: '=' + fx.get(m.group(1), m.group(1)), l)
+        out.append(l)
+    return out
+
+
+def _nmfix():
+    """data/qdb/npc-ko-fix.txt: 한글 이름이 아직 없는 포에버 몹 이름 (게임에서 확인한 것)"""
+    p_ = ROOT / 'data' / 'qdb' / 'npc-ko-fix.txt'
+    if not p_.exists():
+        return {}
+    return dict(l.split('|', 1) for l in p_.read_text(encoding='utf-8').splitlines() if '|' in l and not l.startswith('#'))
 
 
 def _dgl():
@@ -201,6 +219,7 @@ for line in rd(F / 'items.txt').splitlines():
 srcs = rd(F / 'sources.txt').rstrip('\n')
 # 상인 이름이 영어로 남은 것 → 한글 (npc-en-ko.txt)
 _npcko = dict(l.split('|', 1) for l in (ROOT / 'data/qdb/npc-en-ko.txt').read_text(encoding='utf-8').splitlines() if '|' in l)
+_npcko.update(_nmfix())
 srcs = re.sub(r'(?m)^(5~상인 · )([^~]+)', lambda m: m.group(1) + _npcko.get(m.group(2), m.group(2)), srcs)
 if (Q / 'items-extra.txt').exists():
     off = len(srcs.split('\n'))
@@ -460,6 +479,10 @@ def _srcko(l):
                 f[1] = m.group(1) + _npcko[m.group(2).strip()]
     return '~'.join(f)
 srcs = '\n'.join(_srcko(l) for l in srcs.split('\n'))
+# 던전 드랍 「던전 · 몹 이름」의 영어 몹 이름 → 한글 (npc-ko-fix)
+_fx = _nmfix()
+if _fx:
+    srcs = re.sub(r'(?m)^(0~[^~·]+ · )([^~]+)', lambda m: m.group(1) + _fx.get(m.group(2).strip(), m.group(2)), srcs)
 SRC_TXT = srcs + '\n'
 
 def js_str(s):
