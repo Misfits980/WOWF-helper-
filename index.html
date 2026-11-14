@@ -2405,11 +2405,14 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .gin .gpe{transform:translate(-50%,-50%) scale(calc(1/var(--s)))}
 .gmap .gpe svg{width:11px;height:11px}
 .gmap .gpe i{position:absolute;left:19px;top:50%;transform:translateY(-50%);white-space:nowrap;font-style:normal;font-size:10.5px;font-weight:700;color:#f0e2c4;text-shadow:0 0 3px #000,0 0 2px #000}
+/* PC: 옆으로 넘기는 줄은 끌 수 있다는 표시 + 끄는 동안 글자 선택 막기 */
+@media (hover:hover) and (pointer:fine){.upf,.chips,.dtabs,.cmpt,.pls2,.qa2,.gzs,.rzc,.plsc,.dchips{cursor:grab}.upf button,.chips button,.dtabs button,.pls2 button,.qa2 button,.gzs button,.rzc button,.plsc button{cursor:pointer}}
+.drag{cursor:grabbing!important;user-select:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=1bbc33ae"></script>
-<script>/* v887c7b @11/14 18:04 */
-const BUILD='11/14 18:04';
+<script>/* v2c3169 @11/14 19:38 */
+const BUILD='11/14 19:38';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -5344,11 +5347,14 @@ render();
   document.addEventListener('visibilitychange',()=>{if(!syOn())return;if(!document.hidden&&Date.now()-syLast>20e3){syLast=Date.now();syPull()}else if(document.hidden&&syT){clearTimeout(syT);syPush()}});
   setInterval(()=>{if(syOn()&&!document.hidden&&!document.querySelector('input:focus,textarea:focus')){syLast=Date.now();syPull(true)}},120e3)}
 
-/* 던전 고르는 줄: 마우스 휠·끌기로 옆으로 넘기기 (PC) */
-document.addEventListener('wheel',e=>{const dc=e.target.closest&&e.target.closest('.dchips');if(!dc||Math.abs(e.deltaX)>Math.abs(e.deltaY))return;
-  const max=dc.scrollWidth-dc.clientWidth;if(max<=0)return;e.preventDefault();dc.scrollLeft+=e.deltaY},{passive:false});
-{let dd=null;document.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;const dc=e.target.closest&&e.target.closest('.dchips');if(dc)dd={dc,x:e.clientX,sl:dc.scrollLeft,moved:false}});
- document.addEventListener('pointermove',e=>{if(!dd)return;const dx=e.clientX-dd.x;if(Math.abs(dx)>5){dd.moved=true;dd.dc.classList.add('drag')}if(dd.moved)dd.dc.scrollLeft=dd.sl-dx});
+/* 옆으로 넘기는 줄(던전·바꿀 것·지역 칩 등, 스크롤바 숨김): PC 마우스 휠·끌기로도 넘기기.
+   스크롤바를 숨긴 줄은 마우스로 옆으로 갈 방법이 없어서(터치만 됨) 모든 가로 줄에 같이 적용 */
+const hsOf=t=>{for(let el=t&&t.nodeType===1?t:t&&t.parentElement;el&&el.id!=='app'&&el!==document.body;el=el.parentElement){if(el.scrollWidth>el.clientWidth+1&&el.scrollHeight<=el.clientHeight+2){const ox=getComputedStyle(el).overflowX;if(ox==='auto'||ox==='scroll')return el}}return null};
+document.addEventListener('wheel',e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(e.deltaY))return;if(e.target.closest&&e.target.closest('#amap'))return;const dc=hsOf(e.target);if(!dc)return;
+  const max=dc.scrollWidth-dc.clientWidth;/* 끝까지 갔으면 원래대로 화면이 위아래로 */if((e.deltaY>0&&dc.scrollLeft>=max-1)||(e.deltaY<0&&dc.scrollLeft<=0))return;
+  e.preventDefault();dc.scrollLeft+=e.deltaMode===1?e.deltaY*32:e.deltaY},{passive:false});
+{let dd=null;document.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;if(e.target.closest&&e.target.closest('#amap,input,textarea,select'))return;const dc=hsOf(e.target);if(dc)dd={dc,x:e.clientX,sl:dc.scrollLeft,moved:false}});
+ document.addEventListener('pointermove',e=>{if(!dd)return;const dx=e.clientX-dd.x;if(!dd.moved&&Math.abs(dx)>5){dd.moved=true;dd.dc.classList.add('drag')}if(dd.moved)dd.dc.scrollLeft=dd.sl-dx});
  document.addEventListener('pointerup',()=>{if(dd&&dd.moved){const dc=dd.dc;setTimeout(()=>dc.classList.remove('drag'),0);const stop=ev=>{ev.stopPropagation();ev.preventDefault()};dc.addEventListener('click',stop,{capture:true,once:true});setTimeout(()=>dc.removeEventListener('click',stop,{capture:true}),50)}dd=null})}
 
 /* 퀘스트 줄 왼쪽 ❗ 누르면 바로 끝냄 표시 (펼치지 않고) */
