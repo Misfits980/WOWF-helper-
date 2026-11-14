@@ -214,3 +214,19 @@ details.card>summary,details>summary{cursor:pointer}
   box-shadow:0 0 0 1px #000,0 4px 12px rgba(0,0,0,.6)}
 .row.wtip .sub{color:#d8d8d8}
 .sheet .grab{display:none}
+
+/* 양피지 위 제목: 검은 그림자 빼고 먹색 (글자가 번져 보이던 문제) */
+.scroll2 h2,.scroll2 h3,.parch h2,.parch h3,.parch h4,.scroll2 h4{color:#3b2412;text-shadow:none}
+.scroll2 h3{font-size:21px;margin:2px 0 2px}
+.chips.wr{flex-wrap:wrap;overflow:visible}
+.flab{display:block;margin:10px 0 4px;font-size:12.5px;color:#d8b866;font-weight:700}
+.gmap.atl{background:radial-gradient(ellipse at 50% 50%,#173c4c,#0d2430 80%)}
+.chtag{display:inline-block;margin-left:6px;padding:0 6px;border-radius:4px;font-style:normal;font-size:11px;font-weight:700;line-height:1.6;vertical-align:1px;color:#ffd98a;background:rgba(199,154,58,.18);border:1px solid rgba(199,154,58,.5);white-space:nowrap}
+.armrq{display:grid;grid-template-columns:84px 1fr auto;gap:6px;align-items:center;margin:6px 0}.armrq .inp{height:40px}
+
+/* 폰 지도: 아래 탭바에 가려 잘리던 부분 → 지도 높이를 탭바만큼 줄이고, 정보 칸은 손가락으로 위아래로 밀 수 있게 */
+@media (max-width:999px){
+  #app.q-atlas .amap,.amap{height:calc(100dvh - 284px - env(safe-area-inset-bottom));min-height:340px}
+  #ampanel{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;max-height:58%;padding-bottom:10px}
+}
+.am.full .amap{height:100dvh!important}
