@@ -1,0 +1,13 @@
+name: tmp-check
+on: { push: { paths: ['.github/workflows/tmp-check.yml','tools/tmp_shot.py'] } }
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install playwright==1.47.0
+      - run: |
+          for n in ability_warrior_defensivestance inv_shield_06 ability_warrior_sunder inv_misc_bag_08 spell_holy_prayeroffortitude inv_misc_map_01 inv_misc_map02 inv_misc_pocketwatch_01 inv_misc_pocketwatch_02 trade_engineering inv_misc_enggizmos_19 inv_misc_note_06 inv_misc_book_11 inv_misc_book_09 inv_shirt_guildtabard_01 inv_misc_gift_01 inv_misc_gear_01 inv_sword_04 ability_marksmanship; do echo "$n $(curl -s -o /dev/null -w '%{http_code}' https://wow.zamimg.com/images/wow/icons/medium/$n.jpg)"; done
+      - run: sleep 60; python3 tools/tmp_shot.py
+      - uses: actions/upload-artifact@v4
+        with: { name: shots, path: shots/ }
