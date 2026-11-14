@@ -230,3 +230,8 @@ details.card>summary,details>summary{cursor:pointer}
   #ampanel{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;max-height:58%;padding-bottom:10px}
 }
 .am.full .amap{height:100dvh!important}
+.tgame{margin:6px 0 8px;padding:8px 10px;border-radius:6px;border:1px solid #6b5126;background:linear-gradient(180deg,#2a2013,#1a130b);color:#f2e6cc;font-size:13px}
+.tgame small{color:#c9b68c}
+/* 퀘스트창: 같은 연계는 점선으로 이어 붙임 */
+.lg3r{position:relative;border-radius:6px}
+@media (max-width:899px){.lg3r.lgcont::before{content:'';position:absolute;left:31px;top:-8px;height:8px;border-left:2px dotted #c79a3a}}

@@ -2285,11 +2285,16 @@ details.card>summary,details>summary{cursor:pointer}
   #ampanel{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;max-height:58%;padding-bottom:10px}
 }
 .am.full .amap{height:100dvh!important}
+.tgame{margin:6px 0 8px;padding:8px 10px;border-radius:6px;border:1px solid #6b5126;background:linear-gradient(180deg,#2a2013,#1a130b);color:#f2e6cc;font-size:13px}
+.tgame small{color:#c9b68c}
+/* 퀘스트창: 같은 연계는 점선으로 이어 붙임 */
+.lg3r{position:relative;border-radius:6px}
+@media (max-width:899px){.lg3r.lgcont::before{content:'';position:absolute;left:31px;top:-8px;height:8px;border-left:2px dotted #c79a3a}}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=b69399cf"></script>
-<script>/* vda8b79 @11/14 11:05 */
-const BUILD='11/14 11:05';
+<script>/* v2adaa8 @11/14 11:17 */
+const BUILD='11/14 11:17';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2429,6 +2434,8 @@ const BOAT='동부 왕국 ↔ 칼림도어: 저습지 <b>메네실 항구</b>에
 /* ===================== 저장 ===================== */
 const KEY='wowf2';
 let DB=(()=>{try{const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.list)return o}catch(e){}return {cur:null,list:[]}})();
+/* 예전 전투정보실 연결로 레벨이 글자('38')로 저장된 캐릭터 → 숫자로 (레벨+3 같은 계산이 '383'이 되던 문제) */
+DB.list.forEach(c=>{if(c&&typeof c.lv!=='number')c.lv=Math.max(1,Math.min(60,parseInt(c.lv)||1))});
 const saveRaw=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}};
 /* 저장할 때 지금 캐릭터에 고친 시각을 남기고(기기 연동 합치기용), 연동 중이면 몇 초 뒤 올림 */
 const save=()=>{const c=DB.list.find(x=>x.id===DB.cur);if(c)c._t=Date.now();saveRaw();syQueue()};
@@ -2448,6 +2455,7 @@ function syMerge(R){if(!R||!Array.isArray(R.list))return {local:false,remote:fal
   const rm={};R.list.forEach(x=>{rm[x.id]=x});const out=[];let local=false,remote=false;const seen=new Set();
   DB.list.forEach(l=>{seen.add(l.id);const r=rm[l.id];if(r&&(r._t||0)>(l._t||0)){out.push(r);local=true}else{out.push(l);if(!r||(l._t||0)>(r._t||0))remote=true}});
   R.list.forEach(r=>{if(!seen.has(r.id)){out.push(r);local=true}});
+  out.forEach(c=>{if(c&&typeof c.lv!=='number')c.lv=Math.max(1,Math.min(60,parseInt(c.lv)||1))});
   const list=out.filter(x=>{const dd=del[x.id];if(dd&&dd>=(x._t||0)){if(rm[x.id])remote=true;if(DB.list.some(y=>y.id===x.id))local=true;return false}return true});
   if(JSON.stringify(del)!==JSON.stringify(R.del||{}))remote=true;
   DB.list=list;DB.del=del;if(!DB.cur||!list.some(x=>x.id===DB.cur))DB.cur=(list.find(x=>x.id===R.cur)||list[0]||{}).id||null;
@@ -2621,7 +2629,11 @@ function armItem(g){let it=IT.get(g.id);if(it)return it;const st={};(g.stats||[]
   ITEMS.push(it);IT.set(it.id,it);return it}
 function armApply(c,silent){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};
   for(const g of Object.values(A.gear)){const s=ARM_SLOT[g.slot];if(!s)continue;armItem(g);c.eq[s]=g.id}
-  if(A.level)c.lv=A.level;if(A.cls&&CL.includes(A.cls)&&c.cls!==A.cls){c.cls=A.cls;c.spec=D_CLS[A.cls].specs[0].id}
+  if(A.level)c.lv=+A.level||c.lv;if(A.cls&&CL.includes(A.cls)&&c.cls!==A.cls){c.cls=A.cls;c.spec=D_CLS[A.cls].specs[0].id}
+  /* 전투정보실 특성 → 「내 특성」 (게임 애드온으로 더 최근에 불러온 게 있으면 그대로 둠) */
+  if(A.tal&&A.tal.length&&c.cls===A.cls){const C=D_CLS[c.cls];const T=Object.entries(C.talents);const M={};
+    A.tal.forEach(tr=>{const tree=C.trees.includes(tr.name)?tr.name:null;(tr.t||[]).forEach(([nm,rk,ic])=>{let e=T.find(([k,v])=>(!tree||v[1]===tree)&&v[0]===nm);if(!e&&ic)e=T.find(([k,v])=>(!tree||v[1]===tree)&&String(v[3])===String(ic));if(e&&rk>0)M[e[0]]=Math.min(e[1][2],rk)})});
+    const at=Date.parse(A.checked)||Date.now();if(Object.keys(M).length&&!(c.tal&&c.tal.src==='game'&&c.tal.at>at))c.tal={cls:c.cls,r:M,src:'armory',at}}
   c.armAt=A.checked;save();if(!silent)toast('전투정보실에서 불러왔어요');return true}
 function armAgo(t){if(!t)return '';const m=Math.round((Date.now()-new Date(t))/60000);return m<1?'방금':m<60?m+'분 전':m<1440?Math.round(m/60)+'시간 전':Math.round(m/1440)+'일 전'}
 /* 전투정보실 자료 받기: 앱 열 때 · 10분마다 · 다시 볼 때 · 「새로 고침」 버튼 */
@@ -3211,7 +3223,7 @@ function repCard(c){const R=(c.rep||[]).filter(r=>r.st<8&&r.st>=3);if(!R.length)
   return '<div class="card rpc"><div class="hd"><h3>🏳️ 평판</h3>'+(R.length>4?'<button class="more" data-a="repall">'+(ui.repAll?'접기':'전체 '+R.length+'개')+' ›</button>':'')+'</div>'
     +L.map(x=>'<div class="rpr"><span class="m"><b>'+esc(x.r.nm)+'</b><small>'+x.T[1]+(x.nx?' → '+x.nx[1]+'까지 '+x.left.toLocaleString():'')+'</small></span><span class="rpb"><i style="width:'+Math.round(x.p*100)+'%"></i></span></div>').join('')+'</div>'}
 /* 🧩 홈: 게임 애드온 안내 · 마지막으로 가져온 때 */
-const ADDON_FEAT=[['📜','퀘스트','진행도(3/8)까지'],['🛡️','장비','17칸 자동 입력'],['🌳','특성','찍은 쪽으로 자동'],['⚒️','전문기술','숙련도 · 지금 단계'],['⚔️','무기 숙련','배운 무기 · 숙련도'],['🦅','비행 경로','연 곳 · 안 연 곳'],['⏱️','사냥 기록','시간당 경험치'],['🎒','가방·은행','더 좋은 템 · 재료'],['💰','골드','가진 돈'],['🏳️','평판','다음 등급까지'],['👥','부캐','앱에 자동 추가'],['🎮','툴팁 추천','게임 툴팁에 표시'],['🐉','보스 공략 창','보스 기술 요약'],['🔔','알림','레벨업·반납 때']];
+const ADDON_FEAT=[['📜','퀘스트','진행도(3/8)까지'],['🛡️','장비','17칸 자동 입력'],['🌳','특성','찍은 칸 그대로 「내 특성」'],['⚒️','전문기술','숙련도 · 지금 단계'],['⚔️','무기 숙련','배운 무기 · 숙련도'],['🦅','비행 경로','연 곳 · 안 연 곳'],['⏱️','사냥 기록','시간당 경험치'],['🎒','가방·은행','더 좋은 템 · 재료'],['💰','골드','가진 돈'],['🏳️','평판','다음 등급까지'],['👥','부캐','앱에 자동 추가'],['🎮','툴팁 추천','게임 툴팁에 표시'],['🐉','보스 공략 창','보스 기술 요약'],['🔔','알림','레벨업·반납 때']];
 const ADDON_CMD=[['/wfh','코드 창 열기'],['/wfh 다음','앱 동선의 다음 갈 곳 보기'],['/wfh 도움','명령어 모두 보기'],['/wfh 점검','담긴 개수 확인'],['/wfh 추천','툴팁 추천 · 보상 고르기 · 동선 넣기','wfr']];
 const ADDON_OFF=[['/wfh 공략','보스 공략 창 끄기 · 켜기'],['/wfh 알림','알림 · 접속 인사 끄기 · 켜기'],['/wfh 추천 지우기','툴팁 추천 지우기'],['/wfh 설정','지금 켜고 끈 상태 보기']];
 /* 명령어 표: 왼쪽 명령어 칸 너비를 맞춤 */
@@ -3242,10 +3254,11 @@ function msRows(c){const L=c.lv||1,ms=c.ms||{};const mine=MS.filter(m=>!m[4]||m[
   let h=due.map(m=>'<div class="trow ms"><span class="ti">📌</span><span class="m"><b>'+esc(m[2])+' <small>'+m[0]+'레벨</small></b><span>'+esc(m[3])+'</span></span><button class="btn sm tbtn" data-a="msok" data-k="'+m[1]+'">했어요</button></div>').join('');
   if(nx&&nx[0]<=L+5)h+='<div class="trow soon"><span class="ti">🔜</span><span class="m"><b>'+nx[0]+'레벨 · '+esc(nx[2])+'</b><span>'+esc(nx[3])+'</span></span></div>';return h}
 function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
-  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.2</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
-  if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드');if(c.wsk)got.push('무기 숙련')}
+  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.3</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
+  if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드');if(c.wsk)got.push('무기 숙련');if(c.tal&&/^game/.test(c.tal.src||''))got.push('내 특성')}
     h+='<p class="adl"><b>'+ago+'</b>에 가져왔어요 · '+got.join(' · ')+'</p>';
     if((im.v||1)<3)h+='<p class="adw">'+((im.v||1)<2?'옛 애드온':'v2 애드온')+' 코드예요. 새 애드온(v3)을 받으면 아래 기능을 모두 쓸 수 있어요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
+    else if(!(c.tal&&/^game/.test(c.tal.src||''))&&c.lv>=10)h+='<p class="adw">새 애드온(v3.3)은 <b>찍은 특성</b>도 가져와요. 직업 탭에 「🎮 내 특성」으로 나오고 가이드와 다른 칸을 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!c.taxi&&(im.v||1)>=3)h+='<p class="adw">새 애드온(v3.2)은 연 비행 경로도 가져와요. 게임에서 비행 조련사 창을 한 번 열고 <code>/wfh</code> 하면 동선에 안 연 비행 경로를 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!c.wsk&&['warrior','rogue','hunter','paladin','shaman'].includes(c.cls))h+='<p class="adw">새 애드온(v3.1)은 배운 무기 숙련과 숙련도도 가져와요. 도적 한손 도끼처럼 「숙련 필요」를 정확히 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(Date.now()-im.t>36e5)h+='<p class="adw">한 시간 넘게 지났어요. 게임에서 <code>/wfh</code> 로 새 코드를 가져오면 퀘스트·장비·가방이 다시 맞춰져요.</p>'}
@@ -3985,7 +3998,7 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
   if(WLD&&WLD.fp){const zz=[...new Set(zs.concat(NX?NX.z.split(' · '):[]).map(zn))];const F=WLD.fp.filter(f=>zz.includes(zn(f[1])));
     const st0=F.map(f=>({f,k:fpKnown(c,f)}));if(F.length&&st0.some(x=>!x.k)){const st=st0;const un=st.filter(x=>!x.k);
       rows.push(['fp','🦅',un.length?'안 연 비행 경로 '+un.length+'곳':'비행 경로 다 열었어요',
-        '<p class="mute">'+(c.taxi?'애드온에서 가져온 비행 경로로 확인했어요.':'애드온 v3.2로 가져오면 자동으로 확인해요. 연 곳은 「열었어요」를 눌러 주세요.')+' 지나가는 길에 비행 조련사와 대화하면 열려요.</p>'
+        '<p class="mute">'+(c.taxi?'애드온에서 가져온 비행 경로로 확인했어요.':'애드온(v3.2 이상)으로 가져오면 자동으로 확인해요. 연 곳은 「열었어요」를 눌러 주세요.')+' 지나가는 길에 비행 조련사와 대화하면 열려요.</p>'
         +st.sort((a,b)=>(!!a.k)-(!!b.k)).map(({f,k})=>'<div class="fpr'+(k?' ok':'')+'"><span class="m"><b>'+(k?'✅ ':'🦅 ')+esc(f[1])+'</b><small>'+esc(f[0])+' · '+esc(f[2].replace(',',', '))+'</small></span>'+(k==='m'||!k?'<button class="btn sm '+(k?'ghost':'')+'" data-a="fpk" data-k="'+esc(f[0]+'|'+f[1])+'">'+(k?'취소':'열었어요')+'</button>':'')+'</div>').join('')])}}
   /* 네임드·희귀 몹: 이 구간 지역에서 장비를 떨구는 몹 (자리: 퀘스트 자료의 몹 위치) */
   if(WLD){const zz=zs.map(zn);const out=[];
@@ -4209,6 +4222,12 @@ function logStops(c,ids){const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0
       const avail=left.filter(s=>readyItems(s).length);const pool=avail.length?avail:left;
       cur=pool.slice().sort((a,b)=>dist(cur.xy,a.xy)-dist(cur.xy,b.xy))[0]}
     return [z,out]})}
+/* 퀘스트창 목록: 같은 연계끼리 붙여서 단계 순서대로 (연계 없는 건 레벨 순) */
+function chInfo(id){let ch=null;try{ch=chainOf(id)}catch(e){}if(!ch||ch.length<2)return null;const r=ch.find(x=>x[6]===id)||ch.find(x=>x[5]);return {root:String(ch[0][6]||ch[0][1]),br:String((ch[1]||ch[0])[6]||''),step:r?r[0]:0,n:ch.length,first:ch[0][1]}}/* 같은 시작 퀘스트끼리, 그 안에서 갈래(둘째 단계)별로 */
+function chSort(L){const k=q=>{const I=chInfo(q.id);return I?[String(I.root),I.step]:['~'+String(q.lv||0).padStart(2,'0')+q.id,0]};
+  const lvOf={};L.forEach(q=>{const I=chInfo(q.id);const r=I?String(I.root):'x'+q.id;lvOf[r]=Math.min(lvOf[r]??99,q.lv||99)});
+  return L.slice().sort((a,b)=>{const A=chInfo(a.id),B=chInfo(b.id);const ra=A?String(A.root):'x'+a.id,rb=B?String(B.root):'x'+b.id;if(ra===rb)return (A.br<B.br?-1:A.br>B.br?1:0)||(A.step-B.step);return (lvOf[ra]-lvOf[rb])||(ra<rb?-1:1)})}
+function chRows(L,f){const S=chSort(L);return S.map((q,i)=>{let h=f(q);const A=i?chInfo(S[i-1].id):null,B=chInfo(q.id);if(A&&B&&A.root===B.root)h=h.replace('class="lg3r','class="lg3r lgcont');return h}).join('')}
 /* 연계 퀘스트 표시: 🔗 연계 2/5 */
 function chTag(id){let ch=null;try{ch=chainOf(id)}catch(e){}if(!ch||ch.length<2){const d=QD.get(id);ch=d&&d.ch&&d.ch.length>1?d.ch:null}if(!ch)return '';const r=ch.find(x=>x[6]===id)||ch.find(x=>x[5]);return '<i class="chtag">🔗 연계'+(r?' '+r[0]+'/'+ch.length:'')+'</i>'}
 function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
@@ -4226,12 +4245,12 @@ function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     logStops(c,known).forEach(([z,L])=>{h+='<div class="lgz"><b>'+esc(z)+'</b><small>'+L.length+'곳</small></div><div class="lgr2">'+L.map((s,i)=>'<div class="lgs t-'+s.type+'"><span class="n">'+(i+1)+'</span><div class="b"><div class="h"><span class="k">'+(s.type==='turn'?'반납':s.type==='do'?'하기':'하기·반납')+'</span><b>'+esc(s.place)+'</b><small>'+(s.xy?s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'')+'</small>'+(s.items[0]?'<button class="mp" data-a="mmgo" data-k="'+s.items[0].q.id+'">지도</button>':'')+'</div>'+s.items.map(it=>qline(it.q,it.type)).join('')+'</div></div>').join('')+'</div>'})}
   else{const L=c.lv;const DQ={};DGS.forEach(d=>d.q.forEach(x=>{DQ[x.id]=d}));
     const why=q=>{const d=(q.lv||L)-L;if(d<=-8)return ['old','경험치 거의 없음 ('+q.lv+')'];if(d>=5)return ['hard',d+'레벨 높음 · 나중에'];return null};
-    const row=(q,extra,rm)=>{const st=ql[q.id];const d0=QD.get(q.id)||{};const tk=tasksOf(d0,q.o||d0.obj||'').map(t=>t.nm).filter(Boolean).slice(0,2).join(' · ')||objClause(q.o||'');
-      const r=q.r||[];return '<div class="lg3r'+(st===2?' rdy':'')+'"><button class="lg3m" data-a="qopen" data-k="'+q.id+'"><span class="lvq2 '+lvCls(q.lv||L,L)+'">'+(q.lv||'?')+'</span><span class="m"><b>'+esc(q.n)+chTag(q.id)+'</b><small>'+(st===2?'반납 → '+esc(r[0]||'?'):'할 일: '+esc(tk))+'</small></span>'+qpHtml(c,q.id)+(extra||'')+'</button><span class="lg3a"><button class="ib" data-a="mmgo" data-k="'+q.id+'" title="지도">📍</button>'+(rm?'<button class="ib rm" data-a="qlrm" data-k="'+q.id+'" title="게임에서 포기했어요">🗑</button>':'<button class="ib ok" data-a="qldone" data-k="'+q.id+'" title="끝냈어요">✓</button>')+'</span></div>'};
+    const row=(q,extra,rm)=>{const st=ql[q.id];const d0=QD.get(q.id)||{};const tk=tasksOf(d0,q.o||d0.obj||'').map(t=>t.nm).filter(Boolean).slice(0,2).join(' · ')||objClause(q.o||'');const talk=/반납하는 NPC와 이야기하면 끝나요/.test(tk);
+      const r=q.r||[];return '<div class="lg3r'+(st===2?' rdy':'')+'"><button class="lg3m" data-a="qopen" data-k="'+q.id+'"><span class="lvq2 '+lvCls(q.lv||L,L)+'">'+(q.lv||'?')+'</span><span class="m"><b>'+esc(q.n)+chTag(q.id)+'</b><small>'+(st===2||talk?(talk&&st!==2?'대화만 하면 끝 → ':'반납 → ')+esc(r[0]||'?'):'할 일: '+esc(tk))+'</small></span>'+qpHtml(c,q.id)+(extra||'')+'</button><span class="lg3a"><button class="ib" data-a="mmgo" data-k="'+q.id+'" title="지도">📍</button>'+(rm?'<button class="ib rm" data-a="qlrm" data-k="'+q.id+'" title="게임에서 포기했어요">🗑</button>':'<button class="ib ok" data-a="qldone" data-k="'+q.id+'" title="끝냈어요">✓</button>')+'</span></div>'};
     const Q=known.map(id=>QDB.get(id));const used=new Set();const cur=S0?S0.z.split(' · '):[];
     /* 1) 반납하러 가기: 반납할 곳(지역·NPC)별로 */
     const R=Q.filter(q=>ql[q.id]===2);if(R.length){const G={};R.forEach(q=>{const r=q.r||[];const k=(r[1]||q.z);(G[k]=G[k]||[]).push(q);used.add(q.id)});
-      h+='<div class="lg3s"><h4>🔔 반납하러 가기 <small>'+R.length+'개 · 한 번에 들르면 좋은 곳끼리</small></h4>'+'<div class="lg3gs">'+Object.entries(G).sort((a,b)=>(cur.includes(b[0])-cur.includes(a[0]))||b[1].length-a[1].length).map(([z,L2])=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(z)+'</b>'+(cur.includes(z)?'<i class="here">지금 구간</i>':'')+'<em>'+L2.length+'개</em></div><div class="lg3l">'+L2.map(q=>row(q)).join('')+'</div></div>').join('')+'</div></div>'}
+      h+='<div class="lg3s"><h4>🔔 반납하러 가기 <small>'+R.length+'개 · 한 번에 들르면 좋은 곳끼리</small></h4>'+'<div class="lg3gs">'+Object.entries(G).sort((a,b)=>(cur.includes(b[0])-cur.includes(a[0]))||b[1].length-a[1].length).map(([z,L2])=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(z)+'</b>'+(cur.includes(z)?'<i class="here">지금 구간</i>':'')+'<em>'+L2.length+'개</em></div><div class="lg3l">'+chRows(L2,q=>row(q))+'</div></div>').join('')+'</div></div>'}
     /* 2) 정리해도 되는 퀘스트 (회색 = 경험치 거의 없음 / 너무 높음) */
     const X=Q.filter(q=>!used.has(q.id)&&why(q));X.forEach(q=>used.add(q.id));
     /* 자리가 모자라면: 동선에서 먼 곳 · 경험치 적은 퀘스트도 후보로 (던전 퀘스트 제외) */
@@ -4243,9 +4262,9 @@ function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     const D=Q.filter(q=>!used.has(q.id)&&DQ[q.id]);D.forEach(q=>used.add(q.id));
     /* 4) 하는 중: 지역별 */
     const W=Q.filter(q=>!used.has(q.id));const byZ={};/* 할 일 하는 지역 기준 (받은 지역과 다르면 몹 있는 곳) */const doZ=q=>{const o=obPlaces(q).find(o=>!o.dg);return zn(o?o.zone:q.z)};W.forEach(q=>{const z=doZ(q);(byZ[z]=byZ[z]||[]).push(q)});
-    if(W.length)h+='<div class="lg3s"><h4>⚔️ 하는 중 <small>'+W.length+'개 · 지역별</small></h4><div class="lg3gs">'+Object.entries(byZ).sort((a,b)=>(cur.includes(b[0])-cur.includes(a[0]))||b[1].length-a[1].length).map(([z,L2])=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(z)+'</b>'+(cur.includes(z)?'<i class="here">지금 구간</i>':'')+'<em>'+L2.length+'개</em></div><div class="lg3l">'+L2.sort((a,b)=>(a.lv||0)-(b.lv||0)).map(q=>row(q)).join('')+'</div></div>').join('')+'</div></div>';
+    if(W.length)h+='<div class="lg3s"><h4>⚔️ 하는 중 <small>'+W.length+'개 · 지역별</small></h4><div class="lg3gs">'+Object.entries(byZ).sort((a,b)=>(cur.includes(b[0])-cur.includes(a[0]))||b[1].length-a[1].length).map(([z,L2])=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(z)+'</b>'+(cur.includes(z)?'<i class="here">지금 구간</i>':'')+'<em>'+L2.length+'개</em></div><div class="lg3l">'+chRows(L2,q=>row(q))+'</div></div>').join('')+'</div></div>';
     if(D.length){const G={};D.forEach(q=>{const d=DQ[q.id];(G[d.slug]=G[d.slug]||{d,L:[]}).L.push(q)});
-      h+='<div class="lg3s"><h4>🏰 던전 퀘스트 <small>'+D.length+'개 · 던전 갈 때 한꺼번에</small></h4><div class="lg3gs">'+Object.values(G).map(({d,L:L2})=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+'</small><button class="btn sm ghost" data-a="dgo" data-k="'+d.slug+'">던전 공략 ›</button></div><div class="lg3l">'+L2.map(q=>row(q)).join('')+'</div></div>').join('')+'</div></div>'}
+      h+='<div class="lg3s"><h4>🏰 던전 퀘스트 <small>'+D.length+'개 · 던전 갈 때 한꺼번에</small></h4><div class="lg3gs">'+Object.values(G).map(({d,L:L2})=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+'</small><button class="btn sm ghost" data-a="dgo" data-k="'+d.slug+'">던전 공략 ›</button></div><div class="lg3l">'+chRows(L2,q=>row(q))+'</div></div>').join('')+'</div></div>'}
     if(X.length)h+='<div class="lg3s lg3x"><h4>🗑️ 정리해도 되는 퀘스트 <small>'+X.length+'개 · 자리가 모자랄 때 게임에서 먼저 포기</small></h4><div class="lg3l">'+X.map(q=>{const w=why(q)||XW[q.id];return row(q,'<span class="lgwhy '+w[0]+'">'+w[1]+'</span>',1)}).join('')+'</div><p class="note">앱에서 지워도 게임 퀘스트창은 그대로예요. 게임에서 포기한 뒤 🗑 를 누르면 앱에서도 빠져요 (끝낸 걸로 치지 않아요).</p></div>'}
   if(unk)h+='<p class="note">앱 자료에 없는 퀘스트 '+unk+'개는 빼고 보여 줘요.</p>';
   return h}
@@ -4619,7 +4638,7 @@ function talOk(C,M){const T=C.talents;for(const k in M){const r=M[k];if(!r)conti
     if(v[7]&&(M[v[7][0]]||0)<v[7][1])return false}
   return Object.values(M).reduce((a,x)=>a+x,0)<=51}
 function talCan(C,M,k){const v=C.talents[k];const r=M[k]||0;if(r>=v[2])return false;const N=Object.assign({},M);N[k]=r+1;return talOk(C,N)}
-function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const ME=ui.tlv==='me';const V=ui.tlv==='60'?60:L;
+function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const GM=c.tal&&(c.tal.src==='game'||c.tal.src==='armory')&&c.tal.cls===c.cls;const ME=ui.tlv==='me'||(ui.tlv==null&&GM);const V=ui.tlv==='60'?60:L;
   const rk=lv=>{const m={};st.forEach(s=>{if(s[0]<=lv)m[s[1]]=Math.max(m[s[1]]||0,s[2])});return m};
   const M=(c.tal=c.tal&&c.tal.cls===c.cls?c.tal:{cls:c.cls,r:{}}).r;
   const R=ME?M:rk(V),F=ME?M:rk(60);const used=Object.values(M).reduce((a,x)=>a+x,0);
@@ -4628,9 +4647,10 @@ function talGrid(c,C,sp,L){const st=sp.steps.filter(s=>s[0]<=60);const ME=ui.tlv
   let main=ui.ttree;if(!C.trees.includes(main))main=C.trees.slice().sort((a,b)=>finPts(b)-finPts(a))[0];
   const P=58,CS=44,O=7;const nowIds=ME?new Set():new Set(st.filter(s=>s[0]>=L&&s[0]<=L+1).map(s=>s[1]));
   let h='<div class="card talsum"><h3>🌳 '+esc(sp.name)+' 특성</h3>'
-    +(ME?'<p class="note">칸을 누르면 1포인트씩 찍혀요 · 쓴 포인트 <b>'+used+'</b>/51 · 필요 레벨 <b>'+(used?used+9:'-')+'</b>'+(used>Math.max(0,L-9)?' <span class="warn">(지금 Lv '+L+'보다 높아요)</span>':'')+'</p>'
+    +(ME&&GM?(()=>{const g=rk(L);const ks=new Set([...Object.keys(g),...Object.keys(M)]);const df=[...ks].filter(k=>(g[k]||0)!==(M[k]||0)).length;return '<p class="tgame">'+(c.tal.src==='armory'?'⚔️ <b>전투정보실에서 불러온 내 특성</b> · ':'🎮 <b>게임에서 불러온 내 특성</b> · ')+used+'점'+(c.tal.at?' · '+((d=>(d.getMonth()+1)+'/'+d.getDate())(new Date(c.tal.at)))+' 불러옴':'')+'<br><small>'+(df?'가이드(Lv '+L+')와 다른 칸 <b>'+df+'개</b> · 「지금 Lv '+L+'」 버튼으로 비교해 보세요':'가이드와 똑같이 찍었어요 ✓')+' · 칸을 누르면 고칠 수 있어요</small></p>'})()
+     :ME?'<p class="note">칸을 누르면 1포인트씩 찍혀요 · 쓴 포인트 <b>'+used+'</b>/51 · 필요 레벨 <b>'+(used?used+9:'-')+'</b>'+(used>Math.max(0,L-9)?' <span class="warn">(지금 Lv '+L+'보다 높아요)</span>':'')+'</p>'
       :'<p class="note">레벨 '+V+' · 특성 포인트 <b>'+Math.max(0,V-9)+'개</b>'+(V<10?' (10레벨부터 1개씩 생겨요)':'')+' · 가이드대로 찍은 모습'+(V!==L?' <span class="mute">(지금은 Lv '+L+')</span>':'')+'</p>')
-    +'<div class="chips seg tlv"><button class="chip'+(!ME&&V===L?' on':'')+'" data-a="tlv" data-k="now">지금 Lv '+L+'</button><button class="chip'+(!ME&&V===60?' on':'')+'" data-a="tlv" data-k="60">60 완성</button><button class="chip'+(ME?' on':'')+'" data-a="tlv" data-k="me">✏️ 직접 찍기</button></div>'
+    +'<div class="chips seg tlv"><button class="chip'+(!ME&&V===L?' on':'')+'" data-a="tlv" data-k="now">지금 Lv '+L+'</button><button class="chip'+(!ME&&V===60?' on':'')+'" data-a="tlv" data-k="60">60 완성</button><button class="chip'+(ME?' on':'')+'" data-a="tlv" data-k="me">'+(GM?'🎮 내 특성':'✏️ 직접 찍기')+'</button></div>'
     +(ME?'<div class="tcbtn"><button class="btn sm ghost" data-a="tfill" data-k="'+L+'">가이드대로 Lv '+L+'까지 채우기</button><button class="btn sm ghost" data-a="tfill" data-k="60">가이드 60 완성으로</button><button class="btn sm ghost" data-a="tclr">모두 지우기</button></div>':'')
     +'<div class="chips seg ttabs">'+C.trees.map((t,i)=>'<button class="chip'+(t===main?' on':'')+'" data-a="ttree" data-k="'+esc(t)+'"><img src="'+TICO(C.tic&&C.tic[i])+'" alt="" onerror="this.remove()">'+esc(t)+' <b>'+pts(t)+'</b></button>').join('')+'</div>';
   h+='<div class="tgr">'+C.trees.map((t,i)=>{const L2=T.filter(([k,v])=>v[1]===t&&v[5]);if(!L2.length)return '';const rows=Math.max(7,...L2.map(([k,v])=>v[5]));const W=4*P,H=rows*P;const pos={};L2.forEach(([k,v])=>pos[k]=v);
@@ -4712,22 +4732,27 @@ function wskCs(n){n=String(n||'');const two=/양손|Two-?Handed/i.test(n);const 
 function impParse(txt){const m=(txt||'').match(/WFH([12]);/);if(!m)return null;const ver=+m[1];
   /* 서버 이름에 띄어쓰기가 있을 수 있어서(예: CAMWOW KR 서버 1 PvE) 칸(;)으로 먼저 나누고, 숫자 부분만 공백·줄바꿈을 지움 */
   const f=txt.slice(m.index).split(';').map(x=>x.trim());if(f.length<9)return null;
-  const sec={};f.slice(7).forEach(x=>{const y=x.replace(/\s+/g,'');const k=y.match(/^([A-Z]):/);if(!k)return;let v=y.slice(2);if('DLEKBTXSG'.includes(k[1]))v=v.replace(/[^0-9a-zA-Z.*:,~\-].*$/,'');sec[k[1]]=v});
+  const sec={};f.slice(7).forEach(x=>{const y=x.replace(/\s+/g,'');const k=y.match(/^([A-Z]):/);if(!k)return;let v=y.slice(2);if('DLEKBTXSGU'.includes(k[1]))v=v.replace(/[^0-9a-zA-Z.*:,~\-].*$/,'');sec[k[1]]=v});
   const d=[];let cur=0;(sec.D||'').split('.').filter(Boolean).forEach(x=>{if(x[0]==='~'){const n=parseInt(x.slice(1),36)||0;for(let k=0;k<n;k++){cur+=1;d.push(cur)}return}const v=parseInt(x,36);if(!isNaN(v)){cur+=v;d.push(cur)}});
   const l=(sec.L||'').split('.').filter(Boolean).map(x=>{const [a,ob]=x.split(':');const id=parseInt(a.replace('*',''),36);
     return {id,done:a.endsWith('*'),obj:ob?ob.split(',').map(o=>o.split('-').map(Number)).filter(o=>o.length===2&&!isNaN(o[1])):[]}}).filter(x=>!isNaN(x.id));
   const eq=(sec.E||'').split('.').filter(Boolean).map(x=>{const [sl,id]=x.split('-');return [INV_SLOT[+sl],parseInt(id,36)]}).filter(x=>x[0]&&x[1]>0);
   const pf=(sec.P||'').split('.').filter(Boolean).map(x=>{const a=x.split('-');return [a[0],+a[1]||0,+a[2]||0]}).filter(x=>x[0]);
   const tl=sec.T?sec.T.split('-').map(Number).filter(x=>!isNaN(x)):[];
+  const tu=(sec.U||'').split('.').filter(Boolean).map(x=>{const a=x.split('-');return {t:+a[0],r:+a[1],c:+a[2],k:+a[3],ic:a[4]&&a[4]!=='0'?parseInt(a[4],36):0}}).filter(x=>x.t>0&&x.r>0&&x.k>0);
   const xp=sec.X?sec.X.split('-').map(Number):null;
   const items=t=>{const o={};(t||'').split('.').filter(Boolean).forEach(x=>{const [a,b]=x.split('-');const id=parseInt(a,36);if(id>0)o[id]=(o[id]||0)+(+b||1)});return o};
   const S=sec.S?sec.S.split('-').map(Number):null;
   const rp=(sec.R||'').split('.').filter(Boolean).map(x=>{const a=x.split('-');return {id:+a[0]||0,st:+a[1]||0,val:+a[2]||0,nm:(a.slice(3).join('-')||'').replace(/_/g,' ')}}).filter(r=>r.nm&&r.st);
   const ws=(sec.W||'').split(',').filter(Boolean).map(x=>{const a=x.split(':');return [wskCs(a[0]),+a[1]||0,+a[2]||0,a[0]]}).filter(x=>x[0]!=null);
   const al=(sec.A||'').split('.').filter(Boolean).map(x=>{const a=x.split('-');return {name:a[0],cls:(a[1]||'').toLowerCase(),lv:+a[2]||1,race:(a[3]||'').toLowerCase()}}).filter(a=>a.name&&CINFO[a.cls]);
-  return {ver:sec.S||sec.B||sec.R?3:ver,name:f[1],realm:f[2],cls:(f[3]||'').toLowerCase(),lv:+f[4]||0,race:(f[5]||'').toLowerCase(),fac:f[6],done:d,log:l,eq,pf,tl,xp:xp&&xp.length>=2&&xp[1]>0?{cur:xp[0],max:xp[1],rest:xp[2]||0}:null,
+  return {ver:sec.S||sec.B||sec.R?3:ver,name:f[1],realm:f[2],cls:(f[3]||'').toLowerCase(),lv:+f[4]||0,race:(f[5]||'').toLowerCase(),fac:f[6],done:d,log:l,eq,pf,tl,tu,xp:xp&&xp.length>=2&&xp[1]>0?{cur:xp[0],max:xp[1],rest:xp[2]||0}:null,
     sess:S&&S.length>=4?{xp:S[0],secs:S[1],hx:S[2],hs:S[3]}:null,gold:sec.G?+sec.G:null,bag:sec.B!=null?items(sec.B):null,bank:sec.K?items(sec.K):null,rep:rp,alts:al,wsk:sec.W!=null?ws:null,taxi:sec.F!=null?sec.F.split('^').filter(Boolean):null}}
 /* 특성 칸 순서 → 앱 특성 (드루이드는 야성이 둘이라 지금 고른 쪽 유지) */
+/* 게임 특성(트리-줄-칸-랭크-아이콘) → 앱 특성 번호. 줄·칸이 같은 칸, 없으면 같은 트리에서 아이콘이 같은 칸 */
+function impTal(cls,tu){const C=D_CLS[cls];if(!C||!tu||!tu.length)return null;const T=Object.entries(C.talents);const M={};let miss=0;
+  tu.forEach(x=>{const tree=C.trees[x.t-1];let e=T.find(([k,v])=>v[1]===tree&&v[5]===x.r&&v[6]===x.c);if(!e&&x.ic)e=T.find(([k,v])=>v[1]===tree&&String(v[3])===String(x.ic));if(!e){miss++;return}M[e[0]]=Math.min(e[1][2],x.k)});
+  return {r:M,miss,n:Object.values(M).reduce((a,b)=>a+b,0)}}
 function impSpec(c,P){if(!P.tl||!P.tl.length)return null;const tot=P.tl.reduce((a,b)=>a+b,0);if(tot<10)return null;const i=P.tl.indexOf(Math.max(...P.tl));const C=D_CLS[c.cls];if(!C)return null;
   if(c.cls==='druid'){if(i===1)return /^feral/.test(c.spec)?c.spec:'feral-cat';return [C.specs[0].id,null,C.specs[3]&&C.specs[3].id][i]||null}
   return C.specs[i]?C.specs[i].id:null}
@@ -4747,6 +4772,7 @@ function impPreview(c){const P=ui.imp;if(!P)return ui.impraw?'<p class="note war
    +(P.alts.length?'<label class="impck"><input type="checkbox" data-c="impAlt"'+(ui.impAlt!==false?' checked':'')+'> 부캐 '+P.alts.length+'명도 앱에 넣기 <small>'+P.alts.map(a=>esc(a.name)+' '+a.lv).join(' · ')+' · 이미 있으면 레벨만 맞춰요</small></label>':'')
    +(P.eq.length?'<label class="impck"><input type="checkbox" data-c="impEq"'+(ui.impEq?' checked':'')+'> 장비 칸을 게임 장비로 바꾸기 <small>'+P.eq.length+'칸'+(eqK<P.eq.length?' · 앱 자료에 없는 '+(P.eq.length-eqK)+'개는 빼요':'')+'</small></label>':'')
    +(sp?'<label class="impck"><input type="checkbox" data-c="impSp"'+(ui.impSp?' checked':'')+'> 특성을 <b>'+esc(spN||sp)+'</b>(으)로 맞추기 <small>특성 '+P.tl.join('/')+(sp===c.spec?' · 지금과 같아요':'')+'</small></label>':'')
+   +(()=>{const T=impTal(P.cls||c.cls,P.tu);return T&&T.n?'<label class="impck"><input type="checkbox" data-c="impTl"'+(ui.impTl!==false?' checked':'')+'> 찍은 특성 <b>'+T.n+'점</b>을 직업 탭 「내 특성」으로 불러오기'+(T.miss?' <small>앱 자료와 안 맞는 칸 '+T.miss+'개는 빼요</small>':'')+'</label>':(P.tl.length&&!P.tu.length?'<p class="note">애드온을 v3.3으로 바꾸면 찍은 특성 하나하나도 불러와요.</p>':'')})()
    +(P.cls&&P.cls!==c.cls?'<p class="warn">⚠ 지금 캐릭터('+CINFO[c.cls][0]+')와 직업이 달라요. 맞는 캐릭터를 골랐는지 확인해 주세요.</p>':'')
    +(P.ver===1?'<p class="note">새 애드온(v2)을 쓰면 퀘스트 진행도·장비·전문기술·특성·경험치도 같이 옮겨져요.</p>':'')
    +'<button class="btn full" data-a="impgo">이 캐릭터에 적용하기</button><p class="note">이미 체크한 건 그대로 두고, 끝낸 것만 더해요.</p></div>'}
@@ -4833,7 +4859,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='onb-spec'){o.spec=k;rerender(true);return}
   if(a==='onb-lv-'||a==='onb-lv+'){o.lv=Math.max(1,Math.min(60,(+o.lv||1)+(a==='onb-lv+'?1:-1)));rerender(true);return}
   if(a==='onb-x'){ui.onb=null;rerender();return}
-  if(a==='onb-arm'){const A=ARM[k];if(A){o.arm=k;o.name=A.name;o.race=armRace(A.race);if(CL.includes(A.cls)){o.cls=A.cls;o.spec=''}o.lv=A.level||o.lv}rerender(true);return}
+  if(a==='onb-arm'){const A=ARM[k];if(A){o.arm=k;o.name=A.name;o.race=armRace(A.race);if(CL.includes(A.cls)){o.cls=A.cls;o.spec=''}o.lv=+A.level||o.lv}rerender(true);return}
   if(a==='onb-go'){if(!(o.race&&o.cls&&o.spec))return;const n={id:newId(),name:(o.name||'').trim(),race:o.race,cls:o.cls,spec:o.spec,lv:Math.max(1,Math.min(60,+o.lv||1)),eq:{},fq:{},dq:{}};DB.list.push(n);DB.cur=n.id;if(o.arm){n.arm=o.arm;armApply(n,true);n.spec=o.spec}save();ui.onb=null;ui.tab='home';ui.sheet=null;render();window.scrollTo(0,0);toast('캐릭터를 만들었어요');return}
   if(!c)return;
   if(a==='tab'){{const o=TABS.findIndex(t=>t[0]===ui.tab),n=TABS.findIndex(t=>t[0]===k);if(o>=0&&n>=0&&o!==n)ui._tin=n>o?'l':'r'}ui.tab=k;ui.amback=null;if(k==='quest'||k==='dungeon')qdbLoad();if(k==='dungeon')dggLoad();if(k!=='dungeon')ui.dg=null;render();window.scrollTo(0,0);const dc=document.querySelector('.dchips');if(dc){const on=dc.querySelector('.on');if(on)dc.scrollLeft=on.offsetLeft-20}return}
@@ -4863,6 +4889,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     c.ql={};c.qp={};P.log.forEach(x=>{c.ql[x.id]=x.done?2:1;if(x.obj.length)c.qp[x.id]=x.obj});if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length,v:P.ver};
     const extra=[];if(P.eq.length&&ui.impEq){const ne={};P.eq.forEach(([sl,id])=>{if(IT.has(id))ne[sl]=id});c.eq=ne;extra.push('장비 '+Object.keys(ne).length+'칸')}
     if(ui.impSp){const sp=impSpec(c,P);if(sp&&sp!==c.spec){c.spec=sp;extra.push('특성')}}
+    if(ui.impTl!==false){const T=impTal(c.cls,P.tu);if(T&&T.n){c.tal={cls:c.cls,r:T.r,src:'game',at:Date.now()};ui.tlv='me';extra.push('내 특성 '+T.n+'점')}}
     if(P.wsk){c.wsk={};P.wsk.forEach(w=>{c.wsk[w[0]]=[w[1],w[2]]});extra.push('무기 숙련 '+P.wsk.length+'개')}
     if(P.taxi&&P.taxi.length){c.taxi=P.taxi;extra.push('비행 경로 '+P.taxi.length+'곳')}
     if(P.pf.length){const ok=new Set(PROFS.map(p=>p.ko));c.profLv={};P.pf.forEach(p=>{if(ok.has(p[0]))c.profLv[p[0]]=[p[1],p[2]]});c.profs=Object.keys(c.profLv);extra.push('전문기술 '+c.profs.length+'개')}
@@ -4883,7 +4910,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='tlv'){ui.tlv=k;rerender(true);return}
   if(a==='ttree'){ui.ttree=k;ui.tsel=null;rerender(true);return}
   if(a==='tsel'){ui.tsel=ui.tsel===k?null:k;rerender(true);return}
-  if(a==='tadd'||a==='tsub'){const C=D_CLS[c.cls];if(!c.tal||c.tal.cls!==c.cls)c.tal={cls:c.cls,r:{}};const M=c.tal.r;const v=C.talents[k];ui.tsel=k;
+  if(a==='tadd'||a==='tsub'){const C=D_CLS[c.cls];if(!c.tal||c.tal.cls!==c.cls)c.tal={cls:c.cls,r:{}};if(c.tal.src==='game'||c.tal.src==='armory')c.tal.src=c.tal.src+'-edit';ui.tlv='me';const M=c.tal.r;const v=C.talents[k];ui.tsel=k;
     if(a==='tadd'){if(talCan(C,M,k)){M[k]=(M[k]||0)+1}else{const r=M[k]||0;const low=Object.keys(M).filter(j=>C.talents[j]&&C.talents[j][1]===v[1]&&C.talents[j][5]<v[5]).reduce((x,j)=>x+M[j],0);
         toast(r>=v[2]?'이미 다 찍었어요':Object.values(M).reduce((x,y)=>x+y,0)>=51?'포인트 51개를 다 썼어요':low<(v[5]-1)*5?v[1]+'에 '+((v[5]-1)*5-low)+'포인트 더 찍어야 열려요':v[7]?'먼저 '+C.talents[v[7][0]][0]+' '+v[7][1]+'포인트가 필요해요':'찍을 수 없어요')}}
     else{const r=M[k]||0;if(r){const N=Object.assign({},M);N[k]=r-1;if(!N[k])delete N[k];if(talOk(C,N)){c.tal.r=N}else toast('이 특성이 있어야 하는 다른 특성이 있어서 못 빼요')}}
@@ -5021,6 +5048,7 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
   if(f==='impEq'){ui.impEq=t.checked;return}
   if(f==='impAlt'){ui.impAlt=t.checked;return}
   if(f==='impSp'){ui.impSp=t.checked;return}
+  if(f==='impTl'){ui.impTl=t.checked;return}
   if(f==='fq'){c.fq=c.fq||{};c.mq=c.mq||{};const qi=t.dataset.id;if(t.checked){c.fq[t.dataset.k]=1;if(qi)c.mq[qi]=1}else{delete c.fq[t.dataset.k];if(qi)delete c.mq[qi]}save();rerender(true);return}
   if(f==='mq'){c.mq=c.mq||{};c.fq=c.fq||{};if(t.checked)c.mq[t.dataset.k]=1;else{delete c.mq[t.dataset.k];const f0=questById(+t.dataset.k);if(f0)delete c.fq[f0.z+'|'+f0.q.nm]}save();rerender(true);return}
   if(f==='dq'){c.dq=c.dq||{};if(t.checked)c.dq[t.dataset.k]=1;else delete c.dq[t.dataset.k];save();rerender(true);return}

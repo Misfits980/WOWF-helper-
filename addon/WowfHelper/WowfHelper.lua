@@ -186,6 +186,22 @@ local function talents()
   return out
 end
 
+-- 5-2) 찍은 특성 하나하나: 트리-줄-칸-랭크-아이콘 (앱이 가이드 칸과 맞춰 「내 특성」으로 보여 줌)
+local function talentRanks()
+  local out = {}
+  if not (GetNumTalentTabs and GetNumTalents and GetTalentInfo) then return out end
+  for t = 1, (GetNumTalentTabs() or 0) do
+    for i = 1, (GetNumTalents(t) or 0) do
+      local _, icon, tier, col, rank = GetTalentInfo(t, i)
+      if rank and rank > 0 and tier and col then
+        local ic = type(icon) == "number" and b36(icon) or "0"
+        out[#out + 1] = t .. "-" .. tier .. "-" .. col .. "-" .. rank .. "-" .. ic
+      end
+    end
+  end
+  return out
+end
+
 -- 6) 사냥 기록: 이번 접속에서 얻은 경험치 · 시간 (+ 최근 접속 5번 합)
 local sess = { xp = 0, t0 = 0, last = 0, lastMax = 0 }
 local function xpTick()
@@ -272,7 +288,7 @@ local function alts()
 end
 
 -- 코드 만들기
--- WFH2;이름;서버;직업;레벨;종족;진영;D:끝낸 퀘스트;L:퀘스트 목록;E:장비;P:전문기술;T:특성;X:경험치
+-- WFH2;이름;서버;직업;레벨;종족;진영;D:끝낸 퀘스트;L:퀘스트 목록;E:장비;P:전문기술;T:특성;U:찍은 특성;X:경험치
 local function makeCode()
   local name = UnitName("player") or ""
   local realm = GetRealmName and GetRealmName() or ""
@@ -326,7 +342,7 @@ local function makeCode()
   local code = table.concat({ "WFH2", name, realm, cls or "", tostring(lv), race or "", faction,
     "D:" .. table.concat(parts, "."), "L:" .. table.concat(log, "."),
     "E:" .. table.concat(eq, "."), "P:" .. table.concat(pf, "."),
-    "T:" .. table.concat(tl, "-"), "X:" .. xp .. "-" .. xpMax .. "-" .. (rest or 0),
+    "T:" .. table.concat(tl, "-"), "U:" .. table.concat(talentRanks(), "."), "X:" .. xp .. "-" .. xpMax .. "-" .. (rest or 0),
     "S:" .. sx .. "-" .. ss .. "-" .. hx .. "-" .. hs, "G:" .. (GetMoney and GetMoney() or 0),
     "B:" .. table.concat(bag, "."), "K:" .. table.concat(bank, "."),
     "R:" .. table.concat(rp, "."), "A:" .. table.concat(al, "."), "W:" .. table.concat(ws, ","), "F:" .. table.concat(tx, "^") }, ";")
