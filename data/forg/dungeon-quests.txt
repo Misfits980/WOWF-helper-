@@ -118,7 +118,7 @@ B|sm-library|houndmaster-loksey=사냥개조련사 록시;arcanist-doan=신비�
 Q|sm-library|1049|horde|38|28|타락의 개요||현자 트루스시커 · 썬더 블러프 34.4, 46.9|0|7747,17508,7749||1|
 Q|sm-library|1050|alliance|38|28|티탄 신화||사서 메이 페일더스트 · 아이언포지 75.0, 12.5|0|7746|||
 Q|sm-library|1160|horde|36|26|지혜의 시험||파쿠알 핀탈라스 · 언더시티 57.8, 65.4|1||||
-B|drowned-city|zul-alai=줄알라이;var-taka=바르타카;captain-dreadrise=대장 드레드라이즈;deathless-guardians=죽지 않는 수호자;primeval-elemental=태고의 정령;minloth-the-serpent=독사 민로스
+B|drowned-city|zul-alai=줄알라이;var-taka=바르타카;primeval-elemental=태고의 정령;captain-dreadrise=대장 드레드라이즈;deathless-guardians=죽지 않는 수호자;minloth-the-serpent=독사 민로스
 Q|drowned-city|95799|alliance|40|30|Findings for the Explorer's League||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279880,279881||1|
 Q|drowned-city|95798|alliance|40|30|The Web of Magic||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279879,279878||1|
 Q|drowned-city|95788|alliance|40|30|Magics of the Drowned City||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0||||
