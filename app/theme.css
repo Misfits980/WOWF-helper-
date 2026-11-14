@@ -353,3 +353,6 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 /* PC: 옆으로 넘기는 줄은 끌 수 있다는 표시 + 끄는 동안 글자 선택 막기 */
 @media (hover:hover) and (pointer:fine){.upf,.chips,.dtabs,.cmpt,.pls2,.qa2,.gzs,.rzc,.plsc,.dchips{cursor:grab}.upf button,.chips button,.dtabs button,.pls2 button,.qa2 button,.gzs button,.rzc button,.plsc button{cursor:pointer}}
 .drag{cursor:grabbing!important;user-select:none}
+/* 여정 줄: 지금 레벨 구간(now)과 따로 눌러 본 구간(sel) 구분 */
+.jn2.sel .c{border-color:#8fb8ff;box-shadow:0 0 0 3px var(--bg),0 0 0 5px rgba(143,184,255,.35)}.jn2.sel b{color:#cfe0ff}
+.note.mvn{margin:10px 2px 0;padding:9px 12px;border-radius:10px;background:#1f2a1b;border:1px solid #3d5a34;color:#cfe6c4}
