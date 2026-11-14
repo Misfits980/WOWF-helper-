@@ -1792,12 +1792,12 @@ function gmAtlasBg(z){const t=MAPZ[ZALIAS[z]||z];if(!t)return null;let x0=t[0];c
   return {im,ar:(w/h).toFixed(3)}}
 const lo_=(v,m)=>v-m;
 function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?'':gmUrl(z);const A=u?null:gmAtlasBg(z);
-  let tf='',sc=1;if(zoom){const xs=pins.map(p=>p.x),ys=pins.map(p=>p.y);if(xs.length){const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);sc=Math.max(1,Math.min(2.6,100/(Math.max(x1-x0,(y1-y0)*1.2)+24)));
+  let tf='',sc=1,TX=0;if(zoom){const xs=pins.map(p=>p.x),ys=pins.map(p=>p.y);if(xs.length){const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);sc=Math.max(1,Math.min(2.6,100/(Math.max(x1-x0,(y1-y0)*1.2)+24)));
     /* 지도 가장자리에 붙은 핀도 반쯤 잘리지 않게 바깥으로 조금(최대 9%) 비켜 보일 수 있게 함 */
     const M=4;/* 가장자리 핀이 반쯤 잘리지 않게 최대 4%만 바깥으로 비킴(빈 바탕이 크게 보이지 않게) */
     let tx=50-(x0+x1)/2*sc,ty=50-(y0+y1)/2*sc;tx=Math.max(lo_(100-100*sc,M),Math.min(M,tx));ty=Math.max(lo_(100-100*sc,M),Math.min(M,ty));
     tx=Math.max(lo_(100-100*sc,M),Math.min(M,Math.min(tx,5-x0*sc)));ty=Math.max(lo_(100-100*sc,M),Math.min(M,Math.min(ty,6-y0*sc)));tx=Math.min(M,Math.max(tx,95-x1*sc));ty=Math.min(M,Math.max(ty,94-y1*sc));
-    if(sc>1.05||y0<5||x0<5||x1>95||y1>95)tf=' style="--s:'+sc.toFixed(2)+';transform:translate('+tx.toFixed(1)+'%,'+ty.toFixed(1)+'%) scale('+sc.toFixed(2)+')"';else sc=1}}
+    TX=tx;if(sc>1.05||y0<5||x0<5||x1>95||y1>95)tf=' style="--s:'+sc.toFixed(2)+';transform:translate('+tx.toFixed(1)+'%,'+ty.toFixed(1)+'%) scale('+sc.toFixed(2)+')"';else{sc=1;TX=0}}}
   /* 이름표가 겹치면 뒤의 것은 숨기기 */
   const lab=[];pins.forEach(p=>{if(!p.lab)return;if(lab.some(q=>Math.abs(q.x-p.x)*sc<16&&Math.abs(q.y-p.y)*sc<7)||pins.some(q=>q!==p&&(q.x-p.x)*sc>1&&(q.x-p.x)*sc<15&&Math.abs(q.y-p.y)*sc<4))p.lab='';else lab.push(p)});/* 이름표가 오른쪽 다른 핀을 덮어도 숨김 */
   let s='<div class="gmap'+(big?' big':'')+(!u&&!A?' nomap':'')+(A?' atl':'')+'"'+(A?' style="aspect-ratio:'+A.ar+'"':'')+'><div class="gin"'+tf+'>'+(u?'<img src="'+u+'" alt="'+esc(z)+' 지도" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">':A?A.im:'');
@@ -1807,7 +1807,7 @@ function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?''
     s+='<svg viewBox="0 0 100 100" preserveAspectRatio="none">'+sv+'</svg>';
     /* 방향 화살표(가운데) — 지도가 늘어나도 모양이 안 찌그러지게 HTML로 */
     for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i];const d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d<7)continue;s+='<i class="gar" style="left:'+((a[0]+b[0])/2).toFixed(2)+'%;top:'+((a[1]+b[1])/2).toFixed(2)+'%;--a:'+Math.atan2(b[1]-a[1],(b[0]-a[0])*(A?+A.ar:1024/683)).toFixed(3)+'rad"></i>'}}
-  pins.forEach(p=>{s+=(p.k==='o'?'<span class="gpo" style="left:'+p.x+'%;top:'+p.y+'%"></span>':'<button class="gp k-'+p.k+(p.on?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%"'+(p.a?' data-a="'+p.a+'" data-k="'+esc(String(p.id))+'"':'')+(p.hk?' data-hk="'+esc(p.hk)+'"':'')+'>'+(p.ic||esc(p.t||''))+(p.more&&p.more.length?'<small class="gpm">·'+p.more.join('·')+'</small>':'')+(p.c>1?'<em>'+p.c+'</em>':'')+'</button>')+(p.lab?'<span class="gl'+(p.x>68?' rt':'')+'" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.lab)+'</span>':'')});
+  pins.forEach(p=>{s+=(p.k==='o'?'<span class="gpo" style="left:'+p.x+'%;top:'+p.y+'%"></span>':'<button class="gp k-'+p.k+(p.on?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%"'+(p.a?' data-a="'+p.a+'" data-k="'+esc(String(p.id))+'"':'')+(p.hk?' data-hk="'+esc(p.hk)+'"':'')+'>'+(p.ic||esc(p.t||''))+(p.more&&p.more.length?'<small class="gpm">·'+p.more.join('·')+'</small>':'')+(p.c>1?'<em>'+p.c+'</em>':'')+'</button>')+(p.lab?'<span class="gl'+(p.x*sc+TX>64?' rt':'')+'" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.lab)+'</span>':'')});
   return s+'</div><span class="gz">'+esc(z)+(sc>1?' · 확대':'')+(!u&&!A?' · 지도 그림 없음 (좌표만)':'')+'</span></div>'}
 function gmQuests(c,z){if(!QDB)return [];const L=c.lv;return [...QDB.values()].filter(q=>q.z===z&&qdbOk(c,q)&&!mqDone(c,q)&&(q.m||0)<=L+1&&(q.lv||0)>=L-6&&(q.lv||0)<=L+5).sort((a,b)=>(a.lv||0)-(b.lv||0))}
 /* 작은 동선 지도는 기본 「게임 지도」(우리 지도는 바다 쪽이 검은 네모로 보여서) · 큰 지도는 따로 */
