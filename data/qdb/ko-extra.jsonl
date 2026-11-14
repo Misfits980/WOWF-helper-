@@ -218,7 +218,7 @@
 {"id":92844,"n":"와우 포에버 뼈가 산더미 퀘스트","o":"Maintain your reputation with the Magram, and bring 426 Gently Cursed Bones to Orgrul south of the Magram Village in Desolace.","g":"Orgrul","r":"Orgrul"}
 {"id":92846,"n":"와우 포에버 추방된 강령술사 퀘스트","o":"Maintain your reputation with the Magram, and slay Outcast Necromancers within the Valley of Bones.","g":"Orgrul"}
 {"id":92847,"n":"와우 포에버 타락의 눈물 퀘스트","o":"Maintain your reputation with the Magram, and bring 3 Petrified Bark and 3 Imbued Tears back to Orgrul."}
-{"id":92858,"ft":1,"n":"현상 수배: 오크지 위치·보상"}
+{"id":92858,"ft":1,"n":"현상 수배: 오크지"}
 {"id":92867,"n":"와우 포에버 Ground to Keep 퀘스트","o":"Defeat the Boulderfist, Syndicate, and Witherbark intruders in Stromgarde Keep and return to Groundskeeper Lomar."}
 {"id":92873,"n":"와우 포에버 가능성 입증 퀘스트","o":"Maintain your reputation with the Magram Clan, then bring 426 Well Cursed Bones from a successful ritual back to Orgrul.","g":"기본 강령술 지팡이"}
 {"id":92893,"n":"와우 포에버 약한 자에게 자비란 없다 퀘스트","o":"Maintain your reputation with the Magram Clan, and slay 5 Gelkis Captives scattered around the Valley of Bones. Return to Orgrul after the task is complete."}
@@ -245,11 +245,11 @@
 {"id":93546,"ft":1,"n":"망령무쇠 광석"}
 {"id":93585,"n":"와우 포에버 내 안의 작은 빛 퀘스트","o":"Escort Father Tuttle to The Harborage.","g":"Father Tuttle"}
 {"id":93594,"ft":1,"n":"숲이 전하는 말"}
-{"id":93601,"ft":1,"n":"책임 전가 위치·보상"}
-{"id":93604,"n":"아감마간의 피 위치·보상","o":"Venture to Razorfen Downs and acquire Virulent Blood of Agamaggan, then return it to Kog'thug the Brave at Bristleback Retreat in the Desolace. Kog'thug felt it worth reminding that the Blood of Agamaggan inside Razorfen Kraul would not be sufficient.","g":"Kog'thug the Brave","r":"Kog'thug the Brave","ft":1}
+{"id":93601,"ft":1,"n":"책임 전가"}
+{"id":93604,"n":"아감마간의 피","o":"Venture to Razorfen Downs and acquire Virulent Blood of Agamaggan, then return it to Kog'thug the Brave at Bristleback Retreat in the Desolace. Kog'thug felt it worth reminding that the Blood of Agamaggan inside Razorfen Kraul would not be sufficient.","g":"Kog'thug the Brave","r":"Kog'thug the Brave","ft":1}
 {"id":93678,"n":"드레니시스트 기록 요약본","o":"Take Azore's transcribed notes back to Magtoor at the Harborage in Swamp of Sorrows.","g":"아조레의 필사본","ft":1}
 {"id":93679,"ft":1,"n":"또 다른 환영"}
-{"id":93684,"ft":1,"n":"존재의 발견 위치·보상"}
+{"id":93684,"ft":1,"n":"존재의 발견"}
 {"id":93685,"ft":1,"n":"굼이샤의 지시"}
 {"id":93928,"n":"와우 포에버 생쥐와 우유 퀘스트","o":"Get the mouse a cookie.","g":"쥐","r":"헤멧 네싱워리"}
 {"id":94003,"n":"와우 포에버 하늘파괴자 보루 방패 퀘스트","o":"Reclaim the Skybreaker Bulwark from Zaal Stormshield at the Shrine of Akir.","g":"시나 스카이브레이커","r":"시나 스카이브레이커"}
@@ -405,8 +405,8 @@
 {"id":94479,"ft":1,"n":"쓰레기도 누군가에겐 보물"}
 {"id":94493,"n":"와우 포에버 헛된 희생 퀘스트","o":"Speak with Elegael Thornpaw in the northeastern part of Shadowgale Forest.","g":"엘레게일 쏜포우","r":"엘레게일 쏜포우"}
 {"id":94618}
-{"id":94678,"ft":1,"n":"들끓는 놀 위치·보상"}
-{"id":94679,"ft":1,"n":"스나글의 주둥이 위치·보상"}
+{"id":94678,"ft":1,"n":"들끓는 놀"}
+{"id":94679,"ft":1,"n":"스나글의 주둥이"}
 {"id":94773,"n":"와우 포에버 신성한 은총 퀘스트"}
 {"id":94775,"n":"와우 포에버 신성한 은총 퀘스트","o":"Speak to High Priestess Laurena in Stormwind.","g":"라우르나 모닝라이트","r":"대여사제 로레나"}
 {"id":94776,"n":"와우 포에버 신성한 은총 퀘스트","o":"Speak to High Priestess Laurena in Stormwind.","g":"막산 앤볼","r":"대여사제 로레나"}
@@ -434,31 +434,31 @@
 {"id":94885,"ft":1,"n":"야전사령관의 기록"}
 {"id":94886}
 {"id":94887}
-{"id":94888,"ft":1,"n":"어떤 병사도 버리지 않는다 위치·보상"}
+{"id":94888,"ft":1,"n":"어떤 병사도 버리지 않는다"}
 {"id":94889,"ft":1,"n":"길을 열어라"}
-{"id":94890,"ft":1,"n":"적의 숨통을 끊어라 위치·보상"}
+{"id":94890,"ft":1,"n":"적의 숨통을 끊어라"}
 {"id":94891,"ft":1,"n":"파홀드에 전할 소식"}
 {"id":94892,"ft":1,"n":"마지막 소원"}
-{"id":94893,"ft":1,"n":"한을 풀다 위치·보상"}
+{"id":94893,"ft":1,"n":"한을 풀다"}
 {"id":94894,"ft":1,"n":"황혼의 위협"}
 {"id":94923,"ft":1,"n":"모자를 벗어라"}
 {"id":94924,"ft":1,"n":"사냥꾼을 사냥하다"}
-{"id":94925,"ft":1,"n":"털가죽 거래 위치·보상"}
+{"id":94925,"ft":1,"n":"털가죽 거래"}
 {"id":94927,"ft":1,"n":"던스턴 퇴장"}
-{"id":94928,"ft":1,"n":"프리즈에게 줄 털가죽 몇 장 위치·보상"}
+{"id":94928,"ft":1,"n":"프리즈에게 줄 털가죽 몇 장"}
 {"id":94929,"ft":1,"n":"두 번째 화물을 배달하라"}
 {"id":94980,"ft":1,"n":"크롤도크 거푸집"}
 {"id":94981,"ft":1,"n":"핵심 재료"}
 {"id":94982,"ft":1,"n":"머그의 눈"}
 {"id":94983,"ft":1,"n":"황혼의 기념품"}
-{"id":94984,"ft":1,"n":"황혼의 고서 위치·보상"}
+{"id":94984,"ft":1,"n":"황혼의 고서"}
 {"id":94992}
 {"id":94997,"ft":1,"n":"지속되는 정수"}
 {"id":94998,"ft":1,"n":"호기심을 부르는 장신구"}
 {"id":94999,"ft":1,"n":"감시자를 위한 눈"}
 {"id":95064,"ft":1,"n":"예방 조치"}
 {"id":95066,"ft":1,"n":"로그마 사태"}
-{"id":95122,"ft":1,"n":"걷잡을 수 없는 확장 위치·보상"}
+{"id":95122,"ft":1,"n":"걷잡을 수 없는 확장"}
 {"id":95123,"ft":1,"n":"폭탄 받아라, 해적들아!"}
 {"id":95124,"ft":1,"n":"제독 라모라"}
 {"id":95147,"ft":1,"n":"실종된 정찰병"}
@@ -466,36 +466,36 @@
 {"id":95165,"ft":1,"n":"잘 가라, 해적들아!"}
 {"id":95184}
 {"id":95189,"n":"와우 포에버 로데론의 문장 퀘스트","o":"Return the Crest of Lordaeron to Lady Dena Kennedy in Stormwind City.","g":"로데론의 문장","r":"Lady Dena Kennedy"}
-{"id":95194,"ft":1,"n":"테라모어의 요원 위치·보상"}
+{"id":95194,"ft":1,"n":"테라모어의 요원"}
 {"id":95196,"ft":1,"n":"등 뒤를 조심해"}
 {"id":95198,"ft":1,"n":"왕의 귀환?"}
-{"id":95260,"ft":1,"n":"심해의 공포 위치·보상"}
+{"id":95260,"ft":1,"n":"심해의 공포"}
 {"id":95261}
 {"id":95262,"n":"비밀 감옥","o":"Enter Alcaz Prison and learn what became of the King of Stormwind.","rr":1,"ft":1}
 {"id":95264,"ft":1,"n":"쇼가 알아야 할 일"}
 {"id":95267,"ft":1,"n":"수면 위로 드러난 괴물"}
 {"id":95293,"ft":1,"n":"밀수업자의 특제품"}
 {"id":95294,"ft":1,"n":"밀수업자의 흥정"}
-{"id":95296,"ft":1,"n":"배송과 취급 위치·보상"}
-{"id":95312,"ft":1,"n":"떼인 돈 받아드립니다 위치·보상"}
-{"id":95321,"ft":1,"n":"타직의 몫 위치·보상"}
+{"id":95296,"ft":1,"n":"배송과 취급"}
+{"id":95312,"ft":1,"n":"떼인 돈 받아드립니다"}
+{"id":95321,"ft":1,"n":"타직의 몫"}
 {"id":95322}
 {"id":95325,"ft":1,"n":"털렸다!"}
 {"id":95326,"ft":1,"n":"큰 거 한 방"}
 {"id":95327,"ft":1,"n":"끝이 좋으면 다 좋다"}
 {"id":95329}
 {"id":95383,"ft":1,"n":"배송과 취급"}
-{"id":95426,"ft":1,"n":"로그마의 보급품 위치·보상"}
+{"id":95426,"ft":1,"n":"로그마의 보급품"}
 {"id":95472}
 {"id":95511,"ft":1,"n":"첫 호랑이 친구"}
-{"id":95561,"ft":1,"n":"눈에 넣어도 아프지 않은 딸 위치·보상"}
-{"id":95562,"ft":1,"n":"적장, 물리쳤다! 위치·보상"}
+{"id":95561,"ft":1,"n":"눈에 넣어도 아프지 않은 딸"}
+{"id":95562,"ft":1,"n":"적장, 물리쳤다!"}
 {"id":95613,"ft":1,"n":"빛을 지켜라"}
-{"id":95615,"ft":1,"n":"추모 위치·보상"}
+{"id":95615,"ft":1,"n":"추모"}
 {"id":95642,"ft":1,"n":"흉측한 주술"}
 {"id":95643,"ft":1,"n":"무차별 소탕"}
 {"id":95753,"ft":1,"n":"사막 늑대의 도전"}
-{"id":95798,"n":"그물처럼 엉킨 마법 위치·보상","o":"Bring the I'lalai Fetish to Abra Cadabra in Dalaran.","g":"현자 딥스","r":"Abra Cadabra","ft":1,"wv":1}
+{"id":95798,"n":"그물처럼 엉킨 마법","o":"Bring the I'lalai Fetish to Abra Cadabra in Dalaran.","g":"현자 딥스","r":"Abra Cadabra","ft":1,"wv":1}
 {"id":95799,"n":"탐험가 연맹에 전할 연구 결과","o":"Bring Loremaster Dibbs' I'lalai Translations to Historian Karnik in Ironforge.","g":"현자 딥스","r":"역사학자 카르닉","ft":1,"wv":1}
 {"id":95816,"n":"와우 포에버 팻말 신청! 퀘스트","o":"Bring the completed form to Elaine Compton in Redridge Mountains.","g":"광고 면허 접수","r":"일레인 콤프턴"}
 {"id":95912}
@@ -503,7 +503,7 @@
 {"id":95924,"n":"혼란의 발굴현장","o":"Slay 6 Ravasaur Matriarchs, 9 Ironhide Ravasaurs and Venomridge in Shaper's Terrace.","rr":1,"ft":1}
 {"id":95925,"n":"나아갈 길을 그리다","o":"Find Interesting Landmarks in Shaper's Terrace and fill out the explorer's map at each.","g":"받을 때 주는 아이템 · Explorers' League Cartographer's Kit","rr":1,"ft":1}
 {"id":95957,"ft":1,"n":"마셔라!"}
-{"id":95961,"ft":1,"n":"자리를 비운 사이 위치·보상"}
+{"id":95961,"ft":1,"n":"자리를 비운 사이"}
 {"id":95975,"ft":1,"n":"아이의 세계"}
 {"id":95983,"ft":1,"n":"독수리 떼의 잔치"}
 {"id":95984,"ft":1,"n":"타조의 노래"}
@@ -522,33 +522,33 @@
 {"id":96084,"ft":1,"n":"물속의 무언가"}
 {"id":96085,"ft":1,"n":"상류의 오염"}
 {"id":96125,"ft":1,"n":"휴식이 필요해"}
-{"id":96126,"ft":1,"n":"오우거의 포로 위치·보상"}
+{"id":96126,"ft":1,"n":"오우거의 포로"}
 {"id":96135,"n":"와우 포에버 내 부름에 응하라 퀘스트","o":"Use the Twisted Totems to put an end to the quilboar ritual.","g":"Veyric Thunderhame","r":"Veyric Thunderhame"}
 {"id":96243,"n":"와우 포에버 대지의 부름 퀘스트","o":"Find Teo Hammerstorm in Dun Morogh.","g":"엘드룬 스톰브레이커","r":"테오 해머스톰"}
 {"id":96264,"n":"와우 포에버 정기의 도움 퀘스트","o":"Defeat Charlga Razorflank in Razorfen Kraul and collect information on the quilboar's plans.","g":"Veyric Thunderhame","r":"Veyric Thunderhame"}
 {"id":96339,"n":"유산 보상: 복제 아이언포지 공기총","ft":1}
 {"id":96381,"ft":1,"n":"약간의 지저분한 일"}
 {"id":96383,"n":"유산 보상: 새끼 유령 곰","ft":1}
-{"id":96438,"ft":1,"n":"만노로크 소굴 전투 위치·보상"}
+{"id":96438,"ft":1,"n":"만노로크 소굴 전투"}
 {"id":96603,"n":"불안정한 마법","o":"Bring 10 Motes of Unstable Magic to Archmage Celindra in Dalaran.","g":"받을 때 주는 아이템 · Arcane Censer","rr":1,"ft":1}
 {"id":96609,"ft":1,"n":"고향의 맛"}
-{"id":96772,"ft":1,"n":"용의 일지 위치·보상"}
+{"id":96772,"ft":1,"n":"용의 일지"}
 {"id":96782,"n":"와우 포에버 은밀한 회수 작전 퀘스트","o":"Find the Blade of House Perenolde and the Royal Aegis of Perenolde among the ruins of Alterac. Then, bring them to Myrokos Silentform.","r":"미로코스 사일런트폼"}
 {"id":96783,"n":"와우 포에버 잠입 수단 퀘스트","o":"Steal a Syndicate uniform from Northfold Manor to infiltrate Stromgarde Keep.","g":"미로코스 사일런트폼","r":"Syndicate Footlocker"}
 {"id":96784,"n":"와우 포에버 위장의 대가 퀘스트","o":"While disguised as a member of the Syndicate, find someone inside Stromgarde Keep who knows about the secret deal.","g":"Syndicate Footlocker","r":"Anastasia Miller"}
 {"id":96785,"n":"와우 포에버 입도 뻥긋 안 한다 퀘스트","o":"Find something within Stromgarde Keep to convince Anastasia to give up details of the secret deal.","g":"비밀결사대 제복","r":"Anastasia Miller"}
 {"id":96786,"n":"와우 포에버 비밀결사대의 독침 퀘스트","o":"Break up the secret deal, and take the object being traded to the Syndicate. Then, return to Myrokos Silentform at Ravenholdt Manor.","r":"미로코스 사일런트폼"}
 {"id":96796,"n":"숲속의 작업장","rr":1}
-{"id":96797,"ft":1,"n":"고아 위치·보상"}
-{"id":96798,"ft":1,"n":"어둠 속으로 위치·보상"}
-{"id":96799,"ft":1,"n":"막중한 책임 위치·보상"}
+{"id":96797,"ft":1,"n":"고아"}
+{"id":96798,"ft":1,"n":"어둠 속으로"}
+{"id":96799,"ft":1,"n":"막중한 책임"}
 {"id":96811,"ft":1,"n":"어둠에서 탈출하라"}
-{"id":96812,"ft":1,"n":"피는 물보다 진하다 위치·보상"}
+{"id":96812,"ft":1,"n":"피는 물보다 진하다"}
 {"id":96833,"ft":1,"n":"맹독의 아귀"}
 {"id":97005,"n":"와우 포에버 강탈자 촐라루크 퀘스트","o":"Bring Chol'aruk's Head to Bainham in the Barrens.","g":"베인햄","r":"베인햄"}
 {"id":97017,"ft":1,"n":"생애 첫 산양 탈것"}
 {"id":97018,"ft":1,"n":"탈것 타기 배우기"}
-{"id":97029,"ft":1,"n":"엘루비아나 위치·보상"}
+{"id":97029,"ft":1,"n":"엘루비아나"}
 {"id":97045,"ft":1,"n":"첫 번째 말"}
 {"id":97046,"ft":1,"n":"생애 첫 기계타조 탈것"}
 {"id":97065,"n":"와우 포에버 맞바꾸기: 키퍼의 천사돔 퀘스트"}
@@ -1085,7 +1085,7 @@
 {"id":6502,"n":"비룡불꽃 아뮬렛","o":"사령관 드라키사스에게서 검은용 용사의 피를 가져와야 합니다. 드라키사스는 검은바위 첨탑의 승천의 전당 뒤에 있는 알현실에 있습니다.","g":"헬레","r":"헬레","wv":1}
 {"id":89015,"n":"Deadliest Catch","o":"Bring a Mammoth Shark Steak to Berdun Cliffbrew at Talrendis Point in Azshara.","rr":1,"ft":1}
 {"id":90487,"rr":1,"ft":1,"n":"고대정령과의 동맹"}
-{"id":90647,"rr":1,"ft":1,"n":"산의 지팡이 위치·보상"}
+{"id":90647,"rr":1,"ft":1,"n":"산의 지팡이"}
 {"id":90702,"n":"파헤쳐진 무덤","o":"Search the area for the grave's missing contents.","rr":1,"ft":1}
 {"id":90750,"rr":1,"ft":1,"n":"일거리 더 없습니까?"}
 {"id":90854,"rr":1,"ft":1,"n":"궂은 날씨를 견딜 튼튼한 가죽"}
@@ -1097,56 +1097,56 @@
 {"id":91754,"rr":1,"ft":1,"n":"흙을 좀 바르면"}
 {"id":91755,"rr":1,"ft":1,"n":"치료의 잎"}
 {"id":91770,"rr":1,"ft":1,"n":"껍질을 파고드는 고통"}
-{"id":91877,"rr":1,"ft":1,"n":"악마사냥꾼을 뒤쫓는 자 위치·보상"}
+{"id":91877,"rr":1,"ft":1,"n":"악마사냥꾼을 뒤쫓는 자"}
 {"id":91881,"n":"서부 초소","o":"Meet Sefira Everbright at the outpost.","rr":1,"ft":1}
 {"id":91882,"n":"대연합군","o":"Search Mount Hyjal for remnants of the Grand Alliance.","rr":1,"ft":1}
 {"id":91883,"rr":1,"ft":1,"n":"하늘군주의 창끝"}
 {"id":91907,"rr":1,"ft":1}
-{"id":92008,"rr":1,"ft":1,"n":"최상급 부품 위치·보상"}
+{"id":92008,"rr":1,"ft":1,"n":"최상급 부품"}
 {"id":92009,"rr":1,"ft":1,"n":"상자 배달 대작전"}
-{"id":92011,"rr":1,"ft":1,"n":"잔해 수색 위치·보상"}
+{"id":92011,"rr":1,"ft":1,"n":"잔해 수색"}
 {"id":92014,"n":"여우굴","o":"Return 9 Rustleaf Fox Tails to Johun \"Punchy\" Dillas in Hyjal.","rr":1,"ft":1}
 {"id":92015,"n":"스컹크 방어선","o":"Make skunks leave the area around Johun's equipment without killing them.","rr":1,"ft":1}
 {"id":92016,"rr":1,"ft":1,"n":"뿌리 손보기"}
 {"id":92017,"rr":1,"ft":1,"n":"정화의 바람"}
 {"id":92064,"n":"나무에서 벗어나기","o":"Break the tree branch to free Fenwick Togglespring.","rr":1,"ft":1}
 {"id":92100,"rr":1,"ft":1,"n":"여기만 아니면 어디든"}
-{"id":92101,"n":"유산이 들어 올린 기억 위치·보상","o":"Find the Veteran of the Third War's markings of significance on the Great Lift.","g":"받을 때 주는 아이템 · Embroidered Scabbard","rr":1,"ft":1}
-{"id":92102,"rr":1,"ft":1,"n":"찬사 위치·보상"}
+{"id":92101,"n":"유산이 들어 올린 기억","o":"Find the Veteran of the Third War's markings of significance on the Great Lift.","g":"받을 때 주는 아이템 · Embroidered Scabbard","rr":1,"ft":1}
+{"id":92102,"rr":1,"ft":1,"n":"찬사"}
 {"id":92111,"rr":1,"ft":1,"n":"친구와 털가죽"}
 {"id":92147,"rr":1,"ft":1,"n":"높은깃털 도우미"}
 {"id":92169,"rr":1,"ft":1,"n":"서약의 앙갚음"}
-{"id":92171,"rr":1,"ft":1,"n":"높은 곳으로 위치·보상"}
+{"id":92171,"rr":1,"ft":1,"n":"높은 곳으로"}
 {"id":92317,"rr":1,"ft":1,"n":"빼앗긴 생명"}
 {"id":92328,"rr":1,"ft":1,"n":"공성의 기술"}
 {"id":92329,"rr":1,"ft":1,"n":"소란스러운 북소리"}
 {"id":92335,"rr":1,"ft":1,"n":"군단 진격로의 재"}
-{"id":92433,"rr":1,"ft":1,"n":"맛있는 요리를 부탁해 위치·보상"}
+{"id":92433,"rr":1,"ft":1,"n":"맛있는 요리를 부탁해"}
 {"id":92449,"n":"역병은 이제 끝","o":"Eliminate 3 Forgotten Soldiers and 12 Fleshflay Raveners.","rr":1,"ft":1}
 {"id":92500,"rr":1,"ft":1,"n":"하늘 한 조각"}
 {"id":92533,"rr":1,"ft":1,"n":"뒤틀린 도구"}
 {"id":92591,"n":"최후의 죽음","o":"Use the Survivor's Torch on the Bone Pile, then collect the Reanimator's Amulet.","g":"받을 때 주는 아이템 · Survivor's Torch","rr":1,"ft":1}
-{"id":92593,"n":"쏟아지는 타락 위치·보상","o":"Enter Dae'gun and locate a high vantage point, then report details to Johun.","rr":1,"ft":1}
+{"id":92593,"n":"쏟아지는 타락","o":"Enter Dae'gun and locate a high vantage point, then report details to Johun.","rr":1,"ft":1}
 {"id":92594,"rr":1,"ft":1,"n":"이 정도면 불쏘시개 맞지"}
-{"id":92612,"rr":1,"ft":1,"n":"달의 숲에서 도움 받기 위치·보상"}
+{"id":92612,"rr":1,"ft":1,"n":"달의 숲에서 도움 받기"}
 {"id":92702,"n":"가지 뻗기","o":"Locate a sturdy branch capable of reaching Fenwick Togglespring.","rr":1,"ft":1}
 {"id":92833,"rr":1,"ft":1,"n":"베한의 몰락"}
 {"id":92842,"n":"타향의 사촌","o":"Find the missing cousin somewhere on Mount Hyjal.","r":"Quintus Wainworth","ft":1}
-{"id":92859,"rr":1,"ft":1,"n":"겨울 야생의 장막 위치·보상"}
+{"id":92859,"rr":1,"ft":1,"n":"겨울 야생의 장막"}
 {"id":92959,"rr":1,"ft":1,"n":"죽어 가는 고대정령들"}
 {"id":92960,"rr":1,"ft":1,"n":"덧없는 정수 착취"}
 {"id":93127,"rr":1,"ft":1,"n":"정상의 파수꾼"}
-{"id":93197,"rr":1,"ft":1,"n":"연락 복구 위치·보상"}
+{"id":93197,"rr":1,"ft":1,"n":"연락 복구"}
 {"id":93269,"rr":1,"ft":1,"n":"우편의 정상"}
 {"id":93383,"n":"내용물 주의","o":"Wait until you can safely open the Personal Survival Pack.","rr":1,"ft":1}
 {"id":93406,"rr":1,"ft":1,"n":"해동된 배달품"}
 {"id":93407,"rr":1,"ft":1,"n":"발에 박힌 가시"}
 {"id":93422,"rr":1,"ft":1,"n":"검은가시의 눈과 귀를 막아라"}
-{"id":93444,"rr":1,"ft":1,"n":"야수 유인 위치·보상"}
-{"id":93510,"n":"깨어나는 기억 위치·보상","o":"Find the anchor on Lake Everstill the War Veteran remembers from childhood.","g":"받을 때 주는 아이템 · Embroidered Scabbard","rr":1,"ft":1}
+{"id":93444,"rr":1,"ft":1,"n":"야수 유인"}
+{"id":93510,"n":"깨어나는 기억","o":"Find the anchor on Lake Everstill the War Veteran remembers from childhood.","g":"받을 때 주는 아이템 · Embroidered Scabbard","rr":1,"ft":1}
 {"id":93521,"rr":1,"ft":1,"n":"신들에게 맞선 자"}
 {"id":93547,"rr":1,"ft":1,"n":"가시 돋친 해결책"}
-{"id":93551,"rr":1,"ft":1,"n":"찬사 위치·보상"}
+{"id":93551,"rr":1,"ft":1,"n":"찬사"}
 {"id":93567,"rr":1,"ft":1,"n":"끝과 끝이 맞닿는 곳"}
 {"id":93584,"rr":1,"ft":1,"n":"이교도 소탕"}
 {"id":93606,"rr":1,"ft":1,"n":"가시 돋친 사랑과 전쟁"}
@@ -1183,10 +1183,10 @@
 {"id":95793,"rr":1,"ft":1,"n":"악마의 물결을 막아라"}
 {"id":96003,"rr":1,"ft":1,"n":"악의를 끌어내라"}
 {"id":96025,"rr":1,"ft":1,"n":"까마귀의 비행"}
-{"id":96076,"rr":1,"ft":1,"n":"급구: 고대 엘프 골동품 위치·보상"}
-{"id":96077,"n":"벨르의 반지 위치·보상","o":"Deliver the ring to Michelle Belle at the Lion's Pride Inn in Elwynn Forest.","g":"받을 때 주는 아이템 · Thomas's Ring","rr":1,"ft":1}
+{"id":96076,"rr":1,"ft":1,"n":"급구: 고대 엘프 골동품"}
+{"id":96077,"n":"벨르의 반지","o":"Deliver the ring to Michelle Belle at the Lion's Pride Inn in Elwynn Forest.","g":"받을 때 주는 아이템 · Thomas's Ring","rr":1,"ft":1}
 {"id":96131,"rr":1,"ft":1,"n":"늙었지만 오래된 친구"}
-{"id":96145,"rr":1,"ft":1,"n":"날개와 발톱을 넘어 위치·보상"}
+{"id":96145,"rr":1,"ft":1,"n":"날개와 발톱을 넘어"}
 {"id":96209,"rr":1,"ft":1,"n":"고대정령 오로카이"}
 {"id":96252,"rr":1,"ft":1,"n":"빛바랜 보물"}
 {"id":96255,"rr":1,"ft":1,"n":"뒤엉킨 골수"}
@@ -1207,27 +1207,27 @@
 {"id":96559,"n":"보급품 투하","o":"Locate Fenwick Togglespring's Pilot Survival Kit.","rr":1,"ft":1}
 {"id":96602,"rr":1,"ft":1,"n":"더 많은 불안정한 마법"}
 {"id":96674,"n":"길 잃은 양","o":"Capture and return 6 Escaped Sheep.","rr":1,"ft":1}
-{"id":96676,"n":"검은가시 서약단의 실체 위치·보상","o":"Bring the Alliance Equipment to Johun \"Punchy\" Dillas in Hyjal.","g":"받을 때 주는 아이템 · Alliance Equipment","rr":1,"ft":1}
-{"id":96912,"rr":1,"ft":1,"n":"명예의 전장: 1주 차 위치·보상"}
+{"id":96676,"n":"검은가시 서약단의 실체","o":"Bring the Alliance Equipment to Johun \"Punchy\" Dillas in Hyjal.","g":"받을 때 주는 아이템 · Alliance Equipment","rr":1,"ft":1}
+{"id":96912,"rr":1,"ft":1,"n":"명예의 전장: 1주 차"}
 {"id":96930,"rr":1,"ft":1,"n":"변덕스러운 까마귀"}
-{"id":96931,"rr":1,"ft":1,"n":"등산길 위치·보상"}
-{"id":96939,"rr":1,"ft":1,"n":"생사의 균형 위치·보상"}
-{"id":96957,"rr":1,"ft":1,"n":"뼈도 돌아갈 곳이 있다 위치·보상"}
+{"id":96931,"rr":1,"ft":1,"n":"등산길"}
+{"id":96939,"rr":1,"ft":1,"n":"생사의 균형"}
+{"id":96957,"rr":1,"ft":1,"n":"뼈도 돌아갈 곳이 있다"}
 {"id":96959,"rr":1,"ft":1,"n":"검귀의 화톳불"}
-{"id":96964,"rr":1,"ft":1,"n":"영리한 생물 위치·보상"}
+{"id":96964,"rr":1,"ft":1,"n":"영리한 생물"}
 {"id":96971,"rr":1,"ft":1,"n":"악마를 속이는 법"}
 {"id":96978,"rr":1,"ft":1,"n":"사나운 사슴"}
-{"id":96979,"rr":1,"ft":1,"n":"신성한 원기 회복 위치·보상"}
+{"id":96979,"rr":1,"ft":1,"n":"신성한 원기 회복"}
 {"id":96983,"rr":1,"ft":1,"n":"야시로의 바람걸음"}
-{"id":96991,"rr":1,"ft":1,"n":"길 찾기 지원 위치·보상"}
-{"id":96992,"n":"재보급 위치·보상","o":"Look through the burned buildings in the Cradle of Tranquility for 6 Metal Brackets and 30 Nails and return to Johun \"Punchy\" Dillas in Hyjal.","rr":1,"ft":1}
+{"id":96991,"rr":1,"ft":1,"n":"길 찾기 지원"}
+{"id":96992,"n":"재보급","o":"Look through the burned buildings in the Cradle of Tranquility for 6 Metal Brackets and 30 Nails and return to Johun \"Punchy\" Dillas in Hyjal.","rr":1,"ft":1}
 {"id":97009,"rr":1,"ft":1,"n":"비참한 마에리온"}
 {"id":97010,"rr":1,"ft":1,"n":"눈먼 복수"}
 {"id":97327,"n":"검은아귀 주머니","o":"Enter Blackmaw Hold and recover 5 Blackmaw Pouches for Ekkal at the Ruins of Eldarath in Azshara.","g":"Ekkal","r":"Ekkal","ft":1}
 {"id":97490,"rr":1,"ft":1,"n":"우박원한을 잠재워라"}
-{"id":97986,"rr":1,"ft":1,"n":"은빛 심판관 위치·보상"}
+{"id":97986,"rr":1,"ft":1,"n":"은빛 심판관"}
 {"id":97987,"n":"스톰윈드 고등 마법원","o":"Speak with Saera Wirraway in Stormwind in The Park.","rr":1,"ft":1}
-{"id":98109,"n":"최첨단 위치·보상","o":"Speak with Adon the high elf northwest of the ruins of Northdale, on the road to Quel'Thalas.","rr":1,"ft":1}
+{"id":98109,"n":"최첨단","o":"Speak with Adon the high elf northwest of the ruins of Northdale, on the road to Quel'Thalas.","rr":1,"ft":1}
 {"id":98166,"n":"첫 번째 말","o":"Inspect the riding horses to choose your first mount.","rr":1,"ft":1}
 {"id":98898,"rr":1,"ft":1,"n":"검은창 군도의 충돌"}
 {"id":98905,"n":"검은창 군도 전투!","o":"Win a Darkspear Islands battleground and return back to Brelinda McFarry at Northwatch Hold.","rr":1,"ft":1}

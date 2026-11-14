@@ -26,6 +26,29 @@ for cid, c in cls.items():
         for k in ('rotation', 'early', 'late'):
             for r in s_.get(k, []):
                 r['when'] = fix_when(c, r['when'])
+def _fill60(c, steps):
+    """forg 레벨 빌드는 59레벨(50점)에서 끝남 → 60레벨 51번째 점을 규칙대로 채움(찍다 만 특성 먼저, 없으면 깊은 줄)"""
+    if not steps or len(steps) >= 51 or steps[-1][0] >= 60:
+        return
+    T = c['talents']; rank = {}; spent = {}
+    for lv, tid, r in steps:
+        rank[tid] = r; t = T.get(tid)
+        if t: spent[t['t']] = spent.get(t['t'], 0) + 1
+    def ok(tid, v):
+        if rank.get(tid, 0) >= v['max']: return False
+        if spent.get(v['t'], 0) < (v.get('tier', 1) - 1) * 5: return False
+        q = v.get('req')
+        if q and rank.get(q[0], 0) < q[1]: return False
+        return True
+    order = sorted(spent, key=lambda k: -spent[k])
+    for tr in order:
+        c_ = [(tid, v) for tid, v in T.items() if v['t'] == tr and ok(tid, v)]
+        if not c_: continue
+        c_.sort(key=lambda x: (0 if rank.get(x[0], 0) > 0 else 1, -x[1].get('tier', 0), x[1].get('col', 0)))
+        tid = c_[0][0]; steps.append([60, tid, rank.get(tid, 0) + 1]); return
+for cid, c in cls.items():
+    for s_ in c['specs']:
+        _fill60(c, s_['steps'])
 for cid, c in cls.items():
     used = set(x[1] for s in c['specs'] for x in s['steps'])
     slim[cid] = {
@@ -353,7 +376,39 @@ for _i, _l in enumerate(items):
     if len(_f) > 12 and re.search('[A-Za-z]{3}', _f[12]) and _f[0].isdigit() and _wyko.get(int(_f[0])) and not re.search('[A-Za-z]{3}', _wyko[int(_f[0])]):
         _f[12] = _wyko[int(_f[0])]; items[_i] = '|'.join(_f); _nko += 1
 print('wythic ko names', _nko)
+# 아이콘·한글 이름이 빈 템 → 와우헤드 포에버 툴팁에서 받아 둔 것 (data/qdb/item-icons.txt: 번호|아이콘|한글 이름)
+_ICF = Q / 'item-icons.txt'
+if _ICF.exists():
+    _IC = {}
+    for _l in rd(_ICF).splitlines():
+        _p = _l.split('|')
+        if len(_p) >= 2 and _p[0].isdigit():
+            _IC[int(_p[0])] = (_p[1].strip().lower(), (_p[2] if len(_p) > 2 else '').strip())
+    _ni = _nk = 0
+    for _i, _l in enumerate(items):
+        _f = _l.split('|')
+        if len(_f) < 14 or not _f[0].isdigit() or int(_f[0]) not in _IC:
+            continue
+        _ic, _ko = _IC[int(_f[0])]
+        if _ic and not _f[13]:
+            _f[13] = _ic; _ni += 1
+        if _ko and re.search('[가-힣]', _ko) and re.search('[A-Za-z]{3}', _f[12]):
+            _f[12] = _ko; _nk += 1
+        items[_i] = '|'.join(_f)
+    print('wowhead icons', _ni, 'ko', _nk)
 ITEMS_TXT = '\n'.join(items) + '\n'
+def _rwnm():
+    """던전 퀘스트 보상 중 장비가 아닌 것(가방·물약·도안)의 한글 이름 → 던전 퀘스트 보상 칸에 글로 보여 줌"""
+    have = set(l.split('|')[0] for l in items)
+    out = {}
+    for l in _dq().splitlines():
+        f = l.split('|')
+        if f[0] != 'Q' or len(f) < 11:
+            continue
+        for i in filter(None, f[10].split(',')):
+            if i not in have and i.isdigit() and ko.get(int(i)) and not lat(ko[int(i)]):
+                out[i] = ko[int(i)]
+    return out
 # 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
 QLV = {}
 if (Q / 'quests.jsonl').exists():
@@ -382,6 +437,7 @@ data = '\n'.join([
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(_dgl()) + ';',
     'const D_DQ=' + js_str(_dq()) + ';',
+    'const D_RWNM=' + json.dumps(_rwnm(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',
     'const D_BOSS=' + js_str(rd(F / 'bosses.txt') if (F / 'bosses.txt').exists() else '') + ';',
     'const D_AB=' + js_str('\n'.join(l for l in rd(ROOT / 'data/guides/abilities.txt').split('\n') if l and not l.startswith('# '))) + ';',

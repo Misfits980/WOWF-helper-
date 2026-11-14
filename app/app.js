@@ -7,7 +7,8 @@ const RACES=[['human','인간','achievement_character_human_male'],['dwarf','드
 const RACE_START={human:'human',dwarf:'dwarf-gnome',gnome:'dwarf-gnome',nightelf:'nightelf',skyborne:'skyborne-alliance'};
 /* 종족별 가능한 직업 (forg.gg 종족 페이지) */
 const RACE_CLS={human:['warrior','paladin','hunter','rogue','priest','mage','warlock'],dwarf:['warrior','paladin','hunter','rogue','priest','shaman'],nightelf:['warrior','hunter','rogue','priest','druid'],gnome:['warrior','rogue','priest','mage','warlock'],skyborne:['warrior','hunter','rogue','mage','druid']};
-const DW=new Set(['warrior','rogue','hunter','shaman']);
+const DW=new Set(['warrior','rogue','hunter']);/* 포에버 주술사는 쌍수 없음(양손 고양) */
+const DWLV={rogue:10,warrior:20,hunter:20};
 const STAT_KO={exp:'회피·막기 당할 확률 감소 %',rap:'원거리 전투력',crit:'치명타 %',hit:'적중 %',scrit:'치명타 %',shit:'적중 %',dodge:'회피 %',parry:'무기 막기 %',blockp:'방패 막기 %',str:'힘',agi:'민첩',sta:'체력',int:'지능',spi:'정신력',sp:'주문력',heal:'치유량',mp5:'5초당 마나',ap:'전투력',dps:'무기 초당 공격력',def:'방어 숙련',block:'방패 막기',armor:'방어도',fire:'화염 주문력',frost:'냉기 주문력',nature:'자연 주문력',shadow:'암흑 주문력',arcane:'비전 주문력',holy:'신성 주문력'};
 const SLOTS=[['head','머리',['he']],['neck','목',['ne']],['shoulder','어깨',['sh']],['back','등',['ba']],['chest','가슴',['ch']],['wrist','손목',['wr']],['hands','손',['ha']],['waist','허리',['wa']],['legs','다리',['le']],['feet','발',['fe']],['ring1','반지 1',['fi']],['ring2','반지 2',['fi']],['trink1','장신구 1',['tr']],['trink2','장신구 2',['tr']],['main','주무기',['2h','mh','1h']],['off','보조',['oh','ho','1h']],['ranged','원거리',['ra']]];
 const SLOT_KO=Object.fromEntries(SLOTS.map(s=>[s[0],s[1]]));
@@ -621,12 +622,12 @@ function profOk(it,cls,lv){const [a,b]=(it.cs||'').split('.').map(Number);
   if(a===4){if(b===6)return SHIELD.has(cls);if(b>=1&&b<=4){if(it.sl==='ba')return true;const m=ARMOR[cls];return b<=(lv>=40?m[1]:m[0])}}
   return true}
 function usable(it,c,lv){if(!(it.mask&(1<<ci(c))))return false;if(it.allow&&!it.allow.includes(c.cls))return false;return profOk(it,c.cls,Math.max(lv||c.lv,it.lv))}
-function fits(it,slot,c){const S=SLOTS.find(s=>s[0]===slot);if(!S||!S[2].includes(it.sl))return false;
+function fits(it,slot,c,lv){const S=SLOTS.find(s=>s[0]===slot);if(!S||!S[2].includes(it.sl))return false;
   if(slot==='main'&&it.sl==='2h'&&c&&shieldTank(c))return false;/* 방패 탱커는 한손 무기 + 방패 */
   if(slot==='off'&&c&&shieldTank(c)&&it.cs!=='4.6')return false;
   /* 도적 암살(절단)·잠행(기습·암습)은 단검이 있어야 기술을 써요 */
   if(c&&c.cls==='rogue'&&(slot==='main'&&(c.spec==='assassination'||c.spec==='subtlety')||slot==='off'&&c.spec==='assassination')&&it.cs!=='2.15')return false;
-  if(slot==='off'){if(it.sl==='1h'||(it.sl==='oh'&&it.cs!=='4.6'))return DW.has(c.cls);return true}
+  if(slot==='off'){if(it.sl==='1h'||(it.sl==='oh'&&it.cs!=='4.6'))return DW.has(c.cls)&&DWLV[c.cls]<=Math.max(lv||0,c.lv||1);return true}
   return true}
 function slotsFor(it,c){return SLOTS.filter(s=>fits(it,s[0],c)).map(s=>s[0])}
 function sc(it,slot,w){if(!it)return 0;let s=0;for(const k in it.st){const v=it.st[k];if(k==='ap'&&it.sl==='ra'&&!(w.dpsRanged>0)&&/^2\.(2|3|18|16)$/.test(it.cs||''))continue;/* 활·총·석궁·투척의 전투력은 원거리 전투력 → 사냥꾼만 */if(k==='dps'){s+=v*dpsW(it,slot,w);continue}s+=v*(w[k]||0)}return s}
@@ -663,7 +664,7 @@ const wskNeed=(it,c)=>{const [a,b]=(it.cs||'').split('.').map(Number);if(a!==2||
   if(!WSK0[c.cls]||WSK0[c.cls].includes(b))return null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b],guess:1}};
 const skTag=(it,c)=>{const n=wskNeed(it,c);if(!n)return '';if(n.low)return ' <span class="lkt sk" title="숙련도 '+n.low[0]+'/'+n.low[1]+'">🎓 '+esc(n.ko)+' 숙련 '+n.low[0]+'/'+n.low[1]+'</span>';return ' <span class="lkt sk" title="'+esc(n.ko)+' 숙련은 '+esc(n.at)+'에게 배워요">🎓 '+esc(n.ko)+' 숙련 필요</span>'};
 const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead WoW Forever 직업 가이드 추천">📘 공략 추천</span>':'';
-function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
+function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
@@ -1741,7 +1742,7 @@ function routeMapPanel(c){const L0=ui._rmp||[];if(!L0.length)return '';const zs=
   return '<div class="card rmp"><div class="rmph"><b>🗺️ 들를 곳 지도</b>'+gmStyleSeg(c)+(zs.length>1?'<span class="rmpz">'+zs.map(x=>'<button class="'+(x===z?'on':'')+'" data-a="rmz" data-k="'+esc(x)+'">'+esc(x)+' <small>'+L0.filter(y=>y.z===x).length+'</small></button>').join('')+'</span>':'')+'</div>'
     +gmapHtml(z,pins.reverse(),line.length>1?line:null,0,0,(c.mapStyle||'atlas')!=='game')+'<p class="note">번호 = 왼쪽 마을 순서 · 핀을 누르면 그 마을이 열려요'+(L0.some(x=>x.z===z&&!x.xy)?' · 좌표 없는 곳은 빠져요':'')+'</p></div>'}
 /* ===== 🗺️ 게임 지도 (와우 지역 지도 그림 위에 핀 · wythic처럼) ===== */
-const ZID={'엘윈 숲':12,'던 모로':1,'모단 호수':38,'서부 몰락지대':40,'붉은마루 산맥':44,'그늘숲':10,'가시덤불 골짜기':33,'저습지':11,'아라시 고원':45,'힐스브래드 구릉지':267,'알터랙 산맥':36,'황야의 땅':3,'슬픔의 늪':8,'저주받은 땅':4,'이글거리는 협곡':51,'불타는 평원':46,'동부 내륙지':47,'서부 역병지대':28,'동부 역병지대':139,'티리스팔 숲':85,'은빛소나무 숲':130,'스톰윈드':1519,'아이언포지':1537,'검은바위 산':25,
+const ZID={'엘윈 숲':12,'던 모로':1,'모단 호수':38,'서부 몰락지대':40,'붉은마루 산맥':44,'그늘숲':10,'가시덤불 골짜기':33,'저습지':11,'아라시 고원':45,'힐스브래드 구릉지':267,'알터랙 산맥':36,'황야의 땅':3,'슬픔의 늪':8,'저주받은 땅':4,'이글거리는 협곡':51,'불타는 평원':46,'동부 내륙지':47,'서부 역병지대':28,'동부 역병지대':139,'티리스팔 숲':85,'은빛소나무 숲':130,'스톰윈드':1519,'아이언포지':1537,
  '텔드랏실':141,'다르나서스':1657,'어둠의 해안':148,'잿빛 골짜기':331,'돌발톱 산맥':406,'불모의 땅':17,'잊혀진 땅':405,'버섯구름 봉우리':400,'먼지진흙 습지대':15,'먼지진흙 슾지대':15,'페랄라스':357,'타나리스':440,'운고로 분화구':490,'악령의 숲':361,'여명의 설원':618,'아즈샤라':16,'실리더스':1377,'듀로타':14,'멀고어':215,'달의 숲':493,'오그리마':1637,'썬더 블러프':1638,'언더시티':1497};
 const gmUrl=z=>ZID[z]?'https://wow.zamimg.com/images/wow/classic/maps/kokr/original/'+ZID[z]+'.jpg':'';
 /* 와우헤드 지도 그림이 없는 지역(포에버 신규 등) → 우리 지도 타일을 그 지역 크기로 잘라서 */
@@ -2000,7 +2001,8 @@ function dgEndSheet(c,slug){const d=DG[slug];if(!d||!ui.de)return '';const L=c.l
   if(U.length)h+='<h3>얻은 템 <small class="mute">고르면 바로 껴요 (칸마다 하나)</small></h3><div class="dechk">'+U.map(({it,b})=>'<button class="'+(ui.de.i.has(it.id)?'on':'')+'" data-a="dei" data-k="'+it.id+'"><i>'+(ui.de.i.has(it.id)?'✓':'')+'</i>'+itIcon(it)+'<span><b class="q'+it.q+'">'+esc(it.nm)+'</b> <small>'+esc(SL_KO[it.sl]||'')+' · +'+Math.round(b.g)+'</small></span></button>').join('')+'</div>';
   return h+'<button class="btn full" data-a="deok" data-k="'+slug+'">정리하기</button><button class="btn ghost full" style="margin-top:6px" data-a="rkclr">체크만 지우기</button>'}
 function dgUps(c,d){const L=c.lv;return dgItems(c,d).filter(it=>usable(it,c)&&it.lv<=Math.max(L,d.hi)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01)}
-const DG_IMG=slug=>(typeof DG!=='undefined'&&DG[slug]&&DG[slug].wy?'https://wythic.com/dungeons/'+DG[slug].wy+'.jpg?v=2':'https://forg.gg/images/wow-forever/dungeons/'+slug+'-loading.webp')/* 신규 던전은 forg 그림이 없어 wythic.com 그림 */;
+const DG_NOFORG={'alcaz-prison':16620,'blackmaw-hold':16554,'shapers-terrace':16667};/* forg 로딩 그림이 없는 신규 던전(404 확인) → wythic 그림 */
+const DG_IMG=slug=>(typeof DG!=='undefined'&&DG[slug]&&(DG[slug].wy||DG_NOFORG[slug])?'https://wythic.com/dungeons/'+(DG[slug].wy||DG_NOFORG[slug])+'.jpg?v=2':'https://forg.gg/images/wow-forever/dungeons/'+slug+'-loading.webp')/* 신규 던전은 forg 그림이 없어 wythic.com 그림 */;
 function dgChips(c,cur){const L=c.lv;
   const near=DGS.filter(d=>L>=d.lo-1&&L<=d.hi).sort((a,b)=>b.fit-a.fit),up=DGS.filter(d=>d.lo-1>L).sort((a,b)=>a.fit-b.fit),past=DGS.filter(d=>d.hi<L).sort((a,b)=>b.fit-a.fit);
   const grp=(t,arr)=>arr.length?'<span class="dgl">'+t+'</span>'+arr.map(chip).join(''):'';
@@ -2253,10 +2255,10 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
     return '<div class="bs2"><div class="h"><span class="por"'+(im?' style="background-image:url('+im+'),url('+ICO('inv_misc_bone_humanskull_01')+')"':'')+'>'+(im?'':'👹')+'</span><span class="m"><b>'+esc(x.nm==='기타'?'보스 외 드랍':x.nm)+(killOf(c,d.slug)[x.nm]?' <em class="kdm">✓ 잡음</em>':'')+'</b><small>'+(bi>=0?(bi+1)+'번째 보스 · ':'')+'드랍 '+x.its.length+'</small></span><span class="cnt'+(x.good.length?'':' none')+'">'+(x.good.length?'좋은 템 '+x.good.length:'좋은 템 없음')+'</span></div>'
      +(show.length?'<div class="dgg2">'+show.map(tile).join('')+'</div>':'')+'</div>'}).join('');
   /* 던전 퀘스트 보상 템 (보스 드랍과 따로) */
-  {const dq=c.dq||{};const QR=dqOf(c,d).map(q=>({q,its:q.rw.map(id=>IT.get(id)).filter(Boolean)})).filter(x=>x.its.length);
+  {const dq=c.dq||{};const QR=dqOf(c,d).map(q=>({q,its:q.rw.map(id=>IT.get(id)).filter(Boolean),oth:q.rw.filter(id=>!IT.get(id)&&D_RWNM[id]).map(id=>D_RWNM[id])})).filter(x=>x.its.length||x.oth.length);
    if(QR.length){const gd=it=>{if(!usable(it,c))return 0;const b=bestSlot(it,c);return b&&b.g>.01?b.g:0};const nG=QR.reduce((n,x)=>n+x.its.filter(gd).length,0);
     h+='<div class="bs2 dqr"><div class="h"><span class="por">📜</span><span class="m"><b>던전 퀘스트 보상</b><small>퀘스트 '+QR.length+'개 · 하나 골라 받는 건 「택1」</small></span><span class="cnt'+(nG?'':' none')+'">'+(nG?'좋은 템 '+nG:'좋은 템 없음')+'</span></div>'
-     +QR.map(x=>{const show=lf==='all'?x.its:x.its.filter(gd);if(!show.length)return '';return '<p class="dqrn">'+(dq[x.q.id]?'✅ ':'')+esc(x.q.nm)+(x.q.choose&&x.its.length>1?' <em>택1</em>':'')+' <span class="mute">Lv '+x.q.lv+'</span></p><div class="dgg2">'+show.map(tile).join('')+'</div>'}).join('')+'</div>'}}
+     +QR.map(x=>{const show=lf==='all'?x.its:x.its.filter(gd);if(!show.length&&!(lf==='all'&&x.oth.length))return '';return '<p class="dqrn">'+(dq[x.q.id]?'✅ ':'')+esc(x.q.nm)+(x.q.choose&&x.its.length+x.oth.length>1?' <em>택1</em>':'')+' <span class="mute">Lv '+x.q.lv+'</span></p>'+(show.length?'<div class="dgg2">'+show.map(tile).join('')+'</div>':'')+(x.oth.length?'<p class="dqro">🎁 '+x.oth.map(esc).join(' · ')+'</p>':'')}).join('')+'</div>'}}
   const W=wyOf(d);if(!WY)wyLoad();
   if(W&&W.trash&&W.trash.length){const T=W.trash;
     h+='<details class="trash2"><summary>🗡️ 그 밖의 몹 드랍 '+T.length+'<span class="ics">'+T.slice(0,4).map(t=>{const it=IT.get(t[0]);return it?itIcon(it):''}).join('')+'</span><i>›</i></summary><div class="sb">'+T.map(t=>{const it=IT.get(t[0]);return it?dropLine(c,it)+(t[6]?'<p class="wysrc">↳ '+esc(t[6])+'</p>':''):'<div class="wyit q'+t[4]+'"><b>'+esc(t[1])+'</b><span>'+esc([t[2],t[3]?'iLv '+t[3]:'',t[6]].filter(Boolean).join(' · '))+'</span></div>'}).join('')+'</div></details>'}
