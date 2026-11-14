@@ -2337,8 +2337,8 @@ details.card>summary,details>summary{cursor:pointer}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=b69399cf"></script>
-<script>/* v696e2f @11/14 12:04 */
-const BUILD='11/14 12:04';
+<script>/* v4ffccb @11/14 12:10 */
+const BUILD='11/14 12:10';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4130,9 +4130,14 @@ function gmAtlasBg(z){const t=MAPZ[ZALIAS[z]||z];if(!t)return null;let x0=t[0];c
   let im='';for(let tx=Math.max(0,Math.floor(x0/span));tx<=Math.min(nx-1,Math.floor((x0+w)/span));tx++)for(let ty=Math.max(0,Math.floor(y0/span));ty<=Math.min(ny-1,Math.floor((y0+h)/span));ty++)
     im+='<img class="gt" src="https://assets.wowf.io/world/atlas/'+ATL[c].n+'/'+zz+'/'+tx+'_'+ty+'.webp" style="left:'+((tx*span-x0)/w*100).toFixed(3)+'%;top:'+((ty*span-y0)/h*100).toFixed(3)+'%;width:'+(span/w*100).toFixed(3)+'%;height:'+(span/h*100).toFixed(3)+'%" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">';
   return {im,ar:(w/h).toFixed(3)}}
+const lo_=(v,m)=>v-m;
 function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?'':gmUrl(z);const A=u?null:gmAtlasBg(z);
   let tf='',sc=1;if(zoom){const xs=pins.map(p=>p.x),ys=pins.map(p=>p.y);if(xs.length){const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);sc=Math.max(1,Math.min(2.6,100/(Math.max(x1-x0,(y1-y0)*1.2)+24)));
-    if(sc>1.05){const cl=(v,lo)=>Math.max(lo,Math.min(0,v));const tx=cl(50-(x0+x1)/2*sc,100-100*sc),ty=cl(50-(y0+y1)/2*sc,100-100*sc);tf=' style="--s:'+sc.toFixed(2)+';transform:translate('+tx.toFixed(1)+'%,'+ty.toFixed(1)+'%) scale('+sc.toFixed(2)+')"'}else sc=1}}
+    /* 지도 가장자리에 붙은 핀도 반쯤 잘리지 않게 바깥으로 조금(최대 9%) 비켜 보일 수 있게 함 */
+    const M=9;const cl=(v,lo,want)=>Math.max(lo-M,Math.min(M,v));
+    let tx=50-(x0+x1)/2*sc,ty=50-(y0+y1)/2*sc;tx=Math.max(lo_(100-100*sc,M),Math.min(M,tx));ty=Math.max(lo_(100-100*sc,M),Math.min(M,ty));
+    /* 핀이 칸 안쪽 6% 안에 들어오게 다시 확인 */tx=Math.min(tx,6-x0*sc);tx=Math.max(tx,94-x1*sc);ty=Math.min(ty,8-y0*sc);ty=Math.max(ty,92-y1*sc);
+    if(sc>1.05||y0<6||x0<5||x1>95||y1>94)tf=' style="--s:'+sc.toFixed(2)+';transform:translate('+tx.toFixed(1)+'%,'+ty.toFixed(1)+'%) scale('+sc.toFixed(2)+')"';else sc=1}}
   /* 이름표가 겹치면 뒤의 것은 숨기기 */
   const lab=[];pins.forEach(p=>{if(!p.lab)return;if(lab.some(q=>Math.abs(q.x-p.x)*sc<16&&Math.abs(q.y-p.y)*sc<7)||pins.some(q=>q!==p&&(q.x-p.x)*sc>1&&(q.x-p.x)*sc<15&&Math.abs(q.y-p.y)*sc<4))p.lab='';else lab.push(p)});/* 이름표가 오른쪽 다른 핀을 덮어도 숨김 */
   let s='<div class="gmap'+(big?' big':'')+(!u&&!A?' nomap':'')+(A?' atl':'')+'"'+(A?' style="aspect-ratio:'+A.ar+'"':'')+'><div class="gin"'+tf+'>'+(u?'<img src="'+u+'" alt="'+esc(z)+' 지도" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">':A?A.im:'');
@@ -4240,7 +4245,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   const xy=s=>s.xy?' '+s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'';
   h+='<button class="swrow" data-a="rmap"><span class="sw'+(recMapOn(c)?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 점선으로</small></button>';
   if(recMapOn(c))h+='<!--RM--><div class="gmrow">'+gmStyleSeg(c,1)+'</div>';
-  if(recMapOn(c)){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const P=[];
+  if(recMapOn(c)){let pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);{const k=pts.findIndex((s,i)=>i>=3&&Math.hypot(s.xy[0]-pts[i-1].xy[0],s.xy[1]-pts[i-1].xy[1])>40);if(k>0)pts=pts.slice(0,k)}/* 먼 곳으로 넘어가는 단계는 빼서 지도를 크게 */const P=[];
     const SP={};ui._stp=SP;pts.forEach((s,i)=>{const n=ST.indexOf(s)+1;const j=pts.slice(0,i).findIndex(p=>Math.hypot(p.xy[0]-s.xy[0],p.xy[1]-s.xy[1])<2.5);if(j>=0){SP[n]=SP[ST.indexOf(pts[j])+1];const pp=P.find(x=>x.t===SP[n]);if(pp)(pp.more=pp.more||[]).push(n);return}SP[n]=String(n);P.push({x:s.xy[0],y:s.xy[1],k:'s'+s.type,t:String(n),on:i===0,lab:i<4?s.place.split(' · ')[0].slice(0,12):''})});/* 같은 자리 단계는 한 핀에 「1·2·7」처럼 */
     h+='<div class="rmap gm">'+gmapHtml(ST[0].zone,P.reverse(),pts.map(s=>s.xy),0,1,miniStyle(c)!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><small class="rmn">선은 가는 순서 · 흐린 선은 먼 길(산·물은 돌아가요)</small><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
   else if(recMapOn(c)){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const W=366,H=230;const x=v=>8+v/100*(W-16),y=v=>8+v/100*(H-16);
