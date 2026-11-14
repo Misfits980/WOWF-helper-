@@ -5,8 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          for loc in kokr enus; do for p in forever classic; do for id in 16593 2521 2665 16591 616; do
-            u="https://wow.zamimg.com/images/wow/$p/maps/$loc/original/$id.jpg"
-            echo "$(curl -s -o /tmp/m.jpg -w '%{http_code} %{size_download}' "$u") $u"
-            [ -s /tmp/m.jpg ] && file /tmp/m.jpg | cut -c1-120
-          done; done; done
+          chk(){ echo "$(curl -s -o /tmp/m -w '%{http_code} %{size_download} %{content_type}' "$1") $1"; }
+          for n in zephras-isle zephras-island zephras skywall zephras_isle; do chk "https://assets.wowf.io/world/atlas/$n/0/0_0.webp"; done
+          chk "https://assets.wowf.io/world/atlas/eastern-kingdoms/0/0_0.webp"
+          for n in 2521 2665 16593 zephras-isle; do chk "https://assets.wowf.io/world/maps/$n.webp"; chk "https://assets.wowf.io/world/maps/$n.jpg"; chk "https://assets.wowf.io/maps/$n.webp"; done
+          for n in zephras-isle; do chk "https://forg.gg/images/wow-forever/maps/$n.webp"; chk "https://forg.gg/images/wow-forever/zones/$n.webp"; done
+          curl -s https://wowf.io/ | grep -o 'assets\.wowf\.io/[^"'"'"' )]*' | sort -u | head -40
+          curl -s https://wowf.io/map | grep -o 'assets\.wowf\.io/[^"'"'"' )]*\|/_next/static/[^"'"'"' )]*\.js' | sort -u | head -40
