@@ -1,0 +1,177 @@
+/* ===================================================================
+   와포 도우미 — 와우 게임 창 테마 (2026-11 대격변)
+   돌·가죽 바탕 + 청동 테두리 프레임, 와우 노란 제목, 붉은 금테 버튼,
+   액션바 같은 아래 탭, 유닛 프레임 같은 머리, 경험치 막대.
+   style.css 뒤에 붙어서 같은 선택자를 덮어씀.
+   =================================================================== */
+:root{
+  --bg:#120e09;--panel:#1d160e;--panel2:#2a2014;--line:#4a3920;--txt:#f2e6cc;--mute:#b3a383;
+  --gold:#ffd100;--gold2:#c79a3a;--bronze:#8a6a30;--bronze-hi:#e5c47a;--parch:#ecdcb2;--ink:#3b2914;
+  --wred:#8f2214;--wred2:#4d0d06;--xp:#9446d6;
+  --r:8px;--r2:6px;
+  --title:"Gowun Batang","Apple SD Gothic Neo",serif;
+}
+html,body{background:#120e09}
+body{
+  background:
+    radial-gradient(130% 70% at 50% -12%,rgba(120,84,36,.32),transparent 62%),
+    radial-gradient(90% 60% at 50% 115%,rgba(0,0,0,.7),transparent 70%),
+    repeating-linear-gradient(135deg,rgba(255,240,210,.014) 0 2px,transparent 2px 7px),
+    #120e09;
+  background-attachment:fixed;
+}
+::selection{background:#6b4f1c;color:#fff3c4}
+
+/* ---------- 제목 ---------- */
+h2,h3,.sheet h2,.sheet h3{font-family:var(--title);letter-spacing:.2px}
+h3,.card h3{color:var(--gold);text-shadow:0 1px 0 #000,0 0 8px rgba(0,0,0,.7)}
+h2{color:#fff1c9;text-shadow:0 1px 0 #000}
+h2.hh{font-size:21px;margin:16px 0 10px}
+h2.hh small{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;color:var(--mute)}
+
+/* ---------- 프레임(카드) ---------- */
+.card{
+  background:linear-gradient(180deg,#231a10 0%,#19130c 100%);
+  border:1px solid #5d4622;
+  box-shadow:inset 0 1px 0 rgba(255,214,140,.10),inset 0 0 0 1px rgba(0,0,0,.55),0 0 0 1px #000,0 6px 14px rgba(0,0,0,.45);
+  border-radius:var(--r);
+}
+.card>.hd{padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid transparent;
+  border-image:linear-gradient(90deg,transparent,rgba(199,154,58,.55) 18%,rgba(199,154,58,.55) 82%,transparent) 1}
+.card>.hd h3{margin:4px 0}
+.more{color:#f0cf6a}
+.more b{color:var(--gold)}
+
+/* 접는 칸(details) */
+details.card>summary,details>summary{cursor:pointer}
+
+/* ---------- 버튼: 와우 붉은 금테 ---------- */
+.btn{
+  background:linear-gradient(180deg,#b13421 0%,var(--wred) 45%,var(--wred2) 100%);
+  border:1px solid #d9b25a;color:var(--gold);font-weight:800;
+  text-shadow:0 1px 0 #000;border-radius:5px;
+  box-shadow:inset 0 1px 0 rgba(255,200,150,.35),inset 0 -2px 0 rgba(0,0,0,.35),0 1px 0 #000,0 0 0 1px rgba(0,0,0,.6);
+  transition:filter .12s,transform .06s;
+}
+.btn:hover{filter:brightness(1.12)}
+.btn:active{transform:translateY(1px);filter:brightness(.95)}
+.btn.ghost,.btn.sm.ghost{
+  background:linear-gradient(180deg,#30251a 0%,#1b140c 100%);border:1px solid #7a5d2b;color:#f2d98e;
+  box-shadow:inset 0 1px 0 rgba(255,220,160,.12),0 1px 0 #000;text-shadow:0 1px 0 #000;
+}
+.btn[disabled]{filter:grayscale(.8) brightness(.7)}
+
+/* ---------- 칩·탭: 와우 창 아래 탭 느낌 ---------- */
+.chip{
+  background:linear-gradient(180deg,#2b2117,#1a140d);border:1px solid #5a4422;color:#e9d9b0;border-radius:5px;
+  box-shadow:inset 0 1px 0 rgba(255,220,160,.07),0 1px 0 #000;
+}
+.chip.on{
+  background:linear-gradient(180deg,#6a4f19,#3b2b0e);border-color:#e1b84f;color:var(--gold);
+  box-shadow:inset 0 1px 0 rgba(255,230,160,.3),0 0 10px rgba(255,196,60,.22),0 1px 0 #000;text-shadow:0 1px 0 #000;
+}
+
+/* 켜고 끄기 → 와우 체크 상자 */
+.swrow .sw{width:24px;height:24px;border-radius:4px;background:linear-gradient(#1b140c,#0f0b07);border:1px solid #8a6a30;box-shadow:inset 0 1px 3px #000}
+.swrow .sw::after{content:'';left:5px;top:1px;width:8px;height:14px;border-radius:0;background:none;border:solid transparent;border-width:0 3px 3px 0;transform:rotate(40deg);transition:border-color .15s}
+.swrow .sw.on{background:linear-gradient(#2b2010,#140e07);border-color:#e1b84f}
+.swrow .sw.on::after{left:7px;background:none;border-color:var(--gold);filter:drop-shadow(0 0 3px rgba(255,209,0,.6))}
+
+/* ---------- 진행 막대: 경험치 막대 ---------- */
+.pbar{height:10px;border-radius:2px;background:#0b0805;border:1px solid #000;box-shadow:0 0 0 1px #5d4622;position:relative;margin:6px 0 8px}
+.pbar i{background:linear-gradient(180deg,#c58bff 0%,var(--xp) 45%,#5a1f8f 100%);border-radius:0}
+.pbar::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(0,0,0,.65) calc(10% - 1px) 10%)}
+
+/* ---------- 아이콘: 와우 아이콘 테두리 ---------- */
+.ic{border-radius:5px;border:1px solid #000}
+.ic.lg{border-radius:7px}
+
+/* ---------- 머리: 유닛 프레임 ---------- */
+.top{
+  background:linear-gradient(180deg,rgba(38,28,16,.97),rgba(20,15,9,.97));
+  border-bottom:2px solid #6b5126;box-shadow:0 1px 0 #000,0 6px 14px rgba(0,0,0,.5);
+}
+.top .who .ic{width:44px;height:44px;border-radius:50%;box-shadow:0 0 0 2px #c9a24a,0 0 0 3px #000,0 0 10px rgba(255,190,80,.25)}
+.top .who b{font-family:var(--title);font-size:16.5px;text-shadow:0 1px 0 #000}
+.lvbox input{width:48px;height:48px;border-radius:50%;
+  background:radial-gradient(circle at 50% 35%,#4a3614,#140d05 70%);border:2px solid #d4ad55;
+  box-shadow:0 0 0 1px #000,inset 0 2px 6px rgba(0,0,0,.8),0 0 10px rgba(255,190,60,.2);
+  color:var(--gold);font-family:var(--title);font-size:20px;text-shadow:0 1px 0 #000}
+.lvbox button{width:34px;height:34px;border-radius:5px;background:linear-gradient(180deg,#30251a,#1b140c);border:1px solid #7a5d2b;color:#f2d98e;box-shadow:inset 0 1px 0 rgba(255,220,160,.12),0 1px 0 #000}
+.lvlab{color:#d8b866;font-family:var(--title)}
+
+/* ---------- 아래 탭: 액션바 ---------- */
+.tabs{
+  background:linear-gradient(180deg,#2e2318 0%,#17110a 100%);
+  border-top:2px solid #7a5b28;box-shadow:0 -1px 0 #000,0 -8px 18px rgba(0,0,0,.6);
+}
+.tabs button{color:#c9b68c;font-weight:700;gap:3px;padding:7px 0 8px}
+.tabs button .e{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:6px;
+  background:radial-gradient(circle at 50% 40%,#2a2014,#0d0906 75%);border:1px solid #000;
+  box-shadow:0 0 0 1px #5d4622,inset 0 2px 5px rgba(0,0,0,.9);filter:none;transition:box-shadow .15s}
+.tabs button .e img{width:28px;height:28px;filter:grayscale(.45) brightness(.85);transition:filter .15s,transform .15s}
+.tabs button.on{color:var(--gold);text-shadow:0 1px 0 #000}
+.tabs button.on .e{box-shadow:0 0 0 1px #000,0 0 0 2px #f2c94c,0 0 12px rgba(255,200,60,.55),inset 0 0 10px rgba(255,200,60,.25)}
+.tabs button.on .e img{filter:none;transform:scale(1.06)}
+
+/* ---------- 창(시트) ---------- */
+.sheet-bg{background:rgba(0,0,0,.66)}
+.sheet{background:linear-gradient(180deg,#221910,#140f09 30%);border:2px solid #8a6a30;border-bottom:0;
+  box-shadow:0 0 0 1px #000,0 -10px 30px rgba(0,0,0,.6)}
+
+/* ---------- 홈: 목표 추적기 ---------- */
+.card.hq{background:linear-gradient(180deg,rgba(28,21,13,.92),rgba(18,13,8,.92))}
+.card.hq .row{border-top:1px solid rgba(93,70,34,.45)}
+.card.hq .row .nm{font-family:var(--title);color:var(--gold);font-size:15.5px;text-shadow:0 1px 0 #000}
+.hno{background:radial-gradient(circle at 50% 35%,#ffe066,#e0a800 70%);color:#1a1004;box-shadow:0 0 0 1px #000,0 0 8px rgba(255,200,0,.35)}
+.trow{border-bottom:1px solid rgba(93,70,34,.45)}
+.trow b{color:#f6e7c1}
+.tbg{background:radial-gradient(circle at 50% 35%,#ffe066,#c99400 70%)!important;color:#1a1004!important;box-shadow:0 0 0 1px #000}
+
+/* ---------- 태그·작은 글 ---------- */
+.tag{border-color:#5d4622;background:rgba(0,0,0,.25)}
+.note{color:#bfae8c}
+
+/* ---------- PC: 왼쪽 메뉴도 액션바 칸처럼 ---------- */
+@media (min-width:1000px){
+  .tabs{background:linear-gradient(90deg,#1f170e,#15100a);border-top:0;border-right:2px solid #6b5126;box-shadow:1px 0 0 #000,8px 0 18px rgba(0,0,0,.5)}
+  .tabs::before{font-family:var(--title);color:var(--gold);font-size:20px;text-shadow:0 1px 0 #000,0 0 10px rgba(255,190,60,.25)}
+  .tabs button{border:1px solid transparent}
+  .tabs button .e{width:36px;height:36px}
+  .tabs button.on{background:linear-gradient(90deg,rgba(255,200,60,.14),transparent);border-color:rgba(225,184,79,.35)}
+}
+
+/* ---------- 탭 바꿀 때 살짝 밀려 들어오기 ---------- */
+@keyframes wfhInL{from{opacity:.25;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes wfhInR{from{opacity:.25;transform:translateX(-26px)}to{opacity:1;transform:none}}
+#app.tin-l>.wrap{animation:wfhInL .22s ease-out}
+#app.tin-r>.wrap{animation:wfhInR .22s ease-out}
+@media (prefers-reduced-motion:reduce){#app.tin-l>.wrap,#app.tin-r>.wrap{animation:none}}
+
+/* ---------- 홈: 챙길 것 세 칸 ---------- */
+.htiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.htile{display:flex;flex-direction:column;gap:2px;padding:9px 9px 10px;border-radius:var(--r);cursor:pointer;min-width:0;
+  background:linear-gradient(180deg,#2a1f13,#17110a);border:1px solid #5d4622;
+  box-shadow:inset 0 1px 0 rgba(255,214,140,.12),0 0 0 1px #000,0 4px 10px rgba(0,0,0,.4);transition:transform .08s,border-color .15s}
+.htile:active{transform:scale(.97)}
+.htile:hover{border-color:#a9843c}
+.htile .hth{display:flex;align-items:center;gap:5px;min-width:0}
+.htile .hth img{width:20px;height:20px;object-fit:contain;flex:none}
+.htile .hth b{font-size:12.5px;color:#e9d9b0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.htile .hbig{font-family:var(--title);font-size:28px;line-height:1.15;color:var(--gold);text-shadow:0 1px 0 #000,0 0 10px rgba(255,190,40,.25)}
+.htile .hbig i{font-style:normal;font-size:13px;margin-left:2px;color:#d8b866}
+.htile small{font-size:11.5px;color:var(--mute);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.7em}
+.htile .tbtn{margin-top:6px;min-height:32px;padding:4px 6px;font-size:12.5px;width:100%}
+.htile.dim{opacity:.7}.htile.dim .hbig{color:#8fd18f;text-shadow:0 1px 0 #000}
+.card.todo .hd h3{font-size:14.5px}
+
+/* ---------- 던전 고르는 줄: 청동 ---------- */
+.dchips{background:linear-gradient(180deg,#241b10,#140f09);border-bottom:2px solid #6b5126;box-shadow:0 1px 0 #000}
+.dchip{background:linear-gradient(180deg,#2a2016,#18120b);border:1px solid #5a4422;color:#efe0bc;border-radius:6px;box-shadow:inset 0 1px 0 rgba(255,220,160,.08),0 1px 0 #000}
+.dchip.on{border-color:#f2c94c;box-shadow:0 0 0 1px #000,0 0 12px rgba(255,200,60,.35);background:linear-gradient(180deg,#4a3713,#22190b)}
+.dchip.near small,.dchip small{color:#bfae8c}
+.dgl{color:#bfa36a;border-left-color:#5a4422}
+.dhero2{border:1px solid #6b5126;box-shadow:0 0 0 1px #000,0 8px 18px rgba(0,0,0,.5)}
+.dhero2 h2{font-family:var(--title);color:#fff1c9;text-shadow:0 2px 0 #000,0 0 12px rgba(0,0,0,.8)}
+.dchip.on{color:var(--gold)}.dchip.on small{color:#e9c96a}

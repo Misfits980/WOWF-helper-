@@ -2052,11 +2052,189 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .tl2 .rfl i{flex:1;height:1px;margin-left:4px;background:linear-gradient(90deg,#8a6d33,transparent)}
 .dqro{margin:2px 0 8px;font-size:12.5px;color:var(--mute,#9aa)}
 .lvhi{font-size:18px;line-height:1;width:20px;text-align:center;flex:none}
+
+/* ===================================================================
+   와포 도우미 — 와우 게임 창 테마 (2026-11 대격변)
+   돌·가죽 바탕 + 청동 테두리 프레임, 와우 노란 제목, 붉은 금테 버튼,
+   액션바 같은 아래 탭, 유닛 프레임 같은 머리, 경험치 막대.
+   style.css 뒤에 붙어서 같은 선택자를 덮어씀.
+   =================================================================== */
+:root{
+  --bg:#120e09;--panel:#1d160e;--panel2:#2a2014;--line:#4a3920;--txt:#f2e6cc;--mute:#b3a383;
+  --gold:#ffd100;--gold2:#c79a3a;--bronze:#8a6a30;--bronze-hi:#e5c47a;--parch:#ecdcb2;--ink:#3b2914;
+  --wred:#8f2214;--wred2:#4d0d06;--xp:#9446d6;
+  --r:8px;--r2:6px;
+  --title:"Gowun Batang","Apple SD Gothic Neo",serif;
+}
+html,body{background:#120e09}
+body{
+  background:
+    radial-gradient(130% 70% at 50% -12%,rgba(120,84,36,.32),transparent 62%),
+    radial-gradient(90% 60% at 50% 115%,rgba(0,0,0,.7),transparent 70%),
+    repeating-linear-gradient(135deg,rgba(255,240,210,.014) 0 2px,transparent 2px 7px),
+    #120e09;
+  background-attachment:fixed;
+}
+::selection{background:#6b4f1c;color:#fff3c4}
+
+/* ---------- 제목 ---------- */
+h2,h3,.sheet h2,.sheet h3{font-family:var(--title);letter-spacing:.2px}
+h3,.card h3{color:var(--gold);text-shadow:0 1px 0 #000,0 0 8px rgba(0,0,0,.7)}
+h2{color:#fff1c9;text-shadow:0 1px 0 #000}
+h2.hh{font-size:21px;margin:16px 0 10px}
+h2.hh small{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;color:var(--mute)}
+
+/* ---------- 프레임(카드) ---------- */
+.card{
+  background:linear-gradient(180deg,#231a10 0%,#19130c 100%);
+  border:1px solid #5d4622;
+  box-shadow:inset 0 1px 0 rgba(255,214,140,.10),inset 0 0 0 1px rgba(0,0,0,.55),0 0 0 1px #000,0 6px 14px rgba(0,0,0,.45);
+  border-radius:var(--r);
+}
+.card>.hd{padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid transparent;
+  border-image:linear-gradient(90deg,transparent,rgba(199,154,58,.55) 18%,rgba(199,154,58,.55) 82%,transparent) 1}
+.card>.hd h3{margin:4px 0}
+.more{color:#f0cf6a}
+.more b{color:var(--gold)}
+
+/* 접는 칸(details) */
+details.card>summary,details>summary{cursor:pointer}
+
+/* ---------- 버튼: 와우 붉은 금테 ---------- */
+.btn{
+  background:linear-gradient(180deg,#b13421 0%,var(--wred) 45%,var(--wred2) 100%);
+  border:1px solid #d9b25a;color:var(--gold);font-weight:800;
+  text-shadow:0 1px 0 #000;border-radius:5px;
+  box-shadow:inset 0 1px 0 rgba(255,200,150,.35),inset 0 -2px 0 rgba(0,0,0,.35),0 1px 0 #000,0 0 0 1px rgba(0,0,0,.6);
+  transition:filter .12s,transform .06s;
+}
+.btn:hover{filter:brightness(1.12)}
+.btn:active{transform:translateY(1px);filter:brightness(.95)}
+.btn.ghost,.btn.sm.ghost{
+  background:linear-gradient(180deg,#30251a 0%,#1b140c 100%);border:1px solid #7a5d2b;color:#f2d98e;
+  box-shadow:inset 0 1px 0 rgba(255,220,160,.12),0 1px 0 #000;text-shadow:0 1px 0 #000;
+}
+.btn[disabled]{filter:grayscale(.8) brightness(.7)}
+
+/* ---------- 칩·탭: 와우 창 아래 탭 느낌 ---------- */
+.chip{
+  background:linear-gradient(180deg,#2b2117,#1a140d);border:1px solid #5a4422;color:#e9d9b0;border-radius:5px;
+  box-shadow:inset 0 1px 0 rgba(255,220,160,.07),0 1px 0 #000;
+}
+.chip.on{
+  background:linear-gradient(180deg,#6a4f19,#3b2b0e);border-color:#e1b84f;color:var(--gold);
+  box-shadow:inset 0 1px 0 rgba(255,230,160,.3),0 0 10px rgba(255,196,60,.22),0 1px 0 #000;text-shadow:0 1px 0 #000;
+}
+
+/* 켜고 끄기 → 와우 체크 상자 */
+.swrow .sw{width:24px;height:24px;border-radius:4px;background:linear-gradient(#1b140c,#0f0b07);border:1px solid #8a6a30;box-shadow:inset 0 1px 3px #000}
+.swrow .sw::after{content:'';left:5px;top:1px;width:8px;height:14px;border-radius:0;background:none;border:solid transparent;border-width:0 3px 3px 0;transform:rotate(40deg);transition:border-color .15s}
+.swrow .sw.on{background:linear-gradient(#2b2010,#140e07);border-color:#e1b84f}
+.swrow .sw.on::after{left:7px;background:none;border-color:var(--gold);filter:drop-shadow(0 0 3px rgba(255,209,0,.6))}
+
+/* ---------- 진행 막대: 경험치 막대 ---------- */
+.pbar{height:10px;border-radius:2px;background:#0b0805;border:1px solid #000;box-shadow:0 0 0 1px #5d4622;position:relative;margin:6px 0 8px}
+.pbar i{background:linear-gradient(180deg,#c58bff 0%,var(--xp) 45%,#5a1f8f 100%);border-radius:0}
+.pbar::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(0,0,0,.65) calc(10% - 1px) 10%)}
+
+/* ---------- 아이콘: 와우 아이콘 테두리 ---------- */
+.ic{border-radius:5px;border:1px solid #000}
+.ic.lg{border-radius:7px}
+
+/* ---------- 머리: 유닛 프레임 ---------- */
+.top{
+  background:linear-gradient(180deg,rgba(38,28,16,.97),rgba(20,15,9,.97));
+  border-bottom:2px solid #6b5126;box-shadow:0 1px 0 #000,0 6px 14px rgba(0,0,0,.5);
+}
+.top .who .ic{width:44px;height:44px;border-radius:50%;box-shadow:0 0 0 2px #c9a24a,0 0 0 3px #000,0 0 10px rgba(255,190,80,.25)}
+.top .who b{font-family:var(--title);font-size:16.5px;text-shadow:0 1px 0 #000}
+.lvbox input{width:48px;height:48px;border-radius:50%;
+  background:radial-gradient(circle at 50% 35%,#4a3614,#140d05 70%);border:2px solid #d4ad55;
+  box-shadow:0 0 0 1px #000,inset 0 2px 6px rgba(0,0,0,.8),0 0 10px rgba(255,190,60,.2);
+  color:var(--gold);font-family:var(--title);font-size:20px;text-shadow:0 1px 0 #000}
+.lvbox button{width:34px;height:34px;border-radius:5px;background:linear-gradient(180deg,#30251a,#1b140c);border:1px solid #7a5d2b;color:#f2d98e;box-shadow:inset 0 1px 0 rgba(255,220,160,.12),0 1px 0 #000}
+.lvlab{color:#d8b866;font-family:var(--title)}
+
+/* ---------- 아래 탭: 액션바 ---------- */
+.tabs{
+  background:linear-gradient(180deg,#2e2318 0%,#17110a 100%);
+  border-top:2px solid #7a5b28;box-shadow:0 -1px 0 #000,0 -8px 18px rgba(0,0,0,.6);
+}
+.tabs button{color:#c9b68c;font-weight:700;gap:3px;padding:7px 0 8px}
+.tabs button .e{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:6px;
+  background:radial-gradient(circle at 50% 40%,#2a2014,#0d0906 75%);border:1px solid #000;
+  box-shadow:0 0 0 1px #5d4622,inset 0 2px 5px rgba(0,0,0,.9);filter:none;transition:box-shadow .15s}
+.tabs button .e img{width:28px;height:28px;filter:grayscale(.45) brightness(.85);transition:filter .15s,transform .15s}
+.tabs button.on{color:var(--gold);text-shadow:0 1px 0 #000}
+.tabs button.on .e{box-shadow:0 0 0 1px #000,0 0 0 2px #f2c94c,0 0 12px rgba(255,200,60,.55),inset 0 0 10px rgba(255,200,60,.25)}
+.tabs button.on .e img{filter:none;transform:scale(1.06)}
+
+/* ---------- 창(시트) ---------- */
+.sheet-bg{background:rgba(0,0,0,.66)}
+.sheet{background:linear-gradient(180deg,#221910,#140f09 30%);border:2px solid #8a6a30;border-bottom:0;
+  box-shadow:0 0 0 1px #000,0 -10px 30px rgba(0,0,0,.6)}
+
+/* ---------- 홈: 목표 추적기 ---------- */
+.card.hq{background:linear-gradient(180deg,rgba(28,21,13,.92),rgba(18,13,8,.92))}
+.card.hq .row{border-top:1px solid rgba(93,70,34,.45)}
+.card.hq .row .nm{font-family:var(--title);color:var(--gold);font-size:15.5px;text-shadow:0 1px 0 #000}
+.hno{background:radial-gradient(circle at 50% 35%,#ffe066,#e0a800 70%);color:#1a1004;box-shadow:0 0 0 1px #000,0 0 8px rgba(255,200,0,.35)}
+.trow{border-bottom:1px solid rgba(93,70,34,.45)}
+.trow b{color:#f6e7c1}
+.tbg{background:radial-gradient(circle at 50% 35%,#ffe066,#c99400 70%)!important;color:#1a1004!important;box-shadow:0 0 0 1px #000}
+
+/* ---------- 태그·작은 글 ---------- */
+.tag{border-color:#5d4622;background:rgba(0,0,0,.25)}
+.note{color:#bfae8c}
+
+/* ---------- PC: 왼쪽 메뉴도 액션바 칸처럼 ---------- */
+@media (min-width:1000px){
+  .tabs{background:linear-gradient(90deg,#1f170e,#15100a);border-top:0;border-right:2px solid #6b5126;box-shadow:1px 0 0 #000,8px 0 18px rgba(0,0,0,.5)}
+  .tabs::before{font-family:var(--title);color:var(--gold);font-size:20px;text-shadow:0 1px 0 #000,0 0 10px rgba(255,190,60,.25)}
+  .tabs button{border:1px solid transparent}
+  .tabs button .e{width:36px;height:36px}
+  .tabs button.on{background:linear-gradient(90deg,rgba(255,200,60,.14),transparent);border-color:rgba(225,184,79,.35)}
+}
+
+/* ---------- 탭 바꿀 때 살짝 밀려 들어오기 ---------- */
+@keyframes wfhInL{from{opacity:.25;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes wfhInR{from{opacity:.25;transform:translateX(-26px)}to{opacity:1;transform:none}}
+#app.tin-l>.wrap{animation:wfhInL .22s ease-out}
+#app.tin-r>.wrap{animation:wfhInR .22s ease-out}
+@media (prefers-reduced-motion:reduce){#app.tin-l>.wrap,#app.tin-r>.wrap{animation:none}}
+
+/* ---------- 홈: 챙길 것 세 칸 ---------- */
+.htiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.htile{display:flex;flex-direction:column;gap:2px;padding:9px 9px 10px;border-radius:var(--r);cursor:pointer;min-width:0;
+  background:linear-gradient(180deg,#2a1f13,#17110a);border:1px solid #5d4622;
+  box-shadow:inset 0 1px 0 rgba(255,214,140,.12),0 0 0 1px #000,0 4px 10px rgba(0,0,0,.4);transition:transform .08s,border-color .15s}
+.htile:active{transform:scale(.97)}
+.htile:hover{border-color:#a9843c}
+.htile .hth{display:flex;align-items:center;gap:5px;min-width:0}
+.htile .hth img{width:20px;height:20px;object-fit:contain;flex:none}
+.htile .hth b{font-size:12.5px;color:#e9d9b0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.htile .hbig{font-family:var(--title);font-size:28px;line-height:1.15;color:var(--gold);text-shadow:0 1px 0 #000,0 0 10px rgba(255,190,40,.25)}
+.htile .hbig i{font-style:normal;font-size:13px;margin-left:2px;color:#d8b866}
+.htile small{font-size:11.5px;color:var(--mute);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.7em}
+.htile .tbtn{margin-top:6px;min-height:32px;padding:4px 6px;font-size:12.5px;width:100%}
+.htile.dim{opacity:.7}.htile.dim .hbig{color:#8fd18f;text-shadow:0 1px 0 #000}
+.card.todo .hd h3{font-size:14.5px}
+
+/* ---------- 던전 고르는 줄: 청동 ---------- */
+.dchips{background:linear-gradient(180deg,#241b10,#140f09);border-bottom:2px solid #6b5126;box-shadow:0 1px 0 #000}
+.dchip{background:linear-gradient(180deg,#2a2016,#18120b);border:1px solid #5a4422;color:#efe0bc;border-radius:6px;box-shadow:inset 0 1px 0 rgba(255,220,160,.08),0 1px 0 #000}
+.dchip.on{border-color:#f2c94c;box-shadow:0 0 0 1px #000,0 0 12px rgba(255,200,60,.35);background:linear-gradient(180deg,#4a3713,#22190b)}
+.dchip.near small,.dchip small{color:#bfae8c}
+.dgl{color:#bfa36a;border-left-color:#5a4422}
+.dhero2{border:1px solid #6b5126;box-shadow:0 0 0 1px #000,0 8px 18px rgba(0,0,0,.5)}
+.dhero2 h2{font-family:var(--title);color:#fff1c9;text-shadow:0 2px 0 #000,0 0 12px rgba(0,0,0,.8)}
+.dchip.on{color:var(--gold)}.dchip.on small{color:#e9c96a}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=e698f348"></script>
-<script>/* v76d831 @11/14 10:22 */
-const BUILD='11/14 10:22';
+<script>/* vde2a2c @11/14 10:30 */
+const BUILD='11/14 10:30';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3052,14 +3230,17 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   const D=dgNow(L).map(d=>{const S=dgState(c,d);const qg=S.left.reduce((n,q)=>n+q.rw.map(id=>IT.get(id)).filter(it=>it&&usable(it,c)&&!ownedOf(c,it.id)&&((bestSlot(it,c)||{}).g||0)>.01).length,0);d._v={g:S.ups.length+qg,q:S.left.length,all:S.all};return d}).sort((a,b)=>(a._v.all-b._v.all)||(b._v.g*2+b._v.q)-(a._v.g*2+a._v.q)||(a.fit-b.fit));
   const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,'탈것(훈련 100골드, 말 함께 받음)과 이중 특성이 열려요'],[60,'만렙! 빠른 탈것 훈련은 1,000골드 · 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
   const row=(ic,t,sub,a,k,right,dim)=>'<div class="trow'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><img class="ti" src="'+ic+'" alt=""><span class="m"><b>'+t+'</b><span>'+sub+'</span></span>'+(right||'')+'<span class="r">›</span></div>';
-  const i2=h.length;h+='<div class="card todo">';
-  h+=todo.length?row('img/ui-book.png','기술 배우기','교관에서 '+esc(todo.filter(l=>l[3]).map(l=>l[1]).slice(0,2).join(', ')||'랭크 올리기'),'goc','learn','<span class="tbg">'+todo.length+'</span><button class="btn sm tbtn" data-a="trn">배웠어요</button>')
-    :row('img/ui-book.png','기술','다 배웠어요'+(nextLearn?' · 다음 '+nextLearn[0]+'레벨':''),'goc','learn','<span class="tok">✓</span>',1);
+  /* 챙길 것: 기술·장비·던전을 한눈에 보는 세 칸(숫자 크게) + 레벨별 할 일 */
+  const tile=(ic,t,big,sub,a,k,btn,dim)=>'<div class="htile'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><span class="hth"><img src="'+ic+'" alt=""><b>'+t+'</b></span><span class="hbig">'+big+'</span><small>'+sub+'</small>'+(btn||'')+'</div>';
+  const i2=h.length;h+='<div class="htiles">';
+  h+=todo.length?tile('img/ui-book.png','배울 기술',todo.length+'<i>개</i>',esc(todo.filter(l=>l[3]).map(l=>l[1]).slice(0,2).join(', ')||'랭크 올리기'),'goc','learn','<button class="btn sm tbtn" data-a="trn">배웠어요</button>')
+    :tile('img/ui-book.png','배울 기술','✓','다 배웠어요'+(nextLearn?' · 다음 '+nextLearn[0]+'레벨':''),'goc','learn','',1);
   const NEW=U.filter(x=>(x.it.ob||x.it.lv)>=L-1);
-  h+=U.length?row('img/ui-shield.png','장비',(NEW.length?'🆕 새로 낄 수 있는 템 <b class="hl">'+NEW.length+'개</b> · '+esc(NEW[0].it.nm):esc(U[0].it.nm)+' · '+SLOT_KO[U[0].slot]),'tab','gear','<span class="tbg">'+U.length+'</span>'):row('img/ui-shield.png','장비','지금은 더 좋은 템이 없어요','tab','gear','<span class="tok">✓</span>',1);
-  h+=D.length?row('img/eye.png','던전',esc(D[0].ko)+' · '+D[0].lo+'–'+D[0].hi+(D[0]._v.g?' · <b class="hl">⭐ 좋은 템 '+D[0]._v.g+'</b>':'')+(D[0]._v.q?' · 퀘스트 '+D[0]._v.q:'')+(D.length>1?' 외 '+(D.length-1)+'곳':''),'dgo',D[0].slug):row('img/eye.png','던전',L<13?'13레벨쯤부터 갈 수 있어요':'레벨에 맞는 던전이 없어요','tab','dungeon','',1);
-  h+=msRows(c);
-  h+='</div>';const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c)+'<button class="syl'+(syOn()?' on':'')+'" data-a="chars">'+(syOn()?'📱💻 기기 연동 켜짐'+(SY.err?' · ⚠ '+esc(SY.err):SY.at?' · '+armAgo(SY.at)+' 맞춤':''):'📱💻 휴대폰·컴퓨터 자동 연동 켜기')+' ›</button>';
+  h+=U.length?tile('img/ui-shield.png','바꿀 장비',U.length+'<i>칸</i>',NEW.length?'🆕 새 템 '+NEW.length+'개 · '+esc(NEW[0].it.nm):esc(U[0].it.nm),'tab','gear'):tile('img/ui-shield.png','바꿀 장비','✓','지금 장비가 제일 좋아요','tab','gear','',1);
+  h+=D.length?tile('img/eye.png','갈 던전',D.length+'<i>곳</i>',esc(D[0].ko)+(D[0]._v.g?' · ⭐ '+D[0]._v.g:''),'dgo',D[0].slug):tile('img/eye.png','갈 던전','–',L<13?'13레벨쯤부터':'맞는 던전 없음','tab','dungeon','',1);
+  h+='</div>';
+  {const ms=msRows(c);if(ms)h+='<div class="card todo"><div class="hd"><h3>📌 레벨별 할 일</h3></div>'+ms+'</div>'}
+  const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c)+'<button class="syl'+(syOn()?' on':'')+'" data-a="chars">'+(syOn()?'📱💻 기기 연동 켜짐'+(SY.err?' · ⚠ '+esc(SY.err):SY.at?' · '+armAgo(SY.at)+' 맞춤':''):'📱💻 휴대폰·컴퓨터 자동 연동 켜기')+' ›</button>';
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
   if(window.innerWidth>=1000){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
@@ -4542,7 +4723,7 @@ function navLog(){const k=ui.tab+(ui.tab==='quest'?'/'+(ui.qmode||''):ui.tab==='
   try{const L=JSON.parse(sessionStorage.getItem('wfh_nav')||'[]');L.push([new Date().toTimeString().slice(0,8),NAVP||'-',k,NAVW]);sessionStorage.setItem('wfh_nav',JSON.stringify(L.slice(-30)));
     sessionStorage.setItem('wfh_view',JSON.stringify({tab:ui.tab,qmode:ui.qmode,dg:ui.dg}))}catch(e){}
   NAVP=k;NAVW='?'}
-function render(){const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');
+function render(){const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');if(ui._tin){app.className+=' tin-'+ui._tin;ui._tin=null}
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(dspView(c));else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
   app.innerHTML=topBar(c)+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
@@ -4556,6 +4737,12 @@ function vpFix(){requestAnimationFrame(()=>{const d=document.documentElement;con
 addEventListener('focusout',e=>{if(e.target&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))setTimeout(vpFix,60)});
 if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(vpFix,60));
 addEventListener('pageshow',vpFix);
+/* 폰: 화면을 좌우로 밀어 옆 탭으로 (지도·가로로 넘기는 줄·창 안에서는 안 함) */
+{let sx=0,sy=0,st=0,ok=false;
+ const blocked=el=>{for(let e=el;e&&e!==document.body;e=e.parentElement){if(e.matches&&e.matches('input,textarea,select,.sheet,.sheet-bg,.spanel,.gmap,.amap,.mapw,.rmap2,.dchips,.chips,.tgrid,.talg,[data-noswipe]'))return true;const cs=getComputedStyle(e);if((cs.overflowX==='auto'||cs.overflowX==='scroll')&&e.scrollWidth>e.clientWidth+4)return true}return false};
+ document.addEventListener('touchstart',e=>{if(e.touches.length!==1||window.innerWidth>=1000||!me()||ui.onb||ui.sheet||(ui.tab==='quest'&&ui.qmode==='atlas')){ok=false;return}const t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now();ok=!blocked(e.target)&&sx>18&&sx<window.innerWidth-18},{passive:true});
+ document.addEventListener('touchend',e=>{if(!ok)return;ok=false;const t=e.changedTouches[0];const dx=t.clientX-sx,dy=t.clientY-sy;if(Date.now()-st>650||Math.abs(dx)<80||Math.abs(dy)>Math.abs(dx)*.45)return;
+   const i=TABS.findIndex(x=>x[0]===ui.tab);const n=i+(dx<0?1:-1);if(i<0||n<0||n>=TABS.length)return;const b=document.querySelector('.tabs [data-a="tab"][data-k="'+TABS[n][0]+'"]');if(b){NAVW='밀기';b.click()}},{passive:true})}
 /* 아래 탭 줄은 화면을 다시 그려도 그대로 두고(폰에서 내리다가 탭 줄이 가운데 뜨는 현상 막기) 고른 탭만 바꿈 */
 function setTabs(on){let tb=document.getElementById('tabbar');if(!tb){tb=document.createElement('div');tb.id='tabbar';document.body.appendChild(tb)}
   const k=on?ui.tab:'';if(tb.dataset.k===k)return;tb.dataset.k=k;if(!on){tb.innerHTML='';return}
@@ -4580,7 +4767,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='onb-arm'){const A=ARM[k];if(A){o.arm=k;o.name=A.name;o.race=armRace(A.race);if(CL.includes(A.cls)){o.cls=A.cls;o.spec=''}o.lv=A.level||o.lv}rerender(true);return}
   if(a==='onb-go'){if(!(o.race&&o.cls&&o.spec))return;const n={id:newId(),name:(o.name||'').trim(),race:o.race,cls:o.cls,spec:o.spec,lv:Math.max(1,Math.min(60,+o.lv||1)),eq:{},fq:{},dq:{}};DB.list.push(n);DB.cur=n.id;if(o.arm){n.arm=o.arm;armApply(n,true);n.spec=o.spec}save();ui.onb=null;ui.tab='home';ui.sheet=null;render();window.scrollTo(0,0);toast('캐릭터를 만들었어요');return}
   if(!c)return;
-  if(a==='tab'){ui.tab=k;ui.amback=null;if(k==='quest'||k==='dungeon')qdbLoad();if(k==='dungeon')dggLoad();if(k!=='dungeon')ui.dg=null;render();window.scrollTo(0,0);const dc=document.querySelector('.dchips');if(dc){const on=dc.querySelector('.on');if(on)dc.scrollLeft=on.offsetLeft-20}return}
+  if(a==='tab'){{const o=TABS.findIndex(t=>t[0]===ui.tab),n=TABS.findIndex(t=>t[0]===k);if(o>=0&&n>=0&&o!==n)ui._tin=n>o?'l':'r'}ui.tab=k;ui.amback=null;if(k==='quest'||k==='dungeon')qdbLoad();if(k==='dungeon')dggLoad();if(k!=='dungeon')ui.dg=null;render();window.scrollTo(0,0);const dc=document.querySelector('.dchips');if(dc){const on=dc.querySelector('.on');if(on)dc.scrollLeft=on.offsetLeft-20}return}
   if(a==='lv-'||a==='lv+'){setLv(c,c.lv+(a==='lv+'?1:-1));rerender(true);return}
   if(a==='chars'){ui.sheet='chars';rerender(true);return}
   if(a==='imp'){ui.sheet='imp';rerender(true);if(!QDB)qdbLoad();return}
