@@ -343,10 +343,16 @@ def spawn_pts(sp):
         return out
     for z, pts in sp.items():
         L = []
-        for p in arr(pts) or []:
-            p = arr(p)
-            if p and len(p) >= 2 and all(isinstance(v, (int, float)) for v in p[:2]) and 0 <= p[0] <= 100 and 0 <= p[1] <= 100:
-                L.append((float(p[0]), float(p[1])))
+        stack = list(arr(pts) or [])
+        while stack:
+            p = arr(stack.pop())
+            if not isinstance(p, list) or not p:
+                continue
+            if len(p) >= 2 and all(isinstance(v, (int, float)) for v in p[:2]):
+                if 0 <= p[0] <= 100 and 0 <= p[1] <= 100:
+                    L.append((float(p[0]), float(p[1])))
+            else:
+                stack.extend(p)  # 순찰 경로처럼 한 겹 더 싸인 목록
         if L and isinstance(z, int):
             out.setdefault(z, []).extend(L)
     return out
@@ -401,19 +407,59 @@ def task_places(spawn_dicts, zones, any_cont=False):
     return [zk] + cl if cl else None
 
 
-def drop_spawns(item_id):
+_NAME_IX = {}
+
+
+def _name_ix(kind):
+    # 같은 이름인데 번호만 다른 몹·물건(자리 있는 것)을 찾기 위한 색인
+    if kind not in _NAME_IX:
+        db, K = (NPC, NK) if kind == 'npc' else (OBJ, OK)
+        ix = {}
+        for i, r in db.items():
+            nm = r.get(K['name'])
+            if isinstance(nm, str) and spawn_pts(r.get(K['spawns'])):
+                ix.setdefault(nm, []).append(i)
+        _NAME_IX[kind] = ix
+    return _NAME_IX[kind]
+
+
+def npc_sp(i):
+    """몹 자리: spawns → 없으면 순찰 경로(waypoints) → 없으면 같은 이름 몹의 자리"""
+    r = NPC.get(i) if isinstance(i, int) else None
+    if not r:
+        return [None]
+    if spawn_pts(r.get(NK['spawns'])):
+        return [r.get(NK['spawns'])]
+    if spawn_pts(r.get(NK['waypoints'])):
+        return [r.get(NK['waypoints'])]
+    nm = r.get(NK['name'])
+    return [NPC[j].get(NK['spawns']) for j in _name_ix('npc').get(nm, [])[:6]] or [None]
+
+
+def obj_sp(i):
+    r = OBJ.get(i) if isinstance(i, int) else None
+    if not r:
+        return [None]
+    if spawn_pts(r.get(OK['spawns'])):
+        return [r.get(OK['spawns'])]
+    nm = r.get(OK['name'])
+    return [OBJ[j].get(OK['spawns']) for j in _name_ix('obj').get(nm, [])[:12]] or [None]
+
+
+def drop_spawns(item_id, depth=0):
     r = ITEM.get(item_id)
     if not r:
         return []
     sp = []
     for n in (arr(r.get(IK['npcDrops'])) or [])[:12]:
-        nr = NPC.get(n) if isinstance(n, int) else None
-        if nr:
-            sp.append(nr.get(NK['spawns']))
+        sp.extend(npc_sp(n))
     for o in (arr(r.get(IK['objectDrops'])) or [])[:12]:
-        orr = OBJ.get(o) if isinstance(o, int) else None
-        if orr:
-            sp.append(orr.get(OK['spawns']))
+        sp.extend(obj_sp(o))
+    if depth == 0 and not any(spawn_pts(x) for x in sp):
+        # 다른 아이템(상자·알 등)에서 나오는 템: 그 아이템이 나오는 곳
+        for it in (arr(r.get(IK['itemDrops'])) or [])[:6]:
+            if isinstance(it, int):
+                sp.extend(drop_spawns(it, 1))
     if not any(spawn_pts(x) for x in sp):
         # 떨구는 곳이 없으면 파는 상인 자리(호드 상인은 뺌)
         for n in (arr(r.get(IK['vendors'])) or [])[:8]:
@@ -559,9 +605,9 @@ for qid, q in sorted(QUEST.items()):
             if not e or not isinstance(e[0], int):
                 continue
             if kind == 0:
-                t = [label, ko_npc(e[0]), None, task_places([(NPC.get(e[0]) or {}).get(NK['spawns'])], zpref, anyc)]
+                t = [label, ko_npc(e[0]), None, task_places(npc_sp(e[0]), zpref, anyc)]
             elif kind == 1:
-                t = [label, ko_obj(e[0]), None, task_places([(OBJ.get(e[0]) or {}).get(OK['spawns'])], zpref, anyc)]
+                t = [label, ko_obj(e[0]), None, task_places(obj_sp(e[0]), zpref, anyc)]
             else:
                 t = [label, ko_item(e[0]), droppers(e[0], gz), task_places(drop_spawns(e[0]), zpref, anyc)]
             if t[3] is None:
@@ -572,7 +618,7 @@ for qid, q in sorted(QUEST.items()):
         e = arr(e)
         if e and len(e) > 1 and isinstance(e[1], int):
             ids = [i for i in (arr(e[0]) or []) if isinstance(i, int)] + [e[1]]
-            t = ['처치', ko_npc(e[1]), None, task_places([(NPC.get(i) or {}).get(NK['spawns']) for i in ids], zpref, anyc)]
+            t = ['처치', ko_npc(e[1]), None, task_places([x for i in ids for x in npc_sp(i)], zpref, anyc)]
             if t[3] is None:
                 t.pop()
             tasks.append(t)

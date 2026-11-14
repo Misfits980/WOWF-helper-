@@ -2397,11 +2397,14 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .mmx img{width:14px;height:14px;vertical-align:-2px}
 /* 할 일 구역 (몹·물건이 나오는 곳) */
 .mma{position:absolute;transform:translate(-50%,-50%);border-radius:50%;border:2px dashed rgba(255,138,122,.85);background:rgba(255,120,90,.16);pointer-events:none;z-index:1}
+/* 좌표만 있는 지도(제프라스 섬 등)의 할 일 구역 */
+.gmap .gpa{position:absolute;transform:translate(-50%,-50%);border-radius:50%;border:2px dashed rgba(255,138,122,.9);background:rgba(255,120,90,.16);pointer-events:none}
+.mmna{margin:8px 0 10px}.mmna .gmap{border-radius:10px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=c508eea2"></script>
-<script>/* v258cb8 @11/14 15:04 */
-const BUILD='11/14 15:04';
+<script src="app-data.js?v=7d6dfb65"></script>
+<script>/* v697b61 @11/14 15:22 */
+const BUILD='11/14 15:22';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2962,7 +2965,7 @@ function miniMap(id,d,nm){const X=QDB&&QDB.get(id);const P=[];
   if(QP.length)QP.slice(0,3).forEach(o=>add('ob',o.zone,o.xy,o.nm,o.r));
   else if(QD.get(id))for(const t of tasksOf(QD.get(id),d.obj||(X&&X.o)||'')){const m=(t.where||'').match(/([\d.]+),\s*([\d.]+)/);if(m)add('ob',gz,m[1]+','+m[2],t.nm)}
   if(R&&!(G&&R[2]===G[2]&&R[0]===G[0]))add('r',R[1]||gz,R[2],npcKo(d,'r')||R[0]);
-  if(!P.length)return '';const c0=P[0].c;let Q=P.filter(p=>p.c===c0);
+  if(!P.length)return mmNoAtlas(id,X,d,G,R,gz);const c0=P[0].c;let Q=P.filter(p=>p.c===c0);
   const MW=Math.min(560,Math.max(180,Math.min(window.innerWidth,720)-130));/* 폰에서는 칸이 좁으니 핀이 칸 밖으로 안 나가게 더 멀리서 보기 */
   const fitZ=L=>{const xs=L.map(p=>p.x),ys=L.map(p=>p.y);const w=Math.max(...xs)-Math.min(...xs),hh=Math.max(...ys)-Math.min(...ys);let z=3;while(z>0&&(w*2**(z-3)>MW||hh*2**(z-3)>170))z--;return {z,ok:w*2**(z-3)<=MW&&hh*2**(z-3)<=170&&z>=1}};
   /* 받는 곳과 반납 곳이 멀리 떨어진 다른 지역이면(예: 다르나서스 → 달의 숲) 한 칸에 다 넣으면 핀이 가장자리로 밀려 잘림 → 받는 지역만 보이고 나머지는 글로 */
@@ -2977,6 +2980,13 @@ function miniMap(id,d,nm){const X=QDB&&QDB.get(id);const P=[];
   const zl=gz?'<span class="mmz">'+esc(gz)+(G?' · '+xyTxt(G[2]):'')+'</span>':'';
   const ax=away.length?'<span class="mmx">'+away.map(p=>(p.kind==='r'?QMK.r+' 반납':p.kind==='g'?QMK.g+' 받기':'⚔️')+' <b>'+esc(p.nm||'')+'</b> · '+esc(zn(p.zone||''))+' (다른 지역)').join('<br>')+'</span>':'';
   return '<div class="mm'+(away.length?' hasx':'')+'"><div class="mmc">'+t+pins+'</div>'+zl+ax+'<button class="mmgo" data-a="mmgo" data-k="'+id+'">지도에서 크게 ›</button></div>'}
+/* 큰 지도에 없는 지역(제프라스 섬 등): 지도 그림 없이 좌표만으로 받기·할 일 구역·반납을 그림 */
+function mmNoAtlas(id,X,d,G,R,gz){const zz=gz||(X&&X.z)||'';if(!zz)return '';const pins=[];const same=z=>zn(z||zz)===zn(zz);
+  if(G&&G[2]&&same(G[1])){const p=xyOf(G[2]);if(p)pins.push({x:p[0],y:p[1],k:'sget',t:'!',lab:(npcKo(d,'g')||G[0]||'').slice(0,12)})}
+  ((X&&X.t)||[]).filter(t=>t[3]&&same(t[3][0])).forEach(t=>t[3].slice(1,3).forEach(c=>{if(pins.filter(p=>p.k==='sdo').length<3)pins.push({x:c[0],y:c[1],k:'sdo',t:'⚔',lab:(t[1]||'').slice(0,12),rad:c[2]})}));
+  if(R&&R[2]&&same(R[1])&&!(G&&R[2]===G[2])){const p=xyOf(R[2]);if(p)pins.push({x:p[0],y:p[1],k:'sturn',t:'?',lab:(npcKo(d,'r')||R[0]||'').slice(0,12)})}
+  if(!pins.length)return '';
+  return '<div class="mmna">'+gmapHtml(zz,pins,null,0,1,1)+'<p class="note">'+esc(zz)+'은(는) 큰 지도가 없어서 좌표로만 그렸어요. 게임 지도와 같은 좌표예요.</p></div>'}
 /* 양피지 모양 퀘스트 상세 */
 function chainOf0(id){const d=QD.get(id);if(d&&d.ch&&d.ch.length>1)return d.ch;for(const o of QD.values())if(o.ch&&o.ch.length>1&&o.ch.some(r=>r[6]===id))return o.ch.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r});return null}
 /* 연계 정보는 한 곳 기준: Questie 포에버 자료(갈래·보정 포함)가 있으면 그걸, 없을 때만 forg·wowf 연계 표 */
@@ -3872,9 +3882,13 @@ let _ZCT=null;function zoneCenters(){if(_ZCT)return _ZCT;const S=zoneSamples();i
 let _DGQ=null;const dgOfQ=id=>(_DGQ||(_DGQ=new Map(DGS.flatMap(d=>d.q.map(q=>[q.id,d])))) ).get(id);
 function mobAt(nm,pz){if(!WLD||!WLD.mob||!nm)return null;let best=null;for(const z in WLD.mob){if(!MAPZ[z]&&!ZALIAS[z])continue;for(const m of WLD.mob[z]){if(m[0]!==nm)continue;const sc=(zEq(z,pz)?1e6:0)+(m[3]||0);if(!best||sc>best.sc)best={z,xy:m[4]+','+m[5],sc}}}return best}
 /* 퀘스트 자료(Questie)의 할 일 자리: 몹·물건이 나오는 점들을 묶은 구역 [지역, [x,y,반지름,점 수]…] */
-function qPlace(q){for(const t of (q&&q.t)||[]){const P=t[3];if(!P||!P[0]||!MAPZ[zn(P[0])])continue;const c=P[1];if(c)return {zone:P[0],xy:[c[0],c[1]],nm:t[1],r:c[2]}}return null}
+function qPlace(q){for(const t of (q&&q.t)||[]){const P=t[3];if(!P||!P[0])continue;/* 동선 지도는 지역 좌표(%)로 그려서 큰 지도 좌표가 없는 지역(제프라스 섬)도 됨 */const c=P[1];if(c)return {zone:P[0],xy:[c[0],c[1]],nm:t[1],r:c[2]}}return null}
 function obPlaces(q){const z=(q.g&&q.g[1])||q.z;const out=[];const d=QD.get(q.id);
-  for(const t of (q.t||[])){const P=t[3];if(!P||!P[0]||!MAPZ[zn(P[0])])continue;P.slice(1,3).forEach((c,i)=>{if(out.length<4&&c)out.push({zone:P[0],xy:c[0]+','+c[1],nm:(t[1]||'할 일')+(i?' (여기도 있어요)':''),r:c[2],n:c[3]})})}
+  for(const t of (q.t||[])){const P=t[3];
+    if(P&&P[0]&&MAPZ[zn(P[0])]){P.slice(1,3).forEach((c,i)=>{if(out.length<4&&c)out.push({zone:P[0],xy:c[0]+','+c[1],nm:(t[1]||'할 일')+(i?' (여기도 있어요)':''),r:c[2],n:c[3]})});continue}
+    /* 이 할 일만 자리가 없으면: 잡을 몹·떨구는 몹 이름으로 사냥터 위치(world.json) */
+    if(out.length>=4||dgOfQ(q.id))continue;const names=(t[0]==='처치'&&t[1]?[t[1]]:[]).concat((t[2]||[]).map(m=>m[0]));
+    for(const nm of names){const L=mobAt(nm,q.z);if(L&&MAPZ[zn(L.z)]){out.push({zone:L.z,xy:L.xy,nm:t[1]||nm,mob:nm,r:4});break}}}
   if(out.length)return out;
   if(d)for(const t of tasksOf(d,d.obj||q.o||'')){const m=(t.where||'').match(/([\d.]+),\s*([\d.]+)/);if(m)out.push({zone:z,xy:m[1]+','+m[2],nm:t.nm})}
   if(out.length)return out;
@@ -4238,7 +4252,8 @@ function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?''
     /* 지도 가장자리에 붙은 핀도 반쯤 잘리지 않게 바깥으로 조금(최대 9%) 비켜 보일 수 있게 함 */
     const M=4;/* 가장자리 핀이 반쯤 잘리지 않게 최대 4%만 바깥으로 비킴(빈 바탕이 크게 보이지 않게) */
     let tx=50-(x0+x1)/2*sc,ty=50-(y0+y1)/2*sc;tx=Math.max(lo_(100-100*sc,M),Math.min(M,tx));ty=Math.max(lo_(100-100*sc,M),Math.min(M,ty));
-    tx=Math.max(lo_(100-100*sc,M),Math.min(M,Math.min(tx,5-x0*sc)));ty=Math.max(lo_(100-100*sc,M),Math.min(M,Math.min(ty,6-y0*sc)));tx=Math.min(M,Math.max(tx,95-x1*sc));ty=Math.min(M,Math.max(ty,94-y1*sc));
+    /* 핀이 모두 화면 안(가로 5~95%, 세로 6~94%)에 들어오게. 예전엔 min/max가 거꾸로라 핀이 한쪽 가장자리로 쏠렸음 */
+    tx=Math.min(Math.max(tx,5-x0*sc),95-x1*sc);ty=Math.min(Math.max(ty,6-y0*sc),94-y1*sc);
     TX=tx;if(sc>1.05||y0<5||x0<5||x1>95||y1>95)tf=' style="--s:'+sc.toFixed(2)+';transform:translate('+tx.toFixed(1)+'%,'+ty.toFixed(1)+'%) scale('+sc.toFixed(2)+')"';else{sc=1;TX=0}}}
   /* 이름표가 겹치면 뒤의 것은 숨기기 */
   const lab=[];pins.forEach(p=>{if(!p.lab)return;if(lab.some(q=>Math.abs(q.x-p.x)*sc<16&&Math.abs(q.y-p.y)*sc<7)||lab.some(q=>q.lab===p.lab&&Math.abs(q.x-p.x)*sc<30&&Math.abs(q.y-p.y)*sc<14)||pins.some(q=>q!==p&&(q.x-p.x)*sc>1&&(q.x-p.x)*sc<15&&Math.abs(q.y-p.y)*sc<4))p.lab='';else lab.push(p)});/* 이름표가 오른쪽 다른 핀을 덮어도 숨김 */
@@ -4249,6 +4264,7 @@ function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?''
     s+='<svg viewBox="0 0 100 100" preserveAspectRatio="none">'+sv+'</svg>';
     /* 방향 화살표(가운데) — 지도가 늘어나도 모양이 안 찌그러지게 HTML로 */
     for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i];const d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d<7)continue;s+='<i class="gar" style="left:'+((a[0]+b[0])/2).toFixed(2)+'%;top:'+((a[1]+b[1])/2).toFixed(2)+'%;--a:'+Math.atan2(b[1]-a[1],(b[0]-a[0])*(A?+A.ar:1024/683)).toFixed(3)+'rad"></i>'}}
+  pins.forEach(p=>{if(p.rad)s+='<span class="gpa" style="left:'+p.x+'%;top:'+p.y+'%;width:'+2*p.rad+'%;height:'+2*p.rad+'%"></span>'});
   pins.forEach(p=>{s+=(p.k==='o'?'<span class="gpo" style="left:'+p.x+'%;top:'+p.y+'%"></span>':'<button class="gp k-'+p.k+(p.on?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%"'+(p.a?' data-a="'+p.a+'" data-k="'+esc(String(p.id))+'"':'')+(p.hk?' data-hk="'+esc(p.hk)+'"':'')+'>'+(p.ic||esc(p.t||''))+(p.more&&p.more.length?'<small class="gpm">·'+p.more.join('·')+'</small>':'')+(p.c>1?'<em>'+p.c+'</em>':'')+'</button>')+(p.lab?'<span class="gl'+(p.x*sc+TX>64?' rt':'')+'" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.lab)+'</span>':'')});
   return s+'</div><span class="gz">'+esc(z)+(sc>1?' · 확대':'')+(!u&&!A?' · 지도 그림 없음 (좌표만)':'')+'</span></div>'}
 function gmQuests(c,z){if(!QDB)return [];const L=c.lv;return [...QDB.values()].filter(q=>q.z===z&&qdbOk(c,q)&&!mqDone(c,q)&&(q.m||0)<=L+1&&(q.lv||0)>=L-6&&(q.lv||0)<=L+5).sort((a,b)=>(a.lv||0)-(b.lv||0))}
@@ -5137,6 +5153,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     ui.de.res={d:d.slug,dur,nk,nq:ui.de.q.size,eqd};rerender(true);return}
   if(a==='nch'){ui.nch=ui.nch||{};ui.nch[k]=!ui.nch[k];rerender(true);return}
   if(a==='chx'){ui.chopen=ui.chopen||{};ui.chopen[k]=b.dataset.f?false:true;rerender(true);return}
+  if(a==='mmgo'&&QDB&&QDB.get(+k)&&!amFocus(+k)){ui.sheet='q:'+k;render();toast('이 지역은 큰 지도가 없어서 퀘스트 창 지도로 보여 줘요');return}
   if(a==='mmgo'){ui.amback={sheet:ui.sheet,tab:ui.tab,qmode:ui.qmode,dg:ui.dg,dtab:ui.dtab,y:window.scrollY,id:+k};try{history.pushState({amback:1},'')}catch(e){}ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=+k;ui.amall=0;ui.ampmin=0;ui.amfit=1;if(window.innerWidth<1000){ui.amfull=true;document.body.classList.add('amfull')}/* 폰: 「크게 보기」는 화면 가득 */const FO=amFocus(+k);if(FO&&FO.P[0])ui.am=amFit(FO);render();window.scrollTo(0,0);return}
   if(a==='zq'){ui.qmode='map';ui.mz='?|'+k;ui.mf='now';render();window.scrollTo(0,0);return}
   if(a==='dcs'){const dc=document.querySelector('.dchips');if(dc)dc.scrollBy({left:(+k)*dc.clientWidth*.8,behavior:'smooth'});return}
