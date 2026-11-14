@@ -1,15 +1,8 @@
 name: tmp-check
-on: { push: { paths: ['.github/workflows/tmp-check.yml', '.github/tmp_route.py'] } }
+on: { push: { paths: ['.github/workflows/tmp-check.yml'] } }
 permissions: { contents: write }
 jobs:
-  route:
+  clean:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: '3.12' }
-      - run: pip install -q numpy pillow scipy
-      - run: python3 .github/tmp_route.py
-      - run: |
-          cd out && git init -q && git checkout -q -b tmp-shots && git add . && git -c user.name=bot -c user.email=bot@x commit -qm route
-          git push -qf https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git tmp-shots
+      - run: git init -q && git push -q https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git --delete tmp-shots || true
