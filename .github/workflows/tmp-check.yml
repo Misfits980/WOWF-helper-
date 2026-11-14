@@ -7,18 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: probe
+      - name: urls
         run: |
-          for u in "https://nether.wowhead.com/forever/tooltip/item/281732?locale=1" "https://nether.wowhead.com/forever/tooltip/item/281732?locale=ko"; do echo "### $u"; curl -s --max-time 20 "$u" | head -c 160; echo; sleep 2; done
-          for d in alcaz-prison blackmaw-hold shapers-terrace drowned-city; do
-            echo "### forg $d"; curl -s -L --max-time 20 -A "Mozilla/5.0" "https://forg.gg/wow/forever/dungeons/$d" | grep -o 'https://[^"]*\.\(webp\|jpg\|png\)\|/images/[^"]*\.\(webp\|jpg\|png\)' | sort -u | grep -i -v "icons/" | head -12; sleep 2; done
-      - name: icons
-        run: |
-          while read id kind; do
-            j=$(curl -s --max-time 20 "https://nether.wowhead.com/forever/tooltip/item/$id")
-            ic=$(echo "$j" | grep -o '"icon":"[^"]*"' | head -1 | cut -d'"' -f4)
-            ko=""
-            if [ "$kind" = "en" ]; then sleep 1; ko=$(curl -s --max-time 20 "https://nether.wowhead.com/forever/tooltip/item/$id?locale=1" | grep -o '"name":"[^"]*"' | head -1 | cut -d'"' -f4); fi
-            echo "ICN|$id|$ic|$ko"
-            sleep 1
-          done < tools/tmp-ids.txt
+          cat tools/tmp-urls.txt | xargs -P 8 -I{} sh -c 'r=$(curl -s -o /dev/null -L --max-time 20 -A "Mozilla/5.0" -w "%{http_code} %{size_download}" "{}"); echo "$r {}"' > res.txt
+          echo "== 상태"; cut -d' ' -f1 res.txt | sort | uniq -c
+          echo "== 실패"; grep -v '^200 ' res.txt | head -100
+          echo "== wythic"; grep wythic res.txt
