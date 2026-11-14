@@ -226,7 +226,7 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
             si_[label] = len(sl_); sl_.append(label)
         return si_[label]
     have_ = set(int(l.split('|')[0]) for l in items)
-    from items_wowf import eff_stats, parse_stats, merge_stats
+    from items_wowf import eff_stats, parse_stats, merge_stats, weapon_dps
     _stfix = 0
     WREC = {}
     for l_ in rd(Q / 'items-wowf.jsonl').splitlines():
@@ -244,6 +244,9 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
             # 포에버 툴팁(wowf.io)으로 능력치 채우기: forg에 빠진 주문력·적중·치명타 등급·「지능 +8」 꼴 등
             _cur = {k: float(v) for k, v in re.findall(r'([a-z]+\d?)(-?[\d.]+)', f[5])}
             _new = merge_stats(_cur, parse_stats(o_.get('lines')))
+            _wd = weapon_dps(o_.get('lines'))
+            if _wd and 'dps' in _cur and abs(_wd - _cur['dps']) > 0.3:
+                _new['dps'] = _wd  # 포에버에서 무기 공격력·속도가 바뀐 경우 (예: 정의의 망치 29.8 → 19.8)
             if _new != _cur:
                 f[5] = ' '.join('%s%s' % (k, ('%g' % v)) for k, v in _new.items())
                 items[ix] = '|'.join(f)

@@ -89,6 +89,23 @@ def parse_stats(lines):
 PRIMARY = ('str', 'agi', 'sta', 'int', 'spi')
 
 
+def weapon_dps(lines):
+    """툴팁의 무기 공격력·속도 줄로 초당 공격력 (효과 줄의 「피해 N - M」은 안 셈)"""
+    lo = hi = spd = 0
+    for t in lines or []:
+        t = t.strip()
+        if t.startswith(('착용 효과', '적중 시', '사용 효과')):
+            break
+        m = re.search(r'(\d+)\s*-\s*(\d+)\s*(?:피해|공격력)|(?:피해|공격력)\s*(\d+)\s*-\s*(\d+)', t)
+        if m and not lo:
+            g = [x for x in m.groups() if x]
+            lo, hi = int(g[0]), int(g[1])
+        m2 = re.search(r'속도\s*([\d.]+)', t)
+        if m2 and not spd:
+            spd = float(m2.group(1))
+    return round((lo + hi) / 2 / spd, 2) if lo and hi and spd else None
+
+
 def merge_stats(cur, p):
     """기존(forg) 능력치에 포에버 툴팁 값 합치기: 없는 칸은 채우고, 주 능력치가 다르면 포에버 툴팁을 믿음"""
     st = dict(cur)

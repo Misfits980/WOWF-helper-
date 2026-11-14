@@ -1,4 +1,4 @@
--- 와포 도우미 (WowfHelper) v3.4
+-- 와포 도우미 (WowfHelper) v3.5
 -- 이 캐릭터 정보를 글자 코드로 만들어 줘요:
 --   끝낸 퀘스트 · 지금 퀘스트 목록(+ 목표 진행도) · 끼고 있는 장비 · 전문기술 숙련도 · 특성 포인트 · 경험치
 --   사냥 기록(시간당 경험치) · 가방·은행 아이템 · 골드 · 평판 · 이 컴퓨터의 부캐
@@ -17,6 +17,7 @@
 -- /wfh 설정   지금 켜고 끈 상태 보기
 -- /wfh 입구   기억한 동굴·광산 입구 보기
 -- v3.4: 게임이 알려 주는 퀘스트 위치(목표·반납·길안내 다음 지점), 동굴 입구, 퀘스트 받은/반납한 자리도 코드에 담아요.
+-- v3.5: 끼고 있는 장비의 실제 능력치(게임이 읽은 값)와 무작위 옵션 이름(「산적의 ○○」)도 담아요.
 
 local B36 = "0123456789abcdefghijklmnopqrstuvwxyz"
 local PRE = "|cffe8c06a[와포 도우미]|r "
@@ -408,6 +409,48 @@ end
 -- 코드 만들기
 -- WFH2;이름;서버;직업;레벨;종족;진영;D:끝낸 퀘스트;L:퀘스트 목록;E:장비;P:전문기술;T:특성;U:찍은 특성;X:경험치
 -- … ;Q:게임 퀘스트 위치;N:동굴 입구;O:받은·반납한 자리;M:지도 번호=이름
+-- v3.5 끼고 있는 장비를 게임이 읽은 능력치 그대로: 「슬롯~번호~이름~능력치:값×10,…」
+--   무작위 옵션 장비(「산적의 궁수 장화」처럼 앞에 붙는 이름)는 번호만으론 능력치를 알 수 없고,
+--   포에버에서 능력치가 바뀐 장비도 있어서 사이트가 이 값을 우선해요. 이름은 무작위 옵션일 때만.
+local GSTAT_KEEP = {
+  STRENGTH = true, AGILITY = true, STAMINA = true, INTELLECT = true, SPIRIT = true,
+  ATTACK_POWER = true, RANGED_ATTACK_POWER = true, SPELL_POWER = true, SPELL_DAMAGE_DONE = true,
+  SPELL_HEALING_DONE = true, MANA_REGENERATION = true, POWER_REGEN0 = true,
+  DEFENSE_SKILL_RATING = true, BLOCK_VALUE = true, DAMAGE_PER_SECOND = true,
+}
+local function equipStats()
+  local out = {}
+  if not (GetInventoryItemLink and GetItemStats) then return out end
+  for slot = 1, 18 do
+    if slot ~= 4 then
+      local ok, link = pcall(GetInventoryItemLink, "player", slot)
+      if ok and type(link) == "string" then
+        local id, suf = link:match("item:(%d+):[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:(%-?%d*)")
+        id = tonumber(id)
+        if id then
+          local parts = {}
+          local okS, st = pcall(GetItemStats, link)
+          if okS and type(st) == "table" then
+            for k, v in pairs(st) do
+              local key = tostring(k):gsub("^ITEM_MOD_", ""):gsub("_SHORT$", "")
+              v = tonumber(v)
+              if GSTAT_KEEP[key] and v and v ~= 0 then parts[#parts + 1] = key .. ":" .. math.floor(v * 10 + 0.5) end
+            end
+          end
+          table.sort(parts)
+          local nm = ""
+          if suf and suf ~= "" and suf ~= "0" and GetItemInfo then
+            local okN, n = pcall(GetItemInfo, link)
+            if okN and type(n) == "string" then nm = n:gsub("[;%.~,:%^]", ""):gsub("%s+", "_") end
+          end
+          if #parts > 0 or nm ~= "" then out[#out + 1] = slot .. "~" .. b36(id) .. "~" .. nm .. "~" .. table.concat(parts, ",") end
+        end
+      end
+    end
+  end
+  return out
+end
+
 local function makeCode()
   local name = UnitName("player") or ""
   local realm = GetRealmName and GetRealmName() or ""
@@ -479,8 +522,11 @@ local function makeCode()
   local mn = {}
   for m in pairs(used) do if m > 0 then mn[#mn + 1] = m .. "=" .. mapName(m) end end
   code = code .. ";Q:" .. table.concat(qp, ".") .. ";N:" .. table.concat(en, ".") .. ";O:" .. table.concat(ob, ".") .. ";M:" .. table.concat(mn, "^")
+  local okv, ev = pcall(equipStats)
+  if not okv then ev = {} end
+  code = code .. ";V:" .. table.concat(ev, ".")
   return code, { done = #ids, log = #log, obj = nObj, eq = #eq, prof = #pf, tal = table.concat(tl, "/"), xp = xp, xpMax = xpMax,
-    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws, taxi = nt, qpos = #qp, ent = #en, obs = #ob }
+    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws, taxi = nt, qpos = #qp, ent = #en, obs = #ob, eqv = #ev }
 end
 
 -- 창
