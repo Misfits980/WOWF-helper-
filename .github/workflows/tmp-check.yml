@@ -2,11 +2,8 @@ name: tmp-check
 on: { push: { paths: ['.github/workflows/tmp-check.yml'] } }
 permissions: { contents: write }
 jobs:
-  maps:
+  clean:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          mkdir out && cd out
-          for id in 331 406 405 15 357 440 490; do curl -sf -A 'Mozilla/5.0' -o "$id.jpg" "https://wow.zamimg.com/images/wow/classic/maps/kokr/original/$id.jpg" && echo "ok $id $(stat -c%s $id.jpg)"; done
-          git init -q && git checkout -q -b tmp-shots && git add . && git -c user.name=bot -c user.email=bot@x commit -qm maps
-          git push -qf https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git tmp-shots
+          git init -q && git push -q https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git --delete tmp-shots || true
