@@ -120,3 +120,4 @@ ov[road] = (255, 60, 200, 200); ov[water & ~road] = (40, 120, 255, 120); ov[roug
 C.alpha_composite(Image.fromarray(ov, 'RGBA')); C.convert('RGB').save('out/c_mask.jpg', quality=80)
 json.dump([{'n': i + 1, **s} for i, s in enumerate(pts)], open('out/pts.json', 'w'), ensure_ascii=False)
 print('ok', W, H, 'road px', int(road.sum()), 'pts', len(pts))
+# rerun
