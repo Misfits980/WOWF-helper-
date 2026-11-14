@@ -336,3 +336,7 @@ details.card>summary,details>summary{cursor:pointer}
 .chips.seg .chip:not(.on) .gic{filter:grayscale(.5) brightness(.85)}
 h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-radius:4px}
 .amrt.far{stroke:#ffd257;stroke-width:2;stroke-dasharray:1 9;opacity:.45}
+.ltg .lt span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;max-height:none;overflow:hidden}
+/* 퀘스트 창 작은 지도: 다른 지역에 있는 받는 곳·반납 곳은 글로 */
+.mmx{position:absolute;left:8px;bottom:8px;max-width:calc(100% - 140px);font-size:11.5px;line-height:1.35;color:#f3e6c4;background:rgba(20,16,10,.86);padding:4px 8px;border-radius:6px;border:1px solid #5a4422}
+.mmx img{width:14px;height:14px;vertical-align:-2px}
