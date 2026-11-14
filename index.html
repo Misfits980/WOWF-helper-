@@ -2411,8 +2411,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=1bbc33ae"></script>
-<script>/* v2c3169 @11/14 19:38 */
-const BUILD='11/14 19:38';
+<script>/* vd58fc1 @11/14 22:53 */
+const BUILD='11/14 22:53';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3123,21 +3123,21 @@ const wskNeed=(it,c)=>{const [a,b]=(it.cs||'').split('.').map(Number);if(a!==2||
 const skTag=(it,c)=>{const n=wskNeed(it,c);if(!n)return '';if(n.low)return ' <span class="lkt sk" title="숙련도 '+n.low[0]+'/'+n.low[1]+'">🎓 '+esc(n.ko)+' 숙련 '+n.low[0]+'/'+n.low[1]+'</span>';return ' <span class="lkt sk" title="'+esc(n.ko)+' 숙련은 '+esc(n.at)+'에게 배워요">🎓 '+esc(n.ko)+' 숙련 필요</span>'};
 const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead WoW Forever 직업 가이드 추천">📘 공략 추천</span>':'';
 function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
-function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);
+function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
     const curS=Math.min(...pair.map(p=>sc(eqIt(c,p),p,w)));const tgt=pair.reduce((a,p)=>sc(eqIt(c,p),p,w)<=sc(eqIt(c,a),a,w)?p:a,pair[0]);
     let base=curS;if(slot==='main')base=sc(eqIt(c,'main'),'main',w)+(0);
     if(slot==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h')continue;
     const have=new Set(pair.map(p=>c.eq[p]).filter(Boolean));
-    const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&(minLv==null||x.it.ob>=minLv)&&!(slot==='off'&&out.some(o=>o.slot==='main'&&o.it.id===x.it.id)));
+    const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&!ng.has(x.it.id)&&(minLv==null||x.it.ob>=minLv)&&!(slot==='off'&&out.some(o=>o.slot==='main'&&o.it.id===x.it.id)));
     for(const x of list.slice(0,1)){let g;
       if(slot==='main'&&x.it.sl==='2h')g=x.s-(sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w));else g=x.s-base;
       if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):base,empty:!eqIt(c,tgt)})}}
   /* 양손 무기 추천과 보조 추천이 같이 나오지 않게: 양손 vs (한손+보조) 중 나은 쪽만 */
   const mi=out.findIndex(o=>o.slot==='main'&&o.it.sl==='2h'),oi=out.findIndex(o=>o.slot==='off');
   if(mi>=0&&oi>=0){const m=out[mi],o=out[oi];const two=m.base+m.g;const offS=o.base+o.g;
-    const m1=cands(c,'main',L,mode).find(x=>x.it.sl!=='2h'&&x.it.id!==o.it.id&&(minLv==null||x.it.ob>=minLv));const curM=eqIt(c,'main');
+    const m1=cands(c,'main',L,mode).find(x=>x.it.sl!=='2h'&&x.it.id!==o.it.id&&!ng.has(x.it.id)&&(minLv==null||x.it.ob>=minLv));const curM=eqIt(c,'main');
     const oneS=Math.max(m1?m1.s:0,curM&&curM.sl!=='2h'?sc(curM,'main',w):0);
     if(two>=oneS+offS)out.splice(oi,1);
     else{if(m1&&(!curM||m1.s>sc(curM,'main',w)+.01)){const b0=sc(curM,'main',w);out[mi]={slot:'main',it:m1.it,g:m1.s-b0,base:b0,empty:!curM}}else out.splice(mi,1)}}
@@ -3579,6 +3579,7 @@ function upAll(c,nowU,soonU){const nE=SLOTS.filter(([sl])=>!offLocked(c,sl)).len
   h+=(R.length?R.map(x=>uRow(c,x)).join(''):'<p class="note">'+(f?'이 곳에서 바꿀 건 없어요.':'지금 레벨에서 더 좋은 장비가 없어요 👍')+'</p>');
   if(!f&&later.length)h+='<div class="ulsep">🔜 레벨 오르면 바꿀 것</div>'+later.map(x=>uRow(c,x,1)).join('');
   if(!f&&nE-rows.length-later.length>0)h+='<p class="uok">✓ 나머지 '+(nE-rows.length-later.length)+'칸은 지금 장비가 제일 좋아요</p>';
+  if(!f&&(c.nogo||[]).length)h+='<p class="note">🚫 「못 얻어요」로 뺀 장비 '+c.nogo.length+'개는 추천에서 빼고 있어요 · <button class="lnk" data-a="nogoclr" data-k="*">모두 다시 넣기</button></p>';
   return h+'</div>'}
 function uRow(c,x,soon){const cur=eqIt(c,x.slot);const it=x.it;const st=it.st||{};const w=wOf(c);
   const top=Object.keys(st).filter(k=>STAT_KO[k]&&st[k]>0&&(w[k]||(k==='dps'&&(it.sl==='ra'?w.rdps:w.dps)))&&!dupSH(k,st,w)).sort((a,b)=>(k=>k==='dps'?1e3:(w[k]||0)*st[k])(b)-(k=>k==='dps'?1e3:(w[k]||0)*st[k])(a)).slice(0,3)
@@ -5295,7 +5296,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
   if(a==='frcopy'){const t=frText(k);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('복사했어요 · 디스코드·카톡에 붙여 넣으세요')).catch(()=>{ui.sheet=null;prompt('복사해서 쓰세요',t)});return}
   if(a==='nogo'){const id=+k;c.nogo=c.nogo||[];if(!c.nogo.includes(id))c.nogo.push(id);const it=IT.get(id);toast('🚫 '+(it?it.nm:'')+' 뺐어요 · 다음 추천을 넣었어요');save();rerender(true);return}
-  if(a==='nogoclr'){c.nogo=(c.nogo||[]).filter(id=>{const it=IT.get(id);return !(it&&fits(it,k,c))});toast('뺀 장비를 다시 넣었어요');save();rerender(true);return}
+  if(a==='nogoclr'){c.nogo=k==='*'?[]:(c.nogo||[]).filter(id=>{const it=IT.get(id);return !(it&&fits(it,k,c))});toast('뺀 장비를 다시 넣었어요');save();rerender(true);return}
   if(a==='wish'){const id=+k;c.wish=c.wish||[];const i=c.wish.indexOf(id);if(i>=0){c.wish.splice(i,1);toast('찜에서 뺐어요')}else{c.wish.push(id);toast('⭐ 찜했어요 · 장비 › 찜·비교')}save();rerender(true);return}
   if(a==='dgt'){ui.dgt=ui.dgt||{};ui.dgt[k]=ui.dgt[k]===false;rerender(true);return}
   if(a==='cmpdel'){c.cmp=(c.cmp||[]).filter(x=>x!==+k);save();rerender(true);return}
