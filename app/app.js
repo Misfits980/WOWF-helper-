@@ -992,10 +992,11 @@ function msRows(c){const L=c.lv||1,ms=c.ms||{};const mine=MS.filter(m=>!m[4]||m[
   let h=due.map(m=>'<div class="trow ms"><span class="ti">📌</span><span class="m"><b>'+esc(m[2])+' <small>'+m[0]+'레벨</small></b><span>'+esc(m[3])+'</span></span><button class="btn sm tbtn" data-a="msok" data-k="'+m[1]+'">했어요</button></div>').join('');
   if(nx&&nx[0]<=L+5)h+='<div class="trow soon"><span class="ti">🔜</span><span class="m"><b>'+nx[0]+'레벨 · '+esc(nx[2])+'</b><span>'+esc(nx[3])+'</span></span></div>';return h}
 function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
-  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.3</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
+  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.4</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
   if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드');if(c.wsk)got.push('무기 숙련');if(c.tal&&/^game/.test(c.tal.src||''))got.push('내 특성')}
     h+='<p class="adl"><b>'+ago+'</b>에 가져왔어요 · '+got.join(' · ')+'</p>';
     if((im.v||1)<3)h+='<p class="adw">'+((im.v||1)<2?'옛 애드온':'v2 애드온')+' 코드예요. 새 애드온(v3)을 받으면 아래 기능을 모두 쓸 수 있어요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
+    else if(!DB.gq)h+='<p class="adw">새 애드온(v3.4)은 <b>게임이 알려 주는 퀘스트 위치</b>(목표·반납·동굴 입구 같은 길안내 지점)도 가져와요. 지도 동선이 게임과 같아져요. 새로 받아 <code>/wfh</code> 코드를 다시 넣어 주세요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!(c.tal&&/^game/.test(c.tal.src||''))&&c.lv>=10)h+='<p class="adw">새 애드온(v3.3)은 <b>찍은 특성</b>도 가져와요. 직업 탭에 「🎮 내 특성」으로 나오고 가이드와 다른 칸을 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!c.taxi&&(im.v||1)>=3)h+='<p class="adw">새 애드온(v3.2)은 연 비행 경로도 가져와요. 게임에서 비행 조련사 창을 한 번 열고 <code>/wfh</code> 하면 동선에 안 연 비행 경로를 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!c.wsk&&['warrior','rogue','hunter','paladin','shaman'].includes(c.cls))h+='<p class="adw">새 애드온(v3.1)은 배운 무기 숙련과 숙련도도 가져와요. 도적 한손 도끼처럼 「숙련 필요」를 정확히 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
@@ -1461,7 +1462,7 @@ function amPoints(c){const F=amF();const P=new Map();
 /* 지금 할 일 동선: 마을 순서대로 번호 */
 function amRoute(c){const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);if(!S)return [];const out=[];let n=0;
   for(const H of nowPlan(c,S)){const left=H.get.filter(x=>!x.done&&!x.prof&&x.q.min<=c.lv).length+H.turn.filter(x=>!x.done&&!x.prof).length;if(!left||H.i>=97)continue;n++;
-    const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const xy=m?m[2]+','+m[3]:H.xy?H.xy.join(','):'';if(!xy)continue;const a=toAtlas(H.z,xy);if(!a)continue;out.push({kind:'hub',no:n,nm:H.npc?H.npc+' 근처':m?m[1]:H.n,zone:H.z,c:a.c,x:a.x,y:a.y,H})}
+    const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const xy=m?m[2]+','+m[3]:H.xy?H.xy.join(','):'';if(!xy)continue;const a=toAtlas(H.z,xy);if(!a)continue;const zp=xy.split(',').map(Number);out.push({kind:'hub',no:n,nm:H.npc?H.npc+' 근처':m?m[1]:H.n,zone:H.z,zx:zp[0],zy:zp[1],c:a.c,x:a.x,y:a.y,H})}
   return out}
 /* 고른 퀘스트: 받는 곳 → 할 일 위치 → 반납 */
 /* 아이템으로 시작하는 퀘스트: 「아이템 · ○○ 처치로 얻음」 */
@@ -1476,8 +1477,14 @@ let _ZCT=null;function zoneCenters(){if(_ZCT)return _ZCT;const S=zoneSamples();i
 let _DGQ=null;const dgOfQ=id=>(_DGQ||(_DGQ=new Map(DGS.flatMap(d=>d.q.map(q=>[q.id,d])))) ).get(id);
 function mobAt(nm,pz){if(!WLD||!WLD.mob||!nm)return null;let best=null;for(const z in WLD.mob){if(!MAPZ[z]&&!ZALIAS[z])continue;for(const m of WLD.mob[z]){if(m[0]!==nm)continue;const sc=(zEq(z,pz)?1e6:0)+(m[3]||0);if(!best||sc>best.sc)best={z,xy:m[4]+','+m[5],sc}}}return best}
 /* 퀘스트 자료(Questie)의 할 일 자리: 몹·물건이 나오는 점들을 묶은 구역 [지역, [x,y,반지름,점 수]…] */
-function qPlace(q){for(const t of (q&&q.t)||[]){const P=t[3];if(!P||!P[0])continue;/* 동선 지도는 지역 좌표(%)로 그려서 큰 지도 좌표가 없는 지역(제프라스 섬)도 됨 */const c=P[1];if(c)return {zone:P[0],xy:[c[0],c[1]],nm:t[1],r:c[2]}}return null}
+/* 애드온(v3.4)으로 받은 게임 퀘스트 위치 · 받은/반납한 자리 (계정 공용) */
+const GQ=id=>DB.gq&&DB.gq[id]||null;
+const GOB=id=>DB.gobs&&DB.gobs[id]||null;
+function qPlace(q){const G=q&&GQ(q.id);if(G&&G.ph==='o'&&G.o)return {zone:G.o[0],xy:[G.o[1],G.o[2]],nm:'게임 표시 목표',r:3,gm:1};for(const t of (q&&q.t)||[]){const P=t[3];if(!P||!P[0])continue;/* 동선 지도는 지역 좌표(%)로 그려서 큰 지도 좌표가 없는 지역(제프라스 섬)도 됨 */const c=P[1];if(c)return {zone:P[0],xy:[c[0],c[1]],nm:t[1],r:c[2]}}return null}
 function obPlaces(q){const z=(q.g&&q.g[1])||q.z;const out=[];const d=QD.get(q.id);
+  /* 게임이 알려 준 목표 위치(퀘스트 목록에 있을 때 애드온이 읽음) → 맨 앞. 길안내 다음 지점이 따로 있으면(동굴 입구 등) 경유지로 */
+  {const G=GQ(q.id);if(G&&G.ph==='o'&&G.o&&MAPZ[zn(G.o[0])]){out.push({zone:G.o[0],xy:G.o[1]+','+G.o[2],nm:'게임이 알려 준 목표 위치',r:3,gm:1});
+    if(G.w&&zEq(G.w[0],G.o[0])&&Math.hypot(G.w[1]-G.o[1],G.w[2]-G.o[2])>2.5)out.push({zone:G.w[0],xy:G.w[1]+','+G.w[2],nm:'먼저 여기로'+(G.t?': '+G.t:''),via:1})}}
   for(const t of (q.t||[])){const P=t[3];
     if(P&&P[0]&&MAPZ[zn(P[0])]){P.slice(1,3).forEach((c,i)=>{if(out.length<4&&c)out.push({zone:P[0],xy:c[0]+','+c[1],nm:(t[1]||'할 일')+(i?' (여기도 있어요)':''),r:c[2],n:c[3]})});continue}
     /* 이 할 일만 자리가 없으면: 잡을 몹·떨구는 몹 이름으로 사냥터 위치(world.json) */
@@ -1602,7 +1609,10 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
     /* 동선 번호와 선 */
     const R=FOC?[]:st.route.filter(r=>r.c===A.c);if(R.length){/* 같은 지역 안은 진한 선, 다른 지역으로 건너가는 긴 선은 흐리게 (비행·배로 가는 길이라 벽을 가로지르는 것처럼 보이지 않게) */
       let run=[R[0]];const flush=()=>{if(run.length>1)svg+='<polyline points="'+run.map(r=>X(r)+','+Y(r)).join(' ')+'" class="amrt"/>'};
-      for(let i=1;i<R.length;i++){const a=R[i-1],b=R[i];if(zn(a.zone)!==zn(b.zone)){flush();svg+='<line x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'" class="amrt far"/>';run=[b]}else run.push(b)}flush();
+      for(let i=1;i<R.length;i++){const a=R[i-1],b=R[i];if(zn(a.zone)!==zn(b.zone)){flush();svg+='<line x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'" class="amrt far"/>';run=[b]}
+        else{/* 같은 지역 안: 길 따라(격자가 있으면). 배·비행으로 보이는 먼 길은 흐린 직선 */const rp=a.zx!=null&&b.zx!=null?rgPath(a.zone,[a.zx,a.zy],[b.zx,b.zy]):null;
+          if(rp&&rp.far){flush();svg+='<line x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'" class="amrt far"/>';run=[b]}
+          else{if(rp)rp.p.slice(1,-1).forEach(p=>{const q=toAtlas(a.zone,p[0]+','+p[1]);if(q&&q.c===A.c)run.push(q)});run.push(b)}}}flush();
       R.forEach(r=>{const x=X(r),y=Y(r);if(inV(x,y,30))pins+='<button class="amh'+(ui.amhub===r.no?' sel':'')+'" data-amh="'+r.no+'" style="left:'+x+'px;top:'+y+'px">'+r.no+'</button>'})}
     /* 고른 퀘스트 */
     const FO=ui.amq&&amFocus(ui.amq);if(FO){const fp=FO.P.filter(p=>p.c===A.c);
@@ -1841,6 +1851,41 @@ function gmAtlasBg(z){const t=MAPZ[ZALIAS[z]||z];if(!t)return null;let x0=t[0];c
     im+='<img class="gt" src="https://assets.wowf.io/world/atlas/'+ATL[c].n+'/'+zz+'/'+tx+'_'+ty+'.webp" style="left:'+((tx*span-x0)/w*100).toFixed(3)+'%;top:'+((ty*span-y0)/h*100).toFixed(3)+'%;width:'+(span/w*100).toFixed(3)+'%;height:'+(span/h*100).toFixed(3)+'%" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">';
   return {im,ar:(w/h).toFixed(3)}}
 const lo_=(v,m)=>v-m;
+/* ── 길 따라 동선 ──
+   data/route/<지역번호>.png = 걷기 비용 격자(지도 3px = 1칸). 1 길·순찰 길, 5 몹·NPC가 있는 땅, ~115 몹 없는 평지, 150 물, 255 산·지역 밖.
+   tools/route/build_grid.py 가 QuestieDB 몹·NPC 자리와 지역 지도 그림으로 만든다. 지역을 처음 그릴 때 그 지역 것만 받는다. */
+const RG={};let rgT=0;
+/* 동굴·광산처럼 보이는 하위 지역 이름 (여관·건물 안은 빼려고) */
+const CAVE_RE=/광산|동굴|굴|갱도|채석장|지하|무덤|구덩이|은신처|하수도|납골당|소굴|틈새|우물/;
+const rgId=z=>{const id=ZID[z]||ZID[zn(z)];return id&&(D_VER.rgz||[]).includes(id)?id:0};
+function rgGrid(z){const id=rgId(z);if(!id)return null;const g=RG[id];if(g)return g.c?g:null;
+  RG[id]={wait:1};const im=new Image();
+  im.onload=()=>{try{const w=im.naturalWidth,h=im.naturalHeight,cv=document.createElement('canvas');cv.width=w;cv.height=h;const x=cv.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0);const d=x.getImageData(0,0,w,h).data;const c=new Uint8Array(w*h);for(let i=0;i<c.length;i++)c[i]=Math.max(1,d[i*4]);RG[id]={w,h,c,P:new Map()};clearTimeout(rgT);rgT=setTimeout(rgRedraw,60)}catch(e){RG[id]={bad:1}}};
+  im.onerror=()=>{RG[id]={bad:1}};im.src='data/route/'+id+'.png?v='+D_VER.rg;return null}
+/* 격자를 받으면 지금 화면의 동선만 다시 그림 */
+function rgRedraw(){if(AM&&AM.draw&&document.getElementById('amap'))AM.draw();else if(document.querySelector('.gmap'))rerender(true)}
+/* 두 점(지역 % 좌표) 사이 길: A* → 곧게 펴기 → 모서리 다듬기. 산·지역 밖을 꼭 지나야 하거나 너무 돌아가면 far(배·비행으로 보고 흐린 직선) */
+function rgPath(z,a,b){const g=rgGrid(z);if(!g)return null;const key=(+a[0]).toFixed(1)+','+(+a[1]).toFixed(1)+'>'+(+b[0]).toFixed(1)+','+(+b[1]).toFixed(1);const hit=g.P.get(key);if(hit)return hit;
+  const {w,h,c}=g;const gx=v=>Math.max(0,Math.min(w-1,Math.floor(v/100*w))),gy=v=>Math.max(0,Math.min(h-1,Math.floor(v/100*h)));
+  const s=gy(a[1])*w+gx(a[0]),t=gy(b[1])*w+gx(b[0]),tx=t%w,ty=(t/w)|0,N=w*h;
+  const G=new Float32Array(N).fill(1e30),PV=new Int32Array(N).fill(-1),CL=new Uint8Array(N);const HF=[],HI=[];
+  const push=(f,i)=>{let k=HF.length;HF.push(f);HI.push(i);while(k>0){const p=(k-1)>>1;if(HF[p]<=f)break;HF[k]=HF[p];HI[k]=HI[p];k=p}HF[k]=f;HI[k]=i};
+  const pop=()=>{const top=HI[0],f=HF.pop(),i=HI.pop(),n=HF.length;if(n){let k=0;for(;;){const l=2*k+1;if(l>=n)break;const r=l+1,m=r<n&&HF[r]<HF[l]?r:l;if(HF[m]>=f)break;HF[k]=HF[m];HI[k]=HI[m];k=m}HF[k]=f;HI[k]=i}return top};
+  const DX=[1,-1,0,0,1,1,-1,-1],DY=[0,0,1,-1,1,-1,1,-1],DD=[1,1,1,1,1.4142,1.4142,1.4142,1.4142];
+  G[s]=0;push(0,s);let ok=false;
+  while(HF.length){const i=pop();if(CL[i])continue;CL[i]=1;if(i===t){ok=true;break}const x=i%w,y=(i/w)|0,gi=G[i];
+    for(let k=0;k<8;k++){const nx=x+DX[k],ny=y+DY[k];if(nx<0||ny<0||nx>=w||ny>=h)continue;const j=ny*w+nx;if(CL[j])continue;const ng=gi+DD[k]*(c[i]+c[j])/2;if(ng<G[j]){G[j]=ng;PV[j]=i;push(ng+Math.hypot(tx-nx,ty-ny),j)}}}
+  if(!ok){g.P.set(key,null);return null}
+  const P=[];for(let i=t;;i=PV[i]){P.push(i);if(i===s||PV[i]<0)break}P.reverse();
+  const acc=[0];let blk=0;for(let k=1;k<P.length;k++){const i=P[k-1],j=P[k];acc.push(acc[k-1]+Math.hypot(i%w-j%w,((i/w)|0)-((j/w)|0))*(c[i]+c[j])/2);if(c[j]>=250)blk++}
+  const lc=(i,j)=>{const x0=i%w,y0=(i/w)|0,x1=j%w,y1=(j/w)|0,L=Math.hypot(x1-x0,y1-y0),n=Math.max(1,Math.ceil(L*2));let sm=0;for(let q=0;q<=n;q++)sm+=c[Math.round(y0+(y1-y0)*q/n)*w+Math.round(x0+(x1-x0)*q/n)];return sm/(n+1)*L};
+  /* 곧게 펴기: 직선으로 가도 비용이 거의 같으면 중간 칸을 뺌(격자 계단 모양 없애기) */
+  const K=[P[0]];for(let i=0;i<P.length-1;){let j=P.length-1;while(j>i+1&&lc(P[i],P[j])>(acc[j]-acc[i])*1.03+2)j-=j-i<40?1:Math.max(1,(j-i)>>3);K.push(P[j]);i=j}
+  let Q=K.map(i=>[((i%w)+.5)/w*100,(((i/w)|0)+.5)/h*100]);Q[0]=[+a[0],+a[1]];Q[Q.length-1]=[+b[0],+b[1]];
+  for(let it=0;it<2&&Q.length>2;it++){const R=[Q[0]];for(let k=0;k<Q.length-1;k++){const p=Q[k],q=Q[k+1];R.push([p[0]*.75+q[0]*.25,p[1]*.75+q[1]*.25],[p[0]*.25+q[0]*.75,p[1]*.25+q[1]*.75])}R.push(Q[Q.length-1]);Q=R}
+  let len=0;for(let k=1;k<Q.length;k++)len+=Math.hypot(Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]);const st=Math.hypot(b[0]-a[0],b[1]-a[1]);
+  /* 가운데 지점·방향(화살표) */let half=len/2,mid=null;for(let k=1;k<Q.length;k++){const d=Math.hypot(Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]);if(half<=d||k===Q.length-1){const f=d?Math.min(1,half/d):0;mid=[Q[k-1][0]+(Q[k][0]-Q[k-1][0])*f,Q[k-1][1]+(Q[k][1]-Q[k-1][1])*f,Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]];break}half-=d}
+  const r={p:Q,len,mid,far:blk>4||(st>8&&len>st*2.6)};g.P.set(key,r);return r}
 function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?'':gmUrl(z);const A=u?null:gmAtlasBg(z);
   let tf='',sc=1,TX=0;if(zoom){const xs=pins.map(p=>p.x),ys=pins.map(p=>p.y);if(xs.length){const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);sc=Math.max(1,Math.min(2.6,100/(Math.max(x1-x0,(y1-y0)*1.2)+24)));
     /* 지도 가장자리에 붙은 핀도 반쯤 잘리지 않게 바깥으로 조금(최대 9%) 비켜 보일 수 있게 함 */
@@ -1853,11 +1898,20 @@ function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?''
   const lab=[];pins.forEach(p=>{if(!p.lab)return;if(lab.some(q=>Math.abs(q.x-p.x)*sc<16&&Math.abs(q.y-p.y)*sc<7)||lab.some(q=>q.lab===p.lab&&Math.abs(q.x-p.x)*sc<30&&Math.abs(q.y-p.y)*sc<14)||pins.some(q=>q!==p&&(q.x-p.x)*sc>1&&(q.x-p.x)*sc<15&&Math.abs(q.y-p.y)*sc<4))p.lab='';else lab.push(p)});/* 이름표가 오른쪽 다른 핀을 덮어도 숨김 */
   let s='<div class="gmap'+(big?' big':'')+(!u&&!A?' nomap':'')+(A?' atl':'')+'"'+(A?' style="aspect-ratio:'+A.ar+'"':'')+'><div class="gin"'+tf+'>'+(u?'<img src="'+u+'" alt="'+esc(z)+' 지도" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">':A?A.im:'');
   /* 동선 선: 가는 순서만 보여 주는 직선이라, 먼 이동(산·물을 돌아가거나 배·비행)은 흐리게 + 가운데에 방향 화살표 */
-  if(line&&line.length>1){let sv='';for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i];const d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d<.5)continue;const far=d>32;
-      sv+='<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="'+(far?'#ffd65a88':'#ffd65a')+'" stroke-width="'+(far?1.6:2.5)+'" stroke-dasharray="'+(far?'3 6':'7 6')+'" vector-effect="non-scaling-stroke"/>'}
+  if(line&&line.length>1){let sv='';const AR=A?+A.ar:1024/683;const arr=[];/* 길 따라 그리기: 우리 지도(아틀라스 바탕)는 좌표가 같아 그대로 씀. 격자를 아직 안 받았으면 직선으로 먼저 그리고, 받으면 다시 그림 */
+    for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i];const d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d<.5)continue;
+      const rp=d>=1.5&&!line.noRoute?rgPath(z,a,b):null;
+      if(rp&&!rp.far){const pt=rp.p.map(p=>p[0].toFixed(2)+','+p[1].toFixed(2)).join(' ');
+        sv+='<polyline points="'+pt+'" fill="none" stroke="#2a1a06" stroke-opacity=".7" stroke-width="4.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/><polyline class="grt" points="'+pt+'" fill="none" stroke="#ffd65a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>';
+        if(rp.len>=7&&rp.mid)arr.push([rp.mid[0],rp.mid[1],rp.mid[2],rp.mid[3]]);continue}
+      const far=(rp&&rp.far)||d>32;
+      sv+='<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="'+(far?'#ffd65a88':'#ffd65a')+'" stroke-width="'+(far?1.6:2.5)+'" stroke-dasharray="'+(far?'3 6':'7 6')+'" vector-effect="non-scaling-stroke"/>';
+      if(d>=7)arr.push([(a[0]+b[0])/2,(a[1]+b[1])/2,b[0]-a[0],b[1]-a[1]])}
     s+='<svg viewBox="0 0 100 100" preserveAspectRatio="none">'+sv+'</svg>';
     /* 방향 화살표(가운데) — 지도가 늘어나도 모양이 안 찌그러지게 HTML로 */
-    for(let i=1;i<line.length;i++){const a=line[i-1],b=line[i];const d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d<7)continue;s+='<i class="gar" style="left:'+((a[0]+b[0])/2).toFixed(2)+'%;top:'+((a[1]+b[1])/2).toFixed(2)+'%;--a:'+Math.atan2(b[1]-a[1],(b[0]-a[0])*(A?+A.ar:1024/683)).toFixed(3)+'rad"></i>'}}
+    arr.forEach(m=>{s+='<i class="gar" style="left:'+m[0].toFixed(2)+'%;top:'+m[1].toFixed(2)+'%;--a:'+Math.atan2(m[3],m[2]*AR).toFixed(3)+'rad"></i>'})}
+  /* 애드온(v3.4)이 기억한 동굴·광산 입구 */
+  (DB.ent||[]).forEach(e=>{if(!zEq(e.z,z)||!CAVE_RE.test(e.n||''))return;s+='<span class="gpe" style="left:'+e.x+'%;top:'+e.y+'%" title="'+esc(e.n)+' 입구">'+MKS.gate+(big?'<i>'+esc(e.n)+' 입구</i>':'')+'</span>'});
   pins.forEach(p=>{if(p.rad)s+='<span class="gpa" style="left:'+p.x+'%;top:'+p.y+'%;width:'+2*p.rad+'%;height:'+2*p.rad+'%"></span>'});
   pins.forEach(p=>{s+=(p.k==='o'?'<span class="gpo" style="left:'+p.x+'%;top:'+p.y+'%"></span>':'<button class="gp k-'+p.k+(p.on?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%"'+(p.a?' data-a="'+p.a+'" data-k="'+esc(String(p.id))+'"':'')+(p.hk?' data-hk="'+esc(p.hk)+'"':'')+'>'+(p.ic||esc(p.t||''))+(p.more&&p.more.length?'<small class="gpm">·'+p.more.join('·')+'</small>':'')+(p.c>1?'<em>'+p.c+'</em>':'')+'</button>')+(p.lab?'<span class="gl'+(p.x*sc+TX>64?' rt':'')+'" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.lab)+'</span>':'')});
   return s+'</div><span class="gz">'+esc(z)+(sc>1?' · 확대':'')+(!u&&!A?' · 지도 그림 없음 (좌표만)':'')+'</span></div>'}
@@ -1912,13 +1966,19 @@ function recPlans(c){const L=c.lv;const R=routeOf(c);const out=[];
 /* 퀘스트 하나 → 받기·하기·반납 위치 */
 function recQ(id,z0){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!q&&!d.g)return null;
   const G=(q&&q.g)||d.g||[],R=(q&&q.r)||d.r||[];const t=(d.t||[])[0];const wf=(d.wf&&d.wf.t)||[];const qp=qPlace(q);const txy=t?xyOf(t[2]):null;
+  const GO=GOB(id)||{},GG=GQ(id);
   const talk=t&&t[0]==='대화'&&/반납하는 NPC와 이야기/.test(t[1]||'');
-  return {id,nm:(q&&q.n)||'',lv:(q&&q.lv)||0,z:(q&&q.z)||z0,g:[G[0],G[1]||(q&&q.z)||z0,xyOf(G[2])],r:[R[0],R[1]||(q&&q.z)||z0,xyOf(R[2])],o:talk?null:t&&t[1]?{nm:t[1],xy:txy||(qp&&qp.xy),z:txy?null:qp&&qp.zone}:qp&&!(d.t&&d.t.length)?{nm:qp.nm,xy:qp.xy,z:qp.zone}:null,/* 대화만 하면 끝나는 퀘스트는 '하기' 단계를 만들지 않음 */rep:/평판/.test((q&&q.o)||''),cnt:wf.filter(x=>x[1]>0)}}
+  const gxy=xyOf(G[2])||(GO.g&&zEq(GO.g[0],G[1]||(q&&q.z)||z0)?[GO.g[1],GO.g[2]]:null);
+  const rT=GG&&GG.ph==='t'&&GG.o&&zEq(GG.o[0],R[1]||(q&&q.z)||z0)?[GG.o[1],GG.o[2]]:null;const rxy=xyOf(R[2])||rT||(GO.r&&zEq(GO.r[0],R[1]||(q&&q.z)||z0)?[GO.r[1],GO.r[2]]:null);
+  let o=talk?null:t&&t[1]?{nm:t[1],xy:txy||(qp&&qp.xy),z:txy?null:qp&&qp.zone}:qp&&!(d.t&&d.t.length)?{nm:qp.nm,xy:qp.xy,z:qp.zone}:null;
+  /* 게임이 알려 준 목표 위치가 있으면 그 자리로, 길안내 다음 지점(동굴 입구 등)이 따로 있으면 경유지(via)로 */
+  if(o&&GG&&GG.ph==='o'&&GG.o){o={nm:o.nm,xy:[GG.o[1],GG.o[2]],z:GG.o[0]};if(GG.w&&zEq(GG.w[0],GG.o[0])&&Math.hypot(GG.w[1]-GG.o[1],GG.w[2]-GG.o[2])>2.5)o.via=[GG.w[1],GG.w[2]]}
+  return {id,nm:(q&&q.n)||'',lv:(q&&q.lv)||0,z:(q&&q.z)||z0,g:[G[0],G[1]||(q&&q.z)||z0,gxy],r:[R[0],R[1]||(q&&q.z)||z0,rxy],o,/* 대화만 하면 끝나는 퀘스트는 '하기' 단계를 만들지 않음 */rep:/평판/.test((q&&q.o)||''),cnt:wf.filter(x=>x[1]>0)}}
 function recStages(c,list,start){const ql=c.ql||{};const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
   const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.type===type&&s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}if(place&&!s0.place.split(' · ').includes(place)&&s0.place.split(' · ').length<2)s0.place+=' · '+place;s0.items.push({q,type,need});if(need)s0.need.add(need);return s0};
   list.forEach(q=>{const st=ql[q.id]||0;const hasDo=q.o||q.rep;
     if(st<1)add('get',q.g[1],q.g[2],(q.g[2]?hubOfXY(q.g[1],q.g[2].join(','),q.g[0])[0]:'')||q.g[0]||'받는 곳',q);
-    if(st<2&&hasDo)add('do',(q.o&&q.o.z)||q.z,q.o?q.o.xy:null,q.o?q.o.nm:'평판 올리기',q,'g'+q.id);
+    if(st<2&&hasDo){const s0=add('do',(q.o&&q.o.z)||q.z,q.o?q.o.xy:null,q.o?q.o.nm:'평판 올리기',q,'g'+q.id);if(q.o&&q.o.via&&!s0.via)s0.via=q.o.via}
     add('turn',q.r[1],q.r[2],q.r[0]||'반납',q,(hasDo?'d':'g')+q.id)});
   /* 순서: 받기 → 하기 → 반납 조건을 지키며 가까운 곳부터 */
   const done=new Set(Object.keys(ql).flatMap(id=>ql[id]>=2?['g'+id,'d'+id]:ql[id]>=1?['g'+id]:[]));const out=[];const left=St.slice();
@@ -1956,11 +2016,11 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   if(!ST.length)return h+'<div class="card"><p class="note">'+esc(z)+'에서 지금 할 퀘스트를 다 했어요 🎉 여정 줄에서 다음 지역을 눌러 보세요.</p></div>';
   const s0=ST[0];const xpOf=s=>s.items.filter(i=>i.type==='turn').reduce((n,i)=>n+((RWD.get(i.q.id)||{}).xp||0),0);
   const xy=s=>s.xy?' '+s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'';
-  h+='<button class="swrow" data-a="rmap"><span class="sw'+(recMapOn(c)?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 점선으로</small></button>';
+  h+='<button class="swrow" data-a="rmap"><span class="sw'+(recMapOn(c)?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 길 따라</small></button>';
   if(recMapOn(c))h+='<!--RM--><div class="gmrow">'+gmStyleSeg(c,1)+'</div>';
   if(recMapOn(c)){let pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);{const k=pts.findIndex((s,i)=>i>=3&&Math.hypot(s.xy[0]-pts[i-1].xy[0],s.xy[1]-pts[i-1].xy[1])>40);if(k>0)pts=pts.slice(0,k)}/* 먼 곳으로 넘어가는 단계는 빼서 지도를 크게 */const P=[];
     const SP={};ui._stp=SP;pts.forEach((s,i)=>{const n=ST.indexOf(s)+1;const j=pts.slice(0,i).findIndex(p=>Math.hypot(p.xy[0]-s.xy[0],p.xy[1]-s.xy[1])<2.5);if(j>=0){SP[n]=SP[ST.indexOf(pts[j])+1];const pp=P.find(x=>x.t===SP[n]);if(pp)(pp.more=pp.more||[]).push(n);return}SP[n]=String(n);P.push({x:s.xy[0],y:s.xy[1],k:'s'+s.type,t:String(n),on:i===0,lab:i<4?s.place.split(' · ')[0].slice(0,12):''})});/* 같은 자리 단계는 한 핀에 「1·2·7」처럼 */
-    h+='<div class="rmap gm">'+gmapHtml(ST[0].zone,P.reverse(),pts.map(s=>s.xy),0,1,miniStyle(c)!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><small class="rmn">선은 가는 순서 · 흐린 선은 먼 길(산·물은 돌아가요)</small><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
+    h+='<div class="rmap gm">'+gmapHtml(ST[0].zone,P.reverse(),pts.flatMap(s=>s.via?[s.via,s.xy]:[s.xy]),0,1,miniStyle(c)!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><small class="rmn">선은 걸어가는 길(산·물은 피해서) · 흐린 점선은 배·비행 같은 먼 길</small><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
   else if(recMapOn(c)){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const W=366,H=230;const x=v=>8+v/100*(W-16),y=v=>8+v/100*(H-16);
     let m='<svg viewBox="0 0 '+W+' '+H+'" class="rmapsvg"><rect width="'+W+'" height="'+H+'" rx="12" fill="#221c14"/>';
     for(let i=10;i<100;i+=10)m+='<line x1="'+x(i)+'" y1="0" x2="'+x(i)+'" y2="'+H+'" stroke="#2c251b"/><line x1="0" y1="'+y(i)+'" x2="'+W+'" y2="'+y(i)+'" stroke="#2c251b"/>';
@@ -2531,8 +2591,14 @@ function impParse(txt){const m=(txt||'').match(/WFH([12]);/);if(!m)return null;c
   const rp=(sec.R||'').split('.').filter(Boolean).map(x=>{const a=x.split('-');return {id:+a[0]||0,st:+a[1]||0,val:+a[2]||0,nm:(a.slice(3).join('-')||'').replace(/_/g,' ')}}).filter(r=>r.nm&&r.st);
   const ws=(sec.W||'').split(',').filter(Boolean).map(x=>{const a=x.split(':');return [wskCs(a[0]),+a[1]||0,+a[2]||0,a[0]]}).filter(x=>x[0]!=null);
   const al=(sec.A||'').split('.').filter(Boolean).map(x=>{const a=x.split('-');return {name:a[0],cls:(a[1]||'').toLowerCase(),lv:+a[2]||1,race:(a[3]||'').toLowerCase()}}).filter(a=>a.name&&CINFO[a.cls]);
+  /* v3.4: 게임이 알려 준 퀘스트 위치(Q) · 동굴 입구(N) · 받은/반납한 자리(O) · 지도 번호=이름(M). 좌표는 천분율(412 = 41.2%) */
+  const MN={};(sec.M||'').split('^').filter(Boolean).forEach(x=>{const i=x.indexOf('=');if(i>0)MN[x.slice(0,i)]=x.slice(i+1).replace(/_/g,' ')});
+  const gp=t=>{const a=(t||'').split(',');if(a.length<3||!MN[a[0]])return null;const x=+a[1]/10,y=+a[2]/10;return x>0&&x<100&&y>0&&y<100?[zn(MN[a[0]]),+x.toFixed(1),+y.toFixed(1)]:null};
+  const gq=(sec.Q||'').split('.').filter(Boolean).map(e=>{const a=e.split('-');return {id:parseInt(a[0],36),ph:a[1]==='t'?'t':'o',o:gp(a[2]),w:gp(a[3]),t:(a[4]||'').replace(/_/g,' ')}}).filter(x=>x.id>0&&(x.o||x.w));
+  const ent=(sec.N||'').split('.').filter(Boolean).map(e=>{const i=e.indexOf('-');if(i<0)return null;const p=gp(e.slice(0,i));const c=+(e.slice(0,i).split(',')[3])||1;return p?{z:p[0],x:p[1],y:p[2],c,n:e.slice(i+1).replace(/_/g,' ')}:null}).filter(Boolean);
+  const obs=(sec.O||'').split('.').filter(Boolean).map(e=>{const a=e.split('-');const id=parseInt(a[0],36);const p=gp(a[2]);return id>0&&p&&(a[1]==='g'||a[1]==='r')?{id,k:a[1],p}:null}).filter(Boolean);
   return {ver:sec.S||sec.B||sec.R?3:ver,name:f[1],realm:f[2],cls:(f[3]||'').toLowerCase(),lv:+f[4]||0,race:(f[5]||'').toLowerCase(),fac:f[6],done:d,log:l,eq,pf,tl,tu,xp:xp&&xp.length>=2&&xp[1]>0?{cur:xp[0],max:xp[1],rest:xp[2]||0}:null,
-    sess:S&&S.length>=4?{xp:S[0],secs:S[1],hx:S[2],hs:S[3]}:null,gold:sec.G?+sec.G:null,bag:sec.B!=null?items(sec.B):null,bank:sec.K?items(sec.K):null,rep:rp,alts:al,wsk:sec.W!=null?ws:null,taxi:sec.F!=null?sec.F.split('^').filter(Boolean):null}}
+    sess:S&&S.length>=4?{xp:S[0],secs:S[1],hx:S[2],hs:S[3]}:null,gold:sec.G?+sec.G:null,bag:sec.B!=null?items(sec.B):null,bank:sec.K?items(sec.K):null,rep:rp,alts:al,wsk:sec.W!=null?ws:null,taxi:sec.F!=null?sec.F.split('^').filter(Boolean):null,gq,ent,obs}}
 /* 특성 칸 순서 → 앱 특성 (드루이드는 야성이 둘이라 지금 고른 쪽 유지) */
 /* 게임 특성(트리-줄-칸-랭크-아이콘) → 앱 특성 번호. 줄·칸이 같은 칸, 없으면 같은 트리에서 아이콘이 같은 칸 */
 function impTal(cls,tu){const C=D_CLS[cls];if(!C||!tu||!tu.length)return null;const T=Object.entries(C.talents);const M={};let miss=0;
@@ -2553,7 +2619,8 @@ function impPreview(c){const P=ui.imp;if(!P)return ui.impraw?'<p class="note war
    +(P.sess&&P.sess.hs>=600?'<li>사냥 기록 · 시간당 약 <b>'+Math.round(P.sess.hx/P.sess.hs*3600).toLocaleString()+'</b> 경험치</li>':'')
    +(P.gold!=null?'<li>골드 '+goldTxt(P.gold)+'</li>':'')
    +(P.bag?'<li>가방 '+Object.keys(P.bag).length+'종'+(P.bank?' · 은행 '+Object.keys(P.bank).length+'종':' · 은행은 게임에서 한 번 열어야 담겨요')+'</li>':'')
-   +(P.rep.length?'<li>평판 '+P.rep.length+'개</li>':'')+'</ul>'
+   +(P.rep.length?'<li>평판 '+P.rep.length+'개</li>':'')
+   +(P.gq&&(P.gq.length||P.ent.length||P.obs.length)?'<li>게임이 알려 준 퀘스트 위치 <b>'+P.gq.length+'개</b>'+(P.ent.length?' · 동굴·광산 입구 <b>'+P.ent.length+'곳</b>':'')+(P.obs.length?' · 받은·반납한 자리 '+P.obs.length+'개':'')+'</li>':'')+'</ul>'
    +(P.alts.length?'<label class="impck"><input type="checkbox" data-c="impAlt"'+(ui.impAlt!==false?' checked':'')+'> 부캐 '+P.alts.length+'명도 앱에 넣기 <small>'+P.alts.map(a=>esc(a.name)+' '+a.lv).join(' · ')+' · 이미 있으면 레벨만 맞춰요</small></label>':'')
    +(P.eq.length?'<label class="impck"><input type="checkbox" data-c="impEq"'+(ui.impEq?' checked':'')+'> 장비 칸을 게임 장비로 바꾸기 <small>'+P.eq.length+'칸'+(eqK<P.eq.length?' · 앱 자료에 없는 '+(P.eq.length-eqK)+'개는 빼요':'')+'</small></label>':'')
    +(sp?'<label class="impck"><input type="checkbox" data-c="impSp"'+(ui.impSp?' checked':'')+'> 특성을 <b>'+esc(spN||sp)+'</b>(으)로 맞추기 <small>특성 '+P.tl.join('/')+(sp===c.spec?' · 지금과 같아요':'')+'</small></label>':'')
@@ -2682,6 +2749,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     if(ui.impTl!==false){const T=impTal(c.cls,P.tu);if(T&&T.n){c.tal={cls:c.cls,r:T.r,src:'game',at:Date.now()};ui.tlv='me';extra.push('내 특성 '+T.n+'점')}}
     if(P.wsk){c.wsk={};P.wsk.forEach(w=>{c.wsk[w[0]]=[w[1],w[2]]});extra.push('무기 숙련 '+P.wsk.length+'개')}
     if(P.taxi&&P.taxi.length){c.taxi=P.taxi;extra.push('비행 경로 '+P.taxi.length+'곳')}
+    if(P.gq&&P.gq.length){DB.gq=DB.gq||{};P.gq.forEach(x=>{DB.gq[x.id]={ph:x.ph,o:x.o,w:x.w,t:x.t,at:Date.now()}});extra.push('게임 퀘스트 위치 '+P.gq.length+'개')}
+    if(P.ent&&P.ent.length){DB.ent=DB.ent||[];P.ent.forEach(e=>{const o=DB.ent.find(y=>y.z===e.z&&y.n===e.n&&Math.hypot(y.x-e.x,y.y-e.y)<4);if(o){o.c=Math.max(o.c||1,e.c)}else DB.ent.push(e)});if(DB.ent.length>400)DB.ent=DB.ent.slice(-400);extra.push('동굴 입구 '+P.ent.length+'곳')}
+    if(P.obs&&P.obs.length){DB.gobs=DB.gobs||{};P.obs.forEach(o=>{(DB.gobs[o.id]=DB.gobs[o.id]||{})[o.k]=o.p})}
     if(P.pf.length){const ok=new Set(PROFS.map(p=>p.ko));c.profLv={};P.pf.forEach(p=>{if(ok.has(p[0]))c.profLv[p[0]]=[p[1],p[2]]});c.profs=Object.keys(c.profLv);extra.push('전문기술 '+c.profs.length+'개')}
     if(P.xp){c.xp=Object.assign({lv:P.lv,t:Date.now()},P.xp);extra.push('경험치')}
     if(P.sess)c.sess=Object.assign({t:Date.now()},P.sess);if(P.gold!=null)c.gold=P.gold;if(P.bag)c.bag=P.bag;if(P.bank)c.bank=P.bank;if(P.rep.length){c.rep=P.rep;extra.push('평판')}

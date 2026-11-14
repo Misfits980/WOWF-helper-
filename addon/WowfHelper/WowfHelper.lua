@@ -1,4 +1,4 @@
--- 와포 도우미 (WowfHelper) v3
+-- 와포 도우미 (WowfHelper) v3.4
 -- 이 캐릭터 정보를 글자 코드로 만들어 줘요:
 --   끝낸 퀘스트 · 지금 퀘스트 목록(+ 목표 진행도) · 끼고 있는 장비 · 전문기술 숙련도 · 특성 포인트 · 경험치
 --   사냥 기록(시간당 경험치) · 가방·은행 아이템 · 골드 · 평판 · 이 컴퓨터의 부캐
@@ -15,6 +15,8 @@
 -- /wfh 알림   레벨업·반납 알림과 접속 인사 켜기/끄기
 -- /wfh 추천 지우기   넣어 둔 툴팁 추천 지우기
 -- /wfh 설정   지금 켜고 끈 상태 보기
+-- /wfh 입구   기억한 동굴·광산 입구 보기
+-- v3.4: 게임이 알려 주는 퀘스트 위치(목표·반납·길안내 다음 지점), 동굴 입구, 퀘스트 받은/반납한 자리도 코드에 담아요.
 
 local B36 = "0123456789abcdefghijklmnopqrstuvwxyz"
 local PRE = "|cffe8c06a[와포 도우미]|r "
@@ -287,8 +289,125 @@ local function alts()
   return out
 end
 
+-- ===== v3.4 게임이 알려 주는 퀘스트 위치 · 동굴 입구 · 받은/반납한 자리 =====
+-- 좌표는 「지역 지도 기준 천분율」(412 = 41.2%). 동굴·건물 안 작은 지도면 그 지역 지도 좌표로 바꿔서 담아요.
+local MAPN = {}
+local function num(v) return type(v) == "number" and v == v end
+local function clean(s)
+  s = tostring(s or ""):gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("[;%.,:%^%-|=]", " "):gsub("%s+", "_")
+  return s:sub(1, 60)
+end
+local function mapName(m)
+  if not MAPN[m] then
+    local ok, info = pcall(C_Map.GetMapInfo, m)
+    MAPN[m] = clean(ok and info and info.name or tostring(m))
+  end
+  return MAPN[m]
+end
+-- Enum.UIMapType: 2 대륙 · 3 지역 · 4 던전 · 5 작은 지도(동굴·건물)
+local function toZone(m, x, y)
+  if not (C_Map and C_Map.GetMapInfo and num(m) and num(x) and num(y)) then return nil end
+  for _ = 1, 4 do
+    local ok, info = pcall(C_Map.GetMapInfo, m)
+    if not ok or not info then return nil end
+    local t, parent = info.mapType, info.parentMapID
+    if t == 3 then return m, x, y end
+    if not t or t < 3 or not parent or parent == 0 or not C_Map.GetWorldPosFromMapPos or not CreateVector2D then return nil end
+    local ok1, cont, wp = pcall(C_Map.GetWorldPosFromMapPos, m, CreateVector2D(x, y))
+    if not ok1 or not wp then return nil end
+    local ok2, _, pos = pcall(C_Map.GetMapPosFromWorldPos, cont, wp, parent)
+    if not ok2 or not pos or not num(pos.x) then return nil end
+    m, x, y = parent, pos.x, pos.y
+  end
+  return nil
+end
+local function pt(m, x, y)
+  m, x, y = toZone(m, x, y)
+  if not m or x <= 0 or x >= 1 or y <= 0 or y >= 1 then return nil end
+  mapName(m)
+  return m .. "," .. math.floor(x * 1000 + .5) .. "," .. math.floor(y * 1000 + .5)
+end
+local function playerPt()
+  if not (C_Map and C_Map.GetBestMapForUnit) then return nil end
+  local ok, m = pcall(C_Map.GetBestMapForUnit, "player")
+  if not ok or not num(m) then return nil end
+  local ok2, pos = pcall(C_Map.GetPlayerMapPosition, m, "player")
+  if not ok2 or not pos then return nil end
+  local ok3, x, y = pcall(pos.GetXY, pos)
+  if not ok3 or not num(x) then return nil end
+  return m, x, y
+end
+
+-- 퀘스트 목록의 퀘스트마다: 지도 위 퀘스트 표시(목표 구역 가운데·반납 표시) + 게임 길안내의 다음 지점
+-- 번호36-o(목표)/t(반납)-지도,x,y-지도,x,y-안내글
+local function questPlaces(log)
+  local out = {}
+  if not C_QuestLog then return out end
+  for _, q in ipairs(log) do
+    local id = q[1]
+    local o, w, txt
+    local ok, um = pcall(GetQuestUiMapID or function() return nil end, id)
+    if ok and num(um) and um > 0 and C_QuestLog.GetQuestsOnMap then
+      local ok2, list = pcall(C_QuestLog.GetQuestsOnMap, um)
+      if ok2 and type(list) == "table" then
+        for _, p in ipairs(list) do
+          if type(p) == "table" and p.questID == id and not p.isQuestStart and num(p.x) then o = pt(um, p.x, p.y); break end
+        end
+      end
+    end
+    if C_QuestLog.GetNextWaypoint then
+      local ok3, wm, wx, wy = pcall(C_QuestLog.GetNextWaypoint, id)
+      if ok3 and num(wm) then w = pt(wm, wx, wy) end
+      if w and C_QuestLog.GetNextWaypointText then
+        local ok4, t = pcall(C_QuestLog.GetNextWaypointText, id)
+        if ok4 and type(t) == "string" and t ~= "" then txt = clean(t) end
+      end
+    end
+    if o or w then out[#out + 1] = b36(id) .. "-" .. (q[2] and "t" or "o") .. "-" .. (o or "") .. "-" .. (w or "") .. (txt and ("-" .. txt) or "") end
+  end
+  return out
+end
+
+-- 동굴·광산 입구: 1초마다 위치를 보다가 바깥 → 실내로 바뀌는 순간, 바로 전 바깥 자리를 입구로 기억 (계정 공용, 최대 300곳)
+local entLast
+local function entTick()
+  if IsInInstance and IsInInstance() then entLast = nil; return end
+  local m, x, y = playerPt()
+  if not m then return end
+  local indoor = IsIndoors and IsIndoors() and true or false
+  if indoor and entLast and not entLast.indoor then
+    local p = pt(entLast.m, entLast.x, entLast.y)
+    local sub = clean(GetSubZoneText and GetSubZoneText() or "")
+    if p and sub ~= "" then
+      WowfHelperAcc = WowfHelperAcc or {}
+      local E = WowfHelperAcc.ent or {}; WowfHelperAcc.ent = E
+      local key = p:match("^(%d+)") .. ":" .. sub
+      if E[key] then E[key].c = (E[key].c or 1) + 1
+      else
+        local n = 0; for _ in pairs(E) do n = n + 1 end
+        if n < 300 then E[key] = { p = p, s = sub, c = 1, m = mapName(tonumber(p:match("^(%d+)"))) } end
+      end
+    end
+  end
+  entLast = { m = m, x = x, y = y, indoor = indoor }
+end
+if C_Timer and C_Timer.NewTicker then C_Timer.NewTicker(1, function() pcall(entTick) end) end
+
+-- 퀘스트 받은 자리(NPC와 대화해서 받았을 때만)·반납한 자리 (계정 공용, 최근 200개)
+local function observe(id, kind)
+  if not num(id) then return end
+  local m, x, y = playerPt()
+  local p = m and pt(m, x, y)
+  if not p then return end
+  WowfHelperAcc = WowfHelperAcc or {}
+  local O = WowfHelperAcc.obs or {}; WowfHelperAcc.obs = O
+  table.insert(O, b36(id) .. "-" .. kind .. "-" .. p)
+  while #O > 200 do table.remove(O, 1) end
+end
+
 -- 코드 만들기
 -- WFH2;이름;서버;직업;레벨;종족;진영;D:끝낸 퀘스트;L:퀘스트 목록;E:장비;P:전문기술;T:특성;U:찍은 특성;X:경험치
+-- … ;Q:게임 퀘스트 위치;N:동굴 입구;O:받은·반납한 자리;M:지도 번호=이름
 local function makeCode()
   local name = UnitName("player") or ""
   local realm = GetRealmName and GetRealmName() or ""
@@ -312,7 +431,8 @@ local function makeCode()
 
   -- 퀘스트 목록: 번호[*다 함][:가진수-필요수,가진수-필요수]
   local log, nObj = {}, 0
-  for _, q in ipairs(questLog()) do
+  local QL = questLog()
+  for _, q in ipairs(QL) do
     local s = b36(q[1]) .. (q[2] and "*" or "")
     if q[3] and #q[3] > 0 then
       local o = {}
@@ -346,8 +466,21 @@ local function makeCode()
     "S:" .. sx .. "-" .. ss .. "-" .. hx .. "-" .. hs, "G:" .. (GetMoney and GetMoney() or 0),
     "B:" .. table.concat(bag, "."), "K:" .. table.concat(bank, "."),
     "R:" .. table.concat(rp, "."), "A:" .. table.concat(al, "."), "W:" .. table.concat(ws, ","), "F:" .. table.concat(tx, "^") }, ";")
+  -- v3.4: 게임 퀘스트 위치 · 동굴 입구 · 받은/반납한 자리 · 지도 이름
+  local okq, qp = pcall(questPlaces, QL)
+  if not okq then qp = {} end
+  local en, used = {}, {}
+  for _, e in pairs((WowfHelperAcc and WowfHelperAcc.ent) or {}) do
+    if type(e) == "table" and e.p then en[#en + 1] = e.p .. "," .. (e.c or 1) .. "-" .. (e.s or ""); used[tonumber(e.p:match("^(%d+)")) or 0] = true end
+  end
+  local ob = {}
+  for _, x in ipairs((WowfHelperAcc and WowfHelperAcc.obs) or {}) do ob[#ob + 1] = x; used[tonumber(x:match("%-[gr]%-(%d+),")) or 0] = true end
+  for _, x in ipairs(qp) do for m in x:gmatch("%-(%d+),%d+,%d+") do used[tonumber(m)] = true end end
+  local mn = {}
+  for m in pairs(used) do if m > 0 then mn[#mn + 1] = m .. "=" .. mapName(m) end end
+  code = code .. ";Q:" .. table.concat(qp, ".") .. ";N:" .. table.concat(en, ".") .. ";O:" .. table.concat(ob, ".") .. ";M:" .. table.concat(mn, "^")
   return code, { done = #ids, log = #log, obj = nObj, eq = #eq, prof = #pf, tal = table.concat(tl, "/"), xp = xp, xpMax = xpMax,
-    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws, taxi = nt }
+    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws, taxi = nt, qpos = #qp, ent = #en, obs = #ob }
 end
 
 -- 창
@@ -407,7 +540,7 @@ local function showFrame()
     frame.off:SetText("명령어 모두 보기: /wfh 도움 · 다음 갈 곳: /wfh 다음")
   end
   frame.code = code
-  frame.info:SetText(("퀘스트 · 끝냄 %d · 퀘스트창 %d (목표 %d)\n캐릭터 · 장비 %d칸 · 특성 %s · 전문기술 %d · 무기 숙련 %d\n그 밖 · 가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 비행 경로 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.eq, n.tal ~= "" and n.tal or "-", n.prof, n.wsk or 0, n.bag, n.bank, n.rep, n.alt, n.taxi or 0, n.sxp or 0))
+  frame.info:SetText(("퀘스트 · 끝냄 %d · 퀘스트창 %d (목표 %d) · 게임 위치 %d · 동굴 입구 %d곳\n캐릭터 · 장비 %d칸 · 특성 %s · 전문기술 %d · 무기 숙련 %d\n그 밖 · 가방 %d종 · 은행 %d종 · 평판 %d · 부캐 %d · 비행 경로 %d · 이번 접속 경험치 %d"):format(n.done, n.log, n.obj, n.qpos or 0, n.ent or 0, n.eq, n.tal ~= "" and n.tal or "-", n.prof, n.wsk or 0, n.bag, n.bank, n.rep, n.alt, n.taxi or 0, n.sxp or 0))
   frame.box:SetText(code)
   frame:Show()
   frame.box:SetFocus()
@@ -426,6 +559,8 @@ local function selfTest()
   say(("점검 · 가방 %d종 · 은행 %d종%s · 평판 %d · 부캐 %d · 이번 접속 %d분 경험치 %d · 추천 %d개 · 보스 공략 %s · 글자 %d자"):format(
     n.bag, n.bank, (WowfHelperDB and WowfHelperDB.bankAt) and "" or "(은행을 한 번 열어 주세요)", n.rep, n.alt, math.floor((n.ssec or 0) / 60), n.sxp or 0,
     (WowfHelperDB and WowfHelperDB.recN) or 0, WowfHelperBoss and "있음" or "없음", #code))
+  say(("점검 · 게임이 알려 준 퀘스트 위치 %d개 · 기억한 동굴 입구 %d곳 · 받은/반납한 자리 %d개"):format(n.qpos or 0, n.ent or 0, n.obs or 0))
+  if not (C_QuestLog and C_QuestLog.GetNextWaypoint) then say("이 게임에서 못 읽는 것: 게임 길안내 다음 지점") end
   local apis = {}
   if not (C_QuestLog and C_QuestLog.GetQuestObjectives) and not GetQuestLogLeaderBoard then apis[#apis + 1] = "목표 진행도" end
   if not GetInventoryItemID then apis[#apis + 1] = "장비" end
@@ -458,7 +593,7 @@ SlashCmdList["WOWFHELPER"] = function(msg)
     say("끄고 켜기: /wfh 공략 · /wfh 알림 · /wfh 추천 지우기 · 애드온 전체는 캐릭터 고르는 화면의 「애드온」에서")
   elseif msg == "도움" or msg == "help" or msg == "?" then
     say("명령어 · |cffffd100/wfh|r 앱으로 옮길 코드 · |cffffd100/wfh 다음|r 다음 갈 곳 · |cffffd100/wfh 추천|r 앱 추천 코드 넣기")
-    say("|cffffd100/wfh 점검|r 담긴 개수 · |cffffd100/wfh 설정|r 켜고 끈 상태 · |cffffd100/wfh 공략|r 보스 창 · |cffffd100/wfh 알림|r 알림 · |cffffd100/wfh 추천 지우기|r")
+    say("|cffffd100/wfh 점검|r 담긴 개수 · |cffffd100/wfh 설정|r 켜고 끈 상태 · |cffffd100/wfh 공략|r 보스 창 · |cffffd100/wfh 알림|r 알림 · |cffffd100/wfh 입구|r 기억한 동굴 입구 · |cffffd100/wfh 추천 지우기|r")
   elseif msg == "다음" or msg == "next" then
     local L = D.rec and D.rec.n
     if not L or #L == 0 then say("앱 동선이 없어요. 앱 「장비 → 게임 툴팁에 추천 넣기」 코드를 /wfh 추천 으로 넣어 주세요.")
@@ -468,6 +603,17 @@ SlashCmdList["WOWFHELPER"] = function(msg)
         say(("%d. |cffffd100%s|r · %s%s · 퀘스트 %d개"):format(i, x[1], x[2], (x[3] and x[4]) and (" " .. x[3] .. ", " .. x[4]) or "", x[5] or 0))
       end
       say("|cff999999앱에서 코드를 다시 넣으면 새 동선으로 바뀌어요.|r")
+    end
+  elseif msg == "입구" or msg == "cave" then
+    local E, L = (WowfHelperAcc and WowfHelperAcc.ent) or {}, {}
+    for _, e in pairs(E) do L[#L + 1] = e end
+    if #L == 0 then say("아직 기억한 동굴·광산 입구가 없어요. 동굴에 들어가면 입구 자리를 저절로 기억해요.")
+    else
+      say(("기억한 입구 %d곳 (최근 순서 아님):"):format(#L))
+      for i = 1, math.min(8, #L) do
+        local e = L[i]; local _, x, y = e.p:match("^(%d+),(%d+),(%d+)")
+        say(("· %s · %s %.1f, %.1f · %d번 들어감"):format((e.s or ""):gsub("_", " "), (e.m or ""):gsub("_", " "), (tonumber(x) or 0) / 10, (tonumber(y) or 0) / 10, e.c or 1))
+      end
     end
   elseif msg == "추천" or msg == "rec" then WowfHelper_RecBox()
   elseif msg == "공략" or msg == "boss" then WowfHelper_BossToggle()
@@ -498,8 +644,9 @@ ev:RegisterEvent("PLAYER_TARGET_CHANGED")
 ev:RegisterEvent("PLAYER_REGEN_ENABLED")
 ev:RegisterEvent("TAXIMAP_OPENED")
 ev:RegisterEvent("QUEST_COMPLETE")
+ev:RegisterEvent("QUEST_ACCEPTED")
 local bankOpen = false
-ev:SetScript("OnEvent", function(_, e, a1)
+ev:SetScript("OnEvent", function(_, e, a1, a2)
   if e == "PLAYER_XP_UPDATE" then xpTick(); return end
   if e == "BANKFRAME_OPENED" then bankOpen = true; scanBank(); return end
   if e == "PLAYERBANKSLOTS_CHANGED" then if bankOpen then scanBank() end; return end
@@ -564,7 +711,12 @@ ev:SetScript("OnEvent", function(_, e, a1)
     rememberMe()
     note((a1 and (a1 .. "레벨 달성!") or "레벨업!") .. " 앱 코드가 바뀌었어요")
   elseif e == "QUEST_TURNED_IN" then
+    pcall(observe, a1, "r")
     note("퀘스트를 반납했어요. 앱 코드가 바뀌었어요")
+  elseif e == "QUEST_ACCEPTED" then
+    -- 옛 클라이언트는 (목록 번호, 퀘스트 번호), 새 클라이언트는 (퀘스트 번호). NPC와 대화해서 받았을 때만 그 자리를 기억
+    local id = a2 or a1
+    if UnitExists and UnitExists("npc") then pcall(observe, id, "g") end
   end
 end)
 

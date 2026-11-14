@@ -44,6 +44,17 @@ jobs:
         continue-on-error: true
       - run: python3 tools/qdb/import.py /tmp/qdb /tmp/qz
       - run: python3 tools/apply-quest-places.py
+      - name: 길 따라 동선 격자 (지역 지도 그림 + QuestieDB 몹 자리 → data/route)
+        run: |
+          pip install -q --break-system-packages numpy scipy pillow || pip install -q numpy scipy pillow
+          mkdir -p /tmp/zmaps
+          for id in $(python3 -c "import re;s=open('app/app.js',encoding='utf-8').read();m=re.search(r'const ZID=\{(.*?)\};',s,re.S);print(' '.join(sorted(set(re.findall(r':(\d+)',m.group(1))))))"); do
+            curl -sf -A 'Mozilla/5.0' -o /tmp/zmaps/$id.jpg "https://wow.zamimg.com/images/wow/classic/maps/kokr/original/$id.jpg" || rm -f /tmp/zmaps/$id.jpg
+            sleep 0.5
+          done
+          python3 tools/route/build_grid.py /tmp/zmaps /tmp/qdb
+        timeout-minutes: 15
+        continue-on-error: true
       - run: python3 tools/quest-obj-ko.py
         timeout-minutes: 15
         continue-on-error: true
@@ -70,7 +81,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # 자료만 먼저 커밋 → 빌드 결과 등 나머지 변경은 버리고 최신 코드 위에 올린 뒤 다시 빌드
-          git add data/forg data/qdb data/check-report.json
+          git add data/forg data/qdb data/check-report.json data/route
           if git diff --cached --quiet; then echo "바뀐 자료 없음"; exit 0; fi
           git commit -m "forg 자료 갱신"
           git reset --hard -q HEAD && git clean -fdq

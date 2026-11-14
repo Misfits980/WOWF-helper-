@@ -345,3 +345,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 /* 좌표만 있는 지도(제프라스 섬 등)의 할 일 구역 */
 .gmap .gpa{position:absolute;transform:translate(-50%,-50%);border-radius:50%;border:2px dashed rgba(255,138,122,.9);background:rgba(255,120,90,.16);pointer-events:none}
 .mmna{margin:8px 0 10px}.mmna .gmap{border-radius:10px}
+/* 애드온이 기억한 동굴·광산 입구 */
+.gmap .gpe{position:absolute;transform:translate(-50%,-50%);width:17px;height:17px;border-radius:50%;background:#2a1e10;border:1.5px solid #d8b878;color:#f0d9a8;display:grid;place-items:center;z-index:2;pointer-events:none;box-shadow:0 1px 3px #000c}
+.gin .gpe{transform:translate(-50%,-50%) scale(calc(1/var(--s)))}
+.gmap .gpe svg{width:11px;height:11px}
+.gmap .gpe i{position:absolute;left:19px;top:50%;transform:translateY(-50%);white-space:nowrap;font-style:normal;font-size:10.5px;font-weight:700;color:#f0e2c4;text-shadow:0 0 3px #000,0 0 2px #000}
