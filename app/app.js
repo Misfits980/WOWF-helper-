@@ -842,7 +842,7 @@ function setCard(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>own
   return '<div class="card"><h3>🧩 세트 장비 <small class="mute">'+mine.length+'세트 모으는 중</small></h3>'+mine.map(o=>setHtml(c,o)).join('')+'</div>'}
 function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';const b=bestSlot(it,c);const cur=b?eqIt(c,b.s):null;
   let h='<div class="sh"><h2>'+itName(it)+'</h2><button class="x" data-a="close">✕</button></div>';
-  h+='<div class="row" style="border:0">'+itIcon(it,'lg')+'<span class="m"><span class="sub">'+itMeta(it)+'</span>'+statLine(it)+(usable(it,c)?'':'<span class="sub" style="color:var(--bad)">내 직업은 못 써요</span>')+'</span>'+(b?'<span class="r">'+gainTag(b.g,b.base,b.empty)+'</span>':'')+'</div>';
+  h+='<div class="row wtip">'+itIcon(it,'lg')+'<span class="m"><span class="sub">'+itMeta(it)+'</span>'+statLine(it)+(usable(it,c)?'':'<span class="sub" style="color:var(--bad)">내 직업은 못 써요</span>')+'</span>'+(b?'<span class="r">'+gainTag(b.g,b.base,b.empty)+'</span>':'')+'</div>';
   if(b&&usable(it,c))h+='<p class="note">'+SLOT_KO[b.s]+' 칸에 끼면 (지금: '+(cur?esc(cur.nm):'비어 있음')+')</p>'+statChange(c,b.s,it);
   h+=itActs(c,it.id).replace('<button class="btn sm ghost" data-a="info" data-k="'+it.id+'">ⓘ 얻는 곳</button>',(c.cmp||[]).length?'<button class="btn sm ghost" data-a="cmpgo">비교 보기 ('+c.cmp.length+')</button>':'');
   {const so=setOf(it.id);if(so)h+=setHtml(c,so,1)}

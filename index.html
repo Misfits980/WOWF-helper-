@@ -2236,11 +2236,44 @@ details.card>summary,details>summary{cursor:pointer}
   box-shadow:inset 0 1px 0 rgba(255,200,150,.35),inset 0 -2px 0 rgba(0,0,0,.35),0 1px 0 #000,0 0 0 1px rgba(0,0,0,.6);text-shadow:0 1px 0 #000;font-family:var(--title);font-size:16px}
 .ready .go:active{transform:translateY(1px)}
 .sheet h2{color:var(--gold);text-shadow:0 1px 0 #000}
+
+/* ---------- 창(시트) 머리: 와우 창 제목줄 ---------- */
+.sheet{padding-top:0}
+.sheet .sh{position:sticky;top:0;z-index:3;margin:0 -14px 10px;padding:12px 14px 11px;
+  background:linear-gradient(180deg,#30241a 0%,#1d150d 100%);
+  border-bottom:1px solid #6b5126;box-shadow:0 1px 0 #000,0 8px 14px -6px rgba(0,0,0,.7);
+  border-radius:14px 14px 0 0}
+.sheet .sh h2{margin:0;font-size:19px;color:var(--gold);text-shadow:0 1px 0 #000,0 0 10px rgba(0,0,0,.6)}
+/* 닫기: 와우 붉은 동그라미 X */
+.sheet .x,.sh .x{flex:none;width:32px;height:32px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 45% 35%,#d0452e,#7d1408 70%);border:2px solid #c9a24a;color:#ffe9c4;font-size:15px;font-weight:900;
+  box-shadow:0 0 0 1px #000,0 2px 4px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,210,170,.35);text-shadow:0 1px 0 #000}
+.sheet .x:active{transform:scale(.94)}
+@media (min-width:1000px){.sheet{border-radius:12px;border-bottom:2px solid #8a6a30}.sheet .sh{border-radius:10px 10px 0 0}}
+
+/* 창 안의 작은 칸: 움푹 들어간 판 */
+.sy2>div{border-radius:6px;border:1px solid #3d2f19;background:linear-gradient(180deg,#120d08,#18120b);box-shadow:inset 0 2px 6px rgba(0,0,0,.7),0 1px 0 rgba(255,220,160,.05)}
+.sy2>div>b{font-family:var(--title);color:#f6dc8a}
+
+/* 글 넣는 칸: 와우 입력 상자 */
+.inp,textarea{border-radius:4px;border:1px solid #6b5126;background:#0c0906;color:#f2e6cc;box-shadow:inset 0 2px 5px rgba(0,0,0,.8)}
+.inp:focus,textarea:focus{outline:none;border-color:#e1b84f;box-shadow:inset 0 2px 5px rgba(0,0,0,.8),0 0 0 2px rgba(225,184,79,.25)}
+.sycode{border-radius:4px;background:#0c0906;border-color:#6b5126}
+
+/* 홈 맨 아래 연동 줄: 파란 점선 → 청동 */
+.syl{border-radius:6px;border:1px solid #5d4622;background:linear-gradient(180deg,#231a10,#17110a);color:#f0d78a;box-shadow:0 0 0 1px #000}
+.syl.on{color:#9be39b}
+
+/* 템 정보: 와우 툴팁 */
+.row.wtip{margin:2px 0 8px;padding:10px;border:1px solid #9a9aa6;border-radius:5px;background:linear-gradient(180deg,rgba(14,16,34,.97),rgba(6,7,16,.97));
+  box-shadow:0 0 0 1px #000,0 4px 12px rgba(0,0,0,.6)}
+.row.wtip .sub{color:#d8d8d8}
+.sheet .grab{display:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=e698f348"></script>
-<script>/* v4c7efa @11/14 10:38 */
-const BUILD='11/14 10:38';
+<script>/* v7aa4c2 @11/14 10:43 */
+const BUILD='11/14 10:43';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3084,7 +3117,7 @@ function setCard(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>own
   return '<div class="card"><h3>🧩 세트 장비 <small class="mute">'+mine.length+'세트 모으는 중</small></h3>'+mine.map(o=>setHtml(c,o)).join('')+'</div>'}
 function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';const b=bestSlot(it,c);const cur=b?eqIt(c,b.s):null;
   let h='<div class="sh"><h2>'+itName(it)+'</h2><button class="x" data-a="close">✕</button></div>';
-  h+='<div class="row" style="border:0">'+itIcon(it,'lg')+'<span class="m"><span class="sub">'+itMeta(it)+'</span>'+statLine(it)+(usable(it,c)?'':'<span class="sub" style="color:var(--bad)">내 직업은 못 써요</span>')+'</span>'+(b?'<span class="r">'+gainTag(b.g,b.base,b.empty)+'</span>':'')+'</div>';
+  h+='<div class="row wtip">'+itIcon(it,'lg')+'<span class="m"><span class="sub">'+itMeta(it)+'</span>'+statLine(it)+(usable(it,c)?'':'<span class="sub" style="color:var(--bad)">내 직업은 못 써요</span>')+'</span>'+(b?'<span class="r">'+gainTag(b.g,b.base,b.empty)+'</span>':'')+'</div>';
   if(b&&usable(it,c))h+='<p class="note">'+SLOT_KO[b.s]+' 칸에 끼면 (지금: '+(cur?esc(cur.nm):'비어 있음')+')</p>'+statChange(c,b.s,it);
   h+=itActs(c,it.id).replace('<button class="btn sm ghost" data-a="info" data-k="'+it.id+'">ⓘ 얻는 곳</button>',(c.cmp||[]).length?'<button class="btn sm ghost" data-a="cmpgo">비교 보기 ('+c.cmp.length+')</button>':'');
   {const so=setOf(it.id);if(so)h+=setHtml(c,so,1)}
