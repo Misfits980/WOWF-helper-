@@ -1003,7 +1003,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   h+=msRows(c);
   h+='</div>';const i3=h.length;const adC=chgCard(c)+playCard(c)+repCard(c)+addonCard(c)+'<button class="syl'+(syOn()?' on':'')+'" data-a="chars">'+(syOn()?'📱💻 기기 연동 켜짐'+(SY.err?' · ⚠ '+esc(SY.err):SY.at?' · '+armAgo(SY.at)+' 맞춤':''):'📱💻 휴대폰·컴퓨터 자동 연동 켜기')+' ›</button>';
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
-  if(isPC()){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
+  if(window.innerWidth>=1000){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
       qlC+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3><button class="more" data-a="hgo" data-k="log"><b>'+ids.length+'/40</b> 보기 ›</button></div><p class="note">반납 가능 <b>'+R.length+'</b>개 · 하는 중 '+(ids.length-R.length)+'개</p>'
         +(R.length?'<div class="hpz">'+Object.entries(G).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([z,n])=>'<span>'+esc(z)+' <b>'+n+'</b></span>').join('')+'</div>':'')+'</div>'}
@@ -1730,7 +1730,9 @@ function routeView(c,emb){const L=c.lv;const R=routeOf(c);let prevC=null;const f
   return h}
 /* PC(넓은 화면)에서만 옆에 지도 */
 const isPC=()=>window.innerWidth>=1240;
-{let was=isPC();addEventListener('resize',()=>{const n=isPC();if(n!==was){was=n;try{if(me())rerender(true)}catch(e){}}})}
+/* 지도 같이 보기: 고른 적 없으면 넓은 PC 화면(1240px 이상)에서 기본으로 켬 */
+function recMapOn(c){return c.recMap!=null?!!c.recMap:isPC()}
+{const bp=()=>window.innerWidth>=1240?2:window.innerWidth>=1000?1:0;let was=bp();addEventListener('resize',()=>{const n=bp();if(n!==was){was=n;try{if(me())rerender(true)}catch(e){}}})}
 /* 마을 카드 ↔ 지도 핀 서로 강조 */
 document.addEventListener('mouseover',e=>{const t=e.target.closest&&e.target.closest('.st[data-hk],.gp[data-hk]');const k=t?t.dataset.hk:null;if(k===ui._hlk)return;ui._hlk=k;
   document.querySelectorAll('.gp.hl,.st.hlc').forEach(x=>x.classList.remove('hl','hlc'));if(!k)return;
@@ -1852,19 +1854,19 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   if(!ST.length)return h+'<div class="card"><p class="note">'+esc(z)+'에서 지금 할 퀘스트를 다 했어요 🎉 여정 줄에서 다음 지역을 눌러 보세요.</p></div>';
   const s0=ST[0];const xpOf=s=>s.items.filter(i=>i.type==='turn').reduce((n,i)=>n+((RWD.get(i.q.id)||{}).xp||0),0);
   const xy=s=>s.xy?' '+s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'';
-  h+='<button class="swrow" data-a="rmap"><span class="sw'+(c.recMap?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 점선으로</small></button>';
-  if(c.recMap)h+='<!--RM--><div class="gmrow">'+gmStyleSeg(c)+'</div>';
-  if(c.recMap){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const P=[];
+  h+='<button class="swrow" data-a="rmap"><span class="sw'+(recMapOn(c)?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 점선으로</small></button>';
+  if(recMapOn(c))h+='<!--RM--><div class="gmrow">'+gmStyleSeg(c)+'</div>';
+  if(recMapOn(c)){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const P=[];
     const SP={};ui._stp=SP;pts.forEach((s,i)=>{const n=ST.indexOf(s)+1;const j=pts.slice(0,i).findIndex(p=>Math.hypot(p.xy[0]-s.xy[0],p.xy[1]-s.xy[1])<2.5);if(j>=0){SP[n]=SP[ST.indexOf(pts[j])+1];return}SP[n]=String(n);P.push({x:s.xy[0],y:s.xy[1],k:'s'+s.type,t:String(n),on:i===0,lab:i<4?s.place.split(' · ')[0].slice(0,12):''})});
     h+='<div class="rmap gm">'+gmapHtml(ST[0].zone,P.reverse(),pts.map(s=>s.xy),0,1,(c.mapStyle||'atlas')!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
-  else if(c.recMap){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const W=366,H=230;const x=v=>8+v/100*(W-16),y=v=>8+v/100*(H-16);
+  else if(recMapOn(c)){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const W=366,H=230;const x=v=>8+v/100*(W-16),y=v=>8+v/100*(H-16);
     let m='<svg viewBox="0 0 '+W+' '+H+'" class="rmapsvg"><rect width="'+W+'" height="'+H+'" rx="12" fill="#221c14"/>';
     for(let i=10;i<100;i+=10)m+='<line x1="'+x(i)+'" y1="0" x2="'+x(i)+'" y2="'+H+'" stroke="#2c251b"/><line x1="0" y1="'+y(i)+'" x2="'+W+'" y2="'+y(i)+'" stroke="#2c251b"/>';
     if(pts.length>1)m+='<polyline points="'+pts.map(s=>x(s.xy[0])+','+y(s.xy[1])).join(' ')+'" fill="none" stroke="#e8c06a" stroke-width="2.5" stroke-dasharray="7 6"/>';
     const col={get:'#ffd65a',do:'#ff9a4a',turn:'#7ec8ff'};pts.slice().reverse().forEach(s=>{const i=pts.indexOf(s);const n=ST.indexOf(s)+1;if(i>0&&pts.slice(0,i).some(p=>Math.hypot(p.xy[0]-s.xy[0],p.xy[1]-s.xy[1])<3))return;m+='<circle cx="'+x(s.xy[0])+'" cy="'+y(s.xy[1])+'" r="'+(i?11:14)+'" fill="'+col[s.type]+'" stroke="#1a140a" stroke-width="2.5"/><text x="'+x(s.xy[0])+'" y="'+(y(s.xy[1])+4)+'" text-anchor="middle" font-size="12" font-weight="900" fill="#1a140a">'+n+'</text>'+(i<5?'<text x="'+(x(s.xy[0])+(s.xy[0]>70?-16:16))+'" y="'+(y(s.xy[1])+4)+'" text-anchor="'+(s.xy[0]>70?'end':'start')+'" font-size="10.5" font-weight="700" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-width:3px">'+esc(s.place.split(' · ')[0]).slice(0,12)+'</text>':'')});
     m+='<text x="12" y="'+(H-10)+'" font-size="11" fill="#a59d8c">'+esc(ST[0].zone)+' · 좌표 기준 · 단계 1–'+Math.min(10,ST.length)+'</text></svg>';
     h+='<div class="rmap">'+m+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">진짜 지도에서 크게 ›</button></div></div>'}
-  if(c.recMap)h+='<!--/RM-->';
+  if(recMapOn(c))h+='<!--/RM-->';
   h+='<div class="scroll2"><div class="k">1단계 · 지금 할 일 · '+RST[s0.type][0]+'</div><h3>'+esc(s0.place)+'</h3><div class="wh">'+esc(s0.zone)+xy(s0)+' · '+s0.items.length+'개</div>';
   h+=s0.items.map(it=>{const q=it.q;if(it.type==='do'&&q.cnt.length)return q.cnt.map((o,i)=>{const k=q.id+'|'+i;const v=(c.qc||{})[k]||0;return '<div class="ob4"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+'</small></span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+v+'/'+o[1]+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
     return '<div class="ob4"><span class="m">'+esc(q.nm)+'<small>'+(it.type==='get'?esc(q.g[0]||'')+' · Lv '+q.lv:it.type==='turn'?'반납 · '+esc(q.r[0]||''):esc(q.o?q.o.nm:'평판 올리기'))+'</small></span>'+(it.type==='turn'&&(RWD.get(q.id)||{}).xp?'<span class="xp">+'+((RWD.get(q.id)||{}).xp).toLocaleString()+'</span>':'')+'</div>'}).join('');
@@ -1874,7 +1876,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   h+='<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
    +(ST.length>5?'<button class="btn ghost sm full" data-a="rsall">'+(ui.rsall?'접기':'모든 단계 보기 ('+(ST.length-1)+')')+'</button>':'')+'</div>';
   /* PC: 단계는 왼쪽, 지도는 오른쪽 */
-  if(c.recMap&&isPC()){const a=h.indexOf('<!--RM-->'),b=h.indexOf('<!--/RM-->');if(a>=0&&b>a){const mp=h.slice(a+9,b);h=h.slice(0,a)+'<div class="rec2"><div class="rec2l">'+h.slice(b+10)+'</div><div class="rec2r">'+mp+'</div></div>'}}
+  if(recMapOn(c)&&isPC()){const a=h.indexOf('<!--RM-->'),b=h.indexOf('<!--/RM-->');if(a>=0&&b>a){const mp=h.slice(a+9,b);h=h.slice(0,a)+'<div class="rec2"><div class="rec2l">'+h.slice(b+10)+'</div><div class="rec2r">'+mp+'</div></div>'}}
   return h}
 
 /* ===== 🎒 지금 퀘스트창 (게임에서 불러온 목록) → 동선 · 목록 ===== */
@@ -2065,7 +2067,8 @@ function abList(L,c,me){const ord={dz:0,int:2,dis:2,av:3,add:4,tk:5,hl:6,info:7}
   return h+'</div>'}
 function wyBoss(d,nm){const W=wyOf(d);if(!W)return null;const n=wnz(nm);if(!n)return null;const all=(W.bosses||[]).concat(W.extra||[]);
   return all.find(b=>wnz(b.npc)===n)||all.find(b=>{const m=wnz(b.npc);return m.length>1&&(m.includes(n)||n.includes(m))})||null}
-const npcThumb=id=>id&&id<200000?'https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/'+(id&255)+'/'+id+'.webp':'';
+const NOTHUMB=new Set([10997]);/* 와우헤드에 썸네일이 없는 NPC(404 확인) */
+const npcThumb=id=>id&&id<200000&&!NOTHUMB.has(id)?'https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/'+(id&255)+'/'+id+'.webp':'';
 let DGG=null,DGG_LOAD=false;
 function dggLoad(){wyLoad();if(DGG_LOAD)return;DGG_LOAD=true;fetch('data/forg/dungeon-guide.json?v='+D_VER.dgg).then(r=>r.ok?r.json():{}).then(j=>{DGG=j||{};if(ui.tab==='dungeon')rerender(true)}).catch(()=>{DGG={};})}
 const TAGKO={interrupt:'끊기','dispel-magic':'마법 해제','dispel-curse':'저주 해제','dispel-poison':'독 해제','dispel-disease':'질병 치료','no-dispel':'해제 안 됨',avoid:'피하기',spread:'흩어지기',away:'떨어져 서기',wall:'벽 등지기',front:'정면 공격'};
@@ -2530,7 +2533,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     if(ST[0].xy)c.lpos={z:ST[0].zone,xy:ST[0].xy};    save();toast('✓ '+RST[ST[0].type][0]+' 끝 · 다음 단계로');rerender(true);return}
   if(a==='mapst'){c.mapStyle=k;save();rerender(true);if(ui.qmode==='atlas'&&k==='atlas')setTimeout(()=>{try{amInit()}catch(e){}},30);return}
   if(a==='gz'){ui.gz=k;ui.amq=null;rerender(true);return}
-  if(a==='rmap'){c.recMap=!c.recMap;save();rerender(true);return}
+  if(a==='rmap'){c.recMap=!recMapOn(c);save();rerender(true);return}
   if(a==='lhsel'){ui.lhsel=ui.lhsel===k?null:k;rerender(true);return}
   if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};if(c.rwPick[q]===i)delete c.rwPick[q];else c.rwPick[q]=i;save();toast('고를 템을 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}
   if(a==='fpk'){c.fpk=c.fpk||{};if(c.fpk[k])delete c.fpk[k];else c.fpk[k]=1;save();rerender(true);return}

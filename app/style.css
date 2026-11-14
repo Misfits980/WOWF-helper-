@@ -1038,7 +1038,7 @@ p.nchl{border:0;font-size:12px}
 .kranks span{display:flex;flex-direction:column;align-items:center;padding:5px 2px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;text-align:center}
 .kranks b{color:var(--gold);font-size:12.5px}
 .kranks small{font-size:10px;color:var(--mute);line-height:1.25}
-@media (min-width:1000px){.kspec,.ksec{max-width:640px}.kprof{max-width:760px}.kpb{grid-template-columns:repeat(6,1fr)}}
+@media (min-width:1000px){.kprof{max-width:760px}.kpb{grid-template-columns:repeat(6,1fr)}}
 /* wythic 우두머리 기술·공략 */
 .rb-wy{margin:6px 0 8px;padding:8px 10px;border-radius:9px;background:rgba(150,60,40,.13);border:1px solid rgba(200,90,60,.35)}
 .rb-wy b{display:block;font-size:12.5px;color:#f0a27a;margin-bottom:3px}
@@ -1688,7 +1688,7 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .ttip .tt-rw{font-size:12px}
 .ttip .tt-rw.qc{color:#fff}.ttip .tt-rw.qu{color:#2ee04a}.ttip .tt-rw.qr{color:#3d8bff}.ttip .tt-rw.qe{color:#b65cff}.ttip .tt-rw.qp{color:#9d9d9d}
 @media (min-width:900px){.tabs::after{content:'단축키  1~5 탭 · / 찾기 · Esc 닫기';margin-top:auto;padding:12px;font-size:11px;color:var(--mute);white-space:pre-line}}
-@media (min-width:1240px){#app.t-home .wrap>.hcols{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 18px;align-items:start}}
+@media (min-width:1000px){#app.t-home .wrap>.hcols{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 18px;align-items:start}}
 .navlog{margin-top:10px}.navlog summary{cursor:pointer;font-size:12.5px;color:var(--mute)}.navlog textarea{width:100%;font-size:11px;font-family:ui-monospace,monospace}
 .impck{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px;cursor:pointer}.impck small{color:var(--mute)}.impck input{width:16px;height:16px;accent-color:#e8c06a}
 .qpg{flex:none;font-size:10.5px;font-weight:800;color:#ffd65a;border:1px solid #8a6f22;border-radius:6px;padding:0 5px;margin-left:6px;white-space:nowrap}

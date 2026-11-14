@@ -78,6 +78,14 @@ def _dgl():
     return '\n'.join(sorted(rows, key=lambda l: int(l.split('|')[4] or 0)))
 
 
+def _qfix(t):
+    """툴팁의 못 푼 숫자 자리(?) → 숫자 없이 자연스럽게"""
+    t = re.sub(r'\s*\?(초|분|%)?만큼', '', t)
+    t = re.sub(r'\?의 ', '일정량의 ', t)
+    t = re.sub(r'(?<=\s)\?(?=\s)', '일부', t)
+    return t
+
+
 def _sets():
     """세트 장비: wowf.io 툴팁의 「세트 이름 (0/N)」 + 부위 이름 + 「(n) 세트: 효과」 → [[이름, [부위], [[n, 효과]]]]"""
     out = {}
@@ -100,7 +108,7 @@ def _sets():
             for y in L[i + 1 + n:]:
                 mb = re.match(r'^\((\d+)\) 세트: (.+)$', y)
                 if mb:
-                    bon.append([int(mb.group(1)), mb.group(2)])
+                    bon.append([int(mb.group(1)), _qfix(mb.group(2))])
             if nm not in out or len(bon) > len(out[nm][2]):
                 out[nm] = [nm, parts, bon]
             break
