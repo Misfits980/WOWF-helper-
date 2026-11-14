@@ -1019,21 +1019,21 @@
    "22589",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta31 int32 spi24 dps64.37 sp150 heal150 int32 sta31 hit2 sp150 spi24 crit2",
+   "sta31 int32 spi24 dps64.37 sp150 heal150 int32 sta31 hit2 sp150 heal150 spi24 crit2",
    "forg"
   ],
   [
    "22630",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta30 int29 dps64.37 sp150 heal150 int29 sta30 crit2 sp183 heal33",
+   "sta30 int29 dps64.37 sp150 heal150 int29 sta30 crit2 sp183 heal183",
    "forg"
   ],
   [
    "22631",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta28 int28 spi27 dps64.37 heal30 sp120 int28 sta28 heal242 sp120 spi27",
+   "sta28 int28 spi27 dps64.37 heal30 sp120 int28 sta28 heal362 sp120 spi27",
    "forg"
   ],
   [
