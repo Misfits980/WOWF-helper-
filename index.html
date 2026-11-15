@@ -2424,8 +2424,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=70f00a3b"></script>
-<script>/* v1062ec @11/15 13:26 */
-const BUILD='11/15 13:26';
+<script>/* v3c958b @11/15 13:37 */
+const BUILD='11/15 13:37';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2586,7 +2586,22 @@ const syOn=()=>!!(SY.bid&&SY.key)||!!(SY.tok&&SY.gid);
 function syQueue(){if(!syOn())return;clearTimeout(syT);syT=setTimeout(()=>syPush(),4000)}
 async function syGh(path,opt){const r=await fetch('https://api.github.com'+path,Object.assign({cache:'no-store'},opt||{},{headers:{'Authorization':'Bearer '+SY.tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'}}));
   if(!r.ok){const e=new Error(String(r.status));e.status=r.status;throw e}return r.status===204?null:r.json()}
-const syBody=()=>JSON.stringify({v:1,t:Date.now(),cur:DB.cur,list:DB.list,del:DB.del||{}});
+/* 캐릭터 말고도 애드온으로 받은 계정 공용 자료(게임 퀘스트 위치·동굴 입구·받은/반납한 자리)도 같이 맞춤 */
+const syBody=()=>JSON.stringify({v:1,t:Date.now(),cur:DB.cur,list:DB.list,del:DB.del||{},gq:DB.gq||{},ent:DB.ent||[],gobs:DB.gobs||{}});
+function syMergeGame(R){let local=false,remote=false;
+  const A=DB.gq||{},B=R.gq||{},q={...A};
+  for(const id in B){const a=A[id],b=B[id];if(b&&(!a||(b.at||0)>(a.at||0))){q[id]=b;local=true}}
+  for(const id in A){const b=B[id];if(!b||(A[id].at||0)>(b.at||0))remote=true}
+  if(Object.keys(q).length)DB.gq=q;
+  const GA=DB.gobs||{},GB=R.gobs||{},go=JSON.parse(JSON.stringify(GA));
+  for(const id in GB){go[id]=go[id]||{};for(const k in GB[id])if(go[id][k]===undefined){go[id][k]=GB[id][k];local=true}}
+  for(const id in GA)for(const k in GA[id])if(!GB[id]||GB[id][k]===undefined)remote=true;
+  if(Object.keys(go).length)DB.gobs=go;
+  const EA=DB.ent||[],EB=Array.isArray(R.ent)?R.ent:[],eo=EA.map(e=>({...e}));const same=(x,y)=>x.z===y.z&&x.n===y.n&&Math.hypot(x.x-y.x,x.y-y.y)<4;
+  EB.forEach(e=>{const o=eo.find(y=>same(y,e));if(o){if((e.c||1)>(o.c||1)){o.c=e.c;local=true}}else{eo.push({...e});local=true}});
+  EA.forEach(e=>{const o=EB.find(y=>same(y,e));if(!o||(e.c||1)>(o.c||1))remote=true});
+  if(eo.length)DB.ent=eo.slice(-400);
+  return {local,remote}}
 /* 게임에서 불러온 것(애드온 코드)은 「불러온 시각」으로 따로 비교: 다른 기기에서 나중에 사소한 걸 고쳐도 더 새로 불러온 장비·가방이 지워지지 않게 */
 const SY_IMP=['eq','eqv','bag','bank','gold','rep','ql','qp','lv','tal','wsk','taxi','sess','xp','profLv','profs','imported','spec'];
 const impT=c=>(c&&c.imported&&c.imported.t)||0;
@@ -2613,6 +2628,7 @@ function syMerge(R,join){if(!R||!Array.isArray(R.list))return {local:false,remot
   if(drop.size)list=list.filter(c=>!drop.has(c.id));
   if(JSON.stringify(del)!==JSON.stringify(R.del||{}))remote=true;
   DB.list=list;DB.del=del;if(curTo)DB.cur=curTo;
+  {const gm=syMergeGame(R);if(gm.local)local=true;if(gm.remote)remote=true}
   /* QR·링크로 처음 연결할 때는 다른 기기에서 보던 캐릭터를 바로 보여 줌 */
   if(join&&R.cur&&list.some(x=>x.id===R.cur)&&DB.cur!==R.cur){DB.cur=R.cur;local=true}
   if(!DB.cur||!list.some(x=>x.id===DB.cur))DB.cur=(list.find(x=>x.id===R.cur)||list[0]||{}).id||null;
