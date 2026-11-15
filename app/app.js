@@ -1887,7 +1887,9 @@ function rgPath(z,a,b){const g=rgGrid(z);if(!g)return null;const key=(+a[0]).toF
   const {w,h}=g;let c=g.c;const gx=v=>Math.max(0,Math.min(w-1,Math.floor(v/100*w))),gy=v=>Math.max(0,Math.min(h-1,Math.floor(v/100*h)));
   const s=gy(a[1])*w+gx(a[0]),t=gy(b[1])*w+gx(b[0]),tx=t%w,ty=(t/w)|0,N=w*h;
   /* 출발·도착점 바로 둘레(4칸)의 절벽·물은 걸을 수 있다고 봄: NPC가 언덕 위·건물 안·물가에 서 있어도 그 둘레 때문에 멀리 돌아가지 않게 */
-  [s,t].forEach(e=>{const ex=e%w,ey=(e/w)|0;for(let y=Math.max(0,ey-4);y<=Math.min(h-1,ey+4);y++)for(let x=Math.max(0,ex-4);x<=Math.min(w-1,ex+4);x++){const j=y*w+x;if(c[j]>=150&&(x-ex)**2+(y-ey)**2<=16){if(c===g.c)c=g.c.slice();c[j]=8}}});
+  /* 격자 크기가 지역마다 달라서(341칸·682칸) 칸 수로 정한 값은 341칸 기준에 맞춰 늘림 */
+  const GK=Math.max(1,w/341),RR=Math.round(4*GK);
+  [s,t].forEach(e=>{const ex=e%w,ey=(e/w)|0;for(let y=Math.max(0,ey-RR);y<=Math.min(h-1,ey+RR);y++)for(let x=Math.max(0,ex-RR);x<=Math.min(w-1,ex+RR);x++){const j=y*w+x;if(c[j]>=150&&(x-ex)**2+(y-ey)**2<=RR*RR){if(c===g.c)c=g.c.slice();c[j]=8}}});
   const G=new Float32Array(N).fill(1e30),PV=new Int32Array(N).fill(-1),CL=new Uint8Array(N);const HF=[],HI=[];
   const push=(f,i)=>{let k=HF.length;HF.push(f);HI.push(i);while(k>0){const p=(k-1)>>1;if(HF[p]<=f)break;HF[k]=HF[p];HI[k]=HI[p];k=p}HF[k]=f;HI[k]=i};
   const pop=()=>{const top=HI[0],f=HF.pop(),i=HI.pop(),n=HF.length;if(n){let k=0;for(;;){const l=2*k+1;if(l>=n)break;const r=l+1,m=r<n&&HF[r]<HF[l]?r:l;if(HF[m]>=f)break;HF[k]=HF[m];HI[k]=HI[m];k=m}HF[k]=f;HI[k]=i}return top};
@@ -1907,7 +1909,7 @@ function rgPath(z,a,b){const g=rgGrid(z);if(!g)return null;const key=(+a[0]).toF
   for(let it=0;it<2&&Q.length>2;it++){const R=[Q[0]];for(let k=0;k<Q.length-1;k++){const p=Q[k],q=Q[k+1],d=Math.hypot(q[0]-p[0],q[1]-p[1]),f=d>0?Math.min(.25,.6/d):.25;R.push([p[0]+(q[0]-p[0])*f,p[1]+(q[1]-p[1])*f],[q[0]+(p[0]-q[0])*f,q[1]+(p[1]-q[1])*f])}R.push(Q[Q.length-1]);Q=R}
   let len=0;for(let k=1;k<Q.length;k++)len+=Math.hypot(Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]);const st=Math.hypot(b[0]-a[0],b[1]-a[1]);
   /* 가운데 지점·방향(화살표) */let half=len/2,mid=null;for(let k=1;k<Q.length;k++){const d=Math.hypot(Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]);if(half<=d||k===Q.length-1){const f=d?Math.min(1,half/d):0;mid=[Q[k-1][0]+(Q[k][0]-Q[k-1][0])*f,Q[k-1][1]+(Q[k][1]-Q[k-1][1])*f,Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]];break}half-=d}
-  const r={p:Q,len,mid,far:blk>4||(st>8&&len>st*2.6)};g.P.set(key,r);return r}
+  const r={p:Q,len,mid,far:blk>4*GK||(st>8&&len>st*2.6)};g.P.set(key,r);return r}
 function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?'':gmUrl(z);const A=u?null:gmAtlasBg(z);
   let tf='',sc=1,TX=0;if(zoom){const xs=pins.map(p=>p.x),ys=pins.map(p=>p.y);if(xs.length){const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);sc=Math.max(1,Math.min(2.6,100/(Math.max(x1-x0,(y1-y0)*1.2)+24)));
     /* 지도 가장자리에 붙은 핀도 반쯤 잘리지 않게 바깥으로 조금(최대 9%) 비켜 보일 수 있게 함 */

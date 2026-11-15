@@ -14,16 +14,17 @@
 import csv
 import math
 import os
+import re
 import sys
 
 import numpy as np
 from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from adt import read_adt, TILE, UNIT  # noqa: E402
+from adt import read_adt, read_tex0, TILE, UNIT  # noqa: E402
 
 ORIGIN = 32 * TILE
-GW, GH = 341, 227
+GW, GH = 682, 454  # 지도 1024×683의 1.5px = 1칸 (예전 341×227의 2배: 큰 지도에서 확대해도 선이 길에 붙게)
 CITY = {1519, 1537, 1637, 1638, 1657, 1497}  # 도시는 건물 안이라 지형으로 못 판단 → 기존 격자 유지
 STEEP = math.tan(math.radians(50))
 OCEAN_ID = 1250  # Map.csv OceanLiquidTypeID (포에버)  # 이보다 가파르면 못 올라감
@@ -111,6 +112,14 @@ class Tiles:
                 self.c[key] = None
         return self.c[key]
 
+    def tex(self, tx, ty):
+        """땅 텍스처(_tex0.adt) → {FileDataID: 128×128 비중}. 파일이 없으면 None (길이 없는 타일은 안 받음)"""
+        key = ('t', tx, ty)
+        if key not in self.c:
+            p = os.path.join(self.d, '%s_%d_%d_tex0.adt' % (self.name, tx, ty))
+            self.c[key] = read_tex0(open(p, 'rb').read(), 8) if os.path.exists(p) else None
+        return self.c[key]
+
 
 def native(tiles, gx0, gx1, gy0, gy1, LQ):
     """세계 칸(4.17야드) 단위 배열: 높이(칸 평균), 경사 tan, 물 깊이, 물 종류, 구멍"""
@@ -152,55 +161,169 @@ def native(tiles, gx0, gx1, gy0, gy1, LQ):
     return hc, sl, dep, bad, ocean, hole
 
 
+ROADNAME = re.compile(r'road|path|cobble|street', re.I)
+_NAMES = None
+
+
+def road_tex_ids():
+    """이름에 Road·Path·Cobble이 들어간 땅 텍스처 FileDataID (WFH_LISTFILE = 'id;경로' 목록 파일)"""
+    global _NAMES
+    if _NAMES is None:
+        _NAMES = set()
+        lf = os.environ.get('WFH_LISTFILE')
+        if lf and os.path.exists(lf):
+            for ln in open(lf, encoding='utf-8', errors='replace'):
+                i, _, nm = ln.strip().partition(';')
+                if nm.lower().startswith('tileset/') and ROADNAME.search(nm.rsplit('/', 1)[-1]) and i.isdigit():
+                    _NAMES.add(int(i))
+    return _NAMES
+
+
+def prune_spurs(sk, L):
+    """뼈대에서 갈림길에 붙은 짧은(L칸 이하) 곁가지만 자름. 따로 떨어진 짧은 길 조각은 그대로 둠"""
+    sk = sk.copy()
+    H, W = sk.shape
+    N8 = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+    def nbrs(y, x):
+        return [(y + dy, x + dx) for dy, dx in N8 if 0 <= y + dy < H and 0 <= x + dx < W and sk[y + dy, x + dx]]
+    ys, xs = np.nonzero(sk)
+    ends = [(y, x) for y, x in zip(ys, xs) if len(nbrs(y, x)) == 1]
+    for e in ends:
+        path = [e]
+        prev, cur = None, e
+        while True:
+            nb = [q for q in nbrs(*cur) if q != prev and q not in path]
+            if len(nb) != 1 or len(nbrs(*cur)) > 2:
+                break
+            prev, cur = cur, nb[0]
+            path.append(cur)
+            if len(path) > L + 1:
+                break
+        # cur가 갈림길(이웃 3개 이상)이고 곁가지가 짧으면 자름 (갈림길 칸은 남김)
+        if len(path) <= L + 1 and len(nbrs(*cur)) >= 3 and cur != e:
+            for q in path[:-1]:
+                sk[q] = False
+    return sk
+
+
+def _integral(a):
+    S = np.zeros((a.shape[0] + 1, a.shape[1] + 1), np.float64)
+    S[1:, 1:] = np.cumsum(np.cumsum(a, 0, dtype=np.float64), 1)
+    return S
+
+
 def zone_grid(tiles, rect, old, LQ):
+    """지역 하나 → GH×GW 걷기 비용 격자. 칸마다 세계 칸(4.17야드)들의 평균으로 정함(적분 영상으로 한 번에)."""
     _, minX, minY, maxX, maxY = rect
     gx0 = int(math.floor((ORIGIN - maxY) / UNIT))
     gx1 = int(math.ceil((ORIGIN - minY) / UNIT))
     gy0 = int(math.floor((ORIGIN - maxX) / UNIT))
     gy1 = int(math.ceil((ORIGIN - minX) / UNIT))
     hc, sl, dep, bad, ocean, hole = native(tiles, gx0, gx1, gy0, gy1, LQ)
+    H, W = hc.shape
     steep = (sl > STEEP) & ~hole
     swim = np.nan_to_num(dep, nan=-1) > 1.6
     deep = swim & (np.nan_to_num(dep, nan=-1) > 8) & ocean
     nodata = np.isnan(hc)
-    out = np.zeros((GH, GW), np.uint8)
     # 격자 칸마다 세계 칸 범위 (지도 0~1 ↔ 세계 사각형)
     fx = lambda u: (ORIGIN - (maxY - u * (maxY - minY))) / UNIT - gx0  # noqa: E731
     fy = lambda v: (ORIGIN - (maxX - v * (maxX - minX))) / UNIT - gy0  # noqa: E731
-    stat = {'steep': 0, 'swim': 0, 'nodata': 0}
-    for j in range(GH):
-        y0, y1 = int(fy(j / GH)), max(int(fy(j / GH)) + 1, int(fy((j + 1) / GH)))
-        for i in range(GW):
-            x0, x1 = int(fx(i / GW)), max(int(fx(i / GW)) + 1, int(fx((i + 1) / GW)))
-            sub = (slice(max(0, y0), min(hc.shape[0], y1)), slice(max(0, x0), min(hc.shape[1], x1)))
-            n = nodata[sub]
-            fs = 0.0
-            if n.size == 0 or n.mean() > .6:
-                v = 255
-                stat['nodata'] += 1
-            else:
-                fs = steep[sub].mean()
-                fw = swim[sub].mean()
-                if bad[sub].mean() > .3:
-                    v = 255
-                elif deep[sub].mean() > .5:
-                    v = 200
-                    stat['swim'] += 1
-                elif fw > .5:
-                    v = 150
-                    stat['swim'] += 1
-                elif fs >= .34:
-                    v = 255
-                    stat['steep'] += 1
-                elif fs >= .12:
-                    v = 25
-                else:
-                    # 길(1)보다 2~8배: 길이 조금 돌아가면 길로, 많이 돌아가면 풀밭을 가로지름 (게임에선 길이 더 빠르지 않음)
-                    ms = float(np.nanmean(sl[sub]))
-                    v = int(round(2 + min(6.0, ms * 15)))
-            if old is not None and old[j, i] == 1 and (v != 255 or fs < .7) and n.size and n.mean() <= .6:
-                v = 1  # 지도의 길·순찰 경로(다리·비탈길)는 살림 (아주 가파른 절벽 한가운데만 빼고)
-            out[j, i] = v
+    ys0 = np.array([int(fy(j / GH)) for j in range(GH)])
+    ys1 = np.maximum(ys0 + 1, np.array([int(fy((j + 1) / GH)) for j in range(GH)]))
+    xs0 = np.array([int(fx(i / GW)) for i in range(GW)])
+    xs1 = np.maximum(xs0 + 1, np.array([int(fx((i + 1) / GW)) for i in range(GW)]))
+    Y0, Y1 = np.clip(ys0, 0, H)[:, None], np.clip(ys1, 0, H)[:, None]
+    X0, X1 = np.clip(xs0, 0, W)[None, :], np.clip(xs1, 0, W)[None, :]
+    area = (Y1 - Y0) * (X1 - X0)
+
+    def mean(a):
+        S = _integral(a.astype(np.float64))
+        v = S[Y1, X1] - S[Y0, X1] - S[Y1, X0] + S[Y0, X0]
+        return np.where(area > 0, v / np.maximum(area, 1), np.nan)
+
+    fn = np.nan_to_num(mean(nodata), nan=1.0)
+    fs = np.nan_to_num(mean(steep))
+    fw = np.nan_to_num(mean(swim))
+    fd = np.nan_to_num(mean(deep))
+    fb = np.nan_to_num(mean(bad))
+    slv = np.where(nodata, 0, sl)
+    cnt = mean(~nodata)
+    ms = np.nan_to_num(mean(slv) / np.maximum(np.nan_to_num(cnt), 1e-6))
+    land = np.round(2 + np.minimum(6.0, ms * 15)).astype(np.int64)  # 길(1)보다 2~8배 (게임에선 길이 더 빠르지 않음)
+    out = np.select([fn > .6, fb > .3, fd > .5, fw > .5, fs >= .34, fs >= .12],
+                    [255, 255, 200, 150, 255, 25], land).astype(np.uint8)
+    stat = {'steep': int(((fs >= .34) & (fn <= .6) & (fb <= .3) & (fw <= .5)).sum()),
+            'swim': int(((fw > .5) & (fn <= .6)).sum()), 'nodata': int((fn > .6).sum()), 'road': 0, 'texroad': 0}
+
+    # 길: 예전 격자의 길 칸(지도 그림에서 읽은 길·순찰 길)을 「길 근처」로 삼고, 그 안에서 게임 땅 텍스처(흙길·자갈길)가
+    # 깔린 칸을 길로 정함 → 큰 지도에서 확대해도 선이 실제 길 위에 붙음. 텍스처가 없는 곳(다리·텍스처 없는 길)은 예전 길 그대로.
+    if old is None:
+        old = np.zeros((GH, GW), np.uint8)
+    if True:
+        o1 = np.array(Image.fromarray(((old == 1) * 255).astype(np.uint8)).resize((GW, GH), Image.NEAREST)) > 0
+        k = max(1, round(GW / old.shape[1]))  # 예전 한 칸 = 새 칸 k개
+        near = o1.copy()
+        for _ in range(k + 1):
+            near = near | np.roll(near, 1, 0) | np.roll(near, -1, 0) | np.roll(near, 1, 1) | np.roll(near, -1, 1)
+        TW = {}
+        hasT = np.zeros((H, W), bool)
+        for ty in range(gy0 // 128, (gy1 - 1) // 128 + 1):
+            for tx in range(gx0 // 128, (gx1 - 1) // 128 + 1):
+                t = tiles.tex(tx, ty)
+                if not t:
+                    continue
+                ys, xs = ty * 128, tx * 128
+                y0, y1 = max(gy0, ys), min(gy1, ys + 128)
+                x0, x1 = max(gx0, xs), min(gx1, xs + 128)
+                hasT[y0 - gy0:y1 - gy0, x0 - gx0:x1 - gx0] = True
+                for f, w in t.items():
+                    if f not in TW:
+                        TW[f] = np.zeros((H, W), np.uint8)
+                    TW[f][y0 - gy0:y1 - gy0, x0 - gx0:x1 - gx0] = (w[y0 - ys:y1 - ys, x0 - xs:x1 - xs] * 255).astype(np.uint8)
+        have = np.nan_to_num(mean(hasT))  # 텍스처 자료가 있는 비율
+        rd = np.zeros((GH, GW))
+        if TW and o1.sum() > 20:
+            landm = (out != 255) & (out != 200) & (out != 150) & (have > .5)
+            onr = o1 & (have > .5)
+            for f, a in TW.items():
+                m = np.nan_to_num(mean(a)) / 255.0
+                if onr.sum() < 10 or not landm.any():
+                    continue
+                fr = m[onr].mean()
+                lift = fr / max(1e-6, m[landm].mean())
+                if lift >= 2.0 and fr >= .08:   # 길 칸에 몰려 있는 텍스처 = 그 지역 길 텍스처
+                    rd += m
+        okc = (fn <= .6) & ~((out == 255) & (fs >= .7))
+        texroad = near & (rd >= .4) & okc
+        # 이름이 「…Road / Path / Cobble」인 텍스처는 길 근처가 아니어도 길로 봄 (예전 지도 그림에서 길을 못 읽은 지역도 길이 생김)
+        RN = road_tex_ids()
+        rn = np.zeros((GH, GW))
+        for f in TW:
+            if f in RN:
+                rn += np.nan_to_num(mean(TW[f])) / 255.0
+        texroad |= (rn >= .4) & okc
+        # 예전 길 칸 둘레(k칸)에 텍스처 길이 하나도 없으면(다리·텍스처 없는 길) 예전 길 칸을 그대로 씀
+        tr = texroad.copy()
+        for _ in range(k + 1):
+            tr = tr | np.roll(tr, 1, 0) | np.roll(tr, -1, 0) | np.roll(tr, 1, 1) | np.roll(tr, -1, 1)
+        keep = o1 & ~tr & (fn <= .6) & ~((out == 255) & (fs >= .7))
+        R = texroad | keep
+        # 길 가운데 줄만 1(길): 흙길이 넓게 깔린 곳(갈림길·마을 앞)에서 선이 길 가장자리로 붙지 않게 뼈대(가운데 줄)를 씀.
+        # 나머지 길 폭은 2(평지와 같음)
+        try:
+            from skimage.morphology import skeletonize, remove_small_holes, binary_closing
+            # 길 사이 작은 구멍을 메운 뒤 뼈대를 뽑아야 고리 모양이 안 생김
+            Rf = remove_small_holes(binary_closing(R, np.ones((3, 3), bool)) & (out != 255) | R, max_size=60)
+            sk = skeletonize(Rf)
+            sk = prune_spurs(sk, 4)
+            R = Rf
+        except ImportError:
+            sk = R
+        out[R & ~sk] = 2
+        out[sk] = 1
+        stat['road'] = int(sk.sum())
+        stat['texroad'] = int(texroad.sum())
     # 절벽 사이 한 칸짜리 틈 메우기: 둘레 8칸 중 6칸 이상이 절벽이면 그 칸도 절벽 (길은 빼고)
     blk = out == 255
     n8 = sum(np.roll(np.roll(blk, dy, 0), dx, 1) for dy in (-1, 0, 1) for dx in (-1, 0, 1) if dy or dx)
@@ -237,11 +360,14 @@ def main():
         if nm not in T:
             T[nm] = Tiles(d, nm)
         p = os.path.join(rdir, '%d.png' % zid)
-        old = np.array(Image.open(p)) if os.path.exists(p) else None
+        # 길 칸은 처음 격자(지도 그림에서 읽은 길)를 씀: WFH_ROADSRC 폴더에 있으면 그것, 없으면 지금 격자
+        rs = os.path.join(os.environ.get('WFH_ROADSRC', ''), '%d.png' % zid)
+        src = rs if os.environ.get('WFH_ROADSRC') and os.path.exists(rs) else p
+        old = np.array(Image.open(src)) if os.path.exists(src) else None
         g, st = zone_grid(T[nm], rects[zid], old, LQ)
         Image.fromarray(g, 'L').save(p, optimize=True)
         done.add(zid)
-        print(zid, nm, '절벽칸', st['steep'], '물칸', st['swim'], '자료없음', st['nodata'])
+        print(zid, nm, '절벽칸', st['steep'], '물칸', st['swim'], '자료없음', st['nodata'], '길칸', st['road'], '(텍스처 길', st['texroad'], ')')
     # 이 목록에 있는 지역은 tools/route/build_grid.py(지도 그림·몹 자리 격자)가 덮어쓰지 않음
     with open(tf, 'w', encoding='utf-8') as f:
         f.write('# 게임 지형으로 만든 걷기 격자 (tools/terrain/build_terrain.py). build_grid.py는 이 지역을 건너뜀\n')

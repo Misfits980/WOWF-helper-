@@ -116,3 +116,68 @@ def read_adt(b):
                             wl[gy, gx] = lv
                             wt[gy, gx] = ltype
     return dict(h=H, hole=hole, wl=wl, wt=wt, chunks=seen)
+
+
+def _alpha(b, o, end, compressed):
+    """MCAL 한 겹 → 64×64 (0~1). 큰 알파(4096바이트) 또는 RLE 압축"""
+    if compressed:
+        out = bytearray()
+        while len(out) < 4096 and o < end:
+            c = b[o]
+            o += 1
+            n = c & 0x7F
+            if c & 0x80:
+                out += bytes([b[o]]) * n
+                o += 1
+            else:
+                out += b[o:o + n]
+                o += n
+        out = (out + bytes(4096))[:4096]
+        return np.frombuffer(bytes(out), np.uint8).reshape(64, 64) / 255.0
+    return np.frombuffer(b[o:o + 4096], np.uint8).reshape(64, 64) / 255.0 if o + 4096 <= len(b) else np.zeros((64, 64))
+
+
+def read_tex0(b, res=8):
+    """땅 텍스처 파일(_tex0.adt) → {텍스처 FileDataID: (16·res)×(16·res) 비중 0~1}.
+    겹 i의 비중 = a_i × Π(위에 덮인 겹들의 1−a). 맨 아래 겹은 나머지 전부."""
+    ids = []
+    out = {}
+    N = 16 * res
+    k = 0
+    for mg, o, sz in chunks(b):
+        if mg == 'MDID':
+            ids = list(struct.unpack_from('<%dI' % (sz // 4), b, o))
+        elif mg == 'MTEX' and not ids:
+            ids = [x.decode('latin1') for x in b[o:o + sz].split(b'\0') if x]
+        elif mg == 'MCNK':
+            cy, cx = divmod(k, 16)
+            k += 1
+            lay = []
+            mcal = None
+            for m2, o2, s2 in chunks(b, o, o + sz):
+                if m2 == 'MCLY':
+                    lay = [struct.unpack_from('<4I', b, o2 + 16 * i) for i in range(s2 // 16)]
+                elif m2 == 'MCAL':
+                    mcal = (o2, s2)
+            if not lay:
+                continue
+            al = [None]
+            for tid, fl, off, eff in lay[1:]:
+                if mcal and fl & 0x100:
+                    al.append(_alpha(b, mcal[0] + off, mcal[0] + mcal[1], fl & 0x200))
+                else:
+                    al.append(np.zeros((64, 64)))
+            rem = np.ones((64, 64))
+            ws = [None] * len(lay)
+            for i in range(len(lay) - 1, 0, -1):
+                ws[i] = al[i] * rem
+                rem = rem * (1 - al[i])
+            ws[0] = rem
+            for (tid, fl, off, eff), w in zip(lay, ws):
+                if tid >= len(ids):
+                    continue
+                f = ids[tid]
+                if f not in out:
+                    out[f] = np.zeros((N, N), np.float32)
+                out[f][cy * res:(cy + 1) * res, cx * res:(cx + 1) * res] += w.reshape(res, 64 // res, res, 64 // res).mean(axis=(1, 3))
+    return out
