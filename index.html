@@ -2102,6 +2102,39 @@ html,body{overscroll-behavior-x:none}
 .tcut{margin:4px 0;padding:4px 10px;border-radius:8px;font-size:calc(12px*var(--fs,1));font-weight:700;color:#ffe08a;background:rgba(199,154,58,.12);border:1px dashed rgba(199,154,58,.55);text-align:center}
 .tcut.lv{color:#9ff09f;background:rgba(80,160,80,.12);border-color:rgba(110,200,110,.55)}
 .navgo{margin:6px 0 2px}.navgo small{color:var(--mute);font-weight:400;margin-left:4px}
+/* 🔄 자동 맞춤 권한 줄 */
+.fsneed{display:block;width:100%;margin:8px 0;padding:9px 12px;border-radius:10px;border:1px dashed rgba(199,154,58,.6);background:rgba(199,154,58,.1);color:#ffe08a;font:inherit;font-size:calc(13px*var(--fs,1));font-weight:700;text-align:left;cursor:pointer}
+.fsneed small{display:block;font-weight:400;color:var(--mute);font-size:calc(11.5px*var(--fs,1));margin-top:2px}
+/* 📱 옆 화면 모드 */
+body.sidem{overflow:hidden}
+.sidev{position:fixed;inset:0;z-index:9000;overflow:auto;background:radial-gradient(circle at 50% 0,#2a2114,#100d09 70%);padding:calc(10px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
+.sidev .sdh{display:flex;align-items:center;gap:8px}
+.sidev .sdh b{font-size:calc(15px*var(--fs,1));color:#f3e2b5;flex:none}
+.sidev .sdh span{flex:1;min-width:0;font-size:calc(11.5px*var(--fs,1));color:var(--mute)}
+.sidev .sdh .ok{color:#8bf08b}.sidev .sdh .warn{color:#ffb070}
+.sidev .sdh .x{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:#f3e2b5;font-size:calc(16px*var(--fs,1));cursor:pointer}
+.sidev .sdc{padding:16px 16px 14px;border-radius:16px;background:linear-gradient(180deg,#f3e6c8,#e6d3a8);color:#2b1d0e;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.sidev .sdc.flash{animation:sdflash 1.2s ease-out}
+@keyframes sdflash{0%{box-shadow:0 0 0 6px #ffd65a,0 6px 24px rgba(0,0,0,.45)}100%{box-shadow:0 0 0 0 rgba(255,214,90,0),0 6px 24px rgba(0,0,0,.45)}}
+@media (prefers-reduced-motion:reduce){.sidev .sdc.flash{animation:none;outline:3px solid #ffd65a}}
+.sidev .sk{font-size:calc(13px*var(--fs,1));font-weight:800;color:#8a4a0c}
+.sidev .sdc.t-get .sk{color:#8a6a00}.sidev .sdc.t-turn .sk{color:#1f5f99}
+.sidev h1{margin:4px 0 2px;font-size:calc(28px*var(--fs,1));line-height:1.2;font-family:var(--title);color:#2b1d0e}
+.sidev .sz{font-size:calc(15px*var(--fs,1));color:#5a4426}.sidev .sz b{font-size:calc(20px*var(--fs,1));color:#2b1d0e;margin-left:4px}
+.sidev ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.sidev li{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.45)}
+.sidev li>b{font-size:calc(16px*var(--fs,1))}
+.sidev .so{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:3px;font-size:calc(13.5px*var(--fs,1));color:#5a4426}
+.sidev .so b{color:#2b1d0e}.sidev .so .dn{color:#2f6b3a;text-decoration:line-through}
+.sidev .sxp{margin-top:10px;font-size:calc(13px*var(--fs,1));color:#5a4426}.sidev .sxp b{color:#6a1fb0}
+.sidev .sdb{display:flex;gap:8px}
+.sidev .sdb .sdgo{flex:1;min-height:56px;font-size:calc(17px*var(--fs,1));font-weight:800}
+.sidev .sdb .ghost{min-height:56px;padding:0 18px}
+.sidev .sdn{display:flex;flex-direction:column;gap:6px}
+.sidev .sdn div{display:flex;align-items:center;gap:8px;font-size:calc(14px*var(--fs,1));color:#e6dcc5}
+.sidev .sdn .n{flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:calc(12px*var(--fs,1));font-weight:800;border:2px solid #8a7440;color:#f3e2b5}
+.sidev .sdn .n.t-get{border-color:#ffd65a}.sidev .sdn .n.t-do{border-color:#ff9a4a}.sidev .sdn .n.t-turn{border-color:#7ec8ff}
+.sidev .sdf{margin:auto 0 0;font-size:calc(12px*var(--fs,1));color:var(--mute)}
 
 /* ===================================================================
    와포 도우미 — 와우 게임 창 테마 (2026-11 대격변)
@@ -2473,11 +2506,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=817fd820"></script>
-<script>/* v2c0980 @11/15 17:08 */
+<script src="app-data.js?v=26fad78d"></script>
+<script>/* v35610d @11/15 17:17 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/15 17:08';
+const BUILD='11/15 17:17';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4593,6 +4626,32 @@ function recStages(c,list,start){const ql=c.ql||{};const St=[];const near=(a,b)=
   /* 붙어 있는 같은 곳·같은 종류는 하나로 */
   const M=[];out.forEach(s=>{const p=M[M.length-1];if(p&&p.type===s.type&&p.zone===s.zone&&(near(p.xy,s.xy)||(!p.xy&&!s.xy&&p.place===s.place)))p.items=p.items.concat(s.items);else M.push(s)});return M}
 const RST={get:['받기','g'],do:['하기','o'],turn:['반납','r']};
+/* 📱 옆 화면 모드: 게임하는 동안 폰을 세워 두면 「지금 단계」만 크게 · 화면 안 꺼짐 · 30초마다 PC와 맞춤 */
+let sideWL=null,sideIv=null,sideKey='';
+async function sideLock(on){try{if(on){if('wakeLock' in navigator&&!document.hidden&&!sideWL){sideWL=await navigator.wakeLock.request('screen');sideWL.addEventListener('release',()=>{sideWL=null;if(ui.side)rerender(true)});if(ui.side)rerender(true)}}else if(sideWL){const w=sideWL;sideWL=null;await w.release()}}catch(e){sideWL=null}}
+function sideOn(v){ui.side=!!v;clearInterval(sideIv);sideIv=null;sideKey='';
+  if(v){try{history.pushState({side:1},'')}catch(e){}sideLock(true);sideIv=setInterval(()=>{if(ui.side&&!document.hidden&&syOn())syPull(true)},30e3);if(syOn())syPull(true)}
+  else sideLock(false);
+  document.body.classList.toggle('sidem',!!v);rerender(true)}
+function sideView(c){if(!QDB){qdbLoad();return '<div class="sdh"><b>📱 옆 화면</b><button class="x" data-a="side" data-k="0">✕</button></div><p class="note">퀘스트 자료를 불러오는 중…</p>'}
+  recView(c);const ST=ui._st||[];const s0=ST[0];
+  const wl=sideWL?'<span class="ok">화면 켜 둠</span>':'wakeLock' in navigator?'<span class="warn">화면 켜 두기 안 됨 · 화면을 한 번 눌러 주세요</span>':'<span class="warn">이 브라우저는 화면 켜 두기를 못 해요</span>';
+  const sy=syOn()?'PC와 맞춤 '+(SY.at?armAgo(SY.at):'준비 중'):'PC와 연동 안 됨';
+  let h='<div class="sdh"><b>📱 옆 화면</b><span>'+wl+' · '+sy+'</span><button class="x" data-a="side" data-k="0">✕</button></div>';
+  if(!s0)return h+'<div class="sdc"><h1>이 구간 단계를 다 했어요 🎉</h1><p>레벨업 탭에서 다음 구간을 골라 주세요.</p></div>';
+  const key=s0.type+'|'+s0.place+'|'+s0.items.map(i=>i.q.id).join(',');const flash=sideKey&&sideKey!==key;if(flash){try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}}sideKey=key;
+  const qp=c.qp||{},qc=c.qc||{};
+  const li=s0.items.map(it=>{const q=it.q;let o='';
+    if(it.type==='do'&&q.cnt&&q.cnt.length)o=q.cnt.map((x,i)=>{const g=(qp[q.id]||[])[i];const cur=g?g[0]:(qc[q.id+'|'+i]||0),mx=g?g[1]:(x[1]||0);return '<span class="'+(mx&&cur>=mx?'dn':'')+'">'+esc(x[0])+' <b>'+cur+(mx?'/'+mx:'')+'</b></span>'}).join('');
+    else if(it.type==='turn'){const xp=(RWD.get(q.id)||{}).xp;o=xp?'<span>경험치 <b>+'+xp.toLocaleString()+'</b></span>':''}
+    else if(it.type==='get')o='<span>'+esc(q.g&&q.g[0]||'')+'</span>';
+    return '<li><b>'+esc(q.nm)+'</b>'+(o?'<div class="so">'+o+'</div>':'')+'</li>'}).join('');
+  const sx=s0.items.filter(i=>i.type==='turn').reduce((n,i)=>n+((RWD.get(i.q.id)||{}).xp||0),0);
+  h+='<div class="sdc t-'+s0.type+(flash?' flash':'')+'"><div class="sk">1단계 · '+RST[s0.type][0]+'</div><h1>'+esc(s0.place)+'</h1><div class="sz">'+esc(s0.zone)+(s0.xy?' <b>'+s0.xy[0].toFixed(0)+', '+s0.xy[1].toFixed(0)+'</b>':'')+'</div><ul>'+li+'</ul>'+(sx?'<div class="sxp">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>':'')+'</div>';
+  h+='<div class="sdb"><button class="btn sdgo" data-a="rsdone">다 했어요 · 다음 단계</button><button class="btn ghost" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button></div>';
+  h+='<div class="sdn">'+ST.slice(1,4).map((s,i)=>'<div><span class="n t-'+s.type+'">'+(i+2)+'</span><b>'+RST[s.type][0]+'</b> '+esc(s.place)+'</div>').join('')+'</div>';
+  h+=syOn()?'<p class="sdf">PC에서 게임 파일을 맞추면 30초 안에 이 화면도 저절로 바뀌어요.</p>':'<p class="sdf">PC와 연동하면 PC에서 맞춘 내용이 30초마다 저절로 들어와요 · <button class="lnk" data-a="side" data-k="chars">연동하러 가기</button></p>';
+  return h}
 /* ⏱ 시간 계획: 단계마다 이동(지도 거리)+할 일 시간을 어림 → 「N분이면 여기까지」·「여기서 레벨업」 */
 function recTime(c,ST){const L=c.lv,spd=(L>=40?11.2:7)/1.35;/* 길이 꼬불꼬불해서 직선보다 35% 더 걸림 */
   const at=(z,xy)=>xy?toAtlas(z,xy[0]+','+xy[1]):null;let prev=c.lpos?at(c.lpos.z,c.lpos.xy):null;const M=[],X=[];
@@ -4676,7 +4735,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
   h+='<div class="ft"><button class="q" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button><button class="p" data-a="rsdone">다 했어요 · 다음 단계</button></div></div>';
   const more=ui.rsall?ST.slice(1):ST.slice(1,5);
-  const TC=recTimeCard(c,ST);h+=TC.h;if(isPC())h+='<button class="btn sm ghost full navgo" data-a="wfr">🧭 게임 화면에 이 단계 길 안내 띄우기 <small>애드온 /wfh 추천</small></button>';const h0=h.length;
+  const TC=recTimeCard(c,ST);h+=TC.h;h+='<button class="btn sm ghost full navgo" data-a="side" data-k="1">📱 옆 화면 모드 <small>게임하면서 폰 세워 두기 · 화면 안 꺼짐</small></button>';if(isPC())h+='<button class="btn sm ghost full navgo" data-a="wfr">🧭 게임 화면에 이 단계 길 안내 띄우기 <small>애드온 /wfh 추천</small></button>';const h0=h.length;
   h+='<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
    +(ST.length>5?'<button class="btn ghost sm full" data-a="rsall">'+(ui.rsall?'접기':'모든 단계 보기 ('+(ST.length-1)+')')+'</button>':'')+'</div>';
   {const mk=(k,t)=>{const a='<div class="nxr3" data-st="'+(k+2)+'"';const p=h.indexOf(a,h0);if(p>0)h=h.slice(0,p)+t+h.slice(p)};
@@ -5274,6 +5333,25 @@ function impPreview(c){const P=ui.imp;if(!P)return ui.impraw?'<p class="note war
    +(P.cls&&P.cls!==c.cls?'<p class="warn">⚠ 지금 캐릭터('+CINFO[c.cls][0]+')와 직업이 달라요. 맞는 캐릭터를 골랐는지 확인해 주세요.</p>':'')
    +(P.ver===1?'<p class="note">새 애드온(v2)을 쓰면 퀘스트 진행도·장비·전문기술·특성·경험치도 같이 옮겨져요.</p>':'')
    +'<button class="btn full" data-a="impgo">이 캐릭터에 적용하기</button><p class="note">이미 체크한 건 그대로 두고, 끝낸 것만 더해요.</p></div>'}
+/* 애드온 코드 적용 (붙여 넣기·PC 파일·자동 맞춤이 같이 씀) */
+function impApply(c,P,o){o=o||{};const U={eq:o.eq!=null?o.eq:ui.impEq,sp:o.sp!=null?o.sp:ui.impSp,tl:o.tl!=null?o.tl:ui.impTl,alt:o.alt!=null?o.alt:ui.impAlt};
+    c.mq=c.mq||{};c.dq=c.dq||{};let n=0;const dqIds=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id)));P.done.forEach(id=>{if(!c.mq[id]){c.mq[id]=1;n++}if(dqIds.has(id))c.dq[id]=1});
+    c.ql={};c.qp={};P.log.forEach(x=>{c.ql[x.id]=x.done?2:1;if(x.obj.length)c.qp[x.id]=x.obj});if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length,v:P.ver};
+    const extra=[];if(P.eq.length&&U.eq){const ne={};P.eq.forEach(([sl,id])=>{if(IT.has(id))ne[sl]=id});c.eq=ne;extra.push('장비 '+Object.keys(ne).length+'칸');
+      if(P.eqv){c.eqv={};for(const sl in ne){const v=P.eqv[sl];if(v&&v.id===ne[sl]&&varDiff(IT.get(v.id),v.nm,v.st))c.eqv[sl]={id:v.id,nm:v.nm||undefined,st:v.st}}const nv=Object.keys(c.eqv).length;if(nv)extra.push('게임 능력치로 맞춘 장비 '+nv+'칸')}}
+    if(U.sp){const sp=impSpec(c,P);if(sp&&sp!==c.spec){c.spec=sp;extra.push('특성')}}
+    if(U.tl!==false){const T=impTal(c.cls,P.tu);if(T&&T.n){c.tal={cls:c.cls,r:T.r,src:'game',at:Date.now()};ui.tlv='me';extra.push('내 특성 '+T.n+'점')}}
+    if(P.wsk){c.wsk={};P.wsk.forEach(w=>{c.wsk[w[0]]=[w[1],w[2]]});extra.push('무기 숙련 '+P.wsk.length+'개')}
+    if(P.taxi&&P.taxi.length){c.taxi=P.taxi;extra.push('비행 경로 '+P.taxi.length+'곳')}
+    if(P.gq&&P.gq.length){DB.gq=DB.gq||{};P.gq.forEach(x=>{DB.gq[x.id]={ph:x.ph,o:x.o,w:x.w,t:x.t,at:Date.now()}});extra.push('게임 퀘스트 위치 '+P.gq.length+'개')}
+    if(P.ent&&P.ent.length){DB.ent=DB.ent||[];P.ent.forEach(e=>{const o=DB.ent.find(y=>y.z===e.z&&y.n===e.n&&Math.hypot(y.x-e.x,y.y-e.y)<4);if(o){o.c=Math.max(o.c||1,e.c)}else DB.ent.push(e)});if(DB.ent.length>400)DB.ent=DB.ent.slice(-400);extra.push('동굴 입구 '+P.ent.length+'곳')}
+    if(P.obs&&P.obs.length){DB.gobs=DB.gobs||{};P.obs.forEach(o=>{(DB.gobs[o.id]=DB.gobs[o.id]||{})[o.k]=o.p})}
+    if(P.pf.length){const ok=new Set(PROFS.map(p=>p.ko));c.profLv={};P.pf.forEach(p=>{if(ok.has(p[0]))c.profLv[p[0]]=[p[1],p[2]]});c.profs=Object.keys(c.profLv);extra.push('전문기술 '+c.profs.length+'개')}
+    if(P.xp){c.xp=Object.assign({lv:P.lv,t:Date.now()},P.xp);extra.push('경험치')}
+    if(P.sess)c.sess=Object.assign({t:Date.now()},P.sess);if(P.gold!=null)c.gold=P.gold;if(P.bag)c.bag=P.bag;if(P.bank)c.bank=P.bank;if(P.rep.length){c.rep=P.rep;extra.push('평판')}
+    if(P.alts.length&&U.alt!==false){let na=0,ua=0;P.alts.forEach(a=>{const x=DB.list.find(y=>y.name===a.name);if(x){if(x.lv!==a.lv){x.lv=a.lv;ua++}}else{DB.list.push({id:newId(),name:a.name,race:RACES.some(r=>r[0]===a.race)?a.race:c.race,cls:a.cls,spec:D_CLS[a.cls].specs[0].id,lv:a.lv,eq:{},fq:{},dq:{}});na++}});if(na||ua)extra.push('부캐 '+(na?na+'명 추가':'')+(na&&ua?' · ':'')+(ua?ua+'명 레벨':''))}
+    
+    return {n,extra}}
 /* 📂 PC에서 애드온 저장 파일 바로 읽기 (크롬·엣지 PC: 폴더를 한 번 고르면 다음부터 버튼 하나)
    게임은 /reload·접속 종료 때 WTF/Account/계정/서버/캐릭터/SavedVariables/WowfHelper.lua 에 「last」 코드를 저장함 */
 const FSA=typeof window.showDirectoryPicker==='function'&&!/Android|iPhone|iPad/i.test(navigator.userAgent);
@@ -5285,19 +5363,42 @@ async function fsScan(root){const out=[];let seen=0;
   const walk=async(d,path,depth)=>{if(depth>7||seen>30000)return;for await(const [n,e] of d.entries()){seen++;
       if(e.kind==='directory'){if(!FS_SKIP.test(n))await walk(e,path.concat(n),depth+1)}
       else if(n==='WowfHelper.lua'&&path[path.length-1]==='SavedVariables'&&path.length>=3&&path[path.length-3]!=='Account'){const f=await e.getFile();const t=await f.text();
-        const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(m){const code=luaStr(m[1]);if(/^WFH[12];/.test(code)){const F=code.split(';');out.push({name:F[1]||path[path.length-2].split('-')[0],realm:F[2]||'',code,t:f.lastModified})}}}}};
+        const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(m){const code=luaStr(m[1]);if(/^WFH[12];/.test(code)){const F=code.split(';');out.push({name:F[1]||path[path.length-2].split('-')[0],realm:F[2]||'',code,t:f.lastModified,fh:e})}}}}};
   await walk(root,[root.name],0);return out.sort((a,b)=>b.t-a.t)}
-async function fsLoad(repick){try{let h=repick?null:await idbH('get');
+async function fsLoad(repick,silent){try{let h=repick?null:await idbH('get');
     if(!h){h=await window.showDirectoryPicker({id:'wfh-wtf',mode:'read'});await idbH('put',h)}
     if(h.queryPermission&&(await h.queryPermission({mode:'read'}))!=='granted'&&(await h.requestPermission({mode:'read'}))!=='granted'){toast('폴더를 읽게 허락해 주세요');return}
     toast('애드온 파일 찾는 중…');const L=await fsScan(h);ui.fsList=L;ui.fsDir=h.name;
     if(!L.length){ui.sheet='imp';ui.fsMsg='「'+h.name+'」 폴더에서 애드온 저장 파일을 못 찾았어요. 내 PC의 와우 설치 폴더(배틀넷 앱 → 와우 → 톱니바퀴 → 「탐색기에서 보기」로 찾을 수 있어요)나 그 안의 WTF 폴더를 골라 주세요. 게임에서 /reload 를 한 번 해야 파일이 생겨요.';rerender(true);return}
-    const c=me();const i=Math.max(0,L.findIndex(x=>c&&c.name&&x.name===c.name));fsPick(i)}
+    fsAutoSet(true);ui.fsNeed=false;
+    const c=me();if(silent){await fsAuto(true);rerender(true);return}const i=Math.max(0,L.findIndex(x=>c&&c.name&&x.name===c.name));fsPick(i)}
   catch(e){if(e&&e.name==='AbortError')return;toast('파일을 못 읽었어요: '+((e&&e.message)||e))}}
-function fsPick(i){const x=(ui.fsList||[])[i];if(!x)return;ui.fsCur=i;ui.fsMsg='';ui.sheet='imp';ui.impraw=x.code;ui.imp=impParse(x.code);if(!QDB)qdbLoad();rerender(true)}
+function fsPick(i){const x=(ui.fsList||[])[i];if(!x)return;ui.fsCur=i;ui.fsMsg='';ui.fsPickCode=x.code;ui.fsPickT=x.t;ui.sheet='imp';ui.impraw=x.code;ui.imp=impParse(x.code);if(!QDB)qdbLoad();rerender(true)}
+/* 🔄 PC 자동 맞춤: 게임에서 /reload·접속 종료 → 브라우저로 돌아오면 저장 파일이 바뀌었는지 보고 저절로 불러옴 */
+const fsAutoOn=()=>{try{return localStorage.getItem('wowf_fsauto')!=='0'}catch(e){return true}};
+function fsAutoSet(v){try{localStorage.setItem('wowf_fsauto',v?'1':'0')}catch(e){}}
+let fsBusy=false,fsLastChk=0;
+async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy)return;const c=me();if(!c||!c.name||ui.sheet==='imp')return;
+  if(!force&&Date.now()-fsLastChk<2500)return;fsLastChk=Date.now();fsBusy=true;
+  try{let L=ui.fsList;
+    if(!L||!L.length){const h=await idbH('get');if(!h)return;
+      const st=h.queryPermission?await h.queryPermission({mode:'read'}):'granted';
+      if(st!=='granted'){if(!ui.fsNeed){ui.fsNeed=true;rerender(true)}return}
+      L=await fsScan(h);ui.fsList=L;ui.fsDir=h.name}
+    const x=L.find(y=>y.name===c.name);if(!x||!x.fh)return;
+    const f=await x.fh.getFile();if(f.lastModified<=(c.fsT||0))return;
+    const t=await f.text();const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(!m)return;
+    const code=luaStr(m[1]);x.code=code;x.t=f.lastModified;const P=impParse(code);if(!P||P.name!==c.name){c.fsT=f.lastModified;return}
+    const snap=JSON.stringify(c),gq=JSON.stringify(DB.gq||null);const lv0=c.lv,mq0=Object.keys(c.mq||{}).length;
+    const r=impApply(c,P,{eq:true,sp:false});c.fsT=f.lastModified;save();rerender(true);
+    const got=[];if(c.lv>lv0)got.push(c.lv+'레벨');if(r.n)got.push('끝낸 퀘스트 +'+r.n);got.push('퀘스트창 '+P.log.length+'개');
+    toastUndo('🎮 게임 파일에서 맞췄어요 · '+got.join(' · '),()=>{const o=JSON.parse(snap);Object.keys(c).forEach(k=>delete c[k]);Object.assign(c,o);DB.gq=JSON.parse(gq)||undefined;save();rerender(true);toast('되돌렸어요')})}
+  catch(e){}finally{fsBusy=false}}
+function fsNeedBar(){return FSA&&ui.fsNeed&&fsAutoOn()?'<button class="fsneed" data-a="fsload" data-k="auto">🔄 게임 파일 자동 맞춤을 다시 켜려면 눌러 주세요 <small>브라우저를 새로 열면 한 번 허락이 필요해요</small></button>':''}
 function fsBox(){if(!FSA)return '';const L=ui.fsList||[];let h='<div class="card fsimp"><h3>📂 PC에서 바로 불러오기 <small class="mute">크롬·엣지</small></h3>';
   h+='<p class="note">처음 한 번 <b>내 PC의 와우 설치 폴더</b>(보통 <b>C:\\Program Files (x86)\\World of Warcraft</b> · 다른 곳에 깔았으면 배틀넷 앱 → 와우 → 톱니바퀴 → 「탐색기에서 보기」)를 고르면, 다음부터는 버튼 하나로 불러와요. 계정·서버·캐릭터 폴더는 알아서 찾아요. 고른 폴더는 이 브라우저에만 기억돼요. 복사·붙여 넣기 필요 없어요. 게임에서 <code>/reload</code> 하거나 접속을 끝내면 새 내용이 저장돼요.</p>';
   h+='<div class="bkb"><button class="btn sm" data-a="fsload">📂 '+(L.length?'다시 읽기':'불러오기')+'</button>'+(ui.fsDir?'<button class="btn sm ghost" data-a="fsload" data-k="re">다른 폴더 고르기</button>':'')+'</div>';
+  if(ui.fsDir||L.length)h+='<label class="impck"><input type="checkbox" data-c="fsauto"'+(fsAutoOn()?' checked':'')+'> 🔄 게임에서 돌아오면 자동으로 맞추기 <small>/reload·접속 종료 뒤 이 창으로 오면 저절로 불러와요 · 바로 「되돌리기」도 돼요</small></label>';
   if(ui.fsMsg)h+='<p class="note warn">'+esc(ui.fsMsg)+'</p>';
   if(L.length){const x=L[ui.fsCur||0];h+='<p class="note">「'+esc(ui.fsDir||'')+'」에서 <b>'+esc(x.name)+'</b> 파일을 읽었어요 · 게임이 저장한 때 '+new Date(x.t).toLocaleString('ko-KR')+(Date.now()-x.t>3*3600e3?' <b>(오래됐어요 · 게임에서 /reload)</b>':'')+'</p>';
     if(L.length>1)h+='<div class="chips wr">'+L.map((y,i)=>'<button class="chip'+(i===(ui.fsCur||0)?' on':'')+'" data-a="fspick" data-k="'+i+'">'+esc(y.name)+'</button>').join('')+'</div>'}
@@ -5349,9 +5450,10 @@ function navLog(){const k=ui.tab+(ui.tab==='quest'?'/'+(ui.qmode||''):ui.tab==='
 function render(){const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');if(ui._tin){app.className+=' tin-'+ui._tin;ui._tin=null}
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(dspView(c));else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
-  app.innerHTML=hIco(topBar(c)+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
+  app.innerHTML=hIco(topBar(c)+fsNeedBar()+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
     +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='imp'?impSheet(c):ui.sheet==='wfr'?wfrSheet(c):ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):ui.sheet.startsWith('dgend:')?dgEndSheet(c,ui.sheet.slice(6)):ui.sheet.startsWith('cmp:')?cmpSheet(c,ui.sheet.split(':')[1],ui.sheet.split(':')[2]):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':''))
   setTabs(true);
+  if(ui.side&&c)app.insertAdjacentHTML('beforeend','<div class="sidev">'+sideView(c)+'</div>');
   if(ui.tab==='quest'&&ui.qmode==='atlas')amInit();if(me()&&!ui.onb)navLog();fitsCheck();mmFix()}
 /* 작은 지도: 가장자리 핀의 이름표가 칸 밖으로 잘리면 안쪽으로 밀기 */
 function mmFix(){requestAnimationFrame(()=>document.querySelectorAll('.mm').forEach(m=>{const R=m.getBoundingClientRect();if(!R.width)return;m.querySelectorAll('.mmp b').forEach(b=>{b.style.transform='';const r=b.getBoundingClientRect();let d=0;if(r.right>R.right-4)d=R.right-4-r.right;else if(r.left<R.left+4)d=R.left+4-r.left;if(d)b.style.transform='translateX('+Math.round(d)+'px)'})}))}
@@ -5393,7 +5495,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='close'){ui.sheet=null;ui.delAsk=0;rerender(true);return}
   if(a==='bkpend'){const code=ui.bkpend;ui.bkpend=null;ui.sheet=null;bkImport(code,k);return}
   if(a==='sypaste'){syPaste();return}
-  if(a==='fsload'){fsLoad(k==='re');return}
+  if(a==='fsload'){fsLoad(k==='re',k==='auto');return}
   if(a==='fspick'){fsPick(+k);return}
   if(a==='fs'){const v=+k||1;try{localStorage.setItem(FS_KEY,String(v))}catch(e){}fsApply(v);render();toast('글씨 크기를 바꿨어요');return}
   /* 시작 화면 */
@@ -5426,27 +5528,15 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='gz'){ui.gz=k;ui.amq=null;rerender(true);return}
   if(a==='rmap'){c.recMap=!recMapOn(c);save();rerender(true);return}
   if(a==='lhsel'){ui.lhsel=ui.lhsel===k?null:k;rerender(true);return}
+  if(a==='side'&&k==='chars'){ui.side=false;sideLock(false);clearInterval(sideIv);sideIv=null;document.body.classList.remove('sidem');ui.sheet='chars';rerender(true);return}
+  if(a==='side'){if(k==='0'&&history.state&&history.state.side){try{history.back();return}catch(e){}}sideOn(k!=='0');return}
   if(a==='tbud'){c.tbud=+k||0;save();rerender(true);return}
   if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};if(c.rwPick[q]===i)delete c.rwPick[q];else c.rwPick[q]=i;save();toast('고를 템을 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}
   if(a==='fpk'){c.fpk=c.fpk||{};if(c.fpk[k])delete c.fpk[k];else c.fpk[k]=1;save();rerender(true);return}
   if(a==='lgv'){c.lgRoute=!c.lgRoute;save();rerender(true);return}
   if(a==='qlrm'){if(c.ql){const was=c.ql[+k];delete c.ql[+k];save();rerender(true);toastUndo('퀘스트창에서 뺐어요 (포기)',()=>{const cc=me();cc.ql=cc.ql||{};cc.ql[+k]=was;save();rerender(true)})}return}
   if(a==='qldone'){c.mq=c.mq||{};c.mq[+k]=1;if(c.ql)delete c.ql[+k];save();toast('끝냄으로 표시하고 퀘스트창에서 뺐어요');rerender(true);return}
-  if(a==='impgo'){const P=ui.imp;if(!P)return;c.mq=c.mq||{};c.dq=c.dq||{};let n=0;const dqIds=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id)));P.done.forEach(id=>{if(!c.mq[id]){c.mq[id]=1;n++}if(dqIds.has(id))c.dq[id]=1});
-    c.ql={};c.qp={};P.log.forEach(x=>{c.ql[x.id]=x.done?2:1;if(x.obj.length)c.qp[x.id]=x.obj});if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length,v:P.ver};
-    const extra=[];if(P.eq.length&&ui.impEq){const ne={};P.eq.forEach(([sl,id])=>{if(IT.has(id))ne[sl]=id});c.eq=ne;extra.push('장비 '+Object.keys(ne).length+'칸');
-      if(P.eqv){c.eqv={};for(const sl in ne){const v=P.eqv[sl];if(v&&v.id===ne[sl]&&varDiff(IT.get(v.id),v.nm,v.st))c.eqv[sl]={id:v.id,nm:v.nm||undefined,st:v.st}}const nv=Object.keys(c.eqv).length;if(nv)extra.push('게임 능력치로 맞춘 장비 '+nv+'칸')}}
-    if(ui.impSp){const sp=impSpec(c,P);if(sp&&sp!==c.spec){c.spec=sp;extra.push('특성')}}
-    if(ui.impTl!==false){const T=impTal(c.cls,P.tu);if(T&&T.n){c.tal={cls:c.cls,r:T.r,src:'game',at:Date.now()};ui.tlv='me';extra.push('내 특성 '+T.n+'점')}}
-    if(P.wsk){c.wsk={};P.wsk.forEach(w=>{c.wsk[w[0]]=[w[1],w[2]]});extra.push('무기 숙련 '+P.wsk.length+'개')}
-    if(P.taxi&&P.taxi.length){c.taxi=P.taxi;extra.push('비행 경로 '+P.taxi.length+'곳')}
-    if(P.gq&&P.gq.length){DB.gq=DB.gq||{};P.gq.forEach(x=>{DB.gq[x.id]={ph:x.ph,o:x.o,w:x.w,t:x.t,at:Date.now()}});extra.push('게임 퀘스트 위치 '+P.gq.length+'개')}
-    if(P.ent&&P.ent.length){DB.ent=DB.ent||[];P.ent.forEach(e=>{const o=DB.ent.find(y=>y.z===e.z&&y.n===e.n&&Math.hypot(y.x-e.x,y.y-e.y)<4);if(o){o.c=Math.max(o.c||1,e.c)}else DB.ent.push(e)});if(DB.ent.length>400)DB.ent=DB.ent.slice(-400);extra.push('동굴 입구 '+P.ent.length+'곳')}
-    if(P.obs&&P.obs.length){DB.gobs=DB.gobs||{};P.obs.forEach(o=>{(DB.gobs[o.id]=DB.gobs[o.id]||{})[o.k]=o.p})}
-    if(P.pf.length){const ok=new Set(PROFS.map(p=>p.ko));c.profLv={};P.pf.forEach(p=>{if(ok.has(p[0]))c.profLv[p[0]]=[p[1],p[2]]});c.profs=Object.keys(c.profLv);extra.push('전문기술 '+c.profs.length+'개')}
-    if(P.xp){c.xp=Object.assign({lv:P.lv,t:Date.now()},P.xp);extra.push('경험치')}
-    if(P.sess)c.sess=Object.assign({t:Date.now()},P.sess);if(P.gold!=null)c.gold=P.gold;if(P.bag)c.bag=P.bag;if(P.bank)c.bank=P.bank;if(P.rep.length){c.rep=P.rep;extra.push('평판')}
-    if(P.alts.length&&ui.impAlt!==false){let na=0,ua=0;P.alts.forEach(a=>{const x=DB.list.find(y=>y.name===a.name);if(x){if(x.lv!==a.lv){x.lv=a.lv;ua++}}else{DB.list.push({id:newId(),name:a.name,race:RACES.some(r=>r[0]===a.race)?a.race:c.race,cls:a.cls,spec:D_CLS[a.cls].specs[0].id,lv:a.lv,eq:{},fq:{},dq:{}});na++}});if(na||ua)extra.push('부캐 '+(na?na+'명 추가':'')+(na&&ua?' · ':'')+(ua?ua+'명 레벨':''))}
+  if(a==='impgo'){const P=ui.imp;if(!P)return;const {n,extra}=impApply(c,P);if(ui.fsPickCode&&ui.impraw===ui.fsPickCode)c.fsT=ui.fsPickT;
     ui.impExtra=extra.join(' · ');ui.imp=null;ui.impraw='';ui.sheet=null;if(P.log.length){ui.tab='quest';ui.qmode='log'}save();toast('✓ 끝낸 퀘스트 '+P.done.length+'개를 불러왔어요 (새로 '+n+'개)'+(ui.impExtra?' · '+ui.impExtra:''));ui.impEq=null;ui.impSp=null;rerender(true);return}
   if(a==='pick'){DB.cur=k;save();ui.sheet=null;ui.dg=null;ui.qz=null;render();window.scrollTo(0,0);toast('캐릭터를 바꿨어요');return}
   if(a==='add'){ui.sheet=null;ui.onb={name:'',race:c.race,cls:'',spec:'',lv:1};render();window.scrollTo(0,0);return}
@@ -5508,8 +5598,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     ui.de.res={d:d.slug,dur,nk,nq:ui.de.q.size,eqd};rerender(true);return}
   if(a==='nch'){ui.nch=ui.nch||{};ui.nch[k]=!ui.nch[k];rerender(true);return}
   if(a==='chx'){ui.chopen=ui.chopen||{};ui.chopen[k]=b.dataset.f?false:true;rerender(true);return}
+  if(a==='mmgo'&&ui.side){ui.side=false;sideLock(false);clearInterval(sideIv);sideIv=null;document.body.classList.remove('sidem');ui._sideRet=1}
   if(a==='mmgo'&&QDB&&QDB.get(+k)&&!amFocus(+k)){ui.sheet='q:'+k;render();toast('이 지역은 큰 지도가 없어서 퀘스트 창 지도로 보여 줘요');return}
-  if(a==='mmgo'){ui.amback={sheet:ui.sheet,tab:ui.tab,qmode:ui.qmode,dg:ui.dg,dtab:ui.dtab,y:window.scrollY,id:+k};try{history.pushState({amback:1},'')}catch(e){}ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=+k;ui.amall=0;ui.ampmin=0;ui.amfit=1;if(window.innerWidth<1000){ui.amfull=true;document.body.classList.add('amfull')}/* 폰: 「크게 보기」는 화면 가득 */const FO=amFocus(+k);if(FO&&FO.P[0])ui.am=amFit(FO);render();window.scrollTo(0,0);return}
+  if(a==='mmgo'){ui.amback={side:ui._sideRet?1:0,sheet:ui.sheet,tab:ui.tab,qmode:ui.qmode,dg:ui.dg,dtab:ui.dtab,y:window.scrollY,id:+k};try{history.pushState({amback:1},'')}catch(e){}ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=+k;ui.amall=0;ui.ampmin=0;ui.amfit=1;if(window.innerWidth<1000){ui.amfull=true;document.body.classList.add('amfull')}/* 폰: 「크게 보기」는 화면 가득 */const FO=amFocus(+k);if(FO&&FO.P[0])ui.am=amFit(FO);render();window.scrollTo(0,0);return}
   if(a==='zq'){ui.qmode='map';ui.mz='?|'+k;ui.mf='now';render();window.scrollTo(0,0);return}
   if(a==='dcs'){const dc=document.querySelector('.dchips');if(dc)dc.scrollBy({left:(+k)*dc.clientWidth*.8,behavior:'smooth'});return}
   if(a==='amc'){if(ui.am&&ui.am.c!==k)ui.am={c:k,z:0,cx:ATL[k].w/2,cy:ATL[k].h/2};ui.amsel=null;rerender(true);return}
@@ -5600,6 +5691,7 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
   if(!c)return;
   if(f==='lv'){setLv(c,t.value);rerender(true);return}
   if(f==='cname'){c.name=t.value.trim();save();rerender(true);return}
+  if(f==='fsauto'){fsAutoSet(t.checked);toast(t.checked?'자동 맞춤을 켰어요':'자동 맞춤을 껐어요');return}
   if(f==='impEq'){ui.impEq=t.checked;return}
   if(f==='impAlt'){ui.impAlt=t.checked;return}
   if(f==='impSp'){ui.impSp=t.checked;return}
@@ -5645,12 +5737,16 @@ document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest
 document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('zinfo')){const was=!!ui.zinfo;ui.zinfo=t.open;if(t.open&&!was)rerender(true)}},true);
 
 /* 전체 화면 지도: 뒤로 가기·Esc로도 작게 */
+if(FSA){window.addEventListener('focus',()=>fsAuto());document.addEventListener('visibilitychange',()=>{if(!document.hidden)fsAuto()});setTimeout(()=>fsAuto(true),1200)}
+window.addEventListener('popstate',()=>{if(ui.side)sideOn(false)});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ui.side){sideLock(true);if(syOn())syPull(true)}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.side){if(history.state&&history.state.side){try{history.back()}catch(x){sideOn(false)}}else sideOn(false)}});
 window.addEventListener('popstate',()=>{if(ui.amfull){ui.amfull=false;document.body.classList.remove('amfull');rerender(true)}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.amfull){ui.amfull=false;document.body.classList.remove('amfull');if(history.state&&history.state.amfull){try{history.back()}catch(x){}}rerender(true)}});
 
 /* 퀘스트 창 → 「지도에서 크게」 → 다시 보던 퀘스트 창으로 (버튼·뒤로 가기) */
 function amBack(fromBtn){const b=ui.amback;if(!b)return;ui.amback=null;ui.amq=null;ui.amfull=false;document.body.classList.remove('amfull');
-  ui.tab=b.tab;ui.qmode=b.qmode;ui.dg=b.dg;ui.dtab=b.dtab;ui.sheet=b.sheet||('q:'+b.id);render();window.scrollTo(0,b.y||0);
+  ui.tab=b.tab;ui.qmode=b.qmode;ui.dg=b.dg;ui.dtab=b.dtab;ui.sheet=b.side?null:(b.sheet||('q:'+b.id));ui._sideRet=0;render();window.scrollTo(0,b.y||0);if(b.side)setTimeout(()=>sideOn(true),0);
   if(fromBtn&&history.state&&history.state.amback){try{history.back()}catch(e){}}}
 window.addEventListener('popstate',()=>{if(history.state&&history.state.amback)return;if(ui.amback){NAVW='뒤로가기';amBack(false)}});
 /* ⌨️ 단축키 (PC): 1~5 탭 · / 검색 · Esc 닫기 · [ ] 레벨 */
