@@ -2070,3 +2070,10 @@ html,body{overscroll-behavior-x:none}
 .dc .ic.empty{font-size:11px;letter-spacing:-.04em}
 .jn2 .nb,.csl button em,.gmap .gp em{font-size:10.5px}
 .dc .up{font-size:10px}
+/* 누르기 쉬운 크기·글자 대비 점검 */
+.nr .ck{padding:8px;margin:-8px;border-top:0;display:flex}
+.qdone{padding:6px 8px 6px 0;margin-top:2px}.qdone input{width:22px;height:22px}
+.rpk button,.nchb{min-height:32px}
+.lnk{padding:6px 3px;margin:-6px -1px}
+.dc .ic.empty,.slot .ic.empty,.ic.lg.empty{color:#9a8f78}
+.pcs.me .f{background:#9a5410}.pcs.me .t i{color:#8a4a0c}
