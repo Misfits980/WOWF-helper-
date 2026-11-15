@@ -2053,3 +2053,14 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 
 /* 폰에서 화면을 오른쪽으로 밀어 앞 탭으로 갈 때 브라우저가 「뒤로 가기」로 받아 앱을 나가 버리지 않게 */
 html,body{overscroll-behavior-x:none}
+
+/* 🔗 연계 전체 동선: 다른 단계 길(흐린 하늘색), 끝낸 단계(회색), 단계 번호 동그라미 */
+.amch{fill:none;stroke:#52d8ff;stroke-opacity:.55;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1 6;filter:drop-shadow(0 0 1.5px #000)}
+.amch.done{stroke:#9a9a9a;stroke-opacity:.5}
+.amch.far{stroke-dasharray:2 8;stroke-opacity:.35}
+.amcs{position:absolute;transform:translate(-50%,-160%);min-width:22px;height:22px;padding:0 5px;border-radius:11px;border:1.5px solid #52d8ff;background:rgba(6,33,43,.92);color:#dff6ff;font:700 12px/19px sans-serif;z-index:4;cursor:pointer}
+.amcs.on{background:#52d8ff;color:#06212b;border-color:#fff;box-shadow:0 0 0 2px rgba(82,216,255,.35)}
+.amcs.fin{border-color:#8a8a8a;color:#bdbdbd}
+.amnvi small{color:#9fd8ea;font-size:11px}
+.amscb{display:flex;align-items:center;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
+.amscb small{color:#a99a7a;font-size:11.5px}

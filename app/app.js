@@ -1576,7 +1576,8 @@ function amStepPanel(c,FO){const q=FO.q;const d=QD.get(q.id)||{};const ch=(chain
       +(q.r?'<div><span class="k r">'+QMK.r+'반납</span><span>'+esc(q.r[0]||'')+where(q.r[1],q.r[2])+'</span></div>':'')+'</div>';
     if(!FO.P.some(x=>x.kind==='ob')&&T.length&&!/반납하는 NPC와 이야기/.test(T.map(t=>t.nm).join('')))h+='<p class="mute amsx">할 일 위치 자료가 없어 지도엔 받는 곳·반납만 보여요.</p>'}
   if(ids.length>1){h+='<div class="amsn"><button class="btn sm ghost" data-a="amstep" data-k="'+(ids[i-1]||'')+'"'+(i>0?'':' disabled')+'>← 이전</button><span>연계 <b>'+(i+1)+'</b> / '+ids.length+'</span><button class="btn sm" data-a="amstep" data-k="'+(ids[i+1]||'')+'"'+(i>=0&&i<ids.length-1?'':' disabled')+'>다음 단계 →</button></div>';
-    if(!MIN)h+='<details class="amscd"'+(window.innerWidth>=1000?' open':'')+'><summary>연계 '+ids.length+'단계 전체 보기</summary><ol class="amsc">'+ch.map((r,j)=>{const o=QDB.get(r[6]);return '<li class="'+(r[6]===q.id?'on':'')+(o&&mqDone(c,o)?' fin':'')+'"><button data-a="amstep" data-k="'+r[6]+'"><span class="n">'+(j+1)+'</span><b>'+esc(r[1])+'</b><em>'+(r[2]||'')+'</em></button></li>'}).join('')+'</ol></details>'}
+    const CO=amChainOn();h+='<div class="amscb"><button class="btn sm'+(CO?'':' ghost')+'" data-a="amchain">🔗 연계 동선 '+(CO?'켜짐':'꺼짐')+'</button><small>'+(CO?'지도에 '+ids.length+'단계 길을 이어서 보여요 · 번호를 누르면 그 단계로':'지금 단계 길만 보여요')+'</small></div>';
+    if(!MIN)h+='<details class="amscd"'+(window.innerWidth>=1000||CO?' open':'')+'><summary>연계 '+ids.length+'단계 전체 보기</summary><ol class="amsc">'+ch.map((r,j)=>{const o=QDB.get(r[6]);return '<li class="'+(r[6]===q.id?'on':'')+(o&&mqDone(c,o)?' fin':'')+'"><button data-a="amstep" data-k="'+r[6]+'"><span class="n">'+(o&&mqDone(c,o)&&r[6]!==q.id?'✓':j+1)+'</span><b>'+esc(r[1])+'</b><em>'+(o&&o.z&&o.z!==q.z?esc(o.z)+' · ':'')+(r[2]||'')+'</em></button></li>'}).join('')+'</ol></details>'}
   if(!MIN)h+='<div class="amsb"><button class="btn sm ghost" data-a="qopen" data-k="'+q.id+'">퀘스트 자세히</button><button class="btn sm ghost'+(ui.amall?' on':'')+'" data-a="amall">'+(ui.amall?'이 퀘스트만 보기':'다른 퀘스트도 보기')+'</button>'+amStyleSeg()+'</div>';
   return h+'</div>'}
 
@@ -1591,17 +1592,26 @@ function amNavLegs(fp,cont){const out=[];
     let L=0;for(let k=1;k<pts.length;k++)L+=Math.hypot(pts[k].x-pts[k-1].x,pts[k].y-pts[k-1].y);
     out.push({pts,far,est,L})}
   return out}
-function amFitV(FO){const el=document.getElementById('amap');if(!el||!FO)return null;const P0=FO.P.filter(p=>p.c===FO.P[0].c);if(!P0.length)return null;
-  /* 길 안내 선이 핀 밖으로 돌아 나가도 화면에 다 들어오게 */const P=P0.concat(...amNavLegs(P0,P0[0].c).filter(g=>!g.far).map(g=>g.pts));
+/* 지도에서 옆 정보 칸(PC 오른쪽)에 안 가리는 부분의 가운데 x */
+function amVisCx(el){const W=el.clientWidth;const pn=document.getElementById('ampanel');if(pn&&pn.offsetHeight){const R=el.getBoundingClientRect(),pr=pn.getBoundingClientRect();if(pr.width<W*.7&&pr.left>R.left)return Math.round((pr.left-R.left)/2)}return Math.round(W/2)}
+/* 🔗 연계 퀘스트 전체 동선: 고른 퀘스트가 연계 중 하나면 앞뒤 단계 점들도 순서대로 (ui.amchain 0이면 끔) */
+const amChainOn=()=>me()&&(me().amchain===undefined?true:!!me().amchain);
+function amChainSteps(id){if(!amChainOn())return null;const ch=(chainOf(id)||[]).filter(r=>r[6]);if(ch.length<2)return null;
+  return ch.map((r,j)=>{const F=amFocus(r[6]);return F?{id:r[6],no:j+1,q:F.q,P:F.P}:null}).filter(Boolean)}
+/* 지도 맞춤에 쓸 점: 연계 동선이 켜져 있으면 연계 전체, 아니면 이 퀘스트만 */
+function amFitPts(FO){const S=amChainSteps(FO.q.id);const c0=FO.P[0].c;const P0=S?[].concat(...S.map(x=>x.P)).filter(p=>p.c===c0):FO.P.filter(p=>p.c===c0);
+  return P0.concat(...amNavLegs(P0,c0).filter(g=>!g.far).map(g=>g.pts))}
+function amFitV(FO){const el=document.getElementById('amap');if(!el||!FO||!FO.P.length)return null;
+  /* 길 안내 선이 핀 밖으로 돌아 나가도, 연계 전체 동선도 화면에 다 들어오게 */const P=amFitPts(FO);
   const R=el.getBoundingClientRect(),W=el.clientWidth,H=el.clientHeight;const top=el.querySelector('.amtop'),pn=document.getElementById('ampanel'),ctl=el.querySelector('.amctl');
-  let pT=top?Math.max(0,top.getBoundingClientRect().bottom-R.top)+40:60,pB=24,pL=56,pR=ctl?Math.max(30,R.right-ctl.getBoundingClientRect().left)+8:60;
+  let pT=top?Math.max(0,top.getBoundingClientRect().bottom-R.top)+40:60,pB=24,pL=56,pR=ctl?Math.max(30,R.right-ctl.getBoundingClientRect().left)+44:60;/* 오른쪽 버튼에 핀 이름·단계 번호가 가리지 않게 넉넉히 */
   if(pn&&pn.offsetHeight){const pr=pn.getBoundingClientRect();if(pr.width>W*.7)pB=Math.max(pB,R.bottom-pr.top+16);else pR=Math.max(pR,R.right-pr.left+16)}
   const vw=Math.max(80,W-pL-pR),vh=Math.max(80,H-pT-pB);
   const xs=P.map(p=>p.x),ys=P.map(p=>p.y);const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
   const s=Math.min((vw-60)/Math.max(170,x1-x0),(vh-60)/Math.max(140,y1-y0));const z=Math.max(W<600?.4:1.2,Math.min(2.7,3+Math.log2(s)));/* 폰은 좁아서 먼 퀘스트(지역 끝↔끝)도 다 보이게 더 멀리까지 */const s2=2**(z-3);
   const vcx=pL+vw/2,vcy=pT+vh/2;return {c:P[0].c,z,cx:(x0+x1)/2-(vcx-W/2)/s2,cy:(y0+y1)/2-(vcy-H/2)/s2}}
 /* 고른 퀘스트의 받는 곳·할 일·반납이 다 보이게 지도 맞추기 */
-function amFit(FO){const el=document.getElementById('amap');const W=el?el.clientWidth:380,H=el?el.clientHeight:420;const P0=FO.P.filter(p=>p.c===FO.P[0].c);const P=P0.concat(...amNavLegs(P0,P0[0].c).filter(g=>!g.far).map(g=>g.pts));
+function amFit(FO){const el=document.getElementById('amap');const W=el?el.clientWidth:380,H=el?el.clientHeight:420;const P=amFitPts(FO);
   const xs=P.map(p=>p.x),ys=P.map(p=>p.y);const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
   const ph=window.matchMedia&&matchMedia('(min-width:1000px)').matches?0:.5;/* 폰은 아래 절반이 정보 칸 */
   const s=Math.min((W-90)/Math.max(60,x1-x0),(H*(1-ph)-90)/Math.max(60,y1-y0));const z=Math.max(W<600?.4:1.2,Math.min(3.3,3+Math.log2(s)));const s2=2**(z-3);
@@ -1689,7 +1699,16 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
           else{if(rp)rp.p.slice(1,-1).forEach(p=>{const q=toAtlas(a.zone,p[0]+','+p[1]);if(q&&q.c===A.c)run.push(q)});run.push(b)}}}flush();
       R.forEach(r=>{const x=X(r),y=Y(r);if(inV(x,y,30))pins+='<button class="amh'+(ui.amhub===r.no?' sel':'')+'" data-amh="'+r.no+'" style="left:'+x+'px;top:'+y+'px">'+r.no+'</button>'})}
     /* 고른 퀘스트 */
-    const FO=ui.amq&&amFocus(ui.amq);if(FO){const fp=FO.P.filter(p=>p.c===A.c);
+    const FO=ui.amq&&amFocus(ui.amq);let chainTot=0,chainN=0;
+    /* 🔗 연계 전체 동선: 다른 단계는 흐린 선, 단계 번호 동그라미(누르면 그 단계로) */
+    if(FO){const CS=amChainSteps(FO.q.id);if(CS){const cur=CS.findIndex(x=>x.id===FO.q.id);let prev=null;const BADG=[];
+      CS.forEach((st2,j)=>{const P=st2.P.filter(p=>p.c===A.c);if(!P.length){prev=null;return}const done=mqDone(c,st2.q);
+        const seq=(prev?[prev]:[]).concat(P);if(j!==cur){for(const g of amNavLegs(seq,A.c)){if(!g.far){chainTot+=g.L}const pl=g.pts.map(p=>X(p).toFixed(1)+','+Y(p).toFixed(1)).join(' ');
+            svg+='<polyline points="'+pl+'" class="amch'+(done?' done':'')+(g.far?' far':'')+'"/>'}}
+        else if(prev){for(const g of amNavLegs([prev,P[0]],A.c)){if(!g.far)chainTot+=g.L;svg+='<polyline points="'+g.pts.map(p=>X(p).toFixed(1)+','+Y(p).toFixed(1)).join(' ')+'" class="amch'+(g.far?' far':'')+'"/>'}}
+        chainN++;const g0=P[0];let x=X(g0);const y=Y(g0);/* 같은 NPC에서 시작하는 단계가 여럿이면 번호를 옆으로 나란히 */while(BADG.some(b=>Math.abs(b[0]-x)<22&&Math.abs(b[1]-y)<18))x+=24;BADG.push([x,y]);if(inV(x,y,20))pins+='<button class="amcs'+(j===cur?' on':'')+(done?' fin':'')+'" data-amst="'+st2.id+'" style="left:'+x+'px;top:'+y+'px" title="'+esc(st2.q.n)+'">'+(done&&j!==cur?'✓':st2.no)+'</button>';
+        prev=P[P.length-1]})}}
+    if(FO){const fp=FO.P.filter(p=>p.c===A.c);
       /* 할 일 구역: 노란 점선 동그라미 (wythic처럼) */const rr=Math.max(16,Math.min(70,11*2**(A.z-2)));fp.filter(p=>p.kind==='ob').forEach(p=>{const ex=p.rx?Math.max(14,p.rx*s):rr*1.35,ey=p.ry?Math.max(12,p.ry*s):rr;svg+='<ellipse cx="'+X(p)+'" cy="'+Y(p)+'" rx="'+ex+'" ry="'+ey+'" class="amob"/>'});
       /* 🧭 길 안내(내비처럼): 같은 지역 안이면 실제 길·지형 격자로 경로를 그리고, 가운데에 방향 화살표, 위에 거리·시간 */
       if(fp.length>1){let tot=0,est=false;const AR=[];
@@ -1701,9 +1720,11 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
           /* 구간 가운데 화살표 */if(!far&&L*s>60){let h=L/2;for(let k=1;k<pts.length;k++){const d=Math.hypot(pts[k].x-pts[k-1].x,pts[k].y-pts[k-1].y);if(h<=d||k===pts.length-1){const f=d?Math.min(1,h/d):0,mx=pts[k-1].x+(pts[k].x-pts[k-1].x)*f,my=pts[k-1].y+(pts[k].y-pts[k-1].y)*f;AR.push([(mx-left)*s,(my-top)*s,Math.atan2(pts[k].y-pts[k-1].y,pts[k].x-pts[k-1].x)]);break}h-=d}}}
         AR.forEach(r=>{if(inV(r[0],r[1],10))pins+='<i class="amar" style="left:'+r[0].toFixed(1)+'px;top:'+r[1].toFixed(1)+'px;--a:'+r[2].toFixed(3)+'rad"></i>'});
         /* 거리·시간: 우리 지도 0.48칸 = 1야드, 달리기 7야드/초, 40레벨 탈것(60%) 11.2야드/초 */
-        const yd=tot/0.48;if(yd>=60){const mn=v=>Math.max(1,Math.round(yd/v/60));
+        const yd=tot/0.48;if(yd>=60||chainTot){const mn=v=>Math.max(1,Math.round(yd/v/60));const cy=(tot+chainTot)/0.48,cm=v=>Math.max(1,Math.round(cy/v/60));
+          if(chainTot&&chainN>1){const tb=el.querySelector('.amtop');const nTop=tb?Math.max(8,Math.round(tb.getBoundingClientRect().bottom-el.getBoundingClientRect().top)-14):10;
+            pins+='<div class="amnvi" style="top:'+nTop+'px;left:'+amVisCx(el)+'px">🔗 연계 '+chainN+'단계 전체 · <b>약 '+Math.round(cy/10)*10+'야드</b> · 걸어서 '+cm(7)+'분'+(c.lv>=40?' · 탈것 '+cm(11.2)+'분':'')+'<br><small>이번 단계 '+Math.round(yd/10)*10+'야드 · 걸어서 '+mn(7)+'분</small></div>'}else{
           /* 위쪽 조작 줄(동부 왕국/칼림도어·표시)에 가리지 않게 그 바로 아래에 */const tb=el.querySelector('.amtop');const nTop=tb?Math.max(8,Math.round(tb.getBoundingClientRect().bottom-el.getBoundingClientRect().top)-14):10;
-          pins+='<div class="amnvi" style="top:'+nTop+'px">🧭 '+(fp.length>2?'받기 → 할 일 → 반납':'다음 곳까지')+' · <b>'+(est?'약 ':'')+Math.round(yd/10)*10+'야드</b> · 걸어서 '+mn(7)+'분'+(c.lv>=40?' · 탈것 '+mn(11.2)+'분':'')+'</div>'}}
+          pins+='<div class="amnvi" style="top:'+nTop+'px;left:'+amVisCx(el)+'px">🧭 '+(fp.length>2?'받기 → 할 일 → 반납':'다음 곳까지')+' · <b>'+(est?'약 ':'')+Math.round(yd/10)*10+'야드</b> · 걸어서 '+mn(7)+'분'+(c.lv>=40?' · 탈것 '+mn(11.2)+'분':'')+'</div>'}}}
       const put=[];fp.forEach(p=>{let x=X(p),y=Y(p);const x0=x,y0=y;let k=0;while(put.some(q=>Math.abs(q[0]-x)<30&&Math.abs(q[1]-y)<30)&&k<6){x+=(k%2?-1:1)*(34+17*k);k++}
         /* 받는 NPC=반납 NPC처럼 같은 이름이 바로 옆에 있으면 이름은 한 번만 */const dup=k>0&&put.some(q=>q[2]===p.nm&&Math.abs(q[3]-x0)<4&&Math.abs(q[4]-y0)<4);put.push([x,y,p.nm,x0,y0]);/* 받는 곳=반납처럼 같은 자리면 옆으로 비켜 둘 다 보이게 */
         pins+='<span class="amf k-'+p.kind+(k%2?' up':'')+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(dup?'':'<i>'+esc(p.nm||'')+'</i>')+'</span>'})}
@@ -1722,8 +1743,9 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
   const up=e=>{if(!st.ptr.has(e.pointerId))return;st.ptr.delete(e.pointerId);const r=el.getBoundingClientRect();
     if(st.pinch){if(st.ptr.size===0){const p=st.pinch;st.pinch=null;st.L.style.transformOrigin=st.P.style.transformOrigin='';zoomAt(Math.log2(Math.max(.2,p.r)),p.cx,p.cy)}return}
     const d=st.drag;st.drag=null;if(!d)return;
-    if(Math.abs(d.dx)+Math.abs(d.dy)<6){const k=d.t.closest&&d.t.closest('[data-amk],[data-amz],[data-amh],[data-amzi],[data-amcl]');
+    if(Math.abs(d.dx)+Math.abs(d.dy)<6){const k=d.t.closest&&d.t.closest('[data-amk],[data-amz],[data-amh],[data-amzi],[data-amcl],[data-amst]');
       if(k&&k.dataset.amcl){ui.amcl=+k.dataset.amcl;ui.amsel=null;ui.amhub=null;ui.amzone=null;const o=st.cl[ui.amcl];if(ui.am.z<3.2){zoomAt(Math.min(1,3.4-ui.am.z),o.x,o.y);ui.amcl=null}else{draw();amPanel({kind:'cl',ps:o.m.map(i=>st.vis[i])})}return}
+      if(k&&k.dataset.amst){ui.amq=+k.dataset.amst;ui.amsel=null;ui.amhub=null;ui.amzone=null;draw();amPanel({kind:'focus'});return}
       if(k&&k.dataset.amzi){ui.amzone=k.dataset.amzi;ui.amsel=null;ui.amhub=null;draw();amPanel({kind:'zone',zone:ui.amzone});return}
       if(k&&k.dataset.amz){const a=toAtlas(k.dataset.amz,'50,50');if(a){ui.am={c:a.c,z:2,cx:a.x,cy:a.y};ui.amsel=null;ui.amzone=k.dataset.amz;draw();amPanel({kind:'zone',zone:ui.amzone})}return}
       if(k&&k.dataset.amh){ui.amzone=null;ui.amhub=+k.dataset.amh;ui.amsel=null;draw();amPanel(st.route.find(x=>x.no===ui.amhub));return}
@@ -2951,6 +2973,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='ampx'){ui.amsel=null;ui.amhub=null;ui.amzone=null;ui.amq=null;ui.amcl=null;if(AM&&AM.draw)AM.draw();amPanel(null);return}
   if(a==='amdg'){ui.amdg=k||null;if(ui._amp)amPanel(ui._amp);return}
   if(a==='amst'){c.amst=k;save();if(AM&&AM.draw){AM.draw();amPanel(ui.amq?{kind:'focus'}:null)}else rerender(true);return}
+  if(a==='amchain'){const cc=me();cc.amchain=amChainOn()?0:1;save();ui.amfit=1;const FO=ui.amq&&amFocus(ui.amq);if(FO&&FO.P[0])ui.am=amFit(FO);if(AM&&AM.draw){AM.draw();amPanel({kind:'focus'})}return}
   if(a==='amall'){ui.amall=ui.amall?0:1;if(AM&&AM.draw){AM.draw();amPanel({kind:'focus'})}return}
   if(a==='ampmin'){ui.ampmin=ui.ampmin?0:1;ui.amfit=1;if(AM&&AM.draw)amPanel({kind:'focus'});return}
   if(a==='amstep'){if(!k)return;ui.amq=+k;ui.amfit=1;const FO=amFocus(ui.amq);if(FO&&FO.P[0])ui.am=amFit(FO);if(AM&&AM.draw){AM.draw();amPanel({kind:'focus'})}else rerender(true);return}
