@@ -19,6 +19,7 @@
 -- /wfh 아이템 앱 장비 목록을 게임에서 천천히 읽어 두기 (ItemScan.lua)
 -- v3.4: 게임이 알려 주는 퀘스트 위치(목표·반납·길안내 다음 지점), 동굴 입구, 퀘스트 받은/반납한 자리도 코드에 담아요.
 -- v3.5: 끼고 있는 장비의 실제 능력치(게임이 읽은 값)와 무작위 옵션 이름(「산적의 ○○」)도 담아요.
+-- v3.6.2: /wfh 아이템 이 효과 글을 1.5초·4초 뒤 한 번 더 읽음, /wfh 아이템 다시 추가.
 -- v3.6.1: GetItemInfo·GetItemStats가 C_Item 안에 있는 클라이언트도 지원(끼고 있는 장비 능력치도 이제 담김).
 -- v3.6: /wfh 아이템 — 앱 장비 목록의 한글 이름·착용 효과·무기 공격력을 게임에서 읽어 저장 파일에 남겨요.
 
@@ -645,7 +646,7 @@ SlashCmdList["WOWFHELPER"] = function(msg)
   elseif msg == "도움" or msg == "help" or msg == "?" then
     say("명령어 · |cffffd100/wfh|r 앱으로 옮길 코드 · |cffffd100/wfh 다음|r 다음 갈 곳 · |cffffd100/wfh 추천|r 앱 추천 코드 넣기")
     say("|cffffd100/wfh 점검|r 담긴 개수 · |cffffd100/wfh 설정|r 켜고 끈 상태 · |cffffd100/wfh 공략|r 보스 창 · |cffffd100/wfh 알림|r 알림 · |cffffd100/wfh 입구|r 기억한 동굴 입구 · |cffffd100/wfh 추천 지우기|r")
-    say("|cffffd100/wfh 아이템|r 앱 장비 목록을 게임에서 읽어 두기 (멈춤 · 처음 · 지우기)")
+    say("|cffffd100/wfh 아이템|r 앱 장비 목록을 게임에서 읽어 두기 (멈춤 · 처음 · 다시 · 지우기)")
   elseif msg == "다음" or msg == "next" then
     local L = D.rec and D.rec.n
     if not L or #L == 0 then say("앱 동선이 없어요. 앱 「장비 → 게임 툴팁에 추천 넣기」 코드를 /wfh 추천 으로 넣어 주세요.")

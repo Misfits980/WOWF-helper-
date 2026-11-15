@@ -7,6 +7,7 @@
 -- /wfh 아이템          읽기 시작 (읽는 중이면 진행 상황)
 -- /wfh 아이템 멈춤     잠깐 멈추기 (다시 /wfh 아이템 하면 이어서)
 -- /wfh 아이템 처음     못 찾은 것까지 처음부터 다시
+-- /wfh 아이템 다시     이미 읽은 것을 한 번 더 읽기 (착용·사용 효과 글이 늦게 떠서 빠진 것 채우기, 2~3분)
 -- /wfh 아이템 지우기   읽어 둔 것 모두 지우기
 
 local PRE = "|cffe8c06a[와포 도우미]|r "
@@ -15,6 +16,8 @@ local function say(m) DEFAULT_CHAT_FRAME:AddMessage(PRE .. m) end
 local MAXP = 4      -- 한 번에 서버에 물어보는 아이템 수
 local TIMEOUT = 8   -- 이 초가 지나도 답이 없으면 못 찾은 것으로
 local CACHED = 12   -- 한 번(0.1초)에 이미 받아 둔 아이템을 읽는 최대 수
+-- 툴팁의 효과 글(주문 설명)은 조금 늦게 불러와져 처음 읽을 때 빠질 수 있음 → 1.5초 · 4초 뒤에 다시 읽어 줄이 더 많은 쪽을 남김
+local RECHECK = { 1.5, 4 }
 
 -- 이 게임(1.15 클라이언트)은 GetItemInfo·GetItemStats가 C_Item 안으로 옮겨져 있음 → 둘 다 찾아 씀
 local GII = GetItemInfo or (C_Item and C_Item.GetItemInfo)
@@ -95,6 +98,7 @@ local function readItem(id)
 end
 
 local run, pend, npend, lastSay, ticker = false, {}, 0, 0, nil
+local again = {} -- { id, 다시 읽을 때, 몇 번째 }
 local function counts()
   local s, IT, MS = state()
   local L, got, miss = list(), 0, 0
@@ -106,7 +110,7 @@ end
 
 local function finish()
   run = false
-  local s = state(); s.run = false; s.done = time and time() or 0
+  local s = state(); s.run = false; s.redo = nil; s.done = time and time() or 0
   local got, miss, n = counts()
   say(("아이템 읽기 끝! |cff40ff40%d개|r 읽음 · 못 찾음 %d개 (전체 %d개)"):format(got, miss, n))
   say("|cffffd100/reload|r 를 치거나 접속을 끝내야 파일에 저장돼요. 그다음 Claude에게 「다 했어」라고 알려 주세요.")
@@ -118,29 +122,46 @@ local function tick()
   local s, IT, MS = state()
   local L = list()
   local now = GetTime and GetTime() or 0
+  -- 효과 글 다시 읽기
+  if #again > 0 then
+    local keep, done = {}, 0
+    for _, a in ipairs(again) do
+      if a[2] <= now and done < 30 then
+        done = done + 1
+        local rec = readItem(a[1])
+        if rec and (not IT[a[1]] or #rec > #IT[a[1]]) then IT[a[1]] = rec end
+        if RECHECK[a[3] + 1] then keep[#keep + 1] = { a[1], now + RECHECK[a[3] + 1] - RECHECK[a[3]], a[3] + 1 } end
+      else keep[#keep + 1] = a end
+    end
+    again = keep
+  end
+  local function got(id, rec)
+    if not IT[id] or #rec >= #IT[id] then IT[id] = rec end
+    again[#again + 1] = { id, now + RECHECK[1], 1 }
+  end
   for id, t0 in pairs(pend) do
     local rec = readItem(id)
-    if rec then IT[id] = rec; pend[id] = nil; npend = npend - 1
+    if rec then got(id, rec); pend[id] = nil; npend = npend - 1
     elseif now - t0 > TIMEOUT then MS[id] = true; pend[id] = nil; npend = npend - 1 end
   end
   local cached = 0
   while npend < MAXP and cached < CACHED and s.pos <= #L do
     local id = L[s.pos]
     s.pos = s.pos + 1
-    if not IT[id] and not MS[id] then
+    if not MS[id] and (not IT[id] or s.redo) then
       local rec = readItem(id)
-      if rec then IT[id] = rec; cached = cached + 1
+      if rec then got(id, rec); cached = cached + 1
       else
         if C_Item and C_Item.RequestLoadItemDataByID then pcall(C_Item.RequestLoadItemDataByID, id) end
         pend[id] = now; npend = npend + 1
       end
     end
   end
-  if s.pos > #L and npend == 0 then
+  if s.pos > #L and npend == 0 and #again == 0 then
     -- 멈췄다 켜는 사이 답을 못 받고 지나간 아이템이 있으면 한 번 더 훑음
     if not s.again then
       local got, miss, n = counts()
-      if got + miss < n then s.again = true; s.pos = 1; return end
+      if got + miss < n then s.again = true; s.redo = nil; s.pos = 1; return end
     end
     finish(); return
   end
@@ -172,6 +193,10 @@ function WowfHelper_ItemScan(arg)
     say(("아이템 읽기를 멈췄어요 (%d / %d). 이어서 하려면 /wfh 아이템"):format(got, n))
   elseif arg == "처음" or arg == "restart" then
     s.pos = 1; WowfHelperAcc.itMiss = {}
+    start()
+  elseif arg == "다시" or arg == "again" then
+    s.pos = 1; s.redo = true
+    say("이미 읽은 아이템을 한 번 더 읽어요 (착용·사용 효과 글 채우기). 2~3분이면 끝나요.")
     start()
   elseif arg == "지우기" or arg == "clear" then
     run = false

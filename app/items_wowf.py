@@ -149,23 +149,32 @@ def eff_stats(lines):
 
 
 def has_special(lines):
-    """점수로 못 세는 특수 효과(발동·사용·직업 기술 강화 등)가 있나. 「+N 능력치」·「최대 N만큼 치유/피해」·적중/치명타 %는 숫자 능력치라 아님"""
+    """점수로 못 세는 특수 효과(발동·사용·직업 기술 강화 등)가 있나. 「+N 능력치」·「최대 N만큼 치유/피해」·적중/치명타/회피 %·방어 숙련도·방패 피해 방어량은 숫자 능력치라 아님.
+    「사용 효과: 이 형상을 계정 수집품에 추가합니다」(포에버 형상 수집)는 효과가 아님"""
     for raw in lines or []:
         t = raw.strip()
-        if t.startswith(('사용 효과', '적중 시')):
+        if t.startswith('사용 효과'):
+            if '형상을 계정 수집품' in t:
+                continue
+            return True
+        if t.startswith('적중 시'):
             return True
         if not t.startswith('착용 효과'):
             continue
         b = re.sub(r'^착용 효과:\s*', '', t)
         if re.match(r'^\+\d+\s*\S', b):
             continue
-        if re.search(r'확률|초 동안|적중 시|공격 시|시전 시|사용 시', b):
+        proc = re.search(r'초 동안|적중 시|공격 시|시전 시|사용 시|확률로', b)
+        if not proc and eff_stats([t]):
+            continue
+        if re.search(r'(?:회피되거나|회피당하거나).*확률이\s*[\d.]+%만큼 감소', b):
+            continue
+        if proc or '확률' in b:
             return True
         if re.search(r'최대 \d+만큼', b) and re.search(r'치유|피해|주문', b):
             continue
-        if eff_stats([t]):
-            continue
-        if re.search(r'5초마다 \d+의 마나|5초당 \d+', b) or re.match(r'^(?:전투력|방어도|방어 숙련도|모든 저항력)이 \d+만큼 증가합니다\.?$', b):
+        if re.search(r'5초마다 \d+의 마나|5초당 \d+', b) or \
+                re.match(r'^(?:원거리 전투력|전투력|방어도|방어 숙련도|모든 저항력|방패의 피해 방어량)(?:이|가) \d+만큼 증가합니다\.?$', b):
             continue
         return True
     return False

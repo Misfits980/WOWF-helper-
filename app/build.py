@@ -337,6 +337,7 @@ if (Q / 'items-addon.jsonl').exists():
         if l_:
             o_ = json.loads(l_)
             _AD[o_['id']] = o_
+    _WR = globals().get('WREC', {})
     _GSK = {'STRENGTH': 'str', 'AGILITY': 'agi', 'STAMINA': 'sta', 'INTELLECT': 'int', 'SPIRIT': 'spi'}
     _an = _aq = _as = 0
     for ix, line in enumerate(items):
@@ -344,8 +345,9 @@ if (Q / 'items-addon.jsonl').exists():
         o_ = _AD.get(int(f[0]))
         if not o_ or len(f) < 13:
             continue
-        if o_.get('nm') and re.search('[가-힣]', o_['nm']) and f[12] != o_['nm']:
-            f[12] = o_['nm']; _an += 1
+        _nm = (o_.get('nm') or '').strip()
+        if _nm and re.search('[가-힣]', _nm) and f[12] != _nm:
+            f[12] = _nm; _an += 1
         if isinstance(o_.get('q'), int) and 0 <= o_['q'] <= 5 and f[4] in 'pcurel' and f[4] != 'pcurel'[o_['q']]:
             f[4] = 'pcurel'[o_['q']]; _aq += 1
         L_ = o_.get('lines') or []
@@ -361,7 +363,11 @@ if (Q / 'items-addon.jsonl').exists():
             _new['dps'] = _w
         if _new != _cur:
             f[5] = ' '.join('%s%s' % (k, ('%g' % v)) for k, v in _new.items()); _as += 1
-        if L_:
+        # 게임 툴팁은 주문 글(착용·사용 효과)이 늦게 불러와져 빠질 때가 있음 → 효과 줄이 wowf.io보다 적으면 효과 표시는 그대로 둠
+        _E = ('착용 효과', '사용 효과', '적중 시')
+        _ng = sum(1 for x in L_ if x.startswith(_E))
+        _nw = sum(1 for x in ((_WR.get(int(f[0])) or {}).get('lines') or []) if str(x).startswith(_E))
+        if L_ and _ng >= _nw:
             f[6] = '1' if _hs(L_) else ''
         items[ix] = '|'.join(f)
     print('애드온이 게임에서 읽은 값으로 고침 · 이름', _an, '· 등급', _aq, '· 능력치', _as, '/', len(_AD))

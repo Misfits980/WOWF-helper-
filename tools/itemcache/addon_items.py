@@ -149,6 +149,9 @@ def convert(saved):
             if not isinstance(x, str) or not x:
                 continue
             c, body = x[0], x[1:]
+            # 다른 애드온이 붙인 줄(경매 시세·획득 경로·아이템 레벨·형상 수집 등, 색이 'o')과 판매 가격은 버림
+            if c == 'o' or body.startswith('판매 가격'):
+                continue
             left, _, right = body.partition('\t')
             lines.append((left + (' ' + right if right else '')).strip())
             col.append(c)
