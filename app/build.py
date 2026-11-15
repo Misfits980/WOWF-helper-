@@ -262,7 +262,7 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
             items[ix] = '|'.join(f)
         if o_ and len(f) > 6:
             # 포에버 툴팁(wowf.io)으로 능력치 채우기: forg에 빠진 주문력·적중·치명타 등급·「지능 +8」 꼴 등
-            _cur = {k: float(v) for k, v in re.findall(r'([a-z]+\d?)(-?[\d.]+)', f[5])}
+            _cur = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', f[5])}
             _new = merge_stats(_cur, parse_stats(o_.get('lines')))
             # 「효과」 표시: 점수로 못 세는 특수 효과가 있을 때만 (「+9 주문력」 같은 건 능력치라 아님)
             _ef = '1' if has_special(o_.get('lines')) else ''
@@ -282,6 +282,51 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
         if int(line.split('|')[0]) not in have_:
             items.append(line)
     srcs = '\n'.join(sl_)
+# 포에버 게임 자료(핫픽스 캐시 + 클라이언트 표, tools/itemcache/game_items.py)로 능력치 바로잡기
+#  - 핫픽스(h) 기록 = 포에버 서버가 보낸 지금 값 → 믿음. 기본 자료(c)는 캐시가 아직 못 받은 템일 수 있어 wowf.io 툴팁이 없을 때만 씀
+#  - 주 능력치(힘·민첩·체력·지능·정신력): 게임 값이 하나라도 있으면 게임 값으로 통째로 바꿈 (무작위 접미사 템은 게임 값이 비어 있어 그대로)
+#  - 아이템 능력치로 붙은 보조 능력치(적중·치명타 등급, 주문력, 전투력, 5초당 마나, 계열 주문력 …): 게임 값으로 덮어씀
+#  - 등급: 핫픽스 기록 값으로 (포에버에서 고급→희귀로 올린 템). 요구 레벨은 게임 값이 0인 퀘스트 보상이 많아 그대로 둠
+#  - 착용 효과 주문(예: 정의의 망치 치유량 +94)·무기 공격력은 게임 캐시에 없어 기존 값(wowf.io) 그대로
+if (Q / 'items-game.txt').exists():
+    _GM = {}
+    _WR = globals().get('WREC', {})
+    _GQ = {}  # 핫픽스 기록의 등급 (포에버에서 고급→희귀로 올린 템 등)
+    for l_ in rd(Q / 'items-game.txt').splitlines():
+        if l_ and not l_.startswith('#'):
+            g_ = l_.split('|')
+            if g_[5] == 'c' and int(g_[0]) in _WR:
+                continue  # 기본 자료(핫픽스 아님)는 캐시가 그 템을 아직 못 받은 것일 수 있어, 포에버 툴팁(wowf.io)이 있으면 그쪽을 믿음
+            _GM[int(g_[0])] = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', g_[4])}
+            if g_[5] == 'h':
+                _GQ[int(g_[0])] = 'pcurel'[int(g_[3])] if 0 <= int(g_[3]) <= 5 else None
+    _PRI = ('str', 'agi', 'sta', 'int', 'spi')
+    _gfix = 0
+    for ix, line in enumerate(items):
+        f = line.split('|')
+        g_ = _GM.get(int(f[0])) if len(f) > 6 else None
+        if not g_:
+            continue
+        _q = _GQ.get(int(f[0]))
+        if _q and f[4] != _q and f[4] in 'pcurel':
+            f[4] = _q
+            items[ix] = '|'.join(f)
+            _gfix += 1
+        _cur = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', f[5])}
+        _new = dict(_cur)
+        if any(k in g_ for k in _PRI):
+            for k in _PRI:
+                _new.pop(k, None)
+        for k, v in g_.items():
+            _new[k] = v
+        if _new != _cur:
+            if __import__('os').environ.get('WFH_GAMELOG'):
+                with open(__import__('os').environ['WFH_GAMELOG'], 'a', encoding='utf-8') as _lg:
+                    _lg.write(json.dumps([int(f[0]), f[12] if len(f) > 12 else '', _cur, _new], ensure_ascii=False) + '\n')
+            f[5] = ' '.join('%s%s' % (k, ('%g' % v)) for k, v in _new.items())
+            items[ix] = '|'.join(f)
+            _gfix += 1
+    print('포에버 게임 자료로 능력치 고침', _gfix, '/', len(_GM))
 # 착용 가능 직업: forg 마스크는 「어울리는 직업」(능력치 기준)이라 실제 착용 규칙으로 다시 계산
 #  - 무기 숙련·방어구 종류로 판단, wowf.io 「직업:」 줄이나 allow가 있으면 그 직업만
 #  - forg가 3직업 이하로만 표시한 건 직업 전용 장비(티어 등)로 보고 그대로 둠
