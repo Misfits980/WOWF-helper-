@@ -95,7 +95,7 @@ def weapon_dps(lines):
     lo = hi = spd = 0
     for t in lines or []:
         t = t.strip()
-        if t.startswith(('착용 효과', '적중 시', '사용 효과')):
+        if t.startswith(('착용 효과', '적중 시', '사용 효과', '발동 효과')):
             break
         m = re.search(r'(\d+)\s*-\s*(\d+)\s*(?:피해|공격력)|(?:피해|공격력)\s*(\d+)\s*-\s*(\d+)', t)
         if m and not lo:
@@ -157,7 +157,7 @@ def has_special(lines):
             if '형상을 계정 수집품' in t:
                 continue
             return True
-        if t.startswith('적중 시'):
+        if t.startswith(('적중 시', '발동 효과')):  # 포에버 클라이언트는 적중 시 발동을 「발동 효과:」로 씀
             return True
         if not t.startswith('착용 효과'):
             continue

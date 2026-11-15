@@ -364,9 +364,10 @@ if (Q / 'items-addon.jsonl').exists():
         if _new != _cur:
             f[5] = ' '.join('%s%s' % (k, ('%g' % v)) for k, v in _new.items()); _as += 1
         # 게임 툴팁은 주문 글(착용·사용 효과)이 늦게 불러와져 빠질 때가 있음 → 효과 줄이 wowf.io보다 적으면 효과 표시는 그대로 둠
-        _E = ('착용 효과', '사용 효과', '적중 시')
+        _E = ('착용 효과', '사용 효과', '적중 시', '발동 효과')
         _ng = sum(1 for x in L_ if x.startswith(_E))
-        _nw = sum(1 for x in ((_WR.get(int(f[0])) or {}).get('lines') or []) if str(x).startswith(_E))
+        # wowf.io는 「착용 효과: +N 암흑 저항」처럼 능력치를 효과 줄로 따로 적음 → 문장으로 된 효과만 셈
+        _nw = sum(1 for x in ((_WR.get(int(f[0])) or {}).get('lines') or []) if str(x).startswith(_E) and not re.match(r'^착용 효과:\s*\+\d', str(x)))
         if L_ and _ng >= _nw:
             f[6] = '1' if _hs(L_) else ''
         items[ix] = '|'.join(f)
