@@ -2507,10 +2507,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=817fd820"></script>
-<script>/* v1557d0 @11/15 17:21 */
+<script>/* v8ae1a0 @11/15 17:33 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/15 17:21';
+const BUILD='11/15 17:33';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -5371,28 +5371,28 @@ async function fsLoad(repick,silent){try{let h=repick?null:await idbH('get');
     toast('애드온 파일 찾는 중…');const L=await fsScan(h);ui.fsList=L;ui.fsDir=h.name;
     if(!L.length){ui.sheet='imp';ui.fsMsg='「'+h.name+'」 폴더에서 애드온 저장 파일을 못 찾았어요. 내 PC의 와우 설치 폴더(배틀넷 앱 → 와우 → 톱니바퀴 → 「탐색기에서 보기」로 찾을 수 있어요)나 그 안의 WTF 폴더를 골라 주세요. 게임에서 /reload 를 한 번 해야 파일이 생겨요.';rerender(true);return}
     fsAutoSet(true);ui.fsNeed=false;
-    const c=me();if(silent){await fsAuto(true);rerender(true);return}const i=Math.max(0,L.findIndex(x=>c&&c.name&&x.name===c.name));fsPick(i)}
+    const c=me();if(silent){await fsAuto(true);rerender(true);return}const nm=c&&(c.fsName||c.name);const i=Math.max(0,L.findIndex(x=>nm&&x.name===nm));fsPick(i)}
   catch(e){if(e&&e.name==='AbortError')return;toast('파일을 못 읽었어요: '+((e&&e.message)||e))}}
 function fsPick(i){const x=(ui.fsList||[])[i];if(!x)return;ui.fsCur=i;ui.fsMsg='';ui.fsPickCode=x.code;ui.fsPickT=x.t;ui.sheet='imp';ui.impraw=x.code;ui.imp=impParse(x.code);if(!QDB)qdbLoad();rerender(true)}
 /* 🔄 PC 자동 맞춤: 게임에서 /reload·접속 종료 → 브라우저로 돌아오면 저장 파일이 바뀌었는지 보고 저절로 불러옴 */
 const fsAutoOn=()=>{try{return localStorage.getItem('wowf_fsauto')!=='0'}catch(e){return true}};
 function fsAutoSet(v){try{localStorage.setItem('wowf_fsauto',v?'1':'0')}catch(e){}}
 let fsBusy=false,fsLastChk=0;
-async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy)return;const c=me();if(!c||!c.name||ui.sheet==='imp')return;
+async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy)return;const c=me();if(!c||!(c.fsName||c.name)||ui.sheet==='imp')return;
   if(!force&&Date.now()-fsLastChk<2500)return;fsLastChk=Date.now();fsBusy=true;
   try{let L=ui.fsList;
     if(!L||!L.length){const h=await idbH('get');if(!h)return;
       const st=h.queryPermission?await h.queryPermission({mode:'read'}):'granted';
       if(st!=='granted'){if(!ui.fsNeed){ui.fsNeed=true;rerender(true)}return}
       L=await fsScan(h);ui.fsList=L;ui.fsDir=h.name}
-    const x=L.find(y=>y.name===c.name);if(!x||!x.fh)return;
+    const nm=c.fsName||c.name;const x=L.find(y=>y.name===nm);if(!x||!x.fh)return;
     const f=await x.fh.getFile();if(f.lastModified<=(c.fsT||0))return;
     const t=await f.text();const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(!m)return;
-    const code=luaStr(m[1]);x.code=code;x.t=f.lastModified;const P=impParse(code);if(!P||P.name!==c.name){c.fsT=f.lastModified;return}
-    const snap=JSON.stringify(c),gq=JSON.stringify(DB.gq||null);const lv0=c.lv,mq0=Object.keys(c.mq||{}).length;
+    const code=luaStr(m[1]);x.code=code;x.t=f.lastModified;const P=impParse(code);if(!P||P.name!==nm){c.fsT=f.lastModified;return}
+    const snap=JSON.stringify(DB);const lv0=c.lv;
     const r=impApply(c,P,{eq:true,sp:false});c.fsT=f.lastModified;save();rerender(true);
     const got=[];if(c.lv>lv0)got.push(c.lv+'레벨');if(r.n)got.push('끝낸 퀘스트 +'+r.n);got.push('퀘스트창 '+P.log.length+'개');
-    toastUndo('🎮 게임 파일에서 맞췄어요 · '+got.join(' · '),()=>{const o=JSON.parse(snap);Object.keys(c).forEach(k=>delete c[k]);Object.assign(c,o);DB.gq=JSON.parse(gq)||undefined;save();rerender(true);toast('되돌렸어요')})}
+    toastUndo('🎮 게임 파일에서 맞췄어요 · '+got.join(' · '),()=>{const o=JSON.parse(snap);Object.keys(DB).forEach(k=>delete DB[k]);Object.assign(DB,o);save();rerender(true);toast('되돌렸어요')})}
   catch(e){}finally{fsBusy=false}}
 function fsNeedBar(){return FSA&&ui.fsNeed&&fsAutoOn()?'<button class="fsneed" data-a="fsload" data-k="auto">🔄 게임 파일 자동 맞춤을 다시 켜려면 눌러 주세요 <small>브라우저를 새로 열면 한 번 허락이 필요해요</small></button>':''}
 function fsBox(){if(!FSA)return '';const L=ui.fsList||[];let h='<div class="card fsimp"><h3>📂 PC에서 바로 불러오기 <small class="mute">크롬·엣지</small></h3>';
@@ -5536,7 +5536,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='lgv'){c.lgRoute=!c.lgRoute;save();rerender(true);return}
   if(a==='qlrm'){if(c.ql){const was=c.ql[+k];delete c.ql[+k];save();rerender(true);toastUndo('퀘스트창에서 뺐어요 (포기)',()=>{const cc=me();cc.ql=cc.ql||{};cc.ql[+k]=was;save();rerender(true)})}return}
   if(a==='qldone'){c.mq=c.mq||{};c.mq[+k]=1;if(c.ql)delete c.ql[+k];save();toast('끝냄으로 표시하고 퀘스트창에서 뺐어요');rerender(true);return}
-  if(a==='impgo'){const P=ui.imp;if(!P)return;const {n,extra}=impApply(c,P);if(ui.fsPickCode&&ui.impraw===ui.fsPickCode)c.fsT=ui.fsPickT;
+  if(a==='impgo'){const P=ui.imp;if(!P)return;const {n,extra}=impApply(c,P);if(ui.fsPickCode&&ui.impraw===ui.fsPickCode){c.fsT=ui.fsPickT;c.fsName=P.name}
     ui.impExtra=extra.join(' · ');ui.imp=null;ui.impraw='';ui.sheet=null;if(P.log.length){ui.tab='quest';ui.qmode='log'}save();toast('✓ 끝낸 퀘스트 '+P.done.length+'개를 불러왔어요 (새로 '+n+'개)'+(ui.impExtra?' · '+ui.impExtra:''));ui.impEq=null;ui.impSp=null;rerender(true);return}
   if(a==='pick'){DB.cur=k;save();ui.sheet=null;ui.dg=null;ui.qz=null;render();window.scrollTo(0,0);toast('캐릭터를 바꿨어요');return}
   if(a==='add'){ui.sheet=null;ui.onb={name:'',race:c.race,cls:'',spec:'',lv:1};render();window.scrollTo(0,0);return}

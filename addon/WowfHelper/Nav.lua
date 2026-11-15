@@ -164,7 +164,8 @@ end
 function WowfHelper_NavTick()
   if not F or not F:IsShown() then return end
   local S, i = steps(), DB().navI or 1
-  local s = S and S[i]
+  if not S or #S == 0 then F:Hide(); return end  -- /wfh 추천 지우기 등으로 단계가 없어지면 창도 닫음
+  local s = S[i]
   if not s then
     F.arrow:Hide()
     F.t1:SetText("|cff40ff40모든 단계를 끝냈어요!|r")
