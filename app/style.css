@@ -2064,3 +2064,9 @@ html,body{overscroll-behavior-x:none}
 .amnvi small{color:#9fd8ea;font-size:11px}
 .amscb{display:flex;align-items:center;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
 .amscb small{color:#a99a7a;font-size:11.5px}
+/* 글자 점검: 휴대폰에서 잘리던 글은 두 줄까지, 너무 작던 글씨는 키움 */
+.ci b,.ci small,.cbar .cn b,.rrh .t b,.rrh .t span,.trow .m>span{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.lvlab,.kranks small,.frs small,.jn2 small,.ab .l,.prio .pl i{font-size:11px}
+.dc .ic.empty{font-size:11px;letter-spacing:-.04em}
+.jn2 .nb,.csl button em,.gmap .gp em{font-size:10.5px}
+.dc .up{font-size:10px}

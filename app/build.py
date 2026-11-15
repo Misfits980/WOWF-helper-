@@ -49,13 +49,15 @@ def _fill60(c, steps):
 for cid, c in cls.items():
     for s_ in c['specs']:
         _fill60(c, s_['steps'])
+_tkf = ROOT / 'data/guides/talent-ko.json'
+_TKO = {k: v for k, v in json.loads(_tkf.read_text(encoding='utf-8')).items() if not k.startswith('_')} if _tkf.exists() else {}
 for cid, c in cls.items():
     used = set(x[1] for s in c['specs'] for x in s['steps'])
     slim[cid] = {
         'name': c['name'], 'trees': c['trees'], 'tic': c.get('tic', []),
         'learns': [[l[0], l[1], l[2], l[3], l[4], l[6], (l[7] or '')[:90]] for l in c['learns'] if l[4] in ('', 'alliance', None)],
         # 특성 칸(게임처럼 줄·칸·선행 화살표)을 그리려고 모든 특성을 넣음: [이름, 트리, 최대, 아이콘, 설명, 줄, 칸, 선행]
-        'talents': {k: [v['n'], v['t'], v['max'], v.get('icon', ''), (v.get('d') or '')[:110], v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
+        'talents': {k: [v['n'], v['t'], v['max'], v.get('icon', ''), (_TKO.get(cid + '/' + k) or (v.get('d') or '')[:110]), v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
         'specs': [{'id': s['id'], 'name': s['name'], 'icon': s['icon'], 'steps': s['steps'],
                    'rot': [[r['when'], r['txt']] for r in s['rotation']],
                    'early': [[r['when'], r['txt']] for r in s['early']],
@@ -93,6 +95,9 @@ def _nmfix():
 def _dgl():
     have = set(l.split('|')[0] for l in rd(F / 'dungeons.txt').splitlines() if l)
     rows = rd(F / 'dungeons.txt').rstrip('\n').split('\n') + [l[2:] for l in _dnew() if l.startswith('D|') and l.split('|')[1] not in have]
+    # forg 자료의 영어 이름에 HTML 글자(&#x27; = ')가 그대로 남아 있어 화면에 「Zul&#x27;Farrak」처럼 보이던 것
+    import html as _h
+    rows = [_h.unescape(l) for l in rows]
     return '\n'.join(sorted(rows, key=lambda l: int(l.split('|')[4] or 0)))
 
 
@@ -580,7 +585,35 @@ srcs = '\n'.join(_srcko(l) for l in srcs.split('\n'))
 _fx = _nmfix()
 if _fx:
     srcs = re.sub(r'(?m)^(0~[^~·]+ · )([^~]+)', lambda m: m.group(1) + _fx.get(m.group(2).strip(), m.group(2)), srcs)
+srcs = srcs.replace("(Temple of Ahn'Qiraj)", '(안퀴라즈 사원)')
 SRC_TXT = srcs + '\n'
+
+# 퀘스트 할 일(forg) 「떨구는 몹」 등에 남은 영어 몹 이름 → 한글 (앱에서 바꿔 보여 줌)
+def _npcko_q():
+    out = {}
+    fq = ROOT / 'data/forg/quests.jsonl'
+    if not fq.exists(): return out
+    for _ln in rd(fq).splitlines():
+        try: _o = json.loads(_ln)
+        except Exception: continue
+        for _t in _o.get('t') or []:
+            for _f in _t[1:4]:
+                if not isinstance(_f, str): continue
+                for _p in re.split(r',\s*', _f):
+                    _m = re.match(r"^([A-Za-z][A-Za-z'’\- .]+?)(\s*\(Lv [\d\-]+\))?$", _p.strip())
+                    if _m and _npcko.get(_m.group(1).strip()):
+                        out[_m.group(1).strip()] = _npcko[_m.group(1).strip()]
+    qq = ROOT / 'data/qdb/quests.jsonl'
+    if qq.exists():
+        for _ln in rd(qq).splitlines():
+            try: _o = json.loads(_ln)
+            except Exception: continue
+            for _t in _o.get('t') or []:
+                for _x in (_t[2] if len(_t) > 2 and isinstance(_t[2], list) else []):
+                    _n = (_x[0] if isinstance(_x, list) and _x else '')
+                    if isinstance(_n, str) and re.match('[A-Za-z]', _n) and _npcko.get(_n.strip()):
+                        out[_n.strip()] = _npcko[_n.strip()]
+    return out
 
 def js_str(s):
     return json.dumps(s, ensure_ascii=False)
@@ -604,6 +637,7 @@ data = '\n'.join([
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(_dgl()) + ';',
     'const D_DQ=' + js_str(_dq()) + ';',
+    'const D_NPCKO=' + json.dumps(_npcko_q(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_RWNM=' + json.dumps(_rwnm(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',
     'const D_BOSS=' + js_str(rd(F / 'bosses.txt') if (F / 'bosses.txt').exists() else '') + ';',

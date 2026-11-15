@@ -198,6 +198,9 @@ for f in glob.glob(f'{QZ}/Localization/Translations/Zones/*.lua'):
         k = re.search(r'\["koKR"\]\s*=\s*"((?:\\.|[^"])*)"', m.group(2))
         if k:
             ZKO[m.group(1)] = k.group(1)
+# Questie 한글 번역의 오타 바로잡기 (게임 표기는 「먼지진흙 습지대」)
+for _k, _v in list(ZKO.items()):
+    ZKO[_k] = _v.replace('슾지대', '습지대').replace("Temple of Ahn'Qiraj", '안퀴라즈 사원')
 ZEN = {}
 zl = rd(f'{QZ}/Localization/lookups/lookupZones.lua')
 zl = zl[zl.find('l10n.zoneLookup = {'):]
@@ -651,6 +654,12 @@ for qid, q in sorted(QUEST.items()):
         rec['ex'] = [x for x in ex if isinstance(x, int)]
     out.append(rec)
 
+def _sp(v):  # 글 안의 두 칸 띄어쓰기 → 한 칸
+    if isinstance(v, str): return re.sub(r'(?<=\S) {2,}(?=\S)', ' ', v)
+    if isinstance(v, list): return [_sp(x) for x in v]
+    if isinstance(v, dict): return {k: _sp(x) for k, x in v.items()}
+    return v
+out = [_sp(r) for r in out]
 with open(os.path.join(OUT, 'quests.jsonl'), 'w', encoding='utf-8') as f:
     for r in out:
         f.write(json.dumps(r, ensure_ascii=False, separators=(',', ':')) + '\n')

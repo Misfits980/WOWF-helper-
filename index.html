@@ -2073,6 +2073,12 @@ html,body{overscroll-behavior-x:none}
 .amnvi small{color:#9fd8ea;font-size:11px}
 .amscb{display:flex;align-items:center;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
 .amscb small{color:#a99a7a;font-size:11.5px}
+/* 글자 점검: 휴대폰에서 잘리던 글은 두 줄까지, 너무 작던 글씨는 키움 */
+.ci b,.ci small,.cbar .cn b,.rrh .t b,.rrh .t span,.trow .m>span{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.lvlab,.kranks small,.frs small,.jn2 small,.ab .l,.prio .pl i{font-size:11px}
+.dc .ic.empty{font-size:11px;letter-spacing:-.04em}
+.jn2 .nb,.csl button em,.gmap .gp em{font-size:10.5px}
+.dc .up{font-size:10px}
 
 /* ===================================================================
    와포 도우미 — 와우 게임 창 테마 (2026-11 대격변)
@@ -2444,9 +2450,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=9642f1b9"></script>
-<script>/* v954186 @11/15 14:32 */
-const BUILD='11/15 14:32';
+<script src="app-data.js?v=a369e6a1"></script>
+<script>/* v038272 @11/15 15:03 */
+const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
+const BUILD='11/15 15:03';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2510,7 +2517,7 @@ const WSRC={};
 for(const c in FS)for(const s in FS[c]){if(!W[c]||!W[c][s])continue;const [b,ex]=FS[c][s];let w=Object.assign({},b?FB[b]:{},ex||{});const role=b==='tank'||s==='feral-bear'?'tank':b==='heal'?'heal':b==='cast'?'cast':'phys';
   const sim=(typeof D_SIMW!=='undefined'&&D_SIMW.specs||{})[c+'/'+s];let src='forg 기본표';
   if(sim&&role!=='tank'){const keep={sta:w.sta||0};w=Object.assign({},sim.weights,keep);const u=sim.unscored||{};
-    if(role==='cast'){w.scrit=u.crit||0;w.shit=u.hit||0}else{w.crit=u.crit||0;w.hit=u.hit||0}src='포에버 시뮬레이터 ('+sim.preset+')'}
+    if(role==='cast'){w.scrit=u.crit||0;w.shit=u.hit||0}else{w.crit=u.crit||0;w.hit=u.hit||0}src='포에버 시뮬레이터 ('+(SIM_KO[sim.preset]||sim.preset)+')'}
   else if(role==='tank'){const u=sim&&sim.unscored||{};Object.assign(w,{dodge:12,hit:(u.hit||14)*.4,crit:(u.crit||12)*.25});if(s!=='feral-bear')Object.assign(w,{parry:10,blockp:6})}
   else if(role==='heal')w.scrit=6;
   else if(role==='cast')Object.assign(w,{scrit:10,shit:15});
@@ -3009,7 +3016,8 @@ function objPairs(obj){const out=[];if(!obj)return out;const re=/(\d+)\s*(마리
 const objClause=o=>{const raw=(o||'').replace(/<[^>]+>/g,'');let c=raw.split(/ 다음|,|\.|\n/)[0].trim();if(/[은는]$/.test(c)&&raw.includes(c+' 다음'))c+=' 뒤 …';return c.length>28?c.slice(0,27)+'…':c};
 /* 게임에서 확인한 한국어 이름 (포에버 신규 퀘스트 아이템) */
 const ITEM_KO={'Unstudied Artifact':'연구되지 않은 유물',"Explorers' League Mining Helmet":'탐험가 연맹 채굴용 안전모','Pristine Mattock':'온전한 곡괭이'};
-function tasksOf(d,obj){const T=tasksOfK(d,obj);T.forEach(t=>{if(ITEM_KO[t.nm])t.nm=ITEM_KO[t.nm];const nm=(t.nm||'').replace(/<[^>]+>/g,'');if(nm&&!/[가-힣]/.test(nm)&&obj&&/[가-힣]/.test(obj)){t.nm=objClause(obj);t.cnt=0;t.en=nm}});return T}
+function npcKoL(s){const K=typeof D_NPCKO!=='undefined'?D_NPCKO:{},seen=new Set();return String(s||'').split(/,\s*(?![^()]*\))/).map(p=>{const m=p.match(/^(.*?)(\s*\(Lv [\d\-]+\))?$/);const n=(m[1]||'').trim();return (K[n]||n)+(m[2]||'')}).filter(p=>{const k=p.replace(/\s*\(Lv [\d\-]+\)$/,'');if(!k||seen.has(k))return false;seen.add(k);return true}).join(', ')}
+function tasksOf(d,obj){const T=tasksOfK(d,obj);T.forEach(t=>{if(ITEM_KO[t.nm])t.nm=ITEM_KO[t.nm];if(typeof D_NPCKO!=='undefined'&&D_NPCKO[t.nm])t.nm=D_NPCKO[t.nm];if(t.drop)t.drop=npcKoL(t.drop.replace(/ ?그 밖 지역$/,'').trim());const nm=(t.nm||'').replace(/<[^>]+>/g,'');if(nm&&!/[가-힣]/.test(nm)&&obj&&/[가-힣]/.test(obj)){t.nm=objClause(obj);t.cnt=0;t.en=nm}});return T}
 function tasksOfK(d,obj){const op=objPairs(obj);const wt0=(d.wf&&d.wf.t)||[];
   if(op.length&&!wt0.some(w=>w[1]>0)){const ok=t=>t&&t[1]&&!/^\d+$|^(반납|받기|하기)$/.test(t[1]);const ft=(d.t||[]).filter(ok);const kill=/처치|잡|죽|퇴치|사냥|쓰러/.test(obj);
     return op.map((p,i)=>{const w=wt0.find(w=>!latin(w[0])&&(p[0].endsWith(w[0])||w[0].endsWith(p[0])));const nm=w?(w[0].length>p[0].length?w[0]:p[0]):p[0];
