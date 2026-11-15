@@ -9,8 +9,71 @@
   "background_color": "#15130f",
   "theme_color": "#15130f",
   "icons": [
-    {"src": "img/icon-192.png", "sizes": "192x192", "type": "image/png"},
-    {"src": "img/icon-512.png", "sizes": "512x512", "type": "image/png"},
-    {"src": "img/icon-mask.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon-mask.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "레벨업 동선",
+      "short_name": "동선",
+      "url": "./?go=rec",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "옆 화면 모드",
+      "short_name": "옆 화면",
+      "url": "./?go=side",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "장비",
+      "short_name": "장비",
+      "url": "./?go=gear",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "게임에서 불러오기",
+      "short_name": "불러오기",
+      "url": "./?go=imp",
+      "icons": [
+        {
+          "src": "img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
   ]
 }

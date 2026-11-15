@@ -622,7 +622,7 @@ def js_str(s):
 def fp(path):
     q = ROOT / path
     return hashlib.md5(q.read_bytes()).hexdigest()[:10] if q.exists() else '0'
-DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json'}.items()}
+DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
 # 길 따라 동선 격자(data/route/*.png, tools/route/build_grid.py): 파일 전체 지문 하나 + 있는 지역 번호
 _rg = sorted((ROOT / 'data' / 'route').glob('*.png'))
 DVER['rg'] = hashlib.md5(b''.join(p.read_bytes() for p in _rg)).hexdigest()[:10] if _rg else '0'

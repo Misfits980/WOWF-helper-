@@ -2126,3 +2126,41 @@ body.sidem{overflow:hidden}
 .sidev .sdn .n{flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:2px solid #8a7440;color:#f3e2b5}
 .sidev .sdn .n.t-get{border-color:#ffd65a}.sidev .sdn .n.t-do{border-color:#ff9a4a}.sidev .sdn .n.t-turn{border-color:#7ec8ff}
 .sidev .sdf{margin:auto 0 0;font-size:12px;color:var(--mute)}
+/* 📒 플레이 일지 */
+.jlc .jlr{display:flex;gap:10px;align-items:baseline;padding:6px 0;border-top:1px solid var(--line);font-size:13px}
+.jlc .jlr:first-of-type{border-top:0}
+.jlc .jlr b{flex:none;min-width:40px;color:#f3e2b5}
+.jlc .jlr span{color:#e6dcc5}
+/* 📝 메모 */
+.qnote{margin-top:10px}.qnote b{display:block;font-size:13px;margin-bottom:4px}
+.parch~.qnote b,.sheet .qnote b{color:inherit}
+.qnote textarea{width:100%;box-sizing:border-box;resize:vertical}
+.qnt{display:block;font-style:normal;font-size:12px;color:#c79a3a;margin-top:2px}
+.sidev .qnt{color:#8a4a0c;font-size:13px}
+.amk.amnote{background:#2a2114;border:1px solid #c79a3a;border-radius:10px;padding:1px 6px 1px 3px;display:flex;align-items:center;gap:3px;color:#ffe08a;font-size:12px;white-space:nowrap;transform:translate(-50%,-100%)}
+.amk.amnote i{font-style:normal}
+.amctl .ampinb.on{background:#5a4318;border-color:#c79a3a}
+.amap.pinmode{cursor:crosshair}
+.nlist .nrow{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:7px 0;color:inherit;font:inherit;cursor:pointer}
+.nlist .nrow:first-of-type{border-top:0}
+.nlist .nrow b{display:block;font-size:13px;color:#f3e2b5}.nlist .nrow span{font-size:12.5px;color:var(--mute)}
+/* 🧹 가방 정리 */
+.bgs .bgsg{border-top:1px solid var(--line);padding:6px 0}
+.bgs .bgsg summary{cursor:pointer;font-size:13.5px;padding:4px 0;list-style:none}
+.bgs .bgsg summary::-webkit-details-marker{display:none}
+.bgs .bgsg summary::before{content:'▸ ';color:var(--mute)}.bgs .bgsg[open] summary::before{content:'▾ '}
+.bgs .bgsg summary small{color:var(--mute)}
+.bgs .g-q summary b{color:#8fc7ff}.bgs .g-sell summary b{color:#ffd65a}.bgs .g-mat summary b{color:#9ff09f}
+.bgs .bgsr{display:flex;align-items:baseline;gap:6px;padding:3px 0 3px 14px;font-size:13px}
+.bgs .bgsr .w{flex:none;font-size:12px}
+.bgs .bgsr em{font-style:normal;color:var(--mute);font-size:12px}
+.bgs .bgsr small{margin-left:auto;color:var(--mute);font-size:11.5px}
+.bgs .bgsr b.q0{color:#9d9d9d}.bgs .bgsr b.q1{color:#eee}.bgs .bgsr b.q2{color:#2ee04a}.bgs .bgsr b.q3{color:#3d8bff}.bgs .bgsr b.q4{color:#b65cff}
+/* 🏘️ 마을 들를 때 할 일 */
+.town .twn{padding:8px 0;border-top:1px solid var(--line)}.town .twn:first-of-type{border-top:0}
+.town .tn{display:block;font-size:14px;color:#f3e2b5;margin-bottom:4px}
+.town ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.town li{display:flex;gap:6px;font-size:13px;line-height:1.45;color:#e6dcc5}
+.town li .ti{flex:none;width:18px;text-align:center}
+.town li small{color:var(--mute)}
+.town .lnk{color:#e8c06a}
