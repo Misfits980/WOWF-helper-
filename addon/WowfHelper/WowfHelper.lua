@@ -1,4 +1,4 @@
--- 와포 도우미 (WowfHelper) v3.6
+-- 와포 도우미 (WowfHelper) v3.7
 -- 이 캐릭터 정보를 글자 코드로 만들어 줘요:
 --   끝낸 퀘스트 · 지금 퀘스트 목록(+ 목표 진행도) · 끼고 있는 장비 · 전문기술 숙련도 · 특성 포인트 · 경험치
 --   사냥 기록(시간당 경험치) · 가방·은행 아이템 · 골드 · 평판 · 이 컴퓨터의 부캐
@@ -16,9 +16,12 @@
 -- /wfh 추천 지우기   넣어 둔 툴팁 추천 지우기
 -- /wfh 설정   지금 켜고 끈 상태 보기
 -- /wfh 입구   기억한 동굴·광산 입구 보기
+-- /wfh 길     게임 안 길 안내 창 켜기/끄기 (/wfh 길 다음 · 이전 · 처음)
 -- /wfh 아이템 앱 장비 목록을 게임에서 천천히 읽어 두기 (ItemScan.lua)
 -- v3.4: 게임이 알려 주는 퀘스트 위치(목표·반납·길안내 다음 지점), 동굴 입구, 퀘스트 받은/반납한 자리도 코드에 담아요.
 -- v3.5: 끼고 있는 장비의 실제 능력치(게임이 읽은 값)와 무작위 옵션 이름(「산적의 ○○」)도 담아요.
+-- v3.7: 게임 안 길 안내(Nav.lua) — 앱 레벨업 단계를 화면에 화살표로, 퀘스트를 받거나 반납하면 다음 단계로.
+--       접속을 끝내거나 /reload 하면 앱 코드를 저장 파일에 남겨요(PC 앱의 「📂 PC에서 바로 불러오기」가 읽음).
 -- v3.6.2: /wfh 아이템 이 효과 글을 1.5초·4초 뒤 한 번 더 읽음, /wfh 아이템 다시 추가.
 -- v3.6.1: GetItemInfo·GetItemStats가 C_Item 안에 있는 클라이언트도 지원(끼고 있는 장비 능력치도 이제 담김).
 -- v3.6: /wfh 아이템 — 앱 장비 목록의 한글 이름·착용 효과·무기 공격력을 게임에서 읽어 저장 파일에 남겨요.
@@ -646,7 +649,10 @@ SlashCmdList["WOWFHELPER"] = function(msg)
   elseif msg == "도움" or msg == "help" or msg == "?" then
     say("명령어 · |cffffd100/wfh|r 앱으로 옮길 코드 · |cffffd100/wfh 다음|r 다음 갈 곳 · |cffffd100/wfh 추천|r 앱 추천 코드 넣기")
     say("|cffffd100/wfh 점검|r 담긴 개수 · |cffffd100/wfh 설정|r 켜고 끈 상태 · |cffffd100/wfh 공략|r 보스 창 · |cffffd100/wfh 알림|r 알림 · |cffffd100/wfh 입구|r 기억한 동굴 입구 · |cffffd100/wfh 추천 지우기|r")
+    say("|cffffd100/wfh 길|r 게임 안 길 안내 창 (|cffffd100/wfh 길 다음|r · 이전 · 처음)")
     say("|cffffd100/wfh 아이템|r 앱 장비 목록을 게임에서 읽어 두기 (멈춤 · 처음 · 다시 · 지우기)")
+  elseif msg == "길" or msg == "nav" or msg:find("^길 ") or msg:find("^nav ") then
+    if WowfHelper_NavCmd then WowfHelper_NavCmd((msg:gsub("^길", ""):gsub("^nav", ""))) end
   elseif msg == "다음" or msg == "next" then
     local L = D.rec and D.rec.n
     if not L or #L == 0 then say("앱 동선이 없어요. 앱 「장비 → 게임 툴팁에 추천 넣기」 코드를 /wfh 추천 으로 넣어 주세요.")
@@ -757,6 +763,8 @@ ev:SetScript("OnEvent", function(_, e, a1, a2)
     while #h > 5 do table.remove(h) end
     WowfHelperDB.hist = h
     rememberMe()
+    -- v3.7: 접속 종료·/reload 때 앱 코드를 저장 파일에 남김 → PC 앱이 파일에서 바로 읽음
+    pcall(function() local code = makeCode(); if code and code ~= "" then WowfHelperDB.last = code end end)
     return
   end
   if e == "PLAYER_LOGIN" then
@@ -801,6 +809,17 @@ local function parseRec(txt)
         local nm, z, x, y, q = part:match("^([^~]*)~([^~]*)~([^~]*)~([^~]*)~([^~]*)$")
         if nm then rec.n[#rec.n + 1] = { nm, z, tonumber(x), tonumber(y), tonumber(q) or 0 } end
       end
+    elseif k == "S" then
+      -- v3.7 길 안내 단계: 종류(g받기·d하기·t반납)~곳~지역~x~y~퀘스트번호.번호 (^ 로 나눔)
+      rec.s = {}
+      for part in v:gmatch("[^%^]+") do
+        local t, nm, z, x, y, ids = part:match("^([^~]*)~([^~]*)~([^~]*)~([^~]*)~([^~]*)~([^~]*)$")
+        if t then
+          local L = {}
+          for id in ids:gmatch("[^%.]+") do local q = tonumber(id, 36); if q then L[#L + 1] = q end end
+          rec.s[#rec.s + 1] = { t, nm, z, tonumber(x), tonumber(y), L }
+        end
+      end
     elseif k == "P" then
       -- 퀘스트 보상 고르기: 퀘스트번호-템번호 (36진수)
       for part in v:gmatch("[^%.]+") do
@@ -838,6 +857,10 @@ function WowfHelper_RecBox()
       local np = 0
       for _ in pairs(rec.p or {}) do np = np + 1 end
       say(("추천 %d개 · 보상 고르기 %d개 · 다음 갈 곳 %d곳을 넣었어요. (/wfh 다음 · /wfh 도움)"):format(n, np, rec.n and #rec.n or 0))
+      if rec.s and #rec.s > 0 then
+        say(("길 안내 %d단계를 넣었어요. 화면 창을 끌어서 옮길 수 있어요 · /wfh 길 = 켜고 끄기"):format(#rec.s))
+        if WowfHelper_NavReset then WowfHelper_NavReset() end
+      end
       recBox:Hide()
     end
     ok:SetScript("OnClick", apply); eb:SetScript("OnEnterPressed", apply); eb:SetScript("OnEscapePressed", function() recBox:Hide() end)

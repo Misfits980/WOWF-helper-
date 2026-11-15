@@ -1,4 +1,5 @@
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
+const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
 const BUILD='__BUILD__';
 'use strict';
 /* ===================== 기본 자료 ===================== */
@@ -619,7 +620,7 @@ function miniMap(id,d,nm){const X=QDB&&QDB.get(id);const P=[];
   const pins=Q.filter(p=>p.rx).map(p=>{const R=Math.max(12,p.rx*s);return '<span class="mma" style="left:'+((p.x-cx)*s)+'px;top:'+((p.y-cy)*s)+'px;width:'+2*R+'px;height:'+2*R+'px"></span>'}).join('')+Q.map(p=>'<span class="mmp k-'+p.kind+'" style="left:'+((p.x-cx)*s)+'px;top:'+((p.y-cy)*s)+'px"><i>'+ic[p.kind]+'</i><b>'+esc(p.nm||'')+'</b></span>').join('');
   const zl=gz?'<span class="mmz">'+esc(gz)+(G?' · '+xyTxt(G[2]):'')+'</span>':'';
   const ax=away.length?'<span class="mmx">'+away.map(p=>(p.kind==='r'?QMK.r+' 반납':p.kind==='g'?QMK.g+' 받기':'⚔️')+' <b>'+esc(p.nm||'')+'</b> · '+esc(zn(p.zone||''))+' (다른 지역)').join('<br>')+'</span>':'';
-  return '<div class="mm'+(away.length?' hasx':'')+'"><div class="mmc">'+t+pins+'</div>'+zl+ax+'<button class="mmgo" data-a="mmgo" data-k="'+id+'">지도에서 크게 ›</button></div>'}
+  return '<div class="mm'+(away.length?' hasx':'')+'" data-a="mmgo" data-k="'+id+'" title="눌러서 큰 지도로"><div class="mmc">'+t+pins+'</div>'+zl+ax+'<button class="mmgo" data-a="mmgo" data-k="'+id+'">지도에서 크게 ›</button></div>'}
 /* 큰 지도에 없는 지역(제프라스 섬 등): 지도 그림 없이 좌표만으로 받기·할 일 구역·반납을 그림 */
 function mmNoAtlas(id,X,d,G,R,gz){const zz=gz||(X&&X.z)||'';if(!zz)return '';const pins=[];const same=z=>zn(z||zz)===zn(zz);
   if(G&&G[2]&&same(G[1])){const p=xyOf(G[2]);if(p)pins.push({x:p[0],y:p[1],k:'sget',t:'!',lab:(npcKo(d,'g')||G[0]||'').slice(0,12)})}
@@ -1051,7 +1052,7 @@ function msRows(c){const L=c.lv||1,ms=c.ms||{};const mine=MS.filter(m=>!m[4]||m[
   let h=due.map(m=>'<div class="trow ms"><span class="ti">📌</span><span class="m"><b>'+esc(m[2])+' <small>'+m[0]+'레벨</small></b><span>'+esc(m[3])+'</span></span><button class="btn sm tbtn" data-a="msok" data-k="'+m[1]+'">했어요</button></div>').join('');
   if(nx&&nx[0]<=L+5)h+='<div class="trow soon"><span class="ti">🔜</span><span class="m"><b>'+nx[0]+'레벨 · '+esc(nx[2])+'</b><span>'+esc(nx[3])+'</span></span></div>';return h}
 function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
-  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.5</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
+  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.7</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
   if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드');if(c.wsk)got.push('무기 숙련');if(c.tal&&/^game/.test(c.tal.src||''))got.push('내 특성')}
     h+='<p class="adl"><b>'+ago+'</b>에 가져왔어요 · '+got.join(' · ')+'</p>';
     if((im.v||1)<3)h+='<p class="adw">'+((im.v||1)<2?'옛 애드온':'v2 애드온')+' 코드예요. 새 애드온(v3)을 받으면 아래 기능을 모두 쓸 수 있어요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
@@ -1060,7 +1061,7 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
     else if(!(c.tal&&/^game/.test(c.tal.src||''))&&c.lv>=10)h+='<p class="adw">새 애드온(v3.3)은 <b>찍은 특성</b>도 가져와요. 직업 탭에 「🎮 내 특성」으로 나오고 가이드와 다른 칸을 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!c.taxi&&(im.v||1)>=3)h+='<p class="adw">새 애드온(v3.2)은 연 비행 경로도 가져와요. 게임에서 비행 조련사 창을 한 번 열고 <code>/wfh</code> 하면 동선에 안 연 비행 경로를 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!c.wsk&&['warrior','rogue','hunter','paladin','shaman'].includes(c.cls))h+='<p class="adw">새 애드온(v3.1)은 배운 무기 숙련과 숙련도도 가져와요. 도적 한손 도끼처럼 「숙련 필요」를 정확히 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
-    else if(Date.now()-im.t>36e5)h+='<p class="adw">한 시간 넘게 지났어요. 게임에서 <code>/wfh</code> 로 새 코드를 가져오면 퀘스트·장비·가방이 다시 맞춰져요.</p>'}
+    else if(Date.now()-im.t>36e5)h+='<p class="adw">한 시간 넘게 지났어요. 게임에서 <code>/wfh</code> 로 새 코드를 가져오면 퀘스트·장비·가방이 다시 맞춰져요.'+(FSA?' PC라면 <button class="lnk" data-a="fsload">📂 파일에서 바로 불러오기</button>도 돼요.':'')+'</p>'}
   else h+='<p class="note">게임 정보를 앱으로 한 번에 가져오는 애드온이에요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 복사해서 붙여 넣는 방식이에요.</p>';
   const sec=(id,title,sub,body,open)=>'<details class="adsec"'+(open?' open':'')+'><summary><b>'+title+'</b><small>'+sub+'</small><i>⌄</i></summary><div class="adsb">'+body+'</div></details>';
   const h0=h;h='';
@@ -1182,7 +1183,11 @@ function bagUps(c){const w=wOf(c);const out=[];const seen=new Set();
 function wfrCode(c){const U=[];const seen=new Set();SLOTS.forEach(([sl])=>{if(offLocked(c,sl))return;bestFor(c,sl,c.lv,ui.ifil||'ok').slice(0,6).forEach(x=>{if(seen.has(x.it.id))return;seen.add(x.it.id);U.push(x.it.id.toString(36)+'-'+Math.max(1,Math.round(x.g*10))+'-'+sl)})});
   const W=(c.wish||[]).map(id=>(+id).toString(36));const P=rwPicks(c).map(([q,i])=>q.toString(36)+'-'+i.toString(36));
   const N=nextStops(c).map(x=>x.join('~'));
-  return {code:'WFR1;U:'+U.join('.')+';W:'+W.join('.')+';P:'+P.join('.')+';N:'+N.join('^'),n:U.length,w:W.length,p:P.length,nx:N.length}}
+  /* 게임 안 길 안내(애드온 v3.7): 레벨업 탭 단계 = 종류~곳~지역~x~y~퀘스트번호들 */
+  const S=navSteps(c).map(x=>x.join('~'));
+  return {code:'WFR1;U:'+U.join('.')+';W:'+W.join('.')+';P:'+P.join('.')+';N:'+N.join('^')+';S:'+S.join('^'),n:U.length,w:W.length,p:P.length,nx:N.length,ns:S.length}}
+function navSteps(c){try{if(!QDB)return [];if(ui.tab!=='quest'||ui.qmode!=='rec'||!ui._st)recView(c);const ST=ui._st||[];const cl=t=>String(t||'').replace(/[~^;]/g,' ').trim();const T={get:'g',do:'d',turn:'t'};
+  return ST.slice(0,25).map(s=>[T[s.type]||'d',cl(s.place).slice(0,40),cl(s.zone),s.xy?Math.round(s.xy[0]*10)/10:'',s.xy?Math.round(s.xy[1]*10)/10:'',[...new Set(s.items.map(it=>it.q.id))].map(i=>i.toString(36)).join('.')])}catch(e){return []}}
 /* 게임 /wfh 다음 용: 지금 구간에서 남은 들를 곳 6개 [곳, 지역, x, y, 할 퀘스트 수] */
 function nextStops(c){const L=c.lv;const S0=routeOf(c).find(S=>L>=S.a&&L<=S.b);if(!S0)return [];const cl=t=>String(t||'').replace(/[~^;]/g,' ').trim();
   return nowPlan(c,S0).filter(H=>H.i<97&&(H.get.some(x=>!x.done&&!x.prof)||H.turn.some(x=>!x.done))).slice(0,6).map(H=>{const m=String(H.n).match(/^(.*?) \((\d+), (\d+)\)$/);const xy=H.xy||(m?[+m[2],+m[3]]:null);
@@ -1194,7 +1199,7 @@ function rwPicks(c){const L=c.lv;const ids=new Set(Object.keys(c.ql||{}).map(Num
   routeOf(c).filter(S=>S.b>=L-1&&S.a<=L+6).forEach(S=>S.q.forEach(q=>{if(q.id)ids.add(q.id)}));dgNow(L).forEach(d=>dqOf(c,d).forEach(q=>ids.add(q.id)));
   const out=[];ids.forEach(id=>{const i=rwPickFor(c,id);if(i)out.push([id,i])});return out.slice(0,150)}
 function wfrSheet(c){const R=wfrCode(c);return '<div class="sh"><h2>🎮 게임 툴팁에 앱 추천 넣기</h2><button class="x" data-a="close">✕</button></div>'
-  +'<p class="note">게임에서 템에 마우스를 올리면 「<b>와포 추천 · 머리 지금보다 +11</b>」, 찜한 템은 「⭐ 앱에서 찜한 템」이 붙어요. 칸마다 추천 6개까지, 모두 <b>'+R.n+'개</b>'+(R.w?' · 찜 '+R.w+'개':'')+'.'+(R.p?' 퀘스트 보상 고르기 <b>'+R.p+'개</b>도 들어 있어서, 퀘스트를 반납할 때 고를 템을 알려 줘요 (애드온 v3.2).':'')+(R.nx?' 게임에서 <code>/wfh 다음</code> 하면 앱 동선의 다음 갈 곳 '+R.nx+'곳을 보여 줘요.':'')+'</p>'
+  +'<p class="note">게임에서 템에 마우스를 올리면 「<b>와포 추천 · 머리 지금보다 +11</b>」, 찜한 템은 「⭐ 앱에서 찜한 템」이 붙어요. 칸마다 추천 6개까지, 모두 <b>'+R.n+'개</b>'+(R.w?' · 찜 '+R.w+'개':'')+'.'+(R.p?' 퀘스트 보상 고르기 <b>'+R.p+'개</b>도 들어 있어서, 퀘스트를 반납할 때 고를 템을 알려 줘요 (애드온 v3.2).':'')+(R.nx?' 게임에서 <code>/wfh 다음</code> 하면 앱 동선의 다음 갈 곳 '+R.nx+'곳을 보여 줘요.':'')+'</p>'+(R.ns?'<p class="note ok">🧭 <b>게임 안 길 안내 '+R.ns+'단계</b>도 들어 있어요. 넣으면 화면에 다음 목적지와 방향 화살표가 뜨고, 퀘스트를 받거나 반납하면 저절로 다음 단계로 넘어가요. 끄고 켜기: <code>/wfh 길</code> (애드온 v3.7)</p>':'')
   +'<ol class="imps"><li>아래 코드를 <b>복사</b></li><li>게임 채팅창에 <code>/wfh 추천</code> → 뜬 칸에 <b>Ctrl+V</b> → 확인</li></ol>'
   +'<textarea class="inp" rows="4" readonly onclick="this.select()">'+esc(R.code)+'</textarea><button class="btn full" data-a="wfrcp">코드 복사</button>'
   +'<p class="note">장비를 바꾸거나 레벨이 오르면 추천이 달라지니, 가끔 새로 넣어 주세요. 애드온 v3부터 돼요.</p>'}
@@ -2111,6 +2116,30 @@ function recStages(c,list,start){const ql=c.ql||{};const St=[];const near=(a,b)=
   /* 붙어 있는 같은 곳·같은 종류는 하나로 */
   const M=[];out.forEach(s=>{const p=M[M.length-1];if(p&&p.type===s.type&&p.zone===s.zone&&(near(p.xy,s.xy)||(!p.xy&&!s.xy&&p.place===s.place)))p.items=p.items.concat(s.items);else M.push(s)});return M}
 const RST={get:['받기','g'],do:['하기','o'],turn:['반납','r']};
+/* ⏱ 시간 계획: 단계마다 이동(지도 거리)+할 일 시간을 어림 → 「N분이면 여기까지」·「여기서 레벨업」 */
+function recTime(c,ST){const L=c.lv,spd=(L>=40?11.2:7)/1.35;/* 길이 꼬불꼬불해서 직선보다 35% 더 걸림 */
+  const at=(z,xy)=>xy?toAtlas(z,xy[0]+','+xy[1]):null;let prev=c.lpos?at(c.lpos.z,c.lpos.xy):null;const M=[],X=[];
+  for(const s of ST){const a=at(s.zone,s.xy);let m=0,x=0;
+    if(a&&prev){if(a.c!==prev.c)m+=6;else m+=Math.hypot(a.x-prev.x,a.y-prev.y)/0.48/spd/60}
+    if(a)prev=a;
+    for(const it of s.items){const q=it.q;if(it.type==='turn'){m+=0.4;x+=(RWD.get(q.id)||{}).xp||0}
+      else if(it.type==='get')m+=0.4;
+      else{const C=(q.cnt||[]);let k=0;if(!C.length){m+=3;k=8}C.forEach(o=>{const n=Math.min(30,+o[1]||1);k+=n;m+=Math.min(12,n*0.45)+0.5});x+=Math.min(40,k)*(45+5*L)}}
+    M.push(m);X.push(Math.round(x))}
+  const r=xpRate(c);let f=1;if(r){const tm=M.reduce((a,b)=>a+b,0),tx=X.reduce((a,b)=>a+b,0);if(tm>5&&tx>0)f=Math.max(0.4,Math.min(2.5,(tx/tm*60)/r))}
+  return {M:M.map(v=>v*f),X,cal:f!==1}}
+function recTimeCard(c,ST){const T=recTime(c,ST);const B=c.tbud||0;const cum=[];let t=0,x=0;const cx=[];T.M.forEach((m,i)=>{t+=m;x+=T.X[i];cum.push(t);cx.push(x)});
+  const mm=v=>v<60?Math.max(1,Math.round(v))+'분':Math.floor(v/60)+'시간'+(Math.round(v%60)?' '+Math.round(v%60)+'분':'');
+  const X=myXp(c);let lvI=-1;if(X){const need=X.max-X.cur;lvI=cx.findIndex(v=>v>=need)}
+  let cut=-1;if(B){cut=cum.findIndex(v=>v>B);cut=cut<0?ST.length-1:Math.max(0,cut-1)}
+  let h='<div class="tplan"><div class="tph"><b>⏱ 시간 계획</b><span>'+[[30,'30분'],[60,'1시간'],[120,'2시간'],[180,'3시간']].map(o=>'<button class="'+(B===o[0]?'on':'')+'" data-a="tbud" data-k="'+(B===o[0]?0:o[0])+'">'+o[1]+'</button>').join('')+'</span></div>';
+  if(B){h+=cum[ST.length-1]<=B?'<p>이 구간 '+ST.length+'단계를 다 해도 <b>약 '+mm(cum[ST.length-1])+'</b> · 경험치 <b>+'+cx[ST.length-1].toLocaleString()+'</b></p>'
+    :'<p>'+mm(B)+'이면 <b>'+(cut+1)+'단계</b>까지 · 경험치 <b>+'+cx[cut].toLocaleString()+'</b></p>'}
+  if(lvI>=0)h+='<p>⬆ '+(c.lv+1)+'레벨은 <b>'+(lvI+1)+'단계</b>쯤 · 약 <b>'+mm(cum[lvI])+'</b> 뒤</p>';
+  else if(X)h+='<p>이 구간을 다 하면 경험치 <b>'+Math.round(Math.min(100,(X.cur+cx[ST.length-1])/X.max*100))+'%</b>까지 차요</p>';
+  if(!B&&!X)h+='<p class="mute">시간을 고르면 거기까지 할 수 있는 단계를 표시해 줘요.</p>';
+  h+='<small>'+(T.cal?'내 사냥 기록 속도에 맞춘 어림이에요':'걷기·사냥 시간을 어림한 값이에요'+(X?'':' · 애드온으로 경험치를 불러오면 레벨업 지점도 보여 줘요'))+'</small></div>';
+  return {h,cut:B&&cut<ST.length-1?cut:-1,lvI,mm,cum}}
 function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘스트 자료를 불러오는 중…</p>'}
   const P=recPlans(c);if(!P.length)return '<p class="empty-st">이 레벨에 맞는 계획을 못 만들었어요.</p>';
   const pk=P.find(p=>p.k===c.plan)||P[0];c.pdg=c.pdg||[];
@@ -2153,7 +2182,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   if(recMapOn(c))h+='<!--RM--><div class="gmrow">'+gmStyleSeg(c,1)+'</div>';
   if(recMapOn(c)){let pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);{const k=pts.findIndex((s,i)=>i>=3&&Math.hypot(s.xy[0]-pts[i-1].xy[0],s.xy[1]-pts[i-1].xy[1])>40);if(k>0)pts=pts.slice(0,k)}/* 먼 곳으로 넘어가는 단계는 빼서 지도를 크게 */const P=[];
     const SP={};ui._stp=SP;pts.forEach((s,i)=>{const n=ST.indexOf(s)+1;const j=pts.slice(0,i).findIndex(p=>Math.hypot(p.xy[0]-s.xy[0],p.xy[1]-s.xy[1])<2.5);if(j>=0){SP[n]=SP[ST.indexOf(pts[j])+1];const pp=P.find(x=>x.t===SP[n]);if(pp)(pp.more=pp.more||[]).push(n);return}SP[n]=String(n);P.push({x:s.xy[0],y:s.xy[1],k:'s'+s.type,t:String(n),on:i===0,lab:i<4?s.place.split(' · ')[0].slice(0,12):''})});/* 같은 자리 단계는 한 핀에 「1·2·7」처럼 */
-    h+='<div class="rmap gm">'+gmapHtml(ST[0].zone,P.reverse(),pts.flatMap(s=>s.via?[s.via,s.xy]:[s.xy]),0,1,miniStyle(c)!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><small class="rmn">선은 걸어가는 길(산·물은 피해서) · 흐린 점선은 배·비행 같은 먼 길</small><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
+    {const q0=(ST.find(s=>s.items&&s.items[0])||{items:[]}).items[0];h+='<div class="rmap gm'+(q0?' tap':'')+'"'+(q0?' data-a="mmgo" data-k="'+q0.q.id+'"':'')+'>'}h+=gmapHtml(ST[0].zone,P.reverse(),pts.flatMap(s=>s.via?[s.via,s.xy]:[s.xy]),0,1,miniStyle(c)!=='game')+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><small class="rmn">선은 걸어가는 길(산·물은 피해서) · 흐린 점선은 배·비행 같은 먼 길</small><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">크게 보기 ›</button></div></div>'}
   else if(recMapOn(c)){const pts=ST.slice(0,10).filter(s=>s.xy&&s.zone===ST[0].zone);const W=366,H=230;const x=v=>8+v/100*(W-16),y=v=>8+v/100*(H-16);
     let m='<svg viewBox="0 0 '+W+' '+H+'" class="rmapsvg"><rect width="'+W+'" height="'+H+'" rx="12" fill="#221c14"/>';
     for(let i=10;i<100;i+=10)m+='<line x1="'+x(i)+'" y1="0" x2="'+x(i)+'" y2="'+H+'" stroke="#2c251b"/><line x1="0" y1="'+y(i)+'" x2="'+W+'" y2="'+y(i)+'" stroke="#2c251b"/>';
@@ -2170,8 +2199,12 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
   h+='<div class="ft"><button class="q" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button><button class="p" data-a="rsdone">다 했어요 · 다음 단계</button></div></div>';
   const more=ui.rsall?ST.slice(1):ST.slice(1,5);
+  const TC=recTimeCard(c,ST);h+=TC.h;if(isPC())h+='<button class="btn sm ghost full navgo" data-a="wfr">🧭 게임 화면에 이 단계 길 안내 띄우기 <small>애드온 /wfh 추천</small></button>';const h0=h.length;
   h+='<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
    +(ST.length>5?'<button class="btn ghost sm full" data-a="rsall">'+(ui.rsall?'접기':'모든 단계 보기 ('+(ST.length-1)+')')+'</button>':'')+'</div>';
+  {const mk=(k,t)=>{const a='<div class="nxr3" data-st="'+(k+2)+'"';const p=h.indexOf(a,h0);if(p>0)h=h.slice(0,p)+t+h.slice(p)};
+   if(TC.cut>=0)mk(TC.cut,'<div class="tcut">⏱ '+TC.mm(c.tbud)+'이면 여기까지</div>');
+   if(TC.lvI>=0&&TC.lvI<ST.length-1)mk(TC.lvI,'<div class="tcut lv">⬆ 여기서 '+(c.lv+1)+'레벨 · 약 '+TC.mm(TC.cum[TC.lvI])+'</div>')}
   /* PC: 단계는 왼쪽, 지도는 오른쪽 */
   if(recMapOn(c)&&isPC()){const a=h.indexOf('<!--RM-->'),b=h.indexOf('<!--/RM-->');if(a>=0&&b>a){const mp=h.slice(a+9,b);h=h.slice(0,a)+'<div class="rec2"><div class="rec2l">'+h.slice(b+10)+'</div><div class="rec2r">'+mp+'</div></div>'}}
   return h}
@@ -2764,10 +2797,39 @@ function impPreview(c){const P=ui.imp;if(!P)return ui.impraw?'<p class="note war
    +(P.cls&&P.cls!==c.cls?'<p class="warn">⚠ 지금 캐릭터('+CINFO[c.cls][0]+')와 직업이 달라요. 맞는 캐릭터를 골랐는지 확인해 주세요.</p>':'')
    +(P.ver===1?'<p class="note">새 애드온(v2)을 쓰면 퀘스트 진행도·장비·전문기술·특성·경험치도 같이 옮겨져요.</p>':'')
    +'<button class="btn full" data-a="impgo">이 캐릭터에 적용하기</button><p class="note">이미 체크한 건 그대로 두고, 끝낸 것만 더해요.</p></div>'}
+/* 📂 PC에서 애드온 저장 파일 바로 읽기 (크롬·엣지 PC: 폴더를 한 번 고르면 다음부터 버튼 하나)
+   게임은 /reload·접속 종료 때 WTF/Account/계정/서버/캐릭터/SavedVariables/WowfHelper.lua 에 「last」 코드를 저장함 */
+const FSA=typeof window.showDirectoryPicker==='function'&&!/Android|iPhone|iPad/i.test(navigator.userAgent);
+function idbH(op,val){return new Promise(res=>{try{const r=indexedDB.open('wfh-fs',1);r.onupgradeneeded=()=>r.result.createObjectStore('h');
+  r.onsuccess=()=>{try{const tx=r.result.transaction('h',op==='get'?'readonly':'readwrite');const st=tx.objectStore('h');const q=op==='get'?st.get('wtf'):op==='del'?st.delete('wtf'):st.put(val,'wtf');q.onsuccess=()=>res(q.result);q.onerror=()=>res(null)}catch(e){res(null)}};r.onerror=()=>res(null)}catch(e){res(null)}})}
+const FS_SKIP=/^(Interface|Data|Cache|Logs|Errors|Screenshots|Fonts|Utils|WebCache|BlizzardBrowser.*|_retail_|_ptr_|_beta_|_xptr_|Textures|Movies|Sounds?)$/i;
+function luaStr(t){return t.replace(/\\(\d{1,3}|.)/g,(m,e)=>/^\d/.test(e)?String.fromCharCode(+e):e==='n'?'\n':e==='t'?'\t':e)}
+async function fsScan(root){const out=[];let seen=0;
+  const walk=async(d,path,depth)=>{if(depth>7||seen>4000)return;for await(const [n,e] of d.entries()){seen++;
+      if(e.kind==='directory'){if(!FS_SKIP.test(n))await walk(e,path.concat(n),depth+1)}
+      else if(n==='WowfHelper.lua'&&path[path.length-1]==='SavedVariables'&&path.length>=3&&path[path.length-3]!=='Account'){const f=await e.getFile();const t=await f.text();
+        const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(m){const code=luaStr(m[1]);if(/^WFH[12];/.test(code)){const F=code.split(';');out.push({name:F[1]||path[path.length-2].split('-')[0],realm:F[2]||'',code,t:f.lastModified})}}}}};
+  await walk(root,[root.name],0);return out.sort((a,b)=>b.t-a.t)}
+async function fsLoad(repick){try{let h=repick?null:await idbH('get');
+    if(!h){h=await window.showDirectoryPicker({id:'wfh-wtf',mode:'read'});await idbH('put',h)}
+    if(h.queryPermission&&(await h.queryPermission({mode:'read'}))!=='granted'&&(await h.requestPermission({mode:'read'}))!=='granted'){toast('폴더를 읽게 허락해 주세요');return}
+    toast('애드온 파일 찾는 중…');const L=await fsScan(h);ui.fsList=L;ui.fsDir=h.name;
+    if(!L.length){ui.sheet='imp';ui.fsMsg='「'+h.name+'」 폴더에서 애드온 저장 파일을 못 찾았어요. 와우 포에버 설치 폴더(예: G:\\World of Warcraft)나 그 안의 WTF 폴더를 골라 주세요. 게임에서 /reload 를 한 번 해야 파일이 생겨요.';rerender(true);return}
+    const c=me();const i=Math.max(0,L.findIndex(x=>c&&c.name&&x.name===c.name));fsPick(i)}
+  catch(e){if(e&&e.name==='AbortError')return;toast('파일을 못 읽었어요: '+((e&&e.message)||e))}}
+function fsPick(i){const x=(ui.fsList||[])[i];if(!x)return;ui.fsCur=i;ui.fsMsg='';ui.sheet='imp';ui.impraw=x.code;ui.imp=impParse(x.code);if(!QDB)qdbLoad();rerender(true)}
+function fsBox(){if(!FSA)return '';const L=ui.fsList||[];let h='<div class="card fsimp"><h3>📂 PC에서 바로 불러오기 <small class="mute">크롬·엣지</small></h3>';
+  h+='<p class="note">처음 한 번 와우 포에버 폴더(예: <b>G:\\World of Warcraft</b>)를 고르면, 다음부터는 버튼 하나로 불러와요. 복사·붙여 넣기 필요 없어요. 게임에서 <code>/reload</code> 하거나 접속을 끝내면 새 내용이 저장돼요.</p>';
+  h+='<div class="bkb"><button class="btn sm" data-a="fsload">📂 '+(L.length?'다시 읽기':'불러오기')+'</button>'+(ui.fsDir?'<button class="btn sm ghost" data-a="fsload" data-k="re">다른 폴더 고르기</button>':'')+'</div>';
+  if(ui.fsMsg)h+='<p class="note warn">'+esc(ui.fsMsg)+'</p>';
+  if(L.length){const x=L[ui.fsCur||0];h+='<p class="note">「'+esc(ui.fsDir||'')+'」에서 <b>'+esc(x.name)+'</b> 파일을 읽었어요 · 게임이 저장한 때 '+new Date(x.t).toLocaleString('ko-KR')+(Date.now()-x.t>3*3600e3?' <b>(오래됐어요 · 게임에서 /reload)</b>':'')+'</p>';
+    if(L.length>1)h+='<div class="chips wr">'+L.map((y,i)=>'<button class="chip'+(i===(ui.fsCur||0)?' on':'')+'" data-a="fspick" data-k="'+i+'">'+esc(y.name)+'</button>').join('')+'</div>'}
+  return h+'</div>'}
 function impSheet(c){let h='<div class="sh"><h2>🧩 게임에서 불러오기</h2><button class="x" data-a="close">✕</button></div>';
   h+='<p class="note">애드온으로 게임 안의 <b>끝낸 퀘스트 · 퀘스트 목록(진행도) · 장비 · 전문기술 · 특성 · 경험치</b>를 한 번에 옮겨요. 인터넷으로 보내는 건 없고, 게임에 뜬 글자를 직접 복사해서 붙여 넣는 방식이에요. PC에서 하는 게 편해요.</p>';
   h+='<ol class="imps"><li><b>애드온 받기</b> <a class="btn sm" href="addon/WowfHelper.zip" download>WowfHelper.zip 받기</a><br><small>압축을 풀어 나온 <b>WowfHelper</b> 폴더를 와우 포에버 설치 폴더의 <b>Interface/AddOns</b> 안에 넣어요. 캐릭터 고르는 화면의 「애드온」에 안 보이면 「오래된 애드온 불러오기」를 켜 주세요.</small></li>'
    +'<li><b>게임에서</b> 채팅창에 <code>/wfh</code> 입력 → 코드 창이 떠요 (이미 글자가 다 골라져 있어요)<br><small>잘 되는지 보려면 <code>/wfh 점검</code> → 담긴 개수가 채팅창에 나와요. 레벨업·퀘스트 반납 때 「앱 코드가 바뀌었어요」 알림도 떠요.</small></li><li><b>Ctrl+C</b>로 복사 → 아래 칸에 붙여 넣기</li></ol>';
+  h+=fsBox();
   h+=addonOffHtml();
   h+='<textarea class="inp impta" rows="4" placeholder="여기에 붙여 넣기 (WFH2; 로 시작)" data-c="impta">'+esc(ui.impraw||'')+'</textarea><div id="impres">'+impPreview(c)+'</div>';
   if(c.imported)h+='<p class="note">마지막으로 불러온 때: '+new Date(c.imported.t).toLocaleString('ko-KR')+' · 끝낸 퀘스트 '+c.imported.n+'개</p>';
@@ -2779,7 +2841,8 @@ function charsSheet(){const c=me();let h='<div class="sh"><h2>내 캐릭터</h2>
     h+='<label class="flab">직업</label><div class="chips wr">'+CL.map(k=>'<button class="chip'+(c.cls===k?' on':'')+'" data-a="ccls" data-k="'+k+'">'+CINFO[k][0]+'</button>').join('')+'</div><p class="note">직업을 바꾸면 장비 칸이 비워져요.</p>';
     h+='<div class="card">'+armBox(c)+'</div>';
     /* (개발용 「최근 화면 이동 기록」은 정리함) */
-    h+='<div class="card"><h3>🧩 게임에서 불러오기</h3><p class="note">애드온 코드를 붙여 넣으면 게임에서 끝낸 퀘스트가 한 번에 체크돼요.</p><button class="btn sm" data-a="imp">불러오기 열기</button></div>';
+    h+='<div class="card"><h3>🔠 글씨 크기</h3><p class="note">이 기기에서만 바뀌어요.</p><div class="chips wr">'+FS_OPT.map(o=>'<button class="chip'+(Math.abs(fsGet()-o[0])<.01?' on':'')+'" data-a="fs" data-k="'+o[0]+'" style="font-size:'+Math.round(13*o[0])+'px">'+o[1]+'</button>').join('')+'</div></div>';
+    h+='<div class="card"><h3>🧩 게임에서 불러오기</h3><p class="note">애드온 코드를 붙여 넣으면 게임에서 끝낸 퀘스트가 한 번에 체크돼요.</p><div class="bkb"><button class="btn sm" data-a="imp">불러오기 열기</button>'+(FSA?'<button class="btn sm" data-a="fsload">📂 PC 파일에서 바로</button>':'')+'</div></div>';
     h+=syncBox();
     h+='<div class="card bk2"><h3>💾 기록 백업</h3><p class="note">캐릭터·장비·끝낸 퀘스트는 이 휴대폰 브라우저에만 저장돼요. 캐시를 지우거나 폰을 바꾸기 전에 내보내 두세요.</p>'
       +'<div class="bkb"><button class="btn sm" data-a="bkout">📤 내보내기 (코드 복사)</button><button class="btn sm ghost" data-a="bklink">🔗 링크로 옮기기</button></div>'
@@ -2853,6 +2916,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='close'){ui.sheet=null;ui.delAsk=0;rerender(true);return}
   if(a==='bkpend'){const code=ui.bkpend;ui.bkpend=null;ui.sheet=null;bkImport(code,k);return}
   if(a==='sypaste'){syPaste();return}
+  if(a==='fsload'){fsLoad(k==='re');return}
+  if(a==='fspick'){fsPick(+k);return}
+  if(a==='fs'){const v=+k||1;try{localStorage.setItem(FS_KEY,String(v))}catch(e){}fsApply(v);render();toast('글씨 크기를 바꿨어요');return}
   /* 시작 화면 */
   const o=ui.onb;
   if(a==='onb-race'){o.race=k;if(o.cls&&!RACE_CLS[k].includes(o.cls)){o.cls='';o.spec=''}rerender(true);return}
@@ -2883,6 +2949,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='gz'){ui.gz=k;ui.amq=null;rerender(true);return}
   if(a==='rmap'){c.recMap=!recMapOn(c);save();rerender(true);return}
   if(a==='lhsel'){ui.lhsel=ui.lhsel===k?null:k;rerender(true);return}
+  if(a==='tbud'){c.tbud=+k||0;save();rerender(true);return}
   if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};if(c.rwPick[q]===i)delete c.rwPick[q];else c.rwPick[q]=i;save();toast('고를 템을 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}
   if(a==='fpk'){c.fpk=c.fpk||{};if(c.fpk[k])delete c.fpk[k];else c.fpk[k]=1;save();rerender(true);return}
   if(a==='lgv'){c.lgRoute=!c.lgRoute;save();rerender(true);return}

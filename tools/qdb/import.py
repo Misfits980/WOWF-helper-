@@ -660,6 +660,17 @@ def _sp(v):  # 글 안의 두 칸 띄어쓰기 → 한 칸
     if isinstance(v, dict): return {k: _sp(x) for k, x in v.items()}
     return v
 out = [_sp(r) for r in out]
+# 영어로만 있는 퀘스트 목표 → 한글 풀이 (data/qdb/quest-obj-ko.txt)
+_OK = {}
+_okf = os.path.join(OUT, 'quest-obj-ko.txt')
+if os.path.exists(_okf):
+    for _l in open(_okf, encoding='utf-8'):
+        if '|' in _l and not _l.startswith('#'):
+            _a, _b = _l.rstrip('\n').split('|', 1)
+            _OK[int(_a)] = _b
+for r in out:
+    if r.get('id') in _OK and r.get('o') and not re.search('[가-힣]', r['o']):
+        r['o'] = _OK[r['id']]
 with open(os.path.join(OUT, 'quests.jsonl'), 'w', encoding='utf-8') as f:
     for r in out:
         f.write(json.dumps(r, ensure_ascii=False, separators=(',', ':')) + '\n')

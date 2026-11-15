@@ -2077,3 +2077,19 @@ html,body{overscroll-behavior-x:none}
 .lnk{padding:6px 3px;margin:-6px -1px}
 .dc .ic.empty,.slot .ic.empty,.ic.lg.empty{color:#9a8f78}
 .pcs.me .f{background:#9a5410}.pcs.me .t i{color:#8a4a0c}
+/* 작은 지도 눌러서 큰 지도로 */
+.mm[data-a]{cursor:pointer}
+.rmap.tap{position:relative;cursor:pointer}
+.rmap.tap::after{content:'눌러서 크게 ⤢';position:absolute;right:8px;top:8px;font-size:11px;font-weight:700;color:#f3e2b5;background:rgba(20,16,10,.78);border:1px solid rgba(199,154,58,.5);border-radius:8px;padding:2px 7px;pointer-events:none}
+/* ⏱ 시간 계획 */
+.tplan{margin:10px 0 4px;padding:10px 12px;border-radius:12px;background:rgba(199,154,58,.07);border:1px solid rgba(199,154,58,.32)}
+.tplan .tph{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tplan .tph b{font-size:14px;color:#f3e2b5}
+.tplan .tph span{display:flex;gap:5px;flex-wrap:wrap}
+.tplan .tph button{min-height:32px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--mute);font:inherit;font-size:12.5px;cursor:pointer}
+.tplan .tph button.on{background:#5a4318;border-color:#c79a3a;color:#ffe08a;font-weight:700}
+.tplan p{margin:7px 0 0;font-size:13px;color:#e6dcc5}.tplan p b{color:#ffe08a}.tplan p.mute{color:var(--mute)}
+.tplan small{display:block;margin-top:6px;font-size:11px;color:var(--mute)}
+.tcut{margin:4px 0;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;color:#ffe08a;background:rgba(199,154,58,.12);border:1px dashed rgba(199,154,58,.55);text-align:center}
+.tcut.lv{color:#9ff09f;background:rgba(80,160,80,.12);border-color:rgba(110,200,110,.55)}
+.navgo{margin:6px 0 2px}.navgo small{color:var(--mute);font-weight:400;margin-left:4px}

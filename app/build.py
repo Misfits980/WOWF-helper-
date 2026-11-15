@@ -652,6 +652,9 @@ data = '\n'.join([
 (ROOT / 'app-data.js').write_text(data, encoding='utf-8')
 ver = hashlib.md5(data.encode()).hexdigest()[:8]
 app = rd(A / 'app.js'); css = rd(A / 'style.css') + ('\n' + rd(A / 'theme.css') if (A / 'theme.css').exists() else '')
+# 글씨 크기 설정(--fs 배율): 모든 font-size px를 배율과 곱함
+css = re.sub(r'font-size:\s*([\d.]+)px', r'font-size:calc(\1px*var(--fs,1))', css)
+css = re.sub(r'(font:\s*(?:(?:italic|normal|bold|[1-9]00)\s+)*)([\d.]+)px', r'\1calc(\2px*var(--fs,1))', css)
 aver = hashlib.md5((app + css + ver).encode()).hexdigest()[:6]
 # 화면 아래에 「사이트 업데이트 날짜」를 보여 줌. 내용이 그대로면 예전 날짜를 그대로 둠(자동 갱신 때 괜히 바뀌지 않게)
 import datetime
