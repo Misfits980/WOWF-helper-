@@ -2424,8 +2424,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=70f00a3b"></script>
-<script>/* v88b73d @11/15 12:37 */
-const BUILD='11/15 12:37';
+<script>/* v1062ec @11/15 13:26 */
+const BUILD='11/15 13:26';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2663,6 +2663,12 @@ async function syMake(){const rnd=n=>Array.from(crypto.getRandomValues(new Uint8
   catch(e){SY={err:'연동 코드를 만들지 못했어요 · '+(e.message==='verify'?'올린 기록을 다시 읽지 못했어요':syWhy(e))};sySave();return false}}
 const syCode=()=>SY.bid?SY.bid+'-'+SY.key:'';
 const syLink=()=>location.origin+location.pathname+'#sync='+syCode();
+/* 홈 화면에 깐 앱(아이폰은 늘, 갤럭시는 삼성 인터넷으로 열었을 때)은 브라우저와 기록 칸이 따로라 한 번 더 연결해야 함 */
+const isApp=()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}};
+/* 복사해 둔 연동 링크·코드를 읽어 바로 연결 (아이폰은 「붙여넣기」 확인 창이 한 번 뜸) */
+async function syPaste(){let t='';try{t=await navigator.clipboard.readText()}catch(e){}
+  t=String(t||'').trim();if(!/([A-Za-z0-9]+-[2-9A-Z]{10})\s*$/.test(t)){toast('복사한 연동 코드가 없어요 · 다른 기기에서 「🔗 링크 복사」를 먼저 눌러 주세요');return false}
+  toast('연결하는 중…');const ok=await syJoin(t.match(/([A-Za-z0-9]+-[2-9A-Z]{10})\s*$/)[1]);toast(ok?'연결됐어요! 다른 기기에서 보던 캐릭터를 가져왔어요':(SY.err||'연결하지 못했어요'));if(ok){ui.onb=null}render();return ok}
 /* 다른 기기에서 받은 코드로 연결 */
 async function syJoin(code){const m=String(code||'').trim().replace(/^.*#sync=/,'').match(/^([A-Za-z0-9]+)-([2-9A-Z]{10})$/);if(!m){toast('코드 모양이 달라요. 처음부터 끝까지 넣어 주세요');return false}
   SY={bid:m[1],key:m[2]};_syK=null;sySave();await syPull(true,true);if(SY.err){const er=SY.err;SY={err:er};sySave();return false}return true}
@@ -2712,11 +2718,12 @@ function syncBox(){let h='<div class="card syc"><h3>📱💻 휴대폰·컴퓨�
   if(SY.bid&&SY.key){h+='<p class="note">✅ 연결됐어요'+(SY.at?' · 마지막으로 맞춘 때 <b>'+armAgo(SY.at)+'</b>':'')+'. 고치면 몇 초 뒤 올라가고, 앱을 열거나 돌아올 때 다른 기기 기록을 가져와요.</p>'+(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'');
     h+='<div class="syq">'+(ui.syqr?'<div class="qr">'+qrSvg(syLink())+'</div>':'')+'<div class="syt"><small>다른 기기에 넣을 연동 코드</small><b class="sycode">'+esc(syCode())+'</b><div class="bkb"><button class="btn sm" data-a="sycp">🔗 링크 복사</button><button class="btn sm ghost" data-a="syqr">'+(ui.syqr?'QR 닫기':'📷 QR 보기')+'</button></div></div></div>'
       +'<p class="mute" style="font-size:12px">다른 기기에서 QR을 찍거나, 링크를 카톡 「나와의 채팅」으로 보내서 열면 바로 연결돼요. 코드를 아는 사람은 기록을 볼 수 있으니 남한테는 보내지 마세요.</p>'
+      +(isApp()?'':'<p class="note">📲 <b>홈 화면에 깐 앱</b>으로 쓰시면: 위 「🔗 링크 복사」 → 홈 화면 앱 열기 → 「📋 복사한 코드로 연결」. 아이폰은 브라우저와 앱의 기록 칸이 따로라 한 번 더 연결해야 해요.</p>')
       +'<div class="bkb"><button class="btn sm" data-a="sygo">🔄 지금 맞추기</button><button class="btn sm ghost" data-a="syoff">연결 끊기</button></div></div>';return h}
   if(SY.tok&&SY.gid)return h+'<p class="note">✅ GitHub로 연결됐어요'+(SY.at?' · 마지막으로 맞춘 때 <b>'+armAgo(SY.at)+'</b>':'')+'.</p>'+(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')+'<div class="bkb"><button class="btn sm" data-a="sygo">🔄 지금 맞추기</button><button class="btn sm ghost" data-a="syoff">연결 끊기</button></div></div>';
   h+='<p class="note">휴대폰과 컴퓨터에서 같은 캐릭터·장비·끝낸 퀘스트를 자동으로 맞춰요. 로그인은 필요 없어요.</p>'
     +'<div class="sy2"><div><b>① 처음 기기에서</b><small>지금 기록을 올리고 연동 코드를 만들어요</small><button class="btn full" data-a="symk">연동 코드 만들기</button></div>'
-    +'<div><b>② 다른 기기에서</b><small>받은 링크를 열거나 QR을 찍으면 끝 · 코드를 직접 넣어도 돼요</small><input class="inp" autocomplete="off" autocapitalize="characters" placeholder="연동 코드 (예: 1234…-7K3Q…)" data-c="syjoin"><button class="btn ghost full" style="margin-top:6px" data-a="syjn">코드로 연결</button></div></div>'
+    +'<div><b>② 다른 기기에서</b><small>받은 링크를 열거나 QR을 찍으면 끝 · 홈 화면 앱은 복사한 링크로 한 번에</small><button class="btn full" data-a="sypaste">📋 복사한 코드로 연결</button><input style="margin-top:6px" class="inp" autocomplete="off" autocapitalize="characters" placeholder="연동 코드 (예: 1234…-7K3Q…)" data-c="syjoin"><button class="btn ghost full" style="margin-top:6px" data-a="syjn">코드로 연결</button></div></div>'
     +(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')
     +'<p class="mute" style="font-size:12px">기록은 무료 저장 서비스(textdb.dev)에 <b>암호화해서</b> 올려요. 열쇠는 연동 코드 안에만 있어서 서비스에서도 내용을 못 봐요. 오래 안 쓰면 지워질 수 있지만 각 기기 기록은 그대로 남아요.</p>'
     +'</div>';
@@ -3392,6 +3399,8 @@ function tabs(){return '<nav class="tabs"><div class="in">'+TABS.map(t=>'<button
 function onboard(){const d=ui.onb;const C=d.cls?D_CLS[d.cls]:null;const first=!DB.list.length;
   let h='<div class="hero"><div class="logo">⚔️</div><h1>와포 도우미</h1><p>와우 포에버 얼라이언스 레벨업·장비·퀘스트·던전 도우미</p></div>';
   if(!first)h='<header class="top"><button class="x" data-a="onb-x" aria-label="닫기">✕</button><b style="flex:1">새 캐릭터 만들기</b></header>';
+  /* 처음 여는 기기(특히 홈 화면에 깐 앱): 다른 기기 기록을 한 번에 가져오기 */
+  if(first)h+='<div class="step card"><div class="q">📱💻 다른 기기에서 쓰던 기록이 있나요?</div><p class="note">다른 기기의 「내 캐릭터 → 휴대폰·컴퓨터 자동 연동」에서 <b>🔗 링크 복사</b>를 누른 뒤(카톡 「나와의 채팅」으로 받아 복사해도 돼요) 아래 버튼을 누르면 캐릭터·장비·끝낸 퀘스트를 그대로 가져와요.</p><button class="btn full" data-a="sypaste">📋 복사한 코드로 연결</button></div>';
   const ak=Object.keys(ARM).filter(k=>ARM[k]&&ARM[k].gear);
   if(ak.length)h+='<div class="step card"><div class="q">⚔️ 전투정보실에서 불러오기</div><p class="note">명단에 있으면 누르기만 하면 종족·직업·레벨·장비가 채워져요. 전문화만 골라 주세요.</p><div class="chips" style="flex-wrap:wrap">'+ak.map(k=>'<button class="chip'+(d.arm===k?' on':'')+'" data-a="onb-arm" data-k="'+esc(k)+'">'+esc(ARM[k].name)+' <span class="n">Lv'+(ARM[k].level||'?')+' '+esc(ARM[k].clsName||'')+'</span></button>').join('')+'</div></div>';
   h+='<div class="step"><div class="q"><span>1</span>캐릭터 이름 <small class="mute">(안 써도 돼요)</small></div><input class="inp" maxlength="12" placeholder="예: 용현사제" value="'+esc(d.name)+'" data-c="onb-name"></div>';
@@ -5197,6 +5206,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='bg'){if(e.target===b){ui.sheet=null;ui.delAsk=0;rerender(true)}return}
   if(a==='close'){ui.sheet=null;ui.delAsk=0;rerender(true);return}
   if(a==='bkpend'){const code=ui.bkpend;ui.bkpend=null;ui.sheet=null;bkImport(code,k);return}
+  if(a==='sypaste'){syPaste();return}
   /* 시작 화면 */
   const o=ui.onb;
   if(a==='onb-race'){o.race=k;if(o.cls&&!RACE_CLS[k].includes(o.cls)){o.cls='';o.spec=''}rerender(true);return}
