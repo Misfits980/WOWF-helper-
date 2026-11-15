@@ -615,6 +615,52 @@ def _npcko_q():
                         out[_n.strip()] = _npcko[_n.strip()]
     return out
 
+
+# 포에버 새 지역을 레벨업 동선에 넣기 (블리자드 공식: 강물터 35~40 · 셴드랄라스 40~45)
+# forg 동선(오리지널 가이드)의 35~39·40~43 가시덤불 골짜기 구간을 강물터·셴드랄라스로 바꾸고 44~50 구간은 46부터로.
+# 퀘스트는 data/qdb/quests.jsonl 의 그 지역 퀘스트(던전·직업·기타 빼고), 퀘스트 레벨 순. 가시덤불 골짜기는 앱의 「퀘스트 많은 곳」 동선에 그대로 남음.
+def _lvl_forever(txt):
+    qp = ROOT / 'data/qdb/quests.jsonl'
+    if not qp.exists():
+        return txt
+    Z = {'강물터': [], '셴드랄라스': []}
+    for _ln in rd(qp).splitlines():
+        try: q = json.loads(_ln)
+        except Exception: continue
+        if q.get('z') in Z and q.get('c') not in ('던전', '기타', '직업') and 30 <= (q.get('lv') or 0) <= 48 and not re.search('[A-Za-z]{3}', q.get('n') or 'x'):
+            Z[q['z']].append(q)
+    cl = lambda t: re.sub(r'[|\n\r]', ' ', str(t or '')).strip()
+    def line(q):
+        g = q.get('g') or ['', '', '', '']
+        pre = q.get('pre')
+        pre = pre[0] if isinstance(pre, list) and pre else (pre if isinstance(pre, int) else '')
+        return '|'.join(map(str, [q['lv'], q.get('m') or max(1, q['lv'] - 5), cl(q['n']), cl(g[1] or q.get('z')), cl(g[0]), cl(g[2]) if g[2] and '-' not in str(g[2]) else '', 0, pre or '', cl(q.get('o')), q['id']]))
+    srt = lambda L: sorted(L, key=lambda q: (q['lv'], q['id']))
+    rg, sd = srt(Z['강물터']), srt(Z['셴드랄라스'])
+    if len(rg) < 20 or len(sd) < 10:
+        return txt
+    # 강물터 퀘스트는 대부분 36레벨부터 받을 수 있어서 36부터 (앞 33~34 구간을 35까지 늘림)
+    new = ['#36|40|강물터'] + [line(q) for q in rg if q['lv'] <= 40] + ['#41|42|강물터'] + [line(q) for q in rg if q['lv'] > 40] + ['#43|45|셴드랄라스'] + [line(q) for q in sd]
+    out, skip = [], False
+    for l in txt.split('\n'):
+        if l.startswith('#'):
+            a, b = l[1:].split('|')[:2]
+            if (a, b) in (('35', '39'), ('40', '43')):
+                if (a, b) == ('35', '39'):
+                    out.extend(new)
+                skip = True
+                continue
+            skip = False
+            if (a, b) == ('33', '34'):
+                l = '#33|35|' + l.split('|', 2)[2]
+            if (a, b) == ('44', '50'):
+                l = '#46|50|' + l.split('|', 2)[2]
+        elif l.startswith('@'):
+            skip = False
+        if not skip:
+            out.append(l)
+    return '\n'.join(out)
+
 def js_str(s):
     return json.dumps(s, ensure_ascii=False)
 
@@ -639,7 +685,7 @@ data = '\n'.join([
     'const D_DQ=' + js_str(_dq()) + ';',
     'const D_NPCKO=' + json.dumps(_npcko_q(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_RWNM=' + json.dumps(_rwnm(), ensure_ascii=False, separators=(',', ':')) + ';',
-    'const D_LVL=' + js_str(rd(F / 'leveling.txt')) + ';',
+    'const D_LVL=' + js_str(_lvl_forever(rd(F / 'leveling.txt'))) + ';',
     'const D_BOSS=' + js_str(rd(F / 'bosses.txt') if (F / 'bosses.txt').exists() else '') + ';',
     'const D_AB=' + js_str('\n'.join(l for l in rd(ROOT / 'data/guides/abilities.txt').split('\n') if l and not l.startswith('# '))) + ';',
     'const D_CLS=' + json.dumps(slim, ensure_ascii=False, separators=(',', ':')) + ';',
