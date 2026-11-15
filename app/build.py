@@ -327,6 +327,44 @@ if (Q / 'items-game.txt').exists():
             items[ix] = '|'.join(f)
             _gfix += 1
     print('포에버 게임 자료로 능력치 고침', _gfix, '/', len(_GM))
+# 애드온 v3.6 「/wfh 아이템」이 게임에서 직접 읽은 값 (tools/itemcache/addon_items.py → items-addon.jsonl). 가장 믿을 만함
+#  - 한글 이름 · 등급은 게임 값으로. 주 능력치는 GetItemStats 값으로 통째로, 나머지는 툴팁 줄(착용 효과 포함)로 채움
+#  - 무기 초당 공격력은 툴팁의 「34 - 64 피해 · 속도 2.60」로, 특수 효과 표시는 툴팁의 착용·사용·적중 시 효과로
+if (Q / 'items-addon.jsonl').exists():
+    from items_wowf import parse_stats as _ps, merge_stats as _ms, weapon_dps as _wd, has_special as _hs
+    _AD = {}
+    for l_ in rd(Q / 'items-addon.jsonl').splitlines():
+        if l_:
+            o_ = json.loads(l_)
+            _AD[o_['id']] = o_
+    _GSK = {'STRENGTH': 'str', 'AGILITY': 'agi', 'STAMINA': 'sta', 'INTELLECT': 'int', 'SPIRIT': 'spi'}
+    _an = _aq = _as = 0
+    for ix, line in enumerate(items):
+        f = line.split('|')
+        o_ = _AD.get(int(f[0]))
+        if not o_ or len(f) < 13:
+            continue
+        if o_.get('nm') and re.search('[가-힣]', o_['nm']) and f[12] != o_['nm']:
+            f[12] = o_['nm']; _an += 1
+        if isinstance(o_.get('q'), int) and 0 <= o_['q'] <= 5 and f[4] in 'pcurel' and f[4] != 'pcurel'[o_['q']]:
+            f[4] = 'pcurel'[o_['q']]; _aq += 1
+        L_ = o_.get('lines') or []
+        _cur = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', f[5])}
+        _new = _ms(_cur, _ps(L_))
+        _gp = {_GSK[k]: v for k, v in (o_.get('gs') or {}).items() if k in _GSK}
+        if (_gp or L_) and not any('무작위' in x for x in L_):  # 무작위 옵션 템(「…의 ○○」)은 기본 템에 주 능력치가 없음
+            for k in ('str', 'agi', 'sta', 'int', 'spi'):
+                _new.pop(k, None)
+            _new.update(_gp)
+        _w = _wd(L_)
+        if _w and 'dps' in _cur:
+            _new['dps'] = _w
+        if _new != _cur:
+            f[5] = ' '.join('%s%s' % (k, ('%g' % v)) for k, v in _new.items()); _as += 1
+        if L_:
+            f[6] = '1' if _hs(L_) else ''
+        items[ix] = '|'.join(f)
+    print('애드온이 게임에서 읽은 값으로 고침 · 이름', _an, '· 등급', _aq, '· 능력치', _as, '/', len(_AD))
 # 착용 가능 직업: forg 마스크는 「어울리는 직업」(능력치 기준)이라 실제 착용 규칙으로 다시 계산
 #  - 무기 숙련·방어구 종류로 판단, wowf.io 「직업:」 줄이나 allow가 있으면 그 직업만
 #  - forg가 3직업 이하로만 표시한 건 직업 전용 장비(티어 등)로 보고 그대로 둠
@@ -644,6 +682,32 @@ def _boss_lua():
     (ROOT / 'addon' / 'WowfHelper' / 'BossTips.lua').write_text('\n'.join(out) + '\n', encoding='utf-8')
     return n
 print('boss tips', _boss_lua())
+# 애드온 /wfh 아이템 이 게임에서 읽을 아이템 번호 (앱 장비 목록). 쓸모 큰 것부터:
+# 특수 효과 → 영어 이름 → 무기 → 포에버 전용(10만 넘는 번호) → 나머지
+def _item_list_lua():
+    import hashlib
+    rows = [l.split('|') for l in ITEMS_TXT.split('\n') if l]
+    WEAP = {'1h', 'mh', 'oh', '2h', 'ra'}
+    def pri(f):
+        nm = f[12] if len(f) > 12 else ''
+        if len(f) > 6 and f[6] == '1': return 0
+        if not re.search('[가-힣]', nm): return 1
+        if f[2] in WEAP: return 2
+        if int(f[0]) > 100000: return 3
+        return 4
+    ids = [int(f[0]) for f in sorted(rows, key=lambda f: (pri(f), int(f[0])))]
+    def b36(n):
+        d = '0123456789abcdefghijklmnopqrstuvwxyz'; o = ''
+        while True:
+            n, r = divmod(n, 36); o = d[r] + o
+            if not n: return o
+    body = ','.join(b36(i) for i in ids)
+    ver = hashlib.md5(body.encode()).hexdigest()[:8]
+    txt = ('-- 앱이 만든 파일 (app/build.py). /wfh 아이템 이 게임에서 읽을 아이템 번호 %d개 (36진수, 쓸모 큰 것부터)\n'
+           'WowfHelper_ItemListVer = "%s"\nWowfHelper_ItemList = "%s"\n') % (len(ids), ver, body)
+    (ROOT / 'addon' / 'WowfHelper' / 'ItemList.lua').write_text(txt, encoding='utf-8')
+    return len(ids)
+print('addon item list', _item_list_lua())
 # 애드온 묶음 (addon/WowfHelper → addon/WowfHelper.zip), 내용이 같으면 그대로
 import zipfile, io
 _src = ROOT / 'addon' / 'WowfHelper'
