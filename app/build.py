@@ -98,7 +98,21 @@ def _dgl():
     # forg 자료의 영어 이름에 HTML 글자(&#x27; = ')가 그대로 남아 있어 화면에 「Zul&#x27;Farrak」처럼 보이던 것
     import html as _h
     rows = [_h.unescape(l) for l in rows]
-    return '\n'.join(sorted(rows, key=lambda l: int(l.split('|')[4] or 0)))
+    # 던전 레벨 바로잡기(data/guides/dungeon-levels.txt): 게임 던전 찾기의 시작 레벨·블리자드 공식 범위로 시작 레벨과 범위를 덮어씀
+    fix = {}
+    pf = ROOT / 'data' / 'guides' / 'dungeon-levels.txt'
+    if pf.exists():
+        for l in pf.read_text(encoding='utf-8').splitlines():
+            if l and not l.startswith('#'):
+                f = l.split('|')
+                fix[f[0]] = (f[1], f[2] + '–' + f[3])
+    out = []
+    for l in rows:
+        f = l.split('|')
+        if f[0] in fix:
+            f[4], f[5] = fix[f[0]]
+        out.append('|'.join(f))
+    return '\n'.join(sorted(out, key=lambda l: int(l.split('|')[4] or 0)))
 
 
 def _qfix(t):

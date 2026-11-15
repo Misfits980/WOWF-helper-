@@ -1,0 +1,34 @@
+# 던전 레벨 바로잡기 — 빌드(app/build.py)가 data/forg/dungeons.txt 위에 덮어씀
+# 번호|시작 레벨|범위 아래|범위 위|근거
+# 시작 레벨 = 게임 던전 찾기에 나오는 「N+」(옛 던전) 또는 블리자드 공식 범위의 아래(새 던전)
+# 범위 위 = 새 던전은 블리자드 공식, 옛 던전은 그대로(Icy Veins·forg 범위)
+#  근거 A: 블리자드 공식 「Explore the New Dungeons of World of Warcraft: Forever」(news.blizzard.com 24301455, 크롤도크 40–45 정정 포함)
+#  근거 B: 게임 던전 찾기 권장 시작 레벨 — 포에버 클라이언트 1.60.1.69893 값(kami-labs.fr), 출시 뒤 allthings.how 「WoW Forever dungeons by level」(2026-11-08)와 같음
+#  붉은십자군 수도원·혈투의 전장은 게임에서 한 줄(30+·54+)이라 날개별 범위는 그대로 둠
+hall-of-thanes|13|13|18|A
+ruins-of-lordaeron|15|15|20|A
+whelgar-excavation|24|24|29|A
+city-of-dalaran|28|28|33|A
+drowned-city|35|35|40|A
+kroldok-stronghold|40|40|45|A
+alcaz-prison|48|48|53|A
+blackmaw-hold|55|55|60|A
+shapers-terrace|58|58|60|A
+ragefire-chasm|13|13|18|B
+deadmines|16|16|26|B
+wailing-caverns|17|17|24|B
+shadowfang-keep|18|18|30|B
+blackfathom-deeps|22|22|32|B
+stockade|23|23|32|B
+razorfen-kraul|24|24|38|B
+gnomeregan|25|25|38|B
+razorfen-downs|34|34|46|B
+uldaman|35|35|51|B
+zul-farrak|42|42|54|B
+maraudon|42|42|55|B
+temple-of-atal-hakkar|45|45|60|B
+blackrock-depths|48|48|60|B
+lower-blackrock-spire|53|53|60|B
+stratholme-live|55|55|60|B
+stratholme-dead|55|55|60|B
+scholomance|57|57|60|B
