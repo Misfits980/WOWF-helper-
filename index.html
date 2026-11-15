@@ -2474,10 +2474,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=26fad78d"></script>
-<script>/* v715be3 @11/15 16:50 */
+<script>/* v564701 @11/15 17:04 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/15 16:50';
+const BUILD='11/15 17:04';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -5282,7 +5282,7 @@ function idbH(op,val){return new Promise(res=>{try{const r=indexedDB.open('wfh-f
 const FS_SKIP=/^(Interface|Data|Cache|Logs|Errors|Screenshots|Fonts|Utils|WebCache|BlizzardBrowser.*|_retail_|_ptr_|_beta_|_xptr_|Textures|Movies|Sounds?)$/i;
 function luaStr(t){return t.replace(/\\(\d{1,3}|.)/g,(m,e)=>/^\d/.test(e)?String.fromCharCode(+e):e==='n'?'\n':e==='t'?'\t':e)}
 async function fsScan(root){const out=[];let seen=0;
-  const walk=async(d,path,depth)=>{if(depth>7||seen>4000)return;for await(const [n,e] of d.entries()){seen++;
+  const walk=async(d,path,depth)=>{if(depth>7||seen>30000)return;for await(const [n,e] of d.entries()){seen++;
       if(e.kind==='directory'){if(!FS_SKIP.test(n))await walk(e,path.concat(n),depth+1)}
       else if(n==='WowfHelper.lua'&&path[path.length-1]==='SavedVariables'&&path.length>=3&&path[path.length-3]!=='Account'){const f=await e.getFile();const t=await f.text();
         const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(m){const code=luaStr(m[1]);if(/^WFH[12];/.test(code)){const F=code.split(';');out.push({name:F[1]||path[path.length-2].split('-')[0],realm:F[2]||'',code,t:f.lastModified})}}}}};
@@ -5291,12 +5291,12 @@ async function fsLoad(repick){try{let h=repick?null:await idbH('get');
     if(!h){h=await window.showDirectoryPicker({id:'wfh-wtf',mode:'read'});await idbH('put',h)}
     if(h.queryPermission&&(await h.queryPermission({mode:'read'}))!=='granted'&&(await h.requestPermission({mode:'read'}))!=='granted'){toast('폴더를 읽게 허락해 주세요');return}
     toast('애드온 파일 찾는 중…');const L=await fsScan(h);ui.fsList=L;ui.fsDir=h.name;
-    if(!L.length){ui.sheet='imp';ui.fsMsg='「'+h.name+'」 폴더에서 애드온 저장 파일을 못 찾았어요. 와우 포에버 설치 폴더(예: G:\\World of Warcraft)나 그 안의 WTF 폴더를 골라 주세요. 게임에서 /reload 를 한 번 해야 파일이 생겨요.';rerender(true);return}
+    if(!L.length){ui.sheet='imp';ui.fsMsg='「'+h.name+'」 폴더에서 애드온 저장 파일을 못 찾았어요. 내 PC의 와우 설치 폴더(배틀넷 앱 → 와우 → 톱니바퀴 → 「탐색기에서 보기」로 찾을 수 있어요)나 그 안의 WTF 폴더를 골라 주세요. 게임에서 /reload 를 한 번 해야 파일이 생겨요.';rerender(true);return}
     const c=me();const i=Math.max(0,L.findIndex(x=>c&&c.name&&x.name===c.name));fsPick(i)}
   catch(e){if(e&&e.name==='AbortError')return;toast('파일을 못 읽었어요: '+((e&&e.message)||e))}}
 function fsPick(i){const x=(ui.fsList||[])[i];if(!x)return;ui.fsCur=i;ui.fsMsg='';ui.sheet='imp';ui.impraw=x.code;ui.imp=impParse(x.code);if(!QDB)qdbLoad();rerender(true)}
 function fsBox(){if(!FSA)return '';const L=ui.fsList||[];let h='<div class="card fsimp"><h3>📂 PC에서 바로 불러오기 <small class="mute">크롬·엣지</small></h3>';
-  h+='<p class="note">처음 한 번 와우 포에버 폴더(예: <b>G:\\World of Warcraft</b>)를 고르면, 다음부터는 버튼 하나로 불러와요. 복사·붙여 넣기 필요 없어요. 게임에서 <code>/reload</code> 하거나 접속을 끝내면 새 내용이 저장돼요.</p>';
+  h+='<p class="note">처음 한 번 <b>내 PC의 와우 설치 폴더</b>(보통 <b>C:\\Program Files (x86)\\World of Warcraft</b> · 다른 곳에 깔았으면 배틀넷 앱 → 와우 → 톱니바퀴 → 「탐색기에서 보기」)를 고르면, 다음부터는 버튼 하나로 불러와요. 계정·서버·캐릭터 폴더는 알아서 찾아요. 고른 폴더는 이 브라우저에만 기억돼요. 복사·붙여 넣기 필요 없어요. 게임에서 <code>/reload</code> 하거나 접속을 끝내면 새 내용이 저장돼요.</p>';
   h+='<div class="bkb"><button class="btn sm" data-a="fsload">📂 '+(L.length?'다시 읽기':'불러오기')+'</button>'+(ui.fsDir?'<button class="btn sm ghost" data-a="fsload" data-k="re">다른 폴더 고르기</button>':'')+'</div>';
   if(ui.fsMsg)h+='<p class="note warn">'+esc(ui.fsMsg)+'</p>';
   if(L.length){const x=L[ui.fsCur||0];h+='<p class="note">「'+esc(ui.fsDir||'')+'」에서 <b>'+esc(x.name)+'</b> 파일을 읽었어요 · 게임이 저장한 때 '+new Date(x.t).toLocaleString('ko-KR')+(Date.now()-x.t>3*3600e3?' <b>(오래됐어요 · 게임에서 /reload)</b>':'')+'</p>';
