@@ -165,6 +165,8 @@ details.fold summary{color:var(--mute);font-size:13px;cursor:pointer;padding:4px
 .srch:before{content:"🔍";position:absolute;left:10px;top:12px;font-size:15px;opacity:.7}
 .foot{font-size:12px;color:var(--mute);padding:20px 14px;text-align:center}
 .foot a{color:var(--mute)}
+/* 글 속 링크: 모양·줄 간격은 그대로, 위아래로 누르는 곳만 넓힘(25px 넘게) */
+.foot a,.note a{padding:6px 0}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#3a301b;border:1px solid var(--gold2);color:var(--gold);padding:8px 16px;border-radius:999px;z-index:60;font-size:14px}.doll{grid-template-columns:1fr 1fr 1fr}
 
 /* 전투정보실 모양 */
@@ -781,7 +783,7 @@ button.pcs{cursor:pointer}
 .lst{display:inline-block;font-size:11.5px;margin-right:6px;padding:1px 6px;border-radius:6px}.lst.ok{color:#9fdcb0;border:1px solid #2f6b3a}.lst.go{color:#ffe08a;border:1px solid #8a6a2c}
 /* 전문기술 */
 .pr2{display:flex;gap:10px;padding:9px 2px;border-top:1px solid var(--line)}
-.pr2 .pl{flex:none;min-width:70px;height:26px;padding:0 8px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:3px;font-size:12.5px;font-weight:700;color:#ffe08a}
+.pr2 .pl{flex:none;min-width:6.9em;/* 「290 → 300」이 들어가는 너비로 맞춰 줄마다 이름 시작 위치가 같게 */height:26px;padding:0 8px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:3px;font-size:12.5px;font-weight:700;color:#ffe08a}
 .pr2 .pl i{font-style:normal;color:var(--mute);font-weight:400}
 .pr2 .m{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .pr2 .l1{display:flex;flex-wrap:wrap;align-items:center;gap:6px}.pr2 .l1 b{font-size:14px}
@@ -998,7 +1000,7 @@ h3{font-size:15px;margin:12px 0 6px}
 .nchl li.fin b{text-decoration:line-through;opacity:.6}
 p.nchl{border:0;font-size:12px}
 .foot .bld{opacity:.7;font-size:11px}
-.nbw .nb{width:100%}
+.nbw .nb{width:100%;padding:3px 0;margin:-3px 0}
 /* 전체 화면 지도: 폰 상태바(시계) 밑으로 버튼이 숨지 않게 + 아래에 「작게 보기」 */
 .am.full .amtop{top:calc(8px + env(safe-area-inset-top))}
 .am.full .amctl{top:calc(8px + env(safe-area-inset-top))}
@@ -2164,3 +2166,4 @@ body.sidem{overflow:hidden}
 .town li .ti{flex:none;width:18px;text-align:center}
 .town li small{color:var(--mute)}
 .town .lnk{color:#e8c06a}
+.prh{color:#ffb070;font-weight:700}

@@ -6284,7 +6284,7 @@
 10592|고양이눈 비약|1|0|150
 10593|불완전한 드레니시스트 조각|2|12|0
 10594|[PH] Hakkar'i Urn|1|15|0
-10595|Kum'isha's Junk|2|15|0
+10595|굼이샤의 잡동사니|2|15|0
 10596|Deprecated Rose Colored Goggles|0|4|2067
 10597|학자 림토리의 머리카락|1|12|0
 10598|헤타에라의 피묻은 머리|1|12|0
@@ -14135,7 +14135,7 @@
 235470|Satyrweed|1|12|0
 235471|Fel Mote|1|12|0
 235472|Legashi Firewater|1|12|0
-235509|Satyrweed Tincture|1|12|0
+235509|사티로스풀 물약|1|12|0
 235510|Bramblesnap's Panacea|1|12|0
 235517|횃불|1|15|0
 235518|Timbermaw War Banner|1|12|0
@@ -14385,7 +14385,7 @@
 247840|Mining for Dummies|1|0|0
 247841|Wild Harvest|1|0|0
 247846|Pelt Collecting for Beginners|1|0|0
-247857|Nibbled-On Book|1|12|0
+247857|갉아 먹은 책|1|12|0
 247862|엘름포의 머리카락|1|12|0
 247876|[DNT] Minimus Tentaculus|1|15|2500
 247877|질긴 늑대 모피|1|12|0
@@ -14405,7 +14405,7 @@
 248006|Militia Sword|2|2|326
 248007|Militia Shortblade|2|2|468
 248008|Apprentice's Spellstaff|2|2|601
-248206|Sealed Craftsman's Writ|3|0|0
+248206|봉인된 장인의 계약서|3|0|0
 248549|Waylaid Crate|2|15|0
 248584|Monster - Sword, 2h - Kirin Tor|0|2|2
 248613|Lightning in a Bottle|1|0|25
@@ -14643,7 +14643,7 @@
 250339|Minor Mageblood Elixir|1|0|25
 250340|Lesser Mageblood Elixir|1|0|50
 250341|Greater Mageblood Elixir|1|0|100
-250342|Lesser Arcane Elixir|1|0|50
+250342|하급 신비의 비약|1|0|50
 250343|Elixir of Nature Power|1|0|125
 250344|Elixir of Minor Spirit|1|0|25
 250345|Elixir of Lesser Spirit|1|0|50
@@ -14670,7 +14670,7 @@
 250375|조제법: 최하급 마법사의 피 비약|1|9|0
 250376|Recipe: Lesser Mageblood Elixir|1|9|375
 250377|Recipe: Greater Mageblood Elixir|1|9|875
-250378|Recipe: Lesser Arcane Elixir|1|9|600
+250378|조제법: 하급 신비의 비약|1|9|600
 250379|Recipe: Elixir of Nature Power|1|9|1425
 250380|조제법: 최하급 정신력의 비약|1|9|0
 250381|Recipe: Elixir of Lesser Spirit|1|9|325
@@ -15690,7 +15690,7 @@
 254102|Pattern: Black Gloves|3|9|4000
 254103|Golden Gloves|3|4|3690
 254104|Pattern: Golden Gloves|3|9|4000
-254105|Radiant Gloves|3|4|3717
+254105|찬란하게 빛나는 장갑|3|4|3717
 254106|Pattern: Radiant Gloves|3|9|4000
 254107|Gilded Sandals|3|4|11236
 254108|Pattern: Gilded Sandals|3|9|1175
@@ -15757,7 +15757,7 @@
 254779|A'sharahm, the Roiling Tempest|2|2|326
 254780|Huge Feather|1|12|0
 254840|Imbued Tears|1|12|0
-254841|Petrified Bark|1|12|0
+254841|돌껍질|1|12|0
 254842|Well Cursed Bone|1|12|0
 254859|Vicious Hook Talon|1|12|0
 254870|Rudimentary Necromancy Staff|1|12|0
@@ -15802,7 +15802,7 @@
 256039|Rake of the Sleeper|0|2|90905
 256044|Iridescent Insect Carapace|0|15|10
 256045|Bloodfly Proboscis|0|15|9
-256057|Draenethyst Crystal|1|12|0
+256057|드레니시스트 수정|1|12|0
 256058|우텍의 지팡이|1|12|0
 256061|Uthek's Draenethyst Staff|1|12|0
 256892|Stolen Supplies|1|12|0
@@ -16064,7 +16064,7 @@
 263435|Mark of Urs'endris|2|4|0
 263436|Firestorm Totem|2|4|0
 263439|Deadwood Tribal Beads|1|12|200
-263491|Shadowsong Family Signet|1|12|0
+263491|섀도송 가문 인장|1|12|0
 263493|히포그리프 솜털|1|12|0
 263509|Skywall Souffle|1|0|100
 263511|Recipe: Skywall Souffle|1|9|50
@@ -16076,157 +16076,157 @@
 263973|Beguiler's Blade|1|12|0
 263992|감독관의 열쇠고리|1|13|0
 263993|하늘파괴자 보루 방패|1|12|0
-264011|Craftsman's Writ: Elixir of Ogre's Strength|3|0|1
+264011|장인의 계약서: 오우거 힘의 비약|3|0|1
 264012|Craftsman's Writ: Elixir of Wisdom|3|0|1
 264013|Craftsman's Writ: Lesser Mana Potion|3|0|1
-264014|Craftsman's Writ: Shadow Protection Potion|3|0|1
-264015|Craftsman's Writ: Free Action Potion|3|0|1
+264014|장인의 계약서: 암흑 보호 물약|3|0|1
+264015|장인의 계약서: 자유 의지의 물약|3|0|1
 264016|Craftsman's Writ: Elixir of Lesser Agility|3|0|1
-264017|Craftsman's Writ: Lesser Troll's Blood Elixir|3|0|1
-264018|Craftsman's Writ: Elixir of Defense|3|0|1
-264019|Craftsman's Writ: Draught of Water Breathing|3|0|1
-264020|Craftsman's Writ: Pearl-Handled Dagger|3|0|1
-264021|Craftsman's Writ: Golden Rod|3|0|1
-264022|Craftsman's Writ: Iridescent Hammer|3|0|1
-264023|Craftsman's Writ: Silver Skeleton Key|3|0|1
-264024|Craftsman's Writ: Heavy Bronze Mace|3|0|1
-264025|Craftsman's Writ: Rough Bronze Leggings|3|0|1
-264026|Craftsman's Writ: Green Iron Gauntlets|3|0|1
-264027|Craftsman's Writ: Big Bronze Knife|3|0|1
-264028|Craftsman's Writ: Green Iron Boots|3|0|1
-264029|Craftsman's Writ: Ornate Spyglass|3|0|1
-264030|Craftsman's Writ: Explosive Sheep|3|0|1
-264031|Craftsman's Writ: Moonsight Rifle|3|0|1
-264032|Craftsman's Writ: Minor Recombobulator|3|0|1
-264033|Craftsman's Writ: Practice Lock|3|0|1
-264034|Craftsman's Writ: Shadow Goggles|3|0|1
-264035|Craftsman's Writ: Gnomish Universal Remote|3|0|1
-264036|Craftsman's Writ: Big Bronze Bomb|3|0|1
-264037|Craftsman's Writ: Crafted Solid Shot|3|0|1
-264038|Craftsman's Writ: Heavy Leather Ball|3|0|1
-264039|Craftsman's Writ: Fine Leather Pants|3|0|1
-264040|Craftsman's Writ: Herbalist's Gloves|3|0|1
+264017|장인의 계약서: 하급 트롤의 피 비약|3|0|1
+264018|장인의 계약서: 방어의 비약|3|0|1
+264019|장인의 계약서: 수중 호흡의 약물|3|0|1
+264020|장인의 계약서: 진주장식 단검|3|0|1
+264021|장인의 계약서: 금마법막대|3|0|1
+264022|장인의 계약서: 오색 망치|3|0|1
+264023|장인의 계약서: 은 해골 열쇠|3|0|1
+264024|장인의 계약서: 무거운 청동 철퇴|3|0|1
+264025|장인의 계약서: 청동 다리보호구|3|0|1
+264026|장인의 계약서: 녹색 철제 건틀릿|3|0|1
+264027|장인의 계약서: 큰 청동 나이프|3|0|1
+264028|장인의 계약서: 녹색 철제 장화|3|0|1
+264029|장인의 계약서: 화려한 망원경|3|0|1
+264030|장인의 계약서: 양 폭탄|3|0|1
+264031|장인의 계약서: 달빛 라이플|3|0|1
+264032|장인의 계약서: 하급 유전자 역결합기|3|0|1
+264033|장인의 계약서: 연습용 자물쇠|3|0|1
+264034|장인의 계약서: 그림자 고글|3|0|1
+264035|장인의 계약서: 노움의 만능 원격조종기|3|0|1
+264036|장인의 계약서: 대형 청동 폭탄|3|0|1
+264037|장인의 계약서: 수제 합금 탄환|3|0|1
+264038|장인의 계약서: 무거운 가죽공|3|0|1
+264039|장인의 계약서: 고급 가죽 바지|3|0|1
+264040|장인의 계약서: 약초채집가 장갑|3|0|1
 264041|Craftsman's Writ: Dark Leather Tunic|3|0|1
-264042|Craftsman's Writ: Pilferer's Gloves|3|0|1
-264043|Craftsman's Writ: Heavy Quiver|3|0|1
-264044|Craftsman's Writ: Dark Leather Shoulders|3|0|1
-264045|Craftsman's Writ: Barbaric Gloves|3|0|1
-264046|Craftsman's Writ: Red Whelp Gloves|3|0|1
-264047|Craftsman's Writ: Lesser Wizard's Robe|3|0|1
-264048|Craftsman's Writ: Blue Overalls|3|0|1
-264049|Craftsman's Writ: Azure Silk Hood|3|0|1
-264050|Craftsman's Writ: Small Silk Pack|3|0|1
+264042|장인의 계약서: 좀도둑 장갑|3|0|1
+264043|장인의 계약서: 두꺼운 가죽 화살통|3|0|1
+264044|장인의 계약서: 암색 가죽 어깨보호구|3|0|1
+264045|장인의 계약서: 야만전사의 장갑|3|0|1
+264046|장인의 계약서: 새끼 붉은용 장갑|3|0|1
+264047|장인의 계약서: 견습마술사 로브|3|0|1
+264048|장인의 계약서: 파란색 작업복|3|0|1
+264049|장인의 계약서: 감청색 비단 두건|3|0|1
+264050|장인의 계약서: 작은 비단 배낭|3|0|1
 264051|Craftsman's Writ: Phoenix Pants|3|0|1
-264052|Craftsman's Writ: Red Woolen Boots|3|0|1
-264053|Craftsman's Writ: Colorful Kilt|3|0|1
-264054|Craftsman's Writ: Greater Adept's Robe|3|0|1
-264055|Craftsman's Writ: Spider Silk Slippers|3|0|1
-264056|Craftsman's Writ: Frost Protection Potion|3|0|1
-264057|Craftsman's Writ: Lesser Invisibility Potion|3|0|1
-264058|Craftsman's Writ: Lesser Stoneshield Potion|3|0|1
-264059|Craftsman's Writ: Nature Protection Potion|3|0|1
-264060|Craftsman's Writ: Catseye Draught|3|0|1
-264061|Craftsman's Writ: Great Rage Potion|3|0|1
-264062|Craftsman's Writ: Mana Potion|3|0|1
-264063|Craftsman's Writ: Fire Protection Potion|3|0|1
-264064|Craftsman's Writ: Shadow Oil|3|0|1
-264065|Craftsman's Writ: Goblin Rocket Fuel|3|0|1
-264066|Craftsman's Writ: Elixir of Agility|3|0|1
-264067|Craftsman's Writ: Wildvine Potion|3|0|1
-264068|Craftsman's Writ: Steel Plate Helm|3|0|1
-264069|Craftsman's Writ: Inlaid Mithril Cylinder|3|0|1
-264070|Craftsman's Writ: Steel Weapon Chain|3|0|1
-264071|Craftsman's Writ: Ornate Mithril Shoulders|3|0|1
-264072|Craftsman's Writ: Blue Glittering Axe|3|0|1
-264073|Craftsman's Writ: Moonsteel Broadsword|3|0|1
-264074|Craftsman's Writ: Golden Scale Coif|3|0|1
-264075|Craftsman's Writ: Solid Sharpening Stone|3|0|1
-264076|Craftsman's Writ: Wicked Mithril Blade|3|0|1
-264077|Craftsman's Writ: Truesilver Rod|3|0|1
-264078|Craftsman's Writ: Golden Scale Gauntlets|3|0|1
-264079|Craftsman's Writ: Heavy Mithril Axe|3|0|1
-264080|Craftsman's Writ: Mechanical Dragonling|3|0|1
-264081|Craftsman's Writ: Advanced Target Dummy|3|0|1
-264082|Craftsman's Writ: Craftsman's Monocle|3|0|1
-264083|Craftsman's Writ: Goblin Land Mine|3|0|1
-264084|Craftsman's Writ: Catseye Ultra Goggles|3|0|1
-264085|Craftsman's Writ: Unstable Trigger|3|0|1
-264086|Craftsman's Writ: Flash Bomb|3|0|1
-264087|Craftsman's Writ: Fire Goggles|3|0|1
-264088|Craftsman's Writ: Mithril Frag Bomb|3|0|1
-264089|Craftsman's Writ: Gyromatic Micro-Adjuster|3|0|1
-264090|Craftsman's Writ: Mechanical Repair Kit|3|0|1
-264091|Craftsman's Writ: Dark Iron Bomb|3|0|1
-264092|Craftsman's Writ: Comfortable Leather Hat|3|0|1
-264093|Craftsman's Writ: Guardian Cloak|3|0|1
-264094|Craftsman's Writ: Dusky Bracers|3|0|1
-264095|Craftsman's Writ: Wild Leather Helmet|3|0|1
-264096|Craftsman's Writ: Wild Leather Shoulders|3|0|1
-264097|Craftsman's Writ: Quickdraw Quiver|3|0|1
-264098|Craftsman's Writ: Swift Boots|3|0|1
-264099|Craftsman's Writ: Nightscape Shoulders|3|0|1
-264100|Craftsman's Writ: Big Voodoo Mask|3|0|1
-264101|Craftsman's Writ: Big Voodoo Robe|3|0|1
-264102|Craftsman's Writ: Turtle Scale Breastplate|3|0|1
-264103|Craftsman's Writ: Thick Leather Ammo Pouch|3|0|1
-264104|Craftsman's Writ: Mageweave Bag|3|0|1
-264105|Craftsman's Writ: Shadoweave Gloves|3|0|1
-264106|Craftsman's Writ: Crimson Silk Robe|3|0|1
-264107|Craftsman's Writ: Shadoweave Robe|3|0|1
-264108|Craftsman's Writ: Enchanted Mageweave Pouch|3|0|1
-264109|Craftsman's Writ: Star Belt|3|0|1
-264110|Craftsman's Writ: Black Mageweave Vest|3|0|1
-264111|Craftsman's Writ: Red Mageweave Pants|3|0|1
-264112|Craftsman's Writ: Orange Martial Shirt|3|0|1
-264113|Craftsman's Writ: White Bandit Mask|3|0|1
-264114|Craftsman's Writ: Cindercloth Robe|3|0|1
-264115|Craftsman's Writ: Earthen Silk Belt|3|0|1
+264052|장인의 계약서: 붉은색 양모 장화|3|0|1
+264053|장인의 계약서: 알록달록한 킬트|3|0|1
+264054|장인의 계약서: 상급사제용 로브|3|0|1
+264055|장인의 계약서: 거미줄 슬리퍼|3|0|1
+264056|장인의 계약서: 냉기 보호 물약|3|0|1
+264057|장인의 계약서: 하급 투명 물약|3|0|1
+264058|장인의 계약서: 하급 돌방패 물약|3|0|1
+264059|장인의 계약서: 자연 보호 물약|3|0|1
+264060|장인의 계약서: 고양이눈 약물|3|0|1
+264061|장인의 계약서: 상급 분노의 물약|3|0|1
+264062|장인의 계약서: 마나 물약|3|0|1
+264063|장인의 계약서: 화염 보호 물약|3|0|1
+264064|장인의 계약서: 암흑 기름|3|0|1
+264065|장인의 계약서: 고블린 로켓 연료|3|0|1
+264066|장인의 계약서: 민첩의 비약|3|0|1
+264067|장인의 계약서: 야생덩굴 물약|3|0|1
+264068|장인의 계약서: 강철 판금 투구|3|0|1
+264069|장인의 계약서: 세공된 미스릴 실린더|3|0|1
+264070|장인의 계약서: 강철 무기 사슬|3|0|1
+264071|장인의 계약서: 화려한 미스릴 어깨보호구|3|0|1
+264072|장인의 계약서: 화려한 푸른 도끼|3|0|1
+264073|장인의 계약서: 달의 강철 브로드소드|3|0|1
+264074|장인의 계약서: 황금 미늘 코이프|3|0|1
+264075|장인의 계약서: 견고한 숫돌|3|0|1
+264076|장인의 계약서: 날카로운 미스릴 검|3|0|1
+264077|장인의 계약서: 진은마법막대|3|0|1
+264078|장인의 계약서: 황금 미늘 건틀릿|3|0|1
+264079|장인의 계약서: 견고한 미스릴 도끼|3|0|1
+264080|장인의 계약서: 소형 기계용|3|0|1
+264081|장인의 계약서: 고급 표적 허수아비|3|0|1
+264082|장인의 계약서: 장인의 단안경|3|0|1
+264083|장인의 계약서: 고블린 지뢰|3|0|1
+264084|장인의 계약서: 고양이눈 고글|3|0|1
+264085|장인의 계약서: 유동성 제동장치|3|0|1
+264086|장인의 계약서: 섬광탄|3|0|1
+264087|장인의 계약서: 화염 고글|3|0|1
+264088|장인의 계약서: 미스릴 파편 폭탄|3|0|1
+264089|장인의 계약서: 자동회전 초정밀조율기|3|0|1
+264090|장인의 계약서: 기계 수리 장비|3|0|1
+264091|장인의 계약서: 검은무쇠 폭탄|3|0|1
+264092|장인의 계약서: 편한 가죽 모자|3|0|1
+264093|장인의 계약서: 수호 망토|3|0|1
+264094|장인의 계약서: 거무스름한 팔보호구|3|0|1
+264095|장인의 계약서: 야생 가죽 투구|3|0|1
+264096|장인의 계약서: 야생 가죽 어깨보호구|3|0|1
+264097|장인의 계약서: 속사 화살통|3|0|1
+264098|장인의 계약서: 신속의 장화|3|0|1
+264099|장인의 계약서: 밤하늘 어깨보호구|3|0|1
+264100|장인의 계약서: 부두교 가면|3|0|1
+264101|장인의 계약서: 부두교 로브|3|0|1
+264102|장인의 계약서: 거북 껍질 흉갑|3|0|1
+264103|장인의 계약서: 두꺼운 가죽 탄약주머니|3|0|1
+264104|장인의 계약서: 마법매듭 가방|3|0|1
+264105|장인의 계약서: 그림자매듭 장갑|3|0|1
+264106|장인의 계약서: 심홍색 비단 로브|3|0|1
+264107|장인의 계약서: 그림자매듭 로브|3|0|1
+264108|장인의 계약서: 마력 깃든 마법매듭 가방|3|0|1
+264109|장인의 계약서: 별장식 허리띠|3|0|1
+264110|장인의 계약서: 검은 마법매듭 조끼|3|0|1
+264111|장인의 계약서: 붉은 마법매듭 바지|3|0|1
+264112|장인의 계약서: 주황색 무도복|3|0|1
+264113|장인의 계약서: 하얀 산적 복면|3|0|1
+264114|장인의 계약서: 숯매듭 로브|3|0|1
+264115|장인의 계약서: 대지의 비단 허리띠|3|0|1
 264116|Craftsman's Writ: Potion of Demonslaying|3|0|1
-264117|Craftsman's Writ: Dreamless Sleep Potion|3|0|1
-264118|Craftsman's Writ: Greater Fire Protection Potion|3|0|1
-264119|Craftsman's Writ: Draught of Detect Demon|3|0|1
-264120|Craftsman's Writ: Gift of Arthas|3|0|1
-264121|Craftsman's Writ: Flask of Chromatic Resistance|3|0|1
-264122|Craftsman's Writ: Limited Invulnerability Potion|3|0|1
-264123|Craftsman's Writ: Major Rejuvenation Potion|3|0|1
-264124|Craftsman's Writ: Distilled Firewater|3|0|1
-264125|Craftsman's Writ: Radiant Circlet|3|0|1
-264126|Craftsman's Writ: Radiant Belt|3|0|1
-264127|Craftsman's Writ: Orcish War Leggings|3|0|1
-264128|Craftsman's Writ: Mithril Spurs|3|0|1
-264129|Craftsman's Writ: Imperial Plate Chest|3|0|1
-264130|Craftsman's Writ: Darkrune Gauntlets|3|0|1
-264131|Craftsman's Writ: Huge Thorium Battleaxe|3|0|1
-264132|Craftsman's Writ: Arcanite Skeleton Key|3|0|1
-264133|Craftsman's Writ: Ebon Shiv|3|0|1
-264134|Craftsman's Writ: Masterwork Target Dummy|3|0|1
-264135|Craftsman's Writ: Green Lens|3|0|1
-264136|Craftsman's Writ: Lifelike Mechanical Toad|3|0|1
-264137|Craftsman's Writ: Gnomish Alarm-O-Bot|3|0|1
-264138|Craftsman's Writ: Goblin Jumper Cables XL|3|0|1
-264139|Craftsman's Writ: Field Repair Bot 74A|3|0|1
-264140|Craftsman's Writ: Truesilver Transformer|3|0|1
-264141|Craftsman's Writ: Sniper Scope|3|0|1
-264142|Craftsman's Writ: Tranquil Mechanical Yeti|3|0|1
-264143|Craftsman's Writ: Wicked Leather Pants|3|0|1
-264144|Craftsman's Writ: Gordok Ogre Suit|3|0|1
-264145|Craftsman's Writ: Volcanic Breastplate|3|0|1
-264146|Craftsman's Writ: Runic Leather Headband|3|0|1
-264147|Craftsman's Writ: Wicked Leather Bracers|3|0|1
-264148|Craftsman's Writ: Chimeric Vest|3|0|1
-264149|Craftsman's Writ: Heavy Scorpid Helm|3|0|1
-264150|Craftsman's Writ: Runic Leather Bracers|3|0|1
-264151|Craftsman's Writ: Frostsaber Boots|3|0|1
-264152|Craftsman's Writ: Wizardweave Turban|3|0|1
-264153|Craftsman's Writ: Runecloth Bag|3|0|1
-264154|Craftsman's Writ: Runecloth Boots|3|0|1
-264155|Craftsman's Writ: Tuxedo Jacket|3|0|1
-264156|Craftsman's Writ: Felcloth Boots|3|0|1
-264157|Craftsman's Writ: Cenarion Herb Bag|3|0|1
-264158|Craftsman's Writ: Shadoweave Mask|3|0|1
-264159|Craftsman's Writ: Ghostweave Vest|3|0|1
-264160|Craftsman's Writ: Soul Pouch|3|0|1
-264163|Taming Rod|1|12|0
+264117|장인의 계약서: 숙면의 물약|3|0|1
+264118|장인의 계약서: 상급 화염 보호 물약|3|0|1
+264119|장인의 계약서: 악마 감지의 약물|3|0|1
+264120|장인의 계약서: 아서스의 선물|3|0|1
+264121|장인의 계약서: 마력 저항의 영약|3|0|1
+264122|장인의 계약서: 제한된 무적 물약|3|0|1
+264123|장인의 계약서: 일급 회복 물약|3|0|1
+264124|장인의 계약서: 증류된 화주|3|0|1
+264125|장인의 계약서: 찬란하게 빛나는 머리장식|3|0|1
+264126|장인의 계약서: 찬란하게 빛나는 허리띠|3|0|1
+264127|장인의 계약서: 오크족 전투 다리보호구|3|0|1
+264128|장인의 계약서: 미스릴 박차|3|0|1
+264129|장인의 계약서: 황제의 판금 흉갑|3|0|1
+264130|장인의 계약서: 암흑룬 건틀릿|3|0|1
+264131|장인의 계약서: 거대한 토륨 전투도끼|3|0|1
+264132|장인의 계약서: 아케이나이트 해골 열쇠|3|0|1
+264133|장인의 계약서: 흑단 비수|3|0|1
+264134|장인의 계약서: 일급 표적 허수아비|3|0|1
+264135|장인의 계약서: 녹색 렌즈|3|0|1
+264136|장인의 계약서: 감쪽같은 기계개구리|3|0|1
+264137|장인의 계약서: 노움 자동경보기|3|0|1
+264138|장인의 계약서: 고블린 점퍼 케이블 XL|3|0|1
+264139|장인의 계약서: 야전수리로봇 74A|3|0|1
+264140|장인의 계약서: 진은 변환기|3|0|1
+264141|장인의 계약서: 저격용 조준경|3|0|1
+264142|장인의 계약서: 온순한 기계설인|3|0|1
+264143|장인의 계약서: 악의의 가죽 바지|3|0|1
+264144|장인의 계약서: 고르독 오우거 위장복|3|0|1
+264145|장인의 계약서: 화산 가슴보호갑|3|0|1
+264146|장인의 계약서: 룬문자 가죽 머리띠|3|0|1
+264147|장인의 계약서: 악의의 가죽 팔보호구|3|0|1
+264148|장인의 계약서: 키메라 조끼|3|0|1
+264149|장인의 계약서: 두꺼운 전갈 투구|3|0|1
+264150|장인의 계약서: 룬문자 가죽 팔보호구|3|0|1
+264151|장인의 계약서: 눈호랑이 장화|3|0|1
+264152|장인의 계약서: 마술매듭 터번|3|0|1
+264153|장인의 계약서: 룬매듭 가방|3|0|1
+264154|장인의 계약서: 룬매듭 장화|3|0|1
+264155|장인의 계약서: 턱시도 재킷|3|0|1
+264156|장인의 계약서: 지옥매듭 장화|3|0|1
+264157|장인의 계약서: 세나리온 약초 가방|3|0|1
+264158|장인의 계약서: 그림자매듭 복면|3|0|1
+264159|장인의 계약서: 유령매듭 조끼|3|0|1
+264160|장인의 계약서: 영혼의 주머니|3|0|1
+264163|조련용 막대|1|12|0
 264201|Schematic: SAF-T Tabs|1|9|125
 264202|Schematic: SAF-T Dynamite|1|9|125
 264203|Schematic: SAF-T Copper Bomb|1|9|275
@@ -16280,8 +16280,8 @@
 265141|피 묻은 가보|1|12|0
 265357|스나글의 주둥이|1|12|0
 265358|도둑맞은 광물|1|12|0
-265359|Novice's Robe|0|4|1
-265360|Novice's Pants|0|4|1
+265359|견습드루이드용 로브|0|4|1
+265360|견습드루이드용 바지|0|4|1
 265475|사령관 할리엔의 잘린 머리|1|12|0
 265476|찢어진 서신|1|12|0
 265732|Unfilled Brown Waterskin|1|12|0
@@ -16308,12 +16308,12 @@
 266154|Lumber Tree Seed|1|12|0
 266156|신선한 거름|1|12|0
 266157|거대한 가재 껍데기|1|12|0
-266158|Taming Rod|1|12|0
+266158|조련용 막대|1|12|0
 266161|Tree Sprouting Kit|1|12|0
 266251|버려진 인형|1|12|0
 266252|손상된 로켓|1|12|0
-266253|Taming Rod|1|12|0
-266254|Taming Rod|1|12|0
+266253|조련용 막대|1|12|0
+266254|조련용 막대|1|12|0
 266424|황혼의 책장|1|12|0
 266425|황혼의 부적|1|12|0
 266426|Filled Crystal Catalyst|1|12|0
@@ -16338,20 +16338,20 @@
 267091|이교도 귀|1|12|0
 267104|황혼의 고서|1|12|0
 267137|크롤도크 거푸집|1|12|0
-267138|Krol'dok Moulding|1|12|0
+267138|크롤도크 거푸집|1|12|0
 267178|Wheeler's Steed Feed|1|12|0
 267223|발자국 탁본|1|12|0
 267224|Tuft of Bloody Fur|1|12|0
 267225|Gnawed Horse Skull|1|12|0
 267234|Twilight Bangle|1|12|0
 267244|Care Package|1|12|0
-267256|Field Marshal's Log|0|15|0
+267256|야전사령관의 기록|0|15|0
 267263|Bundle of Lion Pelts|1|12|0
 267266|진흙지느러미 멀록 머리|1|12|0
-267272|Taming Rod|1|12|0
+267272|조련용 막대|1|12|0
 267283|Test Gear Bag|2|1|10000
 267289|붉은 독침 덩이줄기|1|12|0
-267298|Taming Rod|1|12|0
+267298|조련용 막대|1|12|0
 267336|Fluffy Wolf Fur|1|12|0
 267337|Fresh Pine Needles|1|12|0
 267341|Sweetpaw Jam|1|0|200
@@ -16428,7 +16428,7 @@
 268812|속삭이는 공포의 잔류물|1|12|0
 268813|Fel Ash Sample|1|12|0
 268814|Sludgy Bits|0|15|15
-268815|Bone Fragments|0|15|15
+268815|해골 조각|0|15|15
 268816|Surplus Crops|1|12|0
 268824|The Friz Special|1|12|0
 268825|Bottle of Whispers|1|12|0
@@ -16471,7 +16471,7 @@
 269715|사바나 사자 가죽|1|12|0
 269716|Keen Skinning Knife|2|2|582
 269717|Wildgore Greatsword|2|2|30
-269718|Bundle of Hides|1|12|0
+269718|가죽 묶음|1|12|0
 269719|덫에 걸린 사냥감|1|12|0
 269739|피 묻은 털뭉치|0|15|10
 269741|Scented Runewood Brooch|2|4|15350
@@ -16480,7 +16480,7 @@
 269757|Battered Zeppelin Parcel|1|12|0
 269758|Quest Reward Placeholder|1|15|0
 269759|Quest Reward Placeholder|1|15|0
-269773|Twilight Missive|1|12|0
+269773|황혼의 서신|1|12|0
 269774|Unusual Ooze Vial|1|12|0
 269777|Quicklatch Sparker|1|12|0
 269810|Scrapper's Salvage|1|12|0
@@ -16549,7 +16549,7 @@
 270091|Seadog's Battered Cuffs|2|4|3789
 270092|Blackwater Scimitar|2|2|13979
 270093|Blackwater Cap|2|4|5091
-270094|Black Whelp Boots|2|4|5519
+270094|새끼 검은용 장화|2|4|5519
 270096|Rebel Breastplate|2|4|8438
 270097|Archer's Leggings|2|4|12692
 270100|Freebooter's Armband|2|4|4855
@@ -16599,7 +16599,7 @@
 270428|Monster - Glaive - Demonhunter Illidan|0|2|2
 270429|Monster - Glaive - Demonhunter Illidan Offhand|0|2|2
 270435|루돌프 겔하트의 머리|1|12|0
-270436|Rudolph Gelhardt's Head|1|12|0
+270436|루돌프 겔하트의 머리|1|12|0
 270865|티탄의 유물|1|12|0
 270866|티탄의 유물|1|12|0
 270868|Dwarven Tradeskill Signpost|3|15|0
@@ -16625,7 +16625,7 @@
 271431|신선한 사과|1|12|0
 271432|코요테 모피|1|12|0
 271611|큐빅 드라코니아|1|12|0
-271612|Head of Scaldaron|1|12|0
+271612|스칼다론의 머리카락|1|12|0
 271613|스칼다론의 머리카락|1|12|0
 271618|Rejected Roses|1|4|125
 271620|현장감독의 상자|1|12|0
@@ -16830,7 +16830,7 @@
 272124|Translated Tale of I'lalai|1|15|0
 272126|Makeshift Bandages|1|12|0
 272127|Drinking Water Sample|1|12|0
-272151|Damaged Undermine Supply Crate|2|15|0
+272151|손상된 언더마인 보급품 상자|2|15|0
 272156|Monster - Sword1H, Skyborne (Blue)|0|2|4
 272157|Monster - Sword1H, Skyborne (Green)|0|2|4
 272158|Monster - Sword 2H, Skyborne (Blue)|0|2|4
@@ -16858,7 +16858,7 @@
 272190|Gronok's Key|1|12|0
 272313|Ancient Hilt|2|12|0
 272314|Neutralizing Concoction|1|12|0
-272319|Tattered Note|2|12|0
+272319|너덜너덜한 쪽지|2|12|0
 272394|Penitent's Cinch|4|4|50000
 272395|Assassin's Waistguard|4|4|50000
 272396|Shifter's Belt|4|4|50000
@@ -16881,7 +16881,7 @@
 272429|Idol of Synthesis|3|4|13067
 272430|Swarming Idol|3|4|13067
 272431|Tidal Totem|3|4|13067
-272432|Totem of the Storm|3|4|13067
+272432|폭풍의 토템|3|4|13067
 272433|Burning Totem|3|4|13067
 272434|Sentinel's Libram|3|4|13067
 272435|Libram of Law|3|4|13067
@@ -16890,10 +16890,10 @@
 272438|Weakness Analyzer|3|4|16250
 272439|Serenity Field|3|4|16250
 272440|Defender's Grip Stabilizer|3|4|16250
-272448|Purified Kor Gem|1|12|0
-272449|Scout's Tabard|1|4|2500
-272450|Stone Guard's Herald|1|4|10000
-272451|Sergeant's Cloak|3|4|4285
+272448|정화된 코르석|1|12|0
+272449|척후병의 휘장|1|4|2500
+272450|투사의 문장|1|4|10000
+272451|수호병의 망토|3|4|4285
 272452|Premier High Warlord's Blade|4|2|0
 272453|Premier Magus Footwraps|3|4|0
 272454|Premier Magus Cuffs|3|4|0
@@ -17015,8 +17015,8 @@
 272577|Premier General's Satin Leggings|4|4|0
 272578|Premier Sergeant's Cloak|3|4|0
 272579|Premier Mortarplate Bracers|3|4|0
-272580|First Sergeant's Plate Bracers|3|4|2878
-272581|First Sergeant's Mail Wristguards|3|4|4348
+272580|하급투사의 판금 팔보호구|3|4|2878
+272581|하급투사의 쇠사슬 손목보호구|3|4|4348
 272582|Premier Dragonhide Armguards|3|4|0
 272589|Premier Sergeant's Cape|3|4|0
 272591|Premier High Warlord's Shield Wall|4|4|0
@@ -17071,8 +17071,8 @@
 272685|Premier High Warlord's Tome of Destruction|4|4|0
 272686|Premier High Warlord's Tome of Mending|4|4|0
 272693|Premier Grand Marshal's Longsword|4|2|0
-272694|Private's Tabard|1|4|2500
-272695|Knight's Colors|1|4|10000
+272694|정찰병의 휘장|1|4|2500
+272695|기사의 제복|1|4|10000
 272698|Premier Sergeant's Cloak|3|4|0
 272699|Premier Sergeant's Cape|3|4|0
 272700|Premier Silk Sash|3|4|0
@@ -17589,7 +17589,7 @@
 273642|Ring of the Fallen Soldier|1|12|0
 273654|Crystal Thread Cloak|2|4|1322
 273658|피투성이 양피지|1|15|0
-273659|Bloody Parchment|1|12|0
+273659|피투성이 양피지|1|12|0
 273771|Sentinel's Sight|1|12|0
 273772|Blackthorne Intelligence|1|12|0
 273798|Ring of the Fallen Soldier|1|12|0
@@ -17943,14 +17943,14 @@
 274957|Lumber Luggers|2|4|3381
 274958|Especially Delicious Berries|1|12|0
 274961|Brute Slayer Band|2|4|4325
-274963|Rot-Covered Harpoon|2|2|17157
+274963|썩어 문드러진 작살|2|2|17157
 274964|불안정한 마법의 티끌|1|15|200
 274966|Silvermoon Shimmerwine|1|12|0
 274968|Premier Senior Sergeant's Insignia|3|4|0
 274969|Premier Master Sergeant's Insignia|3|4|0
 274971|Briny Seafood Stew|1|0|12
 274972|Recipe: Briny Seafood Stew|1|9|500
-274974|Message in a Bottle|2|15|0
+274974|쪽지가 든 병|2|15|0
 274975|로그마 보급품 상자|1|12|0
 274976|Plain Ol' Paletusk|1|0|75
 274977|Recipe: Plain Ol' Paletusk|1|9|500
@@ -18136,7 +18136,7 @@
 276064|War Paint Wrap|1|12|0
 276065|Fizzgrimble's Mysterious Crate|1|12|0
 276066|Frazzlespark's Crate|1|12|0
-276067|Lost Shipping Crate|1|12|0
+276067|잃어버린 화물 상자|1|12|0
 276068|Cask of Powderfuse Port|1|12|0
 276070|촐라루크의 머리카락|1|12|0
 276087|Nail|1|12|0
@@ -18212,7 +18212,7 @@
 276754|Sunderbark Vigil|3|4|24224
 276782|Distant Communication Device|1|2|2
 276783|Spirit of Retribution|1|12|0
-276784|Charger's Lost Soul|1|12|0
+276784|타락한 군마의 영혼|1|12|0
 276785|Danitha's Satchel|1|12|0
 276886|Chol'aruk's Trophy Sword|2|2|0
 276887|Big Bad Basher|2|2|0
@@ -18536,7 +18536,7 @@
 277716|Pattern: Light Leather Reagent Bag|2|9|30
 277717|Spectral Bear Tabard|3|4|0
 277718|Reins of the Spectral Bear|4|15|0
-277844|Mirage Mirror|2|4|0
+277844|신기루 거울|2|4|0
 277845|A Reasonably Large Bag|1|1|0
 277910|Mysticbloom Seed|2|4|0
 277915|Stonetalon Supply Satchel|1|12|0
@@ -18612,7 +18612,7 @@
 278744|신기루 거울|2|12|0
 278796|Condensed Elemental Fragment|0|15|3153
 278797|Crystallized Elemental Shard|0|15|4808
-278836|Head of Rend Blackhand|1|12|0
+278836|렌드 블랙핸드의 머리카락|1|12|0
 278868|트레메인 가문 대장기술 비법서|1|12|0
 279020|Unstable Potion|1|12|0
 279023|Inert Potion|0|15|0
@@ -18724,16 +18724,16 @@
 279481|Package of Pristine Pelts|1|12|0
 279505|Jagged Orcish Sword|1|2|0
 279507|Curved Orcish Dagger|1|2|0
-279589|Menethil Statuette|1|12|0
+279589|메네실 조각상|1|12|0
 279591|마레크의 악어 사냥용 손칼|1|12|0
-279595|Menethil Statuette|1|12|0
-279598|Menethil Statuette|1|12|0
+279595|메네실 조각상|1|12|0
+279598|메네실 조각상|1|12|0
 279601|온전한 랩터 통가죽|1|12|0
 279821|카즈 모단 목재|1|12|0
 279822|카즈 모단 철|1|12|0
 279913|Ti'ik's Head|1|12|0
 279915|노르델|1|12|0
-279924|Nord'el|1|12|0
+279924|노르델|1|12|0
 279934|떨어진 어두운 용비늘|1|12|0
 279935|Book Bag|1|12|0
 279936|Book Bag|1|1|62
@@ -18763,7 +18763,7 @@
 279966|Fishing Hut|1|0|0
 279967|Fish Bowl|1|0|0
 279968|First Aid Kit|1|0|0
-279969|Field Guide|1|0|0
+279969|현장 안내서|1|0|0
 279970|Fermenter|1|0|0
 279972|Faction Banner|1|0|0
 279973|Faction Banner|1|0|0
@@ -18884,7 +18884,7 @@
 281036|불모의 땅 사업 운영 모범 사례|1|12|0
 281037|일명 돌발톱의 "게렌조"|1|12|0
 281038|자이바넬의 깃털|1|12|0
-281039|Mulgore Expansion Plans|1|12|0
+281039|멀고어 확장 계획서|1|12|0
 281040|Prepared Incense|1|15|0
 281041|Bundle of Herbs|1|15|0
 281042|Bundle of Dried Cedar Twigs|1|15|0
@@ -18901,9 +18901,9 @@
 281145|실비아의 검|1|15|0
 281147|그랜트의 방패|1|15|0
 281149|Memories of Valor|0|15|0
-281166|Panda Collar|3|15|0
-281167|Zergling Leash|3|15|0
-281168|Diablo Stone|3|15|0
+281166|판다 목걸이|3|15|0
+281167|저글링 목줄|3|15|0
+281168|디아블로 소환석|3|15|0
 281228|Filled Freshwater Phial|1|12|0
 281229|Empty Phial|1|12|0
 281234|Potion of Winterspring Shrouding|1|0|0
@@ -18995,7 +18995,7 @@
 281358|Stone Key|1|13|170
 281359|Dormant Runestone|1|13|170
 281371|Elemental Attractor|2|15|0
-281473|Guild Charter|1|15|0
+281473|길드 창단허가서|1|15|0
 281538|Matriarch's Mantle|2|4|0
 281539|Bear Fur Cowl|2|4|0
 281586|Elderwild Construction Hammer|3|2|0
@@ -19078,19 +19078,19 @@
 282080|Flame Seared Signet|2|4|17157
 282283|Malignant Root|3|4|0
 282284|Webwood Slicer|2|2|0
-282285|Clearcutter Key|1|0|100
+282285|개벌꾼 열쇠|1|0|100
 282286|Shipwright's Satchel|1|1|200
-282294|Guild Tabard|1|4|2500
+282294|길드 휘장|1|4|2500
 282338|Hallowed Memorandum|1|12|0
 282346|Tainted Tablet|1|12|0
 282380|Glyphic Parchment|1|12|0
 282400|Archaic Rune|1|12|0
 282416|Glowing Recall Crystal|1|12|0
 282418|Humming Recall Crystal|1|12|0
-282419|Crumpled Note|1|12|0
+282419|구겨진 쪽지|1|12|0
 282420|Folded Parchment|1|12|0
 282421|Scribbled Note|1|12|0
-282422|Simple Note|1|12|0
+282422|간결한 쪽지|1|12|0
 282423|Consecrated Scroll|1|12|0
 282559|Fallen Adventurer's Femur|0|15|604
 282719|Monster - Bow, Skyborne (Gray)|1|2|1
@@ -19248,7 +19248,7 @@
 286426|Honorbound Cloak|2|4|213
 286427|Cloak of the Honored Guest|2|4|213
 286647|고갈된 수정 심장|1|12|0
-286648|Depleted Crystal Heart|1|12|0
+286648|고갈된 수정 심장|1|12|0
 286724|Verdant Sea Turtle|4|15|0
 286727|Crimson Rooster|4|15|0
 286737|Avala's Binding|1|4|0
@@ -19267,54 +19267,54 @@
 287628|Gilded Blademaster's Shoulders|3|4|3
 287647|Ensemble: Gilded Blademaster's Armor|3|0|0
 287648|Gilded Blademaster's Greatsword|3|2|12
-287958|Titan Relic|1|12|0
-287959|Titan Relic|1|12|0
-287963|Roasted Quail|1|0|200
-287964|Morning Glory Dew|1|0|200
-287966|Minor Healing Potion|1|0|5
-287967|Lesser Healing Potion|1|0|25
-287968|Minor Mana Potion|1|0|10
-287969|Lesser Mana Potion|1|0|30
-287971|Woolen Bag|1|1|300
-287972|Rumsey Rum Dark|1|0|50
-287973|Tender Wolf Steak|1|0|300
-287974|Grilled Squid|1|0|8
-287975|Swiftness Potion|1|0|25
-287976|Free Action Potion|1|0|75
-287977|Greater Healing Potion|1|0|125
-287978|Rough Sharpening Stone|1|0|3
-287979|Lesser Wizard Oil|1|7|1000
-287980|Elemental Sharpening Stone|2|0|1250
-287992|Old Key|1|13|0
+287958|티탄의 유물|1|12|0
+287959|티탄의 유물|1|12|0
+287963|메추라기 구이|1|0|200
+287964|아침 이슬|1|0|200
+287966|최하급 치유 물약|1|0|5
+287967|하급 치유 물약|1|0|25
+287968|최하급 마나 물약|1|0|10
+287969|하급 마나 물약|1|0|30
+287971|양모 자루|1|1|300
+287972|진한 럼지 럼주|1|0|50
+287973|연한 늑대 스테이크|1|0|300
+287974|오징어 구이|1|0|8
+287975|신속의 물약|1|0|25
+287976|자유 의지의 물약|1|0|75
+287977|상급 치유 물약|1|0|125
+287978|조잡한 숫돌|1|0|3
+287979|하급 마술사 오일|1|7|1000
+287980|원소 숫돌|2|0|1250
+287992|오래된 열쇠|1|13|0
 288185|Adventurer's Tent|1|15|750000
-288336|Blue Firework|1|0|5
-288337|Green Firework|1|0|5
-288338|Red Firework|1|0|5
-288339|Red Streaks Firework|1|0|12
-288340|Yellow Rose Firework|1|0|10
-288896|Superior Healing Potion|1|0|250
-288897|Superior Mana Potion|1|0|400
-288898|Swiftness Potion|1|0|25
-288900|Earthshaker|4|2|113631
-288926|Choker of the Fire Lord|4|4|89135
-288927|Quick Strike Ring|4|4|64030
-288928|Heavy Dark Iron Ring|4|4|53364
-288929|Band of Sulfuras|4|4|79853
-288930|Cauterizing Band|4|4|60256
-288931|Ring of Spell Power|4|4|91453
-289081|Noggenfogger Elixir|1|0|175
+288336|푸른 폭죽|1|0|5
+288337|녹색 폭죽|1|0|5
+288338|붉은 폭죽|1|0|5
+288339|붉은 줄무늬 폭죽|1|0|12
+288340|노란 장미 폭죽|1|0|10
+288896|최상급 치유 물약|1|0|250
+288897|최상급 마나 물약|1|0|400
+288898|신속의 물약|1|0|25
+288900|대지진의 망치|4|2|113631
+288926|화염 군주의 목걸이|4|4|89135
+288927|속전속결의 반지|4|4|64030
+288928|무거운 검은무쇠 반지|4|4|53364
+288929|설퍼라스의 반지|4|4|79853
+288930|마비의 반지|4|4|60256
+288931|주문 강화의 반지|4|4|91453
+289081|노겐포저의 비약|1|0|175
 289082|Elixir of Endless Intellect|1|0|100
 289083|Elixir of Endless Power|1|0|100
 289084|Elixir of Endless Healing|1|0|100
 289086|Elixir of Endless Rapidity|1|0|100
 289087|Elixir of Endless Opportunity|1|0|100
 289088|Scroll of Endless Fortitude|1|0|100
-289292|Hammer of Bestial Fury|4|2|109327
-289294|Thunderfury, Blessed Blade of the Windseeker|5|2|255355
-289295|Sulfuras, Hand of Ragnaros|5|2|332623
-289296|Benediction|4|2|0
-289297|Anathema|4|2|0
-289303|Rhok'delar, Longbow of the Ancient Keepers|4|2|0
+289292|야수의 분노 망치|4|2|109327
+289294|우레폭풍 - 바람추적자의 성검|5|2|255355
+289295|설퍼라스 - 라그나로스의 손|5|2|332623
+289296|축복의 지팡이|4|2|0
+289297|저주의 지팡이|4|2|0
+289303|라크델라 - 고대수호자의 장궁|4|2|0
 289321|Elixir of Endless Mana|1|0|100
 289329|Elixir of Endless Growth|1|0|95
 289330|Scroll of Endless Speed|1|0|100

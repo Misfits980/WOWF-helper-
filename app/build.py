@@ -379,7 +379,8 @@ if (Q / 'items-addon.jsonl').exists():
     print('애드온이 게임에서 읽은 값으로 고침 · 이름', _an, '· 등급', _aq, '· 능력치', _as, '/', len(_AD))
 # 착용 가능 직업: forg 마스크는 「어울리는 직업」(능력치 기준)이라 실제 착용 규칙으로 다시 계산
 #  - 무기 숙련·방어구 종류로 판단, wowf.io 「직업:」 줄이나 allow가 있으면 그 직업만
-#  - forg가 3직업 이하로만 표시한 건 직업 전용 장비(티어 등)로 보고 그대로 둠
+#  - forg가 3직업 이하로만 표시한 건 영웅·전설(티어 등)일 때만 직업 전용으로 보고 그대로 둠
+#    (고급·희귀는 forg 표시가 「어울리는 직업」일 뿐이라 착용 규칙으로: 예 보석박힌 장갑(천)이 사냥꾼 전용으로 잡혀 사제가 「못 끼는 장비」로 나오던 것)
 try:
     from items_wowf import mask_of, CL as _CL
     _KO = {'전사': 'warrior', '성기사': 'paladin', '사냥꾼': 'hunter', '도적': 'rogue', '사제': 'priest', '주술사': 'shaman', '마법사': 'mage', '흑마법사': 'warlock', '드루이드': 'druid'}
@@ -401,7 +402,7 @@ try:
             cl = [t for t in (o_.get('lines') or []) if t.startswith('직업:')]
             if cl:
                 allow = [_KO[x.strip()] for x in cl[0][3:].split(',') if x.strip() in _KO] or allow
-        elif not allow and bin(m0).count('1') <= 3 and not (f[3] or '').startswith('2.') and (f[3] or '') != '4.0' and f[2] not in ('ne', 'fi', 'tr', 'ho', 'ba'):
+        elif not allow and bin(m0).count('1') <= 3 and f[4] in ('e', 'l') and not (f[3] or '').startswith('2.') and (f[3] or '') != '4.0' and f[2] not in ('ne', 'fi', 'tr', 'ho', 'ba'):
             # 기타 방어구·목·반지·장신구·보조 장비·망토는 누구나 낄 수 있어서 forg의 좁은 표시(추천 직업)를 쓰지 않음 (직업 전용은 wowf 「직업:」 줄로)
             # 무기는 forg 표시가 적어도 숙련 규칙으로 (도적 한손 도끼처럼 포에버에서 바뀐 숙련 반영)
             continue

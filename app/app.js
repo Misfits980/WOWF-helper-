@@ -1237,7 +1237,7 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
 let BAGDB=null,BAGL=false;
 function bagDbLoad(){if(BAGL)return;BAGL=true;fetch('data/qdb/item-bag.txt?v='+((D_VER&&D_VER.bag)||'0')).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();t.split('\n').forEach(l=>{if(!l)return;const f=l.split('|');M.set(+f[0],{nm:f[1],q:+f[2],cls:+f[3],sell:+f[4]})});BAGDB=M;rerender(true)}).catch(()=>{BAGDB=new Map();rerender(true)})}
 function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id)})));return S}
-function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{})){const X=QDB&&QDB.get(+id);((X&&X.t)||[]).forEach(t=>{if(t[0]==='수집'&&t[1])N.add(t[1])});const d=QD.get(+id);((d&&d.wf&&d.wf.t)||[]).forEach(t=>{if(t[0])N.add(t[0])})}
+function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{})){const X=QDB&&QDB.get(+id);((X&&X.t)||[]).forEach(t=>{if(t[0]==='수집'&&t[1])N.add(t[1])});/* 아이템으로 시작한 퀘스트(장인의 계약서 등)는 그 아이템도 있어야 끝낼 수 있음 */if(X&&X.g&&X.g[3]==='item'&&X.g[0])N.add(X.g[0]);const d=QD.get(+id);((d&&d.wf&&d.wf.t)||[]).forEach(t=>{if(t[0])N.add(t[0])})}
   (ui._st||[]).forEach(s=>s.items.forEach(it=>(it.q.cnt||[]).forEach(o=>N.add(o[0]))));return N}
 function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||{}).map(Number));const E=new Map(bagAll(c).map(x=>[x.it.id,x]));const QN=questItemNames(c);const MM=myMatIds(c);const W=new Set((c.wish||[]).map(Number));
   const G={q:[],sell:[],mat:[],bank:[],other:[]};let sellSum=0;
@@ -2214,7 +2214,33 @@ function recQ(id,z0){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!q&&!d.g
   let o=talk?null:t&&t[1]?{nm:t[1],xy:txy||(qp&&qp.xy),z:txy?null:qp&&qp.zone}:qp&&!(d.t&&d.t.length)?{nm:qp.nm,xy:qp.xy,z:qp.zone}:null;
   /* 게임이 알려 준 목표 위치가 있으면 그 자리로, 길안내 다음 지점(동굴 입구 등)이 따로 있으면 경유지(via)로 */
   if(o&&GG&&GG.ph==='o'&&GG.o){o={nm:o.nm,xy:[GG.o[1],GG.o[2]],z:GG.o[0]};if(GG.w&&zEq(GG.w[0],GG.o[0])&&Math.hypot(GG.w[1]-GG.o[1],GG.w[2]-GG.o[2])>2.5)o.via=[GG.w[1],GG.w[2]]}
-  return {id,nm:(q&&q.n)||'',lv:(q&&q.lv)||0,z:(q&&q.z)||z0,g:[G[0],G[1]||(q&&q.z)||z0,gxy],r:[R[0],R[1]||(q&&q.z)||z0,rxy],o,/* 대화만 하면 끝나는 퀘스트는 '하기' 단계를 만들지 않음 */rep:/평판/.test((q&&q.o)||''),cnt:wf.filter(x=>x[1]>0)}}
+  const qt=(q&&q.o)||'',zq=(q&&q.z)||z0;
+  if(o&&o.nm&&!/[가-힣]/.test(o.nm)){const k=qCountObj(qt);if(k)o=Object.assign({},o,{nm:k.replace(/\s\d+(개|마리|명|장)$/,'')})}
+  /* 「평판을 유지하면서 …를 처치」는 평판이 조건일 뿐이고 할 일은 따로 있음 → 평판 올리기는 「올리고/높이고」일 때만 */
+  const repUp=/평판/.test(qt)&&!/평판을?\s?유지/.test(qt);
+  /* 목표 자료가 없는데 글에 할 일(처치·모으기·구출…)이 있으면 글 속 장소로 「하기」 단계를 만듦 (장소 좌표는 그 지역 거점 이름과 맞을 때만) */
+  if(!o&&!talk&&qt&&qObjAct(qt)){const pl=qTextPlace(qt,zq);o={nm:pl?pl.nm:'퀘스트 목표',xy:pl&&pl.xy||null,z:zq,tx:1}}
+  return {id,nm:(q&&q.n)||'',lv:(q&&q.lv)||0,z:zq,g:[G[0],G[1]||zq,gxy],r:[R[0],R[1]||zq,rxy],o,/* 대화만 하면 끝나는 퀘스트는 '하기' 단계를 만들지 않음 */rep:repUp&&!o,cnt:wf.filter(x=>x[1]>0)}}
+/* 게임에서 불러온 기록이 있을 때만: 앞 퀘스트를 아직 안 했으면 「먼저 ○○」 (불러온 적 없으면 끝낸 퀘스트를 몰라서 안 보여 줌) */
+function preHint(c,id){if(!c.imported||!QDB)return '';const D=QDB.get(id);if(!D)return '';const ql=c.ql||{};
+  const P=[...new Set([...(D.pre||[]),...((D.pre1&&D.pre1.length===1)?D.pre1:[]),...(QPAR[id]!=null?[QPAR[id]]:[])])].filter(p=>p!==id);
+  for(const p of P){const X=QDB.get(p);if(!X||mqDone(c,X)||(ql[p]||0)>=1)continue;return ' · <b class="prh">먼저 「'+esc(X.n||'')+'」</b>'}return ''}
+/* 퀘스트 글에 직접 할 일이 있는지 (처치·모으기·구출·호위… 또는 「6개·8마리」 같은 개수) */
+function qObjAct(t){return /(처치|모아|모으|모집|구출|해제|호위|회수|채취|획득|수집|파괴|제거|불태|죽여|잡아|조사해)/.test(t)||/\d+\s?(개|마리|명|장|곳|번)/.test(t)}
+/* 글 속 「○○에서·○○ 곳곳·○○ 근처·○○에 있는 (대상)」 장소 → 이름과(그 지역 거점과 맞으면) 좌표. 「…에 있는 ○○에게」처럼 NPC 자리를 말하는 것은 뺌 */
+function qTextPlace(t,zone){const H=(typeof QHUB!=='undefined'&&QHUB[zone])||[];const nz=s=>String(s).replace(/\s|의/g,'');
+  const re=/((?:[가-힣A-Za-z'’]+\s){0,3}[가-힣A-Za-z'’]+?)(에서|의? 곳곳| 근처에서| 근처| 주위에|에 있는| 밖으로| 안에서)/g;let m;const C=[];
+  while((m=re.exec(t))){const after=t.slice(m.index+m[0].length,m.index+m[0].length+18);if(/에게/.test(after)&&!/에게서/.test(after))continue;
+    const nm=qLastWords(m[1]);if(!nm||nm.length<2||/에게서$/.test(nm))continue;
+    const k=nz(nm);let hit=null;for(const h of H){const hk=nz(h[0]);let p=0;while(p<hk.length&&p<k.length&&hk[p]===k[p])p++;if(k.includes(hk)||hk.includes(k)||p>=3){hit=h;break}}
+    C.push({nm,xy:hit?[hit[1],hit[2]]:null})}
+  const best=C.find(x=>x.xy)||C[0];if(best)return best;
+  /* 장소가 없으면 「도둑맞은 보급품 6개」처럼 할 일 이름으로 */
+  const c=qCountObj(t);return c?{nm:c,xy:null}:null}
+/* 글 속 「○○ 6개·8마리」가 하나뿐이면 그 이름 */
+function qCountObj(t){const M=[...t.matchAll(/([가-힣][가-힣]*(?:\s[가-힣]+){0,2})\s?(\d+)\s?(개|마리|명|장)/g)];if(M.length!==1)return null;const w=qLastWords(M[0][1]);return w?w+' '+M[0][2]+M[0][3]:null}
+/* 「○○을 위해 □□」「도구를 사용해 □□」처럼 앞에 붙은 말을 떼고 마지막 이름 덩어리만 */
+function qLastWords(x){const w=String(x).trim().split(/\s+/);let i=-1;w.forEach((v,k)=>{if(k<w.length-1&&/(을|를|위해|에게|에게서|하고|하며|면서|해|하여|가서|후|다음|그런|로|으로|에|에서)$/.test(v))i=k});const r=w.slice(i+1);const last=r[r.length-1]||'';if(/(에게서|에게|에|로)$/.test(last))return '';return r.join(' ')}
 function recStages(c,list,start){const ql=c.ql||{};const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
   const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.type===type&&s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}if(place&&!s0.place.split(' · ').includes(place)&&s0.place.split(' · ').length<2)s0.place+=' · '+place;s0.items.push({q,type,need});if(need)[].concat(need).forEach(x=>s0.need.add(x));return s0};
   /* 선행 퀘스트가 같은 목록에 있으면 그걸 반납한 뒤에 받기 (예: 은둔자 → 다크샤이어로부터의 보급품) */
@@ -2226,12 +2252,17 @@ function recStages(c,list,start){const ql=c.ql||{};const St=[];const near=(a,b)=
   /* 순서: 받기 → 하기 → 반납 조건을 지키며 가까운 곳부터 */
   const done=new Set(Object.keys(ql).flatMap(id=>ql[id]>=2?['g'+id,'d'+id]:ql[id]>=1?['g'+id]:[]));const out=[];const left=St.slice();
   const ok=it=>!it.need||(Array.isArray(it.need)?it.need.every(x=>done.has(x)):done.has(it.need));const dist=(a,b)=>a&&b?Math.hypot(a[0]-b[0],a[1]-b[1]):999;
-  let cur=null;if(start&&start.xy){const av=left.filter(s=>s.items.some(ok));cur=av.slice().sort((a,b)=>(a.zone!==start.z)-(b.zone!==start.z)||dist(start.xy,a.xy)-dist(start.xy,b.xy))[0]}
+  /* 줄 세울 때만 쓰는 자리: 위치 모르는 「하기」는 그 퀘스트를 받은 곳 근처로 어림(화면·길 안내 좌표는 그대로 「위치 없음」) */
+  St.forEach(s=>{if(!s.xy&&s.type==='do'){const g=s.items.map(it=>it.q.g).find(g=>g&&g[2]&&g[1]===s.zone);if(g)s.sxy=g[2]}});
+  const AC=new Map();const atl=s=>{const p=s.sxy||s.xy;if(!p)return null;const k=s.zone+'|'+p.join(',');if(!AC.has(k))AC.set(k,toAtlas(s.zone,p.join(',')));return AC.get(k)};
+  /* 같은 지역이면 지역 좌표, 다른 지역이면 큰 지도 거리(다른 대륙은 맨 뒤) — 지역마다 좌표 기준이 달라서 그냥 빼면 안 됨 */
+  const gap=(a,b)=>{if(a.zone===b.zone)return dist(a.sxy||a.xy,b.sxy||b.xy);const p=atl(a),q=atl(b);if(!p||!q)return 5e5;if(p.c!==q.c)return 1e6;return Math.hypot(p.x-q.x,p.y-q.y)};
+  let cur=null;if(start&&start.xy){const av=left.filter(s=>s.items.some(ok));const S0={zone:start.z,xy:start.xy};cur=av.slice().sort((a,b)=>(a.zone!==start.z)-(b.zone!==start.z)||gap(S0,a)-gap(S0,b))[0]}
   cur=cur||left.find(s=>s.type==='get'&&s.items.every(ok))||left.find(s=>s.items.some(ok));let g=0;
   while(cur&&g++<120){const R=cur.items.filter(ok),W=cur.items.filter(it=>!ok(it));
     if(R.length){out.push(Object.assign({},cur,{items:R}));R.forEach(it=>{done.add((it.type==='get'?'g':'d')+it.q.id);if(it.type==='turn')done.add('t'+it.q.id)})}
     left.splice(left.indexOf(cur),1);if(W.length)left.push(Object.assign({},cur,{items:W}));if(!left.length)break;
-    const av=left.filter(s=>s.items.some(ok));const pool=av.length?av:left;const from=cur;cur=pool.slice().sort((a,b)=>(a.zone!==from.zone)-(b.zone!==from.zone)||dist(from.xy,a.xy)-dist(from.xy,b.xy))[0]}
+    const av=left.filter(s=>s.items.some(ok));const pool=av.length?av:left;const from=cur;cur=pool.slice().sort((a,b)=>(a.zone!==from.zone)-(b.zone!==from.zone)||gap(from,a)-gap(from,b))[0]}
   /* 붙어 있는 같은 곳·같은 종류는 하나로 */
   const M=[];out.forEach(s=>{const p=M[M.length-1];if(p&&p.type===s.type&&p.zone===s.zone&&(near(p.xy,s.xy)||(!p.xy&&!s.xy&&p.place===s.place)))p.items=p.items.concat(s.items);else M.push(s)});return M}
 const RST={get:['받기','g'],do:['하기','o'],turn:['반납','r']};
@@ -2340,7 +2371,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오가면 알려 주기 */const ISL=[['페더문','페더문 요새는 섬이에요. 페랄라스 서쪽 해안 선착장(31, 39 근처)에서 배를 타고 건너요.']];const isl=x=>x?ISL.find(i=>x.place.includes(i[0])):null;
    const hit=isl(s0)||isl(ST[1]);if(hit)h+='<div class="isl">⛵ '+esc(hit[1])+'</div>'}
   h+=s0.items.map(it=>{const q=it.q;if(it.type==='do'&&q.cnt.length)return q.cnt.map((o,i)=>{const k=q.id+'|'+i;const v=(c.qc||{})[k]||0;return '<div class="ob4"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+'</small>'+(i===0?qnTag(c,q.id):'')+'</span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+v+'/'+o[1]+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
-    return '<div class="ob4"><span class="m">'+esc(q.nm)+'<small>'+(it.type==='get'?esc(q.g[0]||'')+(q.lv>0?' · Lv '+q.lv:''):it.type==='turn'?'반납 · '+esc(q.r[0]||''):esc(q.o?q.o.nm:'평판 올리기'))+'</small>'+qnTag(c,q.id)+'</span>'+(it.type==='turn'&&(RWD.get(q.id)||{}).xp?'<span class="xp">+'+((RWD.get(q.id)||{}).xp).toLocaleString()+'</span>':'')+'</div>'}).join('');
+    return '<div class="ob4"><span class="m">'+esc(q.nm)+'<small>'+(it.type==='get'?esc(q.g[0]||'')+(q.lv>0?' · Lv '+q.lv:'')+preHint(c,q.id):it.type==='turn'?'반납 · '+esc(q.r[0]||''):esc(q.o?q.o.nm:'평판 올리기'))+'</small>'+qnTag(c,q.id)+'</span>'+(it.type==='turn'&&(RWD.get(q.id)||{}).xp?'<span class="xp">+'+((RWD.get(q.id)||{}).xp).toLocaleString()+'</span>':'')+'</div>'}).join('');
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
   h+='<div class="ft"><button class="q" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button><button class="p" data-a="rsdone">다 했어요 · 다음 단계</button></div></div>';
   const more=ui.rsall?ST.slice(1):ST.slice(1,5);
