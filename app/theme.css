@@ -150,6 +150,8 @@ details.card>summary,details>summary{cursor:pointer}
 @keyframes wfhInR{from{opacity:.25;transform:translateX(-26px)}to{opacity:1;transform:none}}
 #app.tin-l>.wrap{animation:wfhInL .22s ease-out}
 #app.tin-r>.wrap{animation:wfhInR .22s ease-out}
+/* 밀려 들어오는 동안(탭 바꾸기·장비 칸 넘기기) 화면이 옆으로 잠깐 넓어져 가로로 밀리지 않게 */
+#app{overflow-x:clip}
 @media (prefers-reduced-motion:reduce){#app.tin-l>.wrap,#app.tin-r>.wrap{animation:none}}
 
 /* ---------- 홈: 챙길 것 세 칸 ---------- */

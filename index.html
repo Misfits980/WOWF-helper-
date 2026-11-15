@@ -2326,6 +2326,8 @@ details.card>summary,details>summary{cursor:pointer}
 @keyframes wfhInR{from{opacity:.25;transform:translateX(-26px)}to{opacity:1;transform:none}}
 #app.tin-l>.wrap{animation:wfhInL .22s ease-out}
 #app.tin-r>.wrap{animation:wfhInR .22s ease-out}
+/* 밀려 들어오는 동안(탭 바꾸기·장비 칸 넘기기) 화면이 옆으로 잠깐 넓어져 가로로 밀리지 않게 */
+#app{overflow-x:clip}
 @media (prefers-reduced-motion:reduce){#app.tin-l>.wrap,#app.tin-r>.wrap{animation:none}}
 
 /* ---------- 홈: 챙길 것 세 칸 ---------- */
@@ -2545,10 +2547,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=1415da6a"></script>
-<script>/* ve557a1 @11/15 19:16 */
+<script>/* v78deec @11/15 20:05 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/15 19:16';
+const BUILD='11/15 20:05';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2704,9 +2706,10 @@ const save=()=>{const c=DB.list.find(x=>x.id===DB.cur);if(c)c._t=Date.now();save
 const SYNC_K='wfh_sync',SYNC_DESC='wowf-helper sync (와포 도우미 기록)',SYNC_F='wowf-helper.json';
 let SY=(()=>{try{return JSON.parse(localStorage.getItem(SYNC_K))||{}}catch(e){return {}}})();
 const sySave=()=>{try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}};
-let syT=null,syBusy=false;
+let syT=null,syBusy=false,syHold=0;
 const syOn=()=>!!(SY.bid&&SY.key)||!!(SY.tok&&SY.gid);
-function syQueue(){if(!syOn())return;clearTimeout(syT);syT=setTimeout(()=>syPush(),4000)}
+/* 「되돌리기」 알림이 떠 있는 동안(6초)은 올리지 않고 기다림: 되돌릴 수 있는 바뀜이 다른 기기로 먼저 퍼지지 않게 */
+function syQueue(){if(!syOn())return;clearTimeout(syT);syT=setTimeout(()=>syPush(),Math.max(4000,syHold-Date.now()+300))}
 async function syGh(path,opt){const r=await fetch('https://api.github.com'+path,Object.assign({cache:'no-store'},opt||{},{headers:{'Authorization':'Bearer '+SY.tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'}}));
   if(!r.ok){const e=new Error(String(r.status));e.status=r.status;throw e}return r.status===204?null:r.json()}
 /* 캐릭터 말고도 애드온으로 받은 계정 공용 자료(게임 퀘스트 위치·동굴 입구·받은/반납한 자리)도 같이 맞춤 */
@@ -2726,12 +2729,21 @@ function syMergeGame(R){let local=false,remote=false;
   if(eo.length)DB.ent=eo.slice(-400);
   return {local,remote}}
 /* 게임에서 불러온 것(애드온 코드)은 「불러온 시각」으로 따로 비교: 다른 기기에서 나중에 사소한 걸 고쳐도 더 새로 불러온 장비·가방이 지워지지 않게 */
-const SY_IMP=['eq','eqv','bag','bank','gold','rep','ql','qp','lv','tal','wsk','taxi','sess','xp','profLv','profs','imported','spec'];
+const SY_IMP=['eq','eqv','bag','bank','gold','rep','ql','qp','lv','tal','wsk','taxi','sess','xp','profLv','profs','imported','spec','fsT','fsName'];
 const impT=c=>(c&&c.imported&&c.imported.t)||0;
 /* 둘 중 이긴 쪽(w)에 진 쪽(o)의 더 새 불러오기와 끝낸 퀘스트 표시를 합침. 바뀌면 true */
 function syFold(w,o){let ch=false;
   if(impT(o)>impT(w)){SY_IMP.forEach(k=>{if(k in o&&JSON.stringify(w[k])!==JSON.stringify(o[k])){w[k]=JSON.parse(JSON.stringify(o[k]));ch=true}})}
   ['mq','dq','fq'].forEach(k=>{const A=o[k];if(!A||typeof A!=='object')return;const B=w[k]=w[k]||{};for(const id in A)if(A[id]&&!B[id]){B[id]=A[id];ch=true}});
+  /* 플레이 일지: 두 기기 줄을 시각(t)으로 합침 */
+  if(Array.isArray(o.jl)&&o.jl.length){const A=w.jl=Array.isArray(w.jl)?w.jl:[];const has=new Set(A.map(x=>x&&x.t));const add=o.jl.filter(x=>x&&!has.has(x.t));
+    if(add.length){w.jl=A.concat(JSON.parse(JSON.stringify(add))).sort((x,y)=>x.t-y.t).slice(-300);ch=true}}
+  /* 메모: 퀘스트 메모는 이긴 쪽에 없는 번호만 더함(지운 메모는 ''로 남겨 되살아나지 않음) · 지도 핀은 만든 시각(at)으로 합치고 지운 핀(x)은 양쪽에서 지움 */
+  if(o.notes&&typeof o.notes==='object'){const a=o.notes,N=w.notes=w.notes&&typeof w.notes==='object'?w.notes:{};
+    if(a.q&&typeof a.q==='object'){N.q=N.q||{};for(const id in a.q)if(!(id in N.q)){N.q[id]=a.q[id];ch=true}}
+    const X=new Set([...(N.x||[]),...(a.x||[])]);if(X.size>(N.x||[]).length){N.x=[...X].slice(-300);ch=true}
+    const P=N.p=Array.isArray(N.p)?N.p:[];for(let i=P.length-1;i>=0;i--)if(P[i]&&X.has(P[i].at)){P.splice(i,1);ch=true}
+    (Array.isArray(a.p)?a.p:[]).forEach(n=>{if(n&&n.at&&!X.has(n.at)&&!P.some(y=>y&&y.at===n.at)){P.push(JSON.parse(JSON.stringify(n)));ch=true}})}
   return ch}
 const syNm=c=>((c&&c.name)||'').trim().toLowerCase()+'|'+((c&&c.cls)||'');
 function syMerge(R,join){if(!R||!Array.isArray(R.list))return {local:false,remote:false};
@@ -2790,10 +2802,12 @@ async function syPut(){if(SY.bid&&isTD()){const r=await fetch(TD+'wfh-'+SY.bid,{
 async function syPull(quiet,join){if(!syOn()||syBusy)return;syBusy=true;
   try{const R=await syGet();const m=syMerge(R||{list:[]},join);SY.at=Date.now();SY.err=null;sySave();
     if(m.local){saveRaw();if(!quiet)toast('다른 기기의 기록을 가져왔어요');if(DB.list.length&&ui.onb){ui.onb=null;render()}else rerender(true)}
-    syBusy=false;if(m.remote||!R)await syPush()}
+    syBusy=false;if(m.remote||!R)await syPush(true)}
   catch(e){syBusy=false;SY.err=syErr(e);sySave()}}
-async function syPush(){if(!syOn()||syBusy)return;syBusy=true;
-  try{await syPut();SY.at=Date.now();SY.err=null}catch(e){SY.err=e&&e.status===404?syErr(e):'올리지 못했어요 · 다음에 다시 해요'}
+async function syPush(fresh){if(!syOn()||syBusy)return;if(Date.now()<syHold){clearTimeout(syT);syT=setTimeout(()=>syPush(),syHold-Date.now()+300);return}syBusy=true;
+  /* 올리기 전에 서버 기록을 먼저 받아 합침: 그 사이 다른 기기가 올린 것(예: PC 자동 맞춤)을 덮어쓰지 않게. 방금 받았으면(fresh) 건너뜀 */
+  try{if(!fresh){const R=await syGet();if(R&&Array.isArray(R.list)){const m=syMerge(R);if(m.local){saveRaw();if(!document.querySelector('input:focus,textarea:focus'))rerender(true)}}}
+    await syPut();SY.at=Date.now();SY.err=null}catch(e){SY.err=e&&e.status===404?syErr(e):'올리지 못했어요 · 다음에 다시 해요'}
   syBusy=false;sySave()}
 /* 새 연동 코드 만들기 (이 기기 기록을 올리고 코드 받기) */
 async function syMake(){const rnd=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>'23456789ABCDEFGHJKLMNPQRSTUVWXYZ'[b%32]).join('');
@@ -2985,7 +2999,8 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
       if(o.nx&&!M.has(o.nx))delete o.nx;if(o.m>o.lv&&o.lv>0)o.lv=o.m}
     QDB=M;qdbChains();
     for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
-    if(ui.tab==='quest'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}
+    /* 홈(마을 할 일·내 메모)·장비(가방 정리)도 퀘스트 자료를 써서 다 받으면 다시 그림 */
+    if(ui.tab==='quest'||ui.tab==='home'||ui.tab==='gear'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}
 let QKIDS={},QPAR={};
 function qdbChains(){const P={};const K={};const add=(a,b)=>{if(a===b||!QDB.has(a)||!QDB.has(b))return;if(P[b]!=null)return;{const la=QDB.get(a).lv||0,lb=QDB.get(b).lv||0;if(la>0&&lb>0&&la-lb>=8)return}/* 8레벨 넘게 거꾸로 이어진 건 자료 오류로 보고 끊음 */P[b]=a;(K[a]=K[a]||[]).push(b)};
   /* 1) 앞 퀘스트가 하나뿐이면 그게 부모  2) 다음 퀘스트(nx)  3) 안내 퀘스트(bc)는 대상 퀘스트 앞에 */
@@ -3251,7 +3266,7 @@ function chainTag(id,q){const ch=typeof chainOf==='function'?chainOf(id):null;if
 const ui={tab:'home',sheet:null,qz:null,qmode:'rec',dg:null,csec:'tal',srch:'',onb:null,isrch:'',ifil:'ok',pf:null};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $=s=>document.querySelector(s);
-function toastUndo(t,fn){document.querySelectorAll('.toast.undo').forEach(e=>e.remove());const e=document.createElement('div');e.className='toast undo';e.innerHTML='<span></span><button type="button">되돌리기</button>';e.firstChild.textContent=t;const b=e.querySelector('button');b.onclick=ev=>{ev.stopPropagation();e.remove();fn()};document.body.appendChild(e);setTimeout(()=>e.remove(),6000)}
+function toastUndo(t,fn){syHold=Date.now()+6000;document.querySelectorAll('.toast.undo').forEach(e=>e.remove());const e=document.createElement('div');e.className='toast undo';e.innerHTML='<span></span><button type="button">되돌리기</button>';e.firstChild.textContent=t;const b=e.querySelector('button');b.onclick=ev=>{ev.stopPropagation();e.remove();syHold=0;fn()};document.body.appendChild(e);setTimeout(()=>e.remove(),6000)}
 function toast(t){document.querySelectorAll('.toast:not(.undo)').forEach(e=>e.remove());const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),1600)}
 
 /* ===================== 아이템 계산 ===================== */
@@ -3566,7 +3581,9 @@ function playCard(c){const r=xpRate(c);const X=myXp(c);if(!r&&c.gold==null)retur
   if(c.gold!=null)h+='<div><small>가진 돈</small><b class="gld">'+goldTxt(c.gold)+'</b><span>'+(c.lv<40?(c.gold>=1000000?'40레벨 탈것 100골드 준비됐어요':'40레벨 탈것은 100골드 · '+Math.min(99,Math.floor(c.gold/10000))+'% 모았어요'):c.lv>=58&&c.lv<60?'60레벨 빠른 탈것 훈련은 1,000골드예요':'불러온 때 기준')+'</span></div>';
   return h+'</div></div>'}
 /* 📝 내 메모: 퀘스트 메모(c.notes.q[번호]) · 지도 핀 메모(c.notes.p[{c,x,y,t}]) — 캐릭터 기록이라 연동으로 같이 맞춰짐 */
-function noteClean(c){if(!c||!ui.sheet||!String(ui.sheet).startsWith('note:'))return;const ta=document.querySelector('textarea[data-c=pinTxt]');const L=(c.notes&&c.notes.p)||[];const i=+ui.sheet.slice(5);if(ta&&L[i])L[i].t=ta.value.trim();if(L[i]&&!L[i].t&&ui.noteNew){L.splice(i,1)}ui.noteNew=0;save()}
+function noteClean(c){if(!c||!ui.sheet||!String(ui.sheet).startsWith('note:'))return;const ta=document.querySelector('textarea[data-c=pinTxt]');const L=(c.notes&&c.notes.p)||[];const i=+ui.sheet.slice(5);if(ta&&L[i])L[i].t=ta.value.trim();if(L[i]&&!L[i].t&&ui.noteNew){pinGone(c,L[i],true);L.splice(i,1)}ui.noteNew=0;save()}
+/* 지운 지도 핀은 만든 시각(at)을 남겨, 다른 기기와 맞출 때 되살아나지 않게 */
+function pinGone(c,n,on){if(!n||!n.at)return;const N=c.notes=c.notes||{};const X=(N.x||[]).filter(t=>t!==n.at);if(on)X.push(n.at);N.x=X.slice(-300)}
 function qnTag(c,id){const t=qNote(c,id);return t?'<em class="qnt">📝 '+esc(t.length>40?t.slice(0,38)+'…':t)+'</em>':''}
 function qNote(c,id){return ((c.notes&&c.notes.q)||{})[id]||''}
 function qNoteBox(c,id){return '<div class="qnote"><b>📝 내 메모</b><textarea class="inp" rows="2" maxlength="300" data-c="qnote" data-k="'+id+'" placeholder="예: 근처 희귀몹 · 이 퀘 버그 있음 · 파티 필요">'+esc(qNote(c,id))+'</textarea></div>'}
@@ -3575,7 +3592,7 @@ function noteSheet(c,i){const n=((c.notes&&c.notes.p)||[])[+i];if(!n)return '<di
   return '<div class="sh"><h2>📍 지도 메모</h2><button class="x" data-a="close">✕</button></div><p class="note">'+esc(z)+' · '+new Date(n.at||Date.now()).toLocaleDateString('ko-KR')+(ui.noteNew?' · 새 메모':'')+'</p>'
     +'<textarea class="inp" rows="3" maxlength="300" data-c="pinTxt" data-k="'+i+'" placeholder="예: 여기 희귀몹 · 동굴 입구 · 상자 자주 나옴"'+(ui.noteNew?' autofocus':'')+'>'+esc(n.t||'')+'</textarea>'
     +'<div class="bkb" style="margin-top:8px"><button class="btn sm" data-a="close">저장하고 닫기</button><button class="btn sm danger" data-a="pindel" data-k="'+i+'">지우기</button></div>'}
-function notesList(c){const Q=Object.entries((c.notes&&c.notes.q)||{}).filter(([,t])=>t);const P=((c.notes&&c.notes.p)||[]).map((n,i)=>[i,n]).filter(([,n])=>n.t);if(!Q.length&&!P.length)return '';
+function notesList(c){const Q=Object.entries((c.notes&&c.notes.q)||{}).filter(([,t])=>t);if(Q.length&&!QDB)qdbLoad();const P=((c.notes&&c.notes.p)||[]).map((n,i)=>[i,n]).filter(([,n])=>n.t);if(!Q.length&&!P.length)return '';
   return '<div class="card nlist"><div class="hd"><h3>📝 내 메모 <small>'+(Q.length+P.length)+'개</small></h3></div>'
     +Q.slice(0,ui.nAll?99:5).map(([id,t])=>{const X=QDB&&QDB.get(+id);return '<button class="nrow" data-a="qopen" data-k="'+id+'"><b>'+esc(X?X.n:'퀘스트 '+id)+'</b><span>'+esc(t)+'</span></button>'}).join('')
     +P.slice(0,ui.nAll?99:5).map(([i,n])=>'<button class="nrow" data-a="notego" data-k="'+i+'"><b>📍 '+esc(ATL[n.c]?ATL[n.c].ko:'')+' 지도</b><span>'+esc(n.t)+'</span></button>').join('')
@@ -3733,7 +3750,7 @@ function bagAll(c){const w=wOf(c);const out=[];
 /* 🏘️ 마을 들를 때 할 일: 마을(거점)별로 기술 배우기 · 반납 · 받을 퀘스트 · 팔 것 · 은행 · 전문기술 승급을 한 장에 */
 const TOWN_CAP=new Set(['스톰윈드','아이언포지','다르나서스']);
 function townOf(zone,xy){if(!zone)return null;if(TOWN_CAP.has(zone))return zone;if(!xy)return null;const x=Array.isArray(xy)?xy[0]+','+xy[1]:String(xy);const h=qHub(zone,{xy:x,gz:zone,gv:''});return h&&h[1]<50?h[0]+' · '+zone:null}
-function townCard(c){if(!QDB)return '';if(!WLD)wldLoad();const L=c.lv;const T=new Map();const add=(town,k,v)=>{if(!town)return;let t=T.get(town);if(!t){t={town,cap:TOWN_CAP.has(town),e:{}};T.set(town,t)}(t.e[k]=t.e[k]||[]).push(v)};
+function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv;const T=new Map();const add=(town,k,v)=>{if(!town)return;let t=T.get(town);if(!t){t={town,cap:TOWN_CAP.has(town),e:{}};T.set(town,t)}(t.e[k]=t.e[k]||[]).push(v)};
   const rt=myRoute(c);const here=new Set(rt.zs);if(c.lpos&&c.lpos.z)here.add(c.lpos.z);
   /* 반납: 다 한 퀘스트 */for(const [id,v] of Object.entries(c.ql||{})){if(v!==2)continue;const X=QDB.get(+id);if(!X||!X.r||!X.r[2])continue;add(townOf(X.r[1]||X.z,X.r[2]),'turn',{id:+id,nm:X.n})}
   /* 받을 퀘스트: 레벨업 동선 앞 12단계 */
@@ -3782,7 +3799,7 @@ function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||
     if(I.cls===7||I.cls===5){if(MM.has(id))G.mat.push(x);else G.bank.push(x);return}
     G.other.push(x)}));
   return {G,sellSum}}
-function bagSortCard(c){if(!c.bag)return '';if(!BAGDB){bagDbLoad();return '<div class="card bgs"><h3>🧹 가방 정리</h3><p class="note">아이템 자료를 불러오는 중…</p></div>'}
+function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLoad();return '<div class="card bgs"><h3>🧹 가방 정리</h3><p class="note">아이템 자료를 불러오는 중…</p></div>'}
   const R=bagSort(c);if(!R)return '';const {G,sellSum}=R;const row=x=>'<div class="bgsr"><span class="w">'+(x.where==='bank'?'🏦':'🎒')+'</span><b class="q'+(x.I.q==null?1:x.I.q)+'">'+esc(x.I.nm)+'</b>'+(x.n>1?'<em>×'+x.n+'</em>':'')+(x.why?'<small>'+esc(x.why)+'</small>':'')+'</div>';
   const sec=(k,t,sub,L,open)=>L.length?'<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary><b>'+t+'</b> '+L.length+'개'+(sub?' <small>'+sub+'</small>':'')+'</summary>'+L.sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko')).map(row).join('')+'</details>':'';
   const profTxt=(c.profs||[]).join('·');
@@ -5673,7 +5690,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='lhsel'){ui.lhsel=ui.lhsel===k?null:k;rerender(true);return}
   if(a==='side'&&k==='chars'){ui.side=false;sideLock(false);clearInterval(sideIv);sideIv=null;document.body.classList.remove('sidem');ui.sheet='chars';rerender(true);return}
   if(a==='side'){if(k==='0'&&history.state&&history.state.side){try{history.back();return}catch(e){}}sideOn(k!=='0');return}
-  if(a==='pindel'){const L=(c.notes&&c.notes.p)||[];const i=+k;const n=L[i];if(!n)return;L.splice(i,1);save();ui.sheet=null;ui.noteNew=0;rerender(true);toastUndo('지도 메모를 지웠어요',()=>{L.splice(i,0,n);save();rerender(true)});return}
+  if(a==='pindel'){const L=(c.notes&&c.notes.p)||[];const i=+k;const n=L[i];if(!n)return;L.splice(i,1);pinGone(c,n,true);save();ui.sheet=null;ui.noteNew=0;rerender(true);toastUndo('지도 메모를 지웠어요',()=>{const M=c.notes.p=c.notes.p||[];M.splice(Math.min(i,M.length),0,n);pinGone(c,n,false);save();rerender(true)});return}
   if(a==='nall'){ui.nAll=!ui.nAll;rerender(true);return}
   if(a==='notego'){const n=((c.notes&&c.notes.p)||[])[+k];if(!n)return;ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=null;ui.am={c:n.c,z:2.6,cx:n.x,cy:n.y};render();return}
   if(a==='townall'){ui.townAll=!ui.townAll;rerender(true);return}
@@ -5839,7 +5856,7 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
   if(!c)return;
   if(f==='lv'){setLv(c,t.value);rerender(true);return}
   if(f==='cname'){c.name=t.value.trim();save();rerender(true);return}
-  if(f==='qnote'){const v=t.value.trim();c.notes=c.notes||{};c.notes.q=c.notes.q||{};if(v)c.notes.q[t.dataset.k]=v;else delete c.notes.q[t.dataset.k];save();return}
+  if(f==='qnote'){const v=t.value.trim();c.notes=c.notes||{};c.notes.q=c.notes.q||{};c.notes.q[t.dataset.k]=v;save();return}
   if(f==='pinTxt'){const n=((c.notes&&c.notes.p)||[])[+t.dataset.k];if(n){n.t=t.value.trim();save()}return}
   if(f==='fsauto'){fsAutoSet(t.checked);toast(t.checked?'자동 맞춤을 켰어요':'자동 맞춤을 껐어요');return}
   if(f==='impEq'){ui.impEq=t.checked;return}
