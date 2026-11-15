@@ -762,176 +762,6 @@
  "장비 수": 9849,
  "영어 이름 장비": [
   [
-   "280009",
-   "Titanosaur Scale Pendant",
-   "wowf"
-  ],
-  [
-   "280010",
-   "Gargantuan Wristguards",
-   "wowf"
-  ],
-  [
-   "280011",
-   "Deeproar Cord",
-   "wowf"
-  ],
-  [
-   "280012",
-   "Talon of Tor'Rel",
-   "wowf"
-  ],
-  [
-   "280013",
-   "Frostfang Mail Vest",
-   "wowf"
-  ],
-  [
-   "280014",
-   "Raptorscale Bulwark",
-   "wowf"
-  ],
-  [
-   "280015",
-   "Venomvessel Ring",
-   "wowf"
-  ],
-  [
-   "280016",
-   "Spiderchitin Wrap",
-   "wowf"
-  ],
-  [
-   "280017",
-   "Octoclaw Chain Boots",
-   "wowf"
-  ],
-  [
-   "280018",
-   "Hammer of Thundering Hooves",
-   "wowf"
-  ],
-  [
-   "280019",
-   "Dinofrill Casque",
-   "wowf"
-  ],
-  [
-   "280020",
-   "Deep Jungle Rifle",
-   "wowf"
-  ],
-  [
-   "280021",
-   "Tooth of the Matriarch",
-   "wowf"
-  ],
-  [
-   "280022",
-   "Scaleguard Scimitar",
-   "wowf"
-  ],
-  [
-   "280023",
-   "Nanaya's Control Spire",
-   "wowf"
-  ],
-  [
-   "280024",
-   "Legplates of Reinforced Crystal",
-   "wowf"
-  ],
-  [
-   "280025",
-   "Leggings of Curation",
-   "wowf"
-  ],
-  [
-   "280026",
-   "Albinofur Grips",
-   "wowf"
-  ],
-  [
-   "280031",
-   "Sparklance Wand",
-   "wowf"
-  ],
-  [
-   "280032",
-   "Bolt's Charged Eyeball",
-   "wowf"
-  ],
-  [
-   "280056",
-   "Flameslash Crescent",
-   "wowf"
-  ],
-  [
-   "280063",
-   "Bloodfur Bulwark",
-   "wowf"
-  ],
-  [
-   "280065",
-   "Behemoth Bones",
-   "wowf"
-  ],
-  [
-   "280069",
-   "Shamanic Wristguards",
-   "wowf"
-  ],
-  [
-   "280070",
-   "Veilpiercer Girdle",
-   "wowf"
-  ],
-  [
-   "280077",
-   "Fist of Revelation",
-   "wowf"
-  ],
-  [
-   "280078",
-   "Apprentice's Protective Treads",
-   "wowf"
-  ],
-  [
-   "280079",
-   "Lunarlight Robe",
-   "wowf"
-  ],
-  [
-   "280080",
-   "Claymore of Two Moons",
-   "wowf"
-  ],
-  [
-   "280085",
-   "Tunnelweb Pincer",
-   "wowf"
-  ],
-  [
-   "287028",
-   "Tormented Cuffs",
-   "wowf"
-  ],
-  [
-   "287032",
-   "Den Champion's Binding",
-   "wowf"
-  ],
-  [
-   "287034",
-   "Grove Subjugator's Blade",
-   "wowf"
-  ],
-  [
-   "287036",
-   "Satyr's Touch",
-   "wowf"
-  ],
-  [
    "287037",
    "Shaper's Robe",
    "wowf"
@@ -991,7 +821,7 @@
    "279910",
    "야수사냥꾼의 삼지창",
    "1",
-   "agi26 dps53.03 hit1.6",
+   "dps53.03 hit1.6 ap33 agi26",
    "forg"
   ],
   [
@@ -1005,7 +835,7 @@
    "280605",
    "파도인도자의 발톱",
    "1",
-   "sta5 dps18.13 sp28 heal86 crit2",
+   "dps18.12 sp28 heal86 crit2 sta5",
    "forg"
   ],
   [
@@ -1019,21 +849,21 @@
    "22589",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta31 int32 spi24 dps64.37 sp150 heal150 hit2 crit2",
+   "dps64.48 sp150 heal150 hit2 crit2 int32 spi24 sta31",
    "forg"
   ],
   [
    "22630",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta30 int29 dps64.37 sp183 heal183 crit2",
+   "dps64.48 sp183 heal183 crit2 int29 sta30",
    "forg"
   ],
   [
    "22631",
    "아티쉬 - 수호자의 지팡이",
    "60",
-   "sta28 int28 spi27 dps64.37 heal362 sp120",
+   "dps64.48 heal362 sp120 int28 spi27 sta28",
    "forg"
   ],
   [
@@ -1068,21 +898,7 @@
    "281586",
    "세월숲 건설 망치",
    "1",
-   "int10 sta8 spi4 dps26.25",
-   "wowf"
-  ],
-  [
-   "281732",
-   "복원된 활",
-   "1",
-   "dps24.62",
-   "wowf"
-  ],
-  [
-   "281733",
-   "복원된 마법봉",
-   "1",
-   "dps44.71",
+   "dps26.25 sp68 heal68 int10 spi4 sta8",
    "wowf"
   ],
   [
@@ -1135,7 +951,7 @@
    "wowf"
   ]
  ],
- "출처 없는 장비": 127,
+ "출처 없는 장비": 130,
  "이름 같은 장비(번호 다름)": [
   [
    "민병대 단검",
@@ -1149,6 +965,13 @@
    [
     "6092:forg",
     "270094:wowf"
+   ]
+  ],
+  [
+   "마술사 어깨보호대",
+   [
+    "12998:forg",
+    "9881:extra"
    ]
   ],
   [
@@ -1305,17 +1128,24 @@
    ]
   ],
   [
-   "마술사의 장화",
-   [
-    "4325:extra",
-    "22064:extra"
-   ]
-  ],
-  [
    "마술사의 허리띠",
    [
     "4827:extra",
     "22062:extra"
+   ]
+  ],
+  [
+   "미명 팔보호구",
+   [
+    "6563:extra",
+    "277238:wowf"
+   ]
+  ],
+  [
+   "불곰 조끼",
+   [
+    "7335:extra",
+    "15304:extra"
    ]
   ],
   [
@@ -1355,6 +1185,13 @@
     "19556:extra",
     "19557:extra",
     "20440:extra"
+   ]
+  ],
+  [
+   "뼈고리 투구",
+   [
+    "14539:extra",
+    "15615:extra"
    ]
   ],
   [
@@ -1504,17 +1341,14 @@
    "하급투사의 비단 소매장식",
    [
     "16486:extra",
-    "18437:extra",
-    "18457:extra"
+    "18437:extra"
    ]
   ],
   [
-   "하급투사의 용가죽 손목보호대",
+   "하급투사의 가죽 손목보호대",
    [
     "16497:extra",
-    "18434:extra",
-    "18435:extra",
-    "18436:extra"
+    "18435:extra"
    ]
   ],
   [
@@ -1562,6 +1396,13 @@
    ]
   ],
   [
+   "하급투사의 용가죽 손목보호대",
+   [
+    "18434:extra",
+    "18436:extra"
+   ]
+  ],
+  [
    "정예근위병의 계급장",
    [
     "18442:extra",
@@ -1595,6 +1436,13 @@
    [
     "18454:extra",
     "18455:extra"
+   ]
+  ],
+  [
+   "하급기사의 비단 소매장식",
+   [
+    "18457:extra",
+    "18456:extra"
    ]
   ],
   [
@@ -1834,7 +1682,7 @@
    ]
   ],
   [
-   "산악연대 판금 벨트",
+   "산악연대 판금 요대",
    [
     "20041:extra",
     "20124:extra",
@@ -2186,10 +2034,10 @@
   "레벨 0 퀘스트": 14,
   "레벨이 거꾸로 이어진 연계(5레벨 이상)": 35,
   "장비 수": 9849,
-  "영어 이름 장비": 35,
-  "능력치가 레벨에 비해 지나친 장비": 28,
-  "출처 없는 장비": 127,
-  "이름 같은 장비(번호 다름)": 128,
+  "영어 이름 장비": 1,
+  "능력치가 레벨에 비해 지나친 장비": 26,
+  "출처 없는 장비": 130,
+  "이름 같은 장비(번호 다름)": 133,
   "진행 순서 없는 던전": 5,
   "지도 없는 던전": 0
  }
