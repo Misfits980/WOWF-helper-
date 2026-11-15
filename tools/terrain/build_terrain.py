@@ -104,7 +104,8 @@ class Tiles:
             p = os.path.join(self.d, '%s_%d_%d.adt' % (self.name, tx, ty))
             if os.path.exists(p):
                 self.c[key] = read_adt(open(p, 'rb').read())
-            elif key in self.wdl and self.wdl[key][1] <= -3:
+            # 운고로 분화구처럼 바다보다 낮은 땅(바닥 −150~−280)과 헷갈리지 않게, 바닥이 −400보다 깊은 진짜 바다만
+            elif key in self.wdl and self.wdl[key][1] <= -3 and self.wdl[key][0] <= -400:
                 lo = float(self.wdl[key][0])
                 self.c[key] = dict(h=np.full((129, 129), lo, np.float32), hole=np.zeros((128, 128), bool),
                                    wl=np.zeros((128, 128), np.float32), wt=np.full((128, 128), OCEAN_ID, np.uint16), chunks=0)

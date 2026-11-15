@@ -1581,19 +1581,30 @@ function amStepPanel(c,FO){const q=FO.q;const d=QD.get(q.id)||{};const ch=(chain
   return h+'</div>'}
 
 /* 정보 칸·버튼줄을 뺀 「보이는 곳」 안에 고른 퀘스트를 맞춤. 받는 곳=반납처럼 한 점이면 주변이 보이게 너무 당기지 않음 */
-function amFitV(FO){const el=document.getElementById('amap');if(!el||!FO)return null;const P=FO.P.filter(p=>p.c===FO.P[0].c);if(!P.length)return null;
+/* 🧭 고른 퀘스트 점들(받는 곳·할 일·반납) 사이 길: 같은 지역이면 길·지형 격자(rgPath)로, 아니면 직선 */
+function amNavLegs(fp,cont){const out=[];
+  for(let i=1;i<fp.length;i++){const a=fp[i-1],b=fp[i];let pts=null,far=false,est=false;
+    if(a.zone&&b.zone&&a.zxy&&b.zxy&&zn(a.zone)===zn(b.zone)){const pa=String(a.zxy).split(',').map(Number),pb=String(b.zxy).split(',').map(Number);
+      const rp=Math.hypot(pb[0]-pa[0],pb[1]-pa[1])>=1?rgPath(a.zone,pa,pb):null;
+      if(rp&&!rp.far){pts=[a];rp.p.slice(1,-1).forEach(p=>{const q=toAtlas(a.zone,p[0]+','+p[1]);if(q&&q.c===cont)pts.push(q)});pts.push(b)}else if(rp&&rp.far)far=true}
+    if(!pts){pts=[a,b];est=true}
+    let L=0;for(let k=1;k<pts.length;k++)L+=Math.hypot(pts[k].x-pts[k-1].x,pts[k].y-pts[k-1].y);
+    out.push({pts,far,est,L})}
+  return out}
+function amFitV(FO){const el=document.getElementById('amap');if(!el||!FO)return null;const P0=FO.P.filter(p=>p.c===FO.P[0].c);if(!P0.length)return null;
+  /* 길 안내 선이 핀 밖으로 돌아 나가도 화면에 다 들어오게 */const P=P0.concat(...amNavLegs(P0,P0[0].c).filter(g=>!g.far).map(g=>g.pts));
   const R=el.getBoundingClientRect(),W=el.clientWidth,H=el.clientHeight;const top=el.querySelector('.amtop'),pn=document.getElementById('ampanel'),ctl=el.querySelector('.amctl');
-  let pT=top?Math.max(0,top.getBoundingClientRect().bottom-R.top)+14:60,pB=24,pL=24,pR=ctl?Math.max(30,R.right-ctl.getBoundingClientRect().left)+8:60;
+  let pT=top?Math.max(0,top.getBoundingClientRect().bottom-R.top)+40:60,pB=24,pL=56,pR=ctl?Math.max(30,R.right-ctl.getBoundingClientRect().left)+8:60;
   if(pn&&pn.offsetHeight){const pr=pn.getBoundingClientRect();if(pr.width>W*.7)pB=Math.max(pB,R.bottom-pr.top+16);else pR=Math.max(pR,R.right-pr.left+16)}
   const vw=Math.max(80,W-pL-pR),vh=Math.max(80,H-pT-pB);
   const xs=P.map(p=>p.x),ys=P.map(p=>p.y);const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
-  const s=Math.min((vw-60)/Math.max(170,x1-x0),(vh-60)/Math.max(140,y1-y0));const z=Math.max(1.6,Math.min(2.7,3+Math.log2(s)));const s2=2**(z-3);
+  const s=Math.min((vw-60)/Math.max(170,x1-x0),(vh-60)/Math.max(140,y1-y0));const z=Math.max(W<600?.4:1.2,Math.min(2.7,3+Math.log2(s)));/* 폰은 좁아서 먼 퀘스트(지역 끝↔끝)도 다 보이게 더 멀리까지 */const s2=2**(z-3);
   const vcx=pL+vw/2,vcy=pT+vh/2;return {c:P[0].c,z,cx:(x0+x1)/2-(vcx-W/2)/s2,cy:(y0+y1)/2-(vcy-H/2)/s2}}
 /* 고른 퀘스트의 받는 곳·할 일·반납이 다 보이게 지도 맞추기 */
-function amFit(FO){const el=document.getElementById('amap');const W=el?el.clientWidth:380,H=el?el.clientHeight:420;const P=FO.P.filter(p=>p.c===FO.P[0].c);
+function amFit(FO){const el=document.getElementById('amap');const W=el?el.clientWidth:380,H=el?el.clientHeight:420;const P0=FO.P.filter(p=>p.c===FO.P[0].c);const P=P0.concat(...amNavLegs(P0,P0[0].c).filter(g=>!g.far).map(g=>g.pts));
   const xs=P.map(p=>p.x),ys=P.map(p=>p.y);const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
   const ph=window.matchMedia&&matchMedia('(min-width:1000px)').matches?0:.5;/* 폰은 아래 절반이 정보 칸 */
-  const s=Math.min((W-90)/Math.max(60,x1-x0),(H*(1-ph)-90)/Math.max(60,y1-y0));const z=Math.max(1.8,Math.min(3.3,3+Math.log2(s)));const s2=2**(z-3);
+  const s=Math.min((W-90)/Math.max(60,x1-x0),(H*(1-ph)-90)/Math.max(60,y1-y0));const z=Math.max(W<600?.4:1.2,Math.min(3.3,3+Math.log2(s)));const s2=2**(z-3);
   return {c:P[0].c,z,cx:(x0+x1)/2,cy:(y0+y1)/2+(H*ph/2)/s2}}
 function amLegend(F){const r=(ic,t)=>'<li><span class="lgi">'+ic+'</span>'+t+'</li>';
   return '<div class="amleg'+(ui.amleg?' on':'')+'" data-am="legx"><b>지도 표시 <small>눌러서 닫기</small></b><ul>'
@@ -1682,12 +1693,7 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
       /* 할 일 구역: 노란 점선 동그라미 (wythic처럼) */const rr=Math.max(16,Math.min(70,11*2**(A.z-2)));fp.filter(p=>p.kind==='ob').forEach(p=>{const ex=p.rx?Math.max(14,p.rx*s):rr*1.35,ey=p.ry?Math.max(12,p.ry*s):rr;svg+='<ellipse cx="'+X(p)+'" cy="'+Y(p)+'" rx="'+ex+'" ry="'+ey+'" class="amob"/>'});
       /* 🧭 길 안내(내비처럼): 같은 지역 안이면 실제 길·지형 격자로 경로를 그리고, 가운데에 방향 화살표, 위에 거리·시간 */
       if(fp.length>1){let tot=0,est=false;const AR=[];
-        for(let i=1;i<fp.length;i++){const a=fp[i-1],b=fp[i];let pts=null,far=false;
-          if(a.zone&&b.zone&&a.zxy&&b.zxy&&zn(a.zone)===zn(b.zone)){const pa=String(a.zxy).split(',').map(Number),pb=String(b.zxy).split(',').map(Number);
-            const rp=Math.hypot(pb[0]-pa[0],pb[1]-pa[1])>=1?rgPath(a.zone,pa,pb):null;
-            if(rp&&!rp.far){pts=[a];rp.p.slice(1,-1).forEach(p=>{const q=toAtlas(a.zone,p[0]+','+p[1]);if(q&&q.c===A.c)pts.push(q)});pts.push(b)}else if(rp&&rp.far)far=true}
-          if(!pts){pts=[a,b];est=true}
-          let L=0;for(let k=1;k<pts.length;k++)L+=Math.hypot(pts[k].x-pts[k-1].x,pts[k].y-pts[k-1].y);if(!far)tot+=L;
+        for(const g of amNavLegs(fp,A.c)){const pts=g.pts,far=g.far,L=g.L;if(!far)tot+=L;if(g.est)est=true;
           const pl=pts.map(p=>X(p).toFixed(1)+','+Y(p).toFixed(1)).join(' ');
           if(far)svg+='<polyline points="'+pl+'" class="amfq far"/>';
           else if(pts.length>2)svg+='<polyline points="'+pl+'" class="amnv0"/><polyline points="'+pl+'" class="amnv"/>';
@@ -1696,7 +1702,8 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
         AR.forEach(r=>{if(inV(r[0],r[1],10))pins+='<i class="amar" style="left:'+r[0].toFixed(1)+'px;top:'+r[1].toFixed(1)+'px;--a:'+r[2].toFixed(3)+'rad"></i>'});
         /* 거리·시간: 우리 지도 0.48칸 = 1야드, 달리기 7야드/초, 40레벨 탈것(60%) 11.2야드/초 */
         const yd=tot/0.48;if(yd>=60){const mn=v=>Math.max(1,Math.round(yd/v/60));
-          pins+='<div class="amnvi">🧭 '+(fp.length>2?'받기 → 할 일 → 반납':'다음 곳까지')+' · <b>'+(est?'약 ':'')+Math.round(yd/10)*10+'야드</b> · 걸어서 '+mn(7)+'분'+(c.lv>=40?' · 탈것 '+mn(11.2)+'분':'')+'</div>'}}
+          /* 위쪽 조작 줄(동부 왕국/칼림도어·표시)에 가리지 않게 그 바로 아래에 */const tb=el.querySelector('.amtop');const nTop=tb?Math.max(8,Math.round(tb.getBoundingClientRect().bottom-el.getBoundingClientRect().top)-14):10;
+          pins+='<div class="amnvi" style="top:'+nTop+'px">🧭 '+(fp.length>2?'받기 → 할 일 → 반납':'다음 곳까지')+' · <b>'+(est?'약 ':'')+Math.round(yd/10)*10+'야드</b> · 걸어서 '+mn(7)+'분'+(c.lv>=40?' · 탈것 '+mn(11.2)+'분':'')+'</div>'}}
       const put=[];fp.forEach(p=>{let x=X(p),y=Y(p);const x0=x,y0=y;let k=0;while(put.some(q=>Math.abs(q[0]-x)<30&&Math.abs(q[1]-y)<30)&&k<6){x+=(k%2?-1:1)*(34+17*k);k++}
         /* 받는 NPC=반납 NPC처럼 같은 이름이 바로 옆에 있으면 이름은 한 번만 */const dup=k>0&&put.some(q=>q[2]===p.nm&&Math.abs(q[3]-x0)<4&&Math.abs(q[4]-y0)<4);put.push([x,y,p.nm,x0,y0]);/* 받는 곳=반납처럼 같은 자리면 옆으로 비켜 둘 다 보이게 */
         pins+='<span class="amf k-'+p.kind+(k%2?' up':'')+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(dup?'':'<i>'+esc(p.nm||'')+'</i>')+'</span>'})}
@@ -2792,6 +2799,15 @@ function vpFix(){requestAnimationFrame(()=>{const d=document.documentElement;con
 addEventListener('focusout',e=>{if(e.target&&/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))setTimeout(vpFix,60)});
 if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(vpFix,60));
 addEventListener('pageshow',vpFix);
+/* 폰: 아래에서 올라온 창(시트)은 맨 위에서 아래로 끌어내리면 닫힘 */
+{let d=null;
+ document.addEventListener('touchstart',e=>{d=null;if(e.touches.length!==1||window.innerWidth>=1000)return;const sh=e.target.closest&&e.target.closest('.sheet');if(!sh||sh.scrollTop>2)return;
+   if(e.target.closest('input,textarea,select,[data-swslot] .tgr'))return;d={sh,y:e.touches[0].clientY,x:e.touches[0].clientX,t:Date.now(),dy:0,on:false}},{passive:true});
+ document.addEventListener('touchmove',e=>{if(!d)return;const t=e.touches[0];const dy=t.clientY-d.y,dx=t.clientX-d.x;
+   if(!d.on){if(dy>10&&dy>Math.abs(dx)*1.3&&d.sh.scrollTop<=2){d.on=true;d.sh.style.transition='none'}else if(Math.abs(dx)>10||dy<-6){d=null;return}else return}
+   e.preventDefault();d.dy=Math.max(0,dy);d.sh.style.transform='translateY('+d.dy+'px)'},{passive:false});
+ document.addEventListener('touchend',()=>{if(!d)return;const o=d;d=null;if(!o.on)return;const v=o.dy/Math.max(1,Date.now()-o.t);o.sh.style.transition='transform .18s ease-out';
+   if(o.dy>110||(o.dy>45&&v>.5)){o.sh.style.transform='translateY(100%)';setTimeout(()=>{ui.sheet=null;ui.delAsk=0;rerender(true)},170)}else o.sh.style.transform=''},{passive:true})}
 /* 폰: 화면을 좌우로 밀어 옆 탭으로 (지도·가로로 넘기는 줄·창 안에서는 안 함) */
 {let sx=0,sy=0,st=0,ok=false;
  const blocked=el=>{for(let e=el;e&&e!==document.body;e=e.parentElement){if(e.matches&&e.matches('input,textarea,select,.sheet,.sheet-bg,.spanel,.gmap,.amap,.mapw,.rmap2,.dchips,.chips,.tgr,.tg,.dgg2,.cmpc,.csl,.cbars,.cmpt,.doll,.gL,.ltg,.lgr2,[data-noswipe]'))return true;const cs=getComputedStyle(e);if((cs.overflowX==='auto'||cs.overflowX==='scroll')&&e.scrollWidth>e.clientWidth+4)return true}return false};
