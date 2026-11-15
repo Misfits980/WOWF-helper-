@@ -19,6 +19,7 @@
 -- /wfh 아이템 앱 장비 목록을 게임에서 천천히 읽어 두기 (ItemScan.lua)
 -- v3.4: 게임이 알려 주는 퀘스트 위치(목표·반납·길안내 다음 지점), 동굴 입구, 퀘스트 받은/반납한 자리도 코드에 담아요.
 -- v3.5: 끼고 있는 장비의 실제 능력치(게임이 읽은 값)와 무작위 옵션 이름(「산적의 ○○」)도 담아요.
+-- v3.6.1: GetItemInfo·GetItemStats가 C_Item 안에 있는 클라이언트도 지원(끼고 있는 장비 능력치도 이제 담김).
 -- v3.6: /wfh 아이템 — 앱 장비 목록의 한글 이름·착용 효과·무기 공격력을 게임에서 읽어 저장 파일에 남겨요.
 
 local B36 = "0123456789abcdefghijklmnopqrstuvwxyz"
@@ -420,9 +421,11 @@ local GSTAT_KEEP = {
   SPELL_HEALING_DONE = true, MANA_REGENERATION = true, POWER_REGEN0 = true,
   DEFENSE_SKILL_RATING = true, BLOCK_VALUE = true, DAMAGE_PER_SECOND = true,
 }
+local GII = GetItemInfo or (C_Item and C_Item.GetItemInfo)
+local GIS = GetItemStats or (C_Item and C_Item.GetItemStats)
 local function equipStats()
   local out = {}
-  if not (GetInventoryItemLink and GetItemStats) then return out end
+  if not (GetInventoryItemLink and GIS) then return out end
   for slot = 1, 18 do
     if slot ~= 4 then
       local ok, link = pcall(GetInventoryItemLink, "player", slot)
@@ -431,7 +434,7 @@ local function equipStats()
         id = tonumber(id)
         if id then
           local parts = {}
-          local okS, st = pcall(GetItemStats, link)
+          local okS, st = pcall(GIS, link)
           if okS and type(st) == "table" then
             for k, v in pairs(st) do
               local key = tostring(k):gsub("^ITEM_MOD_", ""):gsub("_SHORT$", "")
@@ -441,8 +444,8 @@ local function equipStats()
           end
           table.sort(parts)
           local nm = ""
-          if suf and suf ~= "" and suf ~= "0" and GetItemInfo then
-            local okN, n = pcall(GetItemInfo, link)
+          if suf and suf ~= "" and suf ~= "0" and GII then
+            local okN, n = pcall(GII, link)
             if okN and type(n) == "string" then nm = n:gsub("[;%.~,:%^]", ""):gsub("%s+", "_") end
           end
           if #parts > 0 or nm ~= "" then out[#out + 1] = slot .. "~" .. b36(id) .. "~" .. nm .. "~" .. table.concat(parts, ",") end

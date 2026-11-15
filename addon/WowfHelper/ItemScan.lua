@@ -16,6 +16,10 @@ local MAXP = 4      -- 한 번에 서버에 물어보는 아이템 수
 local TIMEOUT = 8   -- 이 초가 지나도 답이 없으면 못 찾은 것으로
 local CACHED = 12   -- 한 번(0.1초)에 이미 받아 둔 아이템을 읽는 최대 수
 
+-- 이 게임(1.15 클라이언트)은 GetItemInfo·GetItemStats가 C_Item 안으로 옮겨져 있음 → 둘 다 찾아 씀
+local GII = GetItemInfo or (C_Item and C_Item.GetItemInfo)
+local GIS = GetItemStats or (C_Item and C_Item.GetItemStats)
+
 local LIST
 local function list()
   if not LIST then
@@ -61,10 +65,10 @@ end
 
 -- 게임이 이미 알고 있으면 읽어서 표로, 아직 모르면 nil
 local function readItem(id)
-  local name, link, q, ilvl, req, _, _, _, loc, icon = GetItemInfo(id)
+  local name, link, q, ilvl, req, _, _, _, loc, icon = GII(id)
   if not name then return nil end
   local rec = { name, q or -1, ilvl or 0, req or 0, loc or "", icon or 0, "" }
-  local okS, st = pcall(GetItemStats, link or ("item:" .. id))
+  local okS, st = pcall(GIS, link or ("item:" .. id))
   if okS and type(st) == "table" then
     local s = {}
     for k, v in pairs(st) do s[#s + 1] = tostring(k):gsub("^ITEM_MOD_", ""):gsub("_SHORT$", "") .. "=" .. tostring(v) end
@@ -148,6 +152,7 @@ end
 
 local function start(fromLogin)
   local s = state()
+  if not GII then say("이 게임에서 아이템 정보를 읽는 기능(GetItemInfo)을 못 찾았어요. Claude에게 알려 주세요."); return end
   if #list() == 0 then say("읽을 아이템 목록이 없어요. 애드온 파일(ItemList.lua)이 빠졌는지 확인해 주세요."); return end
   if s.pos > #list() then s.pos = 1 end
   run = true; s.run = true; s.again = nil; lastSay = GetTime and GetTime() or 0
