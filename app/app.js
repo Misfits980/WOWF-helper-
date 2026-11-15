@@ -2120,7 +2120,7 @@ const RST={get:['받기','g'],do:['하기','o'],turn:['반납','r']};
 let sideWL=null,sideIv=null,sideKey='';
 async function sideLock(on){try{if(on){if('wakeLock' in navigator&&!document.hidden&&!sideWL){sideWL=await navigator.wakeLock.request('screen');sideWL.addEventListener('release',()=>{sideWL=null;if(ui.side)rerender(true)});if(ui.side)rerender(true)}}else if(sideWL){const w=sideWL;sideWL=null;await w.release()}}catch(e){sideWL=null}}
 function sideOn(v){ui.side=!!v;clearInterval(sideIv);sideIv=null;sideKey='';
-  if(v){try{history.pushState({side:1},'')}catch(e){}sideLock(true);sideIv=setInterval(()=>{if(ui.side&&!document.hidden&&syOn())syPull(true)},30e3);if(syOn())syPull(true)}
+  if(v){try{history.pushState({side:1},'')}catch(e){}sideLock(true);sideIv=setInterval(()=>{if(ui.side&&!document.hidden){(syOn()?syPull(true):Promise.resolve()).then(()=>{if(ui.side)rerender(true)})}},30e3);if(syOn())syPull(true)}
   else sideLock(false);
   document.body.classList.toggle('sidem',!!v);rerender(true)}
 function sideView(c){if(!QDB){qdbLoad();return '<div class="sdh"><b>📱 옆 화면</b><button class="x" data-a="side" data-k="0">✕</button></div><p class="note">퀘스트 자료를 불러오는 중…</p>'}
@@ -2225,7 +2225,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
   h+='<div class="ft"><button class="q" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button><button class="p" data-a="rsdone">다 했어요 · 다음 단계</button></div></div>';
   const more=ui.rsall?ST.slice(1):ST.slice(1,5);
-  const TC=recTimeCard(c,ST);h+=TC.h;h+='<button class="btn sm ghost full navgo" data-a="side" data-k="1">📱 옆 화면 모드 <small>게임하면서 폰 세워 두기 · 화면 안 꺼짐</small></button>';if(isPC())h+='<button class="btn sm ghost full navgo" data-a="wfr">🧭 게임 화면에 이 단계 길 안내 띄우기 <small>애드온 /wfh 추천</small></button>';const h0=h.length;
+  const TC=recTimeCard(c,ST);h+=TC.h;h+='<button class="btn sm ghost full navgo" data-a="side" data-k="1">📱 옆 화면 모드 <small>게임하면서 폰 세워 두기 · 화면 안 꺼짐</small></button>';if(isPC()||FSA)h+='<button class="btn sm ghost full navgo" data-a="wfr">🧭 게임 화면에 이 단계 길 안내 띄우기 <small>애드온 /wfh 추천</small></button>';const h0=h.length;
   h+='<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
    +(ST.length>5?'<button class="btn ghost sm full" data-a="rsall">'+(ui.rsall?'접기':'모든 단계 보기 ('+(ST.length-1)+')')+'</button>':'')+'</div>';
   {const mk=(k,t)=>{const a='<div class="nxr3" data-st="'+(k+2)+'"';const p=h.indexOf(a,h0);if(p>0)h=h.slice(0,p)+t+h.slice(p)};
