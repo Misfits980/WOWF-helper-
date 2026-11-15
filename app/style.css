@@ -640,6 +640,13 @@ img.hic{width:20px;height:20px;vertical-align:-4px;margin-right:6px;object-fit:c
 .amsvg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
 .amrt{fill:none;stroke:#ffd257;stroke-width:3;stroke-dasharray:7 6;stroke-linecap:round;filter:drop-shadow(0 0 2px #000)}
 .amfq{fill:none;stroke:#7fe0ff;stroke-width:2.5;stroke-dasharray:4 5;filter:drop-shadow(0 0 2px #000)}
+.amfq.far{stroke:#7fe0ff88;stroke-width:1.8;stroke-dasharray:3 7}
+/* 🧭 길 안내 선: 어두운 테두리 + 밝은 하늘색 실선 (내비처럼) */
+.amnv0{fill:none;stroke:#06212b;stroke-width:8;stroke-linejoin:round;stroke-linecap:round;opacity:.85}
+.amnv{fill:none;stroke:#52d8ff;stroke-width:4.5;stroke-linejoin:round;stroke-linecap:round}
+.amar{position:absolute;width:0;height:0;pointer-events:none;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;transform:translate(-50%,-50%) rotate(var(--a));filter:drop-shadow(0 0 2px #06212b) drop-shadow(0 0 1px #000);z-index:2}
+.amnvi{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:6;background:rgba(6,33,43,.92);border:1px solid #52d8ff;color:#dff6ff;border-radius:999px;padding:4px 12px;font-size:12.5px;white-space:nowrap;pointer-events:none;box-shadow:0 2px 8px #0008}
+.amnvi b{color:#fff}
 .amh{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;border:2px solid #2a1d08;background:#ffd257;color:#2a1d08;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #ffd257,0 2px 6px #000;z-index:2;padding:0}
 .amh.sel{background:#fff}
 .amk i,.amf i{position:absolute;top:100%;left:50%;transform:translateX(-50%);font-style:normal;font-size:10.5px;color:#f3e6c4;text-shadow:0 0 3px #000,0 0 5px #000;white-space:nowrap;pointer-events:none;margin-top:1px}

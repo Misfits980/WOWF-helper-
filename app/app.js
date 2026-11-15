@@ -1560,9 +1560,9 @@ function obPlaces(q){const z=(q.g&&q.g[1])||q.z;const out=[];const d=QD.get(q.id
   const seen=new Set();for(const t of (q.t||[]))for(const m of (t[2]||[])){if(out.length>=3)break;const L=mobAt(m[0],q.z);if(!L)continue;const k=L.z+L.xy;if(seen.has(k))continue;seen.add(k);out.push({zone:L.z,xy:L.xy,nm:t[1]||m[0],mob:m[0]})}
   return out}
 function amFocus(id){const q=QDB&&QDB.get(id);if(!q)return null;const z=(q.g&&q.g[1])||q.z;const P=[];
-  if(q.g&&(q.g[2]||dgOfZone(q.g[1])||DGENT[q.g[1]])){const a=toAtlasDg(q.g[1],q.g[2]);if(a)P.push(Object.assign(a,{kind:'g',nm:(q.g[3]==='item'&&q.g[4]&&q.g[4]!==q.g[0]?q.g[4]+' (시작 아이템)':q.g[0])+(a.dgIn?' · '+a.dgIn+' 안':'')}))}
-  for(const o of obPlaces(q)){const a=toAtlas(o.zone,o.xy);if(!a)continue;let rx=0,ry=0;if(o.r){const [x,y]=o.xy.split(',').map(Number);const b=toAtlas(o.zone,(x+o.r)+','+(y+o.r));if(b&&b.c===a.c){rx=Math.abs(b.x-a.x);ry=Math.abs(b.y-a.y)}}P.push(Object.assign(a,{kind:'ob',nm:o.nm,mob:o.mob,dg:o.dg,zone:o.zone,rx,ry}))}
-  if(q.r&&(q.r[2]||dgOfZone(q.r[1])||DGENT[q.r[1]])){const a=toAtlasDg(q.r[1]||z,q.r[2]);if(a)P.push(Object.assign(a,{kind:'r',nm:q.r[0]+(a.dgIn?' · '+a.dgIn+' 안':'')}))}
+  if(q.g&&(q.g[2]||dgOfZone(q.g[1])||DGENT[q.g[1]])){const a=toAtlasDg(q.g[1],q.g[2]);if(a)P.push(Object.assign(a,{kind:'g',nm:(q.g[3]==='item'&&q.g[4]&&q.g[4]!==q.g[0]?q.g[4]+' (시작 아이템)':q.g[0])+(a.dgIn?' · '+a.dgIn+' 안':''),zone:a.dgIn?null:q.g[1],zxy:a.dgIn?null:q.g[2]}))}
+  for(const o of obPlaces(q)){const a=toAtlas(o.zone,o.xy);if(!a)continue;let rx=0,ry=0;if(o.r){const [x,y]=o.xy.split(',').map(Number);const b=toAtlas(o.zone,(x+o.r)+','+(y+o.r));if(b&&b.c===a.c){rx=Math.abs(b.x-a.x);ry=Math.abs(b.y-a.y)}}P.push(Object.assign(a,{kind:'ob',nm:o.nm,mob:o.mob,dg:o.dg,zone:o.zone,zxy:o.xy,rx,ry}))}
+  if(q.r&&(q.r[2]||dgOfZone(q.r[1])||DGENT[q.r[1]])){const a=toAtlasDg(q.r[1]||z,q.r[2]);if(a)P.push(Object.assign(a,{kind:'r',nm:q.r[0]+(a.dgIn?' · '+a.dgIn+' 안':''),zone:a.dgIn?null:(q.r[1]||z),zxy:a.dgIn?null:q.r[2]}))}
   return P.length?{q,P}:null}
 /* 퀘스트를 눌렀을 때 보기: 「단계」(wythic처럼 목표·받는 곳·할 일·반납 + 이전/다음 단계 + 연계 목록) / 「간단히」(예전) */
 function amStyleSeg(){const st=(me().amst||'step');return '<span class="amseg2">'+[['step','단계'],['simple','간단히']].map(x=>'<button class="'+(st===x[0]?'on':'')+'" data-a="amst" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</span>'}
@@ -1680,7 +1680,23 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
     /* 고른 퀘스트 */
     const FO=ui.amq&&amFocus(ui.amq);if(FO){const fp=FO.P.filter(p=>p.c===A.c);
       /* 할 일 구역: 노란 점선 동그라미 (wythic처럼) */const rr=Math.max(16,Math.min(70,11*2**(A.z-2)));fp.filter(p=>p.kind==='ob').forEach(p=>{const ex=p.rx?Math.max(14,p.rx*s):rr*1.35,ey=p.ry?Math.max(12,p.ry*s):rr;svg+='<ellipse cx="'+X(p)+'" cy="'+Y(p)+'" rx="'+ex+'" ry="'+ey+'" class="amob"/>'});
-      if(fp.length>1)svg+='<polyline points="'+fp.map(p=>X(p)+','+Y(p)).join(' ')+'" class="amfq"/>';
+      /* 🧭 길 안내(내비처럼): 같은 지역 안이면 실제 길·지형 격자로 경로를 그리고, 가운데에 방향 화살표, 위에 거리·시간 */
+      if(fp.length>1){let tot=0,est=false;const AR=[];
+        for(let i=1;i<fp.length;i++){const a=fp[i-1],b=fp[i];let pts=null,far=false;
+          if(a.zone&&b.zone&&a.zxy&&b.zxy&&zn(a.zone)===zn(b.zone)){const pa=String(a.zxy).split(',').map(Number),pb=String(b.zxy).split(',').map(Number);
+            const rp=Math.hypot(pb[0]-pa[0],pb[1]-pa[1])>=1?rgPath(a.zone,pa,pb):null;
+            if(rp&&!rp.far){pts=[a];rp.p.slice(1,-1).forEach(p=>{const q=toAtlas(a.zone,p[0]+','+p[1]);if(q&&q.c===A.c)pts.push(q)});pts.push(b)}else if(rp&&rp.far)far=true}
+          if(!pts){pts=[a,b];est=true}
+          let L=0;for(let k=1;k<pts.length;k++)L+=Math.hypot(pts[k].x-pts[k-1].x,pts[k].y-pts[k-1].y);if(!far)tot+=L;
+          const pl=pts.map(p=>X(p).toFixed(1)+','+Y(p).toFixed(1)).join(' ');
+          if(far)svg+='<polyline points="'+pl+'" class="amfq far"/>';
+          else if(pts.length>2)svg+='<polyline points="'+pl+'" class="amnv0"/><polyline points="'+pl+'" class="amnv"/>';
+          else svg+='<polyline points="'+pl+'" class="amfq"/>';
+          /* 구간 가운데 화살표 */if(!far&&L*s>60){let h=L/2;for(let k=1;k<pts.length;k++){const d=Math.hypot(pts[k].x-pts[k-1].x,pts[k].y-pts[k-1].y);if(h<=d||k===pts.length-1){const f=d?Math.min(1,h/d):0,mx=pts[k-1].x+(pts[k].x-pts[k-1].x)*f,my=pts[k-1].y+(pts[k].y-pts[k-1].y)*f;AR.push([(mx-left)*s,(my-top)*s,Math.atan2(pts[k].y-pts[k-1].y,pts[k].x-pts[k-1].x)]);break}h-=d}}}
+        AR.forEach(r=>{if(inV(r[0],r[1],10))pins+='<i class="amar" style="left:'+r[0].toFixed(1)+'px;top:'+r[1].toFixed(1)+'px;--a:'+r[2].toFixed(3)+'rad"></i>'});
+        /* 거리·시간: 우리 지도 0.48칸 = 1야드, 달리기 7야드/초, 40레벨 탈것(60%) 11.2야드/초 */
+        const yd=tot/0.48;if(yd>=60){const mn=v=>Math.max(1,Math.round(yd/v/60));
+          pins+='<div class="amnvi">🧭 '+(fp.length>2?'받기 → 할 일 → 반납':'다음 곳까지')+' · <b>'+(est?'약 ':'')+Math.round(yd/10)*10+'야드</b> · 걸어서 '+mn(7)+'분'+(c.lv>=40?' · 탈것 '+mn(11.2)+'분':'')+'</div>'}}
       const put=[];fp.forEach(p=>{let x=X(p),y=Y(p);const x0=x,y0=y;let k=0;while(put.some(q=>Math.abs(q[0]-x)<30&&Math.abs(q[1]-y)<30)&&k<6){x+=(k%2?-1:1)*(34+17*k);k++}
         /* 받는 NPC=반납 NPC처럼 같은 이름이 바로 옆에 있으면 이름은 한 번만 */const dup=k>0&&put.some(q=>q[2]===p.nm&&Math.abs(q[3]-x0)<4&&Math.abs(q[4]-y0)<4);put.push([x,y,p.nm,x0,y0]);/* 받는 곳=반납처럼 같은 자리면 옆으로 비켜 둘 다 보이게 */
         pins+='<span class="amf k-'+p.kind+(k%2?' up':'')+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(dup?'':'<i>'+esc(p.nm||'')+'</i>')+'</span>'})}
