@@ -1,8 +1,8 @@
 """가방 정리 도우미용 아이템 표 만들기 (게임 자료에서 계산한 값만 저장)
 
-python3 -I tools/itemcache/bag_table.py <wow.export CSV 폴더> <저장소>
+python3 -I tools/itemcache/bag_table.py <wow.export CSV 폴더> <저장소> [community-listfile.csv]
   읽음: ItemSparse.csv(등급·판매가), Item.csv(종류), data/qdb/item-ko.txt(한글 이름), data/qdb/item-ko-fill.txt(없는 한글 이름 채움)
-  씀:   data/qdb/item-bag.txt  번호|이름|등급|종류|판매가(동)
+  씀:   data/qdb/item-bag.txt  번호|이름|등급|종류|판매가(동)|아이콘 이름(파일 목록이 있을 때, Item.csv IconFileDataID → interface/icons/…)
   종류(ClassID): 0 소모품 · 1 가방 · 2 무기 · 4 방어구 · 5 재료(시약) · 7 직업 재료 · 9 도안 · 12 퀘스트 · 15 기타
 """
 import csv, os, re, sys
@@ -16,9 +16,20 @@ def rows(name):
         yield ix, row
 
 cls = {}
+icf = {}
 for ix, row in rows('Item.csv'):
-    try: cls[int(row[ix['ID']])] = int(row[ix['ClassID']])
-    except ValueError: pass
+    try:
+        cls[int(row[ix['ID']])] = int(row[ix['ClassID']])
+        icf[int(row[ix['ID']])] = int(row[ix['IconFileDataID']] or 0)
+    except (ValueError, KeyError): pass
+# 아이콘 파일 번호 → 이름 (wowdev 공개 파일 목록에서 interface/icons/ 줄만)
+icn = {}
+if len(sys.argv) > 3 and os.path.exists(sys.argv[3]):
+    want = set(icf.values())
+    for line in open(sys.argv[3], encoding='utf-8', errors='replace'):
+        a, _, b = line.partition(';')
+        if not b.lower().startswith('interface/icons/') or not a.isdigit() or int(a) not in want: continue
+        icn[int(a)] = re.sub(r'\.(blp|tga)$', '', b.strip().lower()[len('interface/icons/'):])
 ko = {}
 for line in open(os.path.join(repo, 'data/qdb/item-ko.txt'), encoding='utf-8'):
     f = line.rstrip('\n').split('|')
@@ -38,7 +49,8 @@ for ix, row in rows('ItemSparse.csv'):
     nm = ko.get(i) or row[ix['Display_lang']]
     nm = nm.replace('|', ' ').strip()
     if not nm: continue
-    out.append(f"{i}|{nm}|{q}|{cls.get(i, -1)}|{sp}")
+    ic = icn.get(icf.get(i, 0), '')
+    out.append(f"{i}|{nm}|{q}|{cls.get(i, -1)}|{sp}" + (f"|{ic}" if ic else ''))
 out.sort(key=lambda l: int(l.split('|')[0]))
 with open(os.path.join(repo, 'data/qdb/item-bag.txt'), 'w', encoding='utf-8') as f:
     f.write('\n'.join(out) + '\n')

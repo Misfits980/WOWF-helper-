@@ -1235,7 +1235,7 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
   return h+'</div>'}
 /* 🧹 가방 정리 도우미: 불러온 가방·은행을 「퀘스트에 씀 · 팔아도 됨 · 내 전문기술 재료 · 은행·경매장」으로 (item-bag.txt는 열 때 받음) */
 let BAGDB=null,BAGL=false;
-function bagDbLoad(){if(BAGL)return;BAGL=true;fetch('data/qdb/item-bag.txt?v='+((D_VER&&D_VER.bag)||'0')).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();t.split('\n').forEach(l=>{if(!l)return;const f=l.split('|');M.set(+f[0],{nm:f[1],q:+f[2],cls:+f[3],sell:+f[4]})});BAGDB=M;rerender(true)}).catch(()=>{BAGDB=new Map();rerender(true)})}
+function bagDbLoad(){if(BAGL)return;BAGL=true;fetch('data/qdb/item-bag.txt?v='+((D_VER&&D_VER.bag)||'0')).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();t.split('\n').forEach(l=>{if(!l)return;const f=l.split('|');M.set(+f[0],{nm:f[1],q:+f[2],cls:+f[3],sell:+f[4],ic:f[5]||''})});BAGDB=M;rerender(true)}).catch(()=>{BAGDB=new Map();rerender(true)})}
 function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id)})));return S}
 function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{})){const X=QDB&&QDB.get(+id);((X&&X.t)||[]).forEach(t=>{if(t[0]==='수집'&&t[1])N.add(t[1])});/* 아이템으로 시작한 퀘스트(장인의 계약서 등)는 그 아이템도 있어야 끝낼 수 있음 */if(X&&X.g&&X.g[3]==='item'&&X.g[0])N.add(X.g[0]);const d=QD.get(+id);((d&&d.wf&&d.wf.t)||[]).forEach(t=>{if(t[0])N.add(t[0])})}
   (ui._st||[]).forEach(s=>s.items.forEach(it=>(it.q.cnt||[]).forEach(o=>N.add(o[0]))));return N}
@@ -1250,13 +1250,31 @@ function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||
     G.other.push(x)}));
   return {G,sellSum}}
 function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLoad();return '<div class="card bgs"><h3>🧹 가방 정리</h3><p class="note">아이템 자료를 불러오는 중…</p></div>'}
-  const R=bagSort(c);if(!R)return '';const {G,sellSum}=R;const row=x=>'<div class="bgsr"><span class="w">'+(x.where==='bank'?'🏦':'🎒')+'</span><b class="q'+(x.I.q==null?1:x.I.q)+'">'+esc(x.I.nm)+'</b>'+(x.n>1?'<em>×'+x.n+'</em>':'')+(x.why?'<small>'+esc(x.why)+'</small>':'')+'</div>';
-  const sec=(k,t,sub,L,open)=>L.length?'<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary><b>'+t+'</b> '+L.length+'개'+(sub?' <small>'+sub+'</small>':'')+'</summary>'+L.sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko')).map(row).join('')+'</details>':'';
-  const profTxt=(c.profs||[]).join('·');
-  let h='<div class="card bgs"><h3>🧹 가방 정리 <small class="mute">'+(c.imported?armAgo(c.imported.t)+' 가져온 가방·은행':'')+'</small></h3>';
-  h+=sec('q','📜 퀘스트에 써요','팔지 마세요',G.q,true)+sec('sell','💰 팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true)+sec('mat','🧪 내 전문기술 재료',profTxt||'',G.mat,false)+sec('bank','🏦 은행·경매장으로',profTxt?'내 전문기술('+profTxt+')에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false);
-  if(!G.q.length&&!G.sell.length&&!G.mat.length&&!G.bank.length)h+='<p class="note">정리할 게 없어요.</p>';
-  return h+'<p class="note">장비 비교는 아래 「내 가방·은행 장비」에서 봐요 · 고급(파랑) 이상·찜한 템은 팔 것에서 뺐어요.</p></div>'}
+  const R=bagSort(c);if(!R)return '';const {G,sellSum}=R;
+  const ql=q=>['p','c','u','r','e','l'][q]||'c';
+  /* 아이콘: 게임 아이콘(자료에 있으면) · 없으면 종류별 기본 그림 */
+  const DEF={0:'inv_potion_51',1:'inv_misc_bag_07',2:'inv_sword_04',4:'inv_chest_cloth_21',5:'inv_misc_dust_02',7:'inv_fabric_linen_01',9:'inv_scroll_03',12:'inv_misc_note_01',15:'inv_misc_gear_01'};
+  const icOf=x=>{const it=IT.get(x.id);const n=x.I.ic||(it&&it.ic)||DEF[x.I.cls]||'inv_misc_questionmark';return ICO(n)};
+  /* 「책 이름 - 10쪽」처럼 쪽만 다른 것은 한 줄로 */
+  const grp=L=>{const M=new Map(),out=[];L.forEach(x=>{const m=x.I.nm.match(/^(.+?)\s*-\s*(\d+)쪽$/);if(!m){out.push(x);return}let g=M.get(m[1]);if(!g){g={...x,I:{...x.I,nm:m[1]},pages:[],n:0};M.set(m[1],g);out.push(g)}g.pages.push(+m[2]);g.n+=x.n;if(x.where==='bank')g.where='bank'});
+    M.forEach(g=>g.pages.sort((a,b)=>a-b));return out};
+  const row=(x,k)=>{const q=x.I.q==null?1:x.I.q;const sub=[];
+    if(x.pages)sub.push(x.pages.length+'장 · '+x.pages.join('·')+'쪽');
+    if(x.where==='bank')sub.push('<i class="bk">은행</i>');
+    if(x.why)sub.push('<i class="why">'+esc(x.why)+'</i>');
+    const pr=k==='sell'&&x.I.sell?'<span class="pr">'+goldTxt(x.I.sell*x.n)+'</span>':'';
+    return '<div class="bgi"><span class="ic q-'+ql(q)+'" style="background-image:url('+icOf(x)+')">'+(x.n>1&&!x.pages?'<em>'+x.n+'</em>':'')+'</span><span class="m"><b class="q'+q+'">'+esc(x.I.nm)+'</b>'+(sub.length?'<small>'+sub.join(' ')+'</small>':'')+'</span>'+pr+'</div>'};
+  const SEC=[['q','📜','퀘스트에 써요','팔지 말고 갖고 있어요',G.q,true],['sell','💰','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
+    ['mat','🧪','내 전문기술 재료',(c.profs||[]).join('·'),G.mat,false],['bank','🏦','은행·경매장으로',(c.profs||[]).length?'내 전문기술에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false]];
+  const sec=([k,e,t,sub,L,open])=>{if(!L.length)return '';const R2=grp(L.slice().sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko')));
+    return '<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary><span class="e">'+e+'</span><b>'+t+'</b><span class="n">'+L.length+'</span>'+(sub?'<small>'+sub+'</small>':'')+'<i class="cv"></i></summary><div class="bgl">'+R2.map(x=>row(x,k)).join('')+'</div></details>'};
+  let h='<div class="card bgs"><div class="bgh"><h3>🧹 가방 정리</h3>'+(c.imported?'<small>'+armAgo(c.imported.t)+' 가져온 가방·은행</small>':'')+'</div>';
+  const tiles=SEC.filter(x=>x[4].length);
+  const TL={q:'퀘스트',sell:'팔 것',mat:'내 재료',bank:'은행·경매'};
+  if(tiles.length)h+='<div class="bgt">'+tiles.map(([k,e,t,,L])=>'<span class="t g-'+k+'"><i>'+e+'</i><b>'+L.length+'</b><small>'+TL[k]+'</small></span>').join('')+'</div>';
+  h+=SEC.map(sec).join('');
+  if(!tiles.length)h+='<p class="note">정리할 게 없어요.</p>';
+  return h+'<p class="note bgn">장비 비교는 아래 「내 가방·은행 장비」에서 봐요 · 고급(파랑) 이상·찜한 템은 팔 것에서 뺐어요.</p></div>'}
 function bagView(c){return bagSortCard(c)+bagView0(c)}
 function bagView0(c){const A=bagAll(c);if(!c.bag)return '<div class="card"><p class="note">게임 애드온으로 가방·은행을 가져오면, 안에 든 장비를 지금 낀 것과 비교해 줘요.</p><button class="btn sm" data-a="imp">🧩 게임에서 가져오기</button></div>';
   const up=A.filter(x=>x.ok&&x.g>.5).sort((a,b)=>b.g-a.g),same=A.filter(x=>x.ok&&x.g<=.5&&x.g>=-.5),down=A.filter(x=>x.ok&&x.g<-.5).sort((a,b)=>a.g-b.g),soon=A.filter(x=>x.lvUp).sort((a,b)=>a.it.lv-b.it.lv),no=A.filter(x=>!x.ok&&!x.lvUp);
