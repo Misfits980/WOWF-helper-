@@ -1897,12 +1897,14 @@ function rgPath(z,a,b){const g=rgGrid(z);if(!g)return null;const key=(+a[0]).toF
     for(let k=0;k<8;k++){const nx=x+DX[k],ny=y+DY[k];if(nx<0||ny<0||nx>=w||ny>=h)continue;const j=ny*w+nx;if(CL[j])continue;const ng=gi+DD[k]*(c[i]+c[j])/2;if(ng<G[j]){G[j]=ng;PV[j]=i;push(ng+Math.hypot(tx-nx,ty-ny),j)}}}
   if(!ok){g.P.set(key,null);return null}
   const P=[];for(let i=t;;i=PV[i]){P.push(i);if(i===s||PV[i]<0)break}P.reverse();
-  const acc=[0];let blk=0;for(let k=1;k<P.length;k++){const i=P[k-1],j=P[k];acc.push(acc[k-1]+Math.hypot(i%w-j%w,((i/w)|0)-((j/w)|0))*(c[i]+c[j])/2);if(c[j]>=250)blk++}
+  const acc=[0];let blk=0;for(let k=1;k<P.length;k++){const i=P[k-1],j=P[k];acc.push(acc[k-1]+Math.hypot(i%w-j%w,((i/w)|0)-((j/w)|0))*(c[i]+c[j])/2);if(c[j]>=200)blk++}
   const lc=(i,j)=>{const x0=i%w,y0=(i/w)|0,x1=j%w,y1=(j/w)|0,L=Math.hypot(x1-x0,y1-y0),n=Math.max(1,Math.ceil(L*2));let sm=0;for(let q=0;q<=n;q++)sm+=c[Math.round(y0+(y1-y0)*q/n)*w+Math.round(x0+(x1-x0)*q/n)];return sm/(n+1)*L};
   /* 곧게 펴기: 직선으로 가도 비용이 거의 같으면 중간 칸을 뺌(격자 계단 모양 없애기) */
-  const K=[P[0]];for(let i=0;i<P.length-1;){let j=P.length-1;while(j>i+1&&lc(P[i],P[j])>(acc[j]-acc[i])*1.03+2)j-=j-i<40?1:Math.max(1,(j-i)>>3);K.push(P[j]);i=j}
+  /* 여유를 작게(2% + 0.5): 크면 굽은 길 안쪽 풀밭으로 질러가서 점선이 길에서 벗어나 보임 */
+  const K=[P[0]];for(let i=0;i<P.length-1;){let j=P.length-1;while(j>i+1&&lc(P[i],P[j])>(acc[j]-acc[i])*1.02+.5)j-=j-i<40?1:Math.max(1,(j-i)>>3);K.push(P[j]);i=j}
   let Q=K.map(i=>[((i%w)+.5)/w*100,(((i/w)|0)+.5)/h*100]);Q[0]=[+a[0],+a[1]];Q[Q.length-1]=[+b[0],+b[1]];
-  for(let it=0;it<2&&Q.length>2;it++){const R=[Q[0]];for(let k=0;k<Q.length-1;k++){const p=Q[k],q=Q[k+1];R.push([p[0]*.75+q[0]*.25,p[1]*.75+q[1]*.25],[p[0]*.25+q[0]*.75,p[1]*.25+q[1]*.75])}R.push(Q[Q.length-1]);Q=R}
+  /* 모서리 다듬기: 모서리에서 최대 0.6%(약 2칸)까지만 깎음 — 긴 직선 사이 모서리를 크게 깎으면 길에서 벗어남 */
+  for(let it=0;it<2&&Q.length>2;it++){const R=[Q[0]];for(let k=0;k<Q.length-1;k++){const p=Q[k],q=Q[k+1],d=Math.hypot(q[0]-p[0],q[1]-p[1]),f=d>0?Math.min(.25,.6/d):.25;R.push([p[0]+(q[0]-p[0])*f,p[1]+(q[1]-p[1])*f],[q[0]+(p[0]-q[0])*f,q[1]+(p[1]-q[1])*f])}R.push(Q[Q.length-1]);Q=R}
   let len=0;for(let k=1;k<Q.length;k++)len+=Math.hypot(Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]);const st=Math.hypot(b[0]-a[0],b[1]-a[1]);
   /* 가운데 지점·방향(화살표) */let half=len/2,mid=null;for(let k=1;k<Q.length;k++){const d=Math.hypot(Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]);if(half<=d||k===Q.length-1){const f=d?Math.min(1,half/d):0;mid=[Q[k-1][0]+(Q[k][0]-Q[k-1][0])*f,Q[k-1][1]+(Q[k][1]-Q[k-1][1])*f,Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1]];break}half-=d}
   const r={p:Q,len,mid,far:blk>4||(st>8&&len>st*2.6)};g.P.set(key,r);return r}
@@ -1995,18 +1997,20 @@ function recQ(id,z0){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!q&&!d.g
   if(o&&GG&&GG.ph==='o'&&GG.o){o={nm:o.nm,xy:[GG.o[1],GG.o[2]],z:GG.o[0]};if(GG.w&&zEq(GG.w[0],GG.o[0])&&Math.hypot(GG.w[1]-GG.o[1],GG.w[2]-GG.o[2])>2.5)o.via=[GG.w[1],GG.w[2]]}
   return {id,nm:(q&&q.n)||'',lv:(q&&q.lv)||0,z:(q&&q.z)||z0,g:[G[0],G[1]||(q&&q.z)||z0,gxy],r:[R[0],R[1]||(q&&q.z)||z0,rxy],o,/* 대화만 하면 끝나는 퀘스트는 '하기' 단계를 만들지 않음 */rep:/평판/.test((q&&q.o)||''),cnt:wf.filter(x=>x[1]>0)}}
 function recStages(c,list,start){const ql=c.ql||{};const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
-  const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.type===type&&s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}if(place&&!s0.place.split(' · ').includes(place)&&s0.place.split(' · ').length<2)s0.place+=' · '+place;s0.items.push({q,type,need});if(need)s0.need.add(need);return s0};
+  const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.type===type&&s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}if(place&&!s0.place.split(' · ').includes(place)&&s0.place.split(' · ').length<2)s0.place+=' · '+place;s0.items.push({q,type,need});if(need)[].concat(need).forEach(x=>s0.need.add(x));return s0};
+  /* 선행 퀘스트가 같은 목록에 있으면 그걸 반납한 뒤에 받기 (예: 은둔자 → 다크샤이어로부터의 보급품) */
+  const inL=new Set(list.map(q=>q.id));const preOf=id=>{const o=QDB&&QDB.get(id);if(!o)return [];const P=new Set(o.pre||[]);if(o.pre1&&o.pre1.length===1)P.add(o.pre1[0]);if(QPAR[id]!=null)P.add(QPAR[id]);return [...P].filter(x=>x!==id&&inL.has(x)&&(ql[x]||0)<3)};
   list.forEach(q=>{const st=ql[q.id]||0;const hasDo=q.o||q.rep;
-    if(st<1)add('get',q.g[1],q.g[2],(q.g[2]?hubOfXY(q.g[1],q.g[2].join(','),q.g[0])[0]:'')||q.g[0]||'받는 곳',q);
+    if(st<1){const pr=preOf(q.id);add('get',q.g[1],q.g[2],(q.g[2]?hubOfXY(q.g[1],q.g[2].join(','),q.g[0])[0]:'')||q.g[0]||'받는 곳',q,pr.length?pr.map(x=>'t'+x):null)}
     if(st<2&&hasDo){const s0=add('do',(q.o&&q.o.z)||q.z,q.o?q.o.xy:null,q.o?q.o.nm:'평판 올리기',q,'g'+q.id);if(q.o&&q.o.via&&!s0.via)s0.via=q.o.via}
     add('turn',q.r[1],q.r[2],q.r[0]||'반납',q,(hasDo?'d':'g')+q.id)});
   /* 순서: 받기 → 하기 → 반납 조건을 지키며 가까운 곳부터 */
   const done=new Set(Object.keys(ql).flatMap(id=>ql[id]>=2?['g'+id,'d'+id]:ql[id]>=1?['g'+id]:[]));const out=[];const left=St.slice();
-  const ok=it=>!it.need||done.has(it.need);const dist=(a,b)=>a&&b?Math.hypot(a[0]-b[0],a[1]-b[1]):999;
+  const ok=it=>!it.need||(Array.isArray(it.need)?it.need.every(x=>done.has(x)):done.has(it.need));const dist=(a,b)=>a&&b?Math.hypot(a[0]-b[0],a[1]-b[1]):999;
   let cur=null;if(start&&start.xy){const av=left.filter(s=>s.items.some(ok));cur=av.slice().sort((a,b)=>(a.zone!==start.z)-(b.zone!==start.z)||dist(start.xy,a.xy)-dist(start.xy,b.xy))[0]}
   cur=cur||left.find(s=>s.type==='get'&&s.items.every(ok))||left.find(s=>s.items.some(ok));let g=0;
   while(cur&&g++<120){const R=cur.items.filter(ok),W=cur.items.filter(it=>!ok(it));
-    if(R.length){out.push(Object.assign({},cur,{items:R}));R.forEach(it=>done.add((it.type==='get'?'g':'d')+it.q.id))}
+    if(R.length){out.push(Object.assign({},cur,{items:R}));R.forEach(it=>{done.add((it.type==='get'?'g':'d')+it.q.id);if(it.type==='turn')done.add('t'+it.q.id)})}
     left.splice(left.indexOf(cur),1);if(W.length)left.push(Object.assign({},cur,{items:W}));if(!left.length)break;
     const av=left.filter(s=>s.items.some(ok));const pool=av.length?av:left;const from=cur;cur=pool.slice().sort((a,b)=>(a.zone!==from.zone)-(b.zone!==from.zone)||dist(from.xy,a.xy)-dist(from.xy,b.xy))[0]}
   /* 붙어 있는 같은 곳·같은 종류는 하나로 */
@@ -2033,14 +2037,21 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   /* 지금 지역의 단계 */
   const qsOf=n=>{const z=n.z;if(pk.k==='app'){const S=n.S;const seen=new Set();return (S?S.q:[]).filter(q=>(q.gz||q.sz)===z||!q.gz).filter(q=>{if(seen.has(q.id))return false;seen.add(q.id);return q.id&&!qd(c,q.gz||q.sz,q)}).map(q=>recQ(q.id,z)).filter(Boolean)}
     return (n.qs||[]).slice(0,18).map(q=>recQ(q.id,z)).filter(Boolean)};
-  const stOf=n=>recStages(c,qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3),c.lpos);
+  /* 아직 받을 수 없는 퀘스트(최소 레벨이 내 레벨보다 높음)는 단계에서 빼고 따로 셈 */
+  const minLv=q=>((QDB&&QDB.get(q.id))||{}).m||0;
+  /* 장인의 계약서(전문기술로 만든 물건 120개를 내는 퀘스트)는 누구에게나 권하지 않음 */
+  const prof=q=>/^장인의 계약서/.test(q.nm||'');
+  const stOf=n=>recStages(c,qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)<=L&&(!QDB||QDB.has(q.id))&&!prof(q)),c.lpos);
+  const lockOf=n=>qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)>L&&(c.ql||{})[q.id]==null);
   let node=selN||curN,ST=stOf(node),moved=null;
   /* 이 구간 퀘스트를 다 했으면 다음 구간으로 자동으로 넘어감 (레벨을 안 올렸어도) */
   if(!ST.length&&(!selN||selN===curN))for(const n of pk.nodes.slice(pk.nodes.indexOf(curN)+1)){const st=stOf(n);if(st.length){moved=node;node=n;ST=st;break}}
   const z=node.z;ui._st=ST;
   if(moved){const kk=esc(nKey(node));h=h.replace('class="jn2" data-a="pnode" data-k="'+kk+'"','class="jn2 sel" data-a="pnode" data-k="'+kk+'"')}
-  if(!ST.length)return h+'<div class="card"><p class="note">'+esc(z)+' '+node.a+'–'+node.b+' 퀘스트를 다 했어요 🎉 '+(pk.nodes.indexOf(node)<pk.nodes.length-1?'여정 줄에서 다음 구간을 눌러 보세요.':'이 루트 끝까지 왔어요.')+'</p></div>';
-  if(moved)h+='<p class="note mvn">✓ '+esc(moved.z)+' '+moved.a+'–'+moved.b+' 퀘스트를 다 했어요 · 다음 구간으로 넘어갔어요: <b>'+esc(node.z)+' '+node.a+'–'+node.b+'</b>'+(node.a>L+2?' · 몹 레벨이 조금 높으니 조심하세요':'')+'</p>';
+  /* 레벨이 모자라 아직 못 받는 퀘스트: 「다 했어요」 대신 몇 레벨부터인지 알려 줌 */
+  const lk=lockOf(moved||node);const lkMsg=lk.length?' · 남은 '+lk.length+'개는 '+Math.min(...lk.map(minLv))+'레벨부터 받을 수 있어요':'';
+  if(!ST.length)return h+'<div class="card"><p class="note">'+esc(z)+' '+node.a+'–'+node.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg+'. ':' 퀘스트를 다 했어요 🎉 ')+(pk.nodes.indexOf(node)<pk.nodes.length-1?'여정 줄에서 다음 구간을 눌러 보세요.':'이 루트 끝까지 왔어요.')+'</p></div>';
+  if(moved)h+='<p class="note mvn">✓ '+esc(moved.z)+' '+moved.a+'–'+moved.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg:' 퀘스트를 다 했어요')+' · 다음 구간으로 넘어갔어요: <b>'+esc(node.z)+' '+node.a+'–'+node.b+'</b>'+(node.a>L+2?' · 몹 레벨이 조금 높으니 조심하세요':'')+'</p>';
   const s0=ST[0];const xpOf=s=>s.items.filter(i=>i.type==='turn').reduce((n,i)=>n+((RWD.get(i.q.id)||{}).xp||0),0);
   const xy=s=>s.xy?' '+s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'';
   h+='<button class="swrow" data-a="rmap"><span class="sw'+(recMapOn(c)?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 길 따라</small></button>';
