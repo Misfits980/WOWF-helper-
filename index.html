@@ -2646,10 +2646,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=d32ad2cf"></script>
-<script>/* vdcbd62 @11/16 14:46 */
+<script>/* v5ca195 @11/16 14:47 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 14:46';
+const BUILD='11/16 14:47';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3706,7 +3706,7 @@ function playCard(c){const r=xpRate(c);const X=myXp(c);if(!r&&c.gold==null)retur
   if(r)h+='<div><small>시간당 경험치</small><b>약 '+Math.round(r).toLocaleString()+'</b><span>최근 접속 '+Math.round(S.hs/60)+'분 기준</span></div>';
   if(r&&X)h+='<div><small>다음 레벨까지</small><b>약 '+Math.max(1,Math.round((X.max-X.cur)/r*60))+'분</b><span>'+(X.max-X.cur).toLocaleString()+' 남음'+(X.rest?' · 휴식 경험치 있음':'')+'</span></div>';
   if(S.secs>=60)h+='<div><small>이번 접속</small><b>'+Math.round(S.secs/60)+'분</b><span>경험치 '+(S.xp||0).toLocaleString()+'</span></div>';
-  if(c.gold!=null)h+='<div><small>가진 돈</small><b class="gld">'+goldTxt(c.gold)+'</b><span>'+(c.lv<40?(c.gold>=1000000?'40레벨 탈것 100골드 준비됐어요':'40레벨 탈것은 100골드 · '+Math.min(99,Math.floor(c.gold/10000))+'% 모았어요'):c.lv>=58&&c.lv<60?'60레벨 빠른 탈것 훈련은 1,000골드예요':'불러온 때 기준')+'</span></div>';
+  if(c.gold!=null)h+='<div><small>가진 돈</small><b class="gld">'+goldTxt(c.gold)+'</b><span>'+(c.lv<40?((c.cls==='paladin'||c.cls==='warlock')?'40레벨 탈것은 직업 퀘스트로 받아요(종족 탈것 100골드는 안 사도 돼요)':c.gold>=1000000?'40레벨 탈것 100골드 준비됐어요':'40레벨 탈것은 100골드 · '+Math.min(99,Math.floor(c.gold/10000))+'% 모았어요'):c.lv>=58&&c.lv<60?'60레벨 빠른 탈것 훈련은 1,000골드예요':'불러온 때 기준')+'</span></div>';
   return h+'</div></div>'}
 /* 📝 내 메모: 퀘스트 메모(c.notes.q[번호]) · 지도 핀 메모(c.notes.p[{c,x,y,t}]) — 캐릭터 기록이라 연동으로 같이 맞춰짐 */
 function noteClean(c){if(!c||!ui.sheet||!String(ui.sheet).startsWith('note:'))return;const ta=document.querySelector('textarea[data-c=pinTxt]');const L=(c.notes&&c.notes.p)||[];const i=+ui.sheet.slice(5);if(ta&&L[i])L[i].t=ta.value.trim();if(L[i]&&!L[i].t&&ui.noteNew){pinGone(c,L[i],true);L.splice(i,1)}ui.noteNew=0;save()}
@@ -3783,9 +3783,9 @@ const MS=[[5,'prof5','전문기술 2개 고르기','채집 둘이나 채집+제�
  [30,'air30','바람의 토템 퀘스트','아이언포지 엘드룬 스톰브레이커 → 아라시 고원 베이릭 썬더헤임',['shaman']],
  [20,'prof20','전문기술 전문 등급','숙련도 125까지 올리고 교관에게서 전문 등급을 배워요'],
  [35,'prof35','전문기술 장인 등급','숙련도 200 · 장인 등급 교관에게 배워요'],
- [40,'mount40','탈것 배우기 (100골드)','종족 탈것 교관에게서 훈련하면 탈것을 함께 받아요. 평판 우호면 10% 할인'],
- [40,'horse40','군마 소환 퀘스트 (고결함의 고서)','스톰윈드 두소리안 랄에게 받아요',['paladin']],
- [40,'felsteed40','지옥마 소환 퀘스트','톱니항 스트라드 파선 (끝내면 승마 기술도 생겨요)',['warlock']],
+ [40,'mount40','탈것 배우기 (100골드)','종족 탈것 교관에게서 훈련하면 탈것을 함께 받아요. 평판 우호면 10% 할인',['warrior','hunter','rogue','priest','shaman','mage','druid']],
+ [40,'horse40','군마 소환 퀘스트 (고결함의 고서)','스톰윈드 두소리안 랄에게 받아요 · 직업 탈것이라 종족 탈것(100골드)은 안 사도 돼요',['paladin']],
+ [40,'felsteed40','지옥마 소환 퀘스트','톱니항 스트라드 파선 · 끝내면 승마 기술도 생겨서 종족 탈것(100골드)은 안 사도 돼요',['warlock']],
  [40,'dual40','이중 특성 열기','직업 교관에게서 둘째 특성을 열 수 있어요. 앱 장비 화면에서 두 특성 추천을 같이 볼 수 있어요'],
  [40,'mail40','사슬 갑옷 배우기','직업 교관에게서 배워요. 이제 사슬 템도 추천에 나와요',['hunter','shaman']],
  [40,'plate40','판금 갑옷 배우기','직업 교관에게서 배워요. 이제 판금 템도 추천에 나와요',['warrior','paladin']],
@@ -3876,7 +3876,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   const U=upgrades(c,L,'ok');
   /* 지금 갈 던전: 내게 좋은 템(보스 드랍+퀘스트 보상)·남은 퀘스트가 많은 순 */
   const D=dgNow(L).map(d=>{const S=dgState(c,d);const qg=S.left.reduce((n,q)=>n+q.rw.map(id=>IT.get(id)).filter(it=>it&&usable(it,c)&&!ownedOf(c,it.id)&&((bestSlot(it,c)||{}).g||0)>.01).length,0);d._v={g:S.ups.length+qg,q:S.left.length,all:S.all};return d}).sort((a,b)=>(a._v.all-b._v.all)||(b._v.g*2+b._v.q)-(a._v.g*2+a._v.q)||(a.fit-b.fit));
-  const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,'탈것(훈련 100골드, 말 함께 받음)과 이중 특성이 열려요'],[60,'만렙! 빠른 탈것 훈련은 1,000골드 · 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
+  const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,(c.cls==='paladin'||c.cls==='warlock')?'직업 탈것 퀘스트와 이중 특성이 열려요':'탈것(훈련 100골드, 말 함께 받음)과 이중 특성이 열려요'],[60,'만렙! 빠른 탈것 훈련은 1,000골드 · 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
   const row=(ic,t,sub,a,k,right,dim)=>'<div class="trow'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><img class="ti" src="'+ic+'" alt=""><span class="m"><b>'+t+'</b><span>'+sub+'</span></span>'+(right||'')+'<span class="r">›</span></div>';
   /* 챙길 것: 기술·장비·던전을 한눈에 보는 세 칸(숫자 크게) + 레벨별 할 일 */
   const tile=(ic,t,big,sub,a,k,btn,dim)=>'<div class="htile'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><span class="hth"><img src="'+ic+'" alt=""><b>'+t+'</b></span><span class="hbig">'+big+'</span><small>'+sub+'</small>'+(btn||'')+'</div>';
