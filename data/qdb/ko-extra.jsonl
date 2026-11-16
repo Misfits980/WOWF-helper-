@@ -92,7 +92,7 @@
 {"id": 9270, "n": "Atiesh, Greatstaff of the Guardian", "o": "Anachronos at the Caverns of Time in Tanaris wants you to take Atiesh, Greatstaff of the Guardian to Stratholme and use it on Consecrated Earth. Defeat the entity that is exorcised from the staff and return to him.", "g": "아나크로노스", "r": "아나크로노스", "ft": 1}
 {"id": 9271, "n": "Atiesh, Greatstaff of the Guardian", "o": "Anachronos at the Caverns of Time in Tanaris wants you to take Atiesh, Greatstaff of the Guardian to Stratholme and use it on Consecrated Earth. Defeat the entity that is exorcised from the staff and return to him.", "g": "아나크로노스", "r": "아나크로노스", "ft": 1}
 {"id": 65603, "n": "와우 포에버 결속 퀘스트", "o": "목재 조각상을 사용하여 인큐버스를 소환해 제압한 후, 어둠의 희생양 선술집에 있는 대흑마법사 게이킨에게 목재 조각상을 가져가야 합니다.", "g": "대흑마법사 게이킨", "r": "대흑마법사 게이킨"}
-{"id": 78088, "n": "와우 포에버 에  퀘스트", "o": "알살락스의 보주를 잿빛 골짜기의 마에스트라 주둔지에 있는 수호자 델그렌에게 가져가야 합니다.", "g": "Strange Orb", "r": "수호자 델그렌"}
+{"id": 78088, "n": "에", "o": "알살락스의 보주를 잿빛 골짜기의 마에스트라 주둔지에 있는 수호자 델그렌에게 가져가야 합니다.", "g": "Strange Orb", "r": "수호자 델그렌"}
 {"id": 78089, "n": "Advice From Stormwind", "o": "Bring the Althalaxx Orb to Katherine the Pure in Stormwind.", "g": "수호자 델그렌", "r": "성기사 캐서린", "ft": 1}
 {"id": 78090, "n": "A Second Opinion", "o": "Find the warlock sanctum within Stormwind and seek advice on the orb.", "g": "성기사 캐서린", "r": "울슐라 델린", "ft": 1}
 {"id": 78092, "n": "와우 포에버 It Must Be Destroyed 퀘스트", "o": "Gather 12 Motes of Mannoroth from demons in Ashenvale. Bring them along with the Orb of Althalaxx to the Spear of Mannoroth at Demon Fall Canyon.", "g": "울슐라 델린", "r": "Spear of Mannoroth"}
