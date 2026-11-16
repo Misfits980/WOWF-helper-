@@ -450,6 +450,8 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
       /* 최소 레벨 자료가 없는 퀘스트(포에버 새 퀘스트 188개 등): 0이면 아무 레벨에나 받는 것처럼 보이므로 퀘스트 레벨-5로 어림하고 「추정」 표시 */
       if(!o.m&&o.lv>1){o.m=Math.max(1,o.lv-5);o.mEst=1}}
     QDB=M;qdbChains();
+    /* 최소 레벨을 어림한 퀘스트가 던전 퀘스트 자료(forg)에 있으면 그 값으로 (예: 아감마간의 피 45) */
+    for(const d of DGS)for(const q of d.q){const X=M.get(+q.id);if(X&&X.mEst&&q.min>0){X.m=q.min;delete X.mEst}}
     for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
     /* 홈(마을 할 일·내 메모)·장비(가방 정리)도 퀘스트 자료를 써서 다 받으면 다시 그림 */
     if(ui.tab==='quest'||ui.tab==='home'||ui.tab==='gear'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}
@@ -2543,9 +2545,9 @@ function preChainBox(c,id){const P=preChain(id);if(!P.length)return '';const lef
    +P.map((i,n)=>{const x=QDB.get(i);const dn=mqDone(c,x);return '<button class="pcb'+(dn?' done':'')+'" data-a="qopen" data-k="'+i+'"><span class="n">'+(dn?'✓':n+1)+'</span><span class="t"><b>['+(x.lv||'?')+'] '+esc(x.n)+'</b><span>'+esc(x.z||'')+(x.g&&x.g[0]?' · '+esc(x.g[0]):'')+'</span></span><span class="cv">›</span></button>'}).join('')+'</div>'}
 function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
   const outQ=dqOf(c,d).filter(q=>!/던전 안/.test(q.start)&&q.start),inQ=dqOf(c,d).filter(q=>/던전 안/.test(q.start)||!q.start);
-  const row=q=>{const dn=dqIsDone(c,q),lock=q.min>L;const lg=dn?0:((c.ql||{})[q.id]||0);const rw=q.rw.map(id=>IT.get(id)).filter(Boolean);
+  const row=q=>{const dn=dqIsDone(c,q);const QX=QDB&&QDB.get(+q.id);const m2=QX&&!QX.mEst?QX.m||0:0;const mEff=Math.max(q.min||0,m2);const mDif=m2&&q.min&&m2!==q.min;const lock=mEff>L;const pf=dn?null:preFirst(c,+q.id);const lg=dn?0:((c.ql||{})[q.id]||0);const rw=q.rw.map(id=>IT.get(id)).filter(Boolean);
     const pc=preChain(q.id),pcl=pc.filter(i=>!mqDone(c,QDB.get(i))).length;
-    const tags=(q.pre&&!pc.length?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+q.min+'레벨부터</span>':'');
+    const tags=(pf?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+mEff+'레벨부터'+(mDif?' (자료마다 '+Math.min(q.min,m2)+'·'+Math.max(q.min,m2)+')':'')+'</span>':'');
     const inside=/던전 안/.test(q.start||'')||/아이템/.test(q.start||'')||!q.start;
     const extra=(q.boss.length?'<p class="npc">🎯 던전 안 목표: <b>'+q.boss.map(b=>esc(b.replace(/^(\d+) /,'$1번 '))).join(', ')+'</b></p>':'')+((QD.get(q.id)||{}).g&&(QD.get(q.id)||{}).g[0]&&!inside?'':'<p class="npc">'+esc((()=>{let t=startTxt(q.start);const o=QD.get(q.id);if(o&&o.g&&latin(o.g[0])){const k=npcKo(o,'g');if(k&&!latin(k))t=t.split(o.g[0]).join(k)}return t})())+'</p>');
     const rwHtml=rw.length?'<div class="rgrid">'+rw.map(it=>'<button class="rt2" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="rn q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</div>':'';
