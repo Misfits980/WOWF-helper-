@@ -1233,9 +1233,14 @@ const CHG=[
  ['2026-11-04','*','','와우 포에버 출시 — 출시 전 노트에서 직업 피해량과 몹 생명력이 같이 올랐어요']];
 function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='*'||x[1]===c.cls)&&(!x[2]||x[2]===c.spec)&&now-Date.parse(x[0])<21*D);
   if(!L.length)return '';const mine=L.filter(x=>x[1]!=='*');
-  return '<details class="card chgc"'+(mine.length?' open':'')+'><summary>📰 최근 직업·게임 변경 <small class="mute">'+(mine.length?CINFO[c.cls][0]+' '+mine.length+'개':L.length+'개')+'</small></summary>'
-   +L.map(x=>'<div class="trow"><span class="m"><b>'+esc(x[3])+'</b><span>'+x[0].slice(5).replace('-','/')+(x[1]==='*'?' · 전체':'')+'</span></span></div>').join('')
-   +'<p class="mute" style="margin:.4em 0 0">블리자드는 화요일 점검 때 직업을 조정해요. 원문: 공식 사이트 “WoW: Forever Hotfixes”</p></details>'}
+  /* 「마을 들를 때 할 일」과 같은 모양: 날짜별로 묶고, 처음엔 최근 2일치만(더 보기로 전부) · 「지역: 내용」은 앞부분만 굵게 */
+  const days=[...new Set(L.map(x=>x[0]))];const show=ui.chgAll?days:days.slice(0,2);const more=L.filter(x=>!show.includes(x[0])).length;
+  const tx=t=>{const m=t.match(/^([^:·—]{2,14}): (.+)$/);return m?'<b>'+esc(m[1])+'</b> '+esc(m[2]):esc(t)};
+  const chip=x=>x[1]==='*'?'':'<em class="ctag" style="--cc:'+((CINFO[x[1]]||[])[1]||'#e8c06a')+'">'+esc((CINFO[x[1]]||[''])[0])+'</em>';
+  let h='<div class="card town chgc"><div class="hd"><h3>📰 최근 직업·게임 변경 <small class="mute">'+(mine.length?esc(CINFO[c.cls][0])+' '+mine.length+' · ':'')+'전체 '+L.length+'</small></h3>'+(more||ui.chgAll?'<button class="more" data-a="chgall">'+(ui.chgAll?'접기':'더 보기 ('+more+')')+'</button>':'')+'</div>';
+  h+=show.map(d=>{const R=L.filter(x=>x[0]===d).sort((a,b)=>(a[1]==='*')-(b[1]==='*'));
+    return '<div class="twn"><b class="tn">'+d.slice(5).replace('-','/')+'</b><ul>'+R.map(x=>'<li><span class="ti">'+(x[1]==='*'?'🌍':'⚔️')+'</span><span>'+chip(x)+tx(x[3])+'</span></li>').join('')+'</ul></div>'}).join('');
+  return h+'<p class="note chgn">블리자드는 화요일 점검 때 직업을 조정해요 · 원문: 공식 포럼 「WoW: Forever Hotfixes」</p></div>'}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   if(c.seenLv==null||c.seenLv>L)c.seenLv=L;const up=L>c.seenLv;
   h+='<h2 class="hh">레벨 '+L+' <small>지금 할 일</small>'+(myXp(c)?'<span class="hxp" title="게임에서 불러온 경험치"><i style="width:'+Math.round(myXp(c).cur/myXp(c).max*100)+'%"></i><b>경험치 '+Math.round(myXp(c).cur/myXp(c).max*100)+'%</b>'+(myXp(c).rest?'<em>휴식 '+Math.round(myXp(c).rest/myXp(c).max*100)+'%</em>':'')+'</span>':'')+'</h2>';
@@ -3400,6 +3405,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='nall'){ui.nAll=!ui.nAll;rerender(true);return}
   if(a==='notego'){const n=((c.notes&&c.notes.p)||[])[+k];if(!n)return;ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=null;ui.am={c:n.c,z:2.6,cx:n.x,cy:n.y};render();return}
   if(a==='townall'){ui.townAll=!ui.townAll;rerender(true);return}
+  if(a==='chgall'){ui.chgAll=!ui.chgAll;rerender(true);return}
   if(a==='jlall'){ui.jlAll=!ui.jlAll;rerender(true);return}
   if(a==='tbud'){c.tbud=+k||0;save();rerender(true);return}
   if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};const back=c.rwPick[q]===i;if(back)delete c.rwPick[q];else c.rwPick[q]=i;save();toast(back?'앱 추천으로 되돌렸어요':'고를 템으로 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}

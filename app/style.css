@@ -2001,7 +2001,10 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .dqb b{font-size:13.5px;color:#f3d58a}.dqb span{font-size:12.5px;color:#e6dcc6}.dqb em{font-style:normal;color:#ffd257;font-weight:700}
 .dqb small{font-size:11px;color:#a99f8c}.dqb .btn{align-self:flex-start;margin-top:4px}
 .dqb.done{border-color:#2f5a3c;background:linear-gradient(180deg,rgba(20,50,30,.55),rgba(12,28,18,.55))}.dqb.done b{color:#8fe3a6}
-.chgc summary{cursor:pointer;font-weight:700;color:#ffe08a}.chgc .trow{cursor:default}.chgc[open] summary{margin-bottom:6px}
+.chgc .hd h3 small{font-family:inherit;font-size:12px;font-weight:400;margin-left:4px}
+.chgc li>span:last-child b{color:#f3e2b5;font-weight:700}
+.chgc .ctag{font-style:normal;font-size:11px;font-weight:700;padding:0 6px;margin-right:5px;border-radius:6px;border:1px solid var(--cc);color:var(--cc);background:rgba(0,0,0,.25);white-space:nowrap}
+.chgc .chgn{margin:6px 0 0;font-size:11.5px;color:var(--mute)}
 .dqr .por{display:flex;align-items:center;justify-content:center;font-size:22px}
 .dqrn{margin:10px 12px 4px;font-size:13.5px;font-weight:700;color:#e9dcc0}.dqrn em{font-style:normal;font-size:11px;padding:1px 6px;border-radius:6px;background:#3a2f17;color:#ffe08a;margin-left:4px}.dqrn .mute{font-weight:400;font-size:12px}
 .tag.fv{background:#1d2b3a;color:#8fc7ff;border-color:#2f4a66}
