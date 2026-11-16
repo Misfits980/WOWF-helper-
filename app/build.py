@@ -86,6 +86,33 @@ _tkf = ROOT / 'data/guides/talent-ko.json'
 # 포에버 새 특성 중 forg 자료에 영어 이름만 있는 것: 게임 핫픽스 캐시(Cache/ADB/koKR/DBCache.bin)의 SpellName을 특성 아이콘(SpellMisc)으로 찾아 맞춘 한글 이름
 _TKN = {"paladin/retribution-turn-evil": "악령 퇴치", "rogue/combat-flash-of-steel": "강철의 섬광", "rogue/subtlety-boot-knife": "장화 칼", "priest/holy-holy-binding": "신성 결속", "druid/feral-combat-predatory-discipline": "포식자의 절제", "druid/restoration-bloom": "피워내기", "rogue/assassination-blood-splatter": "피 뿌리기"}
 _TKO = {k: v for k, v in json.loads(_tkf.read_text(encoding='utf-8')).items() if not k.startswith('_')} if _tkf.exists() else {}
+# 딜 사이클 여는 법(data/guides/openers.json): [기술 이름] → [이름@배우는 레벨] / 특성은 [이름@그 전문화 가이드가 찍는 레벨*]
+# 이름이 그 직업 기술·특성에 없으면 괄호를 벗겨 글로 두고 알려 줌(잘못 적은 이름 찾기)
+_OPN_RAW = json.loads(rd(ROOT / 'data/guides/openers.json')) if (ROOT / 'data/guides/openers.json').exists() else {}
+_OPN_MISS = []
+def _opener(cid, c, s):
+    o = _OPN_RAW.get(cid + '/' + s['id'])
+    if not o:
+        return None
+    lv = {}
+    for l in c['learns']:
+        if l[4] in ('', 'alliance', None):
+            lv[l[1]] = min(lv.get(l[1], 99), l[0])
+    tal = {v['n']: k for k, v in c['talents'].items()}
+    for k_, v_ in _TKN.items():
+        if k_.startswith(cid + '/'):
+            tal[v_] = k_.split('/', 1)[1]
+    def tok(m):
+        n = m.group(1).strip()
+        if n in lv:
+            return '[%s@%d]' % (n, lv[n])
+        if n in tal:
+            st = [x[0] for x in s['steps'] if x[1] == tal[n]]
+            return '[%s@%d*]' % (n, min(st)) if st else '[%s*]' % n
+        _OPN_MISS.append(cid + '/' + s['id'] + ': ' + n)
+        return n
+    R = lambda t: re.sub(r'\[([^\]@*]+)\]', tok, t or '')
+    return {'pre': R(o.get('pre')), 'open': [R(x) for x in o.get('open') or []], 'cd': R(o.get('cd')), 'src': o.get('src') or ''}
 for cid, c in cls.items():
     used = set(x[1] for s in c['specs'] for x in s['steps'])
     slim[cid] = {
@@ -98,8 +125,10 @@ for cid, c in cls.items():
         'specs': [{'id': s['id'], 'name': s['name'], 'icon': s['icon'], 'steps': s['steps'],
                    'rot': [[_enko(r['when']), _enko(r['txt'])] for r in s['rotation']],
                    'early': [[_enko(r['when']), _enko(r['txt'])] for r in s['early']],
-                   'late': [[_enko(r['when']), _enko(r['txt'])] for r in s['late']]} for s in c['specs']],
+                   'late': [[_enko(r['when']), _enko(r['txt'])] for r in s['late']], 'open': _opener(cid, c, s)} for s in c['specs']],
     }
+if _OPN_MISS:
+    print('딜 사이클: 기술·특성 목록에 없는 이름', len(_OPN_MISS), _OPN_MISS[:30])
 
 # 장비: forg 목록 + QuestieDB·클래식 자료로 더한 장비(data/qdb). 영어 이름은 한글로 바꿈
 import re
