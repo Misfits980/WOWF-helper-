@@ -219,11 +219,34 @@ def _dq():
             o = json.loads(line)
             if o.get('n') and not re.search('[A-Za-z]{3}', o['n']):
                 QN[str(o['id'])] = o['n']
+    # 포에버가 던전 퀘스트에 더한 보상(예: 아그몬드의 운명 704 = 발굴조사단장의 장갑 + 새 복원가의 고운 장갑):
+    # forg 아이템 출처(sources.txt의 /forever/quest/번호)가 이 퀘스트인데 보상 목록에 없는 템을 넣고, 2개 이상이면 「하나 고르기」
+    QSRC = {}
+    for i, l in enumerate(rd(F / 'sources.txt').split('\n')):
+        m = re.search(r'/forever/quest/(\d+)', l)
+        if m:
+            QSRC[str(i)] = m.group(1)
+    BYQ = {}
+    for l in rd(F / 'items.txt').splitlines():
+        p_ = l.split('|')
+        if len(p_) > 7 and p_[0].isdigit():
+            for s_ in p_[7].split(','):
+                if s_ in QSRC:
+                    BYQ.setdefault(QSRC[s_], []).append(p_[0])
     out = []
     for l in base.split('\n'):
         f = l.split('|')
         if f[0] == 'Q' and len(f) > 6 and re.search('[A-Za-z]{3}', f[6]) and QN.get(f[2]):
             f[6] = QN[f[2]]; l = '|'.join(f)
+        if f[0] == 'Q' and f[2] in BYQ:
+            while len(f) < 14: f.append('')
+            rw = [x for x in f[10].split(',') if x]
+            more = [x for x in BYQ[f[2]] if x not in rw]
+            if more:
+                f[10] = ','.join(rw + more)
+                if len(rw + more) > 1:
+                    f[12] = '1'
+                l = '|'.join(f)
         out.append(l)
     return '\n'.join(out)
 
