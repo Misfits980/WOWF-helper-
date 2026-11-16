@@ -1241,7 +1241,7 @@ function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{
   (ui._st||[]).forEach(s=>s.items.forEach(it=>(it.q.cnt||[]).forEach(o=>N.add(o[0]))));return N}
 function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||{}).map(Number));const E=new Map(bagAll(c).map(x=>[x.it.id,x]));const QN=questItemNames(c);const MM=myMatIds(c);const W=new Set((c.wish||[]).map(Number));
   const G={q:[],sell:[],mat:[],bank:[],other:[]};let sellSum=0;
-  [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.entries(B).forEach(([k,n])=>{const id=+k;if(eqd.has(id))return;const I=BAGDB.get(id)||{nm:(IT.get(id)||{}).nm||('#'+id),q:(IT.get(id)||{}).q,cls:-1,sell:0};const x={id,n,where,I};
+  [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.entries(B).forEach(([k,n])=>{const id=+k;if(eqd.has(id))return;const T0=IT.get(id)||{};const I=BAGDB.get(id)||{nm:T0.nm||('아이템 #'+id),q:{p:0,c:1,u:2,r:3,e:4,l:5}[T0.q]??1,cls:T0.sl?(T0.cs&&T0.cs[0]==='2'?2:4):-1,sell:0,ic:T0.ic||''};const x={id,n,where,I};
     if(I.cls===12||QN.has(I.nm)){G.q.push(x);return}
     const e=E.get(id);
     if(e){if(e.ok&&e.g>.5||e.lvUp||W.has(id)||(I.q||0)>=3){G.other.push(x);return}if(I.sell>0){G.sell.push(x);sellSum+=I.sell*n;x.why=e.ok?'지금 낀 게 더 좋아요':'못 끼는 장비'}else G.other.push(x);return}
@@ -1249,12 +1249,14 @@ function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||
     if(I.cls===7||I.cls===5){if(MM.has(id))G.mat.push(x);else G.bank.push(x);return}
     G.other.push(x)}));
   return {G,sellSum}}
+/* 아이콘 그림이 안 열릴 때 밑에 깔리는 물음표 그림 */
+const IC_Q='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#2a241b"/><text x="16" y="23" font-size="20" font-family="sans-serif" font-weight="700" text-anchor="middle" fill="#8a7a5a">?</text></svg>');
 function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLoad();return '<div class="card bgs"><h3>🧹 가방 정리</h3><p class="note">아이템 자료를 불러오는 중…</p></div>'}
   const R=bagSort(c);if(!R)return '';const {G,sellSum}=R;
   const ql=q=>['p','c','u','r','e','l'][q]||'c';
   /* 아이콘: 게임 아이콘(자료에 있으면) · 없으면 종류별 기본 그림 */
   const DEF={0:'inv_potion_51',1:'inv_misc_bag_07',2:'inv_sword_04',4:'inv_chest_cloth_21',5:'inv_misc_dust_02',7:'inv_fabric_linen_01',9:'inv_scroll_03',12:'inv_misc_note_01',15:'inv_misc_gear_01'};
-  const icOf=x=>{const it=IT.get(x.id);const n=x.I.ic||(it&&it.ic)||DEF[x.I.cls]||'inv_misc_questionmark';return ICO(n)};
+  const icOf=x=>{const it=IT.get(x.id);const n=x.I.ic||(it&&it.ic)||DEF[x.I.cls]||'inv_misc_questionmark';return 'url('+ICO(n)+'),url('+IC_Q+')'};
   /* 「책 이름 - 10쪽」처럼 쪽만 다른 것은 한 줄로 */
   const grp=L=>{const M=new Map(),out=[];L.forEach(x=>{const m=x.I.nm.match(/^(.+?)\s*-\s*(\d+)쪽$/);if(!m){out.push(x);return}let g=M.get(m[1]);if(!g){g={...x,I:{...x.I,nm:m[1]},pages:[],n:0};M.set(m[1],g);out.push(g)}g.pages.push(+m[2]);g.n+=x.n;if(x.where==='bank')g.where='bank'});
     M.forEach(g=>g.pages.sort((a,b)=>a-b));return out};
@@ -1263,14 +1265,17 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
     if(x.where==='bank')sub.push('<i class="bk">은행</i>');
     if(x.why)sub.push('<i class="why">'+esc(x.why)+'</i>');
     const pr=k==='sell'&&x.I.sell?'<span class="pr">'+goldTxt(x.I.sell*x.n)+'</span>':'';
-    return '<div class="bgi"><span class="ic q-'+ql(q)+'" style="background-image:url('+icOf(x)+')">'+(x.n>1&&!x.pages?'<em>'+x.n+'</em>':'')+'</span><span class="m"><b class="q'+q+'">'+esc(x.I.nm)+'</b>'+(sub.length?'<small>'+sub.join(' ')+'</small>':'')+'</span>'+pr+'</div>'};
+    return '<div class="bgi"><span class="ic q-'+ql(q)+'" style="background-image:'+icOf(x)+'">'+(x.n>1&&!x.pages?'<em>'+x.n+'</em>':'')+'</span><span class="m"><b class="q'+q+'">'+esc(x.I.nm)+'</b>'+(sub.length?'<small>'+sub.join(' ')+'</small>':'')+'</span>'+pr+'</div>'};
+  /* 나머지(물약·음식·도안·열쇠·장비 등)도 빠짐없이: 종류 이름을 붙여 「가방에 두기」로 */
+  const KIND={0:'물약·음식',1:'가방',2:'장비',4:'장비',9:'도안·조리법',13:'열쇠',15:'기타'};
+  G.other.forEach(x=>{if(!x.why)x.why=KIND[x.I.cls]||'기타'});
   const SEC=[['q','📜','퀘스트에 써요','팔지 말고 갖고 있어요',G.q,true],['sell','💰','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
-    ['mat','🧪','내 전문기술 재료',(c.profs||[]).join('·'),G.mat,false],['bank','🏦','은행·경매장으로',(c.profs||[]).length?'내 전문기술에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false]];
+    ['mat','🧪','내 전문기술 재료',(c.profs||[]).join('·'),G.mat,false],['bank','🏦','은행·경매장으로',(c.profs||[]).length?'내 전문기술에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false],['keep','🎒','가방에 두기','물약·음식·도안·열쇠·장비 등 — 장비는 아래 「내 가방·은행 장비」에서 비교',G.other,false]];
   const sec=([k,e,t,sub,L,open])=>{if(!L.length)return '';const R2=grp(L.slice().sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko')));
     return '<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary><span class="e">'+e+'</span><b>'+t+'</b><span class="n">'+L.length+'</span>'+(sub?'<small>'+sub+'</small>':'')+'<i class="cv"></i></summary><div class="bgl">'+R2.map(x=>row(x,k)).join('')+'</div></details>'};
   let h='<div class="card bgs"><div class="bgh"><h3>🧹 가방 정리</h3>'+(c.imported?'<small>'+armAgo(c.imported.t)+' 가져온 가방·은행</small>':'')+'</div>';
   const tiles=SEC.filter(x=>x[4].length);
-  const TL={q:'퀘스트',sell:'팔 것',mat:'내 재료',bank:'은행·경매'};
+  const TL={q:'퀘스트',sell:'팔 것',mat:'내 재료',bank:'은행·경매',keep:'가방에 두기'};
   if(tiles.length)h+='<div class="bgt">'+tiles.map(([k,e,t,,L])=>'<span class="t g-'+k+'"><i>'+e+'</i><b>'+L.length+'</b><small>'+TL[k]+'</small></span>').join('')+'</div>';
   h+=SEC.map(sec).join('');
   if(!tiles.length)h+='<p class="note">정리할 게 없어요.</p>';
