@@ -2718,9 +2718,9 @@ function abIco(a){const f=ABICO.find(x=>x[0].test(a.e));return f?f[1]:(a.t==='di
 const abIc=(a,cl)=>'<span class="ic'+(cl?' '+cl:'')+'" style="background-image:url('+ICO(abIco(a))+')"></span>';
 function abOf(d,st){const A=AB[d.slug];if(!A)return null;return A[st.en]||A[st.nm]||null}
 /* 직업별로 할 수 있는 것 (클래식 기준 기술 이름) */
-const CAN={magic:[['priest','마법 무효화'],['paladin','정화']],curse:[['mage','저주 해제'],['druid','저주 해제']],poison:[['druid','독 치료'],['paladin','정화'],['shaman','독 치료']],disease:[['priest','질병 치료'],['paladin','정화'],['shaman','질병 치료']],
+const CAN={magic:[['priest','마법 무효화'],['paladin','정화']],curse:[['mage','하급 저주 해제'],['druid','저주 해제']],poison:[['druid','해독'],['paladin','정화'],['shaman','해독']],disease:[['priest','질병 치료'],['paladin','정화'],['shaman','질병 치료']],
  purge:[['shaman','정화'],['priest','마법 무효화']],tranq:[['hunter','평정의 사격']],int:[['warrior','자루 공격'],['rogue','발차기'],['shaman','대지 충격'],['mage','마법 차단'],['paladin','심판의 망치'],['druid','강타(곰)'],['warlock','마법 잠금(지옥사냥개)']],
- fear:[['shaman','진동의 토템'],['warrior','광폭화'],['priest','공포의 수호물']],root:[['paladin','자유의 축복'],['druid','변신으로 풀기']]};
+ fear:[['shaman','진동의 토템'],['warrior','광전사의 격노'],['priest','공포의 수호물']],root:[['paladin','자유의 축복'],['druid','변신으로 풀기']]};
 function abKinds(a){const K=[];if(a.t==='dis'&&a.k)K.push(a.k);if(a.t==='int')K.push('int');if(/frenzy|enrage|rage\b/i.test(a.e)&&a.t==='dis')K.push('tranq');if(/fear|scream|terrify|intimidating|roar|psychic/i.test(a.e))K.push('fear');if(/root|entangle|vines|\bnet\b/i.test(a.e))K.push('root');return K}
 function abCan(a){const m=new Map();abKinds(a).forEach(k=>(CAN[k]||[]).forEach(([cl,sp])=>{if(!m.has(cl))m.set(cl,sp)}));return m}
 function abMine(a,c,me){const can=abCan(a);if(a.t==='dis')return can.has(c.cls);return a.w.includes(me)||(can.has(c.cls)&&a.t==='int'&&me!=='hl')||(can.has(c.cls)&&abKinds(a).some(k=>k==='fear'||k==='root'))}
