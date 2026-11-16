@@ -439,7 +439,6 @@
 0~붉은십자군 수도원: 대성당 · 종교재판관 페어뱅크스~dg:sm-cathedral
 3~드랍 · Dustbelcher Shaman~wh:npc=2718
 1~퀘스트 · 잃어버린 눈~/forever/quest/576
-1~퀘스트 · 돌로 만든 보호구~/forever/quest/716
 0~붉은십자군 수도원: 무기고 · 헤로드~dg:sm-armory
 0~울다만 · 레벨로쉬~dg:uldaman
 0~울다만 · 날쌘돌이 에릭~dg:uldaman
@@ -526,7 +525,6 @@
 0~아탈학카르 신전 · 학카르의 화신~dg:temple-of-atal-hakkar
 0~검은바위 나락 · 왕거미 헤드룸~dg:blackrock-depths
 0~검은바위 나락 · 파괴자 오크토르~dg:blackrock-depths
-1~퀘스트 · 오염의 확산~/forever/quest/4906
 1~퀘스트 · 수액괴물 견본 수집~wh:quest=4513
 1~퀘스트 · 팅키에게 돌아가는 길~/forever/quest/4810
 0~마라우돈 · 공주 테라드라스~dg:maraudon
@@ -537,6 +535,7 @@
 0~검은바위 나락 · 그리즐~dg:blackrock-depths
 0~검은바위 나락 · 팔란스~dg:blackrock-depths
 0~검은바위 나락 · 파이너스 다크바이어~dg:blackrock-depths
+1~퀘스트 · 강대한 우차~/forever/quest/4301
 1~퀘스트 · 쉬즐의 비행선~/forever/quest/4503
 1~퀘스트 · 테러닥스 주의~/forever/quest/4501
 0~검은바위 나락 · 플러거 스파즈링~dg:blackrock-depths
@@ -569,7 +568,6 @@
 0~검은바위 나락 · 헐레이 블랙브레스~dg:blackrock-depths
 1~퀘스트 · 과거의 비밀 밝히기~/forever/quest/6845
 3~드랍 · Warder Stilgiss~wh:npc=9041
-0~검은바위 나락 · 마그무스~dg:blackrock-depths
 0~검은바위 나락 · 사자 화염채찍~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 뾰족바위일족 전투대장~dg:lower-blackrock-spire
 0~스트라솔름: 이승 · 하스싱어 포레스턴~dg:stratholme-live

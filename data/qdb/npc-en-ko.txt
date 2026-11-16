@@ -3596,9 +3596,9 @@ Carrion Horror|공포의 대머리수리
 Scorpashi Snapper|스콜파시 집게전갈
 Scorpashi Lasher|스콜파시 꼬리전갈
 Scorpashi Venomlash|스콜파시 맹독전갈
-Aged Kodo|늙은 코도
-Dying Kodo|길들인 코도
-Ancient Kodo|길들인 코도
+Aged Kodo|길들인 코도
+Dying Kodo|임종의 코도
+Ancient Kodo|고대의 코도
 Burning Blade Invoker|불타는 칼날단 기원사
 Razzeric|래저릭
 Zuzubee|주주비
@@ -5627,7 +5627,7 @@ Emerald Dragon Whelp|새끼 에메랄드 용
 Deathly Usher|죽음의 안내인
 Battle Chicken|쌈닭
 Muck Splash|그을린 오염물
-Tyrion's Spybot|여사제 티리오나
+Tyrion's Spybot|티리온의 첩보로봇
 Sandfury Acolyte|성난모래부족 수행사제
 Sandfury Zealot|성난모래부족 광신도
 Muuran|무란
@@ -7052,7 +7052,7 @@ Meshlok the Harvester|정원사 메슬로크
 Zaetar's Spirit|재타르의 영혼
 Spirit of Gelk|겔크
 Spirit of Kolk|콜크
-Spirit of Magra|마그라
+Spirit of Magra|마그라의 영혼
 Spirit of Maraudos|마라우도스의 영혼
 Spirit of Veng|벵의 영혼
 Mark of Detonation (NW)|폭파 지점 (NW)
@@ -7881,6 +7881,7 @@ Revanchion|레반치온
 Scorn|냉소의 영혼
 Lord Blackwood|군주 블랙우드
 Lumbering Horror|성큼걸이 누더기골렘
+Plagued Eater UNUSED|역병 포식자
 Silverwing Elite|은빛날개 정예병
 Horde Elite|호드 정예병
 Horde Laborer|호드 인부
@@ -8993,6 +8994,7 @@ Avelina Lilly|아벨리나 릴리
 Isaac Pearson|이삭 피어슨
 Summoned Incubus|소환된 인큐버스
 Archmage Lan'dalock|대마법사 랜달록
+Caliel Brightwillow|칼리엘 브라이트윌로우
 Amisi Azuregaze|아미시 아주어게이즈
 Aemara|애마라
 Arille Azuregaze|아릴 아주어게이즈
@@ -9041,6 +9043,7 @@ Wendel Mathers|윈델 마더스
 Fizbuz Mithril|피즈버즈 미스릴
 Maseara Autumnmoon|마세라 어텀문
 Elrick|엘릭
+Ceruleos|세룰레오스
 Magister Falath|마법학자 팔라스
 Hippogryph Avatar|히포그리프 화신
 Moonkin Avatar|달빛야수 화신
@@ -9060,6 +9063,8 @@ Slack-Jawed Ghoul|벌린턱 구울
 Orthas|오르타스
 Rotting Dwarf Corpse|썩어가는 드워프 시체
 Ekkal|에칼
+Honey Wasp|꿀 말벌
+Blackmaw Warrior|검은아귀 전사
 Blackmaw Shaman|검은아귀 주술사
 Blackmaw Ursa|검은아귀 곰전사
 Dockhand|부두 일꾼
@@ -9080,10 +9085,19 @@ Ander Solliden|앤더 솔리덴
 Arcanist Ginsberg|신비술사 진스버그
 Jessa Weaver|제사 위버
 Kirin Tor Guard|키린 토 경비병
+Blood Elf Arcanist|블러드 엘프 비전술사
+Lieutenant Suncrest|부관 선크레스트
+Ranger Lydrea|순찰자 리드리아
+Bloodshrike|핏빛절규
 Nancy Songflower|낸시 송플라워
 Kelsey Fargo|켈시 파고
 Daniel|다니엘
 Emissary Jacques|사절 자크
+Sin'dorei Tome of Summoning|신도레이 소환의 고서
+Makrinni Burrower|마크리니 땅굴벌레
+Izvi Gildfizz|이즈비 길드피즈
+Celegosa|셀레고사
+Leyline Rift|지맥 균열
 Hyjal Stag|하이잘 수사슴
 Apothecary Durelle|연금술사 두렐
 Gor'mak|고르마크
@@ -9417,8 +9431,10 @@ Twilight Neophyte|황혼의 수련사
 Twilight Champion|황혼의 용사
 Twilight Enforcer|황혼의 집행자
 Apprentice Claire|수습생 클레어
+Lieutenant Prenish|부관 프레니쉬
 Overlord Kilgar|대군주 킬가르
 Executioner Morg|집행자 모르그
+Kargra the Blind|눈먼 카르그라
 Chogg'Zac|초그자크
 Farholde Scout|파홀드 정찰병
 Captured Bandit|붙잡힌 산적
@@ -9502,6 +9518,7 @@ Jorel Windsinger|조렐 윈드싱어
 Naanel Shadowfoot|나아넬 섀도풋
 Naaleos Leafwhisper|날레오스 리프위스퍼
 Falleeah Gustrunner|팔레아 거스트러너
+Hyneena Fiercefang|하이니나 피어스팽
 Telenos Leafwhisper|텔레노스 리프위스퍼
 Nayeela Snarlfang|나옐라 스날팽
 Frothrik Saegrund|프로스릭 새그룬드
@@ -9577,6 +9594,7 @@ Converted Farmer|전향한 농부
 Coyote Prowler|코요테 배회자
 Plains Coyote|평원 코요테
 High Plains Buzzard|고원 대머리수리
+Melanie Sable|멜라니 세이블
 Watcher Cornelius|감시자 코넬리우스
 Cedric Dalton|세드릭 달튼
 Injured Deathguard|상처 입은 죽음경비병
@@ -9592,6 +9610,7 @@ Gul'gash|굴가쉬
 Mika Darby|미카 다비
 Mosh'gra|모쉬그라
 Wheatley|휘틀리
+Martha Wellsworth|마사 웰스워스
 Paige Armstrong|페이지 암스트롱
 Cassandra Wheeler|카산드라 휠러
 Old Fire-Eye|늙은 불꽃눈
@@ -9600,8 +9619,15 @@ Fimbo Greasemitz|핌보 그리스미츠
 Gorgegut|협곡포식자
 Farholde Ambusher|파홀드 복병
 Scout Bolain|정찰병 볼레인
+Sentry Woods|보초병 우즈
 Sentry Albright|보초병 올브라이트
+Sentry Larsen|보초병 라슨
+Sentry Hartley|보초병 하틀리
 Sentry Denning|보초병 데닝
+Sentry Fleming|보초병 플레밍
+Sentry Olgan|보초병 올간
+Sentry Brennan|보초병 브레넌
+Lieutenant Maclan|부관 맥클란
 Lieutenant Shelby|부관 셸비
 Sentry Gellin|보초병 겔린
 Sentry Drevan|보초병 드레반
@@ -9705,6 +9731,7 @@ Mister Graphed|그라페드 씨
 Sam Sarsaparilla|샘 사르사파릴라
 Hamur|하무르
 Bal'mog|발모그
+Bryanna Embreeze|브리아나 엠브리즈
 Creeg Bothunk|크리그 보성크
 Diseased Soldier|감염된 병사
 Brother Lowley|수사 로울리
@@ -9718,6 +9745,7 @@ Borook Gallfist|보루크 골피스트
 Raan Wildwind|란 와일드윈드
 Bear|곰
 Bristleback Bodyguard|뾰족털일족 경호원
+Gronok the Butcher|도살자 그로노크
 Yorn Grimtotem|요른 그림토템
 Mazu'kon|마주콘
 Sutara Plainstalker|수타라 평원추적자
@@ -9772,6 +9800,8 @@ Hadric Harlson|헨드릭 할슨
 Stormwind Cannoneer|스톰윈드 포병
 Gilbert Gray|길버트 그레이
 Va'xug Firefure|바수그 파이어퓨어
+White Riding Kodo|길들인 흰색 코도
+Grey Riding Kodo|길들인 회색 코도
 Sylassa Moonglow|실라사 문글로우
 Emerald Riding Raptor|길들인 녹색 랩터
 Turquoise Riding Raptor|길들인 청록색 랩터
@@ -9848,6 +9878,8 @@ Theramore Elite|테라모어 정예병
 Darkspear Elite|검은창 정예병
 Dorgaron|도르가론
 Mus'hale|무스할레
+Paul|폴
+Thaddeus Brillyard|태디어스 브릴야드
 Risen Warhorse|되살아난 전투마
 Risen Charger|되살아난 군마
 Malevolent Mirage|사악한 신기루
@@ -9863,6 +9895,7 @@ Farholde Steed|파홀드 준마
 Deathstalker Masoj|죽음추적자 마소즈
 Alfina Nightgaze|알피나 나이트게이즈
 Spellweaver Thaldris|주문술사 탈드리스
+Kenneth "Kirby" Millstead|"커비" 케네스 밀스테드
 Fyrenz Vishonar|피렌즈 비쇼나르
 Mon'ye|몬예
 Nightveiled Rotheap|밤장막 부패무더기
@@ -9872,7 +9905,9 @@ Daggerfang|단도엄니
 Drazzit Dripvalve|드라짓 드립밸브
 Gizzix Grimegurgle|기직스 그림구르글
 Miss Melly|멜리 양
+Witch Doctor Ti'ik|의술사 티이크
 Qujo|쿠조
+Hexed Larva|사술 걸린 애벌레
 Sylessa Duskwhisper|실레사 더스크위스퍼
 Goaz Warder|고아즈 수호병
 Ugbert|우그버트
@@ -9908,6 +9943,7 @@ Restless Spirit|쉬지 않는 정신력
 Juvenile Cloudrunner|어린 구름길잡이
 Cloudrunner Matriarch|구름길잡이 어미
 Cloudrunner|구름길잡이
+Corporal Twohig|하사관 투히그
 Stormscale Beastmistress|폭풍비늘 야수조련사
 Valaquenia|발라퀘니아
 Shen'dorei Windwell|셴도레이 바람샘
@@ -9971,6 +10007,7 @@ Stormwind City Defender|스톰윈드 파수병
 Belarysa Moonveil|벨라리사 문베일
 Relreo Emberlight|렐레오 엠버라이트
 Max|맥스
+Aendaril Brookshot|앤다릴 브룩샷
 Vigilant Deathguard|경계 중인 죽음경비병
 Boborus Overvolt|보보러스 오버볼트
 Lyvia Stormsinger|리비아 스톰싱어
@@ -9978,6 +10015,7 @@ Elril Everlight|엘릴 에버라이트
 Amandriel|아만드리엘
 Ironforge Protector|아이언포지 수호병
 Rayla|레일라
+Ysa'bel Brightwind|이사벨 브라이트윈드
 Bitty Frostflinger|비티 프로스트플링어
 Furious Astranaar Sentinel|분노한 아스트라나르 파수꾼
 Grom'gol Ravager|그롬골 약탈자
@@ -9989,12 +10027,16 @@ Teller Rames|출납원 람스
 Teller Hanners|출납원 한너스
 High Order Dockmaster|고등 마법원 부두주임
 Windshapers Dockmaster|바람구체자 부두주임
+Brelinda McFarry|브렐린다 맥패리
 Nizook Boof|니주크 부프
 Timothy Jones|티모시 존스
 Adorean Lew|아도리안 류
 Merleaux|메를로
 Dark Enforcer|어둠의 집행자
 Randal Emerson|랜들 에머슨
+Kerta the Bold|대담한 케르타
+Valaden Silverblade|발라덴 실버블레이드
+Bartram Haller|바트람 홀러
 Heglan Shadeeye|헤글란 셰이드아이
 Spitelash Scout|원한의꼬리일족 정찰병
 Spitelash Attendant|원한의꼬리일족 수행원
@@ -10052,6 +10094,7 @@ Vela El'wyth|벨라 엘위스
 Kyle the Frenzied|광포한 카일
 Ahab Wheathoof|아합 윗후프
 Jamis Nulink|제이미스 널링크
+Haggard-Looking Man|초췌한 남자
 Gevreka|게브레카
 Xephos Lehparsi|제포스 레파르시
 Cereza Galeforce|세레자 게일포스
@@ -10061,6 +10104,7 @@ Gray Fox|회색 여우
 Krazore|크라조어
 Jaekal Galeshot|재칼 게일샷
 Mattwyn "Q" Pons|매트윈 "Q" 폰스
+Gelia Shardsong|젤리아 샤드송
 Rabid Forest Wolf|광포한 숲늑대
 Botika Montes|보티카 몬테스
 Angie Cilas|앤지 실라스

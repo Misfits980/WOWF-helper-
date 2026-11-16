@@ -68,7 +68,7 @@ Brawler Gloves|투사의 장갑
 Goretusk Liver|뿔엄니멧돼지 간
 Goretusk Liver Pie|뿔엄니멧돼지 간 파이
 Gnoll Paw|놀의 앞발
-Notched Shortsword|마법의 톱니모양 쇼트소드
+Notched Shortsword|방어의 톱니모양 쇼트소드
 Recipe: Westfall Stew|조리법: 서부정통 스튜
 Stringy Vulture Meat|식인독수리 고기
 Murloc Eye|멀록 눈알
@@ -112,8 +112,8 @@ Painted Gnoll Armband|놀의 화려한 완장
 Light Hide|얇은 통가죽
 Mageroyal|마법초 꽃잎
 Slitherskin Mackerel|줄무늬고등어 구이
-Stout Battlehammer|마법의 견고한 전투해머
-Forester's Axe|원숭이의 벌채꾼 도끼
+Stout Battlehammer|힘의 견고한 전투해머
+Forester's Axe|호랑이의 벌채꾼 도끼
 Gnarled Ash Staff|옹이진 물푸레나무 지팡이
 Knitted Sandals|뜨개질한 샌들
 Knitted Gloves|뜨개질한 장갑
@@ -164,8 +164,8 @@ Lesser Healing Potion|하급 치유 물약
 Fine Cloth Shirt|고급 헝겊 셔츠
 Cavalier's Boots|기병 장화
 Runed Ring|룬문자 반지
-Gloom Reaper|산적의 어둠 도끼
-Knightly Longsword|의사의 기사검
+Gloom Reaper|자연 보호의 어둠 도끼
+Knightly Longsword|지능의 기사검
 Leaden Mace|예언자의 무쇠 철퇴
 Monk's Staff|마술사의 수도사 지팡이
 Gloves of Holy Might|신성한 힘의 장갑
@@ -291,7 +291,7 @@ Aegis of Stormwind|스톰윈드의 아이기스
 The Green Tower|녹색 타워실드
 Melon Juice|멜론 주스
 Moss Agate|태마노
-Murphstar|예언자의 머프스타
+Murphstar|제사장의 머프스타
 Maybell's Love Letter|메이벨의 연애 편지
 Shadowgem|음영석
 Gnoll War Harness|놀의 전투용 멜빵
@@ -499,7 +499,7 @@ Sickle Axe|산사태 도끼
 Chromatic Sword|무지개비늘 검
 Soulkeeper|영혼의 수호지팡이
 Skullcrusher Mace|민첩성의 해골 철퇴
-Spiritchaser Staff|치유의 영혼사냥꾼 지팡이
+Spiritchaser Staff|원숭이의 영혼사냥꾼 지팡이
 Skullsplitter Helm|백골가루부족 투구
 Exquisite Flamberge|힘의 날카로운 플랑베르쥬
 Broken Electro-lantern|부서진 전기랜턴
@@ -761,10 +761,10 @@ Darnassian Bleu|다르나서스 블루 치즈
 Dwarven Magestaff|야수의 드워프족 마법지팡이
 Dwarven Hatchet|치유의 드워프족 손도끼
 Solid Shortblade|튼튼한 쇼트소드
-Priest's Mace|전투력의 사제 철퇴
+Priest's Mace|마법의 사제 철퇴
 Magician Staff|역술사의 드워프족 마술사 지팡이
 Northern Shortsword|마법의 북부인 쇼트소드
-Sergeant's Warhammer|정신력의 부대장 전투해머
+Sergeant's Warhammer|전투력의 부대장 전투해머
 Hillborne Axe|정신력의 고원 도끼
 Wizbang's Gunnysack|위즈뱅의 자루
 Darksteel Bastard Sword|검은강철 바스타드소드
@@ -806,7 +806,7 @@ Conjured Purified Water|창조된 정제수
 Whittling Knife|조각용 나이프
 Sharpened Letter Opener|날카로운 지칼
 Dirk|단도
-Carving Knife|고릴라의 조각 나이프
+Carving Knife|원숭이의 조각 나이프
 Cuirboulli Vest|통가죽 조끼
 Cuirboulli Belt|통가죽 허리띠
 Cuirboulli Boots|통가죽 장화
@@ -1515,21 +1515,21 @@ Flecked Raptor Scale|얼룩무늬 랩터 비늘
 Partially Digested Meat|반쯤 소화된 고기
 Spider's Silk|거미줄
 Mangy Claw|썩은 발톱
-Hook Dagger|냉기 보호의 갈고리 단검
-Acrobatic Staff|예언자의 곡예 지팡이
+Hook Dagger|마법의 갈고리 단검
+Acrobatic Staff|의사의 곡예 지팡이
 Viking Sword|체력의 바이킹 검
-Sacrificial Kris|올빼미의 희생 크리스
+Sacrificial Kris|민첩성의 희생 크리스
 Coral Claymore|산호 클레이모어
 Wood Chopper|벌목용 도끼
 Beatstick|타구봉
 Arced War Axe|곡선형 전투도끼
-Short Bastard Sword|치유의 짧은 바스타드소드
-Oak Mallet|독수리의 참나무 망치
+Short Bastard Sword|자연 보호의 짧은 바스타드소드
+Oak Mallet|전투력의 참나무 망치
 Black Malice|검은 원한의 마울
-Barbaric Battle Axe|마법의 야만전사 배틀액스
-Edged Bastard Sword|정신력의 예리한 바스타드소드
+Barbaric Battle Axe|곰의 야만전사 배틀액스
+Edged Bastard Sword|성난 신성의 예리한 바스타드소드
 Stonecutter Claymore|멧돼지의 무쇠날 클레이모어
-Battering Hammer|늑대의 단단한 나무망치
+Battering Hammer|매의 단단한 나무망치
 Battle Slayer|마법의 학살 도끼
 Burnt Leather Bracers|연마된 가죽 팔보호구
 Barbarian War Axe|야수의 야만전사 전투도끼
@@ -1537,11 +1537,11 @@ Forest Leather Bracers|수목의 가죽 팔보호구
 Dense Triangle Mace|예리한 삼각 철퇴
 Deepwood Bracers|깊은숲 팔보호구
 Inscribed Leather Bracers|마법문자 가죽 팔보호구
-Cavalier Two-hander|산적의 기사 양손검
+Cavalier Two-hander|의사의 기사 양손검
 Hunting Bracers|수렵의 팔보호구
 Conk Hammer|부리 망치
 Ancient War Sword|고대 전투검
-Brutal War Axe|정신력의 투사 전투도끼
+Brutal War Axe|야수의 투사 전투도끼
 Burnished Bracers|빛나는 팔보호구
 Lambent Scale Bracers|아른거리는 미늘 팔보호구
 Veteran Bracers|역전용사의 팔보호구
@@ -1972,7 +1972,7 @@ Recipe: Hot Lion Chops|조리법: 매운 사자 고기
 Recipe: Tasty Lion Steak|조리법: 맛있는 사자 스테이크
 Recipe: Soothing Turtle Bisque|조리법: 독특한 거북 비스크
 Skull Ring|해골 반지
-Decapitating Sword|치유의 참수용 칼
+Decapitating Sword|매의 참수용 칼
 Stomping Boots|투박한 가죽 장화
 Bow of Plunder|약탈자의 활
 Sentry Buckler|보초병 버클러
@@ -2262,7 +2262,7 @@ Krazek's Crock Pot|크라젝의 고물 냄비
 Flash Rifle|속사용 라이플
 Trueshot Bow|산적의 명궁 활
 Dreadblade|역술사의 공포 단검
-Ricochet Blunderbuss|리코셰 나팔총
+Ricochet Blunderbuss|체력의 리코셰 나팔총
 Mug O' Hurt|아야아야 머그잔
 Widowmaker|미망단도
 Prismatic Basilisk Scale|오색빛깔 바실리스크 비늘
@@ -2603,17 +2603,17 @@ Fiery Gland|불타는 불꽃샘
 Empty Barrel|빈 맥주통
 Fine Scimitar|고급 시미터
 Scalping Tomahawk|고래의 무두질용 토마호크
-Severing Axe|독수리의 무쇠날 도끼
+Severing Axe|힘의 무쇠날 도끼
 Billy Club|경비대 치안봉
-Spiked Club|마법의 가시 돋친 곤봉
+Spiked Club|치유의 가시 돋친 곤봉
 Simple Dagger|단순한 단검
 Sturdy Quarterstaff|화염 보호의 튼튼한 육척봉
-Merc Sword|치유의 머크 검
-Grunt Axe|마법의 그런트 도끼
+Merc Sword|원숭이의 머크 검
+Grunt Axe|매의 그런트 도끼
 Staunch Hammer|힘의 견고한 망치
-Birchwood Maul|성난 신성의 자작나무 마울
+Birchwood Maul|힘의 자작나무 마울
 War Knife|치유의 전투 단검
-Medicine Staff|야수의 주술 지팡이
+Medicine Staff|독수리의 주술 지팡이
 Light Bow|가벼운 활
 Compact Shotgun|견고한 산탄총
 Sabertooth Fang|살쾡이 송곳니
@@ -3125,7 +3125,7 @@ Dusk Wand|어스름 마법봉
 Blazing Wand|이글거리는 마법봉
 Scorching Wand|작열하는 마법봉
 Wand of Eventide|땅거미 마법봉
-Ember Wand|화염 보호의 장작 마법봉
+Ember Wand|체력의 장작 마법봉
 Umbral Wand|올빼미의 움브랄 마법봉
 Tainted Heart|오염된 심장
 Cleansed Timberling Heart|정화된 나무괴물 심장
@@ -3794,7 +3794,7 @@ Blue Overalls|파란색 작업복
 Greater Adept's Robe|상급사제용 로브
 Soul Shard|영혼의 조각
 Disciple's Vest|지능의 신도 조끼
-Disciple's Pants|고래의 신도 바지
+Disciple's Pants|체력의 신도 바지
 Pioneer Tunic|호랑이의 선구자 조끼
 Pioneer Trousers|고래의 선구자 바지
 Pattern: Blue Linen Vest|도안: 파란색 리넨 조끼
@@ -3831,6 +3831,7 @@ Message in a Bottle|쪽지가 든 병
 Raw Bristle Whisker Catfish|표범메기
 17 Pound Catfish|9Kg 메기
 19 Pound Catfish|10Kg 메기
+22 Pound Catfish|11Kg 메기
 Dalin's Heart|달린의 유품
 Comar's Heart|코마의 심장
 Wolfmaster Cape|늑대왕 단망토
@@ -3854,7 +3855,7 @@ Black Pearl Ring|흑진주 반지
 Spikelash Dagger|꼬리가시 단검
 Grizzled Boots|불곰 장화
 Infantry Tunic|지능의 보병 제복
-Infantry Leggings|호랑이의 보병 다리보호구
+Infantry Leggings|방어의 보병 다리보호구
 Silver Rod|은마법막대
 Runed Silver Rod|룬문자 은마법막대
 Fenrus' Hide|펜루스의 가죽
@@ -4029,35 +4030,35 @@ Bright Baubles|화려한 미끼
 Aquadynamic Fish Attractor|액체역학 물고기 유인기
 Forged Steel Bars|단조된 강철 주괴
 Tablet of Verga|베르가의 서판
-Willow Vest|자연 보호의 버드나무 조끼
-Willow Boots|고래의 버드나무 장화
+Willow Vest|체력의 버드나무 조끼
+Willow Boots|올빼미의 버드나무 장화
 Willow Robe|마법의 버드나무 로브
-Willow Belt|마술사의 버드나무 허리띠
-Willow Pants|독수리의 버드나무 바지
-Willow Gloves|성난 암흑의 버드나무 장갑
+Willow Belt|정신력의 버드나무 허리띠
+Willow Pants|고래의 버드나무 바지
+Willow Gloves|독수리의 버드나무 장갑
 Willow Cape|늑대의 버드나무 단망토
 Willow Bracers|고래의 버드나무 팔보호구
 Soldier's Armor|곰의 병사 갑옷
-Soldier's Leggings|냉기 보호의 병사 다리보호구
+Soldier's Leggings|멧돼지의 병사 다리보호구
 Soldier's Gauntlets|성난 신성의 병사 건틀릿
 Soldier's Girdle|전투력의 병사 벨트
 Soldier's Cloak|병사 망토
 Soldier's Wristguards|고래의 병사 손목보호구
 Soldier's Boots|지능의 병사 장화
-Bard's Tunic|독수리의 음유시인 튜닉
+Bard's Tunic|화염 보호의 음유시인 튜닉
 Bard's Trousers|정신력의 음유시인 바지
 Bard's Gloves|지능의 음유시인 장갑
 Bard's Cloak|음유시인 망토
-Bard's Bracers|매의 음유시인 팔보호구
-Bard's Boots|고래의 음유시인 장화
-Bard's Belt|체력의 음유시인 허리띠
+Bard's Bracers|지능의 음유시인 팔보호구
+Bard's Boots|고릴라의 음유시인 장화
+Bard's Belt|성난 자연의 음유시인 허리띠
 Bard's Buckler|파수병의 음유시인 버클러
 Soldier's Shield|힘의 병사 방패
 Seer's Padded Armor|예언자의 솜댄 갑옷
-Shimmering Boots|체력의 미명 장화
-Shimmering Bracers|독수리의 미명 팔보호구
-Shimmering Cloak|매의 미명 망토
-Shimmering Gloves|올빼미의 미명 장갑
+Shimmering Boots|마술사의 미명 장화
+Shimmering Bracers|지능의 미명 팔보호구
+Shimmering Cloak|지능의 미명 망토
+Shimmering Gloves|성난 암흑의 미명 장갑
 Shimmering Amice|미명 아미스
 Shimmering Armor|올빼미의 미명 갑옷
 Shimmering Trousers|마술사의 미명 바지
@@ -4070,13 +4071,13 @@ Defender Bracers|올빼미의 수호자 팔보호구
 Defender Cloak|호랑이의 수호자 망토
 Defender Girdle|비전 보호의 수호자 벨트
 Defender Gauntlets|전투력의 수호자 건틀릿
-Defender Leggings|방어의 수호자 다리보호구
+Defender Leggings|자연 보호의 수호자 다리보호구
 Defender Spaulders|수호자 어깨갑옷
-Defender Tunic|올빼미의 수호자 튜닉
-Scouting Belt|전투력의 정찰용 허리띠
+Defender Tunic|원숭이의 수호자 튜닉
+Scouting Belt|고래의 정찰용 허리띠
 Scouting Boots|민첩성의 정찰용 장화
 Scouting Bracers|냉기 보호의 정찰용 팔보호구
-Scouting Tunic|고릴라의 정찰용 튜닉
+Scouting Tunic|올빼미의 정찰용 튜닉
 Scouting Cloak|매의 정찰용 망토
 Scouting Gloves|늑대의 정찰용 장갑
 Scouting Trousers|정신력의 정찰용 바지
@@ -4519,10 +4520,10 @@ Disciple's Bracers|신도 팔보호구
 Disciple's Boots|신도 장화
 Earthen Leather Shoulders|대지의 가죽 어깨보호구
 Elder's Padded Armor|올빼미의 장로 솜갑옷
-Elder's Boots|지능의 장로 장화
+Elder's Boots|성난 암흑의 장로 장화
 Elder's Bracers|마법의 장로 팔보호구
-Elder's Cloak|마술사의 장로 망토
-Elder's Hat|장로 모자
+Elder's Cloak|힘의 장로 망토
+Elder's Hat|올빼미의 장로 모자
 Pilferer's Gloves|좀도둑 장갑
 Heavy Earthen Gloves|두꺼운 대지의 장갑
 Pattern: Dark Leather Gloves|도안: 암색 가죽 장갑
@@ -4552,7 +4553,7 @@ Dusky Boots|거무스름한 장화
 Swift Boots|신속의 장화
 Green Whelp Scale|새끼 녹색용 비늘
 Infiltrator Cord|멧돼지의 첩보원 장식끈
-Infiltrator Armor|곰의 첩보원 갑옷
+Infiltrator Armor|기사의 첩보원 갑옷
 Infiltrator Shoulders|산적의 첩보원 어깨보호구
 Infiltrator Boots|기사의 첩보원 장화
 Infiltrator Bracers|전투력의 첩보원 팔보호구
@@ -4563,17 +4564,17 @@ Infiltrator Pants|호랑이의 첩보원 바지
 Dervish Spaulders|매의 수도승 어깨갑옷
 Phalanx Bracers|파수병의 결사단 팔보호구
 Phalanx Boots|암흑 보호의 결사단 장화
-Phalanx Breastplate|치유의 결사단 흉갑
+Phalanx Breastplate|체력의 결사단 흉갑
 Phalanx Cloak|성난 화염의 결사단 망토
 Phalanx Headguard|야수의 결사단 머리보호구
 Phalanx Gauntlets|결사단 건틀릿
 Phalanx Girdle|올빼미의 결사단 벨트
-Phalanx Leggings|매의 결사단 다리보호구
+Phalanx Leggings|늑대의 결사단 다리보호구
 Phalanx Spaulders|독수리의 결사단 어깨갑옷
 Shadowcat Hide|그림자살쾡이 통가죽
 Twilight Armor|지능의 황혼 갑옷
-Twilight Robe|의사의 황혼 로브
-Twilight Pants|화염 보호의 황혼 바지
+Twilight Robe|고래의 황혼 로브
+Twilight Pants|역술사의 황혼 바지
 Twilight Cowl|독수리의 황혼 두건
 Twilight Gloves|화염 보호의 황혼 장갑
 Twilight Boots|정신력의 황혼 장화
@@ -4582,12 +4583,12 @@ Twilight Cape|힘의 황혼 단망토
 Twilight Cuffs|독수리의 황혼 소매장식
 Twilight Belt|마술사의 황혼 허리띠
 Sentinel Breastplate|올빼미의 파수꾼 흉갑
-Sentinel Trousers|원숭이의 파수꾼 바지
+Sentinel Trousers|산적의 파수꾼 바지
 Sentinel Cap|고래의 파수꾼 모자
 Gyromast's Key|자이로마스트의 열쇠
-Sentinel Gloves|지능의 파수꾼 장갑
+Sentinel Gloves|산적의 파수꾼 장갑
 Sentinel Boots|산적의 파수꾼 장화
-Sentinel Shoulders|산적의 파수꾼 어깨보호구
+Sentinel Shoulders|힘의 파수꾼 어깨보호구
 Sentinel Cloak|방어의 파수꾼 망토
 Sentinel Bracers|민첩성의 파수꾼 팔보호구
 Sentinel Girdle|암흑 보호의 파수꾼 벨트
@@ -4600,27 +4601,27 @@ Knight's Breastplate|고래의 기사 흉갑
 Knight's Legguards|매의 기사 다리보호대
 Knight's Headguard|파수병의 기사 머리보호구
 Knight's Gauntlets|야수의 기사 건틀릿
-Knight's Boots|야수의 기사 장화
-Knight's Pauldrons|기사의 기사 어깨갑옷
+Knight's Boots|방어의 기사 장화
+Knight's Pauldrons|용사의 기사 어깨갑옷
 Knight's Cloak|전투력의 기사 망토
 Knight's Bracers|기사의 기사 팔보호구
 Knight's Girdle|야수의 기사 벨트
-Sentinel Buckler|파수병의 파수꾼 버클러
+Sentinel Buckler|고릴라의 파수꾼 버클러
 Glyphs of Summoning|소환의 문양
 Knight's Crest|독수리의 기사 문장방패
 Regal Robe|제왕 로브
 Regal Leggings|제왕 다리보호구
-Regal Wizard Hat|제왕 마술사 모자
+Regal Wizard Hat|지능의 제왕 마술사 모자
 Regal Gloves|체력의 제왕 장갑
 Regal Boots|마술사의 제왕 장화
-Regal Mantle|제왕 어깨보호대
+Regal Mantle|장로의 제왕 어깨보호대
 Regal Cloak|제왕 망토
-Regal Cuffs|제왕 소매장식
-Regal Sash|자연 보호의 제왕 장식띠
+Regal Cuffs|의사의 제왕 소매장식
+Regal Sash|고래의 제왕 장식띠
 Ranger Tunic|순찰자 튜닉
 Ranger Leggings|산적의 순찰자 다리보호구
-Ranger Helm|힘의 순찰자 투구
-Ranger Gloves|고릴라의 순찰자 장갑
+Ranger Helm|고릴라의 순찰자 투구
+Ranger Gloves|산적의 순찰자 장갑
 Ranger Boots|순찰자 장화
 Ranger Shoulders|늑대의 순찰자 어깨보호구
 Ranger Cloak|체력의 순찰자 망토
@@ -4628,10 +4629,10 @@ Ranger Wristguards|매의 순찰자 손목보호구
 Ranger Cord|지능의 순찰자 장식끈
 Captain's Breastplate|원숭이의 대장 흉갑
 Captain's Leggings|고릴라의 대장 다리보호구
-Captain's Circlet|고래의 대장 머리장식
-Captain's Gauntlets|대장 건틀릿
+Captain's Circlet|정신력의 대장 머리장식
+Captain's Gauntlets|독수리의 대장 건틀릿
 Captain's Boots|산적의 대장 장화
-Captain's Shoulderguards|자연 보호의 대장 어깨갑옷
+Captain's Shoulderguards|고래의 대장 어깨갑옷
 Captain's Cloak|호랑이의 대장 망토
 Captain's Bracers|산적의 대장 팔보호구
 Captain's Waistguard|대장 허리보호대
@@ -4656,14 +4657,14 @@ Gossamer Robe|명주 로브
 Gossamer Pants|명주 바지
 Gossamer Headpiece|화염 보호의 명주 투구
 Gossamer Gloves|명주 장갑
-Gossamer Boots|장로의 명주 장화
+Gossamer Boots|제사장의 명주 장화
 Gossamer Shoulderpads|지능의 명주 어깨보호구
 Gossamer Cape|산적의 명주 단망토
 Gossamer Bracers|명주 팔보호구
 Gossamer Belt|마술사의 명주 허리띠
 Cabalist Chestpiece|밀사 흉갑
 Cabalist Leggings|성난 비전의 밀사 다리보호구
-Cabalist Helm|밀사 투구
+Cabalist Helm|마술사의 밀사 투구
 Cabalist Gloves|밀사 장갑
 Cabalist Boots|밀사 장화
 Cabalist Spaulders|밀사 어깨갑옷
@@ -4672,13 +4673,13 @@ Cabalist Bracers|고릴라의 밀사 팔보호구
 Cabalist Belt|밀사 허리띠
 Champion's Wall Shield|용사 철벽방패
 Gothic Shield|고딕 방패
-Champion's Armor|용사 갑옷
+Champion's Armor|지능의 용사 갑옷
 Champion's Leggings|용사 다리보호구
 Champion's Helmet|용사 투구
 Champion's Gauntlets|용사 건틀릿
 Champion's Greaves|냉기 보호의 용사 경갑
 Champion's Pauldrons|용사 어깨갑옷
-Champion's Cape|올빼미의 용사 단망토
+Champion's Cape|치유의 용사 단망토
 Champion's Bracers|산적의 용사 팔보호구
 Champion's Girdle|용사 벨트
 Fairy's Embrace|요정의 선물
@@ -4686,7 +4687,7 @@ Entwined Opaline Talisman|휘감긴 유리 부적
 Falcon's Hook|매의 고리
 Band of the Unicorn|일각수의 고리
 Willow Branch|멧돼지의 버드나무 가지
-Regal Star|제왕 마법막대
+Regal Star|자연 보호의 제왕 마법막대
 Twilight Orb|황혼 수정구
 Gossamer Rod|명주 마법막대
 Shimmering Stave|미명 마법봉
@@ -5004,7 +5005,7 @@ Comfortable Leather Hat|편한 가죽 모자
 Nightscape Tunic|밤하늘 튜닉
 Nightscape Headband|밤하늘 머리띠
 Practice Sword|수련용 검
-Training Sword|비전 보호의 훈련용 검
+Training Sword|고릴라의 훈련용 검
 Cadet's Bow|생도의 활
 Hunting Bow|수렵의 활
 Hunting Rifle|수렵의 라이플
@@ -5020,7 +5021,7 @@ Hanzo Sword|한조검
 Turtle Scale Helm|거북 껍질 투구
 Nightscape Shoulders|밤하늘 어깨보호구
 Nightscape Pants|밤하늘 바지
-Goblin Nutcracker|힘의 고블린 호두까개
+Goblin Nutcracker|화염 보호의 고블린 호두까개
 Ebon Scimitar|산적의 흑단 시미터
 Nightscape Boots|밤하늘 장화
 Turtle Scale Bracers|거북 껍질 팔보호구
@@ -5349,7 +5350,7 @@ Empty Leaden Collection Phial|빈 가연채집병
 Full Leaden Collection Phial|가득 찬 가연채집병
 Field Plate Vambraces|매의 전투 판금 완갑
 Field Plate Armor|전투 판금 갑옷
-Field Plate Gauntlets|전투 판금 건틀릿
+Field Plate Gauntlets|힘의 전투 판금 건틀릿
 Field Plate Girdle|전투 판금 벨트
 Field Plate Boots|화염 보호의 전투 판금 장화
 Field Plate Helmet|전투 판금 투구
@@ -5359,7 +5360,7 @@ Recipe: Magic Resistance Potion|조제법: 마법 저항 물약
 Recipe: Wildvine Potion|조제법: 야생덩굴 물약
 Recipe: Invisibility Potion|조제법: 투명 물약
 Recipe: Gift of Arthas|조제법: 아서스의 선물
-Recipe: Elixir of Dream Vision|조제법: 몽상의 비약
+Recipe: Elixir of Dream Vision|조제법: 몽상의 약물
 Recipe: Elixir of Giants|조제법: 거인의 비약
 Thermaplugg's Safe Combination|텔마플러그의 금고 암호
 Recipe: Elixir of Demonslaying|조제법: 악마 사냥 전문화의 비약
@@ -5447,7 +5448,7 @@ Spirewind Fetter|소용돌이 멜빵
 Stoneweaver Leggings|돌매듭 다리보호구
 Ironshod Bludgeon|철제쐐기 지팡이
 Ironaya's Bracers|늑대의 아이로나야 팔보호구
-Cragfists|바위주먹
+Cragfists|멧돼지의 바위주먹
 Rockshard Pauldrons|바위파편 어깨갑옷
 Galgann's Fireblaster|갈간의 불막대
 The Rockpounder|돌달구
@@ -5509,7 +5510,7 @@ Bad Mojo Mask|악의 모조 가면
 Nekrum's Medallion|네크룸의 메달
 Hexx's Key|헥스의 열쇠
 Jinxed Hoodoo Skin|불길한 흑마술사 가죽조끼
-Jinxed Hoodoo Kilt|불행의 흑마술사 킬트
+Jinxed Hoodoo Kilt|불길한 흑마술사 킬트
 Diabolic Skiver|악마의 장창
 Big Bad Pauldrons|사술사의 어깨갑옷
 The Chief's Enforcer|족장의 집행봉
@@ -5640,7 +5641,7 @@ Swashbuckler Sash|모험가 장식띠
 Shinkicker Boots|통발굽 장화
 Chelonian Cuffs|거북 소매장식
 The Hand of Antu'sul|안투술의 손
-Vice Grips|사술 장갑
+Vice Grips|멧돼지의 사술 장갑
 Lifeblood Amulet|활력의 아뮬렛
 Band of the Great Tortoise|큰 거북 고리
 Optomatic Deflector|굴절의 방패
@@ -5692,7 +5693,7 @@ Simple Shoes|간결한 신발
 Simple Bands|간결한 손목띠
 Simple Cape|간결한 단망토
 Simple Gloves|간결한 장갑
-Simple Britches|체력의 간결한 반바지
+Simple Britches|지능의 간결한 반바지
 Simple Robe|힘의 간결한 로브
 Simple Blouse|고래의 간결한 블라우스
 Gypsy Sash|유목민 장식띠
@@ -5718,26 +5719,26 @@ Greenweave Branch|늑대의 초록매듭 가지
 Greenweave Cloak|매의 초록매듭 망토
 Greenweave Gloves|독수리의 초록매듭 장갑
 Greenweave Leggings|체력의 초록매듭 다리보호구
-Greenweave Robe|초록매듭 로브
+Greenweave Robe|지능의 초록매듭 로브
 Greenweave Vest|정신력의 초록매듭 조끼
 Bandit Cinch|호랑이의 산적 허리띠
 Bandit Boots|늑대의 산적 장화
-Bandit Bracers|자연 보호의 산적 팔보호구
+Bandit Bracers|전투력의 산적 팔보호구
 Bandit Buckler|매의 산적 버클러
 Bandit Cloak|고릴라의 산적 망토
 Bandit Gloves|민첩성의 산적 장갑
 Bandit Pants|고래의 산적 바지
 Bandit Jerkin|지능의 산적 웃옷
-Raider's Chestpiece|올빼미의 공격대 흉갑
+Raider's Chestpiece|늑대의 공격대 흉갑
 Raider's Boots|멧돼지의 공격대 장화
 Raider's Bracers|지능의 공격대 팔보호구
 Raider's Cloak|매의 공격대 망토
 Raider's Gauntlets|정신력의 공격대 건틀릿
-Raider's Belt|고릴라의 공격대 허리띠
-Raider's Legguards|전투력의 공격대 다리보호대
+Raider's Belt|정신력의 공격대 허리띠
+Raider's Legguards|마법의 공격대 다리보호대
 Raider's Shield|예언자의 공격대 방패
 Ivycloth Tunic|담쟁이덩굴 튜닉
-Ivycloth Boots|화염 보호의 담쟁이덩굴 장화
+Ivycloth Boots|마술사의 담쟁이덩굴 장화
 Ivycloth Bracelets|정신력의 담쟁이덩굴 팔찌
 Ivycloth Cloak|자연 보호의 담쟁이덩굴 망토
 Ivycloth Gloves|성난 비전의 담쟁이덩굴 장갑
@@ -5746,15 +5747,15 @@ Ivycloth Pants|예언자의 담쟁이덩굴 바지
 Ivycloth Robe|역술사의 담쟁이덩굴 로브
 Ivycloth Sash|장로의 담쟁이덩굴 장식띠
 Ivy Orb|원숭이의 담쟁이덩굴 보주
-Superior Belt|성난 비전의 최고급 허리띠
-Superior Boots|매의 최고급 장화
+Superior Belt|정신력의 최고급 허리띠
+Superior Boots|암흑 보호의 최고급 장화
 Superior Bracers|산적의 최고급 팔보호구
 Superior Buckler|예언자의 최고급 버클러
 Superior Cloak|멧돼지의 최고급 망토
 Superior Gloves|산적의 최고급 장갑
 Superior Shoulders|치유의 최고급 어깨보호구
 Superior Leggings|정신력의 최고급 다리보호구
-Superior Tunic|곰의 최고급 튜닉
+Superior Tunic|산적의 최고급 튜닉
 Fortified Boots|체력의 강화 장화
 Fortified Bracers|매의 강화 팔보호구
 Fortified Cloak|멧돼지의 강화 망토
@@ -5763,11 +5764,11 @@ Fortified Belt|매의 강화 허리띠
 Fortified Leggings|매의 강화 다리보호구
 Fortified Shield|강화 방패
 Fortified Spaulders|올빼미의 강화 어깨갑옷
-Fortified Chain|민첩성의 강화 사슬 갑옷
+Fortified Chain|곰의 강화 사슬 갑옷
 Durable Tunic|역술사의 내구력 튜닉
 Durable Boots|마술사의 내구력 장화
 Durable Bracers|마술사의 내구력 팔보호구
-Durable Cape|매의 내구력 단망토
+Durable Cape|산적의 내구력 단망토
 Durable Gloves|고래의 내구력 장갑
 Durable Shoulders|지능의 내구력 어깨보호구
 Durable Pants|역술사의 내구력 바지
@@ -5775,13 +5776,13 @@ Durable Robe|마술사의 내구력 로브
 Scaled Leather Belt|성난 자연의 비늘가죽 허리띠
 Scaled Leather Boots|산적의 비늘가죽 장화
 Scaled Leather Bracers|늑대의 비늘가죽 팔보호구
-Scaled Shield|호랑이의 비늘 방패
+Scaled Shield|성난 신성의 비늘 방패
 Scaled Cloak|전투력의 비늘 망토
 Scaled Leather Gloves|산적의 비늘가죽 장갑
 Scaled Leather Leggings|호랑이의 비늘가죽 다리보호구
 Scaled Leather Shoulders|산적의 비늘가죽 어깨보호구
 Scaled Leather Tunic|고릴라의 비늘가죽 튜닉
-Banded Armor|제사장의 띠매듭 갑옷
+Banded Armor|예언자의 띠매듭 갑옷
 Banded Bracers|파수병의 띠매듭 팔보호구
 Banded Cloak|야수의 띠매듭 망토
 Banded Gauntlets|성난 신성의 띠매듭 건틀릿
@@ -5794,20 +5795,20 @@ Conjurer's Shoes|체력의 요술사 신발
 Conjurer's Bracers|역술사의 요술사 팔보호구
 Conjurer's Cloak|매의 요술사 망토
 Conjurer's Gloves|독수리의 요술사 장갑
-Conjurer's Hood|장로의 요술사 두건
+Conjurer's Hood|지능의 요술사 두건
 Conjurer's Mantle|체력의 요술사 어깨보호대
 Conjurer's Breeches|고래의 요술사 반바지
-Conjurer's Robe|화염 보호의 요술사 로브
+Conjurer's Robe|올빼미의 요술사 로브
 Conjurer's Cinch|요술사 허리띠
-Archer's Jerkin|자연 보호의 궁수 웃옷
-Archer's Belt|궁수 허리띠
+Archer's Jerkin|야수의 궁수 웃옷
+Archer's Belt|지능의 궁수 허리띠
 Archer's Boots|제사장의 궁수 장화
 Archer's Bracers|매의 궁수 팔보호구
 Archer's Buckler|궁수 버클러
 Archer's Cap|지능의 궁수 모자
 Archer's Cloak|힘의 궁수 망토
 Archer's Gloves|산적의 궁수 장갑
-Archer's Trousers|의사의 궁수 바지
+Archer's Trousers|기사의 궁수 바지
 Archer's Shoulderpads|야수의 궁수 어깨보호구
 Renegade Boots|원숭이의 변절자 장화
 Renegade Bracers|호랑이의 변절자 팔보호구
@@ -5823,38 +5824,38 @@ Sorcerer Drape|마술사 튜닉
 Sorcerer Sash|냉기 보호의 마술사 장식띠
 Sorcerer Slippers|성난 비전의 마술사 덧신
 Sorcerer Cloak|암흑 보호의 마술사 망토
-Sorcerer Hat|마술사 모자
+Sorcerer Hat|올빼미의 마술사 모자
 Sorcerer Bracelets|마술사의 마술사 팔찌
 Sorcerer Gloves|독수리의 마술사 장갑
 Sorcerer Mantle|장로의 마술사 어깨보호대
 Sorcerer Sphere|냉기 보호의 마술사 구슬
 Sorcerer Pants|역술사의 마술사 바지
-Sorcerer Robe|마술사 로브
-Huntsman's Boots|마법의 사냥개지기 장화
+Sorcerer Robe|마술사의 마술사 로브
+Huntsman's Boots|예언자의 사냥개지기 장화
 Huntsman's Bands|고릴라의 사냥개지기 손목띠
 Huntsman's Armor|제사장의 사냥개지기 갑옷
 Huntsman's Cap|산적의 사냥개지기 모자
 Huntsman's Cape|역술사의 사냥개지기 단망토
 Huntsman's Belt|산적의 사냥개지기 허리띠
-Huntsman's Gloves|산적의 사냥개지기 장갑
+Huntsman's Gloves|호랑이의 사냥개지기 장갑
 Huntsman's Leggings|사냥개지기 다리보호구
 Huntsman's Shoulders|매의 사냥개지기 어깨보호구
 Jazeraint Boots|쇠미늘 장화
 Jazeraint Bracers|고래의 쇠미늘 팔보호구
-Jazeraint Chestguard|화염 보호의 쇠미늘 흉갑
+Jazeraint Chestguard|제사장의 쇠미늘 흉갑
 Jazeraint Cloak|독수리의 쇠미늘 망토
 Jazeraint Shield|파수병의 쇠미늘 방패
-Jazeraint Gauntlets|야수의 쇠미늘 건틀릿
+Jazeraint Gauntlets|비전 보호의 쇠미늘 건틀릿
 Jazeraint Belt|지능의 쇠미늘 허리띠
 Jazeraint Helm|쇠미늘 투구
 Jazeraint Leggings|기사의 쇠미늘 다리보호구
 Jazeraint Pauldrons|정신력의 쇠미늘 어깨갑옷
-Royal Blouse|왕실 블라우스
-Royal Sash|왕실 장식띠
+Royal Blouse|마술사의 왕실 블라우스
+Royal Sash|지능의 왕실 장식띠
 Royal Boots|왕실 장화
 Royal Cape|성난 냉기의 왕실 단망토
 Royal Bands|마술사의 왕실 손목띠
-Royal Gloves|왕실 장갑
+Royal Gloves|정신력의 왕실 장갑
 Royal Trousers|왕실 바지
 Royal Amice|왕실 아미스
 Royal Gown|왕실 제복
@@ -5862,8 +5863,8 @@ Royal Scepter|왕실 홀
 Royal Headband|고래의 왕실 머리띠
 Tracker's Belt|추적자 허리띠
 Tracker's Boots|체력의 추적자 장화
-Brigade Defender|용사의 여단 파수방패
-Tracker's Cloak|용사의 추적자 망토
+Brigade Defender|곰의 여단 파수방패
+Tracker's Cloak|원숭이의 추적자 망토
 Tracker's Gloves|추적자 장갑
 Tracker's Headband|추적자 머리띠
 Tracker's Leggings|추적자 다리보호구
@@ -5875,9 +5876,9 @@ Brigade Bracers|정신력의 여단 팔보호구
 Brigade Breastplate|여단 흉갑
 Brigade Cloak|여단 망토
 Brigade Gauntlets|냉기 보호의 여단 건틀릿
-Brigade Girdle|여단 벨트
+Brigade Girdle|장로의 여단 벨트
 Brigade Circlet|전투력의 여단 머리장식
-Brigade Leggings|여단 다리보호구
+Brigade Leggings|힘의 여단 다리보호구
 Brigade Pauldrons|여단 어깨갑옷
 Embossed Plate Shield|새김무늬 판금 방패
 Abjurer's Boots|배반자 장화
@@ -5889,7 +5890,7 @@ Abjurer's Mantle|배반자 어깨보호대
 Abjurer's Pants|배반자 바지
 Abjurer's Robe|배반자 로브
 Abjurer's Crystal|배반자 수정
-Abjurer's Sash|배반자 장식띠
+Abjurer's Sash|고래의 배반자 장식띠
 Abjurer's Tunic|배반자 튜닉
 Chieftain's Belt|족장 허리띠
 Chieftain's Boots|족장 장화
@@ -5905,7 +5906,7 @@ Warmonger's Chestpiece|전투사 흉갑
 Warmonger's Buckler|방어의 전투사 버클러
 Warmonger's Cloak|의사의 전투사 망토
 Warmonger's Gauntlets|화염 보호의 전투사 건틀릿
-Warmonger's Belt|전투사 허리띠
+Warmonger's Belt|전투력의 전투사 허리띠
 Warmonger's Greaves|전투사 경갑
 Warmonger's Circlet|전투사 머리장식
 Warmonger's Leggings|장로의 전투사 다리보호구
@@ -6267,7 +6268,7 @@ Blackened Defias Leggings|검은 데피아즈단 다리보호구
 Blackened Defias Gloves|검은 데피아즈단 장갑
 Blackened Defias Boots|검은 데피아즈단 장화
 Blackened Defias Belt|검은 데피아즈단 허리띠
-Durable Belt|마술사의 내구력 허리띠
+Durable Belt|올빼미의 내구력 허리띠
 Bandit Shoulders|산적 어깨보호구
 Scaled Leather Headband|기사의 비늘가죽 머리끈
 Raider's Shoulderpads|공격대 어깨보호대
@@ -6629,7 +6630,7 @@ Crate of Foodstuffs|식량 상자
 Dinosaur Bone|공룡 뼈
 Secret Safe Key|비밀 금고 열쇠
 A Mangled Journal|구겨진 일지
-Archaedic Stone|원숭이의 아카에다스 돌조각
+Archaedic Stone|멧돼지의 아카에다스 돌조각
 Milly's Harvest|밀리의 수확물
 Belgrom's Hammer|벨그롬의 망치
 Darkwater Talwar|검은물 탈와르
@@ -6697,7 +6698,7 @@ Dark Keeper Key|암흑의 문지기 열쇠
 Formula: Enchant Shield - Stamina|주문식: 방패 마법부여 - 체력
 Formula: Enchant Gloves - Advanced Mining|주문식: 장갑 마법부여 - 채광 숙련
 Formula: Enchant Bracer - Greater Spirit|주문식: 손목보호구 마법부여 - 상급 정신력
-Formula: Enchant Gloves - Advanced Herbalism|주문식: 장갑 마법부여 - 약초 채집 숙련
+Formula: Enchant Gloves - Advanced Herbalism|주문식: 장갑 마법부여 - 약초채집 숙련
 Formula: Enchant Cloak - Lesser Agility|주문식: 망토 마법부여 - 하급 민첩성
 Formula: Enchant Weapon - Fiery Weapon|주문식: 무기 마법부여 - 불타는 무기
 Formula: Enchant Weapon - Demonslaying|주문식: 무기 마법부여 - 악마 사냥
@@ -7066,13 +7067,13 @@ Quartz Ring|올빼미의 수정 반지
 Small Sack of Coins|작은 동전 자루
 Zircon Band|호랑이의 지르콘 띠
 Amber Hoop|역술사의 호박석 고리
-Jacinth Circle|예언자의 백합 고리
+Jacinth Circle|전투력의 백합 고리
 Spinel Ring|민첩성의 첨정석 반지
 Amethyst Band|원숭이의 자수정 띠
 Carnelian Loop|회복의 홍옥수 고리
-Hematite Link|적철광 고리
-Aquamarine Ring|남옥 반지
-Topaz Ring|황수정 반지
+Hematite Link|파수병의 적철광 고리
+Aquamarine Ring|회복의 남옥 반지
+Topaz Ring|기사의 황수정 반지
 Sardonyx Knuckle|붉은줄마노 반지
 Serpentine Loop|뱀 고리
 Jasper Link|석영 고리
@@ -7084,8 +7085,8 @@ Chrome Ring|회복의 크롬 반지
 Cobalt Ring|올빼미의 코발트 반지
 Cerulean Ring|암흑 보호의 감청석 반지
 Thallium Hoop|독수리의 탈륨 고리
-Iridium Circle|이리듐 고리
-Tellurium Band|텔루르 띠
+Iridium Circle|힘의 이리듐 고리
+Tellurium Band|산적의 텔루르 띠
 Vanadium Loop|바나듐 고리
 Selenium Loop|셀렌 고리
 Quicksilver Ring|수은 반지
@@ -7093,7 +7094,7 @@ Vermilion Band|주홍 띠
 Clay Ring|늑대의 진흙 반지
 Coral Band|자연 보호의 산호 고리
 Ivory Band|곰의 상아 고리
-Basalt Ring|현무암 반지
+Basalt Ring|비전 보호의 현무암 반지
 Greenstone Circle|정신력의 녹옥 고리
 Jet Loop|흑옥 고리
 Lodestone Hoop|자철광 고리
@@ -7108,9 +7109,9 @@ Prairie Ring|곰의 대평원 반지
 Savannah Ring|산적의 사바나 반지
 Tundra Ring|툰드라 반지
 Fen Ring|파수병의 연못 반지
-Forest Hoop|수목 고리
+Forest Hoop|늑대의 수목 고리
 Marsh Ring|습지 반지
-Desert Ring|사막 반지
+Desert Ring|체력의 사막 반지
 Arctic Ring|북극 반지
 Swamp Ring|늪지 반지
 Jungle Ring|정글 반지
@@ -7119,7 +7120,7 @@ Conservator Helm|보호자의 투구
 Cerulean Talisman|독수리의 감청석 부적
 Thallium Choker|탈륨 목걸이
 Shieldplate Sabatons|강철 판금 발덮개
-Iridium Chain|이리듐 사슬
+Iridium Chain|고래의 이리듐 사슬
 Tellurium Necklace|산적의 텔루르 목걸이
 Vanadium Talisman|바나듐 부적
 Selenium Chain|셀렌 사슬
@@ -8226,7 +8227,7 @@ Native Robe|화염 보호의 천연 로브
 Native Sandals|천연 장화
 Felcloth Hood|지옥매듭 두건
 Felcloth Shoulders|지옥매듭 어깨보호구
-Aboriginal Sash|올빼미의 원주민 장식띠
+Aboriginal Sash|체력의 원주민 장식띠
 Aboriginal Footwraps|고래의 원주민 장화
 Aboriginal Bands|원주민 손목띠
 Aboriginal Cape|원주민 단망토
@@ -8235,9 +8236,9 @@ Aboriginal Loincloth|올빼미의 원주민 바지
 Aboriginal Robe|비전 보호의 원주민 로브
 Aboriginal Vest|자연 보호의 원주민 조끼
 Ritual Bands|고래의 의식 손목띠
-Ritual Cape|전투력의 의식 단망토
-Ritual Gloves|마술사의 의식 장갑
-Ritual Leggings|올빼미의 의식 다리보호구
+Ritual Cape|고릴라의 의식 단망토
+Ritual Gloves|고래의 의식 장갑
+Ritual Leggings|독수리의 의식 다리보호구
 Ritual Amice|의식 아미스
 Ritual Shroud|호랑이의 의식 수의
 Wizardweave Robe|마술매듭 로브
@@ -8273,30 +8274,30 @@ Pagan Vest|체력의 이교도 조끼
 Pagan Shoes|지능의 이교도 신발
 Pagan Bands|성난 냉기의 이교도 손목띠
 Pagan Cape|성난 자연의 이교도 단망토
-Pagan Mitts|자연 보호의 이교도 장갑
+Pagan Mitts|독수리의 이교도 장갑
 Pagan Wraps|예언자의 이교도 겉옷
 Pagan Belt|성난 암흑의 이교도 허리띠
 Pagan Britches|화염 보호의 이교도 반바지
-Buccaneer's Bracers|냉기 보호의 해적단 팔보호구
-Buccaneer's Cape|독수리의 해적단 단망토
+Buccaneer's Bracers|지능의 해적단 팔보호구
+Buccaneer's Cape|멧돼지의 해적단 단망토
 Buccaneer's Gloves|지능의 해적단 장갑
 Aboriginal Shoulder Pads|원주민 어깨보호구
 Buccaneer's Mantle|해적단 어깨보호대
-Buccaneer's Pants|고래의 해적단 바지
+Buccaneer's Pants|체력의 해적단 바지
 Buccaneer's Robes|호랑이의 해적단 로브
-Buccaneer's Cord|암흑 보호의 해적단 장식끈
+Buccaneer's Cord|고래의 해적단 장식끈
 Buccaneer's Boots|정신력의 해적단 장화
 Buccaneer's Vest|냉기 보호의 해적단 조끼
 Watcher's Boots|역술사의 감시자 장화
-Watcher's Cuffs|장로의 감시자 소매장식
-Watcher's Cap|감시자 모자
+Watcher's Cuffs|마술사의 감시자 소매장식
+Watcher's Cap|장로의 감시자 모자
 Watcher's Cape|올빼미의 감시자 단망토
 Watcher's Jerkin|장로의 감시자 웃옷
 Watcher's Handwraps|올빼미의 감시자 장갑
 Watcher's Mantle|역술사의 감시자 어깨보호대
-Watcher's Leggings|제사장의 감시자 다리보호구
+Watcher's Leggings|고래의 감시자 다리보호구
 Watcher's Robes|감시자 로브
-Watcher's Cinch|비전 보호의 감시자 허리띠
+Watcher's Cinch|지능의 감시자 허리띠
 Raincaller Mantle|장로의 풍수사 어깨보호대
 Raincaller Cuffs|올빼미의 풍수사 소매장식
 Raincaller Cloak|파수병의 풍수사 망토
@@ -8305,7 +8306,7 @@ Raincaller Vest|풍수사 조끼
 Raincaller Mitts|독수리의 풍수사 장갑
 Raincaller Robes|치유의 풍수사 로브
 Raincaller Pants|장로의 풍수사 바지
-Raincaller Cord|의사의 풍수사 장식끈
+Raincaller Cord|지능의 풍수사 장식끈
 Raincaller Boots|지능의 풍수사 장화
 Thistlefur Sandals|체력의 엉겅퀴가죽 덧신
 Thistlefur Bands|지능의 엉겅퀴가죽 손목띠
@@ -8316,7 +8317,7 @@ Thistlefur Mantle|엉겅퀴가죽 어깨보호대
 Thistlefur Jerkin|엉겅퀴가죽 웃옷
 Thistlefur Pants|의사의 엉겅퀴가죽 바지
 Thistlefur Robe|엉겅퀴가죽 로브
-Thistlefur Belt|엉겅퀴가죽 허리띠
+Thistlefur Belt|장로의 엉겅퀴가죽 허리띠
 Vital Bracelets|비전 보호의 정수 팔찌
 Vital Leggings|정수 다리보호구
 Vital Headband|정수 머리띠
@@ -8342,7 +8343,7 @@ Ironweb Spider Silk|강철그물 거미줄
 Embersilk Coronet|불꽃비단 화관
 Embersilk Cloak|야수의 불꽃비단 망토
 Embersilk Tunic|불꽃비단 튜닉
-Embersilk Mitts|불꽃비단 장갑
+Embersilk Mitts|체력의 불꽃비단 장갑
 Embersilk Mantle|예언자의 불꽃비단 어깨보호대
 Embersilk Leggings|정신력의 불꽃비단 다리보호구
 Embersilk Robes|불꽃비단 로브
@@ -8355,15 +8356,15 @@ Darkmist Bands|체력의 검은안개 손목띠
 Darkmist Handguards|장로의 검은안개 장갑
 Darkmist Pants|검은안개 바지
 Darkmist Mantle|검은안개 어깨보호대
-Darkmist Wraps|검은안개 튜닉
-Darkmist Girdle|고래의 검은안개 벨트
+Darkmist Wraps|성난 냉기의 검은안개 튜닉
+Darkmist Girdle|치유의 검은안개 벨트
 Darkmist Wizard Hat|검은안개 마술사 모자
 Lunar Mantle|달빛 어깨보호대
 Lunar Bindings|고래의 달빛 손목띠
 Lunar Vest|반달 조끼
 Lunar Slippers|마술사의 달빛 장화
 Lunar Cloak|달빛 망토
-Lunar Coronet|체력의 달빛 화관
+Lunar Coronet|고래의 달빛 화관
 Lunar Handwraps|달빛 장갑
 Lunar Raiment|달빛 의복
 Lunar Belt|달빛 허리띠
@@ -8374,7 +8375,7 @@ Bloodwoven Boots|피매듭 장화
 Bloodwoven Bracers|피매듭 팔보호구
 Bloodwoven Cloak|용사의 피매듭 망토
 Bloodwoven Mitts|정신력의 피매듭 장갑
-Bloodwoven Mask|피매듭 복면
+Bloodwoven Mask|올빼미의 피매듭 복면
 Bloodwoven Pants|의사의 피매듭 바지
 Bloodwoven Wraps|피매듭 튜닉
 Bloodwoven Pads|피매듭 어깨보호대
@@ -8885,9 +8886,9 @@ Saltstone Shoulder Pads|소금바위 어깨보호구
 Saltstone Shield|소금바위 방패
 Saltstone Armsplints|소금바위 팔보호구
 Brutish Breastplate|야만 흉갑
-Brutish Gauntlets|야만 건틀릿
+Brutish Gauntlets|힘의 야만 건틀릿
 Brutish Belt|야수의 야만 허리띠
-Brutish Helmet|야만 투구
+Brutish Helmet|힘의 야만 투구
 Brutish Legguards|야만 다리보호대
 Brutish Shoulders|야만 어깨보호구
 Brutish Armguards|매의 야만 손목보호대
@@ -8897,7 +8898,7 @@ Jade Greaves|비취 경갑
 Jade Bracers|냉기 보호의 비취 팔보호구
 Jade Breastplate|비취 흉갑
 Jade Deflector|비취 굴절방패
-Jade Gauntlets|비취 건틀릿
+Jade Gauntlets|용사의 비취 건틀릿
 Jade Belt|비취 허리띠
 Jade Circlet|비취 머리장식
 Jade Legplates|비취 다리갑옷
@@ -8927,7 +8928,7 @@ Warbringer's Belt|성난 신성의 전쟁인도자 허리띠
 Warbringer's Crown|전쟁인도자 왕관
 Warbringer's Legguards|기사의 전쟁인도자 다리보호대
 Warbringer's Spaulders|전쟁광 어깨갑옷
-Warbringer's Shield|전쟁광 방패
+Warbringer's Shield|제사장의 전쟁인도자 방패
 Bloodforged Chestpiece|핏빛철로 흉갑
 Bloodforged Gauntlets|핏빛철로 건틀릿
 Bloodforged Belt|핏빛철로 허리띠
@@ -8973,10 +8974,10 @@ Primal Cape|원시 단망토
 Primal Mitts|원시 장갑
 Primal Leggings|성난 비전의 원시 다리보호구
 Primal Wraps|민첩성의 원시 겉옷
-Lupine Cord|고래의 늑대 장식끈
+Lupine Cord|멧돼지의 늑대 장식끈
 Lupine Slippers|힘의 늑대 장화
 Lupine Cuffs|늑대 소매장식
-Lupine Buckler|파수병의 늑대 버클러
+Lupine Buckler|힘의 늑대 버클러
 Lupine Cloak|늑대 망토
 Lupine Handwraps|곰의 늑대 장갑
 Lupine Leggings|독수리의 늑대 다리보호구
@@ -9075,11 +9076,11 @@ Cutthroat's Mitts|독수리의 자객 장갑
 Onyxia Scale Cloak|오닉시아 비늘 망토
 Cutthroat's Pants|독수리의 자객 바지
 Cutthroat's Mantle|자객 어깨보호대
-Ghostwalker Boots|유령 장화
+Ghostwalker Boots|힘의 유령 장화
 Ghostwalker Bindings|제사장의 유령 손목띠
 Ghostwalker Rags|유령 조끼
 Ghostwalker Buckler|자연 보호의 유령 버클러
-Ghostwalker Crown|유령 왕관
+Ghostwalker Crown|산적의 유령 왕관
 Ghostwalker Cloak|역술사의 유령 망토
 Ghostwalker Belt|산적의 유령 허리띠
 Ghostwalker Gloves|올빼미의 유령 장갑
@@ -9095,12 +9096,12 @@ Nocturnal Shoulder Pads|야행 어깨보호구
 Nocturnal Tunic|야수의 야행 튜닉
 Nocturnal Wristbands|야행 손목띠
 Imposing Belt|붉은가죽 허리띠
-Imposing Boots|붉은가죽 장화
+Imposing Boots|용사의 붉은가죽 장화
 Imposing Bracers|붉은가죽 팔보호구
 Imposing Vest|붉은가죽 조끼
 Imposing Cape|원숭이의 붉은가죽 단망토
 Imposing Gloves|붉은가죽 장갑
-Imposing Bandana|붉은가죽 머리띠
+Imposing Bandana|원숭이의 붉은가죽 머리띠
 Imposing Pants|붉은가죽 바지
 Imposing Shoulders|고래의 붉은가죽 어깨보호구
 Potent Armor|강력 갑옷
@@ -9146,7 +9147,7 @@ Raider Shortsword|치유의 공격대원 쇼트소드
 Militant Shortsword|매의 투쟁 쇼트소드
 Fighter Broadsword|산적의 투사 브로드소드
 Mercenary Blade|호랑이의 용병도
-Nobles Brand|고래의 귀족검
+Nobles Brand|산적의 귀족검
 Furious Falchion|민첩성의 섬뜩한 언월도
 Rune Sword|룬문자 검
 Widow Blade|파수병의 과부검
@@ -9154,34 +9155,34 @@ Crystal Sword|원숭이의 수정검
 Dimensional Blade|차원검
 Battlefell Sabre|서슬푸른 사브르
 Holy War Sword|신성한 전투검
-Barbed Club|치유의 뾰족 곤봉
-Jagged Star|독수리의 표창 망치
+Barbed Club|멧돼지의 뾰족 곤봉
+Jagged Star|늑대의 표창 망치
 Battlesmasher|민첩성의 전투분쇄기
 Sequoia Hammer|야수의 삼나무 망치
 Giant Club|원숭이의 거대 곤봉
 Diamond-Tip Bludgeon|다이아몬드 곤봉
 Smashing Star|튼튼한 모닝스타
 Blesswind Hammer|은총 망치
-Ridge Cleaver|치유의 마루 도끼
+Ridge Cleaver|마법의 마루 도끼
 Splitting Hatchet|자연 보호의 조각 손도끼
 Hacking Cleaver|체력의 난도질 식칼
 Savage Axe|고릴라의 야만 도끼
 Greater Scythe|산적의 거대한 낫
-Crescent Edge|신월 도끼
+Crescent Edge|매의 신월 도끼
 Moon Cleaver|달빛 도끼
 Corpse Harvester|시체 수확기
 Warlord's Axe|장군 도끼
 Felstone Reaver|악마석 도끼
 Demon's Claw|악마 발톱
-Battle Knife|곰의 전투 나이프
+Battle Knife|원숭이의 전투 나이프
 Honed Stiletto|마법의 연마된 스틸레토
 Deadly Kris|역술사의 날카로운 크리스
 Razor Blade|장로의 서슬 단도
-Vorpal Dagger|버팔 단검
+Vorpal Dagger|전투력의 버팔 단검
 Demon Blade|악마 비수
 Bloodstrike Dagger|붉은쐐기 단검
-Gleaming Claymore|올빼미의 빛나는 클레이모어
-Polished Zweihander|산적의 빛나는 쯔바이핸더
+Gleaming Claymore|힘의 빛나는 클레이모어
+Polished Zweihander|힘의 빛나는 쯔바이핸더
 Glimmering Flamberge|산적의 빛나는 플랑베르쥬
 Headstriker Sword|현무도
 Tusker Sword|어금니 검
@@ -9191,18 +9192,18 @@ Gallant Flamberge|화려한 플랑베르쥬
 Massacre Sword|학살검
 Shin Blade|신검
 Divine Warblade|축복받은 전투검
-Hefty Battlehammer|독수리의 무거운 전투망치
-Stone Hammer|호랑이의 돌망치
-Sequoia Branch|매의 삼나무 가지
+Hefty Battlehammer|체력의 무거운 전투망치
+Stone Hammer|예언자의 돌망치
+Sequoia Branch|치유의 삼나무 가지
 Greater Maul|장로의 거대한 마울
 Royal Mallet|야수의 왕실 타구봉
 Backbreaker|기습 철퇴
 Painbringer|고통 인도자
 Fierce Mauler|섬뜩한 마울
 Brutehammer|투사망치
-Twin-bladed Axe|원숭이의 쌍날 도끼
+Twin-bladed Axe|멧돼지의 쌍날 도끼
 Massive Battle Axe|원숭이의 육중한 전투도끼
-Gigantic War Axe|산적의 거대 전투도끼
+Gigantic War Axe|체력의 거대 전투도끼
 Colossal Great Axe|거대 도끼
 Razor Axe|서슬 도끼
 Death Striker|돌개날 도끼
@@ -9244,7 +9245,7 @@ Feral Cord|냉기 보호의 야생 장식끈
 Feral Cloak|호랑이의 야생 망토
 Feral Gloves|호랑이의 야생 장갑
 Feral Harness|올빼미의 야생 멜빵
-Feral Leggings|냉기 보호의 야생 다리보호구
+Feral Leggings|성난 비전의 야생 다리보호구
 Feral Shoulder Pads|야생 어깨보호구
 Bundle of Relics|유물 자루
 Smoothbore Gun|활강총
@@ -9256,15 +9257,15 @@ Wicked Throwing Dagger|날카로운 투척용 단검
 Joseph's Key|조셉의 열쇠
 Wrangler's Belt|암흑 보호의 기병대 허리띠
 Wrangler's Boots|성난 비전의 기병대 장화
-Wrangler's Wristbands|힘의 기병대 손목띠
+Wrangler's Wristbands|자연 보호의 기병대 손목띠
 Wrangler's Buckler|자연 보호의 기병대 버클러
-Wrangler's Cloak|늑대의 기병대 망토
+Wrangler's Cloak|호랑이의 기병대 망토
 Wrangler's Gloves|올빼미의 기병대 장갑
 Briarsteel Shortsword|가시강철 쇼트소드
 Wrangler's Leggings|의사의 기병대 다리보호구
-Wrangler's Wraps|기병대 겉옷
+Wrangler's Wraps|힘의 기병대 겉옷
 Wrangler's Mantle|기병대 어깨보호대
-Pathfinder Hat|길잡이 모자
+Pathfinder Hat|호랑이의 길잡이 모자
 Pathfinder Cloak|예언자의 길잡이 망토
 Pathfinder Footpads|비전 보호의 길잡이 장화
 Pathfinder Guard|의사의 길잡이 수호방패
@@ -9272,7 +9273,7 @@ Pathfinder Gloves|길잡이 장갑
 Pathfinder Pants|정신력의 길잡이 바지
 Pathfinder Shoulder Pads|산적의 길잡이 어깨보호구
 Pathfinder Vest|체력의 길잡이 조끼
-Pathfinder Belt|호랑이의 길잡이 허리띠
+Pathfinder Belt|자연 보호의 길잡이 허리띠
 Pathfinder Bracers|민첩성의 길잡이 팔보호구
 Headhunter's Belt|산적의 인간사냥꾼 허리띠
 Headhunter's Slippers|인간사냥꾼 장화
@@ -9282,7 +9283,7 @@ Headhunter's Headdress|민첩성의 인간사냥꾼 투구
 Headhunter's Cloak|마법의 인간사냥꾼 망토
 Headhunter's Mitts|멧돼지의 인간사냥꾼 장갑
 Headhunter's Armor|방어의 인간사냥꾼 갑옷
-Headhunter's Spaulders|고래의 인간사냥꾼 어깨갑옷
+Headhunter's Spaulders|산적의 인간사냥꾼 어깨갑옷
 Headhunter's Woolies|치유의 인간사냥꾼 다리보호구
 Trickster's Vest|요정 조끼
 Trickster's Bindings|요정 손목띠
@@ -9420,7 +9421,7 @@ Bloodspattered Loincloth|곰의 피투성이 반바지
 Bloodspattered Shield|전투력의 피투성이 방패
 Bloodspattered Wristbands|호랑이의 피투성이 손목띠
 Bloodspattered Shoulder Pads|피투성이 어깨보호구
-Outrunner's Cord|정신력의 정찰꾼 장식끈
+Outrunner's Cord|멧돼지의 정찰꾼 장식끈
 Outrunner's Slippers|체력의 정찰꾼 덧신
 Outrunner's Cuffs|고릴라의 정찰꾼 소매장식
 Outrunner's Chestguard|올빼미의 정찰꾼 흉갑
@@ -9429,7 +9430,7 @@ Outrunner's Gloves|방어의 정찰꾼 장갑
 Outrunner's Legguards|방어의 정찰꾼 다리보호대
 Outrunner's Shield|파수병의 정찰꾼 방패
 Outrunner's Pauldrons|정찰꾼 어깨갑옷
-Grunt's AnkleWraps|올빼미의 그런트 발목보호대
+Grunt's AnkleWraps|민첩성의 그런트 발목보호대
 Grunt's Bracers|멧돼지의 그런트 팔보호구
 Grunt's Cape|체력의 그런트 단망토
 Grunt's Handwraps|원숭이의 그런트 장갑
@@ -9442,10 +9443,10 @@ Spiked Chain Belt|곰의 가시사슬 허리띠
 Spiked Chain Slippers|고래의 가시사슬 덧신
 Spiked Chain Wristbands|화염 보호의 가시사슬 손목띠
 Spiked Chain Breastplate|고래의 가시사슬 흉갑
-Spiked Chain Cloak|지능의 가시사슬 망토
+Spiked Chain Cloak|호랑이의 가시사슬 망토
 Spiked Chain Gauntlets|독수리의 가시사슬 건틀릿
-Spiked Chain Leggings|가시사슬 다리보호구
-Spiked Chain Shield|가시사슬 방패
+Spiked Chain Leggings|늑대의 가시사슬 다리보호구
+Spiked Chain Shield|힘의 가시사슬 방패
 Spiked Chain Shoulder Pads|가시사슬 어깨보호구
 Sentry's Surcoat|멧돼지의 파수대 외투
 Sentry's Slippers|민첩성의 파수대 장화
@@ -9465,7 +9466,7 @@ Wicked Chain Gauntlets|체력의 뾰족사슬 건틀릿
 Wicked Chain Waistband|야수의 뾰족사슬 허리띠
 Wicked Chain Helmet|기사의 뾰족사슬 투구
 Wicked Chain Legguards|체력의 뾰족사슬 다리보호대
-Wicked Chain Shoulder Pads|뾰족사슬 어깨보호구
+Wicked Chain Shoulder Pads|예언자의 뾰족사슬 어깨보호구
 Wicked Chain Shield|뾰족사슬 방패
 Thick Scale Sabatons|방어의 두꺼운 비늘 발덮개
 Thick Scale Bracelets|용사의 두꺼운 비늘 팔찌
@@ -9480,21 +9481,21 @@ Thick Scale Shoulder Pads|지능의 두꺼운 비늘 어깨보호구
 Pillager's Girdle|강탈자 벨트
 Pillager's Boots|강탈자 장화
 Pillager's Bracers|야수의 강탈자 팔보호구
-Pillager's Chestguard|강탈자 흉갑
+Pillager's Chestguard|의사의 강탈자 흉갑
 Pillager's Crown|강탈자 왕관
 Pillager's Cloak|마법의 강탈자 망토
-Pillager's Gloves|강탈자 장갑
+Pillager's Gloves|체력의 강탈자 장갑
 Pillager's Leggings|강탈자 다리보호구
 Pillager's Pauldrons|강탈자 어깨갑옷
 Pillager's Shield|강탈자 방패
 Rugged Armor Kit|튼튼한 방어구 키트
 Marauder's Boots|예언자의 노략꾼 장화
-Marauder's Bracers|노략꾼 팔보호구
+Marauder's Bracers|비전 보호의 노략꾼 팔보호구
 Marauder's Tunic|노략꾼 튜닉
 Marauder's Cloak|노략꾼 망토
 Marauder's Crest|노략꾼 문장방패
 Marauder's Gauntlets|노략꾼 건틀릿
-Marauder's Belt|노략꾼 허리띠
+Marauder's Belt|전투력의 노략꾼 허리띠
 Marauder's Circlet|노략꾼 머리장식
 Marauder's Leggings|노략꾼 다리보호구
 Marauder's Shoulder Pads|늑대의 노략꾼 어깨보호구
@@ -9507,7 +9508,7 @@ Sparkleshell Headwrap|소금껍질 머리보호구
 Sparkleshell Gauntlets|소금껍질 건틀릿
 Sparkleshell Legguards|소금껍질 다리보호대
 Sparkleshell Shoulder Pads|소금껍질 어깨보호구
-Sparkleshell Shield|소금껍질 방패
+Sparkleshell Shield|용사의 소금껍질 방패
 Pardoc Grips|파르독 장갑
 Ringtail Girdle|고리매듭 벨트
 Bracesteel Belt|강철죔쇠 허리띠
@@ -9517,11 +9518,11 @@ Steadfast Breastplate|고릴라의 견고한 흉갑
 Steadfast Buckler|견고한 버클러
 Steadfast Coronet|제사장의 견고한 화관
 Steadfast Cloak|호랑이의 견고한 망토
-Steadfast Gloves|견고한 장갑
+Steadfast Gloves|치유의 견고한 장갑
 Steadfast Legplates|견고한 다리갑옷
 Steadfast Shoulders|견고한 어깨보호구
 Steadfast Girdle|힘의 견고한 벨트
-Ancient Greaves|고대 경갑
+Ancient Greaves|야수의 고대 경갑
 Ancient Vambraces|성난 자연의 고대 완갑
 Ancient Chestpiece|고대 흉갑
 Ancient Crown|비전 보호의 고대 왕관
@@ -9530,7 +9531,7 @@ Ancient Defender|고대 파수방패
 Ancient Gauntlets|고대 건틀릿
 Ancient Belt|고대 허리띠
 Ancient Legguards|고대 다리보호대
-Ancient Pauldrons|올빼미의 고대 어깨갑옷
+Ancient Pauldrons|산적의 고대 어깨갑옷
 Bonelink Armor|뼈고리 갑옷
 Bonelink Bracers|뼈고리 팔보호구
 Bonelink Cape|뼈고리 단망토
@@ -9539,9 +9540,9 @@ Bonelink Belt|뼈고리 허리띠
 Bonelink Sabatons|뼈고리 발덮개
 Bonelink Helmet|체력의 뼈고리 투구
 Bonelink Legplates|뼈고리 다리갑옷
-Bonelink Epaulets|뼈고리 견장
-Bonelink Wall Shield|뼈고리 철벽방패
-Gryphon Mail Belt|그리핀 사슬 허리띠
+Bonelink Epaulets|체력의 뼈고리 견장
+Bonelink Wall Shield|파수병의 뼈고리 철벽방패
+Gryphon Mail Belt|힘의 그리핀 사슬 허리띠
 Gryphon Mail Bracelets|그리핀 사슬 팔찌
 Gryphon Mail Buckler|그리핀 사슬 버클러
 Gryphon Mail Breastplate|그리핀 사슬 흉갑
@@ -9787,7 +9788,7 @@ Left-Handed Claw|왼손잡이용 발톱
 Taming Rod|조련용 막대
 Left-Handed Blades|왼손잡이용 칼날
 Buccaneer's Orb|성난 자연의 해적단 보주
-Conjurer's Sphere|요술사 구슬
+Conjurer's Sphere|의사의 요술사 구슬
 Soft-shelled Clam Meat|연갑 조갯살
 Journeyman's Stave|장인의 지팡이
 Spellbinder Orb|역술사의 보주
@@ -9798,7 +9799,7 @@ Imperial Red Scepter|붉은황실 홀
 Arcane Star|비전 마법막대
 Disciple's Stein|치유의 신도 잔
 Simple Branch|고래의 간결한 가지
-Sage's Stave|마술사의 현자 지팡이
+Sage's Stave|역술사의 현자 지팡이
 Durable Rod|예언자의 내구력 마법막대
 Duskwoven Branch|황혼매듭 가지
 Hibernal Sphere|겨울의 구슬
@@ -9825,7 +9826,7 @@ Aboriginal Rod|힘의 원주민 주술봉
 Ritual Stein|비전 보호의 의식 술잔
 Watcher's Star|제사장의 감시자 별지팡이
 Pagan Rod|화염 보호의 이교도 마법막대
-Raincaller Scepter|풍수사 홀
+Raincaller Scepter|전투력의 풍수사 홀
 Thistlefur Branch|엉겅퀴가죽 가지
 Vital Orb|정수 보주
 Geomancer's Rod|올빼미의 흙점쟁이 마법막대
@@ -15633,6 +15634,7 @@ Occult Poison II|사술 독 II
 Reins of the Swift Spectral Tiger|날쌘 유령 호랑이 고삐
 High Warlord's Pig Poker|대장군의 찌르개
 Grand Marshal's Polearm|최고사령관의 석궁
+Severed Legashi Horn|절잔된 레가쉬 뿔
 Grand Marshal's Barricade|최고사령관의 방벽 방패
 High Warlord's Barricade|대장군의 방벽 방패
 High Warlord's Hacker|대장군의 파쇄도끼
@@ -15699,6 +15701,8 @@ Plans: Scarlet Soldier's Grips|도면: 붉은십자군 병사의 손장갑
 Plans: Scarlet Soldier's Waistguard|도면: 붉은십자군 병사의 허리보호대
 Plans: Scarlet Soldier's Legplates|도면: 붉은십자군 병사의 다리갑옷
 Plans: Scarlet Soldier's Stompers|도면: 붉은십자군 병사의 디딤장화
+Mosshoof Hide|이끼발굽 가죽
+Wild Honey|야생 꿀
 Prowler Steak|배회자 스테이크
 Filet o' Flank|순살 널빤지
 Sunrise Omelette|일출 오믈렛
@@ -15971,6 +15975,12 @@ Formula: Enchant 2H Weapon - Grand Inquisitor|주문식: 양손 무기 마법부
 Brilliance of the Grand Inquisitor|대심문관의 광채
 Who, What, Where, When, and Die! Five Keys to a Good Inquisition|누가, 언제, 어디서, 무엇을, 그리고 죽음! 이게 바로 심문의 정석이지.
 Sturdy Lumber|튼튼한 목재
+Mana-Siphoning Wand|마나흡수 마법봉
+Highborne Treasure Fragment|명가 보물 조각
+Seal of the Warrior|전사의 인장
+Seal of the Ranger|순찰자의 인장
+Seal of the Warden|감시관의 인장
+Tear of Mennar|멘나르의 눈물
 Stolen Enchanting Supplies|도난당한 마법부여용품
 Waterlogged Saw|물에 젖은 톱
 Mining Tools|채광용 연장
@@ -16003,6 +16013,7 @@ Waylaid Crate: Flowering Expert Herbs|잘못 놓인 보급품: 만개하는 숙�
 Waylaid Crate: Expert Ore|잘못 놓인 보급품: 숙련 광석
 Waylaid Crate: Expert Textiles|잘못 놓인 보급품: 숙련 직물
 Waylaid Crate: Expert Curiosities|잘못 놓인 보급품: 숙련 진귀품
+Waylaid Crate: Earthly Artisan Herbs|잘못 놓인 보급품: 대지의 전문가 약초
 Waylaid Crate: Flowering Artisan Herbs|잘못 놓인 보급품: 만개하는 전문가 약초
 Waylaid Crate: Artisan Textiles|잘못 놓인 보급품: 전문 직물
 Waylaid Crate: Artisan Curiosities|잘못 놓인 보급품: 전문 진귀품
@@ -16025,7 +16036,9 @@ Bauxite|보크사이트
 Pitchblende|역청우란광
 Pristine Leather|온전한 가죽
 Pristine Hide|온전한 생가죽
+Pristine Scale|온전한 비늘
 Formula: Enchant Bracer - Minor Intellect|주문식: 손목보호구 마법부여 - 최하급 지능
+Formula: Enchant Bracer - Agility|주문식: 손목보호구 마법부여 - 민첩성
 Fel-Tainted Flesh|지옥 마력에 오염된 살점
 Peace Tea|평화의 차
 Recipe: Peace Tea|조리법: 평화의 차
@@ -16040,6 +16053,7 @@ Recipe: Breakfast Omelette|조리법: 아침 오믈렛
 Recipe: Minor Cleric's Elixir|조제법: 최하급 성직자의 비약
 Recipe: Minor Mageblood Elixir|조제법: 최하급 마법사의 피 비약
 Recipe: Elixir of Minor Spirit|조제법: 최하급 정신력의 비약
+Recipe: Elixir of Intellect|조제법: 지능의 비약
 Recipe: Minor Spellblasting Potion|조제법: 최하급 주문 작렬 물약
 Recipe: Lesser Spellblasting Potion|조제법: 하급 주문 작렬 물약
 Recipe: Minor Frenzy Potion|조제법: 최하급 광기의 물약
@@ -16049,7 +16063,9 @@ Plans: Sterling Silver Boots|도면: 순은 장화
 Plans: Sterling Silver Leggings|도면: 순은 다리보호구
 Plans: Sterling Silver Gauntlet|도면: 순은 건틀릿
 Plans: Sterling Silver Shoulders|도면: 순은 어깨보호구
+Plans: Sterling Silver Breastplate|도면: 순은 가슴보호갑
 Plans: Veteran's Chain Shirt|도면: 역전용사의 사슬 셔츠
+Plans: Guard's Chain Shirt|도면: 경비병의 사슬 셔츠
 Plans: Crusader's Chain Shirt|도면: 성전사의 사슬 셔츠
 Plans: Veteran's Chain Leggings|도면: 역전용사의 사슬 다리보호구
 Plans: Guard's Chain Leggings|도면: 경비병의 사슬 다리보호구
@@ -16057,6 +16073,7 @@ Plans: Protector's Chain Leggings|도면: 수호자의 사슬 다리보호구
 Plans: Acolyte's Chain Leggings|도면: 수행사제의 사슬 다리보호구
 Plans: Crusader's Chain Leggings|도면: 성전사의 사슬 다리보호구
 Plans: Veteran's Chain Helm|도면: 역전용사의 사슬 투구
+Plans: Guard's Chain Helm|도면: 경비병의 사슬 투구
 Plans: Protector's Chain Helm|도면: 수호자의 사슬 투구
 Plans: Acolyte's Chain Helm|도면: 수행사제의 사슬 투구
 Plans: Hard Gold Cuirass|도면: 경화된 황금 흉갑
@@ -16071,6 +16088,8 @@ Plans: Officer's Boots|도면: 장교의 장화
 Plans: Sentinel's Boots|도면: 파수꾼의 장화
 Plans: Warder's Boots|도면: 보초병의 장화
 Plans: Prefect's Boots|도면: 완벽의 장화
+Plans: Justicar's Boots|도면: 심판관의 장화
+Plans: Officer's Gloves|도면: 장교의 장갑
 Plans: Sentinel's Gloves|도면: 파수꾼의 장갑
 Plans: Justicar's Gloves|도면: 심판관의 장갑
 Plans: Brass Knuckles|도면: 청동너클
@@ -16099,8 +16118,10 @@ Head of Urs'anah|우르사나의 머리
 Prideclaw Pelt|긍지발톱 모피
 Hoarder's Foot|수집꾼의 발
 Stolen Shen'dar Supplies|도난당한 셴다르 보급품
+Pattern: Brawler's Leather Armor|도안: 싸움꾼의 가죽 갑옷
 Pattern: Trapper's Leather Armor|도안: 덫사냥꾼의 가죽 갑옷
 Pattern: Defender's Leather Armor|도안: 파수병의 가죽 갑옷
+Pattern: Stormrider's Leather Armor|도안: 폭풍기수의 가죽 갑옷
 Pattern: Wisdom's Leather Armor|도안: 지혜의 가죽 갑옷
 Pattern: Brawler's Leather Pants|도안: 싸움꾼의 가죽 바지
 Pattern: Trapper's Leather Pants|도안: 덫사냥꾼의 가죽 바지
@@ -16113,17 +16134,20 @@ Pattern: Brawler's Leather Helm|도안: 싸움꾼의 가죽 투구
 Pattern: Trapper's Leather Helm|도안: 덫사냥꾼의 가죽 투구
 Pattern: Defender's Leather Helm|도안: 파수병의 가죽 투구
 Pattern: Totemic Leather Helm|도안: 토템술사의 가죽 투구
+Pattern: Stormrider's Leather Helm|도안: 폭풍기수의 가죽 투구
 Pattern: Wisdom's Leather Helm|도안: 지혜의 가죽 투구
 Pattern: Skulker's Leather Shoes|도안: 잠행자의 가죽 신발
 Pattern: Warden's Leather Shoes|도안: 감시관의 가죽 신발
 Pattern: Mender's Leather Shoes|도안: 치유사의 가죽 신발
 Pattern: Blue Suede Shoes|도안: 푸른 고급가죽 신발
 Pattern: Skulker's Leather Gauntlets|도안: 잠행자의 가죽 건틀릿
+Pattern: Blue Suede Pants|도안: 푸른 고급가죽 바지
 Pattern: Stalker's Mail Boots|도안: 추적자의 쇠사슬 장화
 Pattern: Skirmisher's Mail Boots|도안: 척후병의 쇠사슬 장화
 Pattern: Mender's Mail Boots|도안: 치유사의 쇠사슬 장화
 Pattern: Supple Scorpid Leggings|도안: 유연한 전갈 다리보호구
 Pattern: Charged Scorpid Helm|도안: 충전된 전갈 투구
+Pattern: Charged Scorpid Bracers|도안: 충전된 전갈 팔보호구
 Ripe Stormapple|잘 익은 폭풍사과
 Flutterfly Dust|펄럭날개 가루
 Blood-Stained Bandit Mask|피로 얼룩진 도적 복면
@@ -16131,6 +16155,7 @@ Lowlands Galestrider Tenderloin|저지대 돌풍나그네 안심
 Bruuz's Dorsal Fin|브루즈의 등지느러미
 Pattern: Filigreed Pristine Gown|도안: 세공된 온전한 화장복
 Pattern: Filigreed Silky Gown|도안: 세공된 비단결 화장복
+Pattern: Filigreed Flame Gown|도안: 세공된 불꽃 화장복
 Pattern: Filigreed Shadow Gown|도안: 세공된 그림자 화장복
 Pattern: Filigreed Pearly Gown|도안: 세공된 진줏빛 화장복
 Pattern: Filigreed Shining Gown|도안: 세공된 빛나는 화장복
@@ -16149,8 +16174,11 @@ Pattern: Filigreed Shining Circlet|도안: 세공된 빛나는 머리장식
 Pattern: Earthen Silk Gloves|도안: 대지의 비단 장갑
 Pattern: Gilded Cord|도안: 금박 장식끈
 Pattern: Frothing Cord|도안: 부글거리는 장식끈
+Pattern: Fiery Cord|도안: 불타는 장식끈
 Pattern: Black Cord|도안: 검은 장식끈
 Pattern: Golden Cord|도안: 황금 장식끈
+Pattern: Earthenweave Cord|도안: 토양매듭 장식끈
+Pattern: Gilded Gloves|도안: 금박 장갑
 Pattern: Fiery Gloves|도안: 불타는 장갑
 Shriekling Talons|괴성조 갈퀴발톱
 Conqueror's Helm|정복자의 투구
@@ -16194,6 +16222,7 @@ Al'Aketh Cultist's Ear|알아케스 신도의 귀
 Windstone Cluster|바람석 덩어리
 Gimashi's Findings|기마시의 연구 결과
 Burning Keystone|불타는 쐐기돌
+Corpsefeeder's Carapace|시체먹보의 갑각
 Untainted Seed|오염되지 않은 씨앗
 Tattered Journal|너덜너덜한 일지
 Barely Legible Journal Entry, Page I|간신히 읽히는 일지: 1쪽
@@ -16256,6 +16285,7 @@ Krol'dok Moulding|크롤도크 거푸집
 Pawprint Tracing|발자국 탁본
 Mudfin Murloc Head|진흙지느러미 멀록 머리
 Scarlet Dart Tuber|붉은 독침 덩이줄기
+Enchanted Silver Ingot|마력 깃든 은 주괴
 Fenris Isle Key|펜리스 섬 열쇠
 Gnomeregan Archival Data|놈리건 보관 자료
 Pristine Leopard Pelt|온전한 표범 모피
@@ -16358,6 +16388,7 @@ Broken Staff of Incinerator Gar'im|소각자 가림의 부서진 지팡이 조�
 Good Rock|좋은 돌멩이
 Bad Rock|나쁜 돌멩이
 Marsh Gas Vial|늪지 가스 약병
+Gronok's Key|그로노크의 열쇠
 Trogg Scepter|트로그 홀
 Bone Knuckles|뼈 너클
 Barbaric Crossbow|야만적인 석궁
@@ -16449,6 +16480,8 @@ Twilight Maul|황혼의 마울
 Treacherous Treads|미덥지 못한 발보호대
 Fallenroot Longbow|썩은뿌리 장궁
 Twilight Lord Girdle|황혼의 군주 요대
+Ca'zass's Head|카자스의 머리카락
+Blood Red Bandana|핏빛 붉은 복면
 Ornate Shackle Key|화려한 족쇄 열쇠
 Skullduggery Belt|협잡의 허리띠
 Irradiated Shield|방사능 오염 방패
@@ -16482,6 +16515,7 @@ White Obsidian Wand|흰색 흑요석 마법봉
 Dark Golem Breastplate|암흑 골렘 가슴보호갑
 Rock Sentinel Slicer|바위 파수병 절단도끼
 Sandstorm Staff|모래폭풍 지팡이
+Stone Keeper Spire|바위 문지기 뾰족지팡이
 Axe of Inevitable Ruin|피할 수 없는 파멸의 도끼
 Bloodslash Axe|혈기절단 도끼
 Oathbound Bracers|서약의 결속 팔보호구
@@ -16502,9 +16536,11 @@ Priestess Cloak|여사제 망토
 Knucklebone Ring|손마디뼈 반지
 Heart of the Primeval|태고의 심장
 Sandfury Pauldrons|성난모래 견갑
+Sacrificial Chain Vest|제물의 사슬 조끼
 Theka's Last Breath|데카의 마지막 숨결
 Blood Ritual Ring|피의 의식 반지
 Gutcutter Hatchet|내장절단 손도끼
+Undying Headdress|불멸의 머리장식
 Desert Ziggurat Drape|사막 지구라트 외투
 Arch of the Covenant|성약의 곡궁
 Farraki Kris|파라키 크리스
@@ -16513,6 +16549,7 @@ Zealot Plate|광신자의 판금 갑옷
 Deep Ritual Girdle|깊은 의식 요대
 Sandfury Guillotine|성난모래 단두도끼
 Peacekeeper Wand|평화감시자 마법봉
+Hydra Leather Legs|히드라 가죽 다리보호구
 Dune Hacker|사구 톱날도끼
 Scroll of Imbue Lesser Flame|하급 불꽃 주입의 두루마리
 Mote of Unstable Magic|불안정한 마법의 티끌
@@ -16532,6 +16569,7 @@ Mugg's Jabber|머그의 떠버리
 Mugg's Crosser|머그의 싸움꾼
 Emblem of Slamming|격돌의 문장
 Strongly Scented Hood|강한 향이 나는 두건
+Scroll of Imbue Chillknife|냉기칼날 주입의 두루마리
 Scroll of Rat Familiar|쥐 사역마의 두루마리
 Highly Toxic Strain|고독성 변종
 Raider's Bow|약탈병의 활
@@ -16565,6 +16603,8 @@ Seascale Bracers|바다비늘 팔보호구
 Cutthroat Chestguard|자객의 가슴보호대
 Sentimental Locket|추억 어린 목걸이
 Defias Enforcer's Shoulderpads|데피아즈단 집행자의 어깨덧대
+Girdle of Extracted Answers|뽑아낸 해답의 요대
+Fingerbreaker Stamp|손가락분쇄자 인장
 Defias Enforcer's Legguards|데피아즈단 집행자의 다리보호대
 Verek's Loyal Wraps|베레크의 충직한 손목싸개
 Ancient Gurubashi Idol|고대 구루바시 우상
@@ -16636,6 +16676,7 @@ Marek's Croc-Hunting Knife|마레크의 악어 사냥용 손칼
 Intact Raptor Hide|온전한 랩터 통가죽
 Khaz Modan Timber|카즈 모단 목재
 Khaz Modan Iron|카즈 모단 철
+Ti'ik's Head|티이크의 머리
 Nord'el|노르델
 Shed Dark Dragonscale|떨어진 어두운 용비늘
 Dry Branch|마른 가지
@@ -16670,6 +16711,7 @@ Witchmother Arysa's Amulet|마녀대모 아리사의 아뮬렛
 Blackrock Supplies|검은바위 보급품
 Stolen Weapon|도난당한 무기
 Vine-Wrapped Scroll|덩굴에 감싸인 두루마리
+Scroll: DOST OREM|두루마리: 문주 속지 은많 더
 Scroll: FORGOT HOOF THUD|두루마리: 식양 의각생
 Mature Fel Moss|다 자란 지옥이끼
 Mulgore Expansion Plans|멀고어 확장 계획서
@@ -16687,7 +16729,10 @@ Grant's Mace|그랜트의 철퇴
 Grant's Shield|그랜트의 방패
 Blisterweed|물집풀
 Gul'gash's Greathammer|굴가쉬의 거대망치
+Dragonscale Buckler|용비늘 버클러
+Twilight Forgehammer|황혼의 제련망치
 Boulderheart Band|바위심장 고리
+Gnoll Hide Boots|놀 가죽 장화
 Broken Frond of Celastrus|셀라스트루스의 부서진 잎사귀
 Gnome Skull|노움 해골
 Baby Crocolisk|아기 악어
@@ -16700,6 +16745,7 @@ Dun Garok Rifle|던 가록 소총
 Naga Maiden's Gown|나가 여인의 화장복
 Durable Bearhide Pauldrons|튼튼한 곰가죽 견갑
 Spider Swarm|거미떼
+Gnoll Shaman's Staff|놀 주술사의 지팡이
 Heart of Alterac|알터랙의 심장
 Bearhide Vicegrips|곰가죽 죔쇠장갑
 Bayne's Bite|크르르의 이빨
@@ -16757,6 +16803,7 @@ Death Bindings|죽음의 손목띠
 Violet Sorcerer's Sandals|보랏빛 마술사의 덧신
 Violet Sorcerer's Leggings|보랏빛 마술사의 다리보호구
 Violet Sorcerer's Wraps|보랏빛 마술사의 싸개
+Construct's Grips|피조물의 손아귀
 Tattered Kirin Tor Cloak|너덜너덜한 키린 토 망토
 Risen Sentry's Links|되살아난 파수꾼의 고리갑옷
 Corroded Handguards|부식된 손보호대
