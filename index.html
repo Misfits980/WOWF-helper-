@@ -2236,6 +2236,8 @@ body.sidem{overflow:hidden}
 .dlb>.ic{width:36px;height:36px;border-radius:6px}
 .dlb>.m>.nm{font-size:calc(14px*var(--fs,1));font-weight:700}
 .dlb>.m>.sub{font-size:calc(12px*var(--fs,1))}
+/* 큰 지도: 같은 자리에 겹친 동선 번호는 한 알약으로 「3·11」 */
+button.amh.multi{width:auto;min-width:26px;padding:0 7px;border-radius:13px;white-space:nowrap}
 
 /* ===================================================================
    와포 도우미 — 와우 게임 창 테마 (2026-11 대격변)
@@ -2610,10 +2612,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=7c58c938"></script>
-<script>/* v8537ba @11/16 10:24 */
+<script>/* vdd04c8 @11/16 10:32 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 10:24';
+const BUILD='11/16 10:32';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4304,7 +4306,16 @@ function amPoints(c){const F=amF();const P=new Map();
   if(WLD){if(F.fp)WLD.fp.forEach(f=>add('fp',f[1],f[2],f[0]));if(F.inn)WLD.inn.forEach(f=>add('inn',f[1],f[2],f[0]));if(F.tr)(WLD.tr[c.cls]||[]).forEach(f=>add('tr',f[1],f[2],f[0]))}
   return [...P.values()]}
 /* 지금 할 일 동선: 마을 순서대로 번호 */
-function amRoute(c){const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);if(!S)return [];const out=[];let n=0;
+function amRoute(c){
+  /* 레벨업 탭과 같은 순서: 레벨업 단계(recStages)에서 다음 곳 10군데. 같은 자리에서 이어지는 단계는 한 곳으로 묶음 */
+  if(!ui._st){try{recView(c)}catch(e){}}const ST=ui._st;
+  if(ST&&ST.length){const out=[];let k=0;
+    for(const s0 of ST){k++;if(!s0.xy)continue;const a=toAtlas(s0.zone,s0.xy[0]+','+s0.xy[1]);if(!a)continue;const L=out[out.length-1];
+      if(L&&zEq(L.zone,s0.zone)&&Math.hypot(L.zx-s0.xy[0],L.zy-s0.xy[1])<2.5){L.S.push(s0);L.ks.push(k);continue}
+      if(out.length>=10)break;out.push({kind:'hub',no:out.length+1,nm:s0.place,zone:s0.zone,zx:s0.xy[0],zy:s0.xy[1],c:a.c,x:a.x,y:a.y,S:[s0],ks:[k]})}
+    return out}
+  /* 레벨업 단계가 없으면 예전처럼 마을 순서 */
+  const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);if(!S)return [];const out=[];let n=0;
   for(const H of nowPlan(c,S)){const left=H.get.filter(x=>!x.done&&!x.prof&&x.q.min<=c.lv).length+H.turn.filter(x=>!x.done&&!x.prof).length;if(!left||H.i>=97)continue;n++;
     const m=H.n.match(/^(.*?) \((\d+), (\d+)\)$/);const xy=m?m[2]+','+m[3]:H.xy?H.xy.join(','):'';if(!xy)continue;const a=toAtlas(H.z,xy);if(!a)continue;const zp=xy.split(',').map(Number);out.push({kind:'hub',no:n,nm:H.npc?H.npc+' 근처':m?m[1]:H.n,zone:H.z,zx:zp[0],zy:zp[1],c:a.c,x:a.x,y:a.y,H})}
   return out}
@@ -4414,7 +4425,7 @@ function amView(c){if(!QDB)qdbLoad();if(!WLD)wldLoad();const F=amF();
      +'<div class="ampopr"><small>퀘스트 누르면</small>'+amStyleSeg()+'</div><div class="chips seg">'+[['now','내 레벨 ±'],['all','모든 레벨']].map(x=>'<button class="chip'+((F.lv||'now')===x[0]?' on':'')+'" data-a="amlv2" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div></div>':'')
    +'<div class="amctl"><button data-am="full" aria-label="전체 화면">'+(ui.amfull?'✕':'⛶')+'</button><button data-am="in" aria-label="확대">+</button><button data-am="out" aria-label="축소">−</button><button data-am="me" aria-label="지금 구간으로">◎</button><button data-am="pin" class="ampinb'+(ui.ampin?' on':'')+'" aria-label="지도에 메모 남기기">📍</button><button data-am="leg" class="amlegb'+(ui.amleg?' on':'')+'" aria-label="지도 표시 설명">?</button></div>'+amLegend(F)
    +(QDB?'':'<div class="amload">퀘스트 자료를 불러오는 중…</div>')+(ui.amfull?'<button class="amexit" data-am="full">✕ 작게 보기</button>':ui.amback?'<button class="amexit" data-a="amback">← 보던 퀘스트로 돌아가기</button>':'')+'<div id="ampanel"></div></div>'
-   +'<p class="mute src amhint">끌어서 움직이고, 두 손가락·두 번 톡·+/− 로 확대 · 번호는 「지금 할 일」 마을 순서 · 지도: wowf.io</p></div>'}
+   +'<p class="mute src amhint">끌어서 움직이고, 두 손가락·두 번 톡·+/− 로 확대 · 번호는 레벨업 탭 단계 순서(다음 10곳) · 지도: wowf.io</p></div>'}
 function amHome(c){const R=amRoute(c);if(R.length)return {c:R[0].c,z:2.6,cx:R[0].x,cy:R[0].y};
   const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);const z=S?S.z.split(' · ')[0]:'';const a=toAtlas(z,'50,50');return a?{c:a.c,z:2,cx:a.x,cy:a.y}:{c:'ek',z:0.3,cx:2560,cy:4864}}
 let AM=null;
@@ -4478,7 +4489,8 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
         else{/* 같은 지역 안: 길 따라(격자가 있으면). 배·비행으로 보이는 먼 길은 흐린 직선 */const rp=a.zx!=null&&b.zx!=null?rgPath(a.zone,[a.zx,a.zy],[b.zx,b.zy]):null;
           if(rp&&rp.far){flush();svg+='<line x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'" class="amrt far"/>';run=[b]}
           else{if(rp)rp.p.slice(1,-1).forEach(p=>{const q=toAtlas(a.zone,p[0]+','+p[1]);if(q&&q.c===A.c)run.push(q)});run.push(b)}}}flush();
-      R.forEach(r=>{const x=X(r),y=Y(r);if(inV(x,y,30))pins+='<button class="amh'+(ui.amhub===r.no?' sel':'')+'" data-amh="'+r.no+'" style="left:'+x+'px;top:'+y+'px">'+r.no+'</button>'})}
+      const RG=[];R.forEach(r=>{const x=X(r),y=Y(r);const g=RG.find(o=>Math.hypot(o.x-x,o.y-y)<26);if(g){g.m.push(r);r.grp=g.m}else{const m=[r];r.grp=m;RG.push({x,y,m})}});
+      RG.forEach(o=>{if(!inV(o.x,o.y,30))return;const nos=o.m.map(r=>r.no);pins+='<button class="amh'+(nos.length>1?' multi':'')+(nos.includes(ui.amhub)?' sel':'')+'" data-amh="'+nos[0]+'" style="left:'+o.x+'px;top:'+o.y+'px">'+nos.join('·')+'</button>'})}
     /* 고른 퀘스트 */
     const FO=ui.amq&&amFocus(ui.amq);let chainTot=0,chainN=0;
     /* 🔗 연계 전체 동선: 다른 단계는 흐린 선, 단계 번호 동그라미(누르면 그 단계로) */
@@ -4556,6 +4568,9 @@ function amPanel(p){const box=document.getElementById('ampanel');if(!box)return;
      +(FO.P.some(x=>x.kind==='ob')?'':'<p class="mute">할 일 위치 자료가 없어서 받는 곳·반납하는 곳만 보여요.</p>')+'</div>';requestAnimationFrame(refit);return}
   if(p.kind==='cl'){box.innerHTML='<div class="card amcard">'+p.ps.map(x=>'<div class="amh"><b>'+AMIC[x.kind]()+' '+esc(x.nm||'')+'</b><span class="mute">'+esc(x.zone)+'</span></div>'+x.qs.sort((a,b)=>a.lv-b.lv).map(q=>amRow(c,q)).join('')).join('<hr class="amhr">')+'</div>';amPx(box);return}
   if(p.kind==='zone'){box.innerHTML='<div class="card amcard">'+zoneInfo(c,p.zone,{title:1,btn:1})+'</div>';return}
+  if(p.kind==='hub'&&p.S){const G=(p.grp||[p]);
+    box.innerHTML='<div class="card amcard"><div class="amh"><b>'+G.map(g=>g.no).join('·')+'. '+esc(p.nm)+'</b><span class="mute">'+esc(p.zone)+' · 레벨업 단계 '+G.flatMap(g=>g.ks).join('·')+'번째</span></div>'
+     +G.flatMap(g=>g.S).flatMap(s0=>s0.items.map(it=>amRow(c,{n:RST[s0.type][0]+' · '+it.q.nm,lv:it.q.lv,o:s0.type==='do'?s0.place:''},it.q.id))).join('')+'</div>';return}
   if(p.kind==='hub'){const H=p.H;const rows=[...H.turn.filter(x=>!x.done).map(x=>[x,1]),...H.get.filter(x=>!x.done).map(x=>[x,0])];
     box.innerHTML='<div class="card amcard"><div class="amh"><b>'+p.no+'. '+esc(p.nm)+'</b><span class="mute">'+esc(p.zone)+' · '+QMK.g+'받기 '+H.get.filter(x=>!x.done).length+(H.turn.filter(x=>!x.done).length?' · '+QMK.r+'반납 '+H.turn.filter(x=>!x.done).length:'')+'</span></div>'
      +rows.map(([x,t])=>amRow(c,{n:(t?'❓ ':'')+x.q.nm,lv:x.q.lv,o:t?((x.rv||'')+'에게 반납'):''},x.q.id)).join('')+'</div>';return}
