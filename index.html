@@ -2629,10 +2629,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=03d0826e"></script>
-<script>/* veae19e @11/16 11:27 */
+<script>/* v6b6295 @11/16 11:32 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 11:27';
+const BUILD='11/16 11:32';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2773,7 +2773,15 @@ const CONT={};'엘윈 숲,던 모로,서부 몰락지대,모단 호수,붉은마
 const CONT_IC={'동부 왕국':'🏰','칼림도어':'🌴','제프라스 섬':'🏝️'};
 const contTag=z=>CONT[z]?'<span class="tag ct">'+CONT_IC[CONT[z]]+' '+CONT[z]+'</span>':'';
 /* 대륙을 넘어갈 때 (얼라이언스 배) */
-const BOAT='동부 왕국 ↔ 칼림도어: 저습지 <b>메네실 항구</b>에서 배를 타면 어둠의 해안 <b>아우버다인</b>(또는 먼지진흙 습지대 테라모어)으로 가요.';
+/* 포에버 배(2026-11 기준, 블리자드 발표·method.gg·conquestcapped): 스톰윈드 항구↔아우버다인(새) · 메네실 → 사우스쇼어 → 아우버다인 → 메네실 한쪽 방향 순환(새) · 메네실↔테라모어 · 아우버다인↔루테란 · 톱니항↔무법항 · 스팀휘들 항구(타나리스)↔화약심지 항구(강물터, 새, 양 진영) */
+const BOAT='동부 왕국 ↔ 칼림도어: <b>스톰윈드 항구</b>에서 어둠의 해안 <b>아우버다인</b>으로 바로 가는 배가 생겼어요(포에버). 저습지 <b>메네실 항구</b> 배는 <b>사우스쇼어</b>(힐스브래드)를 거쳐 아우버다인으로 돌아요(한쪽 방향). 메네실 ↔ 테라모어 배도 그대로예요.';
+/* 지역 사이를 배로 건너면 빠른 곳 — 동선 단계가 이 두 지역 사이를 오가면 안내 */
+const BOATS=[[['힐스브래드 구릉지'],['저습지','어둠의 해안','가시덤불 골짜기','스톰윈드','엘윈 숲'],'사우스쇼어(힐스브래드)는 저습지 메네실 항구에서 배를 타면 바로 가요(메네실 → 사우스쇼어 → 아우버다인 순서로 도는 배).'],
+  [['강물터'],['타나리스'],'강물터 화약심지 항구 ↔ 타나리스 스팀휘들 항구 사이에 배가 있어요(양 진영).'],
+  [['어둠의 해안','텔드랏실','잿빛 골짜기'],['스톰윈드','엘윈 숲','서부 몰락지대','붉은마루 산맥','그늘숲'],'스톰윈드 항구 ↔ 아우버다인(어둠의 해안) 배가 새로 생겼어요.'],
+  [['가시덤불 골짜기'],['불모의 땅','먼지진흙 습지대','타나리스'],'가시덤불 골짜기 무법항 ↔ 불모의 땅 톱니항 배를 타면 빨라요.']];
+function boatTip(za,zb){if(!za||!zb||za===zb)return '';for(const [A,B,t] of BOATS)if((A.includes(za)&&B.includes(zb))||(A.includes(zb)&&B.includes(za)))return t;return ''}
+
 
 /* ===================== 저장 ===================== */
 const KEY='wowf2';
@@ -5100,7 +5108,8 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   if(recMapOn(c))h+='<!--/RM-->';
   h+='<div class="scroll2"><div class="k">1단계 · 지금 할 일 · '+RST[s0.type][0]+'</div><h3>'+esc(s0.place)+'</h3><div class="wh">'+esc(s0.zone)+xy(s0)+' · '+s0.items.length+'개</div>';
   {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오가면 알려 주기 */const ISL=[['페더문','페더문 요새는 섬이에요. 페랄라스 서쪽 해안 선착장(31, 39 근처)에서 배를 타고 건너요.']];const isl=x=>x?ISL.find(i=>x.place.includes(i[0])):null;
-   const hit=isl(s0)||isl(ST[1]);if(hit)h+='<div class="isl">⛵ '+esc(hit[1])+'</div>'}
+   const hit=isl(s0)||isl(ST[1]);if(hit)h+='<div class="isl">⛵ '+esc(hit[1])+'</div>';
+   else{const bt=boatTip(s0.zone,ST[1]&&ST[1].zone);if(bt)h+='<div class="isl">⛵ '+esc(bt)+'</div>'}}
   h+=s0.items.map(it=>{const q=it.q;if(it.type==='do'&&q.cnt.length)return q.cnt.map((o,i)=>{const k=q.id+'|'+i;const v=(c.qc||{})[k]||0;return '<div class="ob4"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+'</small>'+(i===0?qnTag(c,q.id):'')+'</span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+v+'/'+o[1]+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
     return '<div class="ob4"><span class="m">'+esc(q.nm)+'<small>'+(it.type==='get'?esc(q.g[0]||'')+(q.lv>0?' · Lv '+q.lv:'')+preHint(c,q.id):it.type==='turn'?'반납 · '+esc(q.r[0]||''):esc(q.o?q.o.nm:'평판 올리기'))+'</small>'+qnTag(c,q.id)+'</span>'+(it.type==='turn'&&(RWD.get(q.id)||{}).xp?'<span class="xp">+'+((RWD.get(q.id)||{}).xp).toLocaleString()+'</span>':'')+'</div>'}).join('');
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
@@ -5472,10 +5481,10 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   h+='</div></div>';
   return h}
 function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map(([nm,b],i)=>'<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(nm)+'</b></div>'+(b.tac?'<ul class="roles">'+roleLines(b.tac)+'</ul>':'')+'</div></li>').join('')+'</ol>'}
-/* 포에버: 던전 몹 경험치↓ 던전 퀘스트 경험치↑ → 퀘스트 먼저 받고 가기 */
+/* 포에버 던전 경험치: 10/1 던전 퀘스트의 추가 경험치 절반으로 · 10/8 몹 +20% · 11/8 핫픽스 몹 +50% (블리자드) → 그래도 퀘스트 먼저 받고 가기 */
 function dgQBanner(c,d){const S=dgState(c,d);if(!S.Q.length)return '';const notTaken=S.left.length-S.inLog.length;
-  if(S.all)return '<div class="dqb done"><b>✅ 던전 퀘스트 '+S.Q.length+'개를 다 했어요</b><small>포에버는 던전 몹 경험치가 줄어서 다시 돌면 경험치가 적어요. 템 모으기용으로 가세요.</small></div>';
-  return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>포에버는 던전 몹 경험치가 줄고 던전 퀘스트 보상이 커졌어요.</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
+  if(S.all)return '<div class="dqb done"><b>✅ 던전 퀘스트 '+S.Q.length+'개를 다 했어요</b><small>11월 8일 핫픽스로 던전 몹 경험치가 50% 올라서, 다시 돌아도 경험치를 꽤 받아요.</small></div>';
+  return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>던전 퀘스트 경험치가 커서 받고 가는 게 좋아요 · 11월 8일부터 던전 몹 경험치도 50% 올랐어요.</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const byBoss={};items.forEach(it=>{const s=it.src.map(i=>SRC[i]).find(s=>s&&s.k===0&&s.dg===d.slug);const b=s?s.boss:'기타';(byBoss[b]=byBoss[b]||[]).push(it)});
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
