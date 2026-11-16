@@ -445,9 +445,11 @@ const qico=(k,t)=>'<i class="qico" title="'+esc(t||QIC_KO[k])+'" style="backgrou
 let QDB=null,QDB_LOAD=false;
 const CLS_BIT={warrior:1,paladin:2,hunter:4,rogue:8,priest:16,shaman:64,mage:128,warlock:256,druid:1024};
 const RACE_BIT={human:1,dwarf:4,nightelf:8,gnome:64,skyborne:4294967296};
-/* 둘 중 하나만 할 수 있는 퀘스트(Questie exclusiveTo → ex): 짝을 이미 끝냈거나 퀘스트창에 있으면 이 퀘스트는 못 받음.
+/* 둘 중 하나만 할 수 있는 퀘스트(Questie exclusiveTo → ex)·길잡이 퀘스트(bc): 짝을 이미 끝냈거나 퀘스트창에 있으면 이 퀘스트는 못 받음.
    추천·받기 목록에서만 뺌(앞 퀘스트 판정에는 안 씀 — 갈래가 합쳐지는 뒤 퀘스트를 막지 않으려고) */
-function exOut(c,q){return !!(q&&q.ex&&q.ex.some(id=>{if((c.ql||{})[id])return true;const X=QDB&&QDB.get(id);return !!(X&&mqDone(c,X))}))}
+function exOut(c,q){if(!q)return false;const gone=id=>{if((c.ql||{})[id])return true;const X=QDB&&QDB.get(id);return !!(X&&mqDone(c,X))};
+  /* 길잡이 퀘스트(bc): 가리키는 퀘스트를 이미 받았거나 끝냈으면 길잡이는 못 받음 */
+  return !!((q.ex&&q.ex.some(gone))||(q.bc&&gone(q.bc)))}
 function qdbOk(c,q){if(q.cls&&!(q.cls&(CLS_BIT[c.cls]||0)))return false;if(q.rc){const b=RACE_BIT[c.race]||0;if(b&&Math.floor(q.rc/b)%2===0)return false}return true}
 function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
   fetch('data/qdb/quests.jsonl?v='+D_VER.qdb).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();

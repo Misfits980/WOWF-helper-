@@ -166,11 +166,12 @@ def load_entity(kind, dbfile, corr_files):
     return db
 
 
+# QuestieDB가 포에버에 쓰는 순서(src/config.lua)대로: 클래식 보정(legacy: 길잡이·배타·앞 퀘스트·진영 고침) → 포에버 기본 → 기록 → 포에버 보정
 # 퀘스트 관계(앞 퀘스트·다음 퀘스트·배타)는 플레이어 기록에서 뽑은 foreverQuestRelationTraces도 씀 — QuestieDB 적용 순서(config.lua)와 같게 traces 뒤·Fixes 앞
-QUEST = load_entity('quest', 'foreverQuestDB.lua', ['generated/foreverBaseQuest.lua', 'traces/foreverQuestTraces.lua', 'traces/foreverQuestRelationTraces.lua', 'foreverQuestFixes.lua'])
-NPC = load_entity('npc', 'foreverNpcDB.lua', ['generated/foreverBaseNpc.lua', 'traces/foreverNpcTraces.lua', 'foreverNPCFixes.lua'])
-ITEM = load_entity('item', 'foreverItemDB.lua', ['generated/foreverBaseItem.lua', 'traces/foreverItemTraces.lua', 'foreverItemFixes.lua'])
-OBJ = load_entity('object', 'foreverObjectDB.lua', ['generated/foreverBaseObject.lua', 'traces/foreverObjectTraces.lua', 'foreverObjectFixes.lua'])
+QUEST = load_entity('quest', 'foreverQuestDB.lua', ['legacy/classicQuestFixes.lua', 'generated/foreverBaseQuest.lua', 'traces/foreverQuestTraces.lua', 'traces/foreverQuestRelationTraces.lua', 'foreverQuestFixes.lua'])
+NPC = load_entity('npc', 'foreverNpcDB.lua', ['legacy/classicNPCFixes.lua', 'generated/foreverBaseNpc.lua', 'traces/foreverNpcTraces.lua', 'foreverNPCFixes.lua'])
+ITEM = load_entity('item', 'foreverItemDB.lua', ['legacy/classicItemFixes.lua', 'generated/foreverBaseItem.lua', 'traces/foreverItemTraces.lua', 'foreverItemFixes.lua'])
+OBJ = load_entity('object', 'foreverObjectDB.lua', ['legacy/classicObjectFixes.lua', 'generated/foreverBaseObject.lua', 'traces/foreverObjectTraces.lua', 'foreverObjectFixes.lua'])
 
 
 # ---------- 한국어 ----------
@@ -626,7 +627,10 @@ for qid, q in sorted(QUEST.items()):
             if t[3] is None:
                 t.pop()
             tasks.append(t)
-    rec = {'id': qid, 'n': name, 'lv': G('questLevel') or 0, 'm': G('requiredLevel') or 0, 'z': zone, 'c': cont, 'o': obj, 'g': g, 'r': r}
+    _ql, _rl = G('questLevel') or 0, G('requiredLevel') or 0
+    if _ql <= 0:  # -1(레벨 따라감)·0은 받는 레벨로
+        _ql = _rl
+    rec = {'id': qid, 'n': name, 'lv': _ql, 'm': _rl, 'z': zone, 'c': cont, 'o': obj, 'g': g, 'r': r}
     if tasks:
         rec['t'] = tasks
     # preQuestGroup: 모두 끝내야 함 / preQuestSingle: 그중 하나만 끝내면 됨
