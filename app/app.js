@@ -445,6 +445,9 @@ const qico=(k,t)=>'<i class="qico" title="'+esc(t||QIC_KO[k])+'" style="backgrou
 let QDB=null,QDB_LOAD=false;
 const CLS_BIT={warrior:1,paladin:2,hunter:4,rogue:8,priest:16,shaman:64,mage:128,warlock:256,druid:1024};
 const RACE_BIT={human:1,dwarf:4,nightelf:8,gnome:64,skyborne:4294967296};
+/* 둘 중 하나만 할 수 있는 퀘스트(Questie exclusiveTo → ex): 짝을 이미 끝냈거나 퀘스트창에 있으면 이 퀘스트는 못 받음.
+   추천·받기 목록에서만 뺌(앞 퀘스트 판정에는 안 씀 — 갈래가 합쳐지는 뒤 퀘스트를 막지 않으려고) */
+function exOut(c,q){return !!(q&&q.ex&&q.ex.some(id=>{if((c.ql||{})[id])return true;const X=QDB&&QDB.get(id);return !!(X&&mqDone(c,X))}))}
 function qdbOk(c,q){if(q.cls&&!(q.cls&(CLS_BIT[c.cls]||0)))return false;if(q.rc){const b=RACE_BIT[c.race]||0;if(b&&Math.floor(q.rc/b)%2===0)return false}return true}
 function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
   fetch('data/qdb/quests.jsonl?v='+D_VER.qdb).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();
@@ -494,7 +497,7 @@ function mqDone(c,q){return !!((c.mq||{})[q.id]||(c.dq||{})[q.id]||(c.fq||{})[q.
 function mapView(c){const L=c.lv;
   if(!QDB){qdbLoad();return '<p class="empty-st">맵 전체 퀘스트를 불러오는 중이에요…</p>'}
   if(!QDB.size)return '<p class="empty-st">퀘스트 자료를 못 불러왔어요. 잠시 뒤에 다시 열어 주세요.</p>';
-  const all=[...QDB.values()].filter(q=>qdbOk(c,q)&&q.z&&q.c!=='던전');
+  const all=[...QDB.values()].filter(q=>qdbOk(c,q)&&!exOut(c,q)&&q.z&&q.c!=='던전');
   const Z={};for(const q of all){const k=q.c+'|'+q.z;(Z[k]=Z[k]||{c:q.c||'기타',z:q.z,q:[]}).q.push(q)}
   const zs=Object.values(Z).map(o=>{const lv=o.q.filter(q=>q.m>0&&q.lv-q.m<=12).map(q=>q.lv).filter(x=>x>0).sort((a,b)=>a-b);o.lo=lv[Math.floor(lv.length*.1)]||0;o.hi=lv[Math.min(lv.length-1,Math.floor(lv.length*.9))]||0;o.mid=lv[Math.floor(lv.length/2)]||0;o.done=o.q.filter(q=>mqDone(c,q)).length;return o});
   const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);const myZ=sec?sec.z.split(' · ')[0]:'';
@@ -1284,7 +1287,7 @@ function qItemIdx(){if(!QDB)return null;if(QIX&&QIX_SRC===QDB)return QIX;const M
   QIX=M;QIX_SRC=QDB;return M}
 /* 상태: 1 퀘스트창 · 2 반납만 남음 · 0 아직 안 받음 · 3 끝냄 — 퀘스트창 → 안 받음 → 끝냄 순, 같으면 낮은 레벨부터 */
 function itemQuests(c,nm){const M=qItemIdx();if(!M)return [];const ql=c.ql||{},mq=c.mq||{};const st=id=>ql[id]===2?2:ql[id]?1:mq[id]?3:0;
-  return (M.get(nm)||[]).map(y=>({...y,X:QDB.get(y.id),s:st(y.id)})).filter(y=>y.X&&(y.s===1||y.s===2||qdbOk(c,y.X))).sort(iqCmp)}
+  return (M.get(nm)||[]).map(y=>({...y,X:QDB.get(y.id),s:st(y.id)})).filter(y=>y.X&&(y.s===1||y.s===2||(qdbOk(c,y.X)&&!exOut(c,y.X)))).sort(iqCmp)}
 const iqCmp=(a,b)=>{const rk=s=>s===1||s===2?0:s===0?1:2;return rk(a.s)-rk(b.s)||(a.X.lv||0)-(b.X.lv||0)||String(a.X.n).localeCompare(String(b.X.n),'ko',{numeric:true})};
 function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||{}).map(Number));const E=new Map(bagAll(c).map(x=>[x.it.id,x]));const QN=questItemNames(c);const MM=myMatIds(c);const W=new Set((c.wish||[]).map(Number));
   const G={q:[],sell:[],mat:[],bank:[],other:[]};let sellSum=0;
@@ -1682,7 +1685,7 @@ const DGENT={'크롤도크 보루':['강물터','37.5,37.2'],'검은바위 나�
  '낙스라마스':['동부 역병지대','39.9,25.8'],'그림자송곳니 성채':['은빛소나무 숲','44.8,67.8'],'스톰윈드 지하감옥':['스톰윈드','50.5,66.3']};
 function toAtlas(zone,xy){const E=DGENT[zone];if(E&&!MAPZ[zone])return toAtlas(E[0],E[1]);const t=MAPZ[ZALIAS[zone]||zone];if(!t||!xy)return null;const p=String(xy).split(',').map(Number);if(p.length<2||isNaN(p[0]))return null;
   let x=t[0]+t[1]*p[0],y=t[2]+t[3]*p[1];const c=x>=8192?'ek':'ka';if(c==='ek')x-=8192;return {c,x,y}}
-function amCanQ(c,q){const L=c.lv;const f=(ui.amf||{}).lv||'now';if(mqDone(c,q)||!qdbOk(c,q))return false;if(f==='all')return (q.m||0)<=L+5;return (q.m||0)<=L&&q.lv>=L-5&&q.lv<=L+3}
+function amCanQ(c,q){const L=c.lv;const f=(ui.amf||{}).lv||'now';if(mqDone(c,q)||!qdbOk(c,q)||exOut(c,q))return false;if(f==='all')return (q.m||0)<=L+5;return (q.m||0)<=L&&q.lv>=L-5&&q.lv<=L+3}
 const AMF0={g:1,r:0,rt:1,tr:0,fp:0,inn:0,my:1,dg:1,lv:'now'};
 const amF=()=>Object.assign({},AMF0,ui.amf||{});
 /* 지도 표식 아이콘 (SVG) */
@@ -2019,7 +2022,7 @@ function amPanel(p){const box=document.getElementById('ampanel');if(!box)return;
 let SRCIT=null;function srcItems(){if(SRCIT)return SRCIT;SRCIT=new Map();ITEMS.forEach(it=>it.src.forEach(i=>{let a=SRCIT.get(i);if(!a)SRCIT.set(i,a=[]);a.push(it)}));return SRCIT}
 function zoneItems(c,zone){const L=c.lv;const out=new Map();let nq=0,nd=0;
   const put=(it,how,lv,kind)=>{if(!it||!it.sl||!usable(it,c)||it.ob>L+4)return;if(kind==='q')nq++;else nd++;const b=bestSlot(it,c);const o={it,how,lv:Math.max(lv||0,it.ob||0),g:b?b.g:0,s:b&&b.s,kind};const p=out.get(it.id);if(!p||o.g>p.g)out.set(it.id,o)};
-  if(QDB)for(const q of QDB.values()){if(!(zEq(q.z,zone)||(q.g&&zEq(q.g[1],zone)))||!qdbOk(c,q)||mqDone(c,q))continue;const r=RWD.get(q.id);if(!r)continue;
+  if(QDB)for(const q of QDB.values()){if(!(zEq(q.z,zone)||(q.g&&zEq(q.g[1],zone)))||!qdbOk(c,q)||mqDone(c,q)||exOut(c,q))continue;const r=RWD.get(q.id);if(!r)continue;
     for(const x of [...(r.ch||[]),...(r.fx||[])])put(IT.get(x[0]),'퀘스트 「'+q.n+'」',Math.max(q.m||0,(q.lv||0)-3),'q')}
   const nz=(WLD&&WLD.nz)||{};const SI=srcItems();
   SRC.forEach((s,i)=>{if(!s||s.k!==3)return;const m=s.label.match(/\(([^)]+)\)$/);const id=(s.href.match(/npc=(\d+)/)||[])[1];const z=m?m[1]:id?nz[id]:null;if(!zEq(z,zone))return;
@@ -2047,7 +2050,7 @@ function wldLoad(){if(WLD_LOAD)return;WLD_LOAD=true;fetch('data/qdb/world.json?v
 const CAPITAL={human:'스톰윈드',dwarf:'아이언포지',gnome:'아이언포지',nightelf:'다르나서스',skyborne:'스톰윈드'};
 const xyTxt=xy=>{const p=(xy||'').split(',');return p.length===2?Math.round(+p[0])+', '+Math.round(+p[1]):''};
 function clsQuests(c){if(!QDB)return null;const L=c.lv;const dn=id=>{const q=QDB.get(id);return !q||!qdbOk(c,q)||mqDone(c,q)};
-  const out=[],seen=new Set();for(const q of QDB.values()){if(!q.cls||!qdbOk(c,q)||mqDone(c,q)||/행사|축제|침공/.test(q.z||''))continue;if((q.m||0)>L+1||(q.lv||0)>L+5||(q.lv||0)<L-10)continue;
+  const out=[],seen=new Set();for(const q of QDB.values()){if(!q.cls||!qdbOk(c,q)||mqDone(c,q)||exOut(c,q)||/행사|축제|침공/.test(q.z||''))continue;if((q.m||0)>L+1||(q.lv||0)>L+5||(q.lv||0)<L-10)continue;
     /* 앞 퀘스트: pre는 모두 끝내야, pre1은 그중 하나만 끝내면 받을 수 있음 (preFirst와 같은 규칙) */
     if(q.pre1&&q.pre1.length&&!q.pre1.some(dn))continue;if(q.pre&&q.pre.length&&!q.pre.every(dn))continue;if(seen.has(q.n))continue;seen.add(q.n);out.push(q)}
   return out.sort((a,b)=>(a.m||0)-(b.m||0)||a.lv-b.lv)}
@@ -2084,7 +2087,7 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
       now.slice(0,4).map(q=>'<button class="lhq" data-a="qopen" data-k="'+q.id+'"><span class="qlv '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n)+'</b><span>'+(q.g&&q.g[3]==='item'?'📦 아이템으로 시작 · '+esc(q.z||''):q.g&&q.g[0]?esc(q.g[0])+' · '+esc(q.g[1]||'')+(q.g[2]?' '+xyTxt(q.g[2]):''):'')+'</span></span>'+(q.id>=10000?qico('fnew'):'')+'</button>').join('')
       +(now.length>4?'<button class="lhm" data-a="qmode" data-k="map">나머지 '+(now.length-4)+'개는 맵 전체 › 직업에서</button>':'')
       +(soon.length?'<p class="mute">🔒 '+soon.slice(0,3).map(q=>esc(q.n)+' ('+q.m+'레벨)').join(' · ')+'</p>':'')])}
-  else{let nm=99,nq=null;for(const q of QDB.values()){if(q.cls&&qdbOk(c,q)&&!mqDone(c,q)&&!/행사|축제|침공/.test(q.z||'')&&(q.m||0)>L&&(q.m||0)<nm&&!q.pre1&&!(q.pre&&q.pre.length)){nm=q.m;nq=q}}
+  else{let nm=99,nq=null;for(const q of QDB.values()){if(q.cls&&qdbOk(c,q)&&!mqDone(c,q)&&!exOut(c,q)&&!/행사|축제|침공/.test(q.z||'')&&(q.m||0)>L&&(q.m||0)<nm&&!q.pre1&&!(q.pre&&q.pre.length)){nm=q.m;nq=q}}
     rows.push(['cls',qico('cls'),CKO+' 직업 퀘스트','<p class="mute">지금 레벨에 할 직업 퀘스트는 없어요.'+(nq?' 다음은 <b>'+nm+'레벨</b> 「'+esc(nq.n)+'」('+esc(nq.g&&nq.g[1]||nq.z||'')+')부터예요.':'')+'</p>'])}
   /* 2) 교관 */
   if(C&&C.learns){const from=c.trn!=null?c.trn:L-2;const ls=C.learns.filter(l=>l[0]>from&&l[0]<=L&&(!l[4]||l[4]==='alliance')&&(!l[7]||l[7]===c.race));
@@ -2126,7 +2129,7 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
         '<p class="mute">이 구간에서 장비를 떨구는 몹이에요. 희귀 몹은 자주 안 보이니 보이면 잡으세요.</p>'+top.map(({z,m,rank,best})=>'<div class="rmr"><span class="m"><span class="mt"><b>'+esc(m[0])+'</b> <span class="qlv '+lvCls(m[2]||L,L)+'">'+(m[1]===m[2]?m[1]:m[1]+'–'+m[2])+'</span>'+(RK[rank]?' <i class="rk">'+RK[rank]+'</i>':'')+'</span><small>'+esc(z)+' '+m[4]+', '+m[5]+(m[3]&&m[3]<=3&&!RK[rank]?' · 자리 '+m[3]+'곳':'')+'</small></span>'
           +best.slice(0,2).map(x=>'<button class="rmi" data-a="'+(x.b&&x.b.g>.01?'cmpq':'info')+'" data-k="'+(x.b&&x.b.g>.01?x.b.s+':'+x.it.id:x.it.id)+'">'+itIcon(x.it)+'<span class="q'+x.it.q+'">'+esc(x.it.nm)+'</span>'+(x.b&&x.b.g>.01?'<em>+'+Math.round(x.b.g)+'</em>':'')+'</button>').join('')+'</div>').join('')])}}
   /* 몹이 떨구는 퀘스트 시작 아이템 */
-  if(QDB){const IQ=[];for(const q of QDB.values()){if(!q.g||q.g[3]!=='item'||!qdbOk(c,q)||mqDone(c,q))continue;const z=zn(q.g[1]||q.z);if(!zs.map(zn).includes(z))continue;if((q.m||1)>L+1||(q.lv||L)<L-6)continue;IQ.push(q)}
+  if(QDB){const IQ=[];for(const q of QDB.values()){if(!q.g||q.g[3]!=='item'||!qdbOk(c,q)||mqDone(c,q)||exOut(c,q))continue;const z=zn(q.g[1]||q.z);if(!zs.map(zn).includes(z))continue;if((q.m||1)>L+1||(q.lv||L)<L-6)continue;IQ.push(q)}
     if(IQ.length)rows.push(['itq','📜','주워서 시작하는 퀘스트 '+IQ.length+'개',
       '<p class="mute">몹이 떨구거나 바닥에 있는 아이템을 주우면 시작돼요. 보이면 꼭 챙기세요.</p>'+IQ.sort((a,b)=>(a.lv||0)-(b.lv||0)).slice(0,8).map(q=>'<button class="iqr" data-a="qopen" data-k="'+q.id+'"><span class="qlv '+lvCls(q.lv,L)+'">'+(q.lv||'?')+'</span><span class="m"><b>📦 '+esc(q.g[0])+'</b><small>'+(q.g[4]?esc(q.g[4])+'에게서 · ':'')+esc(q.g[1]||'')+(q.g[2]?' '+esc(q.g[2].replace(',',', ')):'')+' → 「'+esc(q.n)+'」</small></span></button>').join('')])}
   /* 6) 사냥 전에 챙길 것 (포에버: 휴식 경험치·침낭·야영지·음식) */
@@ -2259,7 +2262,7 @@ function gmapHtml(z,pins,line,big,zoom,ours){const u=ours&&MAPZ[ZALIAS[z]||z]?''
   pins.forEach(p=>{if(p.rad)s+='<span class="gpa" style="left:'+p.x+'%;top:'+p.y+'%;width:'+2*p.rad+'%;height:'+2*p.rad+'%"></span>'});
   pins.forEach(p=>{s+=(p.k==='o'?'<span class="gpo" style="left:'+p.x+'%;top:'+p.y+'%"></span>':'<button class="gp k-'+p.k+(p.on?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%"'+(p.a?' data-a="'+p.a+'" data-k="'+esc(String(p.id))+'"':'')+(p.hk?' data-hk="'+esc(p.hk)+'"':'')+'>'+(p.ic||esc(p.t||''))+(p.more&&p.more.length?'<small class="gpm">·'+p.more.join('·')+'</small>':'')+(p.c>1?'<em>'+p.c+'</em>':'')+'</button>')+(p.lab?'<span class="gl'+(p.x*sc+TX>64?' rt':'')+'" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(p.lab)+'</span>':'')});
   return s+'</div><span class="gz">'+esc(z)+(sc>1?' · 확대':'')+(!u&&!A?' · 지도 그림 없음 (좌표만)':'')+'</span></div>'}
-function gmQuests(c,z){if(!QDB)return [];const L=c.lv;return [...QDB.values()].filter(q=>q.z===z&&qdbOk(c,q)&&!mqDone(c,q)&&(q.m||0)<=L+1&&(q.lv||0)>=L-6&&(q.lv||0)<=L+5).sort((a,b)=>(a.lv||0)-(b.lv||0))}
+function gmQuests(c,z){if(!QDB)return [];const L=c.lv;return [...QDB.values()].filter(q=>q.z===z&&qdbOk(c,q)&&!mqDone(c,q)&&!exOut(c,q)&&(q.m||0)<=L+1&&(q.lv||0)>=L-6&&(q.lv||0)<=L+5).sort((a,b)=>(a.lv||0)-(b.lv||0))}
 /* 작은 동선 지도는 기본 「게임 지도」(우리 지도는 바다 쪽이 검은 네모로 보여서) · 큰 지도는 따로 */
 const miniStyle=c=>c.miniStyle||'game';
 function gmStyleSeg(c,mini){const st=mini?miniStyle(c):(c.mapStyle||'atlas');return '<span class="gmseg">'+[['game','게임 지도'],['atlas','우리 지도']].map(x=>'<button class="'+(st===x[0]?'on':'')+'" data-a="mapst" data-k="'+x[0]+'"'+(mini?' data-f="mini"':'')+'>'+x[1]+'</button>').join('')+'</span>'}
@@ -2303,7 +2306,7 @@ const zIco=z=>{const f=ZIC.find(x=>String(z||'').includes(x[0]));return f?f[1]:'
 function recPlans(c){const L=c.lv;const R=routeOf(c);const out=[];
   const segs=R.filter(S=>S.b>=L).slice(0,3);
   if(segs.length)out.push({k:'app',name:'앱 추천 루트',nodes:segs.map(S=>({z:S.z.split(' · ')[0],a:S.a,b:S.b,S})),n:segs.reduce((n,S)=>n+S.q.length,0)});
-  if(QDB){const Z={};for(const q of QDB.values()){if(!q.z||q.c==='던전'||q.c==='기타'||!qdbOk(c,q)||mqDone(c,q))continue;if(/스톰윈드|아이언포지|다르나서스|특별/.test(q.z))continue;if((q.lv||0)<L-2||(q.lv||0)>L+4||(q.m||0)>L)continue;(Z[q.z]=Z[q.z]||[]).push(q)}
+  if(QDB){const Z={};for(const q of QDB.values()){if(!q.z||q.c==='던전'||q.c==='기타'||!qdbOk(c,q)||mqDone(c,q)||exOut(c,q))continue;if(/스톰윈드|아이언포지|다르나서스|특별/.test(q.z))continue;if((q.lv||0)<L-2||(q.lv||0)>L+4||(q.m||0)>L)continue;(Z[q.z]=Z[q.z]||[]).push(q)}
     const top=Object.entries(Z).sort((a,b)=>b[1].length-a[1].length).slice(0,3).map(([z,qs])=>{const lv=qs.map(q=>q.lv).sort((a,b)=>a-b);return {z,a:lv[0],b:lv[lv.length-1],qs}}).sort((a,b)=>a.a-b.a);
     if(top.length)out.push({k:'many',name:'퀘스트 많은 곳',nodes:top,n:top.reduce((n,t)=>n+t.qs.length,0)})}
   return out}
