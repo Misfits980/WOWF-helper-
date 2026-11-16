@@ -49,13 +49,23 @@ def _fill60(c, steps):
 for cid, c in cls.items():
     for s_ in c['specs']:
         _fill60(c, s_['steps'])
+# 클래스 기술 목록 손질 (forg.gg 자료)
+_LRACE = {'노움': 'gnome', '드워프': 'dwarf', '인간': 'human', '나이트 엘프': 'nightelf', '트롤': 'troll', '언데드': 'undead'}
+# 포에버에서 없어진 특성 기술(블리자드 사제 직업 소개: 신성 특성 「빛샘」 삭제)
+_LDROP = {('priest', '빛샘'), ('priest', '빛샘의 소생')}
+# forg 자료에 설명이 빈 기술 (블리자드 사제 직업 소개를 내 말로)
+_LDESC = {'비상 대책': '30초 동안 아군에게 보호 주문을 걸어요. 생명력이 35% 밑으로 떨어지면 피해 흡수 보호막과 지속 치유가 걸려요(소생·보호막과 같이 걸림). 즉시 시전, 5분 대기',
+          '어둠의 희생': '자기 생명력을 써서 시간에 걸쳐 마나를 얻어요. 정신력이 높을수록 마나를 더 얻어요',
+          '평정': '인간형 적을 진정시켜 한동안 나를 알아채는 거리를 줄여요(정신 안정)'}
 _tkf = ROOT / 'data/guides/talent-ko.json'
 _TKO = {k: v for k, v in json.loads(_tkf.read_text(encoding='utf-8')).items() if not k.startswith('_')} if _tkf.exists() else {}
 for cid, c in cls.items():
     used = set(x[1] for s in c['specs'] for x in s['steps'])
     slim[cid] = {
         'name': c['name'], 'trees': c['trees'], 'tic': c.get('tic', []),
-        'learns': [[l[0], l[1], l[2], l[3], l[4], l[6], (l[7] or '')[:90]] for l in c['learns'] if l[4] in ('', 'alliance', None)],
+        # 8번째 칸 = 종족 전용 기술의 종족(사제 종족 기술: 노움은 교란의 섬광·비상 대책만), 빈칸이면 모두
+        'learns': [[l[0], l[1], l[2], l[3], l[4], l[6], (_LDESC.get(l[1]) or l[7] or '')[:90], _LRACE.get(l[5] or '', '')] for l in c['learns']
+                   if l[4] in ('', 'alliance', None) and (cid, l[1]) not in _LDROP],
         # 특성 칸(게임처럼 줄·칸·선행 화살표)을 그리려고 모든 특성을 넣음: [이름, 트리, 최대, 아이콘, 설명, 줄, 칸, 선행]
         'talents': {k: [v['n'], v['t'], v['max'], v.get('icon', ''), (_TKO.get(cid + '/' + k) or (v.get('d') or '')[:110]), v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
         'specs': [{'id': s['id'], 'name': s['name'], 'icon': s['icon'], 'steps': s['steps'],

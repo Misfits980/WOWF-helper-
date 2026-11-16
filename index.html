@@ -2645,11 +2645,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=736fc0df"></script>
-<script>/* v762bd9 @11/16 13:25 */
+<script src="app-data.js?v=dfea5ab8"></script>
+<script>/* vf9feb6 @11/16 13:33 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 13:25';
+const BUILD='11/16 13:33';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3834,7 +3834,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
      +(next.length?next.map((x,i)=>{const g=x.get.filter(y=>!y.done&&!y.prof&&y.q.min<=L).length,t=x.turn.filter(y=>!y.done&&!y.prof).length;const m=x.n.match(/^(.*?) \((\d+), (\d+)\)$/);return '<button class="row" data-a="tab" data-k="quest"><span class="hno">'+(i+1)+'</span><span class="m"><span class="nm">'+esc(x.npc?x.npc+' 근처':m?m[1]:x.n)+(x.again?' <small class="agn2">다시 들르기</small>':'')+'</span><span class="sub">'+esc(x.z)+(x.npc?' '+esc(x.n):'')+'</span></span><span class="hqb">'+(g?'<span>'+QMK.g+g+'</span>':'')+(t?'<span>'+QMK.r+t+'</span>':'')+'</span></button>'}).join(''):'<p class="note">이 구간 퀘스트를 다 끝냈어요 👍 레벨을 올려 보세요.</p>')+'</div>'}
   else h+='<div class="card"><p class="note">이 레벨 동선 자료가 없어요. 퀘스트 탭 지도에서 찾아보세요.</p></div>';
   /* 2. 챙길 것: 기술 · 장비 · 던전 · 곧 생기는 것 */
-  const ls=(C?C.learns:[]).filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const nextLearn=ls.find(l=>l[0]>L);
+  const ls=(C?C.learns:[]).filter(l=>(!l[4]||l[4]==='alliance')&&(!l[7]||l[7]===c.race));const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const nextLearn=ls.find(l=>l[0]>L);
   const U=upgrades(c,L,'ok');
   /* 지금 갈 던전: 내게 좋은 템(보스 드랍+퀘스트 보상)·남은 퀘스트가 많은 순 */
   const D=dgNow(L).map(d=>{const S=dgState(c,d);const qg=S.left.reduce((n,q)=>n+q.rw.map(id=>IT.get(id)).filter(it=>it&&usable(it,c)&&!ownedOf(c,it.id)&&((bestSlot(it,c)||{}).g||0)>.01).length,0);d._v={g:S.ups.length+qg,q:S.left.length,all:S.all};return d}).sort((a,b)=>(a._v.all-b._v.all)||(b._v.g*2+b._v.q)-(a._v.g*2+a._v.q)||(a.fit-b.fit));
@@ -3884,7 +3884,7 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
   /* 받을 퀘스트: 레벨업 동선 앞 12단계 */
   {if(!ui._st)try{recView(c)}catch(e){}(ui._st||[]).slice(0,12).forEach(s=>{if(s.type!=='get')return;const tw=townOf(s.zone,s.xy);s.items.forEach(it=>add(tw,'get',{id:it.q.id,nm:it.q.nm}))})}
   /* 기술 배우기: 내 직업 교관이 있는 마을 (지금 지역·수도) */
-  {const C=D_CLS[c.cls];const ls=(C?C.learns:[]).filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);
+  {const C=D_CLS[c.cls];const ls=(C?C.learns:[]).filter(l=>(!l[4]||l[4]==='alliance')&&(!l[7]||l[7]===c.race));const from=c.trn!=null?c.trn:L-2;const todo=ls.filter(l=>l[0]>from&&l[0]<=L);
    if(todo.length&&WLD)((WLD.tr||{})[c.cls]||[]).forEach(t=>{const tw=townOf(t[1],t[2]);if(tw&&(here.has(t[1])||TOWN_CAP.has(t[1])))add(tw,'learn',{n:todo.length,who:t[0],names:todo.map(l=>l[1])})})}
   /* 전문기술 승급: 숙련도가 등급 끝에 닿음 → 수도 */
   {const up=Object.entries(c.profLv||{}).filter(([,v])=>v&&v[1]<300&&v[0]>=v[1]-5);if(up.length)TOWN_CAP.forEach(z=>up.forEach(([nm,v])=>add(z,'prof',{nm,cur:v[0],max:v[1]})))}
@@ -4728,8 +4728,8 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
   else{let nm=99,nq=null;for(const q of QDB.values()){if(q.cls&&qdbOk(c,q)&&!mqDone(c,q)&&!/행사|축제|침공/.test(q.z||'')&&(q.m||0)>L&&(q.m||0)<nm&&!q.pre1&&!(q.pre&&q.pre.length)){nm=q.m;nq=q}}
     rows.push(['cls',qico('cls'),CKO+' 직업 퀘스트','<p class="mute">지금 레벨에 할 직업 퀘스트는 없어요.'+(nq?' 다음은 <b>'+nm+'레벨</b> 「'+esc(nq.n)+'」('+esc(nq.g&&nq.g[1]||nq.z||'')+')부터예요.':'')+'</p>'])}
   /* 2) 교관 */
-  if(C&&C.learns){const from=c.trn!=null?c.trn:L-2;const ls=C.learns.filter(l=>l[0]>from&&l[0]<=L&&(!l[4]||l[4]==='alliance'));
-    const nx=C.learns.filter(l=>l[0]>L&&(!l[4]||l[4]==='alliance'));const nxL=nx.length?nx[0][0]:0;
+  if(C&&C.learns){const from=c.trn!=null?c.trn:L-2;const ls=C.learns.filter(l=>l[0]>from&&l[0]<=L&&(!l[4]||l[4]==='alliance')&&(!l[7]||l[7]===c.race));
+    const nx=C.learns.filter(l=>l[0]>L&&(!l[4]||l[4]==='alliance')&&(!l[7]||l[7]===c.race));const nxL=nx.length?nx[0][0]:0;
     const T=(WLD&&WLD.tr[c.cls])||[];const t=T.find(x=>zs.includes(x[1]))||T.find(x=>x[1]===CAPITAL[c.race])||T[0];
     if(ls.length)rows.push(['trn','<img class="hic" src="img/ui-book.png" alt="">','교관에게 배울 기술 '+ls.length+'개',
       '<div class="lhs">'+ls.map(l=>'<span>'+esc(l[1])+(l[2]>1?' '+l[2]+'단계':'')+(l[3]?' <em>새 기술</em>':'')+'</span>').join('')+'</div>'
@@ -5653,7 +5653,7 @@ function talView(c,C,sp,L){const pts=Math.max(0,L-9);const st=sp.steps.filter(s=
    +'<p class="note"><a href="https://forg.gg/forever/classes/'+c.cls+'?spec='+sp.id+'" target="_blank" rel="noopener">forg.gg에서 특성 트리로 보기 ↗</a></p></div>';
   return h}
 /* ===== 직업: 기술 습득 (교관 다녀온 레벨 기준) ===== */
-function learnView(c,C,L){if(!WLD)wldLoad();const R=rotSet(specOf(c));const ls=C.learns.filter(l=>!l[4]||l[4]==='alliance');const from=c.trn!=null?c.trn:L-2;
+function learnView(c,C,L){if(!WLD)wldLoad();const R=rotSet(specOf(c));const ls=C.learns.filter(l=>(!l[4]||l[4]==='alliance')&&(!l[7]||l[7]===c.race));const from=c.trn!=null?c.trn:L-2;
   const todo=ls.filter(l=>l[0]>from&&l[0]<=L);const T=(WLD&&WLD.tr[c.cls])||[];const S=routeOf(c).find(S=>L>=S.a&&L<=S.b);const zs=S?S.z.split(' · '):[];
   const t=T.find(x=>zs.includes(x[1]))||T.find(x=>x[1]===CAPITAL[c.race])||T[0];
   let h='<div class="card lnow'+(todo.length?'':' ok')+'"><h3>'+(todo.length?'🧑‍🏫 교관에게 배울 기술 '+todo.length+'개':'✅ 지금 배울 기술은 다 배웠어요')+'</h3>'
