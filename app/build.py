@@ -811,6 +811,8 @@ data = '\n'.join([
     'const D_SRC=' + js_str(SRC_TXT) + ';',
     'const D_QLV=' + json.dumps(QLV, separators=(',', ':')) + ';',
     'const D_GUIDE=' + json.dumps(_guide(), separators=(',', ':')) + ';',
+    'const D_QX=' + json.dumps([int(x) for x in (rd(Q / 'quests-nolist.txt').split() if (Q / 'quests-nolist.txt').exists() else [])], separators=(',', ':')) + ';',
+    'const D_HQ=' + json.dumps([int(x) for x in (rd(Q / 'horde-quests.txt').split() if (Q / 'horde-quests.txt').exists() else [])], separators=(',', ':')) + ';',
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(_dgl()) + ';',
     'const D_DQ=' + js_str(_dq()) + ';',

@@ -293,10 +293,15 @@ def ko_obj(i):
     return r.get(OK['name']) if r else None
 
 
+HORDE_HOME = {14, 215, 85, 130, 1637, 1497, 1638}  # 듀로타·멀고어·티리스팔 숲·은빛소나무 숲·오그리마·언더시티·썬더 블러프
+
+
 def first_spawn(sp):
     if not isinstance(sp, dict):
         return None, None
-    for z, pts in sp.items():
+    # 여러 지역에 있으면(다크문 축제 상인 = 멀고어·엘윈 숲) 호드 본거지가 아닌 곳 먼저 — 얼라이언스 앱
+    items = sorted(sp.items(), key=lambda kv: kv[0] in HORDE_HOME)
+    for z, pts in items:
         pts = arr(pts)
         if pts:
             p = arr(pts[0])
@@ -551,21 +556,26 @@ CONT_FIX = {'하이잘 산': '칼림도어', '검은바위 산': '동부 왕국'
 
 out = []
 skip = {'horde': 0, 'nostart': 0, 'noname': 0}
+HORDE_Q = []  # 호드만 받는 퀘스트 번호 → data/qdb/horde-quests.txt (앱이 이 퀘스트 보상을 「얻을 수 있는 장비」에서 뺌)
+OTHER_Q = []  # 얼라이언스도 받지만 이름·시작 자료가 없어 앱 목록에서 빠진 퀘스트 → data/qdb/quests-nolist.txt (보상은 「얻을 수 있음」으로 둠)
 for qid, q in sorted(QUEST.items()):
     G = lambda k: q.get(QK[k])
     races = G('requiredRaces') or 0
     if races and not (races & ALLY):
         skip['horde'] += 1
+        HORDE_Q.append(qid)
         continue
     name_en = G('name')
     kq = arr(KQ.get(qid)) if isinstance(KQ.get(qid), dict) else KQ.get(qid)
     name = (kq[0] if isinstance(kq, list) and kq and kq[0] else None) or name_en
     if not name:
         skip['noname'] += 1
+        OTHER_Q.append(qid)
         continue
     g, gz = who(G('startedBy'))
     if not g:
         skip['nostart'] += 1
+        OTHER_Q.append(qid)
         continue
     r, _ = who(G('finishedBy'))
     obj_ko = text_list(kq[1]) if isinstance(kq, list) and len(kq) > 1 else ''
@@ -689,6 +699,10 @@ for r in out:
 with open(os.path.join(OUT, 'quests.jsonl'), 'w', encoding='utf-8') as f:
     for r in out:
         f.write(json.dumps(r, ensure_ascii=False, separators=(',', ':')) + '\n')
+with open(os.path.join(OUT, 'horde-quests.txt'), 'w', encoding='utf-8') as f:
+    f.write(' '.join(str(i) for i in sorted(HORDE_Q)) + '\n')
+with open(os.path.join(OUT, 'quests-nolist.txt'), 'w', encoding='utf-8') as f:
+    f.write(' '.join(str(i) for i in sorted(OTHER_Q)) + '\n')
 print('퀘스트', len(out), '건너뜀', skip)
 
 # 아이템 한국어 이름 (장비 자료 보강용)

@@ -468,6 +468,8 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
       if(o.nx&&!M.has(o.nx))delete o.nx;if(o.m>o.lv&&o.lv>0)o.lv=o.m;
       /* 최소 레벨 자료가 없는 퀘스트(포에버 새 퀘스트 188개 등): 0이면 아무 레벨에나 받는 것처럼 보이므로 퀘스트 레벨-5로 어림하고 「추정」 표시 */
       if(!o.m&&o.lv>1){o.m=Math.max(1,o.lv-5);o.mEst=1}}
+    {const HZ=/^(듀로타|멀고어|티리스팔 숲|은빛소나무 숲|오그리마|언더시티|썬더 블러프)$/;const byN=new Map();for(const o of M.values()){const k=o.n+'|'+o.z;if(!byN.has(k))byN.set(k,[]);byN.get(k).push(o)}
+      for(const L of byN.values()){if(L.length<2)continue;const ok=L.filter(o=>!(o.g&&HZ.test(o.g[1]||'')));if(ok.length&&ok.length<L.length)L.forEach(o=>{if(!ok.includes(o))M.delete(o.id)})}}
     QDB=M;qdbChains();
     /* 최소 레벨을 어림한 퀘스트가 던전 퀘스트 자료(forg)에 있으면 그 값으로 (예: 아감마간의 피 45) */
     for(const d of DGS)for(const q of d.q){const X=M.get(+q.id);if(X&&X.mEst&&q.min>0){X.m=q.min;delete X.mEst}
@@ -809,8 +811,13 @@ const srcSure=s=>!!s&&!(s.k===0&&DG[s.dg]&&DG[s.dg].soon)&&(s.k===0||s.k===1||s.
 /* 아이템 → 그걸 주는 던전 퀘스트 번호 (끝낸 퀘스트 보상은 다시 못 받으니 빼기 위해) */
 const IT_Q={};DGS.forEach(d=>d.q.forEach(q=>q.rw.forEach(id=>{(IT_Q[id]=IT_Q[id]||[]).push(q.id)})));
 const srcQid=s=>{const m=(s.href||'').match(/(?:quest=|\/quest\/)(\d+)/);if(m)return +m[1];/* 번호가 없으면 이름으로 찾기 */const n=QDB&&s.qn?qByName(s.qn):null;return n&&n.length?n[0]:0};
+/* 이 캐릭터가 받을 수 없는 퀘스트: 호드만 받는 퀘스트(QuestieDB 종족 조건) · 직업·종족이 안 맞음 · 짝 퀘스트를 이미 함
+   · 포에버 퀘스트 자료(QuestieDB)에 아예 없는 퀘스트(옛 호드 퀘스트·시험용). 시작 자료가 없어 앱 목록에서만 빠진 공용 퀘스트(예: 부분적인 신비한 기록)는 얻을 수 있음으로 둠 */
+let _HQ=null;const hordeQ=q=>(_HQ||(_HQ=new Set(typeof D_HQ!=='undefined'?D_HQ:[]))).has(q);
+let _QX=null;const nolistQ=q=>(_QX||(_QX=new Set(typeof D_QX!=='undefined'?D_QX:[]))).has(q);
+function qGone(c,q){if(!q)return false;if(hordeQ(q))return true;if(!QDB)return false;const X=QDB.get(q);if(!X)return !(dgOfQ(q)||nolistQ(q));return !qdbOk(c,X)||exOut(c,X)}
 function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)return S;const done=id=>!!((c.mq||{})[id]||(c.dq||{})[id]);
-  return S.filter(s=>{if(s.k!==1)return true;const q=srcQid(s);if(q)return !done(q);if(/^dg:/.test(s.href||'')){const qs=IT_Q[it.id]||[];return !qs.length||qs.some(x=>!done(x))}return true})}
+  return S.filter(s=>{if(s.k!==1)return true;const q=srcQid(s);if(q)return !done(q)&&!qGone(c,q);if(/^dg:/.test(s.href||'')){const qs=IT_Q[it.id]||[];return !qs.length||qs.some(x=>!done(x))}return true})}
 const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
 const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(ql[srcQid(s)]||(IT_Q[it.id]||[]).some(x=>ql[x])))};
 function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(srcSure))return 'sure';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
