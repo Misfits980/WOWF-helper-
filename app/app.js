@@ -1176,8 +1176,8 @@ const MS=[[5,'prof5','전문기술 2개 고르기','채집 둘이나 채집+제�
 MS.sort((a,b)=>a[0]-b[0]);
 function msRows(c){const L=c.lv||1,ms=c.ms||{};const mine=MS.filter(m=>!m[4]||m[4].includes(c.cls));
   const due=mine.filter(m=>m[0]<=L&&!ms[m[1]]&&m[0]>=L-15).slice(0,3);const nx=mine.find(m=>m[0]>L);
-  let h=due.map(m=>'<div class="trow ms"><span class="ti">📌</span><span class="m"><b>'+esc(m[2])+' <small>'+m[0]+'레벨</small></b><span>'+esc(m[3])+'</span></span><button class="btn sm tbtn" data-a="msok" data-k="'+m[1]+'">했어요</button></div>').join('');
-  if(nx&&nx[0]<=L+5)h+='<div class="trow soon"><span class="ti">🔜</span><span class="m"><b>'+nx[0]+'레벨 · '+esc(nx[2])+'</b><span>'+esc(nx[3])+'</span></span></div>';return h}
+  let h=due.map(m=>'<div class="trow ms">'+(PV?'<span class="ti lvk">'+m[0]+'</span>':'<span class="ti">📌</span>')+'<span class="m"><b>'+esc(m[2])+(PV?'':' <small>'+m[0]+'레벨</small>')+'</b><span>'+esc(m[3])+'</span></span><button class="btn sm tbtn" data-a="msok" data-k="'+m[1]+'">했어요</button></div>').join('');
+  if(nx&&nx[0]<=L+5)h+='<div class="trow soon">'+(PV?'<span class="ti lvk soon">'+nx[0]+'</span>':'<span class="ti">🔜</span>')+'<span class="m"><b>'+(PV?'':nx[0]+'레벨 · ')+esc(nx[2])+(PV?' <small>'+nx[0]+'레벨에</small>':'')+'</b><span>'+esc(nx[3])+'</span></span></div>';return h}
 function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
   let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.8</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
   if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드');if(c.wsk)got.push('무기 숙련');if(c.tal&&/^game/.test(c.tal.src||''))got.push('내 특성')}
@@ -1249,7 +1249,7 @@ function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='
 /* 🧪 미리보기 홈: 아래쪽 카드(마을·변경·사냥 기록·일지·메모·평판·애드온)를 한 장에 탭으로 → 스크롤 짧게, 내용은 그대로 */
 const pvHm=m=>m<60?m+'분':Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':'');
 function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
-    .map(([k,t,f])=>{let x='';try{x=f()}catch(e){}return [k,t,x]}).filter(x=>x[2]);if(!T.length)return '';
+    .map(([k,t,f])=>{let x='';try{x=f()}catch(e){}/* 탭 안 작은 제목 앞 이모지는 뺌(탭이 제목 역할) */x=x.replace(/(<h3[^>]*>)\s*(?:\p{Extended_Pictographic}\uFE0F?\s*)+/u,'$1');return [k,t,x]}).filter(x=>x[2]);if(!T.length)return '';
   const on=T.find(x=>x[0]===ui.htab)||T[0];
   return '<div class="card pvtab"><div class="pvtb" role="tablist">'+T.map(([k,t])=>'<button role="tab" aria-selected="'+(k===on[0])+'" class="'+(k===on[0]?'on':'')+'" data-a="htab" data-k="'+k+'">'+t+'</button>').join('')+'</div><div class="pvtp">'+on[2]+'</div></div>'}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
@@ -1332,10 +1332,19 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
   if(!L2.length&&!ui._townSell)return '';
   /* 팔 것은 어느 마을 상인이든 되니 맨 위 마을에만 */if(ui._townSell&&L2[0])L2[0].e.sell=[ui._townSell];
   if(!L2.length)return '';
-  const qa=L=>L.slice(0,3).map(x=>'<button class="lnk" data-a="qopen" data-k="'+x.id+'">'+esc(x.nm)+'</button>').join(', ')+(L.length>3?' 외 '+(L.length-3)+'개':'');
+  const qa=L=>L.slice(0,3).map(x=>'<button class="lnk" data-a="qopen" data-k="'+x.id+'">'+esc(x.nm)+'</button>').join(PV?'<i class="sep">·</i>':', ')+(L.length>3?' 외 '+(L.length-3)+'개':'');
   const line=(ic,txt)=>'<li><span class="ti">'+ic+'</span><span>'+txt+'</span></li>';
+  const lk=(k,lab,n,txt)=>'<li class="tk"><span class="k k-'+k+'">'+lab+'</span><b class="c">'+n+'</b><span class="v">'+txt+'</span></li>';
   let h='<div class="card town"><div class="hd"><h3>🏘️ 마을 들를 때 할 일</h3>'+(T.size>3?'<button class="more" data-a="townall">'+(ui.townAll?'접기':'더 보기')+'</button>':'')+'</div>';
-  h+=L2.map(t=>{const e=t.e;let li='';
+  if(PV)h+=L2.map(t=>{const e=t.e;let li='';const [tn,tz]=t.town.split(' · ');
+    if(e.turn)li+=lk('turn','반납',e.turn.length,qa(e.turn));
+    if(e.get)li+=lk('get','받기',e.get.length,qa(e.get));
+    if(e.learn)li+=lk('learn','기술',e.learn[0].n,esc(e.learn[0].who)+' <small>'+esc(e.learn[0].names.slice(0,3).join(', '))+'</small>');
+    if(e.prof)li+=lk('prof','승급',e.prof.length,e.prof.map(p=>esc(p.nm)+' <small>'+p.cur+'/'+p.max+'</small>').join('<i class="sep">·</i>'));
+    if(e.bank)li+=lk('bank','은행',e.bank[0].n,'넣어 둘 재료');
+    if(e.sell)li+=lk('sell','팔기',e.sell[0].n,'상인에게'+(e.sell[0].sum?' · 약 '+goldTxt(e.sell[0].sum):''));
+    return '<div class="twn"><div class="tnh"><b>'+esc(tn)+'</b>'+(tz?'<small>'+esc(tz)+'</small>':'')+(t.near?'<span class="tag gd">지금 지역</span>':'')+'</div><ul>'+li+'</ul></div>'}).join('');
+  else h+=L2.map(t=>{const e=t.e;let li='';
     if(e.turn)li+=line('📜','반납 <b>'+e.turn.length+'개</b>: '+qa(e.turn));
     if(e.get)li+=line('❗','받기 <b>'+e.get.length+'개</b>: '+qa(e.get));
     if(e.learn)li+=line('📘','기술 <b>'+e.learn[0].n+'개</b> 배우기 · '+esc(e.learn[0].who)+' <small>'+esc(e.learn[0].names.slice(0,3).join(', '))+'</small>');
@@ -1388,9 +1397,10 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
     if(x.why)sub.push('<i class="why">'+esc(x.why)+'</i>');
     const pr=k==='sell'&&x.I.sell?'<span class="pr">'+goldTxt(x.I.sell*x.n)+'</span>':'';
     const Q=k==='q'&&x.qs&&x.qs.length?x.qs:null;
-    if(Q){const t=Q[0],allDone=Q.every(y=>y.s===3);
-      sub.unshift('<span class="qln">「'+esc(t.X.n)+'」 '+(t.X.lv||'?')+'레벨'+(Q.length>1?' 외 '+(Q.length-1)+'개':'')+'</span>'+(t.s===1||t.s===2?'<i class="qst s'+t.s+'">'+QST[t.s]+'</i>':allDone?'<i class="qst s3">끝낸 퀘스트</i>':''));
-      return '<details class="bgq"><summary class="bgi"><span class="ic q-'+ql(q)+'" style="background-image:'+icOf(x)+'">'+(x.n>1&&!x.pages?'<em>'+x.n+'</em>':'')+'</span><span class="m"><b class="q'+q+'">'+esc(x.I.nm)+'</b><small>'+sub.join(' ')+'</small></span><i class="cv"></i></summary><div class="bgqs">'
+    if(PV&&k==='q'&&!Q)sub.unshift('<span class="qln none">어느 퀘스트인지 자료에 없어요</span>');
+    if(Q){const t=Q[0],allDone=Q.every(y=>y.s===3);const pill=t.s===1||t.s===2?'<i class="qst s'+t.s+'">'+QST[t.s]+'</i>':allDone?'<i class="qst s3">끝낸 퀘스트</i>':'';
+      sub.unshift('<span class="qln">「'+esc(t.X.n)+'」 '+(t.X.lv||'?')+'레벨'+(Q.length>1?' 외 '+(Q.length-1)+'개':'')+'</span>'+(PV?'':pill));
+      return '<details class="bgq"><summary class="bgi"><span class="ic q-'+ql(q)+'" style="background-image:'+icOf(x)+'">'+(x.n>1&&!x.pages?'<em>'+x.n+'</em>':'')+'</span><span class="m"><b class="q'+q+'">'+esc(x.I.nm)+'</b><small>'+sub.join(' ')+'</small></span>'+(PV?pill:'')+'<i class="cv"></i></summary><div class="bgqs">'
         +Q.map(y=>'<button class="bgqq" data-a="qopen" data-k="'+y.id+'"><b>'+esc(y.X.n)+'</b><small>'+(y.X.lv||'?')+'레벨'+(y.X.m?' (받기 '+y.X.m+'레벨부터)':'')+' · '+esc(y.X.z||'')+(y.how==='시작'?' · 이 아이템으로 시작':'')+' <i class="qst s'+y.s+'">'+QST[y.s]+'</i></small></button>').join('')+'</div></details>'}
     return '<div class="bgi"><span class="ic q-'+ql(q)+'" style="background-image:'+icOf(x)+'">'+(x.n>1&&!x.pages?'<em>'+x.n+'</em>':'')+'</span><span class="m"><b class="q'+q+'">'+esc(x.I.nm)+'</b>'+(sub.length?'<small>'+sub.join(' ')+'</small>':'')+'</span>'+pr+'</div>'};
   /* 나머지(물약·음식·도안·열쇠·장비 등)도 빠짐없이: 종류 이름을 붙여 「가방에 두기」로 */

@@ -98,3 +98,48 @@
 .dollf>summary small{font-size:11.5px;line-height:1.35}
 .htile .tbtn{top:auto;bottom:7px}
 .htile:has(.tbtn) small{padding-right:64px}
+
+/* ===================================================================
+   정리: 이모지·그림이 줄마다 제각각이던 곳 → 같은 모양 이름표·같은 높이 줄
+   =================================================================== */
+/* 마을 들를 때 할 일: [반납] 1  강물터 보고서 */
+.town .twn{padding:9px 0}
+.town .tnh{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 7px;margin-bottom:7px}
+.town .tnh>b{font-size:15px;color:#f3e2b5}
+.town .tnh>small{font-size:12px;color:var(--mute)}
+.town .tnh>.tag{margin:0 0 0 auto;align-self:center}
+.town ul{gap:6px}
+.town li.tk{display:grid;grid-template-columns:44px 22px minmax(0,1fr);align-items:baseline;gap:0 7px;font-size:13px;line-height:1.5}
+.town .k{display:block;padding:1px 0 2px;border-radius:5px;font-size:11.5px;font-weight:800;line-height:1.35;text-align:center;letter-spacing:.02em}
+.town .k-turn{color:#a9cdff;background:rgba(90,150,255,.13);box-shadow:inset 0 0 0 1px rgba(120,170,255,.38)}
+.town .k-get{color:#ffd76a;background:rgba(255,205,60,.11);box-shadow:inset 0 0 0 1px rgba(255,205,60,.38)}
+.town .k-learn{color:#d9c2ff;background:rgba(170,120,255,.13);box-shadow:inset 0 0 0 1px rgba(180,140,255,.38)}
+.town .k-prof{color:#ffbf86;background:rgba(255,150,60,.12);box-shadow:inset 0 0 0 1px rgba(255,160,80,.38)}
+.town .k-bank{color:#d8cdb4;background:rgba(220,205,170,.09);box-shadow:inset 0 0 0 1px rgba(220,205,170,.3)}
+.town .k-sell{color:#f0d78a;background:rgba(240,200,100,.1);box-shadow:inset 0 0 0 1px rgba(240,200,100,.32)}
+.town .c{font-size:14px;color:#fff;text-align:right;font-variant-numeric:tabular-nums}
+.town .v{min-width:0;color:#e6dcc5}
+.town .v .lnk{color:#f0d78a;padding:3px 0;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:rgba(240,215,138,.55);text-underline-offset:4px}
+.town .v small{color:var(--mute)}
+.town .v .sep{font-style:normal;color:#6f6250;margin:0 6px}
+
+/* 레벨별 할 일: 이모지 대신 레벨 숫자 */
+.trow .ti.lvk{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex:none;border-radius:8px;font:700 14px/1 var(--title);color:var(--gold);
+  background:radial-gradient(circle at 50% 40%,#2a2014,#0d0906 75%);box-shadow:0 0 0 1px #000,0 0 0 2px #5d4622}
+.trow .ti.lvk.soon{color:#9cc2ff}
+.trow .m b small{font-weight:500;color:var(--mute);margin-left:4px}
+
+/* 가방 정리: 줄 높이·글자 크기 통일, 상태 표는 오른쪽 한 칸 */
+.bgs .bgi{min-height:56px;padding:8px 2px;gap:11px}
+.bgs .bgi .ic{width:40px;height:40px}
+.bgs .bgi .m{gap:3px}
+.bgs .bgi .m b{font-size:14.5px;line-height:1.3}
+.bgs .bgi .m small{flex-wrap:nowrap;overflow:hidden;white-space:nowrap;font-size:12px}
+.bgs .bgi .m small .qln{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;color:#d9c38a}
+.bgs .bgi .m small .qln.none{color:#7d715c}
+.bgs .bgq>summary>.qst{flex:none;margin-left:auto;padding:3px 9px;border:0;border-radius:999px;font-size:11.5px;font-weight:700;line-height:1.3}
+.bgs .bgq>summary>.qst.s1{color:#ffd76a;background:rgba(255,205,60,.12);box-shadow:inset 0 0 0 1px rgba(255,205,60,.4)}
+.bgs .bgq>summary>.qst.s2{color:#8fe36a;background:rgba(120,220,90,.12);box-shadow:inset 0 0 0 1px rgba(120,220,90,.4)}
+.bgs .bgq>summary>.qst.s3{color:#a39a88;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.bgs .bgq>summary .cv{margin-left:6px}
+.bgs .bgi .pr{margin-left:auto}
