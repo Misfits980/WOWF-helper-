@@ -2821,10 +2821,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=707ce0bb"></script>
-<script>/* v8c8d10 @11/16 20:07 */
+<script>/* vad2ce8 @11/16 20:54 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 20:07';
+const BUILD='11/16 20:54';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3335,8 +3335,15 @@ function qdbToQD(q){const drop=t=>t[2]&&t[2].length?t[2].map(x=>x[0]+(x[1]?' (Lv
     t:(q.t||[]).map(t=>[t[0],t[1],'',drop(t)]),ch:q._ch||null}}
 const MC_ORDER=['동부 왕국','칼림도어','리버글레이드','제프라스 섬','직업','기타'];
 const MC_IC={'동부 왕국':'🏰','칼림도어':'🌴','리버글레이드':'🌊','제프라스 섬':'🏝️','던전':'⚔️','직업':'🎓','기타':'🎉'};
-function qd(c,z,q){return !!((c.fq||{})[z+'|'+q.nm]||(q.id&&(c.mq||{})[q.id]))}
-function mqDone(c,q){return !!((c.mq||{})[q.id]||(c.dq||{})[q.id]||(c.fq||{})[q.z+'|'+q.n])}
+/* 레벨업 길잡이의 「끝냄」(c.fq)은 「지역|이름」으로 남는데, 한 지역에 같은 이름 퀘스트가 여럿(대지의 왕관 6단계·스탈반의 전설 13단계 등 196묶음)이라
+   하나만 체크해도 묶음 전체가 끝난 것으로 보였음 → 이름이 겹치면: 번호로 끝낸 게 있으면 그것만, 없으면 그 묶음의 첫 퀘스트(가장 낮은 레벨)만 */
+let FQG=null,FQG_N=-1;
+function fqHit(c,z,n,id){if(!(c.fq||{})[z+'|'+n])return false;if(!QDB)return true;
+  if(FQG_N!==QDB.size){FQG=new Map();FQG_N=QDB.size;for(const q of QDB.values()){const k=q.z+'|'+q.n;if(!FQG.has(k))FQG.set(k,[]);FQG.get(k).push(q)}for(const L of FQG.values())L.sort((a,b)=>(a.lv||0)-(b.lv||0)||a.id-b.id)}
+  const G=FQG.get(z+'|'+n);if(!G||G.length<2||!id)return true;const mq=c.mq||{};
+  if(G.some(q=>mq[q.id]))return !!mq[id];return G[0].id===+id}
+function qd(c,z,q){return !!(fqHit(c,z,q.nm,q.id)||(q.id&&(c.mq||{})[q.id]))}
+function mqDone(c,q){return !!((c.mq||{})[q.id]||(c.dq||{})[q.id]||fqHit(c,q.z,q.n,q.id))}
 function mapView(c){const L=c.lv;
   if(!QDB){qdbLoad();return '<p class="empty-st">맵 전체 퀘스트를 불러오는 중이에요…</p>'}
   if(!QDB.size)return '<p class="empty-st">퀘스트 자료를 못 불러왔어요. 잠시 뒤에 다시 열어 주세요.</p>';
@@ -3544,7 +3551,7 @@ let chx=chainOf(id);
   const g=d.g&&d.g[0]?d.g:null;
   if(d.ch&&d.ch.length>1)d.ch=fixChain(d.ch);const CH=d.ch&&d.ch.length>1?d.ch:null;const ci0=CH?(((()=>{const byN=CH.filter(r=>nkey(r[1])===nkey(nm));return byN.find(r=>r[6]===id)||byN[0]})()||CH.find(r=>r[6]===id)||CH.find(r=>r[5])||[0])[0]||d.cc||0):0;
   if(CH&&ci0){/* 선행 퀘스트 1/4 · 2/4 … 한 상자에 */
-    const dnOf=r=>{const x=r[6]&&QDB&&QDB.get(r[6]);if(x)return mqDone(c,x);const f=r[6]&&questById(r[6]);return f?!!((f.dg?c.dq:c.fq)||{})[f.dg?String(r[6]):f.z+'|'+r[1]]:false};
+    const dnOf=r=>{const x=r[6]&&QDB&&QDB.get(r[6]);if(x)return mqDone(c,x);const f=r[6]&&questById(r[6]);return f?(f.dg?!!(c.dq||{})[String(r[6])]:fqHit(c,f.z,r[1],r[6])):false};
     const prior=CH.filter(r=>r[0]<ci0),left=prior.filter(r=>!dnOf(r)).length,n=CH.length;
     h+='<div class="prech'+(left?'':' ok')+'"><b>'+(prior.length?(left?'⚠️ 선행 퀘스트 '+left+'개를 먼저 끝내야 받을 수 있어요':'✓ 선행 퀘스트를 다 끝냈어요'):'🔗 연계 퀘스트의 첫 단계예요')+'</b>'
      +(()=>{const chIds=CH.every(r=>r[6])?CH.map(r=>r[6]).join('.'):'';const row=r=>{const me_=r[0]===ci0,dn=dnOf(r),past=r[0]<ci0;return '<'+(me_||!r[6]?'div':'button data-a="qopen" data-k="'+r[6]+'"'+(chIds?' data-ch="'+chIds+'"':''))+' class="pcs'+(me_?' me':'')+(dn?' dn':'')+(past?'':' nx')+'"><span class="f">'+r[0]+'/'+n+'</span><span class="t"><b>'+(r[2]?'['+r[2]+'] ':'')+esc(r[1])+'</b>'+(me_?'<i>지금 이 퀘스트</i>':past?(dn?'<i>끝냄 ✓</i>':'<i>선행 퀘스트</i>'):'<i>다음</i>')+'</span>'+(me_?'':'<span class="cv">›</span>')+'</'+(me_||!r[6]?'div':'button')+'>'};
@@ -3595,7 +3602,7 @@ function questSheet(c,id){id=+id;const f=questById(id);const d=QD.get(id)||{};co
     return h+'<button class="btn ghost full" style="margin-top:8px" data-a="mzgo" data-k="'+esc((X.c||'기타')+'|'+X.z)+'">'+esc(X.z||'')+' 퀘스트 전체 보기</button>'}
   let h='<div class="sh"><h2>['+(q.lv||'?')+'] '+esc(q.nm)+'</h2><button class="x" data-a="close">✕</button></div>';
   const place=f&&f.dg?'🏰 '+esc(f.dg.ko)+' 퀘스트':f?esc(f.z)+' '+(CONT[f.z]?CONT_IC[CONT[f.z]]:''):'';
-  const ck=f&&!f.dg?f.z+'|'+q.nm:String(id);const kind=f&&!f.dg?'fq':'dq';const done=f?!!((f.dg?c.dq:c.fq)||{})[ck]:null;
+  const ck=f&&!f.dg?f.z+'|'+q.nm:String(id);const kind=f&&!f.dg?'fq':'dq';const done=f?(f.dg?!!(c.dq||{})[ck]:fqHit(c,f.z,q.nm,id)||!!(c.mq||{})[id]):null;
   h+=parch(c,id,{nm:q.nm,obj:q.obj,gv:q.gv,xy:q.xy,place,tags:chainTag(id,q)+(q.min>c.lv?'<span class="tag">'+q.min+'레벨부터</span>':''),done:f?done:null,kind,ck});
   if(f&&!f.dg)h+='<button class="btn ghost full" style="margin-top:8px" data-a="goz" data-k="'+esc(f.z)+'">'+esc(f.z)+' 퀘스트 목록으로</button>';
   if(f&&f.dg)h+='<button class="btn full" style="margin-top:8px" data-a="dgo" data-k="'+f.dg.slug+'">🏰 '+esc(f.dg.ko)+' 던전 보기</button>';
@@ -5299,7 +5306,8 @@ function recPlans(c){const L=c.lv;const R=routeOf(c);const out=[];
 function recQ(id,z0){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!q&&!d.g)return null;
   const G=(q&&q.g)||d.g||[],R=(q&&q.r)||d.r||[];const t=(d.t||[])[0];const wf=(d.wf&&d.wf.t)||[];const qp=qPlace(q);const txy=t?xyOf(t[2]):null;
   const GO=GOB(id)||{},GG=GQ(id);
-  const talk=t&&t[0]==='대화'&&/반납하는 NPC와 이야기/.test(t[1]||'');
+  /* 받은 물건을 가져다주기만 하는 퀘스트(전달: 메이벨의 연애 편지 등)도 반납이 곧 할 일 → 위치 없는 「하기」 단계를 만들지 않음 */
+  const talk=t&&((t[0]==='대화'&&/반납하는 NPC와 이야기/.test(t[1]||''))||(t[0]==='전달'&&!txy&&(d.t||[]).length===1));
   const gxy=xyOf(G[2])||(GO.g&&zEq(GO.g[0],G[1]||(q&&q.z)||z0)?[GO.g[1],GO.g[2]]:null);
   const rT=GG&&GG.ph==='t'&&GG.o&&zEq(GG.o[0],R[1]||(q&&q.z)||z0)?[GG.o[1],GG.o[2]]:null;const rxy=xyOf(R[2])||rT||(GO.r&&zEq(GO.r[0],R[1]||(q&&q.z)||z0)?[GO.r[1],GO.r[2]]:null);
   let o=talk?null:t&&t[1]?{nm:t[1],xy:txy||(qp&&qp.xy),z:txy?null:qp&&qp.zone}:qp&&!(d.t&&d.t.length)?{nm:qp.nm,xy:qp.xy,z:qp.zone}:null;
@@ -5450,7 +5458,10 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
     const B=new Set(blk.map(x=>x.q.id));for(let more=true,k=0;more&&k<20;k++){more=false;
       for(const q of out){if(B.has(q.id)||(ql[q.id]||0)>=1)continue;const g=groups(q.id).find(g=>!g.some(p=>ids.has(p)&&!B.has(p)));if(g){B.add(q.id);blk.push({q,need:QDB.get(g.find(p=>B.has(p))||g[0])});more=true}}}
     return {list:out.filter(q=>!B.has(q.id)),blk}};
-  const baseOf=n=>qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)<=L&&(!QDB||QDB.has(q.id))&&!prof(q));
+  /* 하나만 고르는 퀘스트(ex)는 단계에 하나만: 짝 중 이미 받았거나 끝낸 게 있으면 나머지를 빼고, 아니면 앞에 나온 것만 (예: 제프라스 섬 「헛된 희생」·「불길한 침묵」) */
+  const exOne=list=>{if(!QDB)return list;const kept=new Set(),ql=c.ql||{};return list.filter(q=>{const X=QDB.get(q.id);const P=exPeers(c,X).map(x=>x.id);if(!P.length){kept.add(q.id);return true}
+      if((ql[q.id]||0)>=1){kept.add(q.id);return true}if(P.some(i=>(ql[i]||0)>=1||mqDone(c,QDB.get(i))||kept.has(i)))return false;kept.add(q.id);return true})};
+  const baseOf=n=>exOne(qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)<=L&&(!QDB||QDB.has(q.id))&&!prof(q)));
   const blkOf=n=>preFix(n,baseOf(n)).blk;
   const stOf=n=>recStages(c,preFix(n,baseOf(n)).list,c.lpos);
   const lockOf=n=>qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)>L&&(c.ql||{})[q.id]==null);
