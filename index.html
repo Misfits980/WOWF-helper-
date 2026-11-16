@@ -2656,11 +2656,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=707ce0bb"></script>
-<script>/* vad2ce8 @11/16 20:54 */
+<script src="app-data.js?v=2fe35eba"></script>
+<script>/* v8e01ab @11/16 21:47 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 20:54';
+const BUILD='11/16 21:47';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2775,10 +2775,11 @@ D_DQ.split('\n').filter(Boolean).forEach(l=>{const f=l.split('|');const d=DG[f[1
 DGS.forEach(d=>d.q.sort((a,b)=>a.lv-b.lv));
 
 /* ----- 레벨링 경로 ----- */
+const QGM={};if(typeof D_QGAME!=='undefined')for(const [id,lv,m] of D_QGAME)if(m>0)QGM[id]=m;
 const ROUTE={};{let cur=null,sec=null;for(const l of D_LVL.split('\n')){if(!l)continue;
   if(l[0]==='@'){cur=ROUTE[l.slice(1)]=[];continue}
   if(l[0]==='#'){const [a,b,z]=l.slice(1).split('|');sec={a:+a,b:+b,z,q:[]};cur.push(sec);continue}
-  const f=l.split('|');if(!sec)continue;sec.q.push({lv:+f[0],min:+f[1]||Math.max(1,+f[0]-5),nm:f[2],gz:f[3],gv:f[4],xy:f[5],ch:+f[6]||0,pre:+f[7]||0,obj:f[8]||'',id:+f[9]||0,sz:sec.z.split(' · ')[0]})}}
+  const f=l.split('|');if(!sec)continue;sec.q.push({lv:+f[0],min:+f[1]||Math.max(1,+f[0]-5),nm:f[2],gz:f[3],gv:f[4],xy:f[5],ch:+f[6]||0,pre:+f[7]||0,obj:f[8]||'',id:+f[9]||0,sz:sec.z.split(' · ')[0]});const r=sec.q[sec.q.length-1];if(QGM[r.id])r.min=QGM[r.id]}}
 
 /* ----- 얻을 수 있는 레벨: 아이템 착용 레벨보다 퀘스트·던전 레벨이 높으면 그걸 따른다 ----- */
 {const QMIN={};for(const k in ROUTE)for(const S of ROUTE[k])for(const q of S.q){if(QMIN[q.nm]==null||q.min<QMIN[q.nm])QMIN[q.nm]=q.min}
@@ -3132,6 +3133,11 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
       if(o.nx&&!M.has(o.nx))delete o.nx;if(o.m>o.lv&&o.lv>0)o.lv=o.m;
       /* 최소 레벨 자료가 없는 퀘스트(포에버 새 퀘스트 188개 등): 0이면 아무 레벨에나 받는 것처럼 보이므로 퀘스트 레벨-5로 어림하고 「추정」 표시 */
       if(!o.m&&o.lv>1){o.m=Math.max(1,o.lv-5);o.mEst=1}}
+    /* 게임 퀘스트 캐시에서 확인한 값(tools/qdb/gamecache.py)으로: 최소 레벨(자료에 없거나 틀린 것 · 예: 이상한 수정탑 38(추정)→35, 네골라쉬와의 대적 40→35)과
+       목표 글(게임 문장 · 예: 「Melanie Sable」→「멜라니 세이블」). 목표 글의 $1oa 같은 숫자 자리는 앱 글의 숫자로 채우고, 못 채우면 앱 글을 그대로 둠 */
+    if(typeof D_QGAME!=='undefined')for(const [id,lv,m,ob] of D_QGAME){const o=M.get(id);if(!o)continue;if(lv>0)o.lv=lv;if(m>0){o.m=m;delete o.mEst}
+      if(ob){let t=ob.replace(/\$B/gi,' ').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();const nums=(o.o||'').match(/\d+/g)||[];let ok=true;
+        t=t.replace(/\$(\d+)oa/g,(x,k)=>{const v=nums[+k-1];if(v==null)ok=false;return v||''});if(ok&&t&&!/\$/.test(t)){o.o=t;o.og=1}}}
     {const HZ=/^(듀로타|멀고어|티리스팔 숲|은빛소나무 숲|오그리마|언더시티|썬더 블러프)$/;const byN=new Map();for(const o of M.values()){const k=o.n+'|'+o.z;if(!byN.has(k))byN.set(k,[]);byN.get(k).push(o)}
       for(const L of byN.values()){if(L.length<2)continue;const ok=L.filter(o=>!(o.g&&HZ.test(o.g[1]||'')));if(ok.length&&ok.length<L.length)L.forEach(o=>{if(!ok.includes(o))M.delete(o.id)})}}
     QDB=M;qdbChains();
@@ -3165,7 +3171,8 @@ function qdbChains(){const P={};const K={};const add=(a,b)=>{if(a===b||!QDB.has(
     const fwd=[];x=q.id;k=0;while(K[x]&&K[x].length===1&&k++<30){x=K[x][0];fwd.push(x)}
     const ids=[...back,...fwd];q._root=back[0];
     if(ids.length>1||K[q.id])q._ch=ids.length>1?ids.map(row):null}}
-function qdbToQD(q){const drop=t=>t[2]&&t[2].length?t[2].map(x=>x[0]+(x[1]?' (Lv '+x[1]+')':'')).join(', '):'';
+/* 떨구는 몹·상자 목록: 한글 이름이 하나라도 있으면 한글 없이 영어로만 남은 이름(Felsteel Chest처럼 이 서버에 없는 상자 등)은 뺌 */
+function qdbToQD(q){const drop=t=>{const L=(t[2]||[]).filter(x=>x&&x[0]);const K=L.some(x=>/[가-힣]/.test(x[0]))?L.filter(x=>/[가-힣]/.test(x[0])):L;return K.length?K.map(x=>x[0]+(x[1]?' (Lv '+x[1]+')':'')).join(', '):''};
   return {id:q.id,src:'qdb',obj:q.o,g:q.g?[q.g[0],q.g[1]||'',q.g[2]||'','']:null,
     r:q.r?[q.r[0],q.r[1]||'',q.r[2]||'',q.g&&q.r[0]===q.g[0]&&q.r[2]===q.g[2]?'same':'']:null,
     t:(q.t||[]).map(t=>[t[0],t[1],'',drop(t)]),ch:q._ch||null}}
@@ -3285,7 +3292,7 @@ const objClause=o=>{const raw=(o||'').replace(/<[^>]+>/g,'');let c=raw.split(/ �
 /* 게임에서 확인한 한국어 이름 (포에버 신규 퀘스트 아이템) */
 const ITEM_KO={'Unstudied Artifact':'연구되지 않은 유물',"Explorers' League Mining Helmet":'탐험가 연맹 채굴용 안전모','Pristine Mattock':'온전한 곡괭이'};
 function npcKoL(s){const K=typeof D_NPCKO!=='undefined'?D_NPCKO:{},seen=new Set();return String(s||'').split(/,\s*(?![^()]*\))/).map(p=>{const m=p.match(/^(.*?)(\s*\(Lv [\d\-]+\))?$/);const n=(m[1]||'').trim();return (K[n]||n)+(m[2]||'')}).filter(p=>{const k=p.replace(/\s*\(Lv [\d\-]+\)$/,'');if(!k||seen.has(k))return false;seen.add(k);return true}).join(', ')}
-function tasksOf(d,obj){const T=tasksOfK(d,obj);T.forEach(t=>{if(ITEM_KO[t.nm])t.nm=ITEM_KO[t.nm];if(typeof D_NPCKO!=='undefined'&&D_NPCKO[t.nm])t.nm=D_NPCKO[t.nm];if(t.drop)t.drop=npcKoL(t.drop.replace(/ ?그 밖 지역$/,'').trim());const nm=(t.nm||'').replace(/<[^>]+>/g,'');if(nm&&!/[가-힣]/.test(nm)&&obj&&/[가-힣]/.test(obj)){t.nm=objClause(obj);t.cnt=0;t.en=nm}});return T}
+function tasksOf(d,obj){const T=tasksOfK(d,obj);T.forEach(t=>{if(ITEM_KO[t.nm])t.nm=ITEM_KO[t.nm];if(typeof D_NPCKO!=='undefined'&&D_NPCKO[t.nm])t.nm=D_NPCKO[t.nm];if(t.drop){/* 떨구는 몹·상자: 한글 이름이 있으면 영어로만 남은 이름은 빼고, 이 서버에 없는 외부 지역 상자(Felsteel Chest 등)는 늘 뺌 */const L=npcKoL(t.drop.replace(/ ?그 밖 지역$/,'').trim()).split(', ').filter(x=>x&&!/^(Heavy )?Fel Iron Chest|^Adamantite Bound Chest|^Felsteel Chest|^Khorium Lockbox|^Adamantite Lockbox|^Fel Iron Lockbox/.test(x));const K=L.filter(x=>/[가-힣]/.test(x));t.drop=(K.length?K:L).join(', ')}const nm=(t.nm||'').replace(/<[^>]+>/g,'');if(nm&&!/[가-힣]/.test(nm)&&obj&&/[가-힣]/.test(obj)){t.nm=objClause(obj);t.cnt=0;t.en=nm}});return T}
 function tasksOfK(d,obj){const op=objPairs(obj);const wt0=(d.wf&&d.wf.t)||[];
   if(op.length&&!wt0.some(w=>w[1]>0)){const ok=t=>t&&t[1]&&!/^\d+$|^(반납|받기|하기)$/.test(t[1]);const ft=(d.t||[]).filter(ok);const kill=/처치|잡|죽|퇴치|사냥|쓰러/.test(obj);
     return op.map((p,i)=>{const w=wt0.find(w=>!latin(w[0])&&(p[0].endsWith(w[0])||w[0].endsWith(p[0])));const nm=w?(w[0].length>p[0].length?w[0]:p[0]):p[0];
@@ -3375,12 +3382,14 @@ function qRw(id){let R=RWD.get(id)||{};
   return R}
 function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});
   /* 양 진영 퀘스트인데 받는·반납 NPC가 호드 도시로 적힌 자료(예: 타베사의 임무 → 언더시티)면 QuestieDB의 얼라이언스 NPC로 */
-  {const X=QDB&&QDB.get(id);if(X)for(const k of ['g','r'])if(d[k]&&/^(언더시티|오그리마|썬더 블러프)$/.test(d[k][1]||'')&&X[k]&&X[k][0]&&X[k][1]&&X[k][1]!==d[k][1])d[k]=[X[k][0],X[k][1],X[k][2]||'',X[k][3]||'npc']}
+  {const X=QDB&&QDB.get(id);if(X)for(const k of ['g','r'])if(d[k]&&/^(언더시티|오그리마|썬더 블러프)$/.test(d[k][1]||'')&&X[k]&&X[k][0]&&X[k][1]&&X[k][1]!==d[k][1])d[k]=[X[k][0],X[k][1],X[k][2]||'',X[k][3]||'npc']
+   /* 받는·반납 자리가 퀘스트 DB(게임 기록과 57곳 중 56곳 맞음)와 같은 지역에서 5칸 넘게 다르면 퀘스트 DB 쪽으로 (예: 크라젝 51.6,26.8 → 무법항 26.9,77.2) */
+   if(X)for(const k of ['g','r']){const a=d[k],b=X[k];const pa=a&&xyOf(a[2]),pb=b&&xyOf(b[2]);if(pa&&pb&&a[1]===b[1]&&Math.hypot(pa[0]-pb[0],pa[1]-pb[1])>5)d[k]=[a[0],a[1],b[2],a[3]]}}
 let chx=chainOf(id);
   /* 연계 상자에서 눌러 온 퀘스트: 여러 갈래로 나뉘는 퀘스트는 제 연계가 자기에서 끝나 「5/11」이 「5/5」로 줄어 보였음 → 보던 연계를 그대로 */
   {const Q=ui.qch;if(Q&&QDB&&Q.includes(id)&&Q.every(x=>QDB.has(x))&&(!chx||Q.length>chx.length))chx=Q.map((x,i)=>{const r=qchRow(x,i);r[5]=x===id?1:0;return r})}
   if(chx){d.ch=chx;d.cn=chx.length;d.cc=(chx.find(r=>r[5])||[0])[0]}let R=qRw(id);const L=c.lv;
-  const nm=base.nm,obj=base.obj||d.obj||'';let h='<div class="parch"><div class="ph"><h4>'+esc(nm)+'</h4>'+(base.place?'<span class="ptag">'+base.place+'</span>':'')+'</div>';
+  const nm=base.nm,XG=QDB&&QDB.get(id),obj=(XG&&XG.og?XG.o:'')||base.obj||d.obj||'';let h='<div class="parch"><div class="ph"><h4>'+esc(nm)+'</h4>'+(base.place?'<span class="ptag">'+base.place+'</span>':'')+'</div>';
   {let tg=base.tags||'';if(chx||(d.ch&&d.ch.length>1))tg=tg.replace('<span class="tag pre">앞 퀘스트 먼저</span>','');if(tg.trim())h+='<div class="ptags">'+tg+'</div>'}
   h+='<h5>퀘스트 임무</h5><p>'+esc(obj)+'</p>';
   if(base.mm!==false&&typeof toAtlas==='function')h+=miniMap(id,Object.assign({obj},d),nm);

@@ -821,6 +821,8 @@ data = '\n'.join([
     'const D_SRC=' + js_str(SRC_TXT) + ';',
     'const D_QLV=' + json.dumps(QLV, separators=(',', ':')) + ';',
     'const D_GUIDE=' + json.dumps(_guide(), separators=(',', ':')) + ';',
+    # 게임 퀘스트 캐시에서 확인한 레벨·최소 레벨·목표 글 (tools/qdb/gamecache.py → data/qdb/quest-game.txt)
+    'const D_QGAME=' + json.dumps([[int(f[0]), int(f[1]), int(f[2]), f[3]] for f in (l.split('|', 3) for l in (rd(Q / 'quest-game.txt').splitlines() if (Q / 'quest-game.txt').exists() else []) if l and not l.startswith('#'))], ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_QX=' + json.dumps([int(x) for x in (rd(Q / 'quests-nolist.txt').split() if (Q / 'quests-nolist.txt').exists() else [])], separators=(',', ':')) + ';',
     'const D_HQ=' + json.dumps([int(x) for x in (rd(Q / 'horde-quests.txt').split() if (Q / 'horde-quests.txt').exists() else [])], separators=(',', ':')) + ';',
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
