@@ -99,7 +99,7 @@ const ITEMS=D_ITEMS.split('\n').filter(Boolean).map(l=>{const f=l.split('|');con
 const IT=new Map(ITEMS.map(i=>[i.id,i]));
 const ICO=n=>n?'https://wow.zamimg.com/images/wow/icons/medium/'+String(n).toLowerCase()+'.jpg':'';
 /* 카드 제목 앞 이모지 → 게임 아이콘 (제목 글자는 그대로) */
-const H_ICO={'🎒':'inv_misc_bag_08','🧩':'trade_engineering','📱💻':'inv_misc_enggizmos_19','📜':'inv_misc_note_06','📌':'inv_misc_pocketwatch_02','📅':'img/ui-book.png','💾':'inv_misc_book_11','💡':'inv_misc_book_09','🏳️':'inv_shirt_guildtabard_01','🏰':'img/ui-eye.png','🎁':'inv_misc_gift_01','⭐':'img/ui-target.png','⬆️':'img/ui-shield.png','⚖️':'inv_misc_gear_01','⚔️':'inv_sword_04','⏱️':'inv_misc_pocketwatch_01'};
+const H_ICO={'🧹':'inv_misc_bag_08','🎒':'inv_misc_bag_08','🧩':'trade_engineering','📱💻':'inv_misc_enggizmos_19','📜':'inv_misc_note_06','📌':'inv_misc_pocketwatch_02','📅':'img/ui-book.png','💾':'inv_misc_book_11','💡':'inv_misc_book_09','🏳️':'inv_shirt_guildtabard_01','🏰':'img/ui-eye.png','🎁':'inv_misc_gift_01','⭐':'img/ui-target.png','⬆️':'img/ui-shield.png','⚖️':'inv_misc_gear_01','⚔️':'inv_sword_04','⏱️':'inv_misc_pocketwatch_01'};
 const H_RE=new RegExp('<h3([^>]*)>('+Object.keys(H_ICO).map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\s*','g');
 function hIco(h){return h.replace(H_RE,(m,a,e)=>'<h3'+a+'>'+gic(H_ICO[e],'h'))}
 /* 버튼용 게임 아이콘: img/ 로 시작하면 앱 안 그림, 아니면 와우 아이콘 이름 */
@@ -1269,14 +1269,14 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
   /* 나머지(물약·음식·도안·열쇠·장비 등)도 빠짐없이: 종류 이름을 붙여 「가방에 두기」로 */
   const KIND={0:'물약·음식',1:'가방',2:'장비',4:'장비',9:'도안·조리법',13:'열쇠',15:'기타'};
   G.other.forEach(x=>{if(!x.why)x.why=KIND[x.I.cls]||'기타'});
-  const SEC=[['q','📜','퀘스트에 써요','팔지 말고 갖고 있어요',G.q,true],['sell','💰','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
-    ['mat','🧪','내 전문기술 재료',(c.profs||[]).join('·'),G.mat,false],['bank','🏦','은행·경매장으로',(c.profs||[]).length?'내 전문기술에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false],['keep','🎒','가방에 두기','물약·음식·도안·열쇠·장비 등 — 장비는 아래 「내 가방·은행 장비」에서 비교',G.other,false]];
+  const SEC=[['q','inv_misc_note_06','퀘스트에 써요','팔지 말고 갖고 있어요',G.q,true],['sell','inv_misc_coin_01','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
+    ['mat','inv_fabric_linen_01','내 전문기술 재료',(c.profs||[]).join('·'),G.mat,false],['bank','inv_box_01','은행·경매장으로',(c.profs||[]).length?'내 전문기술에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false],['keep','inv_misc_bag_10','가방에 두기','물약·음식·도안·열쇠·장비 등 — 장비는 아래 「내 가방·은행 장비」에서 비교',G.other,false]];
   const sec=([k,e,t,sub,L,open])=>{if(!L.length)return '';const R2=grp(L.slice().sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko')));
-    return '<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary><span class="e">'+e+'</span><b>'+t+'</b><span class="n">'+L.length+'</span>'+(sub?'<small>'+sub+'</small>':'')+'<i class="cv"></i></summary><div class="bgl">'+R2.map(x=>row(x,k)).join('')+'</div></details>'};
+    return '<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary>'+gic(e,'e')+'<b>'+t+'</b><span class="n">'+L.length+'</span>'+(sub?'<small>'+sub+'</small>':'')+'<i class="cv"></i></summary><div class="bgl">'+R2.map(x=>row(x,k)).join('')+'</div></details>'};
   let h='<div class="card bgs"><div class="bgh"><h3>🧹 가방 정리</h3>'+(c.imported?'<small>'+armAgo(c.imported.t)+' 가져온 가방·은행</small>':'')+'</div>';
   const tiles=SEC.filter(x=>x[4].length);
   const TL={q:'퀘스트',sell:'팔 것',mat:'내 재료',bank:'은행·경매',keep:'가방에 두기'};
-  if(tiles.length)h+='<div class="bgt">'+tiles.map(([k,e,t,,L])=>'<span class="t g-'+k+'"><i>'+e+'</i><b>'+L.length+'</b><small>'+TL[k]+'</small></span>').join('')+'</div>';
+  if(tiles.length)h+='<div class="bgt">'+tiles.map(([k,e,t,,L])=>'<span class="t g-'+k+'">'+gic(e,'lg')+'<b>'+L.length+'</b><small>'+TL[k]+'</small></span>').join('')+'</div>';
   h+=SEC.map(sec).join('');
   if(!tiles.length)h+='<p class="note">정리할 게 없어요.</p>';
   return h+'<p class="note bgn">장비 비교는 아래 「내 가방·은행 장비」에서 봐요 · 고급(파랑) 이상·찜한 템은 팔 것에서 뺐어요.</p></div>'}

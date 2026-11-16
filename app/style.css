@@ -2156,7 +2156,7 @@ body.sidem{overflow:hidden}
 .bgs .bgsg{margin-top:9px;border:1px solid var(--line);border-left:3px solid var(--c);border-radius:10px;background:rgba(0,0,0,.18);overflow:hidden}
 .bgs .bgsg summary{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:9px 12px;cursor:pointer;list-style:none}
 .bgs .bgsg summary::-webkit-details-marker{display:none}
-.bgs .bgsg summary .e{font-size:15px}.bgs .bgsg summary b{font-size:14px;color:var(--c)}
+.bgs .bgsg summary .gic.e{width:22px;height:22px;margin:0;border-radius:5px}.bgs .bgt .t .gic.lg{width:22px;height:22px;margin:0 0 2px}.bgs .bgsg summary b{font-size:14px;color:var(--c)}
 .bgs .bgsg summary .n{min-width:22px;padding:0 7px;border-radius:999px;background:var(--c);color:#17130c;font-size:12px;font-weight:800;text-align:center;line-height:19px}
 .bgs .bgsg summary small{flex-basis:100%;padding-left:27px;color:var(--mute);font-size:12px}
 .bgs .bgsg summary .cv{margin-left:auto;order:3;width:8px;height:8px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(-45deg);transition:transform .15s}
