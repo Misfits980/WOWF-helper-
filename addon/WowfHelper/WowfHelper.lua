@@ -1,4 +1,4 @@
--- 와포 도우미 (WowfHelper) v3.7
+-- 와포 도우미 (WowfHelper) v3.8
 -- 이 캐릭터 정보를 글자 코드로 만들어 줘요:
 --   끝낸 퀘스트 · 지금 퀘스트 목록(+ 목표 진행도) · 끼고 있는 장비 · 전문기술 숙련도 · 특성 포인트 · 경험치
 --   사냥 기록(시간당 경험치) · 가방·은행 아이템 · 골드 · 평판 · 이 컴퓨터의 부캐
@@ -22,6 +22,8 @@
 -- v3.5: 끼고 있는 장비의 실제 능력치(게임이 읽은 값)와 무작위 옵션 이름(「산적의 ○○」)도 담아요.
 -- v3.7: 게임 안 길 안내(Nav.lua) — 앱 레벨업 단계를 화면에 화살표로, 퀘스트를 받거나 반납하면 다음 단계로.
 --       접속을 끝내거나 /reload 하면 앱 코드를 저장 파일에 남겨요(PC 앱의 「📂 PC에서 바로 불러오기」가 읽음).
+-- v3.8: 퀘스트를 받을 수 있었던 레벨(NPC가 퀘스트를 보여 주거나 받을 때)과 목표 진행도가 오른 자리(몹을 잡거나 물건을 주운 곳)도 담아요.
+--       앱이 「몇 레벨부터」·「어디서 하나」 자료가 빈 퀘스트를 채우는 데 써요.
 -- v3.6.2: /wfh 아이템 이 효과 글을 1.5초·4초 뒤 한 번 더 읽음, /wfh 아이템 다시 추가.
 -- v3.6.1: GetItemInfo·GetItemStats가 C_Item 안에 있는 클라이언트도 지원(끼고 있는 장비 능력치도 이제 담김).
 -- v3.6: /wfh 아이템 — 앱 장비 목록의 한글 이름·착용 효과·무기 공격력을 게임에서 읽어 저장 파일에 남겨요.
@@ -413,6 +415,73 @@ local function observe(id, kind)
   while #O > 200 do table.remove(O, 1) end
 end
 
+-- v3.8: 퀘스트를 받을 수 있었던 레벨 (NPC가 퀘스트 창을 보여 줄 때·받을 때). 계정 공용, 퀘스트마다 가장 낮은 레벨, 최대 400개
+local function seenLevel(id)
+  if not num(id) or id <= 0 then return end
+  local lv = UnitLevel and UnitLevel("player")
+  if not num(lv) or lv <= 0 then return end
+  WowfHelperAcc = WowfHelperAcc or {}
+  local Y = WowfHelperAcc.qlv or {}; WowfHelperAcc.qlv = Y
+  if Y[id] then
+    if lv < Y[id] then Y[id] = lv end
+    return
+  end
+  local n = 0
+  for _ in pairs(Y) do n = n + 1 end
+  if n < 400 then Y[id] = lv end
+end
+
+-- v3.8: 목표 진행도가 오른 순간의 내 자리 (몹을 잡은 곳·물건을 주운 곳). 계정 공용, 퀘스트 목표마다 최근 3곳, 최대 300개
+-- 접속 직후 첫 확인은 기준만 잡고 기록하지 않음. 던전 안처럼 위치를 못 읽는 곳은 건너뜀
+local objSnap = nil
+local function objTick()
+  local ok, log = pcall(questLog)
+  if not ok or type(log) ~= "table" then return end
+  local first = objSnap == nil
+  local snap = {}
+  local p = nil
+  for _, q in ipairs(log) do
+    local id = q[1]
+    for j, o in ipairs(q[3] or {}) do
+      local key = id .. ":" .. j
+      local have = tonumber(o[1]) or 0
+      snap[key] = have
+      local before = objSnap and objSnap[key]
+      if not first and before and have > before then
+        if p == nil then
+          local m, x, y = playerPt()
+          p = (m and pt(m, x, y)) or false
+        end
+        if p then
+          WowfHelperAcc = WowfHelperAcc or {}
+          local J = WowfHelperAcc.qop or {}; WowfHelperAcc.qop = J
+          local L = J[key]
+          if not L then
+            local n = 0
+            for _ in pairs(J) do n = n + 1 end
+            if n < 300 then L = {}; J[key] = L end
+          end
+          if L and L[1] ~= p then
+            table.insert(L, 1, p)
+            while #L > 3 do table.remove(L) end
+          end
+        end
+      end
+    end
+  end
+  objSnap = snap
+end
+local objWait = false
+local function objSoon()
+  if objWait then return end
+  objWait = true
+  if C_Timer and C_Timer.After then
+    C_Timer.After(0.7, function() objWait = false; pcall(objTick) end)
+  else
+    objWait = false; pcall(objTick)
+  end
+end
+
 -- 코드 만들기
 -- WFH2;이름;서버;직업;레벨;종족;진영;D:끝낸 퀘스트;L:퀘스트 목록;E:장비;P:전문기술;T:특성;U:찍은 특성;X:경험치
 -- … ;Q:게임 퀘스트 위치;N:동굴 입구;O:받은·반납한 자리;M:지도 번호=이름
@@ -528,14 +597,29 @@ local function makeCode()
   local ob = {}
   for _, x in ipairs((WowfHelperAcc and WowfHelperAcc.obs) or {}) do ob[#ob + 1] = x; used[tonumber(x:match("%-[gr]%-(%d+),")) or 0] = true end
   for _, x in ipairs(qp) do for m in x:gmatch("%-(%d+),%d+,%d+") do used[tonumber(m)] = true end end
+  -- v3.8: Y = 퀘스트를 받을 수 있었던 레벨(번호36-레벨) · J = 목표 진행도가 오른 자리(번호36-목표순서-지도,x,y-…)
+  local yl, jp = {}, {}
+  for id, lv in pairs((WowfHelperAcc and WowfHelperAcc.qlv) or {}) do
+    if num(id) and num(lv) then yl[#yl + 1] = b36(id) .. "-" .. lv end
+  end
+  for key, L in pairs((WowfHelperAcc and WowfHelperAcc.qop) or {}) do
+    local qid, j = tostring(key):match("^(%d+):(%d+)$")
+    if qid and type(L) == "table" and #L > 0 then
+      jp[#jp + 1] = b36(tonumber(qid)) .. "-" .. j .. "-" .. table.concat(L, "-")
+      for _, pp in ipairs(L) do
+        local mm = tonumber(tostring(pp):match("^(%d+),"))
+        if mm then used[mm] = true end
+      end
+    end
+  end
   local mn = {}
   for m in pairs(used) do if m > 0 then mn[#mn + 1] = m .. "=" .. mapName(m) end end
   code = code .. ";Q:" .. table.concat(qp, ".") .. ";N:" .. table.concat(en, ".") .. ";O:" .. table.concat(ob, ".") .. ";M:" .. table.concat(mn, "^")
   local okv, ev = pcall(equipStats)
   if not okv then ev = {} end
-  code = code .. ";V:" .. table.concat(ev, ".")
+  code = code .. ";V:" .. table.concat(ev, ".") .. ";Y:" .. table.concat(yl, ".") .. ";J:" .. table.concat(jp, ".")
   return code, { done = #ids, log = #log, obj = nObj, eq = #eq, prof = #pf, tal = table.concat(tl, "/"), xp = xp, xpMax = xpMax,
-    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws, taxi = nt, qpos = #qp, ent = #en, obs = #ob, eqv = #ev }
+    bag = nb, bank = nk, rep = #rp, alt = #al, sxp = sx, ssec = ss, wsk = #ws, taxi = nt, qpos = #qp, ent = #en, obs = #ob, eqv = #ev, qlv = #yl, qop = #jp }
 end
 
 -- 창
@@ -614,7 +698,7 @@ local function selfTest()
   say(("점검 · 가방 %d종 · 은행 %d종%s · 평판 %d · 부캐 %d · 이번 접속 %d분 경험치 %d · 추천 %d개 · 보스 공략 %s · 글자 %d자"):format(
     n.bag, n.bank, (WowfHelperDB and WowfHelperDB.bankAt) and "" or "(은행을 한 번 열어 주세요)", n.rep, n.alt, math.floor((n.ssec or 0) / 60), n.sxp or 0,
     (WowfHelperDB and WowfHelperDB.recN) or 0, WowfHelperBoss and "있음" or "없음", #code))
-  say(("점검 · 게임이 알려 준 퀘스트 위치 %d개 · 기억한 동굴 입구 %d곳 · 받은/반납한 자리 %d개"):format(n.qpos or 0, n.ent or 0, n.obs or 0))
+  say(("점검 · 게임이 알려 준 퀘스트 위치 %d개 · 기억한 동굴 입구 %d곳 · 받은/반납한 자리 %d개 · 받을 수 있었던 레벨 %d개 · 목표 자리 %d개"):format(n.qpos or 0, n.ent or 0, n.obs or 0, n.qlv or 0, n.qop or 0))
   if not (C_QuestLog and C_QuestLog.GetNextWaypoint) then say("이 게임에서 못 읽는 것: 게임 길안내 다음 지점") end
   local apis = {}
   if not (C_QuestLog and C_QuestLog.GetQuestObjectives) and not GetQuestLogLeaderBoard then apis[#apis + 1] = "목표 진행도" end
@@ -707,9 +791,17 @@ ev:RegisterEvent("PLAYER_REGEN_ENABLED")
 ev:RegisterEvent("TAXIMAP_OPENED")
 ev:RegisterEvent("QUEST_COMPLETE")
 ev:RegisterEvent("QUEST_ACCEPTED")
+ev:RegisterEvent("QUEST_DETAIL")
+ev:RegisterEvent("QUEST_LOG_UPDATE")
 local bankOpen = false
 ev:SetScript("OnEvent", function(_, e, a1, a2)
   if e == "PLAYER_XP_UPDATE" then xpTick(); return end
+  if e == "QUEST_LOG_UPDATE" then objSoon(); return end
+  if e == "QUEST_DETAIL" then
+    local qid = GetQuestID and GetQuestID()
+    pcall(seenLevel, qid)
+    return
+  end
   if e == "BANKFRAME_OPENED" then bankOpen = true; scanBank(); return end
   if e == "PLAYERBANKSLOTS_CHANGED" then if bankOpen then scanBank() end; return end
   if e == "PLAYER_TARGET_CHANGED" then WowfHelper_BossCheck(); return end
@@ -780,6 +872,7 @@ ev:SetScript("OnEvent", function(_, e, a1, a2)
   elseif e == "QUEST_ACCEPTED" then
     -- 옛 클라이언트는 (목록 번호, 퀘스트 번호), 새 클라이언트는 (퀘스트 번호). NPC와 대화해서 받았을 때만 그 자리를 기억
     local id = a2 or a1
+    pcall(seenLevel, id)
     if UnitExists and UnitExists("npc") then pcall(observe, id, "g") end
   end
 end)
