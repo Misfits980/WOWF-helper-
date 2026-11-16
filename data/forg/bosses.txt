@@ -44,8 +44,8 @@
 검은심연의 나락|늙은 세라키스|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/24/1816.webp
 놈리건|그루비스|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/133/6533.webp
 놈리건|방사성 폐기물|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/121/5497.webp
-놈리건|검은무쇠단 사절|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/13/6669.webp
-놈리건|멕기니어 텔마플러그|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/251/117499.webp
+놈리건|검은무쇠 사절|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/13/6669.webp
+놈리건|기계박사 텔마플러그|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/251/117499.webp
 놈리건|기계화 문지기 6000|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/3/6915.webp
 놈리건|고철 압축기 9-60|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/118/6774.webp
 붉은십자군 수도원 - 묘지|심문관 비샤스|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/252/2044.webp
@@ -100,7 +100,7 @@
 혈투의 전장 - 서쪽|일샨나 레이븐오크|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/6/11270.webp
 혈투의 전장 - 서쪽|이몰타르|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/93/14173.webp
 혈투의 전장 - 서쪽|왕자 토르텔드린|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/248/11256.webp
-혈투의 전장 - 서쪽|마법학자 칼렌드리스|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/48/14384.webp
+혈투의 전장 - 서쪽|마술사 칼렌드리스|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/48/14384.webp
 혈투의 전장 - 서쪽|츄지|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/242/11250.webp
 혈투의 전장 - 북쪽|경비병 몰다르|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/41/11561.webp
 혈투의 전장 - 북쪽|천둥발 크리그|https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/25/11545.webp
