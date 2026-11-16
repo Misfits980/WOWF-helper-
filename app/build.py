@@ -56,7 +56,21 @@ _LDROP = {('priest', '빛샘'), ('priest', '빛샘의 소생')}
 # forg 자료에 설명이 빈 기술 (블리자드 사제 직업 소개를 내 말로)
 _LDESC = {'비상 대책': '30초 동안 아군에게 보호 주문을 걸어요. 생명력이 35% 밑으로 떨어지면 피해 흡수 보호막과 지속 치유가 걸려요(소생·보호막과 같이 걸림). 즉시 시전, 5분 대기',
           '어둠의 희생': '자기 생명력을 써서 시간에 걸쳐 마나를 얻어요. 정신력이 높을수록 마나를 더 얻어요',
-          '평정': '인간형 적을 진정시켜 한동안 나를 알아채는 거리를 줄여요(정신 안정)'}
+          '평정': '인간형 적을 진정시켜 한동안 나를 알아채는 거리를 줄여요(정신 안정)',
+          # 아래는 forg 자료에 설명이 비어 있던 기술: 게임 핫픽스 캐시(Spell.Description_lang)의 문장에서 계산식만 뺀 것
+          '복수': '적의 공격을 방어·회피·막은 직후에만 쓰는 반격. 피해를 주고 위협 수준을 크게 올려요(방어 태세)',
+          '승리의 돌진': '적을 처치한 뒤 잠깐만 쓸 수 있는 즉시 공격. 피해를 주고 최대 생명력 일부를 회복해요(회색 몹은 안 됨)',
+          '마무리 일격': '생명력 20% 이하인 적에게만 써요. 피해를 주고 남은 분노를 모두 써서 분노만큼 추가 피해',
+          '정의의 문장': '매 근접 공격에 신성 피해를 더해요. 느린 무기일수록 한 번에 더 많이 들어가요. 문장은 하나만 켤 수 있어요',
+          '영혼의 귀환': '귀환석 장소로 돌아가요(귀환석과 따로 쓰는 귀환)',
+          '윤회': '죽은 뒤 그 자리에서 생명력·마나 일부를 가진 채 되살아나요(앙크 필요, 대기시간 김)',
+          '얼음 화살': '냉기 피해를 주고 잠시 이동 속도를 줄여요',
+          '냉기계 수호': '일정량의 냉기 피해를 흡수하는 보호막',
+          '생명력 전환': '생명력을 마나로 바꿔요'}
+def _ldesc_any(c, name):
+    return next((x[7] for x in c['learns'] if x[1] == name and (x[7] or '').strip()), '')
+
+
 _tkf = ROOT / 'data/guides/talent-ko.json'
 # 포에버 새 특성 중 forg 자료에 영어 이름만 있는 것: 게임 핫픽스 캐시(Cache/ADB/koKR/DBCache.bin)의 SpellName을 특성 아이콘(SpellMisc)으로 찾아 맞춘 한글 이름
 _TKN = {"paladin/retribution-turn-evil": "악령 퇴치", "rogue/combat-flash-of-steel": "강철의 섬광", "rogue/subtlety-boot-knife": "장화 칼", "priest/holy-holy-binding": "신성 결속", "druid/feral-combat-predatory-discipline": "포식자의 절제", "druid/restoration-bloom": "피워내기"}
@@ -66,7 +80,7 @@ for cid, c in cls.items():
     slim[cid] = {
         'name': c['name'], 'trees': c['trees'], 'tic': c.get('tic', []),
         # 8번째 칸 = 종족 전용 기술의 종족(사제 종족 기술: 노움은 교란의 섬광·비상 대책만), 빈칸이면 모두
-        'learns': [[l[0], l[1], l[2], l[3], l[4], l[6], (_LDESC.get(l[1]) or l[7] or '')[:90], _LRACE.get(l[5] or '', '')] for l in c['learns']
+        'learns': [[l[0], l[1], l[2], l[3], l[4], l[6], (_LDESC.get(l[1]) or l[7] or _ldesc_any(c, l[1]))[:90], _LRACE.get(l[5] or '', '')] for l in c['learns']
                    if l[4] in ('', 'alliance', None) and (cid, l[1]) not in _LDROP],
         # 특성 칸(게임처럼 줄·칸·선행 화살표)을 그리려고 모든 특성을 넣음: [이름, 트리, 최대, 아이콘, 설명, 줄, 칸, 선행]
         'talents': {k: [_TKN.get(cid + '/' + k) or v['n'], v['t'], v['max'], v.get('icon', ''), (_TKO.get(cid + '/' + k) or (v.get('d') or '')[:110]), v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
