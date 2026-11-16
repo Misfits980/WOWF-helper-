@@ -913,6 +913,64 @@ def _lvl_forever(txt):
             skip = False
         if not skip:
             out.append(l)
+    return _hyjal('\n'.join(out), qp)
+
+# 하이잘 산(포에버 새 지역, 퀘스트 56~60): 여명의 설원 남쪽 어둠속삭임 협곡으로 들어감.
+# 58~60 구간을 여명의 설원 → 하이잘 산 → 동부 역병지대 → 실리더스 순서로 (운고로·악령의 숲에서 칼림도어를 떠나지 않고 이어감)
+# 하이잘 퀘스트는 거점 순서(입구 → 남쪽 → 서쪽 → 북쪽 → 정상)대로, 같은 거점에서는 앞 퀘스트 → 레벨 순
+HYJAL_HUBS = [('은둔자의 동굴', 75, 78), ('하이잘 하부 전초기지', 53, 84), ('케이레나 작업장', 60, 61), ('호기심 많은 까마귀', 48, 85.5),
+              ('진흙 웅덩이', 48.6, 73.5), ('추락한 비행기', 25.4, 75.3), ('나무껍질일족 땅굴', 21, 79), ('서쪽 생존자 마을', 15.8, 52.5),
+              ('서쪽 끝 전망대', 8.8, 46.5), ('야생신의 숲', 29.5, 51), ('아비아나의 제단', 54.4, 64), ('제레만의 쉼터', 41.5, 47),
+              ('북쪽 야영지', 44, 35), ('북쪽 폐허 입구', 50, 32), ('북동쪽 폐허', 63.3, 25.9), ('영원의 정상', 69, 49), ('정상 동쪽', 77, 35)]
+def _hyjal(txt, qp):
+    Q = {}
+    for _ln in rd(qp).splitlines():
+        try: q = json.loads(_ln)
+        except Exception: continue
+        Q[q['id']] = q
+    H = [q for q in Q.values() if q.get('z') == '하이잘 산' and (q.get('lv') or 0) >= 55 and q.get('c') not in ('던전', '기타', '직업')
+         and (q.get('g') or [''])[0] and not re.search('[A-Za-z]{3}', q.get('n') or 'x')]
+    if len(H) < 60:
+        return txt
+    def hub(q):
+        g = q.get('g') or ['', '', '']
+        if g[1] != '하이잘 산' or not g[2]:
+            return len(HYJAL_HUBS)  # 다른 지역에서 받는 것(스톰윈드 등 먼 길)은 맨 뒤
+        x, y = map(float, g[2].split(','))
+        return min(range(len(HYJAL_HUBS)), key=lambda i: (HYJAL_HUBS[i][1] - x) ** 2 + (HYJAL_HUBS[i][2] - y) ** 2)
+    ids = {q['id'] for q in H}
+    def depth(q, seen=()):
+        p = [i for i in (q.get('pre') or []) if i in ids and i not in seen]
+        return 1 + max((depth(Q[i], seen + (q['id'],)) for i in p), default=-1)
+    # 먼 곳으로 가져가는 퀘스트(엘윈 숲 반지 등)는 거점 안에서도 맨 뒤
+    far = lambda q: 1 if re.search('엘윈 숲|스톰윈드|아이언포지', q.get('o') or '') else 0
+    H.sort(key=lambda q: (hub(q), far(q), depth(q), q['lv'], q['id']))
+    cl = lambda t: re.sub(r'[|\n\r]', ' ', str(t or '')).strip()
+    def line(q):
+        g = q.get('g') or ['', '', '', '']
+        pre = q.get('pre')
+        pre = pre[0] if isinstance(pre, list) and pre else (pre if isinstance(pre, int) else '')
+        mn = q.get('m') or max(54, q['lv'] - 5)
+        return '|'.join(map(str, [q['lv'], mn, cl(q['n']), cl(g[1] or '하이잘 산'), cl(g[0]), cl(g[2]) if g[2] and '-' not in str(g[2]) else '', 0, pre or '', cl(q.get('o')), q['id']]))
+    hy = [line(q) for q in H]
+    zof = lambda f: f[3] or (Q.get(int(f[9])) or {}).get('z', '') if len(f) > 9 and f[9].isdigit() else (f[3] if len(f) > 3 else '')
+    out, sec = [], None
+    def flush():
+        if sec is None:
+            return
+        ws = [l for l in sec if zof(l.split('|')) == '여명의 설원']
+        rest = [l for l in sec if zof(l.split('|')) != '여명의 설원']
+        out.extend(ws + hy + rest)
+    for l in txt.split('\n'):
+        if l.startswith('#58|60|'):
+            out.append('#58|60|여명의 설원 · 하이잘 산 · 동부 역병지대 · 실리더스'); sec = []; continue
+        if sec is not None and (l.startswith('#') or l.startswith('@')):
+            flush(); sec = None
+        if sec is not None:
+            if l: sec.append(l)
+            continue
+        out.append(l)
+    flush()
     return '\n'.join(out)
 
 def js_str(s):

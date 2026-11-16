@@ -2662,11 +2662,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=7dfea3fc"></script>
-<script>/* vd4bcea @11/17 01:14 */
+<script src="app-data.js?v=578acc1d"></script>
+<script>/* v29b22d @11/17 01:41 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 01:14';
+const BUILD='11/17 01:41';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3064,7 +3064,12 @@ const TMODE=[['def','생존','안 죽게','ability_warrior_defensivestance'],['b
 const isTank=c=>!!TW[c.cls+'/'+c.spec];
 const shieldTank=c=>c.spec==='protection'&&(c.cls==='warrior'||c.cls==='paladin');
 const _tw={};function tankW(c){const k=c.cls+'/'+c.spec+'/'+(c.tmode||'bal');if(_tw[k])return _tw[k];const w=Object.assign({},TW[c.cls+'/'+c.spec][c.tmode||'bal']);w.dps=w.dps1h||0;w.rdps=.03;return _tw[k]=w}
+/* 분노 전사 무기 방식: 쌍수(한손 둘, 기본) / 양손(양손 무기 하나). 쌍수는 20레벨에 배워서 그 전엔 둘 다 봄(null)
+   포에버 시뮬레이터 분노 점수표는 쌍수 기준(주무기 4.26 · 보조 1.52) → 양손 방식은 양손 무기에 주무기 값을 씀 */
+const WSET=[['dw','쌍수','한손 무기 둘','ability_dualwield'],['2h','양손','양손 무기 하나','inv_axe_09']];
+function wsetOf(c,lv){if(!c||c.cls!=='warrior'||c.spec!=='fury')return null;if(Math.max(lv||0,c.lv||1)<DWLV.warrior)return null;return c.wset==='2h'?'2h':'dw'}
 function wOf0(c){if(isTank(c))return tankW(c);const w=(W[c.cls]||{})[c.spec]||Object.values(W[c.cls]||{})[0]||{};
+  if(wsetOf(c)==='2h'){const k='warrior/fury/2h';return _wc[k]&&_wc[k].b===w?_wc[k].r:(_wc[k]={b:w,r:Object.assign({},w,{dps2h:w.dpsMain??1.5,dpsOff:0})}).r}
   if(!w.heal||!SOLO[c.cls])return w;const m=c.gmode==='solo'?'solo':'heal';const k=c.cls+'/'+c.spec+'/'+m;if(_wc[k])return _wc[k];
   let r;if(m==='heal'){r=Object.assign({},w,{dpsWand:0,rdps:0})}else{r=Object.assign({},SOLO[c.cls]);r.dps=r.dpsMain??r.dps2h??0;r.rdps=r.dpsWand??0}
   return _wc[k]=r}
@@ -3492,6 +3497,7 @@ function profOk(it,cls,lv){const [a,b]=(it.cs||'').split('.').map(Number);
 function usable(it,c,lv){if(!(it.mask&(1<<ci(c))))return false;if(it.allow&&!it.allow.includes(c.cls))return false;return profOk(it,c.cls,Math.max(lv||c.lv,it.lv))}
 function fits(it,slot,c,lv){const S=SLOTS.find(s=>s[0]===slot);if(!S||!S[2].includes(it.sl))return false;
   if(slot==='main'&&it.sl==='2h'&&c&&shieldTank(c))return false;/* 방패 탱커는 한손 무기 + 방패 */
+  {const ws=wsetOf(c,lv);if(ws==='dw'&&slot==='main'&&it.sl==='2h')return false;if(ws==='2h'&&(slot==='off'||slot==='main'&&it.sl!=='2h'))return false}
   if(slot==='off'&&c&&shieldTank(c)&&it.cs!=='4.6')return false;
   /* 도적 암살(절단)·잠행(기습·암습)은 단검이 있어야 기술을 써요 */
   if(c&&c.cls==='rogue'&&(slot==='main'&&(c.spec==='assassination'||c.spec==='subtlety')||slot==='off'&&c.spec==='assassination')&&it.cs!=='2.15')return false;
@@ -4266,7 +4272,7 @@ function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a
 const IFIL=[['q','퀘스트만','던전 없이 퀘스트 보상만'],['dg','던전만','던전 보스·던전 퀘스트만'],['ok','퀘스트+던전','퀘스트·던전·상인 (기본)'],['rd','레이드','퀘스트·던전에 레이드 템까지 (만렙)'],['all','전체','경매장·월드 드랍·명예 상인까지']];
 const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
 const HEALER_NOTE={paladin:1,shaman:1,druid:1};
-function offLocked(c,s){return s==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h'}
+function offLocked(c,s){return s==='off'&&(!!(eqIt(c,'main')&&eqIt(c,'main').sl==='2h')||wsetOf(c)==='2h'&&!eqIt(c,'off'))}
 function bestFor(c,slot,L,mode){const w=wOf(c);const cur=eqIt(c,slot);const other=slot==='ring1'?'ring2':slot==='ring2'?'ring1':slot==='trink1'?'trink2':slot==='trink2'?'trink1':null;const skip=other&&c.eq[other];
   const base=slot==='main'?sc(cur,'main',w):sc(cur,slot,w);
   const ng=c.nogo||[];return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
@@ -4319,7 +4325,7 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   if(gs==='fr'){h+=frView(c);return h+'</div></div>'}
   if(gs==='up'||gs==='me'){const seg=(a,cur,opts)=>'<span class="gseg">'+opts.map(o=>'<button class="'+(cur===o[0]?'on':'')+'" data-a="'+a+'" data-k="'+o[0]+'" title="'+esc(o[2]||'')+'">'+gic(o[3])+'<span>'+o[1]+'</span></button>').join('')+'</span>';
     h+='<div class="gopt">'+dspSeg(c)+seg('ifil',ui.ifil||'ok',IFIL)
-      +(isTank(c)?seg('tmode',c.tmode||'bal',TMODE):(W[c.cls]||{})[c.spec]&&W[c.cls][c.spec].heal&&SOLO[c.cls]?seg('gmode',c.gmode||'heal',[['heal','힐','파티·던전','img/role-hl.png'],['solo','사냥','혼자 레벨업','img/role-dp.png']]):'')+'</div>'}
+      +(isTank(c)?seg('tmode',c.tmode||'bal',TMODE):(W[c.cls]||{})[c.spec]&&W[c.cls][c.spec].heal&&SOLO[c.cls]?seg('gmode',c.gmode||'heal',[['heal','힐','파티·던전','img/role-hl.png'],['solo','사냥','혼자 레벨업','img/role-dp.png']]):c.cls==='warrior'&&c.spec==='fury'?seg('wset',c.wset==='2h'?'2h':'dw',WSET):'')+'</div>'}
   if(gs==='up'&&ui.dsp==='2'&&!dspOn(me())&&(c.lv||1)>=40){h+=dspPick(c);return h+'</div></div>'}
   if(gs==='me')h+=slotPanel(c,ui.gslot);
   const prioCard=(()=>{const P=prioLine(c);return '<div class="card prio"><div class="ph2"><b>📊 '+esc((CINFO[c.cls]||[])[0]||'')+' '+esc(sp?sp.name:'')+' 능력치 우선순위</b></div><div class="pl">'+P.map((x,i)=>'<span><i>'+(i+1)+'</i>'+esc(x)+'</span>').join('<em>›</em>')+'</div>'+(whyOf(c)?'<p class="note">'+esc(whyOf(c))+'</p>':'')+'<p class="mute src">기준: '+esc(c.gmode==='solo'&&W[c.cls][c.spec].heal&&SOLO[c.cls]?'사냥용 표(forg 기본표 바탕)':(WSRC[c.cls+'/'+c.spec]||'forg 기본표'))+' · forg.gg와 같은 공식</p></div>'})();
@@ -5170,9 +5176,20 @@ function gameView(c){if(!QDB){qdbLoad();return '<p class="note">퀘스트 자료
 const ZIC=[['엘윈','achievement_zone_elwynnforest'],['서부 몰락','achievement_zone_westfall_01'],['붉은마루','achievement_zone_redridgemountains'],['그늘숲','achievement_zone_duskwood'],['가시덤불','achievement_zone_stranglethorn_01'],['던 모로','achievement_zone_dunmorogh'],['모단','achievement_zone_lochmodan'],['저습지','achievement_zone_wetlands_01'],['아라시','achievement_zone_arathihighlands_01'],['힐스브래드','achievement_zone_hillsbradfoothills'],['알터랙','achievement_zone_alteracmountains_01'],['황야의 땅','achievement_zone_badlands_01'],['슬픔의 늪','achievement_zone_swampsorrows_01'],['저주받은','achievement_zone_blastedlands_01'],['이글거리는','achievement_zone_searinggorge_01'],['불타는 평원','achievement_zone_burningsteppes_01'],['동부 내륙','achievement_zone_hinterlands_01'],['서부 역병','achievement_zone_westernplaguelands_01'],['동부 역병','achievement_zone_easternplaguelands'],['티리스팔','achievement_zone_tirisfalglades_01'],['은빛소나무','achievement_zone_silverpine_01'],['텔드랏실','achievement_zone_darnassus'],['어둠의 해안','achievement_zone_darkshore_01'],['잿빛','achievement_zone_ashenvale_01'],['돌발톱','achievement_zone_stonetalon_01'],['불모','achievement_zone_barrens_01'],['잊혀진 땅','achievement_zone_desolace'],['버섯구름','achievement_zone_thousandneedles_01'],['먼지진흙','achievement_zone_dustwallowmarsh'],['페랄라스','achievement_zone_feralas'],['타나리스','achievement_zone_tanaris_01'],['운고로','achievement_zone_ungorocrater_01'],['악령의 숲','achievement_zone_felwood'],['여명의 설원','achievement_zone_winterspring'],['아즈샤라','achievement_zone_azshara_01'],['실리더스','achievement_zone_silithus_01'],['듀로타','achievement_zone_durotar'],['멀고어','achievement_zone_mulgore_01'],['달의 숲','spell_arcane_teleportmoonglade'],['아이언포지','inv_misc_tournaments_banner_dwarf'],['스톰윈드','inv_misc_tournaments_banner_human']];
 const zIco=z=>{const f=ZIC.find(x=>String(z||'').includes(x[0]));return f?f[1]:'inv_misc_map_01'};
 /* 계획: 앱 추천(기존 루트) · 퀘스트 많은 곳 */
+/* 구간 → 지역별 묶음 (퀘스트 줄에 처음 나온 순서). 받는 지역이 빈 줄은 퀘스트 자료의 지역, 그것도 없으면 바로 앞 줄 지역.
+   대도시(스톰윈드 등)나 퀘스트 2개 이하인 지역은 앞 지역에 붙임 — 다녀오는 길에 하는 것 */
+const CAPZ=new Set(['스톰윈드','아이언포지','다르나서스','오그리마','썬더 블러프','언더시티']);
+function secNodes(S){const by=new Map();let prev=S.z.split(' · ')[0];
+  for(const q of S.q){let z=q.gz||((QDB&&QDB.get(q.id))||{}).z||prev;if(CAPZ.has(z))z=prev;prev=z;if(!by.has(z))by.set(z,[]);by.get(z).push(q)}
+  const E=[...by.entries()];const keep=E.filter(([z,qs])=>qs.length>2);if(!keep.length)return [{z:S.z.split(' · ')[0],a:S.a,b:S.b,S,sq:S.q}];
+  const G=keep.map(([z,qs])=>({z,a:S.a,b:S.b,S,sq:qs.slice()}));
+  E.forEach(([z,qs],i)=>{if(qs.length>2)return;const before=E.slice(0,i).reverse().find(e=>e[1].length>2);const g=G.find(g=>g.z===(before||keep[0])[0]);g.sq.push(...qs)});
+  return G}
 function recPlans(c){const L=c.lv;const R=routeOf(c);const out=[];
   const segs=R.filter(S=>S.b>=L).slice(0,3);
-  if(segs.length)out.push({k:'app',name:'앱 추천 루트',nodes:segs.map(S=>({z:S.z.split(' · ')[0],a:S.a,b:S.b,S})),n:segs.reduce((n,S)=>n+S.q.length,0)});
+  /* 구간 하나에 지역이 여럿(어둠의 해안 → 서부 몰락지대 → 모단 호수)이면 지역마다 따로 — 예전엔 첫 지역 퀘스트만 단계에 나왔음 */
+  if(segs.length){const nodes=segs.flatMap(secNodes);const i0=Math.max(0,nodes.findIndex(n=>L>=n.a&&L<=n.b));
+    out.push({k:'app',name:'앱 추천 루트',nodes:nodes.slice(i0,i0+5),n:segs.reduce((n,S)=>n+S.q.length,0)})}
   if(QDB){const Z={};for(const q of QDB.values()){if(!q.z||q.c==='던전'||q.c==='기타'||!qdbOk(c,q)||mqDone(c,q)||exOut(c,q))continue;if(/스톰윈드|아이언포지|다르나서스|특별/.test(q.z))continue;if((q.lv||0)<L-2||(q.lv||0)>L+4||(q.m||0)>L)continue;(Z[q.z]=Z[q.z]||[]).push(q)}
     const top=Object.entries(Z).sort((a,b)=>b[1].length-a[1].length).slice(0,3).map(([z,qs])=>{const lv=qs.map(q=>q.lv).sort((a,b)=>a-b);return {z,a:lv[0],b:lv[lv.length-1],qs}}).sort((a,b)=>a.a-b.a);
     if(top.length)out.push({k:'many',name:'퀘스트 많은 곳',nodes:top,n:top.reduce((n,t)=>n+t.qs.length,0)})}
@@ -5314,7 +5331,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   const rdy=Object.values(c.ql||{}).filter(v=>v===2).length;const fr=frList(c).map(k=>ARM[k]).filter(A=>A&&Math.abs((A.level||0)-L)<=3);
   h+='<div class="qa2">'+(rdy?'<button data-a="qmode" data-k="log">🎒 반납 가능 <b>'+rdy+'</b></button>':'')+(fr.length?'<span title="'+esc(fr.map(A=>A.name+' '+A.level).join(', '))+'">👥 같은 구간 친구 <b>'+fr.length+'</b> · '+esc(fr.slice(0,3).map(A=>A.name).join(' · '))+'</span>':'')+'</div>';
   /* 지금 지역의 단계 */
-  const qsOf=n=>{const z=n.z;if(pk.k==='app'){const S=n.S;const seen=new Set();return (S?S.q:[]).filter(q=>(q.gz||q.sz)===z||!q.gz).filter(q=>{if(seen.has(q.id))return false;seen.add(q.id);return q.id&&!qd(c,q.gz||q.sz,q)}).map(q=>recQ(q.id,z)).filter(Boolean)}
+  const qsOf=n=>{const z=n.z;if(pk.k==='app'){const seen=new Set();return (n.sq||[]).filter(q=>{if(seen.has(q.id))return false;seen.add(q.id);return q.id&&!qd(c,q.gz||q.sz,q)}).map(q=>recQ(q.id,z)).filter(Boolean)}
     return (n.qs||[]).slice(0,18).map(q=>recQ(q.id,z)).filter(Boolean)};
   /* 아직 받을 수 없는 퀘스트(최소 레벨이 내 레벨보다 높음)는 단계에서 빼고 따로 셈 */
   const minLv=q=>((QDB&&QDB.get(q.id))||{}).m||0;
@@ -6256,6 +6273,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='stall'){const d=DG[ui.dg];const g=DGG&&d&&DGG[d.slug];ui.stopen={};if(k==='1'&&g)g.steps.forEach(x=>ui.stopen[x.st?x.st.n:x.n]=1);rerender(true);return}
   if(a==='dfl'){ui.dfloor=+k;rerender(true);return}
   if(a==='tmode'){c.tmode=k;save();rerender(true);toast({def:'생존 위주(덜 맞고 안 죽게)로 추천해요',bal:'생존·위협 균형으로 추천해요',off:'위협(TPS) 위주로 추천해요 — 적중·치명타·힘을 먼저 봐요'}[k]);return}
+  if(a==='wset'){c.wset=k;save();rerender(true);toast((k==='2h'?'양손 무기 하나로 추천해요':'한손 무기 둘(쌍수)로 추천해요')+((c.lv||1)<DWLV.warrior?' · 쌍수는 '+DWLV.warrior+'레벨에 배워서 그 전엔 둘 다 봐요':''));return}
   if(a==='gmode'){c.gmode=k;save();rerender(true);toast(k==='solo'?'사냥용 기준으로 추천해요':'힐 위주 기준으로 추천해요');return}
   if(a==='bkout'||a==='bklink'){bkEncode({v:1,cur:DB.cur,list:DB.list}).then(code=>{const txt=a==='bklink'?location.origin+location.pathname+'#bk='+code:code;ui.bkcode=txt;rerender(true);
       (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(a==='bklink'?'링크를 복사했어요. 다른 기기에서 열면 돼요':'백업 코드를 복사했어요')).catch(()=>toast('아래 칸을 길게 눌러 복사하세요'))});return}
