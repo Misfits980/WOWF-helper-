@@ -2154,13 +2154,13 @@ body.sidem{overflow:hidden}
 .bgs .bgt .t i{font-style:normal;font-size:15px;line-height:1}.bgs .bgt .t b{font-size:18px;line-height:1.15;color:var(--c)}.bgs .bgt .t small{font-size:11px;color:var(--mute);text-align:center;line-height:1.2;word-break:keep-all}
 .bgs .g-q{--c:var(--bq)}.bgs .g-sell{--c:var(--bs)}.bgs .g-mat{--c:var(--bm)}.bgs .g-bank{--c:var(--bb)}.bgs .g-keep{--c:#b9a3e3}
 .bgs .bgsg{margin-top:9px;border:1px solid var(--line);border-left:3px solid var(--c);border-radius:10px;background:rgba(0,0,0,.18);overflow:hidden}
-.bgs .bgsg summary{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:9px 12px;cursor:pointer;list-style:none}
-.bgs .bgsg summary::-webkit-details-marker{display:none}
-.bgs .bgsg summary .gic.e{width:22px;height:22px;margin:0;border-radius:5px}.bgs .bgt .t .gic.lg{width:22px;height:22px;margin:0 0 2px}.bgs .bgsg summary b{font-size:14px;color:var(--c)}
-.bgs .bgsg summary .n{min-width:22px;padding:0 7px;border-radius:999px;background:var(--c);color:#17130c;font-size:12px;font-weight:800;text-align:center;line-height:19px}
-.bgs .bgsg summary small{flex-basis:100%;padding-left:27px;color:var(--mute);font-size:12px}
-.bgs .bgsg summary .cv{margin-left:auto;order:3;width:8px;height:8px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(-45deg);transition:transform .15s}
-.bgs .bgsg summary small{order:4}.bgs .bgsg[open] summary .cv{transform:rotate(45deg)}
+.bgs .bgsg>summary{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:9px 12px;cursor:pointer;list-style:none}
+.bgs .bgsg>summary::-webkit-details-marker{display:none}
+.bgs .bgsg>summary .gic.e{width:22px;height:22px;margin:0;border-radius:5px}.bgs .bgt .t .gic.lg{width:22px;height:22px;margin:0 0 2px}.bgs .bgsg>summary b{font-size:14px;color:var(--c)}
+.bgs .bgsg>summary .n{min-width:22px;padding:0 7px;border-radius:999px;background:var(--c);color:#17130c;font-size:12px;font-weight:800;text-align:center;line-height:19px}
+.bgs .bgsg>summary small{flex-basis:100%;padding-left:27px;color:var(--mute);font-size:12px}
+.bgs .bgsg>summary .cv{margin-left:auto;order:3;width:8px;height:8px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(-45deg);transition:transform .15s}
+.bgs .bgsg>summary small{order:4}.bgs .bgsg[open]>summary .cv{transform:rotate(45deg)}
 .bgs .bgl{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0 12px;padding:0 10px 8px;border-top:1px solid var(--line)}
 .bgs .bgi{display:flex;align-items:center;gap:10px;padding:7px 2px;border-bottom:1px solid rgba(255,255,255,.04);min-width:0}
 .bgs .bgi .ic{position:relative;width:32px;height:32px;border-radius:7px;background-size:cover,cover}
@@ -2182,3 +2182,19 @@ body.sidem{overflow:hidden}
 .town li small{color:var(--mute)}
 .town .lnk{color:#e8c06a}
 .prh{color:#ffb070;font-weight:700}
+
+/* 가방 정리 · 퀘스트 아이템: 어느 퀘스트·몇 레벨 (누르면 펼침) */
+.bgs .bgq{min-width:0;border-bottom:1px solid rgba(255,255,255,.04)}
+.bgs .bgq>summary{list-style:none;cursor:pointer;border-bottom:0}
+.bgs .bgq>summary::-webkit-details-marker{display:none}
+.bgs .bgq>summary .cv{flex:none;width:7px;height:7px;margin-right:4px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(-45deg);transition:transform .15s}
+.bgs .bgq[open]>summary .cv{transform:rotate(45deg)}
+.bgs .bgi .m small .qln{color:#e6cf8f;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.bgs .qst{font-style:normal;padding:0 6px;border-radius:6px;border:1px solid var(--line);line-height:17px;white-space:nowrap}
+.bgs .qst.s1,.bgs .qst.s2{color:#ffd76a;border-color:#7a6326}
+.bgs .qst.s2{color:#8fe36a;border-color:#3f6a2a}
+.bgs .qst.s3{color:#9a9384}
+.bgs .bgqs{display:flex;flex-direction:column;gap:5px;padding:0 0 9px 42px}
+.bgs .bgqq{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;min-height:44px;padding:7px 10px;text-align:left;color:inherit;font:inherit;background:var(--panel2);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.bgs .bgqq b{font-size:13px;color:#f1e3bd}
+.bgs .bgqq small{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:3px 4px;align-items:center}

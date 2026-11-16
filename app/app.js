@@ -1239,6 +1239,17 @@ function bagDbLoad(){if(BAGL)return;BAGL=true;fetch('data/qdb/item-bag.txt?v='+(
 function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id)})));return S}
 function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{})){const X=QDB&&QDB.get(+id);((X&&X.t)||[]).forEach(t=>{if(t[0]==='수집'&&t[1])N.add(t[1])});/* 아이템으로 시작한 퀘스트(장인의 계약서 등)는 그 아이템도 있어야 끝낼 수 있음 */if(X&&X.g&&X.g[3]==='item'&&X.g[0])N.add(X.g[0]);const d=QD.get(+id);((d&&d.wf&&d.wf.t)||[]).forEach(t=>{if(t[0])N.add(t[0])})}
   (ui._st||[]).forEach(s=>s.items.forEach(it=>(it.q.cnt||[]).forEach(o=>N.add(o[0]))));return N}
+/* 아이템 이름 → 그 아이템을 쓰는 퀘스트(모으기 목표 · 아이템으로 시작) — 가방 정리에서 「어느 퀘스트·몇 레벨」 보여 주기 */
+let QIX=null,QIX_SRC=null;
+function qItemIdx(){if(!QDB)return null;if(QIX&&QIX_SRC===QDB)return QIX;const M=new Map();
+  const add=(nm,id,how)=>{if(!nm)return;let a=M.get(nm);if(!a)M.set(nm,a=[]);if(!a.some(y=>y.id===id))a.push({id,how})};
+  QDB.forEach((X,id)=>{(X.t||[]).forEach(t=>{if(t[0]==='수집')add(t[1],id,'모으기')});if(X.g&&X.g[3]==='item')add(X.g[0],id,'시작')});
+  QD.forEach((d,id)=>{((d&&d.wf&&d.wf.t)||[]).forEach(t=>add(t[0],+id,'모으기'))});
+  QIX=M;QIX_SRC=QDB;return M}
+/* 상태: 1 퀘스트창 · 2 반납만 남음 · 0 아직 안 받음 · 3 끝냄 — 퀘스트창 → 안 받음 → 끝냄 순, 같으면 낮은 레벨부터 */
+function itemQuests(c,nm){const M=qItemIdx();if(!M)return [];const ql=c.ql||{},mq=c.mq||{};const st=id=>ql[id]===2?2:ql[id]?1:mq[id]?3:0;
+  return (M.get(nm)||[]).map(y=>({...y,X:QDB.get(y.id),s:st(y.id)})).filter(y=>y.X&&(y.s===1||y.s===2||qdbOk(c,y.X))).sort(iqCmp)}
+const iqCmp=(a,b)=>{const rk=s=>s===1||s===2?0:s===0?1:2;return rk(a.s)-rk(b.s)||(a.X.lv||0)-(b.X.lv||0)||String(a.X.n).localeCompare(String(b.X.n),'ko',{numeric:true})};
 function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||{}).map(Number));const E=new Map(bagAll(c).map(x=>[x.it.id,x]));const QN=questItemNames(c);const MM=myMatIds(c);const W=new Set((c.wish||[]).map(Number));
   const G={q:[],sell:[],mat:[],bank:[],other:[]};let sellSum=0;
   [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.entries(B).forEach(([k,n])=>{const id=+k;if(eqd.has(id))return;const T0=IT.get(id)||{};const I=BAGDB.get(id)||{nm:T0.nm||('아이템 #'+id),q:{p:0,c:1,u:2,r:3,e:4,l:5}[T0.q]??1,cls:T0.sl?(T0.cs&&T0.cs[0]==='2'?2:4):-1,sell:0,ic:T0.ic||''};const x={id,n,where,I};
@@ -1258,18 +1269,25 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
   const DEF={0:'inv_potion_51',1:'inv_misc_bag_07',2:'inv_sword_04',4:'inv_chest_cloth_21',5:'inv_misc_dust_02',7:'inv_fabric_linen_01',9:'inv_scroll_03',12:'inv_misc_note_01',15:'inv_misc_gear_01'};
   const icOf=x=>{const it=IT.get(x.id);const n=x.I.ic||(it&&it.ic)||DEF[x.I.cls]||'inv_misc_questionmark';return 'url('+ICO(n)+'),url('+IC_Q+')'};
   /* 「책 이름 - 10쪽」처럼 쪽만 다른 것은 한 줄로 */
-  const grp=L=>{const M=new Map(),out=[];L.forEach(x=>{const m=x.I.nm.match(/^(.+?)\s*-\s*(\d+)쪽$/);if(!m){out.push(x);return}let g=M.get(m[1]);if(!g){g={...x,I:{...x.I,nm:m[1]},pages:[],n:0};M.set(m[1],g);out.push(g)}g.pages.push(+m[2]);g.n+=x.n;if(x.where==='bank')g.where='bank'});
-    M.forEach(g=>g.pages.sort((a,b)=>a-b));return out};
+  const grp=L=>{const M=new Map(),out=[];L.forEach(x=>{const m=x.I.nm.match(/^(.+?)\s*-\s*(\d+)쪽$/);if(!m){out.push(x);return}let g=M.get(m[1]);if(!g){g={...x,I:{...x.I,nm:m[1]},pages:[],n:0,qs:[]};M.set(m[1],g);out.push(g)}g.pages.push(+m[2]);(x.qs||[]).forEach(y=>{if(!g.qs.some(z=>z.id===y.id))g.qs.push(y)});g.n+=x.n;if(x.where==='bank')g.where='bank'});
+    M.forEach(g=>{g.pages.sort((a,b)=>a-b);g.qs.sort(iqCmp)});return out};
   const row=(x,k)=>{const q=x.I.q==null?1:x.I.q;const sub=[];
     if(x.pages)sub.push(x.pages.length+'장 · '+x.pages.join('·')+'쪽');
     if(x.where==='bank')sub.push('<i class="bk">은행</i>');
     if(x.why)sub.push('<i class="why">'+esc(x.why)+'</i>');
     const pr=k==='sell'&&x.I.sell?'<span class="pr">'+goldTxt(x.I.sell*x.n)+'</span>':'';
+    const Q=k==='q'&&x.qs&&x.qs.length?x.qs:null;
+    if(Q){const t=Q[0],allDone=Q.every(y=>y.s===3);
+      sub.unshift('<span class="qln">「'+esc(t.X.n)+'」 '+(t.X.lv||'?')+'레벨'+(Q.length>1?' 외 '+(Q.length-1)+'개':'')+'</span>'+(t.s===1||t.s===2?'<i class="qst s'+t.s+'">'+QST[t.s]+'</i>':allDone?'<i class="qst s3">끝낸 퀘스트</i>':''));
+      return '<details class="bgq"><summary class="bgi"><span class="ic q-'+ql(q)+'" style="background-image:'+icOf(x)+'">'+(x.n>1&&!x.pages?'<em>'+x.n+'</em>':'')+'</span><span class="m"><b class="q'+q+'">'+esc(x.I.nm)+'</b><small>'+sub.join(' ')+'</small></span><i class="cv"></i></summary><div class="bgqs">'
+        +Q.map(y=>'<button class="bgqq" data-a="qopen" data-k="'+y.id+'"><b>'+esc(y.X.n)+'</b><small>'+(y.X.lv||'?')+'레벨'+(y.X.m?' (받기 '+y.X.m+'레벨부터)':'')+' · '+esc(y.X.z||'')+(y.how==='시작'?' · 이 아이템으로 시작':'')+' <i class="qst s'+y.s+'">'+QST[y.s]+'</i></small></button>').join('')+'</div></details>'}
     return '<div class="bgi"><span class="ic q-'+ql(q)+'" style="background-image:'+icOf(x)+'">'+(x.n>1&&!x.pages?'<em>'+x.n+'</em>':'')+'</span><span class="m"><b class="q'+q+'">'+esc(x.I.nm)+'</b>'+(sub.length?'<small>'+sub.join(' ')+'</small>':'')+'</span>'+pr+'</div>'};
   /* 나머지(물약·음식·도안·열쇠·장비 등)도 빠짐없이: 종류 이름을 붙여 「가방에 두기」로 */
+  const QST=['아직 안 받음','퀘스트창','반납만 남음','끝냄'];
+  G.q.forEach(x=>{x.qs=itemQuests(c,x.I.nm)});
   const KIND={0:'물약·음식',1:'가방',2:'장비',4:'장비',9:'도안·조리법',13:'열쇠',15:'기타'};
   G.other.forEach(x=>{if(!x.why)x.why=KIND[x.I.cls]||'기타'});
-  const SEC=[['q','inv_misc_note_06','퀘스트에 써요','팔지 말고 갖고 있어요',G.q,true],['sell','inv_misc_coin_01','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
+  const SEC=[['q','inv_misc_note_06','퀘스트에 써요','누르면 어느 퀘스트에 쓰는지 · 몇 레벨인지 나와요',G.q,true],['sell','inv_misc_coin_01','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
     ['mat','inv_fabric_linen_01','내 전문기술 재료',(c.profs||[]).join('·'),G.mat,false],['bank','inv_box_01','은행·경매장으로',(c.profs||[]).length?'내 전문기술에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false],['keep','inv_misc_bag_10','가방에 두기','물약·음식·도안·열쇠·장비 등 — 장비는 아래 「내 가방·은행 장비」에서 비교',G.other,false]];
   const sec=([k,e,t,sub,L,open])=>{if(!L.length)return '';const R2=grp(L.slice().sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko')));
     return '<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary>'+gic(e,'e')+'<b>'+t+'</b><span class="n">'+L.length+'</span>'+(sub?'<small>'+sub+'</small>':'')+'<i class="cv"></i></summary><div class="bgl">'+R2.map(x=>row(x,k)).join('')+'</div></details>'};
