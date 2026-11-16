@@ -536,6 +536,9 @@ try:
         o = json.loads(line)
         if o.get('n'):
             o['n'] = re.sub(r'\s*(위치·보상|퀘스트)$', '', re.sub(r'^와우 포에버\s*', '', o['n'])).strip()
+            if len(o['n']) < 2:  # 원본 페이지 제목에 이름이 비어 있던 것(예: 78088 「와우 포에버 에  퀘스트」 → 「에」) — 이름은 버리고 다른 칸만 씀
+                o['n'] = ''
+                o['nbad'] = 1
         KX[o['id']] = o
 except FileNotFoundError:
     pass
@@ -583,7 +586,7 @@ for qid, q in sorted(QUEST.items()):
     if x.get('wv') and x.get('n') and not lat(x['n']):
         name = x['n']  # wowf.io로 확인한 이름이 우선
     # 포에버 사이트(wowf.io·forever-tool) 어디에도 없는 영어 퀘스트 = 다른 서버판 퀘스트로 보고 뺌
-    if qid in KX and not x.get('n') and not re.search('[가-힣]', name):
+    if qid in KX and not x.get('n') and not x.get('nbad') and not re.search('[가-힣]', name):
         skip['notforever'] = skip.get('notforever', 0) + 1
         continue
     if lat(obj) and x.get('o') and not lat(x['o']):
