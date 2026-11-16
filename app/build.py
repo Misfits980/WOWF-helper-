@@ -571,6 +571,86 @@ try:
     print('착용 직업 다시 계산', _fix)
 except ImportError as e:
     print('착용 직업 계산 건너뜀', e)
+# 퀘스트 보상 바로잡기: forever-tool(블리자드 자료) 퀘스트 보상 목록(data/forg/rewards.jsonl)과 템 출처를 맞춤
+#  1) 퀘스트 보상인데 템 출처에 그 퀘스트가 없음 → 퀘스트 출처를 넣고, 「월드 드랍」·「얻는 곳 미공개」 같은 자리표시 출처는 뺌
+#     (예: 하이잘 「임무 완수」 케타라스의 사슬매듭 허리띠가 월드 드랍으로만 나와 퀘스트 추천에서 빠지던 것)
+#  2) 템 출처 퀘스트의 보상 목록(비어 있지 않음)에 그 템이 없고 다른 퀘스트 보상에 있으면 그 출처를 뺌
+#     (예: 청동용군단의 인장 반지가 한 단계 뒤 퀘스트 보상으로 밀려 있던 것)
+#  3) 퀘스트 이름이 퀘스트 자료(한글)와 다르면 퀘스트 자료 이름으로 (가라앉은 사원으로 → 아탈학카르 신전으로)
+#  호드만 받는 퀘스트·퀘스트 자료에 없는 퀘스트(목록 밖 공용 퀘스트는 됨)는 넣지 않음. 포에버 새 퀘스트는 직업마다 보상이 달라서(희귀 서적)
+#  보상 목록에 없다는 것만으로는 빼지 않음
+def _qrw_fix(items, srcs):
+    rwp = F / 'rewards.jsonl'
+    if not rwp.exists() or not (Q / 'quests.jsonl').exists():
+        return items, srcs
+    QA = {}
+    for _l in rd(Q / 'quests.jsonl').splitlines():
+        _o = json.loads(_l); QA[_o['id']] = _o
+    HQ_ = set(int(x) for x in rd(Q / 'horde-quests.txt').split()) if (Q / 'horde-quests.txt').exists() else set()
+    NL_ = set(int(x) for x in rd(Q / 'quests-nolist.txt').split()) if (Q / 'quests-nolist.txt').exists() else set()
+    ok_q = lambda q: q not in HQ_ and (q in QA or q in NL_)
+    RW_, BY_ = {}, {}
+    for _l in rd(rwp).splitlines():
+        try: _r = json.loads(_l)
+        except Exception: continue
+        ids = []
+        for _k in ('fx', 'ch'):
+            for _x in _r.get(_k) or []:
+                ids.append(_x[0])
+        if not ids:
+            continue
+        RW_[_r['id']] = set(ids)
+        if ok_q(_r['id']):
+            for _i in ids:
+                BY_.setdefault(_i, []).append(_r['id'])
+    SL = srcs.split('\n')
+    qix = {}
+    def sq(i):
+        f = SL[i].split('~') if 0 <= i < len(SL) else []
+        if len(f) < 3 or f[0] != '1': return None
+        m = re.search(r'(?:quest=|/quest/)(\d+)', f[2])
+        return int(m.group(1)) if m else None
+    for i in range(len(SL)):
+        q = sq(i)
+        if q is not None:
+            qix.setdefault(q, i)
+    # 3) 이름 맞추기
+    nren = 0
+    for i in range(len(SL)):
+        q = sq(i)
+        if q is None or q not in QA: continue
+        f = SL[i].split('~'); nm = QA[q].get('n') or ''
+        if f[1].startswith('퀘스트 · ') and nm and not lat(nm) and f[1][6:] != nm:
+            f[1] = '퀘스트 · ' + nm; SL[i] = '~'.join(f); nren += 1
+    ph = lambda i: 0 <= i < len(SL) and (SL[i].startswith('2~월드 드랍') or SL[i].startswith('3~드랍 · 얻는 곳 미공개'))
+    nadd = ndel = 0
+    for ix, line in enumerate(items):
+        f = line.split('|')
+        if len(f) < 13 or not f[0].isdigit(): continue
+        iid = int(f[0]); S = [int(x) for x in re.split('[;,]', f[7]) if x.isdigit()]
+        have = {sq(i) for i in S} - {None}
+        alt = [q for q in BY_.get(iid, []) if q not in have]
+        # 2) 밀려 있는 출처 빼기
+        S2 = []
+        for i in S:
+            q = sq(i)
+            if q is not None and q in RW_ and iid not in RW_[q] and BY_.get(iid):
+                ndel += 1; continue
+            S2.append(i)
+        # 1) 보상 퀘스트 넣기
+        for q in alt:
+            if q not in qix:
+                nm = QA[q]['n'] if q in QA and QA[q].get('n') and not lat(QA[q]['n']) else None
+                if not nm: continue
+                qix[q] = len(SL); SL.append('1~퀘스트 · %s~wh:quest=%d' % (nm, q))
+            S2.append(qix[q]); nadd += 1
+        if alt and any(sq(i) is not None for i in S2):
+            S2 = [i for i in S2 if not ph(i)]
+        if S2 != S:
+            f[7] = ';'.join(str(i) for i in dict.fromkeys(S2)); items[ix] = '|'.join(f)
+    print('퀘스트 보상 출처: 넣음', nadd, '· 밀린 출처 뺌', ndel, '· 이름 맞춤', nren)
+    return items, '\n'.join(SL)
+items, srcs = _qrw_fix(items, srcs)
 # 출처가 비어 있는 고급 이상 장비 = 월드 드랍(경매장)
 _sl = srcs.split('\n')
 _wd = None
