@@ -2646,10 +2646,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=ad57d903"></script>
-<script>/* v67d2e5 @11/16 13:59 */
+<script>/* vc125c2 @11/16 14:03 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 13:59';
+const BUILD='11/16 14:03';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3096,9 +3096,12 @@ const CLS_BIT={warrior:1,paladin:2,hunter:4,rogue:8,priest:16,shaman:64,mage:128
 const RACE_BIT={human:1,dwarf:4,nightelf:8,gnome:64,skyborne:4294967296};
 /* 둘 중 하나만 할 수 있는 퀘스트(Questie exclusiveTo → ex)·길잡이 퀘스트(bc): 짝을 이미 끝냈거나 퀘스트창에 있으면 이 퀘스트는 못 받음.
    추천·받기 목록에서만 뺌(앞 퀘스트 판정에는 안 씀 — 갈래가 합쳐지는 뒤 퀘스트를 막지 않으려고) */
+/* 받으려면 전문기술이 필요한 퀘스트(sk=[기술 번호, 숙련도]): 게임에서 전문기술을 가져온 캐릭터(c.profLv)만 판단 — 없거나 숙련도가 모자라면 못 받음 */
+const SKILL_KO={164:'대장기술',165:'가죽세공',171:'연금술',182:'약초채집',185:'요리',186:'채광',197:'재봉술',202:'기계공학',333:'마법부여',393:'무두질',129:'응급치료',356:'낚시'};
+function skOut(c,q){if(!q||!q.sk||!c.profLv)return false;const nm=SKILL_KO[q.sk[0]];if(!nm)return false;const v=c.profLv[nm];return !v||(+v[0]||0)<(q.sk[1]||0)}
 function exOut(c,q){if(!q)return false;const gone=id=>{if((c.ql||{})[id])return true;const X=QDB&&QDB.get(id);return !!(X&&mqDone(c,X))};
   /* 길잡이 퀘스트(bc): 가리키는 퀘스트를 이미 받았거나 끝냈으면 길잡이는 못 받음 */
-  return !!((q.ex&&q.ex.some(gone))||(q.bc&&gone(q.bc)))}
+  return !!((q.ex&&q.ex.some(gone))||(q.bc&&gone(q.bc))||skOut(c,q))}
 function qdbOk(c,q){if(q.cls&&!(q.cls&(CLS_BIT[c.cls]||0)))return false;if(q.rc){const b=RACE_BIT[c.race]||0;if(b&&Math.floor(q.rc/b)%2===0)return false}return true}
 function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
   fetch('data/qdb/quests.jsonl?v='+D_VER.qdb).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();

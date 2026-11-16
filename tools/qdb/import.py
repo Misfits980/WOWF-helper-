@@ -651,6 +651,13 @@ for qid, q in sorted(QUEST.items()):
     sf = G('specialFlags') or 0
     if sf & 1:
         rec['rep'] = 1
+    # 받으려면 필요한 전문기술 [기술 번호, 숙련도] (예: 가죽세공 225) — 없는 캐릭터에게는 추천하지 않으려고
+    sk = arr(G('requiredSkill')) or []
+    if len(sk) >= 2 and isinstance(sk[0], int) and sk[0]:
+        rec['sk'] = [sk[0], sk[1] if isinstance(sk[1], int) else 0]
+    rp = arr(G('requiredMinRep')) or []
+    if len(rp) >= 2 and isinstance(rp[0], int) and rp[0]:
+        rec['rq'] = [rp[0], rp[1] if isinstance(rp[1], int) else 0]
     bc = G('breadcrumbForQuestId')
     if isinstance(bc, int) and bc:
         rec['bc'] = bc

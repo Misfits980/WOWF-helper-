@@ -447,9 +447,12 @@ const CLS_BIT={warrior:1,paladin:2,hunter:4,rogue:8,priest:16,shaman:64,mage:128
 const RACE_BIT={human:1,dwarf:4,nightelf:8,gnome:64,skyborne:4294967296};
 /* 둘 중 하나만 할 수 있는 퀘스트(Questie exclusiveTo → ex)·길잡이 퀘스트(bc): 짝을 이미 끝냈거나 퀘스트창에 있으면 이 퀘스트는 못 받음.
    추천·받기 목록에서만 뺌(앞 퀘스트 판정에는 안 씀 — 갈래가 합쳐지는 뒤 퀘스트를 막지 않으려고) */
+/* 받으려면 전문기술이 필요한 퀘스트(sk=[기술 번호, 숙련도]): 게임에서 전문기술을 가져온 캐릭터(c.profLv)만 판단 — 없거나 숙련도가 모자라면 못 받음 */
+const SKILL_KO={164:'대장기술',165:'가죽세공',171:'연금술',182:'약초채집',185:'요리',186:'채광',197:'재봉술',202:'기계공학',333:'마법부여',393:'무두질',129:'응급치료',356:'낚시'};
+function skOut(c,q){if(!q||!q.sk||!c.profLv)return false;const nm=SKILL_KO[q.sk[0]];if(!nm)return false;const v=c.profLv[nm];return !v||(+v[0]||0)<(q.sk[1]||0)}
 function exOut(c,q){if(!q)return false;const gone=id=>{if((c.ql||{})[id])return true;const X=QDB&&QDB.get(id);return !!(X&&mqDone(c,X))};
   /* 길잡이 퀘스트(bc): 가리키는 퀘스트를 이미 받았거나 끝냈으면 길잡이는 못 받음 */
-  return !!((q.ex&&q.ex.some(gone))||(q.bc&&gone(q.bc)))}
+  return !!((q.ex&&q.ex.some(gone))||(q.bc&&gone(q.bc))||skOut(c,q))}
 function qdbOk(c,q){if(q.cls&&!(q.cls&(CLS_BIT[c.cls]||0)))return false;if(q.rc){const b=RACE_BIT[c.race]||0;if(b&&Math.floor(q.rc/b)%2===0)return false}return true}
 function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
   fetch('data/qdb/quests.jsonl?v='+D_VER.qdb).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();
