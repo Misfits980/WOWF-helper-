@@ -2835,10 +2835,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=ca531802"></script>
-<script>/* v8174ba @11/17 02:13 */
+<script>/* v06aaee @11/17 07:08 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 02:13';
+const BUILD='11/17 07:08';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2961,13 +2961,13 @@ const ROUTE={};{let cur=null,sec=null;for(const l of D_LVL.split('\n')){if(!l)co
 
 /* ----- 얻을 수 있는 레벨: 아이템 착용 레벨보다 퀘스트·던전 레벨이 높으면 그걸 따른다 ----- */
 {const QMIN={};for(const k in ROUTE)for(const S of ROUTE[k])for(const q of S.q){if(QMIN[q.nm]==null||q.min<QMIN[q.nm])QMIN[q.nm]=q.min}
- const RW={};DGS.forEach(d=>d.q.forEach(q=>q.rw.forEach(id=>{RW[id]=Math.min(RW[id]??99,Math.max(q.min,d.lo-2))})));
+ const RW={};DGS.forEach(d=>d.q.forEach(q=>q.rw.forEach(id=>{RW[id]=Math.min(RW[id]??99,Math.max(q.min,d.lo))})));/* 던전 퀘스트 보상은 던전에 들어가야(최소 레벨) 받음 */
  const DGKO={};DGS.forEach(d=>{DGKO[d.ko]=d;if(d.old)DGKO[d.old]=d});
  for(const it of ITEMS){let ob=99;
    if(RW[it.id]!=null)ob=Math.min(ob,RW[it.id]);
    for(const i of it.src){const s=SRC[i];if(!s)continue;let v=it.lv;
      if(s.k===0&&DG[s.dg])v=DG[s.dg].lo;
-     else if(s.k===1){const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);const qm=(s.href||'').match(/quest=(\d+)/);if(m&&DGKO[m[1]])v=Math.max(DGKO[m[1]].lo-2,RW[it.id]??0);else if(qm&&typeof D_QLV!=='undefined'&&D_QLV[qm[1]]!=null)v=Math.max(it.lv,D_QLV[qm[1]]);else if(QMIN[s.qn]!=null)v=QMIN[s.qn]}
+     else if(s.k===1){const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);const qm=(s.href||'').match(/quest=(\d+)/);if(m&&DGKO[m[1]])v=Math.max(DGKO[m[1]].lo,RW[it.id]??0);else if(qm&&typeof D_QLV!=='undefined'&&D_QLV[qm[1]]!=null)v=Math.max(it.lv,D_QLV[qm[1]]);else if(QMIN[s.qn]!=null)v=QMIN[s.qn]}
      ob=Math.min(ob,v)}
    it.ob=Math.max(it.lv,ob===99?it.lv:ob);
    /* 착용 레벨·얻는 레벨을 모르는 장비(Lv 1로 잡힌 것)는 능력치 총량으로 레벨을 어림 */
@@ -3982,7 +3982,8 @@ function onboard(){const d=ui.onb;const C=d.cls?D_CLS[d.cls]:null;const first=!D
 
 /* ===================== 홈 ===================== */
 function routeOf(c){return ROUTE[RACE_START[c.race]||'dwarf-gnome']||[]}
-function dgNow(L){return DGS.filter(d=>!d.soon&&L>=d.lo-1&&L<=d.hi).sort((a,b)=>a.fit-b.fit)}
+/* 던전은 파티 찾기 최소 레벨(lo)부터 들어감 — 39레벨에 40레벨 던전(크롤도크 보루)이 「지금」으로 나오던 것 */
+function dgNow(L){return DGS.filter(d=>!d.soon&&L>=d.lo&&L<=d.hi).sort((a,b)=>a.fit-b.fit)}
 /* ⏱️ 사냥 기록 · 골드 (애드온) */
 function playCard(c){const r=xpRate(c);const X=myXp(c);const S=sessFix(c.sess)||{};if(!r&&c.gold==null)return '';
   let h='<div class="card plc"><div class="hd"><h3>⏱️ 사냥 기록 <small>'+(S.t?armAgo(S.t)+' 불러옴':'')+'</small></h3></div><div class="plg">';
@@ -5146,7 +5147,7 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
       +'<button class="btn sm ghost" data-a="trn">교관 다녀왔어요</button>']);
     else if(nxL)rows.push(['trn','<img class="hic" src="img/ui-book.png" alt="">','교관','<p class="mute">다음 기술은 <b>'+nxL+'레벨</b>에 배워요 ('+nx.filter(l=>l[0]===nxL).map(l=>esc(l[1])).join(' · ')+')</p>'])}
   /* 3) 던전 */
-  const dq=c.dq||{};const D=DGS.filter(d=>d.lo&&d.lo<=L+1&&d.hi>=L&&d.lo>=10).sort((a,b)=>a.lo-b.lo).slice(0,3);
+  const dq=c.dq||{};const D=DGS.filter(d=>d.lo&&d.lo<=L&&d.hi>=L&&d.lo>=10).sort((a,b)=>a.lo-b.lo).slice(0,3);
   if(D.length)rows.push(['dg','<img class="hic" src="img/eye.png" alt="">','지금 갈 만한 던전',D.map(d=>{const n=dqOf(c,d).filter(q=>(q.min||0)<=L&&!dqIsDone(c,q)).length;
     return '<button class="lhq" data-a="dgo" data-k="'+d.slug+'"><span class="qlv">'+d.lo+'–'+d.hi+'</span><span class="t"><b>'+esc(d.ko)+'</b><span>'+(n?'던전 퀘스트 '+n+'개 · 들어가기 전에 받아 두세요':'던전 퀘스트 없음')+'</span></span></button>'}).join('')]);
   /* 4) 이동: 이 구간 비행 조련사·여관, 구간 끝나면 다음 구간 */
@@ -5723,9 +5724,9 @@ function dgUps(c,d){const L=c.lv;return dgItems(c,d).filter(it=>usable(it,c)&&it
 const DG_NOFORG={'alcaz-prison':16620,'blackmaw-hold':16554,'shapers-terrace':16667};/* forg 로딩 그림이 없는 신규 던전(404 확인) → wythic 그림 */
 const DG_IMG=slug=>(typeof DG!=='undefined'&&DG[slug]&&(DG[slug].wy||DG_NOFORG[slug])?'https://wythic.com/dungeons/'+(DG[slug].wy||DG_NOFORG[slug])+'.jpg?v=2':'https://forg.gg/images/wow-forever/dungeons/'+slug+'-loading.webp')/* 신규 던전은 forg 그림이 없어 wythic.com 그림 */;
 function dgChips(c,cur){const L=c.lv;
-  const near=DGS.filter(d=>L>=d.lo-1&&L<=d.hi).sort((a,b)=>b.fit-a.fit),up=DGS.filter(d=>d.lo-1>L).sort((a,b)=>a.fit-b.fit),past=DGS.filter(d=>d.hi<L).sort((a,b)=>b.fit-a.fit);
+  const near=DGS.filter(d=>L>=d.lo&&L<=d.hi).sort((a,b)=>b.fit-a.fit),up=DGS.filter(d=>d.lo>L).sort((a,b)=>a.fit-b.fit),past=DGS.filter(d=>d.hi<L).sort((a,b)=>b.fit-a.fit);
   const grp=(t,arr)=>arr.length?'<span class="dgl">'+t+'</span>'+arr.map(chip).join(''):'';
-  const chip=d=>{const inr=L>=d.lo-1&&L<=d.hi;return '<button class="dchip'+(d.slug===cur?' on':'')+(inr?' near':'')+'" data-a="dgo" data-k="'+d.slug+'"><img src="'+DG_IMG(d.slug)+'" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\'dno\',textContent:\'🏰\'}))"><span class="t"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+(d.soon?' · 🚧 개방 예정':inr?' · 지금':'')+(()=>{const S=dgState(c,d);return S.all?' · ✅ 퀘스트 다 함':S.inLog.length?' · 📜 '+S.inLog.length:''})()+'</small></span></button>'};
+  const chip=d=>{const inr=L>=d.lo&&L<=d.hi;return '<button class="dchip'+(d.slug===cur?' on':'')+(inr?' near':'')+'" data-a="dgo" data-k="'+d.slug+'"><img src="'+DG_IMG(d.slug)+'" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\'dno\',textContent:\'🏰\'}))"><span class="t"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+(d.soon?' · 🚧 개방 예정':inr?' · 지금':'')+(()=>{const S=dgState(c,d);return S.all?' · ✅ 퀘스트 다 함':S.inLog.length?' · 📜 '+S.inLog.length:''})()+'</small></span></button>'};
   return '<div class="dcw"><button class="dcb l" data-a="dcs" data-k="-1" aria-label="왼쪽">‹</button><div class="dchips">'+grp('지금 레벨',near)+grp('다음 던전',up)+grp('지나간 던전',past)+'</div><button class="dcb r" data-a="dcs" data-k="1" aria-label="오른쪽">›</button></div>'}
 function dungeon(c){const L=c.lv;
   if(!ui.dg||!DG[ui.dg]){const n=dgNow(L).sort((a,b)=>b.fit-a.fit);ui.dg=(n[0]||DGS.slice().sort((a,b)=>Math.abs(a.fit-L)-Math.abs(b.fit-L))[0]).slug}
