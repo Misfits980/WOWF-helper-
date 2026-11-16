@@ -2249,3 +2249,17 @@ button.amh.nx{opacity:.7}
 /* 던전 시작 뒤 ✓ 버튼이 보스 얼굴에 가려 눌리지 않던 것: ✓가 있으면 얼굴을 카드 안으로 */
 .rrw>.rck+.rrh .por{margin-left:0}
 .rck{position:relative;z-index:1}
+
+/* 유산 던전 도전 카드 */
+.legsp{margin:8px 0;border:1px solid #4a3d22;border-radius:12px;background:rgba(40,32,16,.5);padding:0}
+.legsp>summary{list-style:none;display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer}
+.legsp>summary::-webkit-details-marker{display:none}
+.legsp>summary .ic{flex:none;width:30px;height:30px;border-radius:7px;background-size:cover}
+.legsp>summary .m{flex:1;min-width:0;display:flex;flex-direction:column}
+.legsp>summary small{color:var(--mute);font-size:12px}
+.legsp.all{border-color:#4f7a3c}
+.legsp>p,.legsp>.lspc,.legsp>.btn{margin:0 12px 10px}
+.lspc{display:flex;flex-wrap:wrap;gap:6px}
+.lsp{font-size:12px;padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:inherit;word-break:keep-all}
+.lsp.on{border-color:#4f7a3c;background:#24361d;color:#cdeeb4}
+.lsp.cur{outline:2px solid var(--gold2)}

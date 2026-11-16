@@ -2058,7 +2058,8 @@ function legacyHtml(c){const L=c.lv;const reag=['mage','priest','paladin','shama
   const plan=L<15?[['Well Rested',5,'휴식 경험치가 최대 20% 더 빨리·더 많이 쌓여요'],['Talented',5,'특성 포인트를 더 일찍(최대 5레벨부터) 받아요'],['Thrill of Adventure',5,'몹을 잡을 때마다 생명력·마나 5% 회복 (던전 제외)']]
     :[['Well Rested',5,'휴식 경험치가 최대 20% 더 빨리·더 많이 쌓여요'],['Thrill of Adventure',5,'몹을 잡을 때마다 생명력·마나 5% 회복 → 쉬는 시간이 줄어요 (던전 제외)'],['Gourmand',3,'음식 버프가 더 오래가요']];
   if(reag)plan.push(['Reagent Economy',1,'직업 기술 재료 부담이 줄어요']);
-  let n=0;return '<p>레벨업용으로 이 순서로 찍으세요 (캐릭터당 16점까지):</p>'+plan.map(p=>{n+=p[1];return '<p><b>'+p[0]+' '+p[1]+'점</b> <span class="mute">누적 '+n+'</span><br><span class="mute">'+p[2]+'</span></p>'}).join('')
+  const sp='<p class="mute">점수 얻는 곳(모두 65점): 직업마다 25·45·60레벨 27점 · 제작 전문기술 18점 · PvP 12점 · 탐험 2점 · 레이드 3점 · 던전 3점 — '+SPELUNK.map(S=>S[1]+' '+S[2].filter(x=>spDone(c,x)).length+'/'+S[2].length).join(' · ')+' (던전 화면에서 확인)</p>';
+  let n=0;return sp+'<p>레벨업용으로 이 순서로 찍으세요 (캐릭터당 16점까지):</p>'+plan.map(p=>{n+=p[1];return '<p><b>'+p[0]+' '+p[1]+'점</b> <span class="mute">누적 '+n+'</span><br><span class="mute">'+p[2]+'</span></p>'}).join('')
    +'<p class="mute">'+(L<15?'새로 키우는 부캐는 재능(Talented)이 좋아요. 60레벨이 되면 빼고 다른 데 쓰세요.':'15레벨이 넘으면 재능(Talented)은 효과가 거의 없어요.')+''+' 재능은 휴식(Well Rested)을 5점 다 찍어야 열려요.</p>'}
 /* 비행 경로를 열었나: 애드온 이름(「마을, 지역」) 지역이 같거나, 직접 표시 */
 function fpKnown(c,f){if((c.fpk||{})[f[0]+'|'+f[1]])return 'm';if(!c.taxi)return false;const z=zn(f[1]);return c.taxi.some(t=>{const p=t.split(/,\s*/);return zn(p[p.length-1])===z||zn(p[0])===z})?'a':false}
@@ -2863,13 +2864,24 @@ function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map((
 function dgQBanner(c,d){const S=dgState(c,d);if(!S.Q.length)return '';const notTaken=S.left.length-S.inLog.length;
   if(S.all)return '<div class="dqb done"><b>✅ 던전 퀘스트 '+S.Q.length+'개를 다 했어요</b><small>11월 8일 핫픽스로 던전 몹 경험치가 50% 올라서, 다시 돌아도 경험치를 꽤 받아요.</small></div>';
   return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>던전 퀘스트 경험치가 커서 받고 가는 게 좋아요 · 11월 8일부터 던전 몹 경험치 +50% · 파티원 한 명에게라도 회색인 몹은 모두 경험치 0(11/13).</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
+/* 유산(Legacy) 던전 도전: 목록의 던전마다 마지막 보스를 잡으면 인정, 도전마다 1점 (allthings.how 던전별 정리, 게임 문구 「Complete the following dungeons」) */
+const SPELUNK=[['Novice Spelunker','초급',['hall-of-thanes','ruins-of-lordaeron','deadmines','wailing-caverns','shadowfang-keep','whelgar-excavation']],
+ ['Experienced Spelunker','중급',['blackfathom-deeps','razorfen-kraul','gnomeregan','city-of-dalaran','sm-graveyard','sm-library','sm-armory','sm-cathedral','drowned-city','kroldok-stronghold']],
+ ['Master Spelunker','고급',['razorfen-downs','uldaman','zul-farrak','maraudon','temple-of-atal-hakkar','alcaz-prison','blackrock-depths','lower-blackrock-spire','upper-blackrock-spire','dire-maul-east','dire-maul-north','dire-maul-west','scholomance','stratholme-live','stratholme-dead','blackmaw-hold','shapers-terrace']]];
+function spDone(c,slug){return !!((c.legDg&&c.legDg[slug])||(c.dgRuns||[]).some(r=>r.d===slug&&r.k>0))}
+function spOf(slug){return SPELUNK.find(x=>x[2].includes(slug))}
+function spCard(c,d){const S=spOf(d.slug);if(!S)return '';const n=S[2].filter(x=>spDone(c,x)).length,me=spDone(c,d.slug);
+  return '<details class="legsp'+(n===S[2].length?' all':'')+'"><summary><span class="ic" style="background-image:url('+ICO('achievement_dungeon_gloryofthehero')+'),url('+IC_Q+')"></span><span class="m"><b>유산 1점 · '+S[0]+'</b><small>'+S[1]+' 던전 '+S[2].length+'곳 중 <b>'+n+'</b>곳 · 이 던전 '+(me?'✓ 깼음':'아직')+'</small></span><i class="cv"></i></summary>'
+   +'<p class="mute">목록의 던전마다 마지막 보스를 잡으면 인정돼요. 「끝내고 정리」로 기록한 던전은 자동으로 ✓, 앱 밖에서 깬 던전은 아래 버튼으로 표시하세요. 실제 점수는 게임 유산 창(Y)이 기준이에요.</p>'
+   +'<div class="lspc">'+S[2].map(x=>DG[x]?'<button class="lsp'+(spDone(c,x)?' on':'')+(x===d.slug?' cur':'')+'" data-a="dgo" data-k="'+x+'">'+(spDone(c,x)?'✓ ':'')+esc(DG[x].ko)+'</button>':'').join('')+'</div>'
+   +((c.dgRuns||[]).some(r=>r.d===d.slug&&r.k>0)?'':'<button class="btn sm ghost" data-a="legdg" data-k="'+d.slug+'">'+(me?'↩ 깼음 표시 지우기':'✓ 이 던전 깼어요')+'</button>')+'</details>'}
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const byBoss={};items.forEach(it=>{const s=it.src.map(i=>SRC[i]).find(s=>s&&s.k===0&&s.dg===d.slug);const b=s?s.boss:'기타';(byBoss[b]=byBoss[b]||[]).push(it)});
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
   const myUps=items.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01);
   const pcN=dqOf(c,d).filter(q=>preChain(q.id).some(i=>!mqDone(c,QDB.get(i)))).length;
   let h='<div class="wrap"><div class="dhero2"><img src="'+DG_IMG(d.slug)+'" alt="" onerror="this.remove()"><div class="dt"><h2>'+esc(d.ko)+'</h2><small>'+esc(d.en)+'</small><div class="meta"><span class="pill lvp">Lv '+d.lo+'–'+d.hi+'</span>'+(d.soon?'<span class="pill soonp">🚧 개방 예정</span>':'')+(d.loc?'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_map_01')+')"></span>'+esc(d.loc)+'</span>':'')+'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_bone_humanskull_01')+')"></span>보스 '+order.length+'</span></div></div></div>';
-  const dt=ui.dtab||'route';h+=dgQBanner(c,d);
+  const dt=ui.dtab||'route';h+=dgQBanner(c,d)+spCard(c,d);
   h+='<div class="tabs3">'+[['route','inv_misc_map02','공략',''],['loot','inv_misc_bag_10','템',myUps.length?'⭐'+myUps.length:''],['quest','inv_misc_note_01','퀘스트',(()=>{const Q=dqOf(c,d),lf=Q.filter(q=>!dqIsDone(c,q)).length;return !Q.length?'':!lf?'✓':(pcN?'⚠':'')+lf})()]].map(x=>'<button class="'+(dt===x[0]?'on':'')+'" data-a="dtab" data-k="'+x[0]+'"><span class="ic" style="background-image:url('+ICO(x[1])+')"></span>'+x[2]+(x[3]!==''?' <em>'+x[3]+'</em>':'')+'</button>').join('')+'</div>';
   if(dt==='route')return h+dgRoute(c,d,dgTargets(c,d,dt))+'</div>';
   /* 1. 퀘스트 */
@@ -3349,6 +3361,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
   if(a==='dtab'){ui.dtab=k;rerender(true);return}
   if(a==='lf'){ui.lf=k;rerender(true);return}
+  if(a==='legdg'){c.legDg=c.legDg||{};if(c.legDg[k])delete c.legDg[k];else c.legDg[k]=Date.now();save();toast(c.legDg[k]?'✓ 깼음으로 표시했어요':'표시를 지웠어요');rerender(true);return}
   if(a==='rk'){c.dk=c.dk||{};const m=c.dk[ui.dg]=c.dk[ui.dg]||{};if(!m._s)m._s=Date.now();if(m[k])delete m[k];else{m[k]=Date.now();toast('✓ '+k+' 잡음')}save();rerender(true);return}
   if(a==='rkgo'){c.dk=c.dk||{};c.dk[ui.dg]={_s:Date.now()};save();toast('시작! 보스 잡으면 ✓ 눌러 주세요');rerender(true);return}
   if(a==='rkend'){const d=DG[ui.dg];if(!d)return;const S=dgState(c,d);const ups=dgEndItems(c,d);
