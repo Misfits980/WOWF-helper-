@@ -2516,7 +2516,7 @@ const zIco=z=>{const f=ZIC.find(x=>String(z||'').includes(x[0]));return f?f[1]:'
    대도시(스톰윈드 등)나 퀘스트 2개 이하인 지역은 앞 지역에 붙임 — 다녀오는 길에 하는 것 */
 const CAPZ=new Set(['스톰윈드','아이언포지','다르나서스','오그리마','썬더 블러프','언더시티']);
 function secNodes(S){const by=new Map();let prev=S.z.split(' · ')[0];
-  for(const q of S.q){let z=q.gz||((QDB&&QDB.get(q.id))||{}).z||prev;if(CAPZ.has(z))z=prev;prev=z;if(!by.has(z))by.set(z,[]);by.get(z).push(q)}
+  for(const q of S.q){const X=QDB&&QDB.get(q.id);let z=(X&&X.z&&MAPZ[zn(X.z)]?X.z:'')||q.gz||prev;if(CAPZ.has(z))z=prev;prev=z;if(!by.has(z))by.set(z,[]);by.get(z).push(q)}
   const E=[...by.entries()];const keep=E.filter(([z,qs])=>qs.length>2);if(!keep.length)return [{z:S.z.split(' · ')[0],a:S.a,b:S.b,S,sq:S.q}];
   const G=keep.map(([z,qs])=>({z,a:S.a,b:S.b,S,sq:qs.slice()}));
   E.forEach(([z,qs],i)=>{if(qs.length>2)return;const before=E.slice(0,i).reverse().find(e=>e[1].length>2);const g=G.find(g=>g.z===(before||keep[0])[0]);g.sq.push(...qs)});
