@@ -857,7 +857,16 @@ const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
 const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(ql[srcQid(s)]||(IT_Q[it.id]||[]).some(x=>ql[x])))};
 function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(srcSure))return 'sure';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
 const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({soon:'🚧 개방 예정 던전',ah:'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+'</span>'};
-function srcOk(it,mode,c){if(c&&questDoneOnly(it,c))return false;if(mode==='all')return true;return srcKind(it,c)==='sure'}
+/* 추천 기준: q 퀘스트만(던전 퀘스트 빼고) · dg 던전만(던전 보스·던전 퀘스트) · ok 퀘스트+던전(퀘스트·던전·상인·이름 있는 몹, 기본) · all 전체(경매장·월드 드랍까지) */
+let DQSET=null;const dqSet=()=>DQSET||(DQSET=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id))));
+const DGNM=new Set(DGS.flatMap(d=>[d.ko,d.old].filter(Boolean)));
+function srcCat(s){if(!s)return '';if(s.k===0)return DG[s.dg]&&!DG[s.dg].soon?'dg':'';
+  if(s.k===1){const m=(s.qn||'').match(/^(.+?) · 퀘스트 보상$/);if(m&&DGNM.has(m[1]))return 'dg';const q=srcQid(s);return q&&dqSet().has(q)?'dg':'q'}return ''}
+/* 얻는 곳이 「미공개」뿐인데 레벨도 능력치로 어림한 템(포에버 새 템 · 예: 화염 군주의 목장식 「11레벨」)은 언제 얻는지 몰라 추천하지 않음 */
+const lvUnknown=it=>it.est&&it.src.every(i=>!SRC[i]||/미공개/.test(SRC[i].label||''));
+function srcOk(it,mode,c){if(c&&questDoneOnly(it,c))return false;if(lvUnknown(it))return false;if(mode==='all')return true;
+  if(mode==='q'||mode==='dg'){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);return S.some(s=>srcCat(s)===mode)}
+  return srcKind(it,c)==='sure'}
 /* Wowhead 포에버 20·30레벨 가이드에 나온 템 */
 function guideHas(c,id,L){const G=(typeof D_GUIDE!=='undefined'&&D_GUIDE[c.cls+'/'+c.spec])||null;if(!G)return false;L=L||c.lv;return (L<=27&&(G['20']||[]).includes(id))||(L>=22&&L<=40&&(G['30']||[]).includes(id))}
 /* 무기 숙련: 처음부터 아는 것 말고는 무기 전문가에게 배워야 함 (얼라이언스, 10실버) */
@@ -869,7 +878,7 @@ const wskNeed=(it,c)=>{const [a,b]=(it.cs||'').split('.').map(Number);if(a!==2||
   if(!WSK0[c.cls]||WSK0[c.cls].includes(b))return null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b],guess:1}};
 const skTag=(it,c)=>{const n=wskNeed(it,c);if(!n)return '';if(n.low)return ' <span class="lkt sk" title="숙련도 '+n.low[0]+'/'+n.low[1]+'">🎓 '+esc(n.ko)+' 숙련 '+n.low[0]+'/'+n.low[1]+'</span>';return ' <span class="lkt sk" title="'+esc(n.ko)+' 숙련은 '+esc(n.at)+'에게 배워요">🎓 '+esc(n.ko)+' 숙련 필요</span>'};
 const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead WoW Forever 직업 가이드 추천">📘 공략 추천</span>':'';
-function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
+function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(mode!=='q'&&mode!=='dg'&&guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)&&!lvUnknown(it)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
@@ -1574,6 +1583,8 @@ function uRow(c,x,soon){const cur=eqIt(c,x.slot);const it=x.it;const st=it.st||{
 function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+guideTag(x.it,c)+skTag(x.it,c)+bothTag(x.it)+(x.it.id>=200000?' <span class="tag fv" title="와우 포에버에서 새로 생긴 템">포에버 신규</span>':'')+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
+/* 추천 기준 칸 (장비 탭) */
+const IFIL=[['q','퀘스트만','던전 없이 퀘스트 보상만'],['dg','던전만','던전 보스·던전 퀘스트만'],['ok','퀘스트+던전','퀘스트·던전·상인 (기본)'],['all','전체','경매장·월드 드랍까지']];
 const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
 const HEALER_NOTE={paladin:1,shaman:1,druid:1};
 function offLocked(c,s){return s==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h'}
@@ -1628,7 +1639,7 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   if(gs==='bag'){h+=bagView(c);return h+'</div></div>'}
   if(gs==='fr'){h+=frView(c);return h+'</div></div>'}
   if(gs==='up'||gs==='me'){const seg=(a,cur,opts)=>'<span class="gseg">'+opts.map(o=>'<button class="'+(cur===o[0]?'on':'')+'" data-a="'+a+'" data-k="'+o[0]+'" title="'+esc(o[2]||'')+'">'+gic(o[3])+'<span>'+o[1]+'</span></button>').join('')+'</span>';
-    h+='<div class="gopt">'+dspSeg(c)+seg('ifil',ui.ifil||'ok',[['ok','확실한 것만','퀘스트·던전 보스·상인'],['all','경매장·운 포함','경매장·월드 드랍도']])
+    h+='<div class="gopt">'+dspSeg(c)+seg('ifil',ui.ifil||'ok',IFIL)
       +(isTank(c)?seg('tmode',c.tmode||'bal',TMODE):(W[c.cls]||{})[c.spec]&&W[c.cls][c.spec].heal&&SOLO[c.cls]?seg('gmode',c.gmode||'heal',[['heal','힐','파티·던전','img/role-hl.png'],['solo','사냥','혼자 레벨업','img/role-dp.png']]):'')+'</div>'}
   if(gs==='up'&&ui.dsp==='2'&&!dspOn(me())&&(c.lv||1)>=40){h+=dspPick(c);return h+'</div></div>'}
   if(gs==='me')h+=slotPanel(c,ui.gslot);
@@ -3418,7 +3429,7 @@ function navLog(){const k=ui.tab+(ui.tab==='quest'?'/'+(ui.qmode||''):ui.tab==='
   try{const L=JSON.parse(sessionStorage.getItem('wfh_nav')||'[]');L.push([new Date().toTimeString().slice(0,8),NAVP||'-',k,NAVW]);sessionStorage.setItem('wfh_nav',JSON.stringify(L.slice(-30)));
     sessionStorage.setItem('wfh_view',JSON.stringify({tab:ui.tab,qmode:ui.qmode,dg:ui.dg}))}catch(e){}
   NAVP=k;NAVW='?'}
-function render(){const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');if(ui._tin){app.className+=' tin-'+ui._tin;ui._tin=null}
+function render(){{const c0=me();if(c0&&ui._ifc!==c0.id){ui._ifc=c0.id;ui.ifil=c0.ifil||'ok'}}const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');if(ui._tin){app.className+=' tin-'+ui._tin;ui._tin=null}
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(dspView(c));else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
   app.innerHTML=hIco(topBar(c)+(PV?'<div class="pvbar"><b>🧪 새 화면 미리보기</b><span>여기서 바꾼 건 실제 앱에 안 들어가요</span><button class="lnk" data-a="pvreset">실제 기록 다시 가져오기</button><a href="./">실제 앱 ›</a></div>':'')+fsNeedBar()+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
@@ -3654,7 +3665,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='dgt'){ui.dgt=ui.dgt||{};ui.dgt[k]=ui.dgt[k]===false;rerender(true);return}
   if(a==='cmpdel'){c.cmp=(c.cmp||[]).filter(x=>x!==+k);save();rerender(true);return}
   if(a==='cmpclr'){c.cmp=[];save();rerender(true);return}
-  if(a==='ifil'){ui.ifil=k;rerender(true);return}
+  if(a==='ifil'){ui.ifil=k;c.ifil=k;ui._ifc=c.id;save();rerender(true);return}
   if(a==='slot'){ui.sheet='slot:'+k;ui.isrch='';rerender(true);return}
   if(a==='repall'){ui.repAll=!ui.repAll;rerender(true);return}
   if(a==='wfr'){ui.sheet='wfr';rerender(true);return}

@@ -7710,3 +7710,59 @@
 18682|61|56|3|heal44 int8 sp15 spi9 sta20|h
 18761|62|57|3|heal9 int7 sp9|h
 284104|58|53|2|heal12 sp12 spi8|h
+286612|59|54|2|sta16|h
+13083|62|57|3|agi5 int4 spi17|h
+284257|59|54|3|heal13 sp13 sta18 str17|h
+11808|59|54|4|sta20|h
+12532|56|51|3|int17 sta20|h
+9378|40|35|3|ap11 str7|h
+18698|56|51|3|agi10 hit1 sta25|h
+13353|63|58|4|int15 shadow16 spi10 sta8|h
+18701|59|54|3|agi15 sta9|h
+14553|61|56|4|heal53 sp18 spi12 sta14|h
+18702|60|55|3|heal33 int14 sp11 sta11|h
+13075|63|58|3|agi15 spi16 sta16 str15|h
+18700|58|53|3|agi6 def2 sta16|h
+12551|56|51|3|sta6|h
+12606|61|56|3|heal13 int19 sp13 spi6 sta6|h
+18498|60|55|3|sta11 str5|h
+9375|40|35|3|agi7 sta8|h
+14812|64|59|2|spi15 sta3|h
+284072|62|57|0|int8|h
+18676|62|57|3|int7 nature30 spi7 sta6|h
+2245|59|54|4|agi18 ap22 sta32|h
+12609|61|56|3|sta14|h
+14577|61|56|3|crit1 int15 sta20|h
+18344|59|54|3|agi14 sta10|h
+18465|62|0|3|hit1|h
+18692|59|54|3|heal11 int11 sp11 sta11 str11|h
+18758|62|57|3|ap24|h
+18759|62|57|3|ap28 sta30|h
+226828|55|0|4|agi22 spi8 sta9 str9|h
+226832|65|0|3|agi17 spi7 sta13 str10|h
+226866|65|0|3|agi5 def7 sta18 str13|h
+226870|55|0|4|def5 dodge1 sta20 str11|h
+226883|55|0|4|agi14 int10 sta12|h
+226888|65|0|3|agi16 int10 sta16|h
+226905|65|0|3|heal12 int13 sp12 spi8 sta13|h
+226911|55|0|4|heal13 hit1 int13 sp13 sta16|h
+226930|55|0|4|heal12 hit1 int14 sp12 spi9 sta12|h
+226934|65|0|3|heal11 int14 sp11 sta14|h
+276071|59|54|3|def8 sta25 str13|h
+276072|61|56|3|heal20 sp7 spi12 sta8|h
+281599|60|55|2|ap25 spi5|h
+286613|62|57|3|agi11 ap13|h
+287037|60|55|3|heal18 int15 sp18 spi15|h
+287044|60|55|3|agi9 ap11 sta14|h
+286618|56|51|2|hit1 sta13|h
+226971|65|0|3|heal8 hit1 int11 sp8 sta11 str10|h
+226975|55|0|4|crit1 heal9 int10 sp9 sta10 str9|h
+226978|65|0|3|crit0.5 heal18 int13 sp6 spi12 sta12|h
+226982|55|0|4|heal24 int11 sp8 spi18 sta10|h
+226986|65|0|3|def3 int10 sta18 str13|h
+226990|55|0|4|def5 int10 parry0.8 sta15 str11|h
+226948|65|0|3|heal20 int13 mp52 sp7 spi12 sta12|h
+226950|55|0|4|heal24 int11 sp8 spi18 sta10|h
+226954|65|0|3|heal11 int14 sp11 spi14 sta10|h
+226958|55|0|4|heal19 int13 sp19 spi12 sta11|h
+287040|61|56|3|agi12 sta18|h

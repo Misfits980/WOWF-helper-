@@ -51,6 +51,10 @@ def parse_stats(lines):
             if mm: add(SCH[mm.group(1)],v); continue
             continue  # 저항·관통·종족 전투력 등은 점수 밖
         if not t.startswith('착용 효과'): continue
+        # 첫 문장만 능력치로 봄. 언데드·악마 등을 상대할 때만, 드루이드 변신 상태일 때만 붙는 전투력·주문력은 늘 붙는 능력치가 아님
+        # (예: 여명의 문장 「언데드에 대한 전투력 78」, 영원한 삶의 철퇴 「곰 변신 상태일 때 전투력 140」 → 전사·도적 추천이 크게 부풀었음)
+        body = re.split(r'(?<=다)\.\s*', body)[0]
+        if re.search(r'(언데드|악마|야수|용족|거인|정령|인간형)에 대한|변신 상태일 때|형상일 때|상대할 때|싸울 때', body): continue
         # 예전식 % 문장
         me = re.search(r'(?:회피되거나|회피당하거나).*확률이\s*(\d+(?:\.\d+)?)%만큼 감소', body)
         if me:
@@ -76,7 +80,7 @@ def parse_stats(lines):
         if not mv: continue
         v=int(mv.group(1))
         if re.search(r'확률|초 동안|적중 시|공격 시|사용 시',body): continue
-        if re.search(r'피해.*치유|치유.*피해',body): add('sp',v); add('heal',v)
+        if re.search(r'피해.*치유|치유.*피해|공격력 및 치유량',body): add('sp',v); add('heal',v)
         elif '치유' in body: add('heal',v)
         elif '주문' in body and any(s in body for s in SCH):
             for s,k in SCH.items():

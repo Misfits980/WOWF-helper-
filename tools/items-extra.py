@@ -122,6 +122,10 @@ for it in D:
     for t in tips:
         if t.startswith('Use:') or t.startswith('Chance on hit') or '(Proc)' in t:
             continue
+        # 드루이드 야수 형상 전용 전투력(「in Cat, Bear… forms only」)과 악마·언데드 등을 상대할 때만 붙는 전투력·주문력은
+        # 늘 붙는 능력치가 아님 → 더하면 네룹의 눈 전투력 60이 482가 됐음
+        if re.search(r'forms only|when fighting|against (Demons|Undead|Beasts|Dragonkin|Giants|Elementals|Humanoids)', t):
+            continue
         m = re.match(r'^Classes: (.+)$', t)
         if m:
             allow = [CLS_EN[x.strip()] for x in m.group(1).split(',') if x.strip() in CLS_EN]
