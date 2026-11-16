@@ -899,7 +899,8 @@ const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead W
 /* 근접·탱커 전문화는 천 방어구(망토 빼고)를 추천하지 않음: 포에버는 적중·치명타가 근접·주문 공용이라
    「지능+적중 1%」 마법사 장갑이 전사 손 칸 1위로 16레벨 동안 나왔음(가이드는 천을 권하지 않음 · 방어도 값은 점수에 없음) */
 const clothNo=(c,it)=>it.cs==='4.1'&&it.sl!=='ba'&&(['warrior','rogue','hunter'].includes(c.cls)||/근접 딜|탱커/.test(ROLE[c.cls+'/'+c.spec]||''))&&!['priest','mage','warlock'].includes(c.cls);
-function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(mode!=='q'&&mode!=='dg'&&guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)&&!lvUnknown(it)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
+/* 📘 공략 추천 템도 고른 출처를 따름: 예전엔 퀘스트+던전·레이드에서도 가이드 템이면 제작·경매장 템(파수병의 가죽 투구 등)이 추천에 들어왔음 */
+function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
