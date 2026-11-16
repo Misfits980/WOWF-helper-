@@ -684,3 +684,66 @@ av|불꽃 회오리|Fire Nova|all|근처 피해
 dz|정신 지배|Domination|all|한 명 조종 → 묶거나 체력 깎기
 hl|정신 분열|Mind Blast|hl|큰 피해 → 치유
 info|변신|Transform|all|체력 낮으면 악마로 변해요
+
+# 새 던전 4곳 (2026-11-16): 출시 첫 주 공략 기록(conquestcapped 등)을 내 말로 정리 · 바뀔 수 있음
+@drowned-city
+#Zul'Alai
+dz|격노|Enrage|all|체력이 낮아지면 공격이 크게 빨라져요 → 치유·생존 쿨기는 끝 무렵에 쓰기
+#Var'Taka
+add|나가 여사제|Brinescale Priestess|dp|옆에서 보스를 치유해요 → 먼저 잡거나 변이·혼절로 묶기
+#Deathless Guardians
+int|마법사|Deathless Sorcerer|dp|수호자와 같이 나오는 마법사가 주문을 써요 → 끊기
+#Min'loth the Serpent
+info|폭풍|Storm|all|다가가면 날씨가 폭풍으로 바뀌어요 → 마나·체력 채우고 시작
+dis:poison|연발 독액|Poison Volley|hl|여럿에게 독 → 독 해제
+av|공포|Fear|all|일행이 도망가요 → 공포의 수호물·진동의 토템
+@kroldok-stronghold
+#Slavecrusher Grox
+info|정찰 무리|Patrols|all|주변 무리가 보스보다 위험해요 → 정찰이 지나간 뒤 당기기
+#Twilight Commander Zarmok
+hl|출혈|Bleed|hl|탱커에게 출혈이 계속 걸려요 → 탱커 치유 늘리기
+#Handler Ashka
+add|늑대 둘|Wolves|dp|늑대 두 마리와 같이 와요 → 늑대부터 정리
+#Nar'gurk
+dz|정신 지배|Dominate Mind|all|한 명을 지배해요 → 기둥 뒤로 시야 끊고, 지배된 사람은 묶기
+#Bossman Toof
+add|주술사|Shamans|dp|주술사들과 같이 나와요 → 주술사부터 끊거나 묶기
+#Overseer Mugg
+av|뛰어들기|Leap|all|여기저기 뛰어들어요 → 흩어져 서기
+add|쫄|Adds|dp|탱커가 받는 치유를 줄여요 → 쫄 먼저 잡기
+@alcaz-prison
+#Overseer Wrex
+add|간수 부르기|Call Jailers|tk|간수 6~8명을 불러요 → 다음 방 말고 복도로 끌어와 잡기
+#The Questioner
+info|긴 싸움|Long Fight|all|체력이 많아요 → 큰 기술 아끼고 마나 나눠 쓰기
+#Tidemistress Ca'zass
+add|나가 쫄 변이|Naga Polymorph|dp|쫄이 변이를 계속 걸어요 → 쫄 먼저 잡거나 끊기
+av|눈보라|Blizzard|all|바닥에 눈보라 → 밖으로 나가기
+#Katerina the Cleaner
+dz|큰 화염 피해|Fire Damage|all|파티 전체가 세게 맞아요 → 체력 꽉 채우고 시작해서 빨리 잡기
+#Blazeroar
+info|화염이 안 들어요|Fire Immunity|dp|첫 기록에선 화염 주문이 안 들었어요 → 냉기 피해로 치기
+@shapers-terrace
+#Titanosaur
+av|공포|Fear|all|일행이 도망가요 → 공포의 수호물·진동의 토템
+av|꼬리 밀쳐내기|Tail Sweep|all|뒤에 서면 날아가요 → 보스 뒤에 서지 않기
+#Venomridge
+dis:poison|독 뿌리기|Poison Volley|hl|여럿에게 독 → 독 해제
+av|발구르기|Stomp|all|가까운 사람이 다 맞아요 → 흩어져 서기
+#Thunderhoof
+int|번개|Lightning Bolt|dp|끊을 수 있는 번개 주문 → 끊기 순서 정하기
+info|천둥벼락|Thunderclap|all|가까운 사람 모두 피해 → 체력 관리
+#Direhorn Matriarch
+tk|찌르기·돌진|Puncture|tk|탱커 피해가 커요 → 탱커 치유 늘리기
+#Izha'Rel and Tor'Rel
+add|둘이 같이|Pair|dp|정예가 아니라 군중 제어가 들어요 → 하나 묶고 다른 하나부터
+#Cinder
+av|불바닥|Flame Patches|all|바닥에 불이 남아요 → 피하고 화염 저항 올리기
+#Bolt
+av|연쇄 번개|Chain Lightning|all|뭉치면 다 맞아요 → 흩어져 서기 · 자연 피해는 안 들어요
+#Vitrix
+int|독 충격|Poison Shock|dp|근접에게 독 충격 → 기절로 끊기
+#Snowtalon
+av|냉기 원뿔·얼음 회오리|Frost Nova|all|묶이고 얼어요 → 큰 파란 수정에서 떨어져 싸우고 냉기 저항
+#Nanaya
+info|속성 바뀜|Element Shift|all|체력 25%마다 속성이 바뀌어요 → 저항을 바꿀 준비

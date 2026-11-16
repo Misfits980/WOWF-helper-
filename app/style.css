@@ -2246,3 +2246,6 @@ button.amh.nx{opacity:.7}
 .rt2 .rinf{flex:none;width:30px;height:30px;margin-right:8px;border-radius:50%;border:1.5px solid #9a7a45;background:rgba(255,255,255,.55);color:#6b4e1f;font:italic 800 15px Georgia,serif;cursor:pointer}
 .rt2 .rb.pk{background:#c47a12}
 .rpkn{font-size:12.5px;color:#6b4e1f;margin:6px 0 2px;line-height:1.45}
+/* 던전 시작 뒤 ✓ 버튼이 보스 얼굴에 가려 눌리지 않던 것: ✓가 있으면 얼굴을 카드 안으로 */
+.rrw>.rck+.rrh .por{margin-left:0}
+.rck{position:relative;z-index:1}

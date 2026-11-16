@@ -23,7 +23,13 @@ ADD = {
     'blackrock-depths': [4295, 4262, 7848],
     'upper-blackrock-spire': [6821],
     'scholomance': [5537, 5344],
+    # 새 던전 (2026-11-16, conquestcapped·lfcarry 퀘스트 목록과 대조)
+    'alcaz-prison': [96772, 95262, 96381],
+    'shapers-terrace': [95924, 95925],
+    'blackmaw-hold': [97173, 92344, 97327],
 }
+# Questie에 최소 레벨이 0으로 비어 있는 퀘스트: 공략 기록의 레벨로 채움
+MIN = {97327: 55}
 Q = {}
 for l in open(ROOT / 'data/qdb/quests.jsonl', encoding='utf-8'):
     q = json.loads(l); Q[q['id']] = q
@@ -48,7 +54,7 @@ for slug, ids in ADD.items():
         start = (g[0] or '시작') + ' · ' + ('던전 안' if inside else (where + (' ' + g[2].replace(',', ', ') if g[2] else '')).strip())
         pre = 1 if (q.get('pre') or q.get('pre1')) else 0
         rw, ch = RW.get(i, ([], 0))
-        lv = q['lv'] or q['m'] or 0; m = q['m'] or lv
+        lv = q['lv'] or q['m'] or 0; m = MIN.get(i) or q['m'] or lv
         out.append('|'.join(map(str, ['Q', slug, i, 'alliance', lv, m, q['n'], '', start, pre, ','.join(map(str, rw)), '', ch, '', q.get('cls') or 0])))
 (ROOT / 'data/qdb/dungeon-quests-extra.txt').write_text('\n'.join(out) + '\n', encoding='utf-8')
 print(len(out), '개')

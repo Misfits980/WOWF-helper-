@@ -683,6 +683,29 @@ def js_str(s):
 def fp(path):
     q = ROOT / path
     return hashlib.md5(q.read_bytes()).hexdigest()[:10] if q.exists() else '0'
+# 새 던전 보충 (data/guides/dungeon-route-extra.json): wowf.io 진행 순서가 비어 있는 칸만 채움.
+# 채운 칸 이름을 'x'에 적어 두어, 보충 파일을 고치면 다음 빌드에 다시 반영되고 wowf.io에 자료가 생기면 그쪽을 씀
+def _dg_extra():
+    p = ROOT / 'data/forg/dungeon-guide.json'
+    ep = ROOT / 'data/guides/dungeon-route-extra.json'
+    if not ep.exists():
+        return 0
+    raw = rd(p); g = json.loads(raw); ex = json.loads(rd(ep)); n = 0
+    for slug, e in ex.items():
+        if slug.startswith('_'):
+            continue
+        t = g.setdefault(slug, {'sum': '', 'prep': [], 'floors': [], 'steps': []})
+        mine = set(t.get('x') or [])
+        for k in ('sum', 'prep', 'steps'):
+            if e.get(k) and (k in mine or not t.get(k)):
+                t[k] = e[k]; mine.add(k)
+        if mine:
+            t['x'] = sorted(mine); t['src'] = e.get('src', ''); n += 1
+    out = json.dumps(g, ensure_ascii=False, separators=(',', ':'))
+    if out != raw:
+        p.write_text(out, encoding='utf-8')
+    return n
+print('dungeon extra', _dg_extra())
 DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
 # 길 따라 동선 격자(data/route/*.png, tools/route/build_grid.py): 파일 전체 지문 하나 + 있는 지역 번호
 _rg = sorted((ROOT / 'data' / 'route').glob('*.png'))

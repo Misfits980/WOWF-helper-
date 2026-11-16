@@ -793,3 +793,103 @@ do local t = {"dz|위험|정신 지배 — 묶거나 체력 깎기", "hl|치유|
 B["Balnazzar"] = t
 B["발나자르"] = t
 end
+do local t = {"dz|위험|격노 — 치유·생존 쿨기는 끝 무렵에 쓰기"}
+B["Zul'Alai"] = t
+B["줄알라이"] = t
+end
+do local t = {"add|쫄|나가 여사제 — 먼저 잡거나 변이·혼절로 묶기"}
+B["Var'Taka"] = t
+B["바르타카"] = t
+end
+do local t = {"int|끊기|마법사 — 끊기"}
+B["Deathless Guardians"] = t
+B["죽지 않는 수호자"] = t
+end
+do local t = {"info|참고|폭풍 — 마나·체력 채우고 시작", "dis|해제(독)|연발 독액 — 독 해제", "av|피하기|공포 — 공포의 수호물·진동의 토템"}
+B["Min'loth the Serpent"] = t
+B["독사 민로스"] = t
+end
+do local t = {"info|참고|정찰 무리 — 정찰이 지나간 뒤 당기기"}
+B["Slavecrusher Grox"] = t
+B["노예파괴자 그록스"] = t
+end
+do local t = {"hl|치유|출혈 — 탱커 치유 늘리기"}
+B["Twilight Commander Zarmok"] = t
+B["황혼의 사령관 자르모크"] = t
+end
+do local t = {"add|쫄|늑대 둘 — 늑대부터 정리"}
+B["Handler Ashka"] = t
+B["조련사 아쉬카"] = t
+end
+do local t = {"dz|위험|정신 지배 — 기둥 뒤로 시야 끊고, 지배된 사람은 묶기"}
+B["Nar'gurk"] = t
+B["나르구르크"] = t
+end
+do local t = {"add|쫄|주술사 — 주술사부터 끊거나 묶기"}
+B["Bossman Toof"] = t
+B["두목 투프"] = t
+end
+do local t = {"av|피하기|뛰어들기 — 흩어져 서기", "add|쫄|쫄 — 쫄 먼저 잡기"}
+B["Overseer Mugg"] = t
+B["감독관 머그"] = t
+end
+do local t = {"add|쫄|간수 부르기 — 다음 방 말고 복도로 끌어와 잡기"}
+B["Overseer Wrex"] = t
+B["감독관 렉스"] = t
+end
+do local t = {"info|참고|긴 싸움 — 큰 기술 아끼고 마나 나눠 쓰기"}
+B["The Questioner"] = t
+B["심문관"] = t
+end
+do local t = {"add|쫄|나가 쫄 변이 — 쫄 먼저 잡거나 끊기", "av|피하기|눈보라 — 밖으로 나가기"}
+B["Tidemistress Ca'zass"] = t
+B["해일여제 카자스"] = t
+end
+do local t = {"dz|위험|큰 화염 피해 — 체력 꽉 채우고 시작해서 빨리 잡기"}
+B["Katerina the Cleaner"] = t
+B["청소부 카테리나"] = t
+end
+do local t = {"info|참고|화염이 안 들어요 — 냉기 피해로 치기"}
+B["Blazeroar"] = t
+B["불길포효"] = t
+end
+do local t = {"av|피하기|공포 — 공포의 수호물·진동의 토템", "av|피하기|꼬리 밀쳐내기 — 보스 뒤에 서지 않기"}
+B["Titanosaur"] = t
+B["티타노사우루스"] = t
+end
+do local t = {"dis|해제(독)|독 뿌리기 — 독 해제", "av|피하기|발구르기 — 흩어져 서기"}
+B["Venomridge"] = t
+B["맹독마루"] = t
+end
+do local t = {"int|끊기|번개 — 끊기 순서 정하기", "info|참고|천둥벼락 — 체력 관리"}
+B["Thunderhoof"] = t
+B["천둥발굽"] = t
+end
+do local t = {"tk|탱커|찌르기·돌진 — 탱커 치유 늘리기"}
+B["Direhorn Matriarch"] = t
+B["암컷 공포뿔"] = t
+end
+do local t = {"add|쫄|둘이 같이 — 하나 묶고 다른 하나부터"}
+B["Izha'Rel and Tor'Rel"] = t
+B["Izha'Rel · Tor'Rel"] = t
+end
+do local t = {"av|피하기|불바닥 — 피하고 화염 저항 올리기"}
+B["Cinder"] = t
+B["잉걸불"] = t
+end
+do local t = {"av|피하기|연쇄 번개 — 흩어져 서기 · 자연 피해는 안 들어요"}
+B["Bolt"] = t
+B["쏜살"] = t
+end
+do local t = {"int|끊기|독 충격 — 기절로 끊기"}
+B["Vitrix"] = t
+B["비트릭스"] = t
+end
+do local t = {"av|피하기|냉기 원뿔·얼음 회오리 — 큰 파란 수정에서 떨어져 싸우고 냉기 저항"}
+B["Snowtalon"] = t
+B["눈갈퀴"] = t
+end
+do local t = {"info|참고|속성 바뀜 — 저항을 바꿀 준비"}
+B["Nanaya"] = t
+B["나나야"] = t
+end
