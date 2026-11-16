@@ -2663,10 +2663,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=916f1d0e"></script>
-<script>/* v772643 @11/17 00:58 */
+<script>/* v282012 @11/17 01:09 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 00:58';
+const BUILD='11/17 01:09';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3032,9 +3032,16 @@ function wRace(w,c){const m=RACEW[c.race];if(!m)return w;const k=c.race+'|'+c.cl
 /* 적중·회피막기감소 상한 (포에버): 60레벨 보스 기준 근접 8%·주문 17%·회피막기감소 6.5%, 레벨업(몹 1~2레벨 위) 근접 6%·주문 5%·회피막기감소 5%.
    착용 장비 + 종족(드워프 적중 1%)만 셈 — 특성 적중은 모름 */
 const RACE_HIT={dwarf:1};let _hc={k:'',v:null};
-function hitInfo(c){const k=(c.eq?Object.values(c.eq).join(','):'')+'|'+c.lv+'|'+c.race+'|'+c.cls+'|'+c.spec;if(_hc.k===k)return _hc.v;
+/* 적중 특성(포에버 특성 설명 기준, 점당 %): s = 주문, p = 무기. 내가 찍은 특성(게임·전투정보실·직접 고친 것)이 있으면 그걸, 없으면 지금 레벨까지의 가이드 빌드로 셈
+   (예: 냉기 법사 정밀함 3점 = 주문 적중 6% → 레벨업 상한 5%를 특성만으로 채워 적중 템 점수를 낮춤) */
+const TALHIT={mage:{'frost-elemental-precision':[2,'s']},warlock:{'affliction-suppression':[1,'s']},priest:{'shadow-magic-shadow-focus':[1,'s']},druid:{'balance-natures-reach':[2,'s']},
+  paladin:{'protection-precision':[1,'p']},rogue:{'combat-precision':[1,'p']},hunter:{'survival-surefooted':[1,'p']}};
+function talHit(c,L,cast){const T=TALHIT[c.cls];if(!T)return 0;let R=null;if(c.tal&&c.tal.cls===c.cls&&c.tal.r&&Object.keys(c.tal.r).length)R=c.tal.r;
+  else{const sp=specOf(c);R={};(sp&&sp.steps||[]).forEach(s=>{if(s[0]<=L&&T[s[1]])R[s[1]]=Math.max(R[s[1]]||0,s[2])})}
+  let h=0;for(const k in T)if(R[k]&&(T[k][1]==='s')===cast)h+=R[k]*T[k][0];return h}
+function hitInfo(c){const k=(c.eq?Object.values(c.eq).join(','):'')+'|'+c.lv+'|'+c.race+'|'+c.cls+'|'+c.spec+'|'+JSON.stringify(c.tal&&c.tal.r||'');if(_hc.k===k)return _hc.v;
   const w=wOf0(c);const cast=(w.shit||0)>(w.hit||0);const L=c.lv||60;const f=rateF(L);const tot={};SLOTS.forEach(([s])=>{const it=eqIt(c,s);if(it)for(const x of ['hit','exp'])if(it.st[x])tot[x]=(tot[x]||0)+it.st[x]});
-  const end=L>=58;const v={cast,hit:+((tot.hit||0)*f+(RACE_HIT[c.race]||0)).toFixed(1),cap:cast?(end?17:5):(end?8:6),exp:+((tot.exp||0)*f).toFixed(1),ecap:end?6.5:5,phys:!cast&&!w.heal};_hc={k,v};return v}
+  const th=talHit(c,L,cast);const end=L>=58;const v={cast,th,hit:+((tot.hit||0)*f+(RACE_HIT[c.race]||0)+th).toFixed(1),cap:cast?(end?17:5):(end?8:6),exp:+((tot.exp||0)*f).toFixed(1),ecap:end?6.5:5,phys:!cast&&!w.heal};_hc={k,v};return v}
 const capF=(cur,cap)=>cur>=cap?.15:cur>=cap-1?.6:1;
 const _wcap={};function wOf(c){const w=wRace(wOf1(c),c);if(w.def)return w;const h=hitInfo(c);const fh=capF(h.hit,h.cap),fe=h.phys?capF(h.exp,h.ecap):1;if(fh===1&&fe===1)return w;
   const k=fh+'|'+fe;if(_wcap.b===w&&_wcap.k===k)return _wcap.r;const r=Object.assign({},w);if(fh<1){if(r.hit)r.hit*=fh;if(r.shit)r.shit*=fh}if(fe<1&&r.exp)r.exp*=fe;_wcap.b=w;_wcap.k=k;_wcap.r=r;return r}
@@ -4275,7 +4282,7 @@ function dollCell(c,s,ups,bb){const it=eqIt(c,s);const sel=ui.gslot===s;const lo
    +(it?'<span class="ic lg q-'+it.q+'" data-tip="'+it.id+'" data-ts="'+s+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
    +(PV?(b?'<span class="up'+(b.soon?' soon':'')+'">'+(b.soon?(b.it.ob||b.it.lv)+'렙':b.empty?'빈 칸':'+'+gNum(b.g))+'</span>':''):ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
 function hitCapHtml(c){if(isTank(c))return '';if(PV){const w0=wOf0(c);if(!((w0.hit||0)>0||(w0.shit||0)>0||(w0.exp||0)>0))return ''}const h=hitInfo(c);const row=(nm,v,cap)=>{const st=v>=cap?'full':v>=cap-1?'near':'low';return '<div class="hcap '+st+'"><span>'+nm+'</span><b>'+v+'%</b><i style="width:'+Math.min(100,v/cap*100)+'%"></i><small>상한 '+cap+'%'+(st==='full'?' · 다 찼어요':st==='near'?' · 거의':'')+'</small></div>'};
-  return '<div class="hcaps">'+row('적중',h.hit,h.cap)+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note">'+((c.lv||60)>=58?'보스 기준':'레벨업 기준(몹 1~2레벨 위)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+'만 셈, 특성 적중은 빼고 · 상한 넘으면 그 능력치 점수를 낮춰요</p></div>'}
+  return '<div class="hcaps">'+row('적중',h.hit,h.cap)+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note">'+((c.lv||60)>=58?'보스 기준':'레벨업 기준(몹 1~2레벨 위)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+(h.th?'+특성 '+h.th+'%':'')+' 셈 · 상한 넘으면 그 능력치 점수를 낮춰요</p></div>'}
 function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
 /* 이중 특성 (40레벨~): 둘째 특성으로 보기 · 두 특성 다 좋은 템 표시 */
 function dspOn(c){return (c.lv||1)>=40&&c.spec2&&c.spec2!==c.spec}
