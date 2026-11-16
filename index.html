@@ -2645,11 +2645,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=0d430faa"></script>
-<script>/* v849fb4 @11/16 14:39 */
+<script src="app-data.js?v=d32ad2cf"></script>
+<script>/* vefd1b2 @11/16 14:40 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 14:39';
+const BUILD='11/16 14:40';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2695,8 +2695,8 @@ const WHY={rogue:'주무기 DPS가 딜을 가장 크게 정해요. 포에버는 
   warrior:{arms:'양손 무기 DPS가 딜을 정해요. 그다음 적중(8%까지)·회피·막기 감소·치명타·힘 순이에요.',fury:'무기 DPS 다음으로 적중(8%까지)·회피·막기 감소·치명타·힘 순이에요.',protection:'체력·방어 숙련·회피로 덜 맞는 게 먼저예요.'},
   hunter:'원거리 무기 공격력이 딜 대부분이에요. 그다음 적중(8%까지)·치명타·민첩 순이에요. 지능도 특성으로 전투력이 돼요.',priest:{discipline:'치유량·5초당 마나·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.',holy:'치유량·5초당 마나·정신력·지능 순이에요. 마법봉은 레벨업 사냥용이에요.','shadow-magic':'주문력·암흑 주문력·적중 순이에요. 포에버는 적중·치명타가 근접·주문 하나로 합쳐졌어요. 마법봉은 마나 아끼는 용도예요.'},
   mage:'적중(17%까지)·주문력·치명타·지능 순이에요. 마법봉은 마나 아끼는 용도예요.',warlock:'적중·주문력·치명타 순이에요(파괴는 치명타가 먼저). 체력도 생명력 전환에 좋아요.',
-  paladin:{holy:'치유량·지능·5초당 마나 순이에요.',protection:'체력·방어 숙련·방패 막기 순이에요.',retribution:'양손 무기 DPS·힘·치명타 순이에요. 포에버는 징벌 특성(Champion of the Light)으로 지능이 주문력으로 바뀌어서 지능·주문력도 조금 봐요.'},
-  shaman:{'elemental-combat':'주문력·지능·치명타 순이에요.',enhancement:'무기 DPS·힘이 먼저예요. 포에버는 고양 특성(Mental Dexterity)으로 지능이 전투력으로 바뀌어서 지능도 꽤 좋아요. 11월 10일 패치 뒤로는 힘이 1순위예요.',restoration:'치유량·치명타·지능·정신력 순이에요.'},
+  paladin:{holy:'치유량·지능·5초당 마나 순이에요.',protection:'체력·방어 숙련·방패 막기 순이에요.',retribution:'양손 무기 DPS·힘·치명타 순이에요. 포에버는 징벌 특성 「빛의 용사」로 지능이 주문력이 돼서 지능·주문력도 조금 봐요.'},
+  shaman:{'elemental-combat':'주문력·지능·치명타 순이에요.',enhancement:'무기 DPS·힘이 먼저예요. 포에버는 고양 특성 「교묘한 정신」으로 지능이 전투력이 돼요. 11월 10일 핫픽스로 비율이 150%→100%로 줄어 힘이 1순위예요.',restoration:'치유량·치명타·지능·정신력 순이에요.'},
   druid:{balance:'적중(17%까지)·치명타·주문력·지능 순이에요.','feral-cat':'포에버에서는 표범도 무기 DPS가 점수에 들어가요. 무기 DPS·회피·막기 감소·적중·민첩·힘 순이에요.','feral-bear':'체력·민첩·방어 숙련 순이에요.',restoration:'치유량·지능·정신력·5초당 마나 순이에요.'}};
 /* ===== 점수 공식 = forg.gg와 같은 틀 =====
    1) 기본 가중치: forg.gg 장비 추천 기본표(역할별)
