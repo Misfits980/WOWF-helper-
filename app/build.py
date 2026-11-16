@@ -58,6 +58,8 @@ _LDESC = {'비상 대책': '30초 동안 아군에게 보호 주문을 걸어요
           '어둠의 희생': '자기 생명력을 써서 시간에 걸쳐 마나를 얻어요. 정신력이 높을수록 마나를 더 얻어요',
           '평정': '인간형 적을 진정시켜 한동안 나를 알아채는 거리를 줄여요(정신 안정)'}
 _tkf = ROOT / 'data/guides/talent-ko.json'
+# 포에버 새 특성 중 forg 자료에 영어 이름만 있는 것: 게임 핫픽스 캐시(Cache/ADB/koKR/DBCache.bin)의 SpellName을 특성 아이콘(SpellMisc)으로 찾아 맞춘 한글 이름
+_TKN = {"paladin/retribution-turn-evil": "악령 퇴치", "rogue/combat-flash-of-steel": "강철의 섬광", "rogue/subtlety-boot-knife": "장화 칼", "priest/holy-holy-binding": "신성 결속", "druid/feral-combat-predatory-discipline": "포식자의 절제", "druid/restoration-bloom": "피워내기"}
 _TKO = {k: v for k, v in json.loads(_tkf.read_text(encoding='utf-8')).items() if not k.startswith('_')} if _tkf.exists() else {}
 for cid, c in cls.items():
     used = set(x[1] for s in c['specs'] for x in s['steps'])
@@ -67,7 +69,7 @@ for cid, c in cls.items():
         'learns': [[l[0], l[1], l[2], l[3], l[4], l[6], (_LDESC.get(l[1]) or l[7] or '')[:90], _LRACE.get(l[5] or '', '')] for l in c['learns']
                    if l[4] in ('', 'alliance', None) and (cid, l[1]) not in _LDROP],
         # 특성 칸(게임처럼 줄·칸·선행 화살표)을 그리려고 모든 특성을 넣음: [이름, 트리, 최대, 아이콘, 설명, 줄, 칸, 선행]
-        'talents': {k: [v['n'], v['t'], v['max'], v.get('icon', ''), (_TKO.get(cid + '/' + k) or (v.get('d') or '')[:110]), v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
+        'talents': {k: [_TKN.get(cid + '/' + k) or v['n'], v['t'], v['max'], v.get('icon', ''), (_TKO.get(cid + '/' + k) or (v.get('d') or '')[:110]), v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
         'specs': [{'id': s['id'], 'name': s['name'], 'icon': s['icon'], 'steps': s['steps'],
                    'rot': [[r['when'], r['txt']] for r in s['rotation']],
                    'early': [[r['when'], r['txt']] for r in s['early']],

@@ -2645,11 +2645,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=dfea5ab8"></script>
-<script>/* vf9feb6 @11/16 13:33 */
+<script src="app-data.js?v=55ad2b66"></script>
+<script>/* vb1eb4b @11/16 13:40 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 13:33';
+const BUILD='11/16 13:40';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3802,19 +3802,26 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
 const CHG=[
  ['2026-11-13','*','','던전: 파티원 한 명에게라도 너무 낮은(회색) 몹은 파티 모두 경험치 0 — 레벨 차이가 큰 친구와 돌면 경험치가 안 나와요'],
  ['2026-11-13','*','','가라앉은 도시: 보스 아닌 몹이 2시간 뒤에 다시 나와요(전엔 1시간)'],
+ ['2026-11-13','priest','','유산 「The Quick and the Dead」가 천상의 정신 마나 소모도 제대로 줄여 줘요'],
+ ['2026-11-13','*','','가시덤불 골짜기 호랑이·표범·랩터, 황야의 땅 작은 바위 정령이 더 자주 나와요 · 강물터 퀘스트 오류 몇 개 고침(징글스프로킷이 퀘스트를 안 주던 것 등)'],
  ['2026-11-13','druid','restoration','회복 드루: 급속 성장 치유량 2배(계수 3.3→6.6%) · 움직이면서는 못 써요'],
  ['2026-11-13','paladin','','지휘의 심판이 다시 근접 공격으로 판정돼요'],
  ['2026-11-13','shaman','','질풍의 토템이 주무기가 아닌 근접 기술로도 발동해요'],
  ['2026-11-12','shaman','enhancement','고양: 무기 강화와 무기 토템을 같이 써요(질풍의 무기+질풍의 토템) · 소용돌이치는 무기는 중첩마다 20%, 분당 6~10번'],
  ['2026-11-11','*','','강물터 정예 몹 피해 줄임 · 재봉 가방이 옷감 한 필 더 들어가게'],
- ['2026-11-10','*','','48레벨 넘는 퀘스트 대부분에 골드 보상이 생겼어요'],
+ ['2026-11-11','priest','','노움 교란의 섬광을 어둠의 형상에서도 써요 · 황혼의 집중(신성)도 어둠의 형상에서 적용돼요'],
+ ['2026-11-11','*','','아라시 고원 「The Giant in the Den」 앞 퀘스트가 막히던 것 고침 · 셴드랄라스 일부 지역에서 탈것을 못 타던 것 고침'],
+ ['2026-11-10','*','','강물터 「Poison Tips」 독사 수를 크게 늘림'],
+ ['2026-11-10','*','','48레벨 넘는 퀘스트 대부분에 골드 보상이 생겼어요 (11/15 공식 포럼엔 아직 빠진 퀘스트가 있다는 제보도 있어요)'],
  ['2026-11-10','shaman','enhancement','고양 주술사: 힘이 가장 좋은 능력치가 되도록 조정 — 장비 추천도 힘 우선으로 바뀌었어요'],
  ['2026-11-10','hunter','','사냥꾼 펫이 더 튼튼해져요 (클래식 수준 맷집)'],
  ['2026-11-10','warlock','','공허방랑자가 더 튼튼해져요 (클래식 수준 맷집)'],
  ['2026-11-10','warlock','affliction','고통: 지속 피해 주문이 Wrack과 같이 쓸 만하게 조정'],
- ['2026-11-09','*','','던전에서 몹 잡을 때 경험치가 늘었어요'],
+ ['2026-11-09','*','','던전에서 몹 잡을 때 경험치 +50% · 가라앉은 도시 몹이 30% 세게 때리던 것 고침 · 죽지 않는 골수 체력 −25%'],
+ ['2026-11-09','priest','','어둠의 형상 중 공포의 수호물을 써도 형상이 안 풀려요 · 마력 주입이 아군에게 제대로 유지돼요'],
  ['2026-11-06','warlock','','공허방랑자 기본 생명력 +40 · 일부 펫 기술이 오크 종족 특성을 너무 많이 받던 문제 수정'],
  ['2026-11-06','*','','가죽세공 무두질 틀 요구 숙련도 125로 낮춤'],
+ ['2026-11-06','*','','강물터 퀘스트 아이템이 파티원 모두에게 떨어져요 · 가라앉은 도시 입구 차원문 고침'],
  ['2026-11-04','*','','와우 포에버 출시 — 출시 전 노트에서 직업 피해량과 몹 생명력이 같이 올랐어요']];
 function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='*'||x[1]===c.cls)&&(!x[2]||x[2]===c.spec)&&now-Date.parse(x[0])<21*D);
   if(!L.length)return '';const mine=L.filter(x=>x[1]!=='*');
