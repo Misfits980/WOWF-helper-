@@ -751,7 +751,7 @@ button.pcs{cursor:pointer}
 .pcs.dn{opacity:.7}.pcs.dn .f{background:#2f6b3a}.pcs.dn .t b{text-decoration:line-through}
 .pcs.me{border:2px solid #c0761d;background:#fff4d8}.pcs.me .f{background:#c0761d}.pcs.me .t i{color:#c0761d;font-weight:700}
 .pcs.nx{opacity:.75}
-.pcfork{margin-top:6px;padding-top:6px;border-top:1px dashed rgba(120,80,30,.35)}.pcfork>small{display:block;font-size:12px;color:#7a5a2a;margin-bottom:2px}.pcfork .pcs .f{min-width:28px}
+.pcfork{margin-top:6px;padding-top:6px;border-top:1px dashed rgba(120,80,30,.35)}.pcfork>small{display:block;font-size:12px;color:#7a5a2a;margin-bottom:2px}.pcfork .pcs .f{min-width:28px}.pcfork.top{margin-top:0;padding-top:0;border-top:0}
 .pcs .cv{color:#7a5a2a}
 .pcfold>summary{cursor:pointer;font-size:12.5px;color:#7a5a2a;padding:4px 8px;list-style:none}
 .pcfold>summary::-webkit-details-marker{display:none}

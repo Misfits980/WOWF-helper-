@@ -760,7 +760,7 @@ button.pcs{cursor:pointer}
 .pcs.dn{opacity:.7}.pcs.dn .f{background:#2f6b3a}.pcs.dn .t b{text-decoration:line-through}
 .pcs.me{border:2px solid #c0761d;background:#fff4d8}.pcs.me .f{background:#c0761d}.pcs.me .t i{color:#c0761d;font-weight:700}
 .pcs.nx{opacity:.75}
-.pcfork{margin-top:6px;padding-top:6px;border-top:1px dashed rgba(120,80,30,.35)}.pcfork>small{display:block;font-size:calc(12px*var(--fs,1));color:#7a5a2a;margin-bottom:2px}.pcfork .pcs .f{min-width:28px}
+.pcfork{margin-top:6px;padding-top:6px;border-top:1px dashed rgba(120,80,30,.35)}.pcfork>small{display:block;font-size:calc(12px*var(--fs,1));color:#7a5a2a;margin-bottom:2px}.pcfork .pcs .f{min-width:28px}.pcfork.top{margin-top:0;padding-top:0;border-top:0}
 .pcs .cv{color:#7a5a2a}
 .pcfold>summary{cursor:pointer;font-size:calc(12.5px*var(--fs,1));color:#7a5a2a;padding:4px 8px;list-style:none}
 .pcfold>summary::-webkit-details-marker{display:none}
@@ -2654,10 +2654,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=707ce0bb"></script>
-<script>/* v8384ca @11/16 19:30 */
+<script>/* vff0e97 @11/16 19:41 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 19:30';
+const BUILD='11/16 19:41';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3344,7 +3344,17 @@ function chainOf0(id){const d=QD.get(id);if(d&&d.ch&&d.ch.length>1)return d.ch;f
 /* 갈래 이름: A~Z, 그 뒤는 숫자 (해안 표류물처럼 9갈래 넘는 연계가 있음) */
 const brL=i=>'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[i]||String(i+1);
 /* 연계 정보는 한 곳 기준: Questie 포에버 자료(갈래·보정 포함)가 있으면 그걸, 없을 때만 forg·wowf 연계 표 */
-function chainOf(id){const X=QDB&&QDB.get(id);if(X){const b=X._ch;return b?b.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r}):(QKIDS[id]?null:(X._root!==id?null:null))}return chainOf0(id)}
+function chainOf(id){const X=QDB&&QDB.get(id);if(X){const b=X._ch;return b?chFit(b.map(r=>{r=r.slice();r[5]=r[6]===id?1:0;return r}),id):(QKIDS[id]?null:(X._root!==id?null:null))}return chainOf0(id)}
+/* 연계 줄에 내 캐릭터가 못 받는 단계(다른 직업·종족용, 예: 안시온 연계의 「진지한 제안」 직업별)가 섞여 있으면
+   같은 이름의 내 것으로 바꾸고, 없으면 뺌. 지금 연 퀘스트는 그대로 둠 */
+function chFit(rows,id){const c=me();if(!c||!QDB)return rows;let ch=false;const out=[];
+  for(const r of rows){const y=r[6]&&QDB.get(r[6]);if(!y||r[6]===id||qdbOk(c,y)){out.push(r);continue}ch=true;
+    const alt=(qByName(y.n)||[]).map(i=>QDB.get(i)).find(z=>z&&z.id!==y.id&&qdbOk(c,z)&&!rows.some(q=>q[6]===z.id));
+    if(alt){const n=qchRow(alt.id,0);n[5]=0;out.push(n)}}
+  if(!ch)return rows;if(out.length<2)return null;out.forEach((r,i)=>r[0]=i+1);return out}
+/* 이 퀘스트 다음이 여러 갈래면 갈래 목록(내 캐릭터가 받을 수 있는 것만). skip = 이미 연계 줄에 보이는 번호 */
+function forkBox(c,id,skip){const K=(QKIDS[id]||[]).filter(k=>QDB.get(k)&&qdbOk(c,QDB.get(k)));if((QKIDS[id]||[]).length<2||!K.length)return '';const ks=K.filter(k=>!(skip&&skip.has(k)));if(!ks.length)return '';
+  return '<div class="pcfork"><small>↳ '+(K.length>1?'이 퀘스트 다음은 '+K.length+'갈래로 나뉘어요'+(ks.length<K.length?' · 다른 갈래':''):'다음 퀘스트')+'</small>'+ks.map(k=>{const x=QDB.get(k);const n2=(chainOf(k)||[]).length;return '<button data-a="qopen" data-k="'+k+'" class="pcs nx"><span class="f">↳</span><span class="t"><b>['+(x.lv||'?')+'] '+esc(x.n)+'</b><i>'+(n2>1?'이 갈래 '+n2+'단계 연계':'다음 퀘스트')+'</i></span><span class="cv">›</span></button>'}).join('')+'</div>'}
 /* 퀘스트 번호 → 출처가 그 퀘스트인 장비 (forg 아이템 출처). 퀘스트 자료를 불러온 뒤에 한 번 만듦 */
 let _QRI=null,_QRI0=null;function qRwItems(id){if(!_QRI){if(!QDB&&_QRI0)return _QRI0.get(id)||[];const M=new Map();for(const it of IT.values())for(const i of it.src||[]){const s=SRC[i];if(!s||s.k!==1)continue;const q=srcQid(s);if(q){if(!M.has(q))M.set(q,[]);if(!M.get(q).includes(it.id))M.get(q).push(it.id)}}if(!QDB){_QRI0=M;return M.get(id)||[]}_QRI=M}return _QRI.get(id)||[]}
 /* 퀘스트 보상 = 보상표(forg/wowf) + 던전 퀘스트 보상 + 출처가 이 퀘스트인 장비(보상표가 한 직업 것만 담긴 경우 등) */
@@ -3374,9 +3384,8 @@ let chx=chainOf(id);
        if(n<=7)return CH.map(row).join('');/* 길면 지금 단계 주변만, 나머지는 접기 */
        const win=r=>r[0]===1||r[0]===n||(r[0]>=ci0-2&&r[0]<=ci0+2);let out='',buf=[];const flush=()=>{if(buf.length){out+='<details class="pcfold"><summary>… '+buf[0][0]+(buf.length>1?'–'+buf[buf.length-1][0]:'')+'단계 '+buf.length+'개 더 보기</summary>'+buf.map(row).join('')+'</details>';buf=[]}};
        CH.forEach(r=>{if(win(r)){flush();out+=row(r)}else buf.push(r)});flush();return out})()
-     +(()=>{const ids=new Set(CH.map(r=>r[6]));const ks=(QKIDS[id]||[]).filter(k=>!ids.has(k)&&QDB.get(k));if(!ks.length||(QKIDS[id]||[]).length<2)return '';
-       return '<div class="pcfork"><small>↳ 이 퀘스트 다음은 '+(QKIDS[id]||[]).length+'갈래로 나뉘어요'+(ks.length<(QKIDS[id]||[]).length?' · 다른 갈래':'')+'</small>'+ks.map(k=>{const x=QDB.get(k);const n2=(chainOf(k)||[]).length;return '<button data-a="qopen" data-k="'+k+'" class="pcs nx"><span class="f">↳</span><span class="t"><b>['+(x.lv||'?')+'] '+esc(x.n)+'</b><i>'+(n2>1?'이 갈래 '+n2+'단계 연계':'다음 퀘스트')+'</i></span><span class="cv">›</span></button>'}).join('')+'</div>'})()+'</div>'}
-  else h+=preBlock(id,base.pre);{const X=QDB&&QDB.get(id);const xl=X&&!mqDone(c,X)?exLine(c,X):'';if(xl)h+='<p class="exn">⚖️ '+esc(xl)+'</p>'}h+='<p class="npc">'+QMK.g+' 받는 곳: <b>'+esc(g?npcKo(d,'g'):(base.gv||'—'))+'</b>'+(g&&g[1]?' · '+esc(placeTxt(g[1],g[2],id)):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
+     +(QDB?forkBox(c,id,new Set(CH.map(r=>r[6]))):'')+'</div>'}
+  else{h+=preBlock(id,base.pre);const fb=QDB?forkBox(c,id):'';if(fb)h+='<div class="prech ok"><b>🔗 연계 퀘스트의 첫 단계예요</b>'+fb.replace('<div class="pcfork">','<div class="pcfork top">')+'</div>'}{const X=QDB&&QDB.get(id);const xl=X&&!mqDone(c,X)?exLine(c,X):'';if(xl)h+='<p class="exn">⚖️ '+esc(xl)+'</p>'}h+='<p class="npc">'+QMK.g+' 받는 곳: <b>'+esc(g?npcKo(d,'g'):(base.gv||'—'))+'</b>'+(g&&g[1]?' · '+esc(placeTxt(g[1],g[2],id)):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
   if(base.extra)h+=base.extra;
   {const TS=tasksOf(d,obj);if(TS.length)h+='<h5>챙길 것 · 할 일</h5><ul class="ptask">'+TS.map(t=>{const drop=(t.drop||'').replace(/ ?그 밖 지역$/,'').trim();const unit=t.type==='처치'?'마리':'개';
     return '<li>'+(T_IC[t.type]||'•')+' <b>'+esc(t.nm)+(t.cnt?' '+t.cnt+unit:'')+'</b> '+(T_KO[t.type]||t.type)+(drop?'<br><span>'+(t.type==='수집'?'떨구는 몹: ':'')+esc(drop)+'</span>':'')+(t.where?'<br><span>많은 곳 '+esc(qWhere(id,t.nm,t.where))+'</span>':(()=>{const J=GJP(id,TS.indexOf(t)+1)||(TS.length===1?GJP(id):null);return J&&J[0]?'<br><span>📍 내가 한 곳 '+esc(J[0][0]+' '+J[0][1]+', '+J[0][2])+' <small>(애드온 기록)</small></span>':''})())+'</li>'}).join('')+'</ul>';if(!TS.length){const J=GJP(id);if(J&&J[0])h+='<p class="npc">📍 내가 목표를 한 곳: <b>'+esc(J[0][0]+' '+J[0][1]+', '+J[0][2])+'</b> <small>(애드온 기록)</small></p>'}}
