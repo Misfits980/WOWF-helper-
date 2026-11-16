@@ -2629,10 +2629,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=03d0826e"></script>
-<script>/* v6b6295 @11/16 11:32 */
+<script>/* vbeea80 @11/16 11:37 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 11:32';
+const BUILD='11/16 11:37';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3783,6 +3783,14 @@ function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
   return h+'</div>'}
 /* 8) 이번 주 직업 변경 — 블리자드 포에버 핫픽스·개발 노트에서 직업별로 골라 둔 것 (화요일마다 갱신) */
 const CHG=[
+ ['2026-11-13','*','','던전: 파티원 한 명에게라도 너무 낮은(회색) 몹은 파티 모두 경험치 0 — 레벨 차이가 큰 친구와 돌면 경험치가 안 나와요'],
+ ['2026-11-13','*','','가라앉은 도시: 보스 아닌 몹이 2시간 뒤에 다시 나와요(전엔 1시간)'],
+ ['2026-11-13','druid','restoration','회복 드루: 급속 성장 치유량 2배(계수 3.3→6.6%) · 움직이면서는 못 써요'],
+ ['2026-11-13','paladin','','지휘의 심판이 다시 근접 공격으로 판정돼요'],
+ ['2026-11-13','shaman','','질풍의 토템이 주무기가 아닌 근접 기술로도 발동해요'],
+ ['2026-11-12','shaman','enhancement','고양: 무기 강화와 무기 토템을 같이 써요(질풍의 무기+질풍의 토템) · 소용돌이치는 무기는 중첩마다 20%, 분당 6~10번'],
+ ['2026-11-11','*','','강물터 정예 몹 피해 줄임 · 재봉 가방이 옷감 한 필 더 들어가게'],
+ ['2026-11-10','*','','48레벨 넘는 퀘스트 대부분에 골드 보상이 생겼어요'],
  ['2026-11-10','shaman','enhancement','고양 주술사: 힘이 가장 좋은 능력치가 되도록 조정 — 장비 추천도 힘 우선으로 바뀌었어요'],
  ['2026-11-10','hunter','','사냥꾼 펫이 더 튼튼해져요 (클래식 수준 맷집)'],
  ['2026-11-10','warlock','','공허방랑자가 더 튼튼해져요 (클래식 수준 맷집)'],
@@ -5484,7 +5492,7 @@ function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map((
 /* 포에버 던전 경험치: 10/1 던전 퀘스트의 추가 경험치 절반으로 · 10/8 몹 +20% · 11/8 핫픽스 몹 +50% (블리자드) → 그래도 퀘스트 먼저 받고 가기 */
 function dgQBanner(c,d){const S=dgState(c,d);if(!S.Q.length)return '';const notTaken=S.left.length-S.inLog.length;
   if(S.all)return '<div class="dqb done"><b>✅ 던전 퀘스트 '+S.Q.length+'개를 다 했어요</b><small>11월 8일 핫픽스로 던전 몹 경험치가 50% 올라서, 다시 돌아도 경험치를 꽤 받아요.</small></div>';
-  return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>던전 퀘스트 경험치가 커서 받고 가는 게 좋아요 · 11월 8일부터 던전 몹 경험치도 50% 올랐어요.</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
+  return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>던전 퀘스트 경험치가 커서 받고 가는 게 좋아요 · 11월 8일부터 던전 몹 경험치 +50% · 파티원 한 명에게라도 회색인 몹은 모두 경험치 0(11/13).</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const byBoss={};items.forEach(it=>{const s=it.src.map(i=>SRC[i]).find(s=>s&&s.k===0&&s.dg===d.slug);const b=s?s.boss:'기타';(byBoss[b]=byBoss[b]||[]).push(it)});
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
