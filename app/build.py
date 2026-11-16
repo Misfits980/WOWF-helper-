@@ -238,9 +238,26 @@ def _dq():
             for s_ in p_[7].split(','):
                 if s_ in QSRC:
                     BYQ.setdefault(QSRC[s_], []).append(p_[0])
+    # 받는 곳(NPC·지역·좌표)은 퀘스트 자료(QuestieDB) 값이 맞으면 그걸로:
+    #  forg 자료가 다른 퀘스트 좌표를 붙인 것(크라젝 → 타나리스 트란렉 좌표 51.6, 26.8. 실제 무법항 26.9, 77.2)이나
+    #  「시작 · 강물터」처럼 NPC·좌표가 빠진 것. 대륙 이름·좌표 없는 것(-1)은 안 씀
+    QG = {}
+    if (Q / 'quests.jsonl').exists():
+        for line in rd(Q / 'quests.jsonl').splitlines():
+            o = json.loads(line)
+            g = o.get('g') or []
+            if len(g) > 3 and g[3] == 'npc' and g[0] and g[1] and g[1] not in ('동부 왕국', '칼림도어') and re.match(r'^\d', g[2] or '') \
+                    and not re.search('[A-Za-z]{3}', g[0]):
+                x, y = (float(v) for v in g[2].split(','))
+                QG[str(o['id'])] = (g[0], g[1], x, y)
     out = []
     for l in base.split('\n'):
         f = l.split('|')
+        if f[0] == 'Q' and len(f) > 8 and f[3] != 'horde' and f[2] in QG and not re.search('던전 안|입구 앞', f[8]):
+            n_, z_, x_, y_ = QG[f[2]]
+            m_ = re.match(r'^(.+?) · (.+?) ([\d.]+), ([\d.]+)$', f[8])
+            if (m_ and (m_.group(2) != z_ or abs(float(m_.group(3)) - x_) > 3 or abs(float(m_.group(4)) - y_) > 3)) or (not m_ and (not f[8] or f[8].startswith('시작 · ') or f[8].endswith(' · '))):
+                f[8] = '%s · %s %.1f, %.1f' % (n_, z_, x_, y_); l = '|'.join(f)
         if f[0] == 'Q' and len(f) > 6 and re.search('[A-Za-z]{3}', f[6]) and QN.get(f[2]):
             f[6] = QN[f[2]]; l = '|'.join(f)
         if f[0] == 'Q' and f[2] in BYQ:

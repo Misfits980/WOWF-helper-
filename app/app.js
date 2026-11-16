@@ -356,8 +356,10 @@ const SOLO={priest:{sp:1,shadow:.6,holy:.4,int:.6,spi:.6,mp5:.6,sta:.25,heal:.3,
   druid:{sp:1,nature:.5,arcane:.5,int:.5,spi:.3,heal:.25,sta:.2,scrit:8,shit:10}};
 const _wc={};
 /* 레벨업 중(58 미만)엔 혼자 사냥하니 체력·정신력을 조금 더 쳐요 (60레벨 시뮬 값 그대로면 체력이 너무 낮게 잡힘) */
-/* 포에버 등급(적중·치명타·회피)은 아이템에 60레벨 %로 넣어 둠 → 레벨이 낮으면 같은 등급이 % 더 큼 (60레벨 등급 × (레벨-8)/52) */
-const RATEK=['hit','crit','scrit','shit','dodge','parry','exp'];const rateF=L=>L>=58?1:Math.min(2.6,52/Math.max(2,L-8));
+/* 포에버 등급(적중·치명타·회피)은 아이템에 60레벨 %로 넣어 둠. 포에버 게임 파일 CombatRatings 표는 1~60레벨 모두 같은 값
+   (적중 10·치명타 14·회피 12·무기 막기 15·방패 막기 5·숙련 10 = 1%, wowsims/forever가 게임 파일에서 뽑은 표) → 레벨이 낮아도 % 그대로.
+   (예전엔 버닝 크루세이드 공식 (레벨-8)/52를 빌려 낮은 레벨에서 최대 2.6배로 쳐서 적중·치명타 템을 너무 높게 봤음) */
+const RATEK=['hit','crit','scrit','shit','dodge','parry','exp'];const rateF=L=>1;
 /* 종족 특성(포에버): 인간 정신력 +10%, 노움 최대 마나 +5% → 정신력·지능 가치가 그만큼 조금 오름. 적중·치명타 +1%(드워프·인간)는 순위를 안 바꿔서 뺌 */
 const RACEW={human:{spi:1.1},gnome:{int:1.03}};const _wr={};
 function wRace(w,c){const m=RACEW[c.race];if(!m)return w;const k=c.race+'|'+c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+(c.lv||60);if(_wr[k]&&_wr[k].b===w)return _wr[k].r;const r=Object.assign({},w);for(const x in m)if(r[x]&&(x!=='int'||r.int>=.2))r[x]=+(r[x]*m[x]).toFixed(3);_wr[k]={b:w,r};return r}
