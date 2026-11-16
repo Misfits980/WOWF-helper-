@@ -16,10 +16,15 @@ jobs:
         with: { node-version: 20 }
       - run: node tools/wythic-dungeons.mjs
       - run: node tools/wythic-profs.mjs
-      # 새 던전 진행 순서는 빌드 때 wythic 자료로 만들어지니(app/build.py _dg_extra) 같이 다시 빌드
-      - run: python3 app/build.py
+      # 새 던전 진행 순서는 빌드 때 wythic 자료로 만들어지니(app/build.py _dg_extra), 자료가 바뀌면 최신 main 위에서 다시 빌드
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/wythic data/forg/dungeon-guide.json
-          if ! git diff --cached --quiet; then git add index.html app-data.js addon/WowfHelper/BossTips.lua; git commit -m "wythic 던전 공략 갱신" && git pull --rebase && git push; fi
+          git add data/wythic
+          git diff --cached --quiet && exit 0
+          git commit -qm "wythic 던전 공략 갱신"
+          git pull -q --rebase
+          python3 app/build.py
+          git add data/forg/dungeon-guide.json index.html app-data.js addon/WowfHelper/BossTips.lua
+          git diff --cached --quiet || git commit -qm "wythic 반영 다시 빌드"
+          git push
