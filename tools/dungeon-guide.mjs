@@ -1,8 +1,9 @@
 // 던전 동선·공략: wowf.io 공략 페이지(진행 순서·준비·지도 핀) + forg.gg 보스 기술(끊기·해제 표시)·택틱
 // 결과: data/forg/dungeon-guide.json
 import fs from 'node:fs';
+import {makeGet,hostDown} from './fetch-guard.mjs';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function get(u){for(let k=0;k<3;k++){try{const r=await fetch(u,{headers:{'user-agent':'WOWF-helper data sync (github.com/Misfits980/WOWF-helper-)','accept-language':'ko'}});if(r.status===404)return null;if(r.ok){await sleep(600);return await r.text()}}catch(e){}await sleep(2500)}return null}
+const get=makeGet(600);
 const dec=s=>String(s||'').replace(/<!-- -->/g,'').replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#x27;|&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
 const norm=s=>String(s||'').replace(/[:\s·]/g,'').replace(/^the/i,'');
 export function parseWowf(h){if(!h)return null;const out={sum:'',prep:[],floors:[],steps:[]};
@@ -45,4 +46,12 @@ if(process.argv[1]&&process.argv[1].endsWith('dungeon-guide.mjs')){
     const g={};if(ws){const w=parseWowf(await get('https://wowf.io/ko/dungeons/'+ws+'/guide'));if(w)Object.assign(g,w,{ws})}
     const f=parseForg(await get('https://forg.gg/forever/dungeons/'+slug));if(f)g.boss=f;
     if(Object.keys(g).length){out[slug]=g;console.log(slug,ws||'-',(g.steps||[]).length,'단계',Object.keys(g.boss||{}).length,'보스')}}
+  /* 안전장치: wowf.io·forg.gg가 닫혔거나 일부만 받혔으면 예전 자료를 지우지 않음 — 못 받은 던전은 통째로, 못 받은 부분(진행 순서·지도 / 보스 기술)은 그 부분만 예전 것 */
+  let old={};try{old=JSON.parse(fs.readFileSync('data/forg/dungeon-guide.json','utf8'))}catch(e){}
+  let kept=0;for(const [slug,o] of Object.entries(old)){const n=out[slug];
+    if(!n){out[slug]=o;kept++;continue}
+    if(!n.ws&&o.ws){for(const k of ['sum','prep','floors','steps','ws'])if(o[k]!==undefined)n[k]=o[k];kept++}
+    else if(n.ws&&!(n.steps||[]).length&&(o.steps||[]).length&&!(n.floors||[]).length){for(const k of ['sum','prep','floors','steps'])if(o[k]!==undefined)n[k]=o[k];kept++}
+    if(!n.boss&&o.boss)n.boss=o.boss}
+  if(kept)console.log('예전 자료 유지',kept,'곳');
   fs.writeFileSync('data/forg/dungeon-guide.json',JSON.stringify(out));console.log('끝',Object.keys(out).length)}

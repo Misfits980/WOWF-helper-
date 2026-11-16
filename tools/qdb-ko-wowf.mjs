@@ -1,8 +1,9 @@
 // 맵 전체 퀘스트(data/qdb/quests.jsonl) 중 영어로 남은 것·반납 NPC 모르는 것을 wowf.io 한글 도감에서 채움
 // 결과: data/qdb/ko-extra.jsonl  {id,n,o,g,r}  (이미 받은 id는 건너뜀)
 import fs from 'node:fs';
+import {makeGet,hostDown} from './fetch-guard.mjs';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function get(u){for(let k=0;k<3;k++){try{const r=await fetch(u,{headers:{'user-agent':'WOWF-helper data sync (github.com/Misfits980/WOWF-helper-)','accept-language':'ko'}});if(r.status===404)return null;if(r.ok){await sleep(550);return await r.text()}}catch(e){}await sleep(2500)}return null}
+const get=makeGet(550);
 const dec=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#x27;|&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&');
 const lat=s=>/[A-Za-z]{3}/.test(s||'');
 const out='data/qdb/ko-extra.jsonl';const have=new Map();
@@ -19,7 +20,7 @@ for(const l of fs.readFileSync('data/qdb/quests.jsonl','utf8').split('\n')){if(!
 {const u=[...new Set(todo)];todo.length=0;todo.push(...u)}
 console.log('할 일',todo.length);let n=0;const t0=Date.now();
 for(const id of todo){if(Date.now()-t0>40*60e3){console.log('시간 다 됨, 다음에 이어서');break}
-  const h=await get('https://wowf.io/ko/quests/'+id);const rec={id};
+  const h=await get('https://wowf.io/ko/quests/'+id);if(h===null){if(hostDown('https://wowf.io/'))break;continue}const rec={id};
   if(h){const tt=(h.match(/<meta property="og:title" content="([^"]*)"/)||h.match(/<title>([^<]*)<\/title>/)||[])[1];
     if(tt){const nm=dec(tt).split(/ [-|·] /)[0].replace(/^와우 포에버\s*/,'').replace(/\s*퀘스트$/,'').replace(/\s*위치·보상$/,'').trim();if(nm)rec.n=nm}
     const body=h.replace(/<script[\s\S]*?<\/script>/g,'');

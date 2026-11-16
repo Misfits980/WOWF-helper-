@@ -1,6 +1,9 @@
 name: forg 자료 가져오기
 on:
   workflow_dispatch:
+  # 매일 한국 새벽 4시 23분: QuestieDB(포에버 퀘스트 수정이 거의 매일 올라옴)·forg·wowf 자료를 다시 받아 바뀌었을 때만 커밋
+  schedule:
+    - cron: '23 19 * * *'
   push:
     paths: ['tools/**', '.github/workflows/forg-data.yml']
 concurrency:

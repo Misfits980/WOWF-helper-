@@ -2263,3 +2263,7 @@ button.amh.nx{opacity:.7}
 .lsp{font-size:12px;padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:inherit;word-break:keep-all}
 .lsp.on{border-color:#4f7a3c;background:#24361d;color:#cdeeb4}
 .lsp.cur{outline:2px solid var(--gold2)}
+
+/* 하나만 고르는 퀘스트 안내 */
+.exn{margin:.5em 0;padding:.45em .7em;border-radius:8px;background:rgba(180,120,40,.14);border:1px solid rgba(180,120,40,.35);font-size:.92em;line-height:1.45}
+.ex1{color:#c98a2b;font-weight:600}

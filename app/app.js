@@ -578,8 +578,11 @@ function chainTree(c,root,zoneIds,shownIds,opt){opt=opt||{};const L=c.lv;const a
     return r};
   return h+'<div class="chflow">'+node(root,1)+'</div>'+(n>4?'<button class="chx" data-a="chx" data-k="'+root+'" data-f="1">접기 ⌃</button>':'')+'</div>'}
 function qStar(c,id){const R=RWD.get(id);if(!R)return false;for(const x of [...(R.ch||[]),...(R.fx||[])]){const it=IT.get(x[0]);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>.01)return true}}return false}
+/* 둘(셋) 중 하나만 하는 퀘스트(ex): 길잡이(bc)로 이어지는 짝은 고르는 게 아니라서 뺌 · 내 캐릭터가 받을 수 있는 짝만 */
+function exPeers(c,q){if(!q||!q.ex||!q.ex.length||!QDB)return [];return q.ex.map(i=>QDB.get(i)).filter(x=>x&&x.id!==q.id&&x.id!==q.bc&&x.bc!==q.id&&qdbOk(c,x))}
+function exLine(c,q){const P=exPeers(c,q);if(!P.length)return '';const nm=P.slice(0,3).map(x=>'「'+x.n+'」').join('·')+(P.length>3?' 외 '+(P.length-3)+'개':'');return '하나만 고르는 퀘스트 — 이걸 하면 '+nm+'은(는) 못 받아요'}
 function mqRow(c,q,inCh,same,where){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
-  const pf=d?null:preFirst(c,q.id);const tags=(pf?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
+  const pf=d?null:preFirst(c,q.id);const tags=(pf?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'')+(!d&&exPeers(c,q).length?'<span class="tag" title="'+esc(exLine(c,q))+'">택1</span>':'');
   const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});
   let sub=taskShort({id:q.id,obj:q.o});if(!sub)sub=(q.o||'').slice(0,40);if(lock)sub='🔒 '+mTxt(q)+' · '+sub;else if(pf)sub='🔒 먼저 「'+pf.n+'」 · '+sub;if(where)sub='📍 '+where+' · '+sub;
   return qFold({key:'m'+q.id,qd:q.id,lite:1,sub,done:d,lock:lock||(!!pf&&!!c.imported),lv:q.lv,nm:q.n,body,side:(qStar(c,q.id)?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+(q.id>=10000?qico('fnew'):'')+(q.cls?qico('cls'):'')+(same?'<span class="lk">같은 퀘 '+same+'개</span>':ch?qico('chain'):'')})}
@@ -688,7 +691,7 @@ function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=cha
        if(n<=7)return CH.map(row).join('');/* 길면 지금 단계 주변만, 나머지는 접기 */
        const win=r=>r[0]===1||r[0]===n||(r[0]>=ci0-2&&r[0]<=ci0+2);let out='',buf=[];const flush=()=>{if(buf.length){out+='<details class="pcfold"><summary>… '+buf[0][0]+(buf.length>1?'–'+buf[buf.length-1][0]:'')+'단계 '+buf.length+'개 더 보기</summary>'+buf.map(row).join('')+'</details>';buf=[]}};
        CH.forEach(r=>{if(win(r)){flush();out+=row(r)}else buf.push(r)});flush();return out})()+'</div>'}
-  else h+=preBlock(id,base.pre);h+='<p class="npc">'+QMK.g+' 받는 곳: <b>'+esc(g?npcKo(d,'g'):(base.gv||'—'))+'</b>'+(g&&g[1]?' · '+esc(g[1])+(g[2]?' ('+esc(g[2].replace(',',', '))+')':''):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
+  else h+=preBlock(id,base.pre);{const X=QDB&&QDB.get(id);const xl=X&&!mqDone(c,X)?exLine(c,X):'';if(xl)h+='<p class="exn">⚖️ '+esc(xl)+'</p>'}h+='<p class="npc">'+QMK.g+' 받는 곳: <b>'+esc(g?npcKo(d,'g'):(base.gv||'—'))+'</b>'+(g&&g[1]?' · '+esc(g[1])+(g[2]?' ('+esc(g[2].replace(',',', '))+')':''):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
   if(base.extra)h+=base.extra;
   {const TS=tasksOf(d,obj);if(TS.length)h+='<h5>챙길 것 · 할 일</h5><ul class="ptask">'+TS.map(t=>{const drop=(t.drop||'').replace(/ ?그 밖 지역$/,'').trim();const unit=t.type==='처치'?'마리':'개';
     return '<li>'+(T_IC[t.type]||'•')+' <b>'+esc(t.nm)+(t.cnt?' '+t.cnt+unit:'')+'</b> '+(T_KO[t.type]||t.type)+(drop?'<br><span>'+(t.type==='수집'?'떨구는 몹: ':'')+esc(drop)+'</span>':'')+(t.where?'<br><span>많은 곳 '+esc(qWhere(id,t.nm,t.where))+'</span>':'')+'</li>'}).join('')+'</ul>'}
@@ -2121,7 +2124,7 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
   if(cq===null)rows.push(['cls',qico('cls'),CKO+' 직업 퀘스트','<p class="mute">퀘스트 자료를 불러오는 중…</p>']);
   else if(cq.length){const now=cq.filter(q=>(q.m||0)<=L),soon=cq.filter(q=>(q.m||0)>L);
     rows.push(['cls',qico('cls'),CKO+' 직업 퀘스트 '+now.length+'개'+(soon.length?' · 곧 '+soon.length+'개':''),
-      now.slice(0,4).map(q=>'<button class="lhq" data-a="qopen" data-k="'+q.id+'"><span class="qlv '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n)+'</b><span>'+(q.g&&q.g[3]==='item'?'📦 아이템으로 시작 · '+esc(q.z||''):q.g&&q.g[0]?esc(q.g[0])+' · '+esc(q.g[1]||'')+(q.g[2]?' '+xyTxt(q.g[2]):''):'')+'</span></span>'+(q.id>=10000?qico('fnew'):'')+'</button>').join('')
+      now.slice(0,4).map(q=>'<button class="lhq" data-a="qopen" data-k="'+q.id+'"><span class="qlv '+lvCls(q.lv,L)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n)+'</b><span>'+(q.g&&q.g[3]==='item'?'📦 아이템으로 시작 · '+esc(q.z||''):q.g&&q.g[0]?esc(q.g[0])+' · '+esc(q.g[1]||'')+(q.g[2]?' '+xyTxt(q.g[2]):''):'')+(exPeers(c,q).length?' · <b class="ex1">택1: '+exPeers(c,q).slice(0,2).map(x=>esc(x.n)).join('·')+(exPeers(c,q).length>2?' 등':'')+'과 하나만</b>':'')+'</span></span>'+(q.id>=10000?qico('fnew'):'')+'</button>').join('')
       +(now.length>4?'<button class="lhm" data-a="qmode" data-k="map">나머지 '+(now.length-4)+'개는 맵 전체 › 직업에서</button>':'')
       +(soon.length?'<p class="mute">🔒 '+soon.slice(0,3).map(q=>esc(q.n)+' ('+q.m+'레벨)').join(' · ')+'</p>':'')])}
   else{let nm=99,nq=null;for(const q of QDB.values()){if(q.cls&&qdbOk(c,q)&&!mqDone(c,q)&&!exOut(c,q)&&!/행사|축제|침공/.test(q.z||'')&&(q.m||0)>L&&(q.m||0)<nm&&!q.pre1&&!(q.pre&&q.pre.length)){nm=q.m;nq=q}}

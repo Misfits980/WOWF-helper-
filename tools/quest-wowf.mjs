@@ -1,14 +1,15 @@
 // wowf.io 퀘스트 도감으로 보강: 한글 NPC 이름, 할 일(대상·개수), 앞 단계·연계 목록
 // 이미 읽은 퀘스트(wf 있음)는 건너뜀. FULL=1 이면 전부 다시
 import fs from 'node:fs';
+import {makeGet,hostDown} from './fetch-guard.mjs';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function get(u){for(let k=0;k<3;k++){try{const r=await fetch(u,{headers:{'user-agent':'WOWF-helper data sync (github.com/Misfits980/WOWF-helper-)','accept-language':'ko'}});if(r.status===404)return null;if(r.ok){await sleep(550);return await r.text()}}catch(e){}await sleep(2500)}return null}
+const get=makeGet(550);
 const dec=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#x27;|&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&');
 const file='data/forg/quests.jsonl';const byId=new Map();
 for(const l of fs.readFileSync(file,'utf8').split('\n')){if(!l)continue;const o=JSON.parse(l);byId.set(o.id,o)}
 let n=0;
 for(const [id,o] of byId){if(o.wf&&!process.env.FULL)continue;
-  const h=await get('https://wowf.io/ko/quests/'+id);if(!h){o.wf={none:1};continue}
+  const h=await get('https://wowf.io/ko/quests/'+id);if(h===null){if(hostDown('https://wowf.io/'))break;continue}if(!h){if(!o.wf)o.wf={none:1};continue}
   const body=h.replace(/<script[\s\S]*?<\/script>/g,'');
   const t=dec(body.replace(/<[^>]+>/g,'\n')).split('\n').map(x=>x.trim()).filter(Boolean);
   const s0=t.indexOf('퀘스트 목표');if(s0<0){o.wf={none:1};continue}

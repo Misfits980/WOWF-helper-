@@ -3,8 +3,9 @@
 //       클래식 자료로만 넣은 장비(포에버에서 바뀐 능력치 확인)
 // 결과: data/qdb/items-wowf.jsonl  (이미 읽은 번호는 건너뜀, 40분 넘으면 다음 실행 때 이어서)
 import fs from 'node:fs';
+import {makeGet,hostDown} from './fetch-guard.mjs';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function get(u){for(let k=0;k<3;k++){try{const r=await fetch(u,{headers:{'user-agent':'WOWF-helper data sync (github.com/Misfits980/WOWF-helper-)','accept-language':'ko'}});if(r.status===404)return null;if(r.ok){await sleep(500);return await r.text()}}catch(e){}await sleep(2500)}return null}
+const get=makeGet(500);
 const dec=s=>s.replace(/<!-- -->/g,'').replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#x27;|&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&').trim();
 const have=new Set();
 for(const f of ['data/forg/items.txt','data/qdb/items-extra.txt'])if(fs.existsSync(f))for(const l of fs.readFileSync(f,'utf8').split('\n'))if(l)have.add(+l.split('|')[0]);
@@ -39,5 +40,7 @@ const flush=()=>fs.writeFileSync(out,[...done.values()].map(o=>JSON.stringify(o)
 for(const id of todo){if(Date.now()-t0>40*60e3){console.log('시간 다 됨, 다음에 이어서');break}
   let rec=null;const h=await get('https://wowf.io/ko/items/'+id);if(h)rec=parseWowf(h,id);
   if(!rec||!rec.nm){const h2=await get('https://forever-tool.com/items/'+id+'/');if(h2&&h2.includes('아이템 번호'))rec=parseFT(h2,id)}
+  /* wowf.io를 못 받았고(닫힘·막힘) 다른 곳에서도 못 찾았으면 「없음」으로 남기지 않음 — 다음 실행 때 다시 */
+  if(!rec&&h===null){if(hostDown('https://wowf.io/')&&hostDown('https://forever-tool.com/'))break;continue}
   done.set(id,rec||{id,none:1});n++;if(n%100===0){console.log('읽음',n);flush()}}
 flush();console.log('끝',n);
