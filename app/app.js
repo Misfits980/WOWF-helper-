@@ -683,9 +683,14 @@ function parch(c,id,base){const d=Object.assign({},QD.get(id)||{});const chx=cha
     return '<button class="rt2'+(best?' best':'')+(it&&!use?' no':'')+'" data-a="'+(it?'info':'')+'" data-k="'+x[0]+'"><span class="ic q-'+x[3]+'" style="background-image:url('+ICO(x[2])+')"></span><span class="rn q'+x[3]+'">'+esc(x[1])+(x[4]>1?' ×'+x[4]:'')+'</span>'+(best?'<span class="rb">★ 추천</span>':b&&b.g>.01?'<span class="rb s">좋아짐</span>':it&&!use?'<span class="rb nx">못 씀</span>':'')+'</button>'};
   if(R.ch||R.fx||R.xp||R.money||R.rep){h+='<h5>보상</h5>';
     if(R.ch&&R.ch.length){let bi=-1,bg=.01;R.ch.forEach((x,i)=>{const it=IT.get(x[0]);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});
-      h+='<p>아래의 보상 중 한 가지를 선택할 수 있습니다:</p><div class="rgrid">'+R.ch.map((x,i)=>tile(x,i===bi)).join('')+'</div>';
-      {const pk=(c.rwPick||{})[id];const cur=pk&&R.ch.some(x=>x[0]===pk)?pk:(bi>=0?R.ch[bi][0]:0);
-       h+='<div class="rpk"><b>📌 고를 템</b>'+R.ch.map(x=>'<button class="'+(x[0]===cur?'on':'')+'" data-a="rwpick" data-k="'+id+':'+x[0]+'">'+esc(x[1])+'</button>').join('')+'<small>'+(pk?'직접 정했어요':'앱 추천대로')+' · 애드온에 「추천 코드」를 넣으면 게임에서 반납할 때 이 템을 알려 줘요</small></div>'}}
+      /* 보상 카드를 누르면 그게 「고를 템」 (다시 누르면 앱 추천으로) · 템 정보는 오른쪽 ⓘ */
+      const pk=(c.rwPick||{})[id];const cur=pk&&R.ch.some(x=>x[0]===pk)?pk:(bi>=0?R.ch[bi][0]:0);
+      const ptile=(x,best,on)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use?bestSlot(it,c):null;
+        return '<div class="rt2 pk'+(on?' on':'')+(best?' best':'')+(it&&!use?' no':'')+'"><button class="rpb" data-a="rwpick" data-k="'+id+':'+x[0]+'" aria-pressed="'+(on?'true':'false')+'"><span class="ic q-'+x[3]+'" style="background-image:url('+ICO(x[2])+')"></span><span class="rn q'+x[3]+'">'+esc(x[1])+(x[4]>1?' ×'+x[4]:'')+'</span></button>'
+          +(it?'<button class="rinf" data-a="info" data-k="'+x[0]+'" aria-label="템 정보">i</button>':'')
+          +(on?'<span class="rb pk">📌 고를 템'+(best?' · ★ 추천':'')+'</span>':best?'<span class="rb">★ 추천</span>':b&&b.g>.01?'<span class="rb s">좋아짐</span>':it&&!use?'<span class="rb nx">못 씀</span>':'')+'</div>'};
+      h+='<p>아래의 보상 중 한 가지를 선택할 수 있습니다:</p><div class="rgrid">'+R.ch.map((x,i)=>ptile(x,i===bi,x[0]===cur)).join('')+'</div>'
+        +'<p class="rpkn">'+(pk?'📌 직접 골랐어요 · 다시 누르면 앱 추천으로':'📌 카드를 누르면 고를 템으로 정해져요'+(cur?' · 지금은 앱 추천':''))+' · 애드온에 「추천 코드」를 넣으면 반납할 때 게임에서 알려 줘요</p>'}
     if(R.fx&&R.fx.length)h+='<p>받게 될 아이템:</p><div class="rgrid">'+R.fx.map(x=>tile(x,false)).join('')+'</div>';
     const ex=[];if(R.xp)ex.push('경험치 <b>'+R.xp.toLocaleString()+'</b>');if(R.money)ex.push('<b>'+money(R.money).trim()+'</b>');(R.rep||[]).forEach(r=>ex.push(esc(r[0])+' 평판 <b>'+esc(r[1])+'</b>'));
     if(ex.length)h+='<p>추가로 받게 될 보상:</p><p class="pex">'+ex.join(' · ')+'</p>'}
@@ -3271,7 +3276,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='townall'){ui.townAll=!ui.townAll;rerender(true);return}
   if(a==='jlall'){ui.jlAll=!ui.jlAll;rerender(true);return}
   if(a==='tbud'){c.tbud=+k||0;save();rerender(true);return}
-  if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};if(c.rwPick[q]===i)delete c.rwPick[q];else c.rwPick[q]=i;save();toast('고를 템을 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}
+  if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};const back=c.rwPick[q]===i;if(back)delete c.rwPick[q];else c.rwPick[q]=i;save();toast(back?'앱 추천으로 되돌렸어요':'고를 템으로 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}
   if(a==='fpk'){c.fpk=c.fpk||{};if(c.fpk[k])delete c.fpk[k];else c.fpk[k]=1;save();rerender(true);return}
   if(a==='lgv'){c.lgRoute=!c.lgRoute;save();rerender(true);return}
   if(a==='qlrm'){if(c.ql){const was=c.ql[+k];delete c.ql[+k];save();rerender(true);toastUndo('퀘스트창에서 뺐어요 (포기)',()=>{const cc=me();cc.ql=cc.ql||{};cc.ql[+k]=was;save();rerender(true)})}return}

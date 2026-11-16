@@ -2239,3 +2239,10 @@ button.amh.nx{opacity:.7}
 .amnav b{min-width:46px;text-align:center;color:var(--gold)}
 .amnav .btn{min-height:40px}
 .amnav .btn[disabled]{opacity:.4}
+/* 퀘스트 보상: 카드를 눌러 고를 템 정하기 */
+.rt2.pk{padding:0;gap:0}
+.rt2.pk .rpb{display:flex;align-items:center;gap:8px;flex:1;min-width:0;min-height:52px;padding:6px 8px;background:none;border:0;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.rt2.pk.on{border-color:#c47a12;background:rgba(255,226,150,.8);box-shadow:0 0 0 2px rgba(196,122,18,.35)}
+.rt2 .rinf{flex:none;width:30px;height:30px;margin-right:8px;border-radius:50%;border:1.5px solid #9a7a45;background:rgba(255,255,255,.55);color:#6b4e1f;font:italic 800 15px Georgia,serif;cursor:pointer}
+.rt2 .rb.pk{background:#c47a12}
+.rpkn{font-size:12.5px;color:#6b4e1f;margin:6px 0 2px;line-height:1.45}
