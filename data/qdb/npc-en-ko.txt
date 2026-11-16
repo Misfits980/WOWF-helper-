@@ -6316,7 +6316,7 @@ Grimtotem Stomper|그림토템부족 발굽전사
 Grimtotem Geomancer|그림토템부족 흙점쟁이
 Grimtotem Reaver|그림토템부족 학살자
 Blackhand Thug|검은손부대 암살단원
-Finkle Einhorn|핍 퀵윗
+Pip Quickwit|핍 퀵윗
 Janice Felstone|재니스 펠스톤
 Infected Squirrel|병든 다람쥐
 Infected Deer|병든 사슴
@@ -6464,7 +6464,7 @@ Crimson Rifleman|진홍십자군 소총병
 Shadow Priestess Vandis|어둠의여사제 반디스
 Alchemist Arbington|연금술사 알빙턴
 Apothecary Dithers|연금술사 디더스
-Fras Siabi|에즈라 그림
+Ezra Grimm|에즈라 그림
 Carlin Redpath|카를린 레드패스
 Darrowshire Spirit|다로우샤이어 영혼
 Thonys Pillarstone|토니스 필라스톤
@@ -7885,7 +7885,7 @@ Silverwing Elite|은빛날개 정예병
 Horde Elite|호드 정예병
 Horde Laborer|호드 인부
 High Overlord Saurfang|대군주 사울팽
-Field Marshal Afrasiabi|야전사령관 스톤브릿지
+Field Marshal Stonebridge|야전사령관 스톤브릿지
 Clavicus Knavingham|클라비쿠스 네이빙햄
 Mistina Steelshield|미스티나 스틸실드
 Bubulo Acerbus|버블로 에이커버스
@@ -8989,6 +8989,9 @@ Horde Tower Buffer|호드 경비탑 강화 효과
 Squire Rowe|수습기사 로우
 Lordaeron Veteran|로데론 정예병
 Lordaeron Fighter|로데론 병사
+Avelina Lilly|아벨리나 릴리
+Isaac Pearson|이삭 피어슨
+Summoned Incubus|소환된 인큐버스
 Archmage Lan'dalock|대마법사 랜달록
 Amisi Azuregaze|아미시 아주어게이즈
 Aemara|애마라
@@ -10074,9 +10077,6 @@ Ravaging Flood Elemental|성난 홍수의 정령
 Ravaging Drought Elemental|성난 가뭄의 정령
 Groundskeeper Lomar|관리인 로마르
 Sulhasa|술하사
-Avelina Lilly|아벨리나 릴리
-Isaac Pearson|이삭 피어슨
-Summoned Incubus|소환된 인큐버스
 Cyriden Farseeker|시리든 파시커
 Relathor Moonsong|렐라토르 문송
 The Lost One|잃어버린 자

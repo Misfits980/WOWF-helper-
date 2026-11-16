@@ -221,7 +221,7 @@
 1~퀘스트 · Rites of the Earthmother~wh:quest=14440
 1~퀘스트 · 나무그물거미알~wh:quest=917
 1~퀘스트 · Vile Familiars~wh:quest=1499
-1~퀘스트 · Securing the Lines~wh:quest=835
+1~퀘스트 · 보급로 확보~wh:quest=835
 3~드랍 · 타라곰 (모단 호수)~
 1~퀘스트 · Thunderhorn Cleansing~wh:quest=758
 1~퀘스트 · Dwarven Digging~wh:quest=14436
@@ -517,12 +517,12 @@
 1~퀘스트 · 뼈 수집가~wh:quest=5501
 1~퀘스트 · 코도 길들이기~wh:quest=5561
 1~퀘스트 · Melding of Influences~wh:quest=4642
-1~퀘스트 · 과거의 업적~wh:quest=5057
+1~퀘스트 · Past Endeavors~wh:quest=5057
 1~퀘스트 · 트레이 라이트포지의 유해~wh:quest=5385
 1~퀘스트 · 마지막 일격~wh:quest=5242
 1~퀘스트 · 대족장 눈사태~wh:quest=5121
 1~퀘스트 · 진말로의 수정~wh:quest=5253
-1~퀘스트 · Mission Accomplished!~wh:quest=5237
+1~퀘스트 · 임무 완료!~wh:quest=5237
 1~퀘스트 · 문자가 새겨진 떡갈나무 가지~wh:quest=4986
 1~퀘스트 · 시간 문제~wh:quest=4971
 1~퀘스트 · 하메야의 탄원서~wh:quest=6024
@@ -615,7 +615,7 @@
 1~퀘스트 · 과거의 비밀 밝히기~wh:quest=6845
 1~퀘스트 · 푸실린과 노쇠한 아즈토르딘~wh:quest=7441
 1~퀘스트 · 셴드랄라의 보물~wh:quest=7462
-1~퀘스트 · The Treasure of the Shen'dralar~wh:quest=7877
+1~퀘스트 · 셴드랄라의 보물~wh:quest=7877
 3~드랍 · 천둥발 크리그 (혈투의 전장)~
 1~퀘스트 · 방어의 고서~wh:quest=7499
 1~퀘스트 · 신비술사의 요리책~wh:quest=7500

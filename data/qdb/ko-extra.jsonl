@@ -1280,3 +1280,9 @@
 {"id": 93834, "rr": 1, "ft": 1, "n": "땅굴 딱정벌레"}
 {"id": 96666, "rr": 1, "ft": 1, "n": "땅굴에서 맺은 유대"}
 {"id": 96996, "n": "생애 첫 돌풍타조", "o": "첫 탈것으로 삼을 타조를 살펴봐야 합니다.", "g": "겐 페어웨더", "r": "겐 페어웨더"}
+{"id": 5678, "n": "비전 역순환", "o": "스톰윈드에 있는 대여사제 로레나와 대화해야 합니다.", "g": "여사제 알라시아", "r": "대여사제 로레나"}
+{"id": 7886, "n": "무공 훈장", "o": "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.", "g": "파수꾼 파송", "r": "파수꾼 파송", "ft": 1}
+{"id": 7887, "n": "무공 훈장", "o": "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.", "g": "파수꾼 파송", "r": "파수꾼 파송", "ft": 1}
+{"id": 7888, "n": "무공 훈장", "o": "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.", "g": "파수꾼 파송", "r": "파수꾼 파송", "ft": 1}
+{"id": 7921, "n": "무공 훈장", "o": "You obtained a Silverwing Talisman of Merit for your last task, talk to me again, and you gain your reward.", "g": "파수꾼 파송", "r": "파수꾼 파송", "ft": 1}
+{"id": 8289, "n": "무공훈장", "rr": 1, "ft": 1}

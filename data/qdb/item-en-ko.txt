@@ -310,7 +310,7 @@ Crystal Kelp Frond|투명한 해초 잎
 Invisibility Liquor|투명 물약
 Tharil'zun's Head|타릴준의 머리카락
 Midnight Orb|암흑의 수정구
-Keg of Thunderbrew Lager|썬더브루 맥주통
+Keg of Thunderbrew|썬더브루 맥주통
 Brain Hacker|파쇄의 도끼
 Headbasher|산산조각 철퇴
 Scorpion Sting|전갈 쐐기
@@ -4451,7 +4451,7 @@ Tazan's Key|타잔의 열쇠
 Tazan's Satchel|타잔의 가방
 Mage-tastic Gizmonitor|마법사의 기억장치
 Balnir Snapdragons|발니르 금어초
-Tigule and Foror's Strawberry Ice Cream|티굴의 딸기 아이스크림
+Tigule's Strawberry Ice Cream|티굴의 딸기 아이스크림
 Explorer's Vest|탐험가의 조끼
 Smite's Mighty Hammer|스마이트의 거대한 해머
 Astor's Letter of Introduction|아스토르의 소개장
@@ -7811,7 +7811,7 @@ Plate of the Shaman King|주술사왕의 갑옷
 Tressermane Leggings|다발갈기 다리보호구
 Skyshroud Leggings|하늘구름 다리보호구
 Smokey's Lighter|스모키의 라이터
-Siabi's Premium Tobacco|그림의 최고급 담배
+Grimm's Premium Tobacco|그림의 최고급 담배
 Flightblade Throwing Axe|비상의 투척용 도끼
 Plagued Flesh Sample|역병걸린 살덩어리 견본
 Voone's Twitchbow|부네의 강궁
@@ -11021,7 +11021,7 @@ Elder Magus Pendant|장로 마법사 펜던트
 Tidal Loop|해일의 고리
 Ocean's Breeze|대양의 바람
 Ring of Living Stone|생명석 반지
-Foror's Compendium of Dragon Slaying|노스트로의 용사냥 개론
+Nostro's Compendium of Dragon Slaying|노스트로의 용사냥 개론
 Glowing Crystal Ring|적열하는 수정 반지
 Dragonslayer's Signet|용사냥꾼의 인장
 Onyxia Tooth Pendant|오닉시아 이빨 펜던트
@@ -13999,7 +13999,11 @@ Chronoboon Displacer|시간축복 재배열기
 Supercharged Chronoboon Displacer|초충전된 시간축복 재배열기
 Avelina's Heart|아벨리나의 심장
 Isaac's Heart|이삭의 심장
+Lovers' Hearts|연인의 심장
+Wooden Figurine|목재 조각상
 Withered Scarf|너덜너덜한 목도리
+Unlit Torch|불을 붙이지 않은 횃불
+Burning Torch|불타는 횃불
 Lesser Deathstone|하급 죽음의 돌
 Greater Deathstone|상급 죽음의 돌
 Rune of Teleportation: Antechamber|순간이동의 룬: 대기실
