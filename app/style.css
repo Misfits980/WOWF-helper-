@@ -2184,7 +2184,10 @@ body.sidem{overflow:hidden}
 .prh{color:#ffb070;font-weight:700}
 
 /* 가방 정리 · 퀘스트 아이템: 어느 퀘스트·몇 레벨 (누르면 펼침) */
+.bgs .bgl{align-items:start}
 .bgs .bgq{min-width:0;border-bottom:1px solid rgba(255,255,255,.04)}
+.bgs .bgq[open]{grid-column:1/-1}
+.bgs .bgq[open] .bgqs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
 .bgs .bgq>summary{list-style:none;cursor:pointer;border-bottom:0}
 .bgs .bgq>summary::-webkit-details-marker{display:none}
 .bgs .bgq>summary .cv{flex:none;width:7px;height:7px;margin-right:4px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(-45deg);transition:transform .15s}
