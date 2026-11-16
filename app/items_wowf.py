@@ -56,6 +56,8 @@ def parse_stats(lines):
         if me:
             add('exp', float(me.group(1))); continue
         if re.search(r'자신에게 걸리는|감소합니다|받는', body): continue
+        # 발동·사망 시·몇 초 동안 같은 특수 효과 문장은 능력치가 아님 (예: 은총의 망치 「사망 시 파티원을 1176만큼 치유」, 정신의 조각칼 「적중하면 일정 확률로 … 시전 시간 10% 증가」)
+        if re.search(r'일정 확률로|적중하면|사망 시|치유합니다|피해를 입힙니다', body): continue
         mh=re.search(r'치유량이 최대 (\d+)만큼,\s*주문 공격력이 최대 (\d+)',body)
         if mh: add('heal',int(mh.group(1))); add('sp',int(mh.group(2))); continue
         mp=re.search(r'(\d+(?:\.\d+)?)%만큼 증가',body)
