@@ -256,7 +256,8 @@ def _dq():
         if f[0] == 'Q' and len(f) > 8 and f[3] != 'horde' and f[2] in QG and not re.search('던전 안|입구 앞', f[8]):
             n_, z_, x_, y_ = QG[f[2]]
             m_ = re.match(r'^(.+?) · (.+?) ([\d.]+), ([\d.]+)$', f[8])
-            if (m_ and (m_.group(2) != z_ or abs(float(m_.group(3)) - x_) > 3 or abs(float(m_.group(4)) - y_) > 3)) or (not m_ and (not f[8] or f[8].startswith('시작 · ') or f[8].endswith(' · '))):
+            if (m_ and (m_.group(2) != z_ or abs(float(m_.group(3)) - x_) > 3 or abs(float(m_.group(4)) - y_) > 3 or re.search('[A-Za-z]{3}', m_.group(1)))) \
+                    or (not m_ and (not f[8] or f[8].startswith('시작 · ') or f[8].endswith(' · '))):  # 영어로 남은 NPC 이름(Image of Archmage Modera)도 한글로
                 f[8] = '%s · %s %.1f, %.1f' % (n_, z_, x_, y_); l = '|'.join(f)
         if f[0] == 'Q' and len(f) > 6 and re.search('[A-Za-z]{3}', f[6]) and QN.get(f[2]):
             f[6] = QN[f[2]]; l = '|'.join(f)
