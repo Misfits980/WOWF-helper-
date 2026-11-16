@@ -67,13 +67,24 @@ _LDESC = {'비상 대책': '30초 동안 아군에게 보호 주문을 걸어요
           '얼음 화살': '냉기 피해를 주고 잠시 이동 속도를 줄여요',
           '냉기계 수호': '일정량의 냉기 피해를 흡수하는 보호막',
           '생명력 전환': '생명력을 마나로 바꿔요'}
+# 설명·운영 순서 글에 영어로 남은 포에버 기술·특성 이름 → 게임 한글 이름(게임 핫픽스 캐시 SpellName: 찌르기 1329283)
+_ENKO = {'Shank': '찌르기', 'Predatory Discipline': '포식자의 절제', 'Holy Binding': '신성 결속', 'Flash of Steel': '강철의 섬광',
+         'Boot Knife': '장화 칼', 'Turn Evil': '악령 퇴치', 'Bloom': '피워내기', 'Blood Splatter': '피 뿌리기'}
+
+
+def _enko(t):
+    for k, v in _ENKO.items():
+        t = re.sub(r'\b' + re.escape(k) + r'\b', v, t)
+    return t
+
+
 def _ldesc_any(c, name):
     return next((x[7] for x in c['learns'] if x[1] == name and (x[7] or '').strip()), '')
 
 
 _tkf = ROOT / 'data/guides/talent-ko.json'
 # 포에버 새 특성 중 forg 자료에 영어 이름만 있는 것: 게임 핫픽스 캐시(Cache/ADB/koKR/DBCache.bin)의 SpellName을 특성 아이콘(SpellMisc)으로 찾아 맞춘 한글 이름
-_TKN = {"paladin/retribution-turn-evil": "악령 퇴치", "rogue/combat-flash-of-steel": "강철의 섬광", "rogue/subtlety-boot-knife": "장화 칼", "priest/holy-holy-binding": "신성 결속", "druid/feral-combat-predatory-discipline": "포식자의 절제", "druid/restoration-bloom": "피워내기"}
+_TKN = {"paladin/retribution-turn-evil": "악령 퇴치", "rogue/combat-flash-of-steel": "강철의 섬광", "rogue/subtlety-boot-knife": "장화 칼", "priest/holy-holy-binding": "신성 결속", "druid/feral-combat-predatory-discipline": "포식자의 절제", "druid/restoration-bloom": "피워내기", "rogue/assassination-blood-splatter": "피 뿌리기"}
 _TKO = {k: v for k, v in json.loads(_tkf.read_text(encoding='utf-8')).items() if not k.startswith('_')} if _tkf.exists() else {}
 for cid, c in cls.items():
     used = set(x[1] for s in c['specs'] for x in s['steps'])
@@ -83,11 +94,11 @@ for cid, c in cls.items():
         'learns': [[l[0], l[1], l[2], l[3], l[4], l[6], (_LDESC.get(l[1]) or l[7] or _ldesc_any(c, l[1]))[:90], _LRACE.get(l[5] or '', '')] for l in c['learns']
                    if l[4] in ('', 'alliance', None) and (cid, l[1]) not in _LDROP],
         # 특성 칸(게임처럼 줄·칸·선행 화살표)을 그리려고 모든 특성을 넣음: [이름, 트리, 최대, 아이콘, 설명, 줄, 칸, 선행]
-        'talents': {k: [_TKN.get(cid + '/' + k) or v['n'], v['t'], v['max'], v.get('icon', ''), (_TKO.get(cid + '/' + k) or (v.get('d') or '')[:110]), v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
+        'talents': {k: [_TKN.get(cid + '/' + k) or v['n'], v['t'], v['max'], v.get('icon', ''), _enko(_TKO.get(cid + '/' + k) or (v.get('d') or '')[:110]), v.get('tier', 0), v.get('col', 0), v.get('req') or 0] for k, v in c['talents'].items()},
         'specs': [{'id': s['id'], 'name': s['name'], 'icon': s['icon'], 'steps': s['steps'],
-                   'rot': [[r['when'], r['txt']] for r in s['rotation']],
-                   'early': [[r['when'], r['txt']] for r in s['early']],
-                   'late': [[r['when'], r['txt']] for r in s['late']]} for s in c['specs']],
+                   'rot': [[_enko(r['when']), _enko(r['txt'])] for r in s['rotation']],
+                   'early': [[_enko(r['when']), _enko(r['txt'])] for r in s['early']],
+                   'late': [[_enko(r['when']), _enko(r['txt'])] for r in s['late']]} for s in c['specs']],
     }
 
 # 장비: forg 목록 + QuestieDB·클래식 자료로 더한 장비(data/qdb). 영어 이름은 한글로 바꿈
