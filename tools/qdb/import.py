@@ -554,6 +554,20 @@ SPECIAL_KO = {'Crafting': '제작', 'lunar festival': '달의 축제', 'camping'
               'City Of Dalaran 16560': '달라란'}
 CONT_FIX = {'하이잘 산': '칼림도어', '검은바위 산': '동부 왕국', '검은창 섬': '칼림도어', '달라란': '던전'}
 
+NAME_HOLE = [  # 앞뒤 글자로 확실히 알 수 있는 것만
+    (r'니<name>\.', '니다.'), (r'(있|었|왔|했)<name>고', r'\1다고'), (r'되<name> 않', '되지 않'), (r'(기|영)<name>를', r'\1지를'),
+    (r'포<name>(라이트|가)', r'포지\1'), (r'으<name> 가져', '으로 가져'), (r'을<name>도 모릅', '을지도 모릅'), (r'가<name>고 있', '가지고 있'),
+    (r'<name>른 ', '다른 '), (r'<name>팡이', '곰팡이'), (r'<name>레브(리안|라스)', r'셀레브\1'), (r'엘<name>라스', '엘다라스'),
+    (r'블러드후프 <name>을', '블러드후프 마을'), (r'(^|[\s,])<name>([.!?,\s]|$)', r'\1모험가\2'),
+]
+
+
+def fix_name_hole(t):
+    for a_, b_ in NAME_HOLE:
+        t = re.sub(a_, b_, t)
+    return t.replace('<name>', '…')  # 남은 것은 빠진 글자 표시
+
+
 out = []
 skip = {'horde': 0, 'nostart': 0, 'noname': 0}
 HORDE_Q = []  # 호드만 받는 퀘스트 번호 → data/qdb/horde-quests.txt (앱이 이 퀘스트 보상을 「얻을 수 있는 장비」에서 뺌)
@@ -599,6 +613,12 @@ for qid, q in sorted(QUEST.items()):
     if qid in KX and not x.get('n') and not x.get('nbad') and not re.search('[가-힣]', name):
         skip['notforever'] = skip.get('notforever', 0) + 1
         continue
+    # 플레이어 기록(traces) 한글 글에서 기록한 사람 이름(한 글자)이 <name>으로 바뀌어 글자가 빠진 것(예: 「합니<name>.」「오염되<name> 않은」)
+    if '<name>' in obj:
+        if x.get('o') and '<name>' not in x['o'] and not lat(x['o']):
+            obj = x['o']  # wowf.io 한글 글이 있으면 그걸로
+        else:
+            obj = fix_name_hole(obj)
     if lat(obj) and x.get('o') and not lat(x['o']):
         obj = x['o']
     if g and lat(g[0]) and x.get('g') and not lat(x['g']):
