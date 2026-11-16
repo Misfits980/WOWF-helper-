@@ -166,7 +166,8 @@ def load_entity(kind, dbfile, corr_files):
     return db
 
 
-QUEST = load_entity('quest', 'foreverQuestDB.lua', ['generated/foreverBaseQuest.lua', 'traces/foreverQuestTraces.lua', 'foreverQuestFixes.lua'])
+# 퀘스트 관계(앞 퀘스트·다음 퀘스트·배타)는 플레이어 기록에서 뽑은 foreverQuestRelationTraces도 씀 — QuestieDB 적용 순서(config.lua)와 같게 traces 뒤·Fixes 앞
+QUEST = load_entity('quest', 'foreverQuestDB.lua', ['generated/foreverBaseQuest.lua', 'traces/foreverQuestTraces.lua', 'traces/foreverQuestRelationTraces.lua', 'foreverQuestFixes.lua'])
 NPC = load_entity('npc', 'foreverNpcDB.lua', ['generated/foreverBaseNpc.lua', 'traces/foreverNpcTraces.lua', 'foreverNPCFixes.lua'])
 ITEM = load_entity('item', 'foreverItemDB.lua', ['generated/foreverBaseItem.lua', 'traces/foreverItemTraces.lua', 'foreverItemFixes.lua'])
 OBJ = load_entity('object', 'foreverObjectDB.lua', ['generated/foreverBaseObject.lua', 'traces/foreverObjectTraces.lua', 'foreverObjectFixes.lua'])

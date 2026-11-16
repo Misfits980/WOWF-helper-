@@ -1810,8 +1810,8 @@ function amView(c){if(!QDB)qdbLoad();if(!WLD)wldLoad();const F=amF();
      +'<div class="ampopr"><small>퀘스트 누르면</small>'+amStyleSeg()+'</div><div class="chips seg">'+[['now','내 레벨 ±'],['all','모든 레벨']].map(x=>'<button class="chip'+((F.lv||'now')===x[0]?' on':'')+'" data-a="amlv2" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div></div>':'')
    +'<div class="amctl"><button data-am="full" aria-label="전체 화면">'+(ui.amfull?'✕':'⛶')+'</button><button data-am="in" aria-label="확대">+</button><button data-am="out" aria-label="축소">−</button><button data-am="me" aria-label="지금 구간으로">◎</button><button data-am="pin" class="ampinb'+(ui.ampin?' on':'')+'" aria-label="지도에 메모 남기기">📍</button><button data-am="leg" class="amlegb'+(ui.amleg?' on':'')+'" aria-label="지도 표시 설명">?</button></div>'+amLegend(F)
    +(QDB?'':'<div class="amload">퀘스트 자료를 불러오는 중…</div>')+(ui.amfull?'<button class="amexit" data-am="full">✕ 작게 보기</button>':ui.amback?'<button class="amexit" data-a="amback">← 보던 퀘스트로 돌아가기</button>':'')+'<div id="ampanel"></div></div>'
-   +'<p class="mute src amhint">끌어서 움직이고, 두 손가락·두 번 톡·+/− 로 확대 · 번호는 레벨업 탭 단계 순서(다음 10곳) · 지도: wowf.io</p></div>'}
-function amHome(c){const R=amRoute(c);if(R.length)return {c:R[0].c,z:2.6,cx:R[0].x,cy:R[0].y};
+   +'<p class="mute src amhint">끌어서 움직이고, 두 손가락·두 번 톡·+/− 로 확대 · 번호는 레벨업 탭 단계 순서 · 기본은 한 곳씩(아래 카드의 이전·다음) · 지도: wowf.io</p></div>'}
+function amHome(c){const R=amRoute(c);if(R.length){const r=R[Math.max(0,Math.min(ui.amall?0:ui.amstep||0,R.length-1))];return {c:r.c,z:2.6,cx:r.x,cy:r.y}}
   const S=routeOf(c).find(S=>c.lv>=S.a&&c.lv<=S.b);const z=S?S.z.split(' · ')[0]:'';const a=toAtlas(z,'50,50');return a?{c:a.c,z:2,cx:a.x,cy:a.y}:{c:'ek',z:0.3,cx:2560,cy:4864}}
 let AM=null;
 function amInit(){const el=document.getElementById('amap');if(!el)return;const c=me();if(!c)return;const F=amF();
@@ -1868,14 +1868,19 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
       vis.forEach((p,i)=>{const isDg=/^dg/.test(p.kind);if(!solo.has(i)&&!isDg)return;const x=X(p),y=Y(p);if(!inV(x,y,20))return;const n=p.qs.length;const lv=n?Math.min(...p.qs.map(q=>q.lv||c.lv)):0;
         pins+='<button class="amk k-'+p.kind+(n?' '+lvCls(lv,c.lv):'')+(ui.amsel===i?' sel':'')+'" data-amk="'+i+'" title="'+esc(p.nm||'')+'" style="left:'+x+'px;top:'+y+'px">'+AMIC[p.kind]()+(n>1?'<b>'+n+'</b>':'')+(/^m/.test(p.kind)&&p.qs.length===1&&(c.qp||{})[p.qs[0].id]&&p.kind!=='mrd'?'<em>'+(c.qp[p.qs[0].id]).map(o=>o[0]+'/'+o[1]).join(' ')+'</em>':'')+((lab||isDg&&A.z>=2)&&p.nm?'<i>'+esc(p.nm)+'</i>':'')+'</button>'})}
     /* 동선 번호와 선 */
-    const R=FOC?[]:st.route.filter(r=>r.c===A.c);if(R.length){/* 같은 지역 안은 진한 선, 다른 지역으로 건너가는 긴 선은 흐리게 (비행·배로 가는 길이라 벽을 가로지르는 것처럼 보이지 않게) */
-      let run=[R[0]];const flush=()=>{if(run.length>1)svg+='<polyline points="'+run.map(r=>X(r)+','+Y(r)).join(' ')+'" class="amrt"/>'};
-      for(let i=1;i<R.length;i++){const a=R[i-1],b=R[i];if(zn(a.zone)!==zn(b.zone)){flush();svg+='<line x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'" class="amrt far"/>';run=[b]}
+    /* 동선 번호와 선 — 기본은 「한 곳씩」: 지금 갈 곳(크게) · 지나온 곳 · 다음 곳(흐리게)만, 「전체 보기」면 다음 10곳 모두 */
+    const RA=FOC?[]:st.route;const STEP=!ui.amall&&RA.length>0;const si=Math.max(0,Math.min(ui.amstep||0,RA.length-1));
+    const role=r=>!STEP?'':r===RA[si]?' cur':r===RA[si-1]?' pv':' nx';
+    const R=(STEP?[RA[si-1],RA[si],RA[si+1]].filter(Boolean):RA).filter(r=>r.c===A.c);
+    const segs=(L,cls)=>{if(L.length<2)return;let run=[L[0]];const flush=()=>{if(run.length>1)svg+='<polyline points="'+run.map(r=>X(r)+','+Y(r)).join(' ')+'" class="'+cls+'"/>'};
+      for(let i=1;i<L.length;i++){const a=L[i-1],b=L[i];if(zn(a.zone)!==zn(b.zone)){flush();svg+='<line x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'" class="'+cls+' far"/>';run=[b]}
         else{/* 같은 지역 안: 길 따라(격자가 있으면). 배·비행으로 보이는 먼 길은 흐린 직선 */const rp=a.zx!=null&&b.zx!=null?rgPath(a.zone,[a.zx,a.zy],[b.zx,b.zy]):null;
-          if(rp&&rp.far){flush();svg+='<line x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'" class="amrt far"/>';run=[b]}
-          else{if(rp)rp.p.slice(1,-1).forEach(p=>{const q=toAtlas(a.zone,p[0]+','+p[1]);if(q&&q.c===A.c)run.push(q)});run.push(b)}}}flush();
-      const RG=[];R.forEach(r=>{const x=X(r),y=Y(r);const g=RG.find(o=>Math.hypot(o.x-x,o.y-y)<26);if(g){g.m.push(r);r.grp=g.m}else{const m=[r];r.grp=m;RG.push({x,y,m})}});
-      RG.forEach(o=>{if(!inV(o.x,o.y,30))return;const nos=o.m.map(r=>r.no);pins+='<button class="amh'+(nos.length>1?' multi':'')+(nos.includes(ui.amhub)?' sel':'')+'" data-amh="'+nos[0]+'" style="left:'+o.x+'px;top:'+o.y+'px">'+nos.join('·')+'</button>'})}
+          if(rp&&rp.far){flush();svg+='<line x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'" class="'+cls+' far"/>';run=[b]}
+          else{if(rp)rp.p.slice(1,-1).forEach(p=>{const q=toAtlas(a.zone,p[0]+','+p[1]);if(q&&q.c===A.c)run.push(q)});run.push(b)}}}flush()};
+    if(R.length){
+      if(STEP){const pv=RA[si-1],cu=RA[si],nx=RA[si+1];if(pv&&pv.c===A.c&&cu.c===A.c)segs([pv,cu],'amrt');if(nx&&nx.c===A.c&&cu.c===A.c)segs([cu,nx],'amrt nx')}else segs(R,'amrt');
+      const RG=[];R.forEach(r=>{const x=X(r),y=Y(r);const g=STEP?null:RG.find(o=>Math.hypot(o.x-x,o.y-y)<26);if(g){g.m.push(r);r.grp=g.m}else{const m=[r];r.grp=m;RG.push({x,y,m})}});
+      RG.forEach(o=>{if(!inV(o.x,o.y,30))return;const nos=o.m.map(r=>r.no);const cu=STEP&&o.m[0]===RA[si];pins+='<button class="amh'+(nos.length>1?' multi':'')+role(o.m[0])+(!STEP&&nos.includes(ui.amhub)?' sel':'')+'" data-amh="'+nos[0]+'" style="left:'+o.x+'px;top:'+o.y+'px">'+nos.join('·')+'</button>'+(cu?'<span class="amhl" style="left:'+o.x+'px;top:'+(o.y+22)+'px">'+esc(o.m[0].nm)+'</span>':'')})}
     /* 고른 퀘스트 */
     const FO=ui.amq&&amFocus(ui.amq);let chainTot=0,chainN=0;
     /* 🔗 연계 전체 동선: 다른 단계는 흐린 선, 단계 번호 동그라미(누르면 그 단계로) */
@@ -1930,7 +1935,7 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
       if(k&&k.dataset.amst){ui.amq=+k.dataset.amst;ui.amsel=null;ui.amhub=null;ui.amzone=null;draw();amPanel({kind:'focus'});return}
       if(k&&k.dataset.amzi){ui.amzone=k.dataset.amzi;ui.amsel=null;ui.amhub=null;draw();amPanel({kind:'zone',zone:ui.amzone});return}
       if(k&&k.dataset.amz){const a=toAtlas(k.dataset.amz,'50,50');if(a){ui.am={c:a.c,z:2,cx:a.x,cy:a.y};ui.amsel=null;ui.amzone=k.dataset.amz;draw();amPanel({kind:'zone',zone:ui.amzone})}return}
-      if(k&&k.dataset.amh){ui.amzone=null;ui.amhub=+k.dataset.amh;ui.amsel=null;draw();amPanel(st.route.find(x=>x.no===ui.amhub));return}
+      if(k&&k.dataset.amh){ui.amzone=null;ui.amsel=null;if(!ui.amall&&!ui.amq){ui.amstep=Math.max(0,st.route.findIndex(x=>x.no===+k.dataset.amh));ui.amhub=null;draw();amPanel(amStepP(st.route));return}ui.amhub=+k.dataset.amh;draw();amPanel(st.route.find(x=>x.no===ui.amhub));return}
       if(k&&k.dataset.amk){ui.amzone=null;ui.amsel=+k.dataset.amk;ui.amhub=null;draw();amPanel(st.vis[ui.amsel]);return}
       const now=Date.now();if(now-st.tap<320){st.tap=0;zoomAt(1,e.clientX-r.left,e.clientY-r.top)}else{st.tap=now;st.L.style.transform=st.P.style.transform=''}return}
     const s=2**(ui.am.z-3);ui.am.cx-=d.dx/s;ui.am.cy-=d.dy/s;draw()};
@@ -1941,7 +1946,9 @@ function amInit(){const el=document.getElementById('amap');if(!el)return;const c
     if(k==='pin'){ui.ampin=!ui.ampin;b.classList.toggle('on',!!ui.ampin);el.classList.toggle('pinmode',!!ui.ampin);toast(ui.ampin?'📍 메모를 남길 자리를 지도에서 눌러 주세요':'메모 남기기를 껐어요');return}
     if(k==='leg'||k==='legx'){ui.amleg=!ui.amleg;const LB=el.querySelector('.amlegb');if(LB)LB.classList.toggle('on',!!ui.amleg);const L=el.querySelector('.amleg');if(L)L.classList.toggle('on',!!ui.amleg);return}
     if(k==='in')zoomAt(1,r.width/2,r.height/2);else if(k==='out')zoomAt(-1,r.width/2,r.height/2);else{ui.am=amHome(c);ui.amq=null;draw();amPanel(null)}}));
-  if(ui.amq)amPanel({kind:'focus'});else if(ui.amzone)amPanel({kind:'zone',zone:ui.amzone});else if(ui.amhub&&st.route.find(x=>x.no===ui.amhub))amPanel(st.route.find(x=>x.no===ui.amhub));else if(ui.amsel!=null&&st.vis&&st.vis[ui.amsel])amPanel(st.vis[ui.amsel])}
+  if(ui.amq)amPanel({kind:'focus'});else if(ui.amzone)amPanel({kind:'zone',zone:ui.amzone});else if(ui.amhub&&st.route.find(x=>x.no===ui.amhub))amPanel(st.route.find(x=>x.no===ui.amhub));else if(ui.amsel!=null&&st.vis&&st.vis[ui.amsel])amPanel(st.vis[ui.amsel]);else if(!ui.amall&&st.route.length&&st.route[0].S)amPanel(amStepP(st.route));else if(ui.amall&&st.route.length&&st.route[0].S)amPanel({kind:'allhint',n:st.route.length})}
+/* 한 곳씩 보기 카드: 지금 곳 + 이전·다음 */
+function amStepP(R){const i=Math.max(0,Math.min(ui.amstep||0,R.length-1));return Object.assign({},R[i],{grp:null,step:{i,n:R.length}})}
 function amRow(c,q,id){return '<div class="amrow"><button class="lhq" data-a="qopen" data-k="'+(id||q.id)+'"><span class="qlv '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span><span class="t"><b>'+esc(q.n||q.nm)+'</b><span>'+esc(((q.o||'').length>60?(q.o||'').slice(0,58)+'…':(q.o||'')))+'</span></span></button>'+(QDB&&QDB.get(id||q.id)?'<button class="amgo" data-a="amq" data-k="'+(id||q.id)+'" title="지도에 할 일 위치 보기">📍</button>':'')+'</div>'}
 function amPx(box){const cd=box.querySelector('.card');if(cd&&!cd.querySelector('.ampx'))cd.insertAdjacentHTML('afterbegin','<button class="ampx" data-a="ampx" aria-label="닫기">✕</button>')}
 function amPanel(p){const box=document.getElementById('ampanel');if(!box)return;const c=me();if(p!==ui._amp){ui.amdg=null;ui._amp=p}if(!p){box.innerHTML='';const am=document.querySelector('.am');if(am)am.classList.remove('amfoc');return}setTimeout(()=>amPx(box),0);
@@ -1953,9 +1960,11 @@ function amPanel(p){const box=document.getElementById('ampanel');if(!box)return;
      +(FO.P.some(x=>x.kind==='ob')?'':'<p class="mute">할 일 위치 자료가 없어서 받는 곳·반납하는 곳만 보여요.</p>')+'</div>';requestAnimationFrame(refit);return}
   if(p.kind==='cl'){box.innerHTML='<div class="card amcard">'+p.ps.map(x=>'<div class="amh"><b>'+AMIC[x.kind]()+' '+esc(x.nm||'')+'</b><span class="mute">'+esc(x.zone)+'</span></div>'+x.qs.sort((a,b)=>a.lv-b.lv).map(q=>amRow(c,q)).join('')).join('<hr class="amhr">')+'</div>';amPx(box);return}
   if(p.kind==='zone'){box.innerHTML='<div class="card amcard">'+zoneInfo(c,p.zone,{title:1,btn:1})+'</div>';return}
+  if(p.kind==='allhint'){box.innerHTML='<div class="card amcard"><div class="amh"><b>레벨업 다음 '+p.n+'곳</b><span class="mute">번호를 누르면 그 곳에서 할 일이 나와요</span></div><div class="amnav"><button class="btn sm pri" data-a="amall">한 곳씩 보기</button></div></div>';return}
   if(p.kind==='hub'&&p.S){const G=(p.grp||[p]);
     box.innerHTML='<div class="card amcard"><div class="amh"><b>'+G.map(g=>g.no).join('·')+'. '+esc(p.nm)+'</b><span class="mute">'+esc(p.zone)+' · 레벨업 단계 '+G.flatMap(g=>g.ks).join('·')+'번째</span></div>'
-     +G.flatMap(g=>g.S).flatMap(s0=>s0.items.map(it=>amRow(c,{n:RST[s0.type][0]+' · '+it.q.nm,lv:it.q.lv,o:s0.type==='do'?s0.place:''},it.q.id))).join('')+'</div>';return}
+     +G.flatMap(g=>g.S).flatMap(s0=>s0.items.map(it=>amRow(c,{n:RST[s0.type][0]+' · '+it.q.nm,lv:it.q.lv,o:s0.type==='do'?s0.place:''},it.q.id))).join('')
+     +(p.step?'<div class="amnav"><button class="btn sm" data-a="amstp" data-k="-1"'+(p.step.i?'':' disabled')+'>◀ 이전</button><b>'+(p.step.i+1)+' / '+p.step.n+'</b><button class="btn sm pri" data-a="amstp" data-k="1"'+(p.step.i<p.step.n-1?'':' disabled')+'>다음 ▶</button><button class="btn sm ghost" data-a="amall">전체 보기</button></div>':(ui.amall&&!ui.amq?'<div class="amnav"><button class="btn sm ghost" data-a="amall">한 곳씩 보기</button></div>':''))+'</div>';return}
   if(p.kind==='hub'){const H=p.H;const rows=[...H.turn.filter(x=>!x.done).map(x=>[x,1]),...H.get.filter(x=>!x.done).map(x=>[x,0])];
     box.innerHTML='<div class="card amcard"><div class="amh"><b>'+p.no+'. '+esc(p.nm)+'</b><span class="mute">'+esc(p.zone)+' · '+QMK.g+'받기 '+H.get.filter(x=>!x.done).length+(H.turn.filter(x=>!x.done).length?' · '+QMK.r+'반납 '+H.turn.filter(x=>!x.done).length:'')+'</span></div>'
      +rows.map(([x,t])=>amRow(c,{n:(t?'❓ ':'')+x.q.nm,lv:x.q.lv,o:t?((x.rv||'')+'에게 반납'):''},x.q.id)).join('')+'</div>';return}
@@ -2415,7 +2424,10 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
         for(const p of g){const P=QDB.get(p);if(!P||(P.m||0)>L||d>4||prof({nm:P.n}))continue;if(!pull(p,d+1))continue;const r=recQ(p,n.z);if(!r)continue;out.push(r);ids.add(p);ok=true;break}
         if(!ok)return false}return true};
     for(const q of list){if((ql[q.id]||0)>=1)continue;if(!pull(q.id,0)){const g=groups(q.id).find(g=>!g.some(p=>ids.has(p)));blk.push({q,need:g&&QDB.get(g[0])})}}
-    const B=new Set(blk.map(x=>x.q.id));return {list:out.filter(q=>!B.has(q.id)),blk}};
+    /* 앞 퀘스트가 목록에 있어도 그게 막혔으면 이것도 막힘 — 바뀌지 않을 때까지 반복 */
+    const B=new Set(blk.map(x=>x.q.id));for(let more=true,k=0;more&&k<20;k++){more=false;
+      for(const q of out){if(B.has(q.id)||(ql[q.id]||0)>=1)continue;const g=groups(q.id).find(g=>!g.some(p=>ids.has(p)&&!B.has(p)));if(g){B.add(q.id);blk.push({q,need:QDB.get(g.find(p=>B.has(p))||g[0])});more=true}}}
+    return {list:out.filter(q=>!B.has(q.id)),blk}};
   const baseOf=n=>qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)<=L&&(!QDB||QDB.has(q.id))&&!prof(q));
   const blkOf=n=>preFix(n,baseOf(n)).blk;
   const stOf=n=>recStages(c,preFix(n,baseOf(n)).list,c.lpos);
@@ -3329,6 +3341,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='dcs'){const dc=document.querySelector('.dchips');if(dc)dc.scrollBy({left:(+k)*dc.clientWidth*.8,behavior:'smooth'});return}
   if(a==='amc'){if(ui.am&&ui.am.c!==k)ui.am={c:k,z:0,cx:ATL[k].w/2,cy:ATL[k].h/2};ui.amsel=null;rerender(true);return}
   if(a==='amfo'){ui.amfo=!ui.amfo;rerender(true);return}
+  if(a==='amstp'){const R=(AM&&AM.route)||[];if(!R.length)return;ui.amstep=Math.max(0,Math.min((ui.amstep||0)+(+k),R.length-1));const r=R[ui.amstep];if(ui.am&&r)ui.am={c:r.c,z:Math.max(ui.am.z||0,2.6),cx:r.x,cy:r.y};ui.amhub=null;ui.amsel=null;ui.amzone=null;rerender(true);return}
+  if(a==='amall'){ui.amall=!ui.amall;ui.amhub=null;rerender(true);return}
   if(a==='amlv2'){ui.amf=Object.assign({},AMF0,ui.amf||{});ui.amf.lv=k;ui.amsel=null;rerender(true);return}
   if(a==='amback'){amBack(true);return}
   if(a==='ampx'){ui.amsel=null;ui.amhub=null;ui.amzone=null;ui.amq=null;ui.amcl=null;if(AM&&AM.draw)AM.draw();amPanel(null);return}
