@@ -2756,26 +2756,31 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 /* ===================================================================
    정리: 이모지·그림이 줄마다 제각각이던 곳 → 같은 모양 이름표·같은 높이 줄
    =================================================================== */
-/* 마을 들를 때 할 일: [반납] 1  강물터 보고서 */
-.town .twn{padding:9px 0}
-.town .tnh{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 7px;margin-bottom:7px}
-.town .tnh>b{font-size:calc(15px*var(--fs,1));color:#f3e2b5}
-.town .tnh>small{font-size:calc(12px*var(--fs,1));color:var(--mute)}
-.town .tnh>.tag{margin:0 0 0 auto;align-self:center}
-.town ul{gap:6px}
-.town li.tk{display:grid;grid-template-columns:44px 22px minmax(0,1fr);align-items:baseline;gap:0 7px;font-size:calc(13px*var(--fs,1));line-height:1.5}
-.town .k{display:block;padding:1px 0 2px;border-radius:5px;font-size:calc(11.5px*var(--fs,1));font-weight:800;line-height:1.35;text-align:center;letter-spacing:.02em}
-.town .k-turn{color:#a9cdff;background:rgba(90,150,255,.13);box-shadow:inset 0 0 0 1px rgba(120,170,255,.38)}
-.town .k-get{color:#ffd76a;background:rgba(255,205,60,.11);box-shadow:inset 0 0 0 1px rgba(255,205,60,.38)}
-.town .k-learn{color:#d9c2ff;background:rgba(170,120,255,.13);box-shadow:inset 0 0 0 1px rgba(180,140,255,.38)}
-.town .k-prof{color:#ffbf86;background:rgba(255,150,60,.12);box-shadow:inset 0 0 0 1px rgba(255,160,80,.38)}
-.town .k-bank{color:#d8cdb4;background:rgba(220,205,170,.09);box-shadow:inset 0 0 0 1px rgba(220,205,170,.3)}
-.town .k-sell{color:#f0d78a;background:rgba(240,200,100,.1);box-shadow:inset 0 0 0 1px rgba(240,200,100,.32)}
-.town .c{font-size:calc(14px*var(--fs,1));color:#fff;text-align:right;font-variant-numeric:tabular-nums}
-.town .v{min-width:0;color:#e6dcc5}
-.town .v .lnk{color:#f0d78a;padding:3px 0;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:rgba(240,215,138,.55);text-underline-offset:4px}
-.town .v small{color:var(--mute)}
-.town .v .sep{font-style:normal;color:#6f6250;margin:0 6px}
+/* 마을 들를 때 할 일: 마을마다 카드 한 장 + 아이콘·개수 칸(누르면 아래 목록) */
+.town .twc{margin:8px 0;padding:10px;border-radius:11px;background:linear-gradient(180deg,#2a2015,#191309);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #4a3920}
+.town .twc:first-of-type{margin-top:4px}
+.town .twh{display:flex;align-items:baseline;gap:6px;margin:0 2px 9px}
+.town .twh>b{font:700 calc(16px*var(--fs,1))/1.2 var(--title);color:#ffe7a6;text-shadow:0 1px 0 #000}
+.town .twh>small{font-size:calc(12px*var(--fs,1));color:var(--mute)}
+.town .twh>.tag{margin:0 0 0 auto;align-self:center}
+.town .tka{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.town .tka button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:68px;padding:7px 2px 6px;border:0;border-radius:10px;cursor:pointer;font-family:inherit;color:#e9dcb5;
+  background:radial-gradient(circle at 50% 28%,#30251a,#120d08 80%);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #5d4622;transition:box-shadow .12s}
+.town .tka .gic{width:26px;height:26px;border-radius:6px;margin:0}
+.town .tka b{font-size:calc(19px*var(--fs,1));line-height:1.1;color:#fff;font-variant-numeric:tabular-nums}
+.town .tka small{font-size:calc(11.5px*var(--fs,1));font-weight:700;color:#c9b68c}
+.town .tka button.on{background:radial-gradient(circle at 50% 28%,#4f3a15,#1a1208 80%);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #e1b84f,0 0 12px rgba(255,196,60,.28)}
+.town .tka button.on small{color:var(--gold)}
+.town .tkp{margin-top:9px;padding-top:4px;border-top:1px solid #3a2d1a}
+.town .tq{display:flex;align-items:center;gap:9px;width:100%;min-height:44px;padding:6px 4px;border:0;border-bottom:1px solid rgba(255,255,255,.05);background:none;color:#f0e2bd;font:600 calc(14px*var(--fs,1))/1.35 inherit;font-family:inherit;text-align:left;cursor:pointer}
+.town .tq:last-child{border-bottom:0}
+.town .tq img{width:18px;height:18px;flex:none}
+.town .tq span{flex:1;min-width:0}
+.town .tq i{font-style:normal;color:#8f7f62;font-size:calc(17px*var(--fs,1))}
+.town .tkx{margin:6px 2px 8px;font-size:calc(13.5px*var(--fs,1));color:#e6dcc5}.town .tkx b{color:#ffd76a}
+.town .tkc{display:flex;flex-wrap:wrap;gap:6px;margin:0 2px 10px}
+.town .tkc span{padding:4px 10px;border-radius:999px;font-size:calc(12.5px*var(--fs,1));color:#e2d0ff;background:rgba(170,120,255,.13);box-shadow:inset 0 0 0 1px rgba(180,140,255,.38)}
+.town .tkb{display:block;width:100%;min-height:40px;margin-top:2px;border:0;border-radius:9px;cursor:pointer;font:700 calc(13px*var(--fs,1)) inherit;font-family:inherit;color:#f2d98e;background:linear-gradient(180deg,#30251a,#1b140c);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #7a5d2b}
 
 /* 레벨별 할 일: 이모지 대신 레벨 숫자 */
 .trow .ti.lvk{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex:none;border-radius:8px;font:700 calc(14px*var(--fs,1))/1 var(--title);color:var(--gold);
@@ -2797,14 +2802,25 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .bgs .bgq>summary>.qst.s3{color:#a39a88;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
 .bgs .bgq>summary .cv{margin-left:6px}
 .bgs .bgi .pr{margin-left:auto}
+
+/* 가방 정리: 위 칸을 누르면 그 목록만 (칸 = 탭) */
+.bgs .bgt.pv{gap:7px;margin:10px 0 8px}
+.bgs .bgt.pv .t{position:relative;min-height:74px;cursor:pointer;font-family:inherit;color:inherit;border-top-width:1px}
+.bgs .bgt.pv .t.on{background:linear-gradient(180deg,color-mix(in srgb,var(--c) 22%,#20180f),#17110a);border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 12px color-mix(in srgb,var(--c) 30%,transparent)}
+.bgs .bgt.pv .t.on small{color:var(--c);font-weight:700}
+.bgs .bgt.pv .t.on::after{content:'';position:absolute;left:50%;bottom:-8px;width:12px;height:12px;transform:translateX(-50%) rotate(45deg);background:#17110a;border-right:1px solid var(--c);border-bottom:1px solid var(--c)}
+.bgs .bgpv{margin-top:4px;padding:2px 10px 4px;border-radius:10px;background:rgba(0,0,0,.18);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 45%,transparent)}
+.bgs .bgph{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;padding:10px 2px 6px;border-bottom:1px solid rgba(255,255,255,.06)}
+.bgs .bgph b{font-size:calc(14.5px*var(--fs,1));color:var(--c)}
+.bgs .bgph small{font-size:calc(12px*var(--fs,1));color:var(--mute)}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=f754e468"></script>
-<script>/* v0c2302 @11/16 18:00 */
+<script>/* v691e35 @11/16 18:07 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 18:00';
+const BUILD='11/16 18:07';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4140,14 +4156,24 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
   const line=(ic,txt)=>'<li><span class="ti">'+ic+'</span><span>'+txt+'</span></li>';
   const lk=(k,lab,n,txt)=>'<li class="tk"><span class="k k-'+k+'">'+lab+'</span><b class="c">'+n+'</b><span class="v">'+txt+'</span></li>';
   let h='<div class="card town"><div class="hd"><h3>🏘️ 마을 들를 때 할 일</h3>'+(T.size>3?'<button class="more" data-a="townall">'+(ui.townAll?'접기':'더 보기')+'</button>':'')+'</div>';
-  if(PV)h+=L2.map(t=>{const e=t.e;let li='';const [tn,tz]=t.town.split(' · ');
-    if(e.turn)li+=lk('turn','반납',e.turn.length,qa(e.turn));
-    if(e.get)li+=lk('get','받기',e.get.length,qa(e.get));
-    if(e.learn)li+=lk('learn','기술',e.learn[0].n,esc(e.learn[0].who)+' <small>'+esc(e.learn[0].names.slice(0,3).join(', '))+'</small>');
-    if(e.prof)li+=lk('prof','승급',e.prof.length,e.prof.map(p=>esc(p.nm)+' <small>'+p.cur+'/'+p.max+'</small>').join('<i class="sep">·</i>'));
-    if(e.bank)li+=lk('bank','은행',e.bank[0].n,'넣어 둘 재료');
-    if(e.sell)li+=lk('sell','팔기',e.sell[0].n,'상인에게'+(e.sell[0].sum?' · 약 '+goldTxt(e.sell[0].sum):''));
-    return '<div class="twn"><div class="tnh"><b>'+esc(tn)+'</b>'+(tz?'<small>'+esc(tz)+'</small>':'')+(t.near?'<span class="tag gd">지금 지역</span>':'')+'</div><ul>'+li+'</ul></div>'}).join('');
+  /* 미리보기: 마을마다 카드 한 장 — 할 일은 아이콘·개수 칸(누르면 아래에 목록), 글은 눌렀을 때만 */
+  if(PV)h+=L2.map((t,i)=>{const e=t.e;const [tn,tz]=t.town.split(' · ');const A=[];
+    if(e.get)A.push(['get','img/qget.png','받기',e.get.length]);
+    if(e.turn)A.push(['turn','img/qturn.png','반납',e.turn.length]);
+    if(e.learn)A.push(['learn','img/ui-book.png','기술',e.learn[0].n]);
+    if(e.prof)A.push(['prof','trade_blacksmithing','승급',e.prof.length]);
+    if(e.sell)A.push(['sell','inv_misc_coin_01','팔기',e.sell[0].n]);
+    if(e.bank)A.push(['bank','inv_box_01','은행',e.bank[0].n]);
+    const op=ui.townk&&ui.townk.startsWith(i+'|')?ui.townk.split('|')[1]:null;
+    let x='';
+    if(op==='get'||op==='turn'){const L=e[op];x=L.map(q=>'<button class="tq" data-a="qopen" data-k="'+q.id+'"><img src="img/'+(op==='get'?'qget':'qturn')+'.png" alt=""><span>'+esc(q.nm)+'</span><i>›</i></button>').join('')}
+    else if(op==='learn'){const l=e.learn[0];x='<p class="tkx"><b>'+esc(l.who)+'</b>에게 배울 기술</p><div class="tkc">'+l.names.map(n=>'<span>'+esc(n)+'</span>').join('')+'</div><button class="tkb" data-a="tab" data-k="class">직업 탭에서 보기 ›</button>'}
+    else if(op==='prof')x=e.prof.map(p=>'<p class="tkx"><b>'+esc(p.nm)+'</b> 숙련도 '+p.cur+'/'+p.max+' · 다음 등급 교관에게 배워요</p>').join('');
+    else if(op==='sell')x='<p class="tkx">상인에게 팔아도 되는 것 <b>'+e.sell[0].n+'개</b>'+(e.sell[0].sum?' · 약 '+goldTxt(e.sell[0].sum):'')+'</p><button class="tkb" data-a="gobag">가방 정리에서 보기 ›</button>';
+    else if(op==='bank')x='<p class="tkx">은행에 넣어 둘 재료 <b>'+e.bank[0].n+'개</b></p><button class="tkb" data-a="gobag">가방 정리에서 보기 ›</button>';
+    return '<div class="twc'+(t.near?' near':'')+'"><div class="twh"><b>'+esc(tn)+'</b>'+(tz?'<small>'+esc(tz)+'</small>':'')+(t.near?'<span class="tag gd">지금 지역</span>':'')+'</div>'
+      +'<div class="tka">'+A.map(([k,ic,lab,n])=>'<button class="'+(op===k?'on':'')+'" data-a="townk" data-k="'+i+'|'+k+'" aria-expanded="'+(op===k)+'">'+gic(ic)+'<b>'+n+'</b><small>'+lab+'</small></button>').join('')+'</div>'
+      +(x?'<div class="tkp">'+x+'</div>':'')+'</div>'}).join('');
   else h+=L2.map(t=>{const e=t.e;let li='';
     if(e.turn)li+=line('📜','반납 <b>'+e.turn.length+'개</b>: '+qa(e.turn));
     if(e.get)li+=line('❗','받기 <b>'+e.get.length+'개</b>: '+qa(e.get));
@@ -4219,8 +4245,12 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
   let h='<div class="card bgs"><div class="bgh"><h3>🧹 가방 정리</h3>'+(c.imported?'<small>'+armAgo(c.imported.t)+' 가져온 가방·은행</small>':'')+'</div>';
   const tiles=SEC.filter(x=>x[4].length);
   const TL={q:'퀘스트',sell:'팔 것',mat:'내 재료',bank:'은행·경매',keep:'가방에 두기'};
-  if(tiles.length)h+='<div class="bgt">'+tiles.map(([k,e,t,,L])=>'<span class="t g-'+k+'">'+gic(e,'lg')+'<b>'+L.length+'</b><small>'+TL[k]+'</small></span>').join('')+'</div>';
-  h+=SEC.map(sec).join('');
+  /* 미리보기: 위 칸이 곧 탭 — 누른 칸의 목록만 아래에 (같은 제목이 두 번 나오지 않게) */
+  if(PV&&tiles.length){const on=tiles.find(x=>x[0]===ui.bagk)||tiles[0];const [k0,,t0,sub0,L0]=on;
+    h+='<div class="bgt pv" role="tablist">'+tiles.map(([k,e,t,,L])=>'<button role="tab" class="t g-'+k+(k===k0?' on':'')+'" data-a="bagk" data-k="'+k+'" aria-selected="'+(k===k0)+'">'+gic(e,'lg')+'<b>'+L.length+'</b><small>'+TL[k]+'</small></button>').join('')+'</div>';
+    h+='<div class="bgpv g-'+k0+'"><div class="bgph"><b>'+t0+'</b>'+(sub0?'<small>'+sub0+'</small>':'')+'</div><div class="bgl">'+grp(L0.slice().sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko'))).map(x=>row(x,k0)).join('')+'</div></div>'}
+  else{if(tiles.length)h+='<div class="bgt">'+tiles.map(([k,e,t,,L])=>'<span class="t g-'+k+'">'+gic(e,'lg')+'<b>'+L.length+'</b><small>'+TL[k]+'</small></span>').join('')+'</div>';
+  h+=SEC.map(sec).join('')}
   if(!tiles.length)h+='<p class="note">정리할 게 없어요.</p>';
   return h+'<p class="note bgn">장비 비교는 아래 「내 가방·은행 장비」에서 봐요 · 고급(파랑) 이상·찜한 템은 팔 것에서 뺐어요.</p></div>'}
 function bagView(c){return bagSortCard(c)+bagView0(c)}
@@ -6242,6 +6272,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='townall'){ui.townAll=!ui.townAll;rerender(true);return}
   if(a==='chgall'){ui.chgAll=!ui.chgAll;rerender(true);return}
   if(a==='htab'){ui.htab=k;rerender(true);return}
+  if(a==='bagk'){ui.bagk=k;rerender(true);return}
+  if(a==='townk'){ui.townk=ui.townk===k?null:k;rerender(true);return}
+  if(a==='gobag'){ui.tab='gear';ui.gsub='bag';ui.gslot=null;render();window.scrollTo(0,0);return}
   if(a==='pvreset'){try{const o=JSON.parse(localStorage.getItem('wowf2'));if(o&&o.list){DB=o;saveRaw();toast('실제 앱 기록을 다시 가져왔어요');rerender()}else toast('실제 앱 기록이 없어요')}catch(e){toast('가져오지 못했어요')}return}
   if(a==='jlall'){ui.jlAll=!ui.jlAll;rerender(true);return}
   if(a==='tbud'){c.tbud=+k||0;save();rerender(true);return}

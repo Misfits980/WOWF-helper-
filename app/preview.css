@@ -102,26 +102,31 @@
 /* ===================================================================
    정리: 이모지·그림이 줄마다 제각각이던 곳 → 같은 모양 이름표·같은 높이 줄
    =================================================================== */
-/* 마을 들를 때 할 일: [반납] 1  강물터 보고서 */
-.town .twn{padding:9px 0}
-.town .tnh{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 7px;margin-bottom:7px}
-.town .tnh>b{font-size:15px;color:#f3e2b5}
-.town .tnh>small{font-size:12px;color:var(--mute)}
-.town .tnh>.tag{margin:0 0 0 auto;align-self:center}
-.town ul{gap:6px}
-.town li.tk{display:grid;grid-template-columns:44px 22px minmax(0,1fr);align-items:baseline;gap:0 7px;font-size:13px;line-height:1.5}
-.town .k{display:block;padding:1px 0 2px;border-radius:5px;font-size:11.5px;font-weight:800;line-height:1.35;text-align:center;letter-spacing:.02em}
-.town .k-turn{color:#a9cdff;background:rgba(90,150,255,.13);box-shadow:inset 0 0 0 1px rgba(120,170,255,.38)}
-.town .k-get{color:#ffd76a;background:rgba(255,205,60,.11);box-shadow:inset 0 0 0 1px rgba(255,205,60,.38)}
-.town .k-learn{color:#d9c2ff;background:rgba(170,120,255,.13);box-shadow:inset 0 0 0 1px rgba(180,140,255,.38)}
-.town .k-prof{color:#ffbf86;background:rgba(255,150,60,.12);box-shadow:inset 0 0 0 1px rgba(255,160,80,.38)}
-.town .k-bank{color:#d8cdb4;background:rgba(220,205,170,.09);box-shadow:inset 0 0 0 1px rgba(220,205,170,.3)}
-.town .k-sell{color:#f0d78a;background:rgba(240,200,100,.1);box-shadow:inset 0 0 0 1px rgba(240,200,100,.32)}
-.town .c{font-size:14px;color:#fff;text-align:right;font-variant-numeric:tabular-nums}
-.town .v{min-width:0;color:#e6dcc5}
-.town .v .lnk{color:#f0d78a;padding:3px 0;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:rgba(240,215,138,.55);text-underline-offset:4px}
-.town .v small{color:var(--mute)}
-.town .v .sep{font-style:normal;color:#6f6250;margin:0 6px}
+/* 마을 들를 때 할 일: 마을마다 카드 한 장 + 아이콘·개수 칸(누르면 아래 목록) */
+.town .twc{margin:8px 0;padding:10px;border-radius:11px;background:linear-gradient(180deg,#2a2015,#191309);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #4a3920}
+.town .twc:first-of-type{margin-top:4px}
+.town .twh{display:flex;align-items:baseline;gap:6px;margin:0 2px 9px}
+.town .twh>b{font:700 16px/1.2 var(--title);color:#ffe7a6;text-shadow:0 1px 0 #000}
+.town .twh>small{font-size:12px;color:var(--mute)}
+.town .twh>.tag{margin:0 0 0 auto;align-self:center}
+.town .tka{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.town .tka button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:68px;padding:7px 2px 6px;border:0;border-radius:10px;cursor:pointer;font-family:inherit;color:#e9dcb5;
+  background:radial-gradient(circle at 50% 28%,#30251a,#120d08 80%);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #5d4622;transition:box-shadow .12s}
+.town .tka .gic{width:26px;height:26px;border-radius:6px;margin:0}
+.town .tka b{font-size:19px;line-height:1.1;color:#fff;font-variant-numeric:tabular-nums}
+.town .tka small{font-size:11.5px;font-weight:700;color:#c9b68c}
+.town .tka button.on{background:radial-gradient(circle at 50% 28%,#4f3a15,#1a1208 80%);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #e1b84f,0 0 12px rgba(255,196,60,.28)}
+.town .tka button.on small{color:var(--gold)}
+.town .tkp{margin-top:9px;padding-top:4px;border-top:1px solid #3a2d1a}
+.town .tq{display:flex;align-items:center;gap:9px;width:100%;min-height:44px;padding:6px 4px;border:0;border-bottom:1px solid rgba(255,255,255,.05);background:none;color:#f0e2bd;font:600 14px/1.35 inherit;font-family:inherit;text-align:left;cursor:pointer}
+.town .tq:last-child{border-bottom:0}
+.town .tq img{width:18px;height:18px;flex:none}
+.town .tq span{flex:1;min-width:0}
+.town .tq i{font-style:normal;color:#8f7f62;font-size:17px}
+.town .tkx{margin:6px 2px 8px;font-size:13.5px;color:#e6dcc5}.town .tkx b{color:#ffd76a}
+.town .tkc{display:flex;flex-wrap:wrap;gap:6px;margin:0 2px 10px}
+.town .tkc span{padding:4px 10px;border-radius:999px;font-size:12.5px;color:#e2d0ff;background:rgba(170,120,255,.13);box-shadow:inset 0 0 0 1px rgba(180,140,255,.38)}
+.town .tkb{display:block;width:100%;min-height:40px;margin-top:2px;border:0;border-radius:9px;cursor:pointer;font:700 13px inherit;font-family:inherit;color:#f2d98e;background:linear-gradient(180deg,#30251a,#1b140c);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #7a5d2b}
 
 /* 레벨별 할 일: 이모지 대신 레벨 숫자 */
 .trow .ti.lvk{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex:none;border-radius:8px;font:700 14px/1 var(--title);color:var(--gold);
@@ -143,3 +148,14 @@
 .bgs .bgq>summary>.qst.s3{color:#a39a88;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
 .bgs .bgq>summary .cv{margin-left:6px}
 .bgs .bgi .pr{margin-left:auto}
+
+/* 가방 정리: 위 칸을 누르면 그 목록만 (칸 = 탭) */
+.bgs .bgt.pv{gap:7px;margin:10px 0 8px}
+.bgs .bgt.pv .t{position:relative;min-height:74px;cursor:pointer;font-family:inherit;color:inherit;border-top-width:1px}
+.bgs .bgt.pv .t.on{background:linear-gradient(180deg,color-mix(in srgb,var(--c) 22%,#20180f),#17110a);border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 12px color-mix(in srgb,var(--c) 30%,transparent)}
+.bgs .bgt.pv .t.on small{color:var(--c);font-weight:700}
+.bgs .bgt.pv .t.on::after{content:'';position:absolute;left:50%;bottom:-8px;width:12px;height:12px;transform:translateX(-50%) rotate(45deg);background:#17110a;border-right:1px solid var(--c);border-bottom:1px solid var(--c)}
+.bgs .bgpv{margin-top:4px;padding:2px 10px 4px;border-radius:10px;background:rgba(0,0,0,.18);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 45%,transparent)}
+.bgs .bgph{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;padding:10px 2px 6px;border-bottom:1px solid rgba(255,255,255,.06)}
+.bgs .bgph b{font-size:14.5px;color:var(--c)}
+.bgs .bgph small{font-size:12px;color:var(--mute)}

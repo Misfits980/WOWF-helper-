@@ -1336,14 +1336,24 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
   const line=(ic,txt)=>'<li><span class="ti">'+ic+'</span><span>'+txt+'</span></li>';
   const lk=(k,lab,n,txt)=>'<li class="tk"><span class="k k-'+k+'">'+lab+'</span><b class="c">'+n+'</b><span class="v">'+txt+'</span></li>';
   let h='<div class="card town"><div class="hd"><h3>🏘️ 마을 들를 때 할 일</h3>'+(T.size>3?'<button class="more" data-a="townall">'+(ui.townAll?'접기':'더 보기')+'</button>':'')+'</div>';
-  if(PV)h+=L2.map(t=>{const e=t.e;let li='';const [tn,tz]=t.town.split(' · ');
-    if(e.turn)li+=lk('turn','반납',e.turn.length,qa(e.turn));
-    if(e.get)li+=lk('get','받기',e.get.length,qa(e.get));
-    if(e.learn)li+=lk('learn','기술',e.learn[0].n,esc(e.learn[0].who)+' <small>'+esc(e.learn[0].names.slice(0,3).join(', '))+'</small>');
-    if(e.prof)li+=lk('prof','승급',e.prof.length,e.prof.map(p=>esc(p.nm)+' <small>'+p.cur+'/'+p.max+'</small>').join('<i class="sep">·</i>'));
-    if(e.bank)li+=lk('bank','은행',e.bank[0].n,'넣어 둘 재료');
-    if(e.sell)li+=lk('sell','팔기',e.sell[0].n,'상인에게'+(e.sell[0].sum?' · 약 '+goldTxt(e.sell[0].sum):''));
-    return '<div class="twn"><div class="tnh"><b>'+esc(tn)+'</b>'+(tz?'<small>'+esc(tz)+'</small>':'')+(t.near?'<span class="tag gd">지금 지역</span>':'')+'</div><ul>'+li+'</ul></div>'}).join('');
+  /* 미리보기: 마을마다 카드 한 장 — 할 일은 아이콘·개수 칸(누르면 아래에 목록), 글은 눌렀을 때만 */
+  if(PV)h+=L2.map((t,i)=>{const e=t.e;const [tn,tz]=t.town.split(' · ');const A=[];
+    if(e.get)A.push(['get','img/qget.png','받기',e.get.length]);
+    if(e.turn)A.push(['turn','img/qturn.png','반납',e.turn.length]);
+    if(e.learn)A.push(['learn','img/ui-book.png','기술',e.learn[0].n]);
+    if(e.prof)A.push(['prof','trade_blacksmithing','승급',e.prof.length]);
+    if(e.sell)A.push(['sell','inv_misc_coin_01','팔기',e.sell[0].n]);
+    if(e.bank)A.push(['bank','inv_box_01','은행',e.bank[0].n]);
+    const op=ui.townk&&ui.townk.startsWith(i+'|')?ui.townk.split('|')[1]:null;
+    let x='';
+    if(op==='get'||op==='turn'){const L=e[op];x=L.map(q=>'<button class="tq" data-a="qopen" data-k="'+q.id+'"><img src="img/'+(op==='get'?'qget':'qturn')+'.png" alt=""><span>'+esc(q.nm)+'</span><i>›</i></button>').join('')}
+    else if(op==='learn'){const l=e.learn[0];x='<p class="tkx"><b>'+esc(l.who)+'</b>에게 배울 기술</p><div class="tkc">'+l.names.map(n=>'<span>'+esc(n)+'</span>').join('')+'</div><button class="tkb" data-a="tab" data-k="class">직업 탭에서 보기 ›</button>'}
+    else if(op==='prof')x=e.prof.map(p=>'<p class="tkx"><b>'+esc(p.nm)+'</b> 숙련도 '+p.cur+'/'+p.max+' · 다음 등급 교관에게 배워요</p>').join('');
+    else if(op==='sell')x='<p class="tkx">상인에게 팔아도 되는 것 <b>'+e.sell[0].n+'개</b>'+(e.sell[0].sum?' · 약 '+goldTxt(e.sell[0].sum):'')+'</p><button class="tkb" data-a="gobag">가방 정리에서 보기 ›</button>';
+    else if(op==='bank')x='<p class="tkx">은행에 넣어 둘 재료 <b>'+e.bank[0].n+'개</b></p><button class="tkb" data-a="gobag">가방 정리에서 보기 ›</button>';
+    return '<div class="twc'+(t.near?' near':'')+'"><div class="twh"><b>'+esc(tn)+'</b>'+(tz?'<small>'+esc(tz)+'</small>':'')+(t.near?'<span class="tag gd">지금 지역</span>':'')+'</div>'
+      +'<div class="tka">'+A.map(([k,ic,lab,n])=>'<button class="'+(op===k?'on':'')+'" data-a="townk" data-k="'+i+'|'+k+'" aria-expanded="'+(op===k)+'">'+gic(ic)+'<b>'+n+'</b><small>'+lab+'</small></button>').join('')+'</div>'
+      +(x?'<div class="tkp">'+x+'</div>':'')+'</div>'}).join('');
   else h+=L2.map(t=>{const e=t.e;let li='';
     if(e.turn)li+=line('📜','반납 <b>'+e.turn.length+'개</b>: '+qa(e.turn));
     if(e.get)li+=line('❗','받기 <b>'+e.get.length+'개</b>: '+qa(e.get));
@@ -1415,8 +1425,12 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
   let h='<div class="card bgs"><div class="bgh"><h3>🧹 가방 정리</h3>'+(c.imported?'<small>'+armAgo(c.imported.t)+' 가져온 가방·은행</small>':'')+'</div>';
   const tiles=SEC.filter(x=>x[4].length);
   const TL={q:'퀘스트',sell:'팔 것',mat:'내 재료',bank:'은행·경매',keep:'가방에 두기'};
-  if(tiles.length)h+='<div class="bgt">'+tiles.map(([k,e,t,,L])=>'<span class="t g-'+k+'">'+gic(e,'lg')+'<b>'+L.length+'</b><small>'+TL[k]+'</small></span>').join('')+'</div>';
-  h+=SEC.map(sec).join('');
+  /* 미리보기: 위 칸이 곧 탭 — 누른 칸의 목록만 아래에 (같은 제목이 두 번 나오지 않게) */
+  if(PV&&tiles.length){const on=tiles.find(x=>x[0]===ui.bagk)||tiles[0];const [k0,,t0,sub0,L0]=on;
+    h+='<div class="bgt pv" role="tablist">'+tiles.map(([k,e,t,,L])=>'<button role="tab" class="t g-'+k+(k===k0?' on':'')+'" data-a="bagk" data-k="'+k+'" aria-selected="'+(k===k0)+'">'+gic(e,'lg')+'<b>'+L.length+'</b><small>'+TL[k]+'</small></button>').join('')+'</div>';
+    h+='<div class="bgpv g-'+k0+'"><div class="bgph"><b>'+t0+'</b>'+(sub0?'<small>'+sub0+'</small>':'')+'</div><div class="bgl">'+grp(L0.slice().sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko'))).map(x=>row(x,k0)).join('')+'</div></div>'}
+  else{if(tiles.length)h+='<div class="bgt">'+tiles.map(([k,e,t,,L])=>'<span class="t g-'+k+'">'+gic(e,'lg')+'<b>'+L.length+'</b><small>'+TL[k]+'</small></span>').join('')+'</div>';
+  h+=SEC.map(sec).join('')}
   if(!tiles.length)h+='<p class="note">정리할 게 없어요.</p>';
   return h+'<p class="note bgn">장비 비교는 아래 「내 가방·은행 장비」에서 봐요 · 고급(파랑) 이상·찜한 템은 팔 것에서 뺐어요.</p></div>'}
 function bagView(c){return bagSortCard(c)+bagView0(c)}
@@ -3438,6 +3452,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='townall'){ui.townAll=!ui.townAll;rerender(true);return}
   if(a==='chgall'){ui.chgAll=!ui.chgAll;rerender(true);return}
   if(a==='htab'){ui.htab=k;rerender(true);return}
+  if(a==='bagk'){ui.bagk=k;rerender(true);return}
+  if(a==='townk'){ui.townk=ui.townk===k?null:k;rerender(true);return}
+  if(a==='gobag'){ui.tab='gear';ui.gsub='bag';ui.gslot=null;render();window.scrollTo(0,0);return}
   if(a==='pvreset'){try{const o=JSON.parse(localStorage.getItem('wowf2'));if(o&&o.list){DB=o;saveRaw();toast('실제 앱 기록을 다시 가져왔어요');rerender()}else toast('실제 앱 기록이 없어요')}catch(e){toast('가져오지 못했어요')}return}
   if(a==='jlall'){ui.jlAll=!ui.jlAll;rerender(true);return}
   if(a==='tbud'){c.tbud=+k||0;save();rerender(true);return}
