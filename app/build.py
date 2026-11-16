@@ -142,12 +142,17 @@ def _dgl():
         for l in pf.read_text(encoding='utf-8').splitlines():
             if l and not l.startswith('#'):
                 f = l.split('|')
-                fix[f[0]] = (f[1], f[2] + '–' + f[3])
+                fix[f[0]] = (f[1], f[2] + '–' + f[3], f[5].strip() if len(f) > 5 else '')
     out = []
     for l in rows:
         f = l.split('|')
         if f[0] in fix:
-            f[4], f[5] = fix[f[0]]
+            f[4], f[5], nm = fix[f[0]]
+            # 6번째 칸 = 게임 「파티 찾기」 이름. 예전 이름은 10번째 칸에 남겨 퀘스트 지역 이름 맞추기에 씀
+            if nm and nm != f[1]:
+                f += [''] * (9 - len(f))
+                f = f[:9] + [f[1]]
+                f[1] = nm
         out.append('|'.join(f))
     return '\n'.join(sorted(out, key=lambda l: int(l.split('|')[4] or 0)))
 
@@ -661,6 +666,11 @@ _fx = _nmfix()
 if _fx:
     srcs = re.sub(r'(?m)^(0~[^~·]+ · )([^~]+)', lambda m: m.group(1) + _fx.get(m.group(2).strip(), m.group(2)), srcs)
 srcs = srcs.replace("(Temple of Ahn'Qiraj)", '(안퀴라즈 사원)')
+# 던전 이름을 게임 「파티 찾기」 이름으로 바꾼 것(dungeon-levels.txt 6번째 칸) → 아이템 출처 글에도
+for _l in _dgl().split('\n'):
+    _f = _l.split('|')
+    if len(_f) > 9 and _f[9]:
+        srcs = srcs.replace(_f[9], _f[1])
 SRC_TXT = srcs + '\n'
 
 # 퀘스트 할 일(forg) 「떨구는 몹」 등에 남은 영어 몹 이름 → 한글 (앱에서 바꿔 보여 줌)

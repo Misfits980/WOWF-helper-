@@ -224,8 +224,23 @@ local function xpTick()
   end
   sess.last, sess.lastMax = cur, mx
 end
+-- v3.8.1: 게임에 다 들어오기 전(로딩 중 끊김 등)에는 t0가 0 → 이때 시간을 재면 1970년부터 센 값이 됨. 접속 시작을 못 봤으면 0초로 둠
+local SESS_MAX = 3 * 86400
+local function sessStart()
+  if sess.t0 and sess.t0 > 0 then return end
+  sess.t0 = time and time() or 0; sess.xp = 0; sess.last = UnitXP("player") or 0; sess.lastMax = UnitXPMax("player") or 0
+  -- 예전 버전이 남긴 말이 안 되는 기록(3일 넘는 한 번 접속)은 지움
+  local h = WowfHelperDB and WowfHelperDB.hist
+  if type(h) == "table" then
+    for i = #h, 1, -1 do
+      local s = type(h[i]) == "table" and tonumber(h[i][2]) or nil
+      if not s or s <= 0 or s > SESS_MAX then table.remove(h, i) end
+    end
+  end
+end
 local function sessNow()
-  local secs = (time and time() or 0) - (sess.t0 or 0)
+  local secs = (sess.t0 and sess.t0 > 0) and ((time and time() or 0) - sess.t0) or 0
+  if secs < 0 or secs > SESS_MAX then secs = 0 end
   local hx, hs = sess.xp, secs
   for _, h in ipairs((WowfHelperDB and WowfHelperDB.hist) or {}) do hx = hx + (h[1] or 0); hs = hs + (h[2] or 0) end
   return sess.xp, secs, hx, hs
@@ -778,8 +793,28 @@ local function note(why)
   say(why .. " · 앱도 맞추려면 |cffffffff/wfh|r")
 end
 
+-- v3.8.1: 게임 안에 있을 때 앱 코드를 틈틈이 저장 파일에 남겨 둠(PC 앱이 /reload·접속 종료 뒤 파일에서 읽음)
+-- 전투 중엔 미루고, 여러 번 몰려도 몇 초 뒤 한 번만 만듦
+local snapWait, snapDue = false, false
+local function snapNow()
+  if not (sess.t0 and sess.t0 > 0) then return end
+  if InCombatLockdown and InCombatLockdown() then snapDue = true; return end
+  snapDue = false
+  -- 경험치 칸이 비었으면(레벨 60 전) 아직 캐릭터 정보가 덜 온 것 → 남기지 않음
+  if (UnitXPMax("player") or 0) <= 0 and (UnitLevel("player") or 0) < 60 then return end
+  local ok, code = pcall(makeCode)
+  if ok and type(code) == "string" and code ~= "" then WowfHelperDB = WowfHelperDB or {}; WowfHelperDB.last = code end
+end
+local function snapSoon(sec)
+  if snapWait then return end
+  if not (C_Timer and C_Timer.After) then snapNow(); return end
+  snapWait = true
+  C_Timer.After(sec or 10, function() snapWait = false; snapNow() end)
+end
+
 local ev = CreateFrame("Frame")
 ev:RegisterEvent("PLAYER_LOGIN")
+for _, x in ipairs({ "PLAYER_ENTERING_WORLD", "PLAYER_MONEY", "PLAYER_EQUIPMENT_CHANGED", "BAG_UPDATE_DELAYED" }) do pcall(ev.RegisterEvent, ev, x) end
 ev:RegisterEvent("PLAYER_LEVEL_UP")
 ev:RegisterEvent("QUEST_TURNED_IN")
 ev:RegisterEvent("PLAYER_XP_UPDATE")
@@ -795,7 +830,7 @@ ev:RegisterEvent("QUEST_DETAIL")
 ev:RegisterEvent("QUEST_LOG_UPDATE")
 local bankOpen = false
 ev:SetScript("OnEvent", function(_, e, a1, a2)
-  if e == "PLAYER_XP_UPDATE" then xpTick(); return end
+  if e == "PLAYER_XP_UPDATE" then xpTick(); snapSoon(30); return end
   if e == "QUEST_LOG_UPDATE" then objSoon(); return end
   if e == "QUEST_DETAIL" then
     local qid = GetQuestID and GetQuestID()
@@ -805,7 +840,7 @@ ev:SetScript("OnEvent", function(_, e, a1, a2)
   if e == "BANKFRAME_OPENED" then bankOpen = true; scanBank(); return end
   if e == "PLAYERBANKSLOTS_CHANGED" then if bankOpen then scanBank() end; return end
   if e == "PLAYER_TARGET_CHANGED" then WowfHelper_BossCheck(); return end
-  if e == "PLAYER_REGEN_ENABLED" then WowfHelper_BossCheck(true); return end
+  if e == "PLAYER_REGEN_ENABLED" then WowfHelper_BossCheck(true); if snapDue then snapSoon(3) end; return end
   if e == "QUEST_COMPLETE" then
     -- 퀘스트 반납 창: 앱에서 정한 보상이 몇 번째인지 알려 주고 그 칸에 표시
     local rec = WowfHelperDB and WowfHelperDB.rec
@@ -847,20 +882,26 @@ ev:SetScript("OnEvent", function(_, e, a1, a2)
     return
   end
   if e == "PLAYER_LOGOUT" then
-    -- 이번 접속 기록을 남기고 최근 5번만 보관
     WowfHelperDB = WowfHelperDB or {}
+    -- 게임에 다 들어오지 못하고 끝난 접속(로딩 중 끊김 등)은 아무것도 남기지 않음
+    if not (sess.t0 and sess.t0 > 0) then return end
+    -- v3.8.1: 접속 종료 순간에는 게임이 장비·가방·돈·경험치·퀘스트를 이미 비워서 코드가 거의 빈 채로 나옴
+    -- → 게임 안에 있을 때 만들어 둔 코드(WowfHelperDB.last)를 두고, 사냥 기록(S)만 마지막 값으로 바꿈
+    local sx, ss, hx, hs = sessNow()
+    if type(WowfHelperDB.last) == "string" then
+      WowfHelperDB.last = WowfHelperDB.last:gsub(";S:[%d%-]*;", ";S:" .. sx .. "-" .. ss .. "-" .. hx .. "-" .. hs .. ";", 1)
+    end
+    -- 이번 접속 기록을 남기고 최근 5번만 보관
     local h = WowfHelperDB.hist or {}
-    local secs = (time and time() or 0) - (sess.t0 or 0)
-    if secs > 300 then table.insert(h, 1, { sess.xp, secs }) end
+    if ss > 300 then table.insert(h, 1, { sx, ss }) end
     while #h > 5 do table.remove(h) end
     WowfHelperDB.hist = h
-    rememberMe()
-    -- v3.7: 접속 종료·/reload 때 앱 코드를 저장 파일에 남김 → PC 앱이 파일에서 바로 읽음
-    pcall(function() local code = makeCode(); if code and code ~= "" then WowfHelperDB.last = code end end)
     return
   end
+  if e == "PLAYER_ENTERING_WORLD" then sessStart(); snapSoon(8); return end
+  if e == "PLAYER_MONEY" or e == "PLAYER_EQUIPMENT_CHANGED" or e == "BAG_UPDATE_DELAYED" then snapSoon(10); return end
   if e == "PLAYER_LOGIN" then
-    sess.t0 = time and time() or 0; sess.xp = 0; sess.last = UnitXP("player") or 0; sess.lastMax = UnitXPMax("player") or 0
+    sessStart()
     rememberMe()
     if not (WowfHelperDB and WowfHelperDB.noteOff) then say("/wfh 를 치면 앱으로 옮길 코드가 나와요. (/wfh 설정 = 켜고 끄기)") end
   elseif e == "PLAYER_LEVEL_UP" then
@@ -875,7 +916,10 @@ ev:SetScript("OnEvent", function(_, e, a1, a2)
     pcall(seenLevel, id)
     if UnitExists and UnitExists("npc") then pcall(observe, id, "g") end
   end
+  if e == "PLAYER_LEVEL_UP" or e == "QUEST_TURNED_IN" or e == "QUEST_ACCEPTED" then snapSoon(5) end
 end)
+-- 다른 애드온이 접속 뒤에 이 애드온을 불러온 경우(PLAYER_LOGIN을 못 받음)에도 지금부터 잼
+if IsLoggedIn and IsLoggedIn() then sessStart(); snapSoon(5) end
 
 -- ===== 아이템 툴팁에 앱 추천 (/wfh 추천 으로 넣은 코드) =====
 -- 코드: WFR1;U:번호-점수×10-칸.…;W:번호.번호 (번호는 36진수)
