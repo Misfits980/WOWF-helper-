@@ -1,34 +1,41 @@
 # 던전 레벨 바로잡기 — 빌드(app/build.py)가 data/forg/dungeons.txt 위에 덮어씀
 # 번호|시작 레벨|범위 아래|범위 위|근거
-# 시작 레벨 = 게임 던전 찾기에 나오는 「N+」(옛 던전) 또는 블리자드 공식 범위의 아래(새 던전)
-# 범위 위 = 새 던전은 블리자드 공식, 옛 던전은 그대로(Icy Veins·forg 범위)
-#  근거 A: 블리자드 공식 「Explore the New Dungeons of World of Warcraft: Forever」(news.blizzard.com 24301455, 크롤도크 40–45 정정 포함)
-#  근거 B: 게임 던전 찾기 권장 시작 레벨 — 포에버 클라이언트 1.60.1.69893 값(kami-labs.fr), 출시 뒤 allthings.how 「WoW Forever dungeons by level」(2026-11-08)와 같음
-#  붉은십자군 수도원·혈투의 전장은 게임에서 한 줄(30+·54+)이라 날개별 범위는 그대로 둠
-hall-of-thanes|13|13|18|A
-ruins-of-lordaeron|15|15|20|A
-whelgar-excavation|24|24|29|A
-city-of-dalaran|28|28|33|A
-drowned-city|35|35|40|A
-kroldok-stronghold|40|40|45|A
-alcaz-prison|48|48|53|A
-blackmaw-hold|55|55|60|A
-shapers-terrace|58|58|60|A
+# 근거 C: 게임 「파티 찾기」 던전 목록(모든 레벨 범위 표시) — 2026-11-16 용현이 찍은 화면. 시작 레벨 = 범위 아래
+#  (예전 근거 A·B: 블리자드 공식 새 던전 글 · 던전 찾기 권장 시작 레벨 — 게임 화면과 다른 것은 C로 바꿈)
+#  게임 이름이 다른 것: 가라앉은 사원 = 아탈학카르 신전, 스트라솔름 정문 = 이승 · 정비용 입구 = 저승, 발굴 현장: 저습지 = 웰가르 발굴 현장
+#  게임 목록에 없어 그대로 둔 것: 성난불길 협곡(호드 쪽), 검은아귀 요새
+upper-blackrock-spire|59|59|60|C
+shapers-terrace|58|58|60|C
+scholomance|58|58|60|C
+stratholme-live|58|58|60|C
+stratholme-dead|58|58|60|C
+dire-maul-north|56|56|60|C
+dire-maul-west|56|56|60|C
+lower-blackrock-spire|55|55|60|C
+dire-maul-east|54|54|60|C
+blackrock-depths|52|52|60|C
+temple-of-atal-hakkar|50|50|60|C
+alcaz-prison|48|48|55|C
+maraudon|46|46|55|C
+zul-farrak|44|44|54|C
+uldaman|41|41|51|C
+kroldok-stronghold|40|40|47|C
+sm-cathedral|38|38|46|C
+razorfen-downs|37|37|46|C
+sm-armory|36|36|44|C
+drowned-city|35|35|42|C
+sm-library|33|33|41|C
+sm-graveyard|30|30|38|C
+razorfen-kraul|29|29|38|C
+gnomeregan|29|29|38|C
+city-of-dalaran|28|28|35|C
+whelgar-excavation|26|26|33|C
+blackfathom-deeps|24|24|32|C
+stockade|24|24|32|C
+shadowfang-keep|20|20|30|C
+deadmines|17|17|26|C
+wailing-caverns|15|15|24|C
+ruins-of-lordaeron|15|15|22|C
+hall-of-thanes|13|13|20|C
 ragefire-chasm|13|13|18|B
-deadmines|16|16|26|B
-wailing-caverns|17|17|24|B
-shadowfang-keep|18|18|30|B
-blackfathom-deeps|22|22|32|B
-stockade|23|23|32|B
-razorfen-kraul|24|24|38|B
-gnomeregan|25|25|38|B
-razorfen-downs|34|34|46|B
-uldaman|35|35|51|B
-zul-farrak|42|42|54|B
-maraudon|42|42|55|B
-temple-of-atal-hakkar|45|45|60|B
-blackrock-depths|48|48|60|B
-lower-blackrock-spire|53|53|60|B
-stratholme-live|55|55|60|B
-stratholme-dead|55|55|60|B
-scholomance|57|57|60|B
+blackmaw-hold|55|55|60|A
