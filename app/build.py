@@ -376,6 +376,7 @@ if (Q / 'items-game.txt').exists():
     _GM = {}
     _WR = globals().get('WREC', {})
     _GQ = {}  # 핫픽스 기록의 등급 (포에버에서 고급→희귀로 올린 템 등)
+    _GL = {}  # 핫픽스 기록의 요구 레벨 (0이 아닌 것만 · 0은 퀘스트 보상에 흔해서 안 믿음)
     for l_ in rd(Q / 'items-game.txt').splitlines():
         if l_ and not l_.startswith('#'):
             g_ = l_.split('|')
@@ -384,10 +385,14 @@ if (Q / 'items-game.txt').exists():
             _GM[int(g_[0])] = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', g_[4])}
             if g_[5] == 'h':
                 _GQ[int(g_[0])] = 'pcurel'[int(g_[3])] if 0 <= int(g_[3]) <= 5 else None
+                if g_[2].isdigit() and int(g_[2]) > 0:
+                    _GL[int(g_[0])] = g_[2]
     _PRI = ('str', 'agi', 'sta', 'int', 'spi')
     _gfix = 0
     for ix, line in enumerate(items):
         f = line.split('|')
+        if len(f) > 6 and _GL.get(int(f[0])) and f[1] != _GL[int(f[0])]:
+            f[1] = _GL[int(f[0])]; items[ix] = '|'.join(f); _gfix += 1
         g_ = _GM.get(int(f[0])) if len(f) > 6 else None
         if not g_:
             continue
@@ -414,6 +419,13 @@ if (Q / 'items-game.txt').exists():
 # 애드온 v3.6 「/wfh 아이템」이 게임에서 직접 읽은 값 (tools/itemcache/addon_items.py → items-addon.jsonl). 가장 믿을 만함
 #  - 한글 이름 · 등급은 게임 값으로. 주 능력치는 GetItemStats 값으로 통째로, 나머지는 툴팁 줄(착용 효과 포함)로 채움
 #  - 무기 초당 공격력은 툴팁의 「34 - 64 피해 · 속도 2.60」로, 특수 효과 표시는 툴팁의 착용·사용·적중 시 효과로
+# 게임 캐시(DBCache) 원본 능력치 — 핫픽스(h)·기본(c) 모두. 아래에서 「다른 자료에만 있는 보조 능력치」를 거르는 데 씀
+_GRAW = {}
+if (Q / 'items-game.txt').exists():
+    for l_ in rd(Q / 'items-game.txt').splitlines():
+        if l_ and not l_.startswith('#'):
+            g_ = l_.split('|')
+            _GRAW[int(g_[0])] = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', g_[4])}
 if (Q / 'items-addon.jsonl').exists():
     from items_wowf import parse_stats as _ps, merge_stats as _ms, weapon_dps as _wd, has_special as _hs
     _AD = {}
@@ -423,7 +435,12 @@ if (Q / 'items-addon.jsonl').exists():
             _AD[o_['id']] = o_
     _WR = globals().get('WREC', {})
     _GSK = {'STRENGTH': 'str', 'AGILITY': 'agi', 'STAMINA': 'sta', 'INTELLECT': 'int', 'SPIRIT': 'spi'}
-    _an = _aq = _as = 0
+    _an = _aq = _as = _al = _ar = 0
+    _ne = set()
+    _LOC = {'INVTYPE_HEAD': 'he', 'INVTYPE_NECK': 'ne', 'INVTYPE_SHOULDER': 'sh', 'INVTYPE_CLOAK': 'ba', 'INVTYPE_CHEST': 'ch', 'INVTYPE_ROBE': 'ch', 'INVTYPE_WRIST': 'wr',
+            'INVTYPE_HAND': 'ha', 'INVTYPE_WAIST': 'wa', 'INVTYPE_LEGS': 'le', 'INVTYPE_FEET': 'fe', 'INVTYPE_FINGER': 'fi', 'INVTYPE_TRINKET': 'tr', 'INVTYPE_2HWEAPON': '2h',
+            'INVTYPE_WEAPON': '1h', 'INVTYPE_WEAPONMAINHAND': 'mh', 'INVTYPE_WEAPONOFFHAND': 'oh', 'INVTYPE_SHIELD': 'oh', 'INVTYPE_HOLDABLE': 'ho',
+            'INVTYPE_RANGED': 'ra', 'INVTYPE_RANGEDRIGHT': 'ra', 'INVTYPE_THROWN': 'ra', 'INVTYPE_RELIC': 'ra'}
     for ix, line in enumerate(items):
         f = line.split('|')
         o_ = _AD.get(int(f[0]))
@@ -434,17 +451,41 @@ if (Q / 'items-addon.jsonl').exists():
             f[12] = _nm; _an += 1
         if isinstance(o_.get('q'), int) and 0 <= o_['q'] <= 5 and f[4] in 'pcurel' and f[4] != 'pcurel'[o_['q']]:
             f[4] = 'pcurel'[o_['q']]; _aq += 1
+        # 요구 레벨도 게임 툴팁 값(「최소 요구 레벨 21」)으로: 다른 자료의 옛 값(20)이 남아 1~2레벨 일찍 추천하던 것 (140개)
+        if isinstance(o_.get('req'), int) and o_['req'] > 0 and f[1] != str(o_['req']):
+            f[1] = str(o_['req']); _ar += 1
         L_ = o_.get('lines') or []
         _cur = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', f[5])}
         _new = _ms(_cur, _ps(L_))
+        # 보조 능력치(전투력·주문력·치유량·학파 공격력·마나·방어·적중·치명타·회피 등)도 게임 값이 정답:
+        #  - 툴팁에 착용 효과 줄이 있으면 → 그 줄에서 읽은 것만 (다른 자료의 옛 값이 남아 「냉기 13」 템이 주문력 18·치유량 18로 잡히던 것)
+        #  - 착용 효과 줄이 없고 게임 캐시(DBCache)가 있으면 → 캐시에 있는 것만 (미스릴 코이프 전투력 30처럼 다른 판 서버 값이 남던 것)
+        #  - 방패 피해 방어(block)·방어도(armor)는 툴팁 효과 줄이 아니라서 그대로
+        _SEC = ('ap', 'sp', 'heal', 'fire', 'frost', 'shadow', 'nature', 'arcane', 'holy', 'mp5', 'def', 'hit', 'shit', 'crit', 'scrit', 'dodge', 'parry', 'blockp', 'exp', 'rap')
+        if not any('무작위' in x for x in L_):
+            # 착용·사용·발동 효과 글이 하나라도 있으면 주문 글까지 다 불러온 툴팁 → 효과 줄에 없는 보조 능력치는 없는 것 (예: 비운의 검 전투력 16, 줄구룹 세트 장신구 주문력 12)
+            if any(x.startswith(('착용 효과', '사용 효과', '발동 효과', '적중 시')) for x in L_):
+                _p = _ps(L_)
+                _new = {k: v for k, v in _new.items() if k not in _SEC}
+                _new.update({k: v for k, v in _p.items() if k in _SEC})
+            elif L_ and int(f[0]) in _GRAW:
+                _g = _GRAW[int(f[0])]
+                _new = {k: v for k, v in _new.items() if k not in _SEC}
+                _new.update({k: v for k, v in _g.items() if k in _SEC})
         _gp = {_GSK[k]: v for k, v in (o_.get('gs') or {}).items() if k in _GSK}
         if (_gp or L_) and not any('무작위' in x for x in L_):  # 무작위 옵션 템(「…의 ○○」)은 기본 템에 주 능력치가 없음
             for k in ('str', 'agi', 'sta', 'int', 'spi'):
                 _new.pop(k, None)
             _new.update(_gp)
-        _w = _wd(L_)
-        if _w and 'dps' in _cur:
+        _w = _wd(L_) or (round((o_.get('gs') or {}).get('DAMAGE_PER_SECOND') or 0, 2) if f[3].startswith('2.') else 0)  # 「공격력 1」처럼 최소·최대가 같은 무기는 글로 못 읽음 → 게임 값
+        if _w and ('dps' in _cur or f[3].startswith('2.')):  # 투척 무기처럼 초당 공격력이 빠져 있던 무기도 게임 값으로
             _new['dps'] = _w
+        # 장착 자리도 게임 값으로: 「주장비 전용」을 한손(보조 손 가능)으로 잡아 쌍수 보조 무기로 추천하던 것(서슬피 등 98개)
+        _sl = _LOC.get(o_.get('loc') or '')
+        if _sl and f[2] != _sl:
+            f[2] = _sl; _al += 1
+        if o_.get('loc') == 'INVTYPE_NON_EQUIP_IGNORE':
+            _ne.add(int(f[0]))  # 게임에서 장착할 수 없는 퀘스트 물건(줄파락의 나무망치 등)
         if _new != _cur:
             f[5] = ' '.join('%s%s' % (k, ('%g' % v)) for k, v in _new.items()); _as += 1
         # 게임 툴팁은 주문 글(착용·사용 효과)이 늦게 불러와져 빠질 때가 있음 → 효과 줄이 wowf.io보다 적으면 효과 표시는 그대로 둠
@@ -455,7 +496,26 @@ if (Q / 'items-addon.jsonl').exists():
         if L_ and _ng >= _nw:
             f[6] = '1' if _hs(L_) else ''
         items[ix] = '|'.join(f)
-    print('애드온이 게임에서 읽은 값으로 고침 · 이름', _an, '· 등급', _aq, '· 능력치', _as, '/', len(_AD))
+    print('애드온이 게임에서 읽은 값으로 고침 · 이름', _an, '· 등급', _aq, '· 능력치', _as, '· 장착 자리', _al, '· 요구 레벨', _ar, '/', len(_AD))
+    if _ne:
+        items = [l_ for l_ in items if int(l_.split('|')[0]) not in _ne]
+        print('게임에서 장착 못 하는 물건 뺌', len(_ne))
+    # 게임 툴팁은 없고 게임 캐시만 있는 템: 캐시가 거의 다 담는 종류(전투력·방어 숙련·적중·회피·무기 막기 — 툴팁과 비교해 99~100%)만,
+    # 캐시에 없으면 다른 판 서버 값으로 보고 뺌. 치명타·주문력·치유량·마나는 주문 효과로만 있는 템이 있어 그대로
+    _RT = ('ap', 'def', 'hit', 'shit', 'dodge', 'parry')
+    _rc = 0
+    for ix, line in enumerate(items):
+        f = line.split('|')
+        if len(f) < 13 or int(f[0]) in _AD or int(f[0]) not in _GRAW:
+            continue
+        _cur = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', f[5])}
+        _g = _GRAW[int(f[0])]
+        _new = {k: v for k, v in _cur.items() if not (k in _RT and k not in _g)}
+        if _new != _cur:
+            f[5] = ' '.join('%s%s' % (k, ('%g' % v)) for k, v in _new.items())
+            items[ix] = '|'.join(f)
+            _rc += 1
+    print('게임 캐시에 없는 전투력·방어·적중·회피 뺌', _rc)
 # 착용 가능 직업: forg 마스크는 「어울리는 직업」(능력치 기준)이라 실제 착용 규칙으로 다시 계산
 #  - 무기 숙련·방어구 종류로 판단, wowf.io 「직업:」 줄이나 allow가 있으면 그 직업만
 #  - forg가 3직업 이하로만 표시한 건 영웅·전설(티어 등)일 때만 직업 전용으로 보고 그대로 둠
@@ -652,7 +712,7 @@ if (Q / 'quests.jsonl').exists():
 def _srcko(l):
     f = l.split('~')
     if len(f) > 1:
-        m = re.match(r'^(.*· )([A-Za-z][^~]*)$', f[1])
+        m = re.match(r'^(.*· )([A-Za-z0-9][^~]*)$', f[1])
         if m:
             qi = re.search(r'(?:quest=|/quest/)(\d+)', f[2] if len(f) > 2 else '')
             if qi and _QKO.get(qi.group(1)):
@@ -665,13 +725,104 @@ srcs = '\n'.join(_srcko(l) for l in srcs.split('\n'))
 _fx = _nmfix()
 if _fx:
     srcs = re.sub(r'(?m)^(0~[^~·]+ · )([^~]+)', lambda m: m.group(1) + _fx.get(m.group(2).strip(), m.group(2)), srcs)
-srcs = srcs.replace("(Temple of Ahn'Qiraj)", '(안퀴라즈 사원)')
+srcs = srcs.replace("(Temple of Ahn'Qiraj)", '(안퀴라즈 사원)').replace("Temple of Ahn'Qiraj", '안퀴라즈 사원')
 # 던전 이름을 게임 「파티 찾기」 이름으로 바꾼 것(dungeon-levels.txt 6번째 칸) → 아이템 출처 글에도
 for _l in _dgl().split('\n'):
     _f = _l.split('|')
     if len(_f) > 9 and _f[9]:
         srcs = srcs.replace(_f[9], _f[1])
+# 레이드·PvP 출처 표시(4번째 칸): r = 레이드(레이드 보스·레이드 몹 드랍, 레이드 퀘스트 보상, 레이드 평판 상인, 월드 보스)
+#   p = 명예·전장 평판 상인 · 전장(알터랙·전쟁노래·아라시) 퀘스트. 앱의 「퀘스트만·던전만·퀘스트+던전」 추천에서 빼고, r은 「레이드까지」에서만 셈
+_RAIDZ = ('화산 심장부', '오닉시아의 둥지', '검은날개 둥지', '줄구룹', '안퀴라즈 폐허', '안퀴라즈 사원', '낙스라마스')
+_RAIDNPC = {12118, 11982, 12259, 12057, 12264, 12056, 11988, 12098, 12018, 11502, 10184,
+            12435, 13020, 12017, 11983, 14601, 11981, 14020, 11583, 10162,
+            14517, 14507, 14510, 14509, 14515, 14834, 11382, 15114, 15082, 15083, 15084, 15085, 11380,
+            15348, 15341, 15340, 15370, 15369, 15339,
+            15263, 15511, 15543, 15544, 15516, 15510, 15299, 15509, 15275, 15276, 15517, 15727, 15589,
+            15956, 15953, 15952, 15954, 15936, 16011, 16061, 16060, 16062, 16063, 16064, 16065, 16028,
+            15931, 15932, 15928, 15989, 15990,
+            6109, 12397, 14889, 14887, 14890, 14888, 15305, 15203, 15204, 15205, 14457, 14461, 14464, 14454}
+_RAIDNM = re.compile(r'^(라그나로스|네파리안|오닉시아|크로마구스|에본로크|플레임고르|주술사 진도|에메리스|이손드레|레손|타에라|아주어고스|군주 카자크|'
+                     r'군주 스퀄|왕자 스칼레녹스|남작 카줌|대장군 휠락시스|공주 템페스트리아|남작 차르|아발란치온|칼날바람|쑨|제왕 베클로어|제왕 베크닐라쉬|'
+                     r'아우로|공주 후후란|비시디우스|불굴의 판크리스|전투감시병 살투라|예언자 스케람|귀부인 팰리나|패치워크|역병술사 노스|로데브|사피론|켈투자드)$')
+_PVPV = ('선임하사 클레이트', '부관 잭스프링', '사무엘 호키', '일리야나 문블레이즈')
+_RQ, _QNR, _PQ = set(), {}, set()
+if (Q / 'quests.jsonl').exists():
+    _qa = [json.loads(l) for l in rd(Q / 'quests.jsonl').splitlines() if l.strip()]
+    for o in _qa:
+        g = o.get('g') or [None, None]
+        rq = o.get('rq') or []
+        if (o.get('z') in _RAIDZ or o.get('z') == '전설' or (len(g) > 1 and (g[1] in _RAIDZ or g[1] == "Temple of Ahn'Qiraj"))
+                or (rq and rq[0] in (910, 270))):
+            _RQ.add(o['id'])
+    _ch = True
+    while _ch:  # 레이드 퀘스트 다음 퀘스트도 레이드
+        _ch = False
+        for o in _qa:
+            if o['id'] not in _RQ and any(p in _RQ for p in (o.get('pre1') or [])):
+                _RQ.add(o['id']); _ch = True
+    for o in _qa:
+        _QNR.setdefault(o.get('n'), []).append(o['id'] in _RQ)
+    _PQ = set(o['id'] for o in _qa if o.get('z') in ('알터랙 계곡', '전쟁노래 협곡', '아라시 분지'))  # 전장 퀘스트 = PvP
+def _rflag(l):
+    f = l.split('~')
+    if len(f) < 2:
+        return l
+    k, lb, hr = f[0], f[1], (f[2] if len(f) > 2 else '')
+    fl = ''
+    if k == '1':
+        m = re.search(r'(?:quest=|/quest/)(\d+)', hr)
+        if m:
+            fl = 'r' if int(m.group(1)) in _RQ else 'p' if int(m.group(1)) in _PQ else ''
+        elif not hr.startswith('dg:'):
+            v = _QNR.get(lb.replace('퀘스트 · ', '', 1))
+            fl = 'r' if v and all(v) else ''
+    elif k == '3':
+        n = lb.replace('드랍 · ', '', 1)
+        z = re.search(r'\(([^)]+)\)$', n)
+        nm = re.sub(r' \([^)]+\)$', '', n)
+        m = re.search(r'wh:npc=(\d+)', hr)
+        if (z and z.group(1) in _RAIDZ) or (m and int(m.group(1)) in _RAIDNPC) or _RAIDNM.match(nm) or re.sub(r' 몹$', '', nm) in _RAIDZ:
+            fl = 'r'
+    elif k == '5':
+        n = lb.replace('상인 · ', '', 1)
+        if n in _PVPV or lb.startswith('PvP · '):
+            fl = 'p'
+        elif n == '아나크로노스':
+            fl = 'r'
+    if not fl:
+        return l
+    while len(f) < 3:
+        f.append('')
+    return '~'.join(f[:3] + [fl])
+srcs = '\n'.join(_rflag(l) for l in srcs.split('\n'))
+print('레이드 출처', sum(1 for l in srcs.split('\n') if l.endswith('~r')), '· PvP(명예·전장)', sum(1 for l in srcs.split('\n') if l.endswith('~p')), '· 레이드 퀘스트', len(_RQ))
 SRC_TXT = srcs + '\n'
+# 템의 다른 출처가 있으면 얼라이언스가 못 하는 퀘스트 출처는 뺌 (호드 퀘스트 · 포에버 퀘스트 자료에 없는 영어 이름 퀘스트)
+#   예: 블랙핸드의 팔찌 = 「For The Horde!」(호드) + 「사령관 드라키사스 처치」 → 얻는 곳 글에 호드 퀘스트가 먼저 보이던 것
+_HQS = set(int(x) for x in (rd(Q / 'horde-quests.txt').split() if (Q / 'horde-quests.txt').exists() else []))
+_QIDS = set(o['id'] for o in _qa) if (Q / 'quests.jsonl').exists() else set()
+_SL = srcs.split('\n')
+def _noq(i):
+    f = _SL[i].split('~') if 0 <= i < len(_SL) else []
+    if len(f) < 3 or f[0] != '1':
+        return False
+    m = re.search(r'(?:quest=|/quest/)(\d+)', f[2])
+    if not m:
+        return False
+    q = int(m.group(1))
+    return q in _HQS or (q not in _QIDS and bool(re.search('[A-Za-z]{3}', f[1])))
+_nh = 0
+for _i, _l in enumerate(items):
+    _f = _l.split('|')
+    if len(_f) < 8 or not _f[7]:
+        continue
+    _s = [x for x in _f[7].split(';') if x]
+    _k = [x for x in _s if not _noq(int(x))]
+    if _k and len(_k) < len(_s):
+        _f[7] = ';'.join(_k); items[_i] = '|'.join(_f); _nh += 1
+ITEMS_TXT = '\n'.join(items) + '\n'
+print('호드·없는 퀘스트 출처 뺌', _nh)
 
 # 퀘스트 할 일(forg) 「떨구는 몹」 등에 남은 영어 몹 이름 → 한글 (앱에서 바꿔 보여 줌)
 def _npcko_q():

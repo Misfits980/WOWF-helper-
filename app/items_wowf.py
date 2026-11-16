@@ -76,7 +76,7 @@ def parse_stats(lines):
             elif '무기 막기' in body: add('parry',v)
             elif '방패 막기' in body: add('blockp',v)
             continue
-        mv=re.search(r'최대 (\d+)',body) or re.search(r'(\d+)만큼',body)
+        mv=re.search(r'최대 (\d+)',body) or re.search(r'(\d+)만큼',body) or re.search(r'5초마다 (\d+)의 마나',body)
         if not mv: continue
         v=int(mv.group(1))
         if re.search(r'확률|초 동안|적중 시|공격 시|사용 시',body): continue
@@ -85,6 +85,7 @@ def parse_stats(lines):
         elif '주문' in body and any(s in body for s in SCH):
             for s,k in SCH.items():
                 if s in body: add(k,v); break
+        elif '주문' in body and '공격력' in body: add('sp',v)  # 「마법 주문과 효과에 의한 공격력이 최대 N」 = 주문 피해만
         elif '원거리 전투력' in body: add('rap',v)
         elif '전투력' in body: add('ap',v)
         elif '마나' in body and '5초' in body: add('mp5',v)
@@ -319,10 +320,18 @@ def convert(jsonl_text, equip_text, src_index):
         if horde_only:
             continue
         for label, href in o.get('src') or []:
+            if re.search(r'\(호드\)$', label):  # 얼라이언스가 못 얻는 곳(호드 평판·호드 퀘스트)
+                continue
             label = re.sub(r'\((얼라이언스|호드)\)$', '', label).strip()
             m = re.search(r'/quests/(\d+)', href)
+            mp = re.match(r'^(가죽세공|대장기술|재봉술|기계공학|마법부여|보석세공|연금술) 제조법 · ', label)
             if m:
-                refs.append(src_index('1~퀘스트 · %s~wh:quest=%s' % (re.sub(r'^퀘스트 보상 · ', '', label), m.group(1))))
+                qn = re.sub(r'^.+ · 퀘스트 「(.+)」$', r'\1', re.sub(r'^(퀘스트 보상|퀘스트) · ', '', label))  # 「울다만 · 퀘스트 「마법석」」 → 마법석
+                refs.append(src_index('1~퀘스트 · %s~wh:quest=%s' % (qn, m.group(1))))
+            elif '/pvp/' in href:  # 명예 장비·전장 평판 (앱 「전체」에서만 추천)
+                refs.append(src_index('5~PvP · %s~' % ('명예 계급 장비' if label == 'PvP 장비' else label)))
+            elif mp:  # 전문기술로 만드는 템 = 제작 (다른 제작 템처럼 경매장)
+                refs.append(src_index('4~제작 · %s · 경매장 거래~' % mp.group(1)))
             elif '/dungeons/' in href:
                 p = label.split(' · ')
                 dg = DGMAP.get(href.split('/dungeons/')[1].split('#')[0])
@@ -332,8 +341,10 @@ def convert(jsonl_text, equip_text, src_index):
                     refs.append(src_index('3~드랍 · %s%s~' % (p[-1], ' (%s)' % p[0] if len(p) > 1 else '')))
             elif label.startswith('상인'):
                 refs.append(src_index('5~%s~' % label))
+            elif label.startswith('숨은 아이템 · '):
+                refs.append(src_index('3~드랍 · 숨은 물건: %s~' % label.split(' · ', 1)[1]))
             else:
-                refs.append(src_index('3~드랍 · %s~' % label))
+                refs.append(src_index('3~드랍 · %s~' % re.sub(r'^(드랍|희귀 몹) · ', '', label)))
         mask = mask_of(cs, allow)
         if not mask:
             continue

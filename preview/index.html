@@ -1879,6 +1879,7 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .gseg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#1b1610}
 .gseg button{height:32px;padding:0 10px;border:0;background:transparent;color:#bfb399;font:600 calc(12.5px*var(--fs,1))/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
 .gseg button+button{border-left:1px solid var(--line)}.gseg button.on{background:#3a2c16;color:var(--gold)}
+@media(max-width:400px){.gseg button{padding:0 7px}}
 .pill.soonp{background:#3a2c16;color:var(--gold);border-color:var(--gold2)}.lkt.soon{background:#2e2412;color:#e8c06a;border-color:#5a4520}
 .soonm{font-style:normal;font-size:calc(11px*var(--fs,1));color:var(--gold);font-weight:600}
 .rs .bt{margin:4px 0 0;font-size:calc(12.5px*var(--fs,1));color:#cfc3a8;line-height:1.5}
@@ -2820,11 +2821,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=3158936f"></script>
-<script>/* v796c7f @11/16 22:47 */
+<script src="app-data.js?v=3b7532a7"></script>
+<script>/* v1a264e @11/16 23:53 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 22:47';
+const BUILD='11/16 23:53';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -2912,7 +2913,7 @@ function prioLine(c){const w=wOf(c);const nm=k=>k==='dps'?'무기 DPS':k==='rdps
   return Object.entries(w).filter(([k,v])=>v>0&&(STAT_KO[k]||k==='rdps')&&k!=='armor').map(([k,v])=>[k,v*(typ[k]||5)]).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k])=>nm(k))}
 
 /* ----- 아이템 ----- */
-const SRC=D_SRC.split('\n').filter(Boolean).map(l=>{const [k,label,href]=l.split('~');const o={k:+k,label,href:href||''};
+const SRC=D_SRC.split('\n').filter(Boolean).map(l=>{const [k,label,href,fl]=l.split('~');const o={k:+k,label,href:href||''};if(fl==='r')o.raid=1;if(fl==='p')o.pvp=1;
   if(o.k===0){o.dg=(href||'').replace('dg:','').split('#')[0];const p=label.split(' · ');o.dn=p[0];o.boss=p.slice(1).join(' · ')}
   if(o.k===1)o.qn=label.replace(/^퀘스트 · /,'');
   return o});
@@ -3679,18 +3680,19 @@ function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)retur
   return S.filter(s=>{if(s.k!==1)return true;const q=srcQid(s);if(q)return !done(q)&&!qGone(c,q);if(/^dg:/.test(s.href||'')){const qs=IT_Q[it.id]||[];return !qs.length||qs.some(x=>!done(x))}return true})}
 const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
 const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(ql[srcQid(s)]||(IT_Q[it.id]||[]).some(x=>ql[x])))};
-function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(srcSure))return 'sure';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
-const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({soon:'🚧 개방 예정 던전',ah:'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+'</span>'};
-/* 추천 기준: q 퀘스트만(던전 퀘스트 빼고) · dg 던전만(던전 보스·던전 퀘스트) · ok 퀘스트+던전(퀘스트·던전·상인·이름 있는 몹, 기본) · all 전체(경매장·월드 드랍까지) */
+function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(s=>srcSure(s)&&!s.raid&&!s.pvp))return 'sure';if(S.some(s=>s.raid&&srcSure(s)))return 'raid';if(S.some(s=>s.pvp))return 'pvp';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
+const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',soon:'🚧 개방 예정 던전',ah:'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+'</span>'};
+/* 추천 기준: q 퀘스트만(던전 퀘스트 빼고) · dg 던전만(던전 보스·던전 퀘스트) · ok 퀘스트+던전(퀘스트·던전·상인·이름 있는 몹, 기본) · rd 레이드까지(ok + 레이드 보스·레이드 퀘스트) · all 전체(경매장·월드 드랍·명예 상인까지)
+   레이드·명예 상인 출처는 build.py가 4번째 칸(r·p)으로 표시 */
 let DQSET=null;const dqSet=()=>DQSET||(DQSET=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id))));
 const DGNM=new Set(DGS.flatMap(d=>[d.ko,d.old].filter(Boolean)));
-function srcCat(s){if(!s)return '';if(s.k===0)return DG[s.dg]&&!DG[s.dg].soon?'dg':'';
+function srcCat(s){if(!s||s.raid||s.pvp)return '';if(s.k===0)return DG[s.dg]&&!DG[s.dg].soon?'dg':'';
   if(s.k===1){const m=(s.qn||'').match(/^(.+?) · 퀘스트 보상$/);if(m&&DGNM.has(m[1]))return 'dg';const q=srcQid(s);return q&&dqSet().has(q)?'dg':'q'}return ''}
 /* 얻는 곳이 「미공개」뿐인데 레벨도 능력치로 어림한 템(포에버 새 템 · 예: 화염 군주의 목장식 「11레벨」)은 언제 얻는지 몰라 추천하지 않음 */
 const lvUnknown=it=>it.est&&it.src.every(i=>!SRC[i]||/미공개/.test(SRC[i].label||''));
 function srcOk(it,mode,c){if(c&&questDoneOnly(it,c))return false;if(lvUnknown(it))return false;if(mode==='all')return true;
   if(mode==='q'||mode==='dg'){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);return S.some(s=>srcCat(s)===mode)}
-  return srcKind(it,c)==='sure'}
+  const k=srcKind(it,c);return k==='sure'||(mode==='rd'&&k==='raid')}
 /* Wowhead 포에버 20·30레벨 가이드에 나온 템 */
 function guideHas(c,id,L){const G=(typeof D_GUIDE!=='undefined'&&D_GUIDE[c.cls+'/'+c.spec])||null;if(!G)return false;L=L||c.lv;return (L<=27&&(G['20']||[]).includes(id))||(L>=22&&L<=40&&(G['30']||[]).includes(id))}
 /* 무기 숙련: 처음부터 아는 것 말고는 무기 전문가에게 배워야 함 (얼라이언스, 10실버) */
@@ -3702,7 +3704,10 @@ const wskNeed=(it,c)=>{const [a,b]=(it.cs||'').split('.').map(Number);if(a!==2||
   if(!WSK0[c.cls]||WSK0[c.cls].includes(b))return null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b],guess:1}};
 const skTag=(it,c)=>{const n=wskNeed(it,c);if(!n)return '';if(n.low)return ' <span class="lkt sk" title="숙련도 '+n.low[0]+'/'+n.low[1]+'">🎓 '+esc(n.ko)+' 숙련 '+n.low[0]+'/'+n.low[1]+'</span>';return ' <span class="lkt sk" title="'+esc(n.ko)+' 숙련은 '+esc(n.at)+'에게 배워요">🎓 '+esc(n.ko)+' 숙련 필요</span>'};
 const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead WoW Forever 직업 가이드 추천">📘 공략 추천</span>':'';
-function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(mode!=='q'&&mode!=='dg'&&guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)&&!lvUnknown(it)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
+/* 근접·탱커 전문화는 천 방어구(망토 빼고)를 추천하지 않음: 포에버는 적중·치명타가 근접·주문 공용이라
+   「지능+적중 1%」 마법사 장갑이 전사 손 칸 1위로 16레벨 동안 나왔음(가이드는 천을 권하지 않음 · 방어도 값은 점수에 없음) */
+const clothNo=(c,it)=>it.cs==='4.1'&&it.sl!=='ba'&&(['warrior','rogue','hunter'].includes(c.cls)||/근접 딜|탱커/.test(ROLE[c.cls+'/'+c.spec]||''))&&!['priest','mage','warlock'].includes(c.cls);
+function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>it.ob<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id)||(mode!=='q'&&mode!=='dg'&&guideHas(c,it.id,maxLv)&&!questDoneOnly(it,c)&&!lvUnknown(it)))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
@@ -3729,7 +3734,7 @@ function diffHtml(a,b,c){const w=wOf(c);const ks=new Set([...Object.keys(a?a.st:
   arr.sort((x,y)=>y[2]-x[2]);if(!arr.length)return '';
   return '<span class="dif">'+arr.slice(0,4).map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+(k==='dps'||(PCTK[k]&&Math.abs(d)%1)?Math.abs(d).toFixed(1):Math.round(Math.abs(d)))+'</span>').join(' · ')+'</span>'}
 function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.src.slice(0,n||2).map(i=>{const s=SRC[i];if(!s)return '';
-  if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+' · '+s.boss;if(s.k===1)return '퀘스트 「'+s.qn+'」';if(s.k===2)return '월드 드랍 (경매장)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':s.label.replace('드랍 · ','')+' 처치';if(s.k===4)return s.label.replace(/ · 경매장 거래$/,'')+' (경매장)';if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
+  if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+(s.boss?' · '+s.boss:'');if(s.k===1)return / · 퀘스트 보상$/.test(s.qn)?s.qn:'퀘스트 「'+s.qn+'」';if(s.k===2)return '월드 드랍 (경매장)';if(s.pvp)return (s.k===1?'퀘스트 「'+s.qn+'」':s.label.replace(/^PvP · /,'').replace(/^상인 · /,'상인 '))+' (PvP)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':/^드랍 · 숨은 물건: /.test(s.label)?s.label.replace('드랍 · 숨은 물건: ','숨은 물건 「')+'」에서 얻기':s.label.replace('드랍 · ','')+' 처치';if(s.k===4)return s.label.replace(/ · 경매장 거래$/,'')+' (경매장)';if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
 function srcList(it){if(!it.src.length)return '<p class="note">어디서 나오는지 아직 몰라요.</p>';
   return '<div class="srcl">'+it.src.slice(0,6).map(i=>{const s=SRC[i];if(!s)return '';const d=s.k===0&&DG[s.dg];
     const ico={0:'🏰',1:'📜',2:'🌍',3:'⚔️',4:'🧪',5:'🛒'}[s.k]||'•';const bn=d&&d.bosses?bossNo(d,s.boss):null;
@@ -4408,7 +4413,7 @@ function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
 /* 추천 기준 칸 (장비 탭) */
-const IFIL=[['q','퀘스트만','던전 없이 퀘스트 보상만'],['dg','던전만','던전 보스·던전 퀘스트만'],['ok','퀘스트+던전','퀘스트·던전·상인 (기본)'],['all','전체','경매장·월드 드랍까지']];
+const IFIL=[['q','퀘스트만','던전 없이 퀘스트 보상만'],['dg','던전만','던전 보스·던전 퀘스트만'],['ok','퀘스트+던전','퀘스트·던전·상인 (기본)'],['rd','레이드','퀘스트·던전에 레이드 템까지 (만렙)'],['all','전체','경매장·월드 드랍·명예 상인까지']];
 const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
 const HEALER_NOTE={paladin:1,shaman:1,druid:1};
 function offLocked(c,s){return s==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h'}
