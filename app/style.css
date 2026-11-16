@@ -1663,6 +1663,11 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .lgwhy.hard{color:#ff9a6a;border:1px solid #a0502c}
 .lg3x .lg3r{opacity:.85}
 .lg3a .ib.rm{border-color:#a0502c;color:#ffb08a}
+.lgtodoh{margin:6px 2px 0;font-size:11.5px;font-weight:700;color:#bfb399}
+.lg3r.lgtodo{border-style:dashed;background:transparent}
+.lg3r.lgtodo.lock{opacity:.7}
+.lgmore>summary{cursor:pointer;font-size:12px;color:var(--gold);padding:4px 6px;list-style:none}.lgmore>summary::-webkit-details-marker{display:none}.lgmore>summary::before{content:'▸ '}.lgmore[open]>summary::before{content:'▾ '}
+.lg3m .m small.lgpre{color:#e8c06a}.lg3m .m small.lgpre.hard{color:#ff9a6a}
 /* 아이템 툴팁 (PC 마우스) */
 .ttip{position:fixed;z-index:200;display:none;width:280px;padding:10px 12px;border-radius:8px;background:rgba(10,14,30,.96);border:1px solid #5a6a8a;box-shadow:0 0 0 1px #000,0 6px 20px #000a;font-size:12.5px;line-height:1.45;color:#fff;pointer-events:none}
 .ttip .tt-n{font-size:14px;font-weight:800}

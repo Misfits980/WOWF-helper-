@@ -2774,8 +2774,21 @@ function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     /* 4) 하는 중: 지역별 */
     const W=Q.filter(q=>!used.has(q.id));const byZ={};/* 할 일 하는 지역 기준 (받은 지역과 다르면 몹 있는 곳) */const doZ=q=>{const o=obPlaces(q).find(o=>!o.dg);return zn(o?o.zone:q.z)};W.forEach(q=>{const z=doZ(q);(byZ[z]=byZ[z]||[]).push(q)});
     if(W.length)h+='<div class="lg3s"><h4>⚔️ 하는 중 <small>'+W.length+'개 · 지역별</small></h4><div class="lg3gs">'+Object.entries(byZ).sort((a,b)=>(cur.includes(b[0])-cur.includes(a[0]))||b[1].length-a[1].length).map(([z,L2])=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(z)+'</b>'+(cur.includes(z)?'<i class="here">지금 구간</i>':'')+'<em>'+L2.length+'개</em></div><div class="lg3l">'+chRows(L2,q=>row(q))+'</div></div>').join('')+'</div></div>';
-    if(D.length){const G={};D.forEach(q=>{const d=DQ[q.id];(G[d.slug]=G[d.slug]||{d,L:[]}).L.push(q)});
-      h+='<div class="lg3s"><h4>🏰 던전 퀘스트 <small>'+D.length+'개 · 던전 갈 때 한꺼번에</small></h4><div class="lg3gs">'+Object.values(G).map(({d,L:L2})=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+'</small><button class="btn sm ghost" data-a="dgo" data-k="'+d.slug+'">던전 공략 ›</button></div><div class="lg3l">'+chRows(L2,q=>row(q))+'</div></div>').join('')+'</div></div>'}
+    /* 던전마다 아직 안 받은 퀘스트도 아래에: 퀘스트창에 있는 던전 + 지금 레벨 던전(받을 게 남은 곳). 받으러 갈 곳 먼저, 던전 안에서 받는 건 뒤로 */
+    {const G={};D.forEach(q=>{const d=DQ[q.id];(G[d.slug]=G[d.slug]||{d,L:[]}).L.push(q)});
+      /* 같은 던전의 앞 퀘스트를 먼저 해야 하는 연계 다음 단계는 숨김(앞 단계를 끝내면 나옴) · 5레벨 넘게 높은 건 숨김 */
+      const todo=d=>{const ids=new Set(dqOf(c,d).map(q=>+q.id));return dqOf(c,d).filter(q=>!dqIsDone(c,q)&&!ql[q.id]&&!qGone(c,q.id)).map(q=>{const X=QDB.get(q.id);const m2=X&&!X.mEst?X.m||0:0;const inside=/던전 안|아이템/.test(q.start||'')||!q.start;
+        return {q,X,inside,mEff:Math.max(q.min||0,m2),pf:preFirst(c,q.id)}}).filter(o=>!(o.pf&&ids.has(+o.pf.id))&&o.mEff<=L+5).sort((a,b)=>(a.inside-b.inside)||((a.mEff>L||!!a.pf)-(b.mEff>L||!!b.pf))||(a.q.lv-b.q.lv))};
+      /* 퀘스트창에 없는 던전은 지금 레벨에 가장 맞는 2곳만 */
+      dgNow(L).filter(d=>!G[d.slug]&&todo(d).length).sort((a,b)=>Math.abs((a.fit||a.lo)-L)-Math.abs((b.fit||b.lo)-L)).slice(0,2).forEach(d=>{G[d.slug]={d,L:[],more:1}});
+      const stTxt=q=>{let t=startTxt(q.start);const o=QD.get(q.id);if(o&&o.g&&latin(o.g[0])){const k=npcKo(o,'g');if(k&&!latin(k))t=t.split(o.g[0]).join(k)}return t};
+      const trow=({q,X,inside,mEff,pf})=>{const lock=mEff>L;const good=q.rw.some(id=>{const it=IT.get(id);return it&&usable(it,c)&&((bestSlot(it,c)||{}).g||0)>.01});
+        return '<div class="lg3r lgtodo'+(lock||pf?' lock':'')+'"><button class="lg3m" data-a="'+(X?'qopen':'dgo')+'" data-k="'+(X?q.id:DQ[q.id].slug)+'"><span class="lvq2 '+lvCls(q.lv||L,L)+'">'+(q.lv||'?')+'</span><span class="m"><b class="qnb"><span class="qn">'+esc(q.nm)+'</span>'+(X?chTag(q.id):'')+'</b><small>'+esc(stTxt(q))+'</small>'+(pf?'<small class="lgpre">먼저 「'+esc(pf.n)+'」 끝내야 받아요</small>':lock?'<small class="lgpre hard">'+mEff+'레벨부터 받아요</small>':'')+'</span>'
+          +(good?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+'</button>'
+          +'<span class="lg3a">'+(!inside&&X?'<button class="ib" data-a="mmgo" data-k="'+q.id+'" title="받는 곳 지도">📍</button>':'')+'</span></div>'};
+      const V=Object.values(G).map(o=>Object.assign(o,{T:todo(o.d)})).filter(o=>o.L.length||o.T.length);const nT=V.reduce((a,o)=>a+o.T.length,0);
+      if(V.length)h+='<div class="lg3s"><h4>🏰 던전 퀘스트 <small>'+(D.length?'받은 것 '+D.length+'개 · ':'')+(nT?'안 받은 것 '+nT+'개 · ':'')+'던전 갈 때 한꺼번에</small></h4><div class="lg3gs">'+V.map(({d,L:L2,T,more})=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+'</small>'+(more?'<i class="here">지금 레벨</i>':'')+'<button class="btn sm ghost" data-a="dgo" data-k="'+d.slug+'">던전 공략 ›</button></div><div class="lg3l">'+chRows(L2,q=>row(q))
+        +(T.length?'<p class="lgtodoh">📥 아직 안 받은 퀘스트 '+T.length+'개'+(T.some(x=>!x.inside)?' · 던전 가기 전에 받아 두세요':'')+'</p>'+T.slice(0,4).map(trow).join('')+(T.length>4?'<details class="lgmore"><summary>나머지 '+(T.length-4)+'개 더 보기</summary><div class="lg3l">'+T.slice(4).map(trow).join('')+'</div></details>':''):'')+'</div></div>').join('')+'</div></div>'}
     if(X.length)h+='<div class="lg3s lg3x"><h4>🗑️ 정리해도 되는 퀘스트 <small>'+X.length+'개 · 자리가 모자랄 때 게임에서 먼저 포기</small></h4><div class="lg3l">'+X.map(q=>{const w=why(q)||XW[q.id];return row(q,'<span class="lgwhy '+w[0]+'">'+w[1]+'</span>',1)}).join('')+'</div><p class="note">앱에서 지워도 게임 퀘스트창은 그대로예요. 게임에서 포기한 뒤 🗑 를 누르면 앱에서도 빠져요 (끝낸 걸로 치지 않아요).</p></div>'}
   if(unk)h+='<p class="note">앱 자료에 없는 퀘스트 '+unk+'개는 빼고 보여 줘요.</p>';
   return h}
