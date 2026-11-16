@@ -683,24 +683,57 @@ def js_str(s):
 def fp(path):
     q = ROOT / path
     return hashlib.md5(q.read_bytes()).hexdigest()[:10] if q.exists() else '0'
-# 새 던전 보충 (data/guides/dungeon-route-extra.json): wowf.io 진행 순서가 비어 있는 칸만 채움.
-# 채운 칸 이름을 'x'에 적어 두어, 보충 파일을 고치면 다음 빌드에 다시 반영되고 wowf.io에 자료가 생기면 그쪽을 씀
+# 새 던전 보충: wowf.io 진행 순서가 빈 던전만 채움. 우선순위 wowf.io > wythic.com(한글, 실제 클리어 기록) > 보충 파일
+# (data/guides/dungeon-route-extra.json: 입구·준비·퀘스트 연결·레벨 등 wythic에 없는 칸만, wythic에 없는 보스 단계 끼워 넣기).
+# 채운 칸 이름을 'x'에 적어 두어, 자료를 고치면 다음 빌드에 다시 반영되고 wowf.io에 자료가 생기면 그쪽을 씀
+WY_SLUG = {'drowned-city': 16550, 'kroldok-stronghold': 16842, 'alcaz-prison': 16620, 'blackmaw-hold': 16554, 'shapers-terrace': 16667}
+def _wy_steps(slug, wy, ex):
+    en = {}
+    for l in rd(ROOT / 'data/qdb/dungeons-wowf.txt').split('\n'):
+        f = l.split('|')
+        if len(f) >= 5 and f[0] == 'B' and f[1] == slug:
+            en[f[3]] = f[4]
+    mine = {x['nm']: x for x in (ex or {}).get('steps') or []}
+    out = []
+    for b in wy.get('bosses') or []:
+        nm = b['npc']; tip = b.get('tip') or ''; m = mine.get(nm, {})
+        rare = '희귀 정예' in tip  # 「희귀 몹 OO를 지나」 같은 길 안내는 빼려고 「희귀 정예」만
+        skip = 1 if b.get('opt') and re.search('선택 보스|잡지 않고|만나지 않고', tip) else 0
+        out.append({'n': 0, 'lv': m.get('lv', 0), 'nm': nm, 'en': en.get(nm) or m.get('en', ''), 'type': '희귀' if rare else '우두머리',
+                    'skip': skip, 'note': '', 'tip': tip, 'wy': 1, 'q': m.get('q', [])})
+    # wythic 목록에 없는 단계(퀘스트 목표·빠진 보스)는 보충 파일 순서대로 앞 단계 뒤에 끼움
+    have = {x['nm'] for x in out}
+    prev = None
+    for x in (ex or {}).get('steps') or []:
+        if x['nm'] not in have:
+            i = next((k + 1 for k, y in enumerate(out) if y['nm'] == prev), len(out))
+            out.insert(i, dict(x)); have.add(x['nm'])
+        prev = x['nm']
+    for k, x in enumerate(out):
+        x['n'] = k + 1
+    return out
 def _dg_extra():
     p = ROOT / 'data/forg/dungeon-guide.json'
     ep = ROOT / 'data/guides/dungeon-route-extra.json'
-    if not ep.exists():
-        return 0
-    raw = rd(p); g = json.loads(raw); ex = json.loads(rd(ep)); n = 0
-    for slug, e in ex.items():
-        if slug.startswith('_'):
-            continue
+    raw = rd(p); g = json.loads(raw)
+    ex = json.loads(rd(ep)) if ep.exists() else {}
+    wp = ROOT / 'data/wythic/dungeons.json'
+    WYD = {d['id']: d for d in json.loads(rd(wp)).get('dungeons', [])} if wp.exists() else {}
+    n = 0
+    for slug in sorted(set(k for k in ex if not k.startswith('_')) | set(WY_SLUG)):
+        e = ex.get(slug) or {}; wy = WYD.get(WY_SLUG.get(slug))
         t = g.setdefault(slug, {'sum': '', 'prep': [], 'floors': [], 'steps': []})
         mine = set(t.get('x') or [])
-        for k in ('sum', 'prep', 'steps'):
-            if e.get(k) and (k in mine or not t.get(k)):
-                t[k] = e[k]; mine.add(k)
+        add = {'sum': (wy or {}).get('sum') or e.get('sum'), 'prep': e.get('prep'),
+               'steps': (_wy_steps(slug, wy, e) if wy and wy.get('bosses') else None) or e.get('steps')}
+        for k, v in add.items():
+            if v and (k in mine or not t.get(k)):
+                t[k] = v; mine.add(k)
         if mine:
-            t['x'] = sorted(mine); t['src'] = e.get('src', ''); n += 1
+            src = ['wythic.com 공략(한글, 실제 클리어 기록)'] if wy and wy.get('bosses') else []
+            if e.get('prep'):
+                src.append('입구·준비는 출시 첫 주 공략 기록 정리')
+            t['x'] = sorted(mine); t['src'] = ' · '.join(src) + ' · 패치로 바뀔 수 있어요'; n += 1
     out = json.dumps(g, ensure_ascii=False, separators=(',', ':'))
     if out != raw:
         p.write_text(out, encoding='utf-8')

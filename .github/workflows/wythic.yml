@@ -2,7 +2,7 @@ name: wythic 던전 공략·전문기술 불러오기
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 18 * * 1'   # 매주 화요일 새벽(한국)
+    - cron: '17 18 * * *'   # 매일 새벽 3시 17분(한국) — 새 던전 공략이 계속 채워지는 중이라 매일
   push:
     paths: ['tools/wythic-dungeons.mjs', 'tools/wythic-profs.mjs', '.github/workflows/wythic.yml']
 permissions:
@@ -16,8 +16,10 @@ jobs:
         with: { node-version: 20 }
       - run: node tools/wythic-dungeons.mjs
       - run: node tools/wythic-profs.mjs
+      # 새 던전 진행 순서는 빌드 때 wythic 자료로 만들어지니(app/build.py _dg_extra) 같이 다시 빌드
+      - run: python3 app/build.py
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/wythic
-          git diff --cached --quiet || (git commit -m "wythic 던전 공략 갱신" && git pull --rebase && git push)
+          git add data/wythic data/forg/dungeon-guide.json
+          if ! git diff --cached --quiet; then git add index.html app-data.js addon/WowfHelper/BossTips.lua; git commit -m "wythic 던전 공략 갱신" && git pull --rebase && git push; fi

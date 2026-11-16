@@ -685,65 +685,102 @@ dz|정신 지배|Domination|all|한 명 조종 → 묶거나 체력 깎기
 hl|정신 분열|Mind Blast|hl|큰 피해 → 치유
 info|변신|Transform|all|체력 낮으면 악마로 변해요
 
-# 새 던전 4곳 (2026-11-16): 출시 첫 주 공략 기록(conquestcapped 등)을 내 말로 정리 · 바뀔 수 있음
+# 새 던전 5곳 (2026-11-16): wythic.com 실제 클리어 기록 + 출시 첫 주 공략 기록(conquestcapped 등)을 내 말로 정리 · 바뀔 수 있음
 @drowned-city
 #Zul'Alai
-dz|격노|Enrage|all|체력이 낮아지면 공격이 크게 빨라져요 → 치유·생존 쿨기는 끝 무렵에 쓰기
+av|내려찍기|Ground Slam|dp|땅을 내려찍어 주변을 몇 초 기절시켜요 → 시전이 보이면 근접은 물러나기
+dz|격노|Enrage|all|생명력 30%에서 공격이 빨라져요 → 치유·생존 쿨기는 이때 쓰기
 #Var'Taka
-add|나가 여사제|Brinescale Priestess|dp|옆에서 보스를 치유해요 → 먼저 잡거나 변이·혼절로 묶기
+add|나가 여사제 2|Brinescale Priestess|dp|보스를 치유하고 냉기 화살을 쏴요 → 먼저 잡거나 변이·혼절로 묶기
+tk|전방 휩쓸기|Cleave|tk|앞쪽을 휩쓸어요 → 보스를 일행 반대로 돌리기
+info|작살|Harpoon|all|아무나 끌어당겨요 → 끌려가면 바로 탱커 쪽으로 돌아오기
+#Captain Dreadrise
+hl|물방울 감옥|Bubble|hl|한 명이 물방울에 갇혀요 → 익사 전에 빨리 풀어 주기
+int|연발 물화살|Water Bolt Volley|dp|전체에 물 화살 → 끊기
 #Deathless Guardians
-int|마법사|Deathless Sorcerer|dp|수호자와 같이 나오는 마법사가 주문을 써요 → 끊기
+dz|되살아나는 쫄|Respawning Adds|dp|경비병·마법사가 보스가 죽을 때까지 계속 살아나요 → 보스 중심으로 광역 공격
+tk|경비병 기절|Stun|tk|경비병이 기절을 걸어요 → 탱커가 붙잡아 두기
+#Primeval Elemental
+info|물속 전투|Underwater|all|오른쪽 물속 터널 끝 방(선택) → 수중 호흡 챙기고 숨 게이지 보기
 #Min'loth the Serpent
-info|폭풍|Storm|all|다가가면 날씨가 폭풍으로 바뀌어요 → 마나·체력 채우고 시작
-dis:poison|연발 독액|Poison Volley|hl|여럿에게 독 → 독 해제
-av|공포|Fear|all|일행이 도망가요 → 공포의 수호물·진동의 토템
+info|변신|Transform|all|생명력이 바닥나면 뱀으로 변해 생명력을 다 채워요 → 마나·쿨기 나눠 쓰기
+dis:poison|맹독|Poison|hl|뱀 단계 독은 빨리 풀어야 해요 → 독 해제
+av|공포|Fear|all|뱀 단계 무작위 공포 → 공포의 수호물·진동의 토템
 @kroldok-stronghold
 #Slavecrusher Grox
+info|포로 끌어들이기|Prisoners|tk|주변 포로를 전투에 끌어들여요 → 포로에서 먼 바깥벽 쪽에서 탱킹
 info|정찰 무리|Patrols|all|주변 무리가 보스보다 위험해요 → 정찰이 지나간 뒤 당기기
 #Twilight Commander Zarmok
+int|시전 주문|Shadow Casts|dp|시전 주문을 써요 → 끊기
+av|바닥 장판|Ground Effect|all|바닥에 장판이 깔려요 → 피하기
 hl|출혈|Bleed|hl|탱커에게 출혈이 계속 걸려요 → 탱커 치유 늘리기
 #Handler Ashka
-add|늑대 둘|Wolves|dp|늑대 두 마리와 같이 와요 → 늑대부터 정리
+add|늑대 둘|Wolves|dp|늑대 두 마리와 같이 와요 → 기절·속박으로 묶기
+av|공포의 울부짖음|Fear|all|넓은 범위 공포 → 진동의 토템·공포의 수호물
 #Nar'gurk
-dz|정신 지배|Dominate Mind|all|한 명을 지배해요 → 기둥 뒤로 시야 끊고, 지배된 사람은 묶기
+dz|정신 지배|Dominate Mind|all|한 명을 지배해요 → 풀릴 때까지 광역 공격 멈추고 지배된 사람은 묶기
+int|암흑 강화|Shadow Empower|dp|자신을 강화하는 암흑 주문 → 끊기
 #Bossman Toof
-add|주술사|Shamans|dp|주술사들과 같이 나와요 → 주술사부터 끊거나 묶기
+add|주술사|Shamans|dp|다리 건너 주술사들과 같이 기다려요 → 주술사부터 끊거나 묶기
 #Overseer Mugg
+tk|망치 들기|Hammer|tk|망치를 들면 탱커 피해가 커지고 공격 속도가 쌓여요 → 생존기 맞춰 쓰기
 av|뛰어들기|Leap|all|여기저기 뛰어들어요 → 흩어져 서기
 add|쫄|Adds|dp|탱커가 받는 치유를 줄여요 → 쫄 먼저 잡기
 @alcaz-prison
-#Overseer Wrex
-add|간수 부르기|Call Jailers|tk|간수 6~8명을 불러요 → 다음 방 말고 복도로 끌어와 잡기
-#The Questioner
-info|긴 싸움|Long Fight|all|체력이 많아요 → 큰 기술 아끼고 마나 나눠 쓰기
 #Tidemistress Ca'zass
-add|나가 쫄 변이|Naga Polymorph|dp|쫄이 변이를 계속 걸어요 → 쫄 먼저 잡거나 끊기
+add|나가 쫄 변이|Naga Polymorph|dp|주변 나가가 변이를 자주 걸어요 → 먼저 잡거나 끊기(마법 흡수 토템도 통함)
 av|눈보라|Blizzard|all|바닥에 눈보라 → 밖으로 나가기
+#Overseer Wrex
+add|간수 부르기|Call Jailers|tk|간수·현상금 사냥꾼 6~8명이 같이 와요 → 다음 방 말고 복도로 끌어내고 군중 제어
 #Katerina the Cleaner
-dz|큰 화염 피해|Fire Damage|all|파티 전체가 세게 맞아요 → 체력 꽉 채우고 시작해서 빨리 잡기
+dz|큰 화염 피해|Fire Damage|all|파티 전체가 세게 맞아요 → 체력 꽉 채우고 시작, 묶인 죄수는 풀어 주지 않기
 #Blazeroar
-info|화염이 안 들어요|Fire Immunity|dp|첫 기록에선 화염 주문이 안 들었어요 → 냉기 피해로 치기
+info|화염 면역|Fire Immunity|dp|화염이 안 들어요 → 화염 마법사는 냉기로 바꾸기
+av|불기둥 장판|Fire Pillars|all|바닥 불기둥과 3초마다 지속 피해 → 장판 피하고 치유 유지
+#The Questioner
+add|부하|Truthfinder|dp|부하를 데리고 있어요 → 부하부터 잡거나 기절
+info|생명력 흡수|Drain Life|all|체력이 많아 오래 걸려요 → 큰 기술 아끼고 마나 나눠 쓰기
+@blackmaw-hold
+#Withermaw
+av|공포|Fear|all|공포를 걸어요 → 공포의 수호물·진동의 토템
+add|구더기|Maggots|dp|몸에서 구더기가 쏟아져요 → 같이 광역으로 정리
+#Bonesnout the Unbroken
+dz|의식술사 보호|Ritualists|dp|주변 의식술사 4명이 살아 있으면 피해를 거의 안 받아요 → 의식술사부터 잡거나 묶기
+#Blackmaw Behemoth
+tk|삼키기·천둥 포효|Swallow|tk|무언가를 삼켜 강해지고 포효해요 → 탱커 생존기 남겨 두기
+#Varrox Bleakhoof
+dz|암흑 폭발 약화|Shadow Debuff|all|걸리면 10초 뒤 주변 모두 암흑 피해 + 장판 → 걸린 사람은 파티에서 떨어지기
+#Elder Shaman Bloodmane
+int|주술사 부하|Shaman Adds|dp|주술사 부하들과 같이 싸워요 → 끊기 챙기기
+#Unbound Spirit
+dz|토템 보호|Totems|dp|토템이 서 있는 동안 피해를 안 받아요 → 토템부터 하나씩 부수기
+av|화염 퍼짐|Fire Spread|all|주변으로 화염 피해가 퍼져요 → 체력 관리
+#Impaan the Imprisoner
+info|선택 보스|Optional|all|잡지 않고 끝까지 갈 수 있어요(악마 보스)
 @shapers-terrace
 #Titanosaur
 av|공포|Fear|all|일행이 도망가요 → 공포의 수호물·진동의 토템
 av|꼬리 밀쳐내기|Tail Sweep|all|뒤에 서면 날아가요 → 보스 뒤에 서지 않기
+#Ravasaur Hunters
+add|둘이 같이|Izha'Rel · Tor'Rel|dp|라바사우루스 둘이 같이 나와요 → 하나 묶고 다른 하나부터
 #Venomridge
-dis:poison|독 뿌리기|Poison Volley|hl|여럿에게 독 → 독 해제
+dis:poison|독 뿌리기|Poison Volley|hl|독과 자연 피해가 강해요 → 독 해제·자연 저항
 av|발구르기|Stomp|all|가까운 사람이 다 맞아요 → 흩어져 서기
 #Thunderhoof
 int|번개|Lightning Bolt|dp|끊을 수 있는 번개 주문 → 끊기 순서 정하기
 info|천둥벼락|Thunderclap|all|가까운 사람 모두 피해 → 체력 관리
 #Direhorn Matriarch
 tk|찌르기·돌진|Puncture|tk|탱커 피해가 커요 → 탱커 치유 늘리기
-#Izha'Rel and Tor'Rel
-add|둘이 같이|Pair|dp|정예가 아니라 군중 제어가 들어요 → 하나 묶고 다른 하나부터
+add|동굴 몹|Cave Mobs|tk|근처 동굴 몹이 같이 딸려 와요 → 당기는 범위 조절
 #Cinder
-av|불바닥|Flame Patches|all|바닥에 불이 남아요 → 피하고 화염 저항 올리기
+av|불바닥|Flame Patches|all|빨간 수정 보스, 바닥에 불이 남아요 → 피하고 화염 저항 올리기
 #Bolt
-av|연쇄 번개|Chain Lightning|all|뭉치면 다 맞아요 → 흩어져 서기 · 자연 피해는 안 들어요
+av|연쇄 번개|Chain Lightning|all|노란 수정 보스, 뭉치면 다 맞아요 → 흩어져 서기 · 자연 저항
 #Vitrix
-int|독 충격|Poison Shock|dp|근접에게 독 충격 → 기절로 끊기
+int|독 충격|Poison Shock|dp|초록 수정 보스, 독·자연 피해 → 흩어지고 기절로 끊기
 #Snowtalon
-av|냉기 원뿔·얼음 회오리|Frost Nova|all|묶이고 얼어요 → 큰 파란 수정에서 떨어져 싸우고 냉기 저항
+av|냉기 원뿔·얼음 회오리|Frost Nova|all|파란 수정 보스, 묶이고 얼어요 → 큰 파란 수정에서 떨어져 싸우고 냉기 저항
+info|비전 면역|Arcane Immunity|dp|비전 피해가 안 든다는 보고 → 다른 속성으로 치기
 #Nanaya
-info|속성 바뀜|Element Shift|all|체력 25%마다 속성이 바뀌어요 → 저항을 바꿀 준비
+info|단계 바뀜|Element Shift|all|수정 색에 따라 단계가 바뀌어요 → 저항 바꿀 준비, 노란 단계는 자연 저항
+av|공포·눈보라|Fear|all|공포와 눈보라를 써요 → 공포 대비, 눈보라 밖으로
