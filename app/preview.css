@@ -1,0 +1,100 @@
+/* ===================================================================
+   🧪 새 화면 미리보기 (preview/ 주소에서만 붙음)
+   지금 모양 그대로 · 스크롤 짧게 · 한눈에
+   =================================================================== */
+/* 미리보기 알림 띠 */
+.pvbar{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;margin:8px 12px 0;padding:7px 11px;border-radius:8px;font-size:12.5px;color:#e9dcb5;
+  background:linear-gradient(90deg,rgba(127,90,200,.22),rgba(40,30,18,.6));box-shadow:inset 0 0 0 1px rgba(170,130,255,.35)}
+.pvbar b{color:#d7c2ff}.pvbar span{color:#bfae8c}.pvbar .lnk{font-size:12.5px;color:#f0cf6a}.pvbar a{margin-left:auto;font-weight:700;color:#f0cf6a;text-decoration:none}
+
+/* ---------- 홈: 레벨 줄(경험치 막대 + 다음 레벨까지) ---------- */
+.pvst{display:flex;align-items:center;gap:10px;margin:12px 0 4px}
+.pvst>b{flex:none;font:700 19px/1 var(--title);color:#fff1c9;text-shadow:0 1px 0 #000}
+.pvx{position:relative;flex:1;min-width:0;height:18px;border-radius:3px;overflow:hidden;background:#0b0805;border:1px solid #000;box-shadow:0 0 0 1px #5d4622,inset 0 2px 4px rgba(0,0,0,.9)}
+.pvx i,.pvx u{position:absolute;top:0;bottom:0;display:block}
+.pvx i{left:0;background:linear-gradient(180deg,#c58bff 0%,var(--xp) 45%,#5a1f8f 100%)}
+.pvx u{background:linear-gradient(180deg,rgba(120,170,255,.75),rgba(48,98,196,.75))}
+.pvx em{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11.5px;font-weight:700;color:#fff;text-shadow:0 1px 1px #000,0 0 3px #000;white-space:nowrap}
+.pvx::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 calc(5% - 1px),rgba(0,0,0,.55) calc(5% - 1px) 5%)}
+.pvst small{flex:none;font-size:11px;line-height:1.25;text-align:right;color:var(--mute)}.pvst small b{font-size:13px;color:var(--gold)}
+
+/* ---------- 홈: 다음 갈 곳 촘촘하게 ---------- */
+.card.hq{padding-top:8px;padding-bottom:4px}
+.card.hq .row{padding:7px 0}
+.card.hq .pbar{height:6px;margin:2px 0 2px}
+
+/* ---------- 홈: 세 칸 낮게 ---------- */
+.htiles{gap:6px;margin:8px 0}
+.htile{padding:8px 8px 9px}
+.htile .hbig{font-size:24px}
+.htile small{min-height:0;-webkit-line-clamp:1}
+.htile .tbtn{margin-top:5px;min-height:30px}
+
+/* ---------- 홈: 아래 카드 묶음(탭) ---------- */
+.card.pvtab{padding:0 0 4px;overflow:hidden}
+.pvtb{display:flex;gap:2px;padding:6px 6px 0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #5d4622;background:linear-gradient(180deg,rgba(0,0,0,.25),transparent)}
+.pvtb::-webkit-scrollbar{display:none}
+.pvtb button{flex:none;min-height:38px;padding:0 12px;border:1px solid transparent;border-bottom:0;border-radius:7px 7px 0 0;background:none;color:#bfae8c;font:700 13px/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
+.pvtb button.on{color:var(--gold);background:linear-gradient(180deg,#3a2b10,#231a10);border-color:#7a5b28;box-shadow:inset 0 1px 0 rgba(255,214,140,.18);text-shadow:0 1px 0 #000}
+.pvtp{padding:4px 12px 6px}
+/* 탭 안의 카드는 틀 없이(제목은 탭이 대신) */
+.pvtp>.card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;margin:6px 0 4px!important}
+.pvtp>.card>.hd{border:0!important;border-image:none!important;padding:0!important;margin:0 0 4px!important;min-height:0}
+.pvtp>.card>.hd>h3{font-size:12.5px!important;font-family:inherit!important;color:var(--mute)!important;text-shadow:none!important;margin:0!important;font-weight:500}
+.pvtp>.card>.hd>h3>.gic,.pvtp>.card>.hd>h3>img{display:none}
+.pvtp>.card>h3{display:none}
+
+/* ---------- 장비: 캐릭터 창 촘촘하게 (폰·태블릿) ---------- */
+@media (max-width:1239px){
+.dollf[open]{padding:0 6px 8px}
+.dollf .armory{gap:6px;padding:8px 6px;margin-top:2px}
+.dc .ic.lg{width:44px!important;height:44px!important}
+.acol{gap:5px}
+.amid{padding-top:2px}
+.amid>.ic.xl,.amid>b,.amid>small{display:none}
+.amid .gsc{margin-top:2px}
+.amid .ast{margin-top:6px}
+.abot{gap:8px;padding:6px}
+}
+/* 칸 표시: 초록 +점수 · 파랑 몇 레벨 */
+.dc .up{top:auto!important;bottom:-5px;right:-5px!important;left:auto!important;padding:1px 3px!important;border-radius:4px!important;font:900 10.5px/1.15 -apple-system,sans-serif!important;
+  color:#062a0c!important;background:linear-gradient(180deg,#9df07f,#4fbf3a)!important;box-shadow:0 0 0 1px #000!important;white-space:nowrap}
+.dc .up.soon{color:#06203f!important;background:linear-gradient(180deg,#a9cdff,#5b93e6)!important}
+.note.pvdn{text-align:center;font-size:11.5px;margin:6px 0 0}.note.pvdn b{color:var(--good)}.note.pvdn i{font-style:normal;color:#8ec2ff}
+
+/* 아래 칸 나누기 · 거르개 한 줄로 낮게 */
+.gsub{margin:8px 0 6px}
+.gsub button{padding:5px 2px}
+.gsub button .gic.lg{width:24px;height:24px}
+.gopt{margin:6px 0 0;gap:6px}
+.gseg button{height:30px}
+
+/* ---------- 장비: 바꿀 것 2열 카드 ---------- */
+.urg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.urg .ur{border:0!important;margin:0!important;border-radius:9px;background:linear-gradient(180deg,#2a2015,#1a140d);box-shadow:0 0 0 1px #000,inset 0 0 0 1px #4a3920;min-width:0}
+.urg .ur>summary{position:relative;align-items:flex-start;gap:8px;min-height:0;padding:9px 8px 9px 9px}
+.urg .ur>summary>.ic{width:38px;height:38px}
+.urg .ur .m{gap:1px}
+.urg .ur .t{display:flex;flex-direction:column;white-space:normal}
+.urg .ur .t em{align-self:flex-start;margin:0 0 3px;padding:0 5px;font-size:11px}
+.urg .ur .t>span:last-child{font-size:13.5px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.urg .ur .s{font-size:11.5px}
+.urg .ur:not([open]) .s:not(.bagt):not(.nxl){display:none}
+.urg .ur .s.nxl{font-size:11px}
+.urg .ur .ug{position:absolute;right:7px;top:8px;min-width:0;padding:2px 7px;font-size:12.5px;border-radius:7px}
+.urg .ur[open]{grid-column:1/-1}
+.urg .ur[open]>summary{background:#231d14;border-radius:9px 9px 0 0}
+.urg .ur[open] .t>span:last-child{-webkit-line-clamp:unset}
+.urg .urb{padding:4px 10px 10px}
+.ulist .upf{margin-top:2px}
+
+/* ---------- 세트 장비 접기 ---------- */
+.card.setf>summary{font-weight:700;color:var(--gold)}
+.card.setf>summary small{font-weight:500;margin-left:4px}
+/* 고침: 카드 점수 알약이 이름을 가리지 않게 · 세 칸 높이 맞춤 · 장비 칸 머리 한 줄 */
+.urg .ur .ug{top:9px;padding:1px 6px;font-size:12px;line-height:16px}
+.htile{position:relative}
+.htile .tbtn{position:absolute;right:7px;top:37px;width:auto!important;margin:0!important;min-height:30px;padding:3px 9px!important;font-size:12px}
+.dollf>summary small{font-size:11.5px;line-height:1.35}
+.htile .tbtn{top:auto;bottom:7px}
+.htile:has(.tbtn) small{padding-right:64px}

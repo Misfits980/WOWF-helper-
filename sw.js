@@ -7,6 +7,8 @@ self.addEventListener('install',e=>{self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil((async()=>{for(const k of await caches.keys())if(k!==APP)await caches.delete(k);await self.clients.claim()})())});
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);
   if(u.origin===location.origin){
+    /* 새 화면 미리보기(preview/)는 건드리지 않음: 실제 앱 첫 화면 저장본이 미리보기로 바뀌지 않게 */
+    if(u.pathname.includes('/preview/'))return;
     if(r.mode==='navigate'||u.pathname.endsWith('/')||u.pathname.endsWith('index.html')){
       e.respondWith((async()=>{const c=await caches.open(APP);try{const res=await fetch(r.url,{cache:'no-cache',credentials:'same-origin'});if(res.ok)c.put('./',res.clone());return res}catch(_){return (await c.match('./'))||Response.error()}})());return}
     if(u.searchParams.has('v')&&!u.pathname.includes('/armory/')){

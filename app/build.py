@@ -860,6 +860,22 @@ html = f'''<!DOCTYPE html>
 (ROOT / 'index.html').write_text(html, encoding='utf-8')
 print('index.html', len(html), 'app-data.js', len(data))
 
+# 🧪 새 화면 미리보기 (preview/index.html): 같은 앱 + WFH_PV 표시 + app/preview.css
+#    자료·그림은 한 단계 위(<base href="../">)에서 · 서비스 워커 안 씀 · 기록은 따로 저장(실제 앱 기록은 읽기만)
+if (A / 'preview.css').exists():
+    pcss = rd(A / 'preview.css')
+    pcss = re.sub(r'font-size:\s*([\d.]+)px', r'font-size:calc(\1px*var(--fs,1))', pcss)
+    pcss = re.sub(r'(font:\s*(?:(?:italic|normal|bold|[1-9]00)\s+)*)([\d.]+)px', r'\1calc(\2px*var(--fs,1))', pcss)
+    ph = html.replace('<head><meta charset="utf-8">', '<head><meta charset="utf-8">\n<base href="../"><meta name="robots" content="noindex">', 1)
+    ph = ph.replace('<title>와포 도우미</title>', '<title>와포 도우미 · 새 화면 미리보기</title>', 1)
+    ph = ph.replace('<style>' + css + '</style>', '<style>' + css + '\n' + pcss + '</style>', 1)
+    ph = ph.replace('<script src="app-data.js', '<script>var WFH_PV=1</script>\n<script src="app-data.js', 1)
+    ph = re.sub(r"<script>if\('serviceWorker'[^\n]*</script>\n", '', ph)
+    assert 'WFH_PV' in ph and pcss[:40] in ph and 'serviceWorker' not in ph
+    (ROOT / 'preview').mkdir(exist_ok=True)
+    (ROOT / 'preview' / 'index.html').write_text(ph, encoding='utf-8')
+    print('preview/index.html', len(ph))
+
 # 애드온용 보스 공략 (abilities.txt → BossTips.lua): 한글·영어 보스 이름 둘 다로 찾기
 def _boss_lua():
     dgg = json.loads(rd(ROOT / 'data/forg/dungeon-guide.json'))

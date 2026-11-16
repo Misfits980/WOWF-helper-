@@ -152,8 +152,10 @@ function boatTip(za,zb){if(!za||!zb||za===zb)return '';for(const [A,B,t] of BOAT
 
 
 /* ===================== 저장 ===================== */
-const KEY='wowf2';
-let DB=(()=>{try{const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.list)return o}catch(e){}return {cur:null,list:[]}})();
+/* 미리보기(preview/ 주소): 실제 기록(wowf2)은 처음에 읽어 오기만 하고, 고친 건 따로(wowf2_pv) 저장 · 기기 연동 끔 → 실제 앱 기록은 안 바뀜 */
+const PV=typeof WFH_PV!=='undefined'&&!!WFH_PV;
+const KEY=PV?'wowf2_pv':'wowf2';
+let DB=(()=>{try{const o=JSON.parse(localStorage.getItem(KEY)||(PV?localStorage.getItem('wowf2'):null));if(o&&o.list)return o}catch(e){}return {cur:null,list:[]}})();
 /* 예전 전투정보실 연결로 레벨이 글자('38')로 저장된 캐릭터 → 숫자로 (레벨+3 같은 계산이 '383'이 되던 문제) */
 DB.list.forEach(c=>{if(c&&typeof c.lv!=='number')c.lv=Math.max(1,Math.min(60,parseInt(c.lv)||1))});
 const saveRaw=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}};
@@ -163,9 +165,9 @@ const save=()=>{const c=DB.list.find(x=>x.id===DB.cur);if(c)c._t=Date.now();save
    토큰(gist 권한만)은 이 기기 브라우저에만 저장. 캐릭터마다 더 늦게 고친 쪽이 이김. 지운 캐릭터는 지운 시각을 같이 남김 */
 const SYNC_K='wfh_sync',SYNC_DESC='wowf-helper sync (와포 도우미 기록)',SYNC_F='wowf-helper.json';
 let SY=(()=>{try{return JSON.parse(localStorage.getItem(SYNC_K))||{}}catch(e){return {}}})();
-const sySave=()=>{try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}};
+const sySave=()=>{if(PV)return;try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}};
 let syT=null,syBusy=false,syHold=0;
-const syOn=()=>!!(SY.bid&&SY.key)||!!(SY.tok&&SY.gid);
+const syOn=()=>!PV&&(!!(SY.bid&&SY.key)||!!(SY.tok&&SY.gid));
 /* 「되돌리기」 알림이 떠 있는 동안(6초)은 올리지 않고 기다림: 되돌릴 수 있는 바뀜이 다른 기기로 먼저 퍼지지 않게 */
 function syQueue(){if(!syOn())return;clearTimeout(syT);syT=setTimeout(()=>syPush(),Math.max(4000,syHold-Date.now()+300))}
 async function syGh(path,opt){const r=await fetch('https://api.github.com'+path,Object.assign({cache:'no-store'},opt||{},{headers:{'Authorization':'Bearer '+SY.tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'}}));
@@ -1018,6 +1020,9 @@ function setHtml(c,o,full){const have=o.ps.filter(it=>ownSet(c,it)).length;const
   return h+'</div>'}
 function setCard(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>ownSet(c,it)));if(!mine.length)return '';
   return '<div class="card"><h3>🧩 세트 장비 <small class="mute">'+mine.length+'세트 모으는 중</small></h3>'+mine.map(o=>setHtml(c,o)).join('')+'</div>'}
+/* 미리보기: 세트 장비는 접어 두고 제목 줄에 모은 개수만 */
+function setFold(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>ownSet(c,it)));if(!mine.length)return '';
+  return '<details class="card fold setf"'+(ui.setf?' open':'')+' data-tg="setf"><summary>🧩 세트 장비 <small class="mute">'+mine.map(o=>o.ps.filter(it=>ownSet(c,it)).length+'/'+o.ps.length).join(' · ')+'</small></summary>'+mine.map(o=>setHtml(c,o)).join('')+'</details>'}
 /* 「어디서 얻나요」 칸 (템 정보 창·비교 펼치기에서 같이 씀) */
 function srcParts(c,it){let h='';
   const parts=[];const seen=new Set();
@@ -1241,9 +1246,17 @@ function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='
   h+=show.map(d=>{const R=L.filter(x=>x[0]===d).sort((a,b)=>(a[1]==='*')-(b[1]==='*'));
     return '<div class="twn"><b class="tn">'+d.slice(5).replace('-','/')+'</b><ul>'+R.map(x=>'<li><span class="ti">'+(x[1]==='*'?'🌍':'⚔️')+'</span><span>'+chip(x)+tx(x[3])+'</span></li>').join('')+'</ul></div>'}).join('');
   return h+'<p class="note chgn">블리자드는 화요일 점검 때 직업을 조정해요 · 원문: 공식 포럼 「WoW: Forever Hotfixes」</p></div>'}
+/* 🧪 미리보기 홈: 아래쪽 카드(마을·변경·사냥 기록·일지·메모·평판·애드온)를 한 장에 탭으로 → 스크롤 짧게, 내용은 그대로 */
+const pvHm=m=>m<60?m+'분':Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':'');
+function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
+    .map(([k,t,f])=>{let x='';try{x=f()}catch(e){}return [k,t,x]}).filter(x=>x[2]);if(!T.length)return '';
+  const on=T.find(x=>x[0]===ui.htab)||T[0];
+  return '<div class="card pvtab"><div class="pvtb" role="tablist">'+T.map(([k,t])=>'<button role="tab" aria-selected="'+(k===on[0])+'" class="'+(k===on[0]?'on':'')+'" data-a="htab" data-k="'+k+'">'+t+'</button>').join('')+'</div><div class="pvtp">'+on[2]+'</div></div>'}
 function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   if(c.seenLv==null||c.seenLv>L)c.seenLv=L;const up=L>c.seenLv;
-  h+='<h2 class="hh">레벨 '+L+' <small>지금 할 일</small>'+(myXp(c)?'<span class="hxp" title="게임에서 불러온 경험치"><i style="width:'+Math.round(myXp(c).cur/myXp(c).max*100)+'%"></i><b>경험치 '+Math.round(myXp(c).cur/myXp(c).max*100)+'%</b>'+(myXp(c).rest?'<em>휴식 '+Math.round(myXp(c).rest/myXp(c).max*100)+'%</em>':'')+'</span>':'')+'</h2>';
+  if(PV){const X=myXp(c),r=xpRate(c);const pc=X?Math.round(X.cur/X.max*100):0,rp=X&&X.rest?Math.min(100-pc,Math.round(X.rest/X.max*100)):0;const left=X&&r?Math.max(1,Math.round((X.max-X.cur)/r*60)):0;
+    h+='<div class="pvst"><b>레벨 '+L+'</b><span class="pvx" role="progressbar" aria-label="경험치" aria-valuenow="'+pc+'"><i style="width:'+pc+'%"></i>'+(rp?'<u style="left:'+pc+'%;width:'+rp+'%"></u>':'')+'<em>'+(X?'경험치 '+pc+'%'+(rp?' · 휴식 +'+rp+'%':''):'게임에서 불러오면 경험치가 보여요')+'</em></span>'+(left?'<small>다음 레벨<br><b>약 '+pvHm(left)+'</b></small>':'')+'</div>'}
+  else h+='<h2 class="hh">레벨 '+L+' <small>지금 할 일</small>'+(myXp(c)?'<span class="hxp" title="게임에서 불러온 경험치"><i style="width:'+Math.round(myXp(c).cur/myXp(c).max*100)+'%"></i><b>경험치 '+Math.round(myXp(c).cur/myXp(c).max*100)+'%</b>'+(myXp(c).rest?'<em>휴식 '+Math.round(myXp(c).rest/myXp(c).max*100)+'%</em>':'')+'</span>':'')+'</h2>';
   if(up)h+='<div class="lvup"><b>🎉 레벨 '+L+' 달성!</b><button class="btn sm" data-a="lvseen">확인</button></div>';
   /* 1. 퀘스트: 다음 갈 곳 (홈의 중심) */
   const sec=routeOf(c).find(S=>L>=S.a&&L<=S.b);const i1=h.length;
@@ -1270,8 +1283,8 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   h+=D.length?tile('img/eye.png','갈 던전',D.length+'<i>곳</i>',esc(D[0].ko)+(D[0]._v.g?' · ⭐ 좋은 템 '+D[0]._v.g:''),'dgo',D[0].slug):tile('img/eye.png','갈 던전','–',L<13?'13레벨쯤부터':'맞는 던전 없음','tab','dungeon','',1);
   h+='</div>';
   {const ms=msRows(c);if(ms)h+='<div class="card todo"><div class="hd"><h3>📌 레벨별 할 일</h3></div>'+ms+'</div>'}
-  try{h+=townCard(c)}catch(e){}
-  const i3=h.length;const adC=chgCard(c)+playCard(c)+jlCard(c)+notesList(c)+repCard(c)+addonCard(c)+'<button class="syl'+(syOn()?' on':'')+'" data-a="chars">'+(syOn()?'📱💻 기기 연동 켜짐'+(SY.err?' · ⚠ '+esc(SY.err):SY.at?' · '+armAgo(SY.at)+' 맞춤':''):'📱💻 휴대폰·컴퓨터 자동 연동 켜기')+' ›</button>';
+  if(!PV)try{h+=townCard(c)}catch(e){}
+  const i3=h.length;const adC=(PV?pvTabs(c):chgCard(c)+playCard(c)+jlCard(c)+notesList(c)+repCard(c)+addonCard(c))+'<button class="syl'+(syOn()?' on':'')+'" data-a="chars">'+(syOn()?'📱💻 기기 연동 켜짐'+(SY.err?' · ⚠ '+esc(SY.err):SY.at?' · '+armAgo(SY.at)+' 맞춤':''):'📱💻 휴대폰·컴퓨터 자동 연동 켜기')+' ›</button>';
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
   if(window.innerWidth>=1000){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
@@ -1468,22 +1481,25 @@ function itStats(it,c){if(!it||!it.st)return '';const w=wOf(c);const st=it.st;co
     return '<i'+use+'>'+nm+' '+(v<0?'−':'')+(k==='dps'||(pct&&Math.abs(v)%1)?Math.abs(v).toFixed(1):Math.round(Math.abs(v)))+(pct?'%':'')+'</i>'}).join('')+'</span>'}
 /* 바꿀 것 한 줄 (접힘): 칸·템·핵심 능력치·이득 → 누르면 지금보다·얻는 곳·버튼 */
 /* 바꿀 것 한 화면: 가방 템 + 지금 바꿀 것(곧 더 좋은 게 오면 한 줄 덧붙임) + 곧만 있는 칸, 위에 얻는 곳 칩 */
-function upAll(c,nowU,soonU){const nE=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
-  const BU=bagUps(c);const bagBy={};BU.forEach(x=>{if(!bagBy[x.slot])bagBy[x.slot]=x});
+/* 바꿀 것 줄: 지금 레벨 추천 + 가방·은행 템(70% 넘게 좋으면 가방 것 먼저) + 레벨 오르면 바꿀 것 — 미리보기 캐릭터 창 칸 표시도 같은 줄을 씀 */
+function upRowsOf(c,nowU,soonU){const BU=bagUps(c);const bagBy={};BU.forEach(x=>{if(!bagBy[x.slot])bagBy[x.slot]=x});
   const soonBy={};soonU.forEach(x=>{soonBy[x.slot]=x});
   let rows=[];const used=new Set();
   nowU.forEach(x=>{const b=bagBy[x.slot];if(b&&b.g>=x.g*.7){rows.push(Object.assign({bag:1},b));used.add(x.slot);return}const s=soonBy[x.slot];rows.push(Object.assign({},x,{nx:s&&s.it.id!==x.it.id&&s.g>x.g+1?s:null}));used.add(x.slot)});
   BU.forEach(b=>{if(!used.has(b.slot)){rows.push(Object.assign({bag:1},b));used.add(b.slot)}});
   rows.sort((a,b)=>(b.bag||0)-(a.bag||0)||(b.empty-a.empty)||b.g-a.g);
-  const later=soonU.filter(x=>!used.has(x.slot)).sort((a,b)=>b.g-a.g);
+  const later=soonU.filter(x=>!used.has(x.slot)).sort((a,b)=>b.g-a.g);return {rows,later}}
+function upAll(c,nowU,soonU,RL){const nE=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
+  const {rows,later}=RL||upRowsOf(c,nowU,soonU);
   /* 얻는 곳 칩 */
   const G=upPlaces(c,rows.filter(x=>!x.bag));const f=ui.upf&&G.find(g=>g.nm===ui.upf)?ui.upf:null;const fG=f?G.find(g=>g.nm===f):null;const inF=x=>!fG||fG.its.some(y=>y.it.id===x.it.id);
   let h='<div class="card ulist"><div class="ulh"><h3>⬆️ 바꿀 것 <small class="mute">'+rows.length+'칸'+(later.length?' · 곧 '+later.length+'칸':'')+'</small></h3><span class="mute">큰 순서 · 눌러서 자세히</span></div>';
   if(G.length>1)h+='<div class="upf"><button class="'+(f?'':'on')+'" data-a="upf" data-k="">전체</button>'+G.slice(0,6).map(g=>'<button class="'+(f===g.nm?'on':'')+(g.on?' rt':'')+'" data-a="upf" data-k="'+esc(g.nm)+'">'+g.ic+' '+esc(g.nm.replace(/ · \d+–\d+$/,'').replace(/^퀘스트 「(.+)」.*$/,'「$1」').replace(/^붉은십자군 수도원: /,'붉은십자군 '))+' <b>'+g.its.length+'</b></button>').join('')+'</div>'
     +(fG&&fG.a?'<button class="upgo" data-a="'+fG.a+'" data-k="'+esc(String(fG.k))+'">'+fG.ic+' '+esc(fG.nm)+' 보러 가기 ›</button>':'');
   const R=rows.filter(inF);
-  h+=(R.length?R.map(x=>uRow(c,x)).join(''):'<p class="note">'+(f?'이 곳에서 바꿀 건 없어요.':'지금 레벨에서 더 좋은 장비가 없어요 👍')+'</p>');
-  if(!f&&later.length)h+=gSec('soon','레벨 오르면 바꿀 것',later.length,'')+later.map(x=>uRow(c,x,1)).join('');
+  const gw=x=>PV?'<div class="urg">'+x+'</div>':x;
+  h+=(R.length?gw(R.map(x=>uRow(c,x)).join('')):'<p class="note">'+(f?'이 곳에서 바꿀 건 없어요.':'지금 레벨에서 더 좋은 장비가 없어요 👍')+'</p>');
+  if(!f&&later.length)h+=gSec('soon','레벨 오르면 바꿀 것',later.length,'')+gw(later.map(x=>uRow(c,x,1)).join(''));
   if(!f&&nE-rows.length-later.length>0)h+='<p class="uok">✓ 나머지 '+(nE-rows.length-later.length)+'칸은 지금 장비가 제일 좋아요</p>';
   if(!f&&(c.nogo||[]).length)h+='<p class="note">🚫 「못 얻어요」로 뺀 장비 '+c.nogo.length+'개는 추천에서 빼고 있어요 · <button class="lnk" data-a="nogoclr" data-k="*">모두 다시 넣기</button></p>';
   return h+'</div>'}
@@ -1495,7 +1511,7 @@ function uRow(c,x,soon){const cur=eqIt(c,x.slot);const it=x.it;const st=it.st||{
   const r=x.g/Math.max(x.base,4);const cls=x.empty?'new':r>=.5?'big':r>=.2?'mid':'sm';
   return '<details class="ur"><summary>'+itIcon(it)+'<span class="m"><span class="t"><em>'+esc(SLOT_KO[x.slot])+'</em>'+itName(it)+'</span><span class="s">'+(top?esc(top):'')+(guideHas(c,it.id)?' <i class="gd">📘</i>':'')+(soon?' · '+(it.ob||it.lv)+'레벨':'')+'</span>'+(x.bag?'<span class="s bagt">'+(x.where==='bank'?'🏦 은행에 있어요':'🎒 가방에 있어요')+' · 바로 끼세요</span>':'')+(x.nx?'<span class="s nxl">🔜 '+(x.nx.it.ob||x.nx.it.lv)+'레벨 '+esc(x.nx.it.nm)+' <b>+'+(x.nx.g>=10?Math.round(x.nx.g):x.nx.g.toFixed(1))+'</b></span>':'')+'</span><span class="ug '+cls+'">'+(x.empty?'빈 칸':'+'+(x.g>=10?Math.round(x.g):x.g.toFixed(1)))+'</span></summary>'
     +'<div class="urb">'+itStats(it,c)+dif2(it,cur,c)+'<p class="sub">'+(cur?'지금: '+esc(cur.nm)+' · ':'')+esc(srcTxt(it,1))+' · '+(it.ob>it.lv?it.ob+'레벨쯤 얻음':'Lv '+it.lv)+luckTag(it,c)+guideTag(it,c)+skTag(it,c)+bothTag(it)+'</p>'
-    +(x.nx?'<p class="sub">🔜 '+(x.nx.it.ob||x.nx.it.lv)+'레벨쯤: <b>'+esc(x.nx.it.nm)+'</b> · '+esc(srcTxt(x.nx.it,1))+' <button class="lnk" data-a="cmpq" data-k="'+x.slot+':'+x.nx.it.id+'">보기</button></p>':'')+'<div class="ura"><button class="btn sm" data-a="cmpq" data-k="'+x.slot+':'+it.id+'">비교·자세히</button><button class="btn sm ghost" data-a="wish" data-k="'+it.id+'">'+(isWish(c,it.id)?'⭐ 찜함':'☆ 찜')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+it.id+'">🚫 못 얻어요</button></div></div></details>'}
+    +(x.nx?'<p class="sub">🔜 '+(x.nx.it.ob||x.nx.it.lv)+'레벨쯤: <b>'+esc(x.nx.it.nm)+'</b> · '+esc(srcTxt(x.nx.it,1))+' <button class="lnk" data-a="cmpq" data-k="'+x.slot+':'+x.nx.it.id+'">보기</button></p>':'')+'<div class="ura"><button class="btn sm" data-a="cmpq" data-k="'+x.slot+':'+it.id+'">비교·자세히</button><button class="btn sm ghost" data-a="wish" data-k="'+it.id+'">'+(isWish(c,it.id)?'⭐ 찜함':'☆ 찜')+'</button>'+(x.bag?'':'<button class="btn sm ghost" data-a="nogo" data-k="'+it.id+'">🚫 못 얻어요</button>')+'</div></div></details>'}
 function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+guideTag(x.it,c)+skTag(x.it,c)+bothTag(x.it)+(x.it.id>=200000?' <span class="tag fv" title="와우 포에버에서 새로 생긴 템">포에버 신규</span>':'')+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
@@ -1505,11 +1521,12 @@ function offLocked(c,s){return s==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2
 function bestFor(c,slot,L,mode){const w=wOf(c);const cur=eqIt(c,slot);const other=slot==='ring1'?'ring2':slot==='ring2'?'ring1':slot==='trink1'?'trink2':slot==='trink2'?'trink1':null;const skip=other&&c.eq[other];
   const base=slot==='main'?sc(cur,'main',w):sc(cur,slot,w);
   const ng=c.nogo||[];return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
-function dollCell(c,s,ups){const it=eqIt(c,s);const sel=ui.gslot===s;const lock=offLocked(c,s);
+const gNum=g=>g>=10?Math.round(g):g.toFixed(1);
+function dollCell(c,s,ups,bb){const it=eqIt(c,s);const sel=ui.gslot===s;const lock=offLocked(c,s);const b=PV&&bb?bb[s]:null;
   return '<button class="dc'+(sel?' sel':'')+(it?'':' empty')+'" data-a="gsel" data-k="'+s+'"'+(lock?' disabled':'')+' aria-label="'+SLOT_KO[s]+(it?' '+esc(it.nm):' 비어 있음')+'">'
    +(it?'<span class="ic lg q-'+it.q+'" data-tip="'+it.id+'" data-ts="'+s+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
-   +(ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
-function hitCapHtml(c){if(isTank(c))return '';const h=hitInfo(c);const row=(nm,v,cap)=>{const st=v>=cap?'full':v>=cap-1?'near':'low';return '<div class="hcap '+st+'"><span>'+nm+'</span><b>'+v+'%</b><i style="width:'+Math.min(100,v/cap*100)+'%"></i><small>상한 '+cap+'%'+(st==='full'?' · 다 찼어요':st==='near'?' · 거의':'')+'</small></div>'};
+   +(PV?(b?'<span class="up'+(b.soon?' soon':'')+'">'+(b.soon?(b.it.ob||b.it.lv)+'렙':b.empty?'빈 칸':'+'+gNum(b.g))+'</span>':''):ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
+function hitCapHtml(c){if(isTank(c))return '';if(PV){const w0=wOf0(c);if(!((w0.hit||0)>0||(w0.shit||0)>0||(w0.exp||0)>0))return ''}const h=hitInfo(c);const row=(nm,v,cap)=>{const st=v>=cap?'full':v>=cap-1?'near':'low';return '<div class="hcap '+st+'"><span>'+nm+'</span><b>'+v+'%</b><i style="width:'+Math.min(100,v/cap*100)+'%"></i><small>상한 '+cap+'%'+(st==='full'?' · 다 찼어요':st==='near'?' · 거의':'')+'</small></div>'};
   return '<div class="hcaps">'+row('적중',h.hit,h.cap)+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note">'+((c.lv||60)>=58?'보스 기준':'레벨업 기준(몹 1~2레벨 위)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+'만 셈, 특성 적중은 빼고 · 상한 넘으면 그 능력치 점수를 낮춰요</p></div>'}
 function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
 /* 이중 특성 (40레벨~): 둘째 특성으로 보기 · 두 특성 다 좋은 템 표시 */
@@ -1526,16 +1543,20 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   const tot=statTotals(c);const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]-a[1]).map(([k])=>k).slice(0,6);
   const nEq=SLOTS.filter(([sl])=>eqIt(c,sl)).length,nAll=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
   const nowU=upgrades(c,L,ui.ifil),myS=Math.round(eqScore(c)),upS=Math.round(nowU.reduce((a,x)=>a+(x.g||0),0));
-  let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??false))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+' · 점수 <b class="gscs">'+myS+'</b>'+(ups.size?' · <em>▲ '+ups.size+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups)).join('')+'</div>'
+  const soonU=upgrades(c,Math.min(60,L+5),ui.ifil,L+1),RL=upRowsOf(c,nowU,soonU);
+  /* 미리보기: 칸마다 바꾸면 오르는 점수(초록) · 레벨 오르면 바꿀 칸(파랑) — 아래 목록과 같은 줄 */
+  const bb={};if(PV){RL.rows.forEach(x=>{if(x.g>.01||x.empty)bb[x.slot]=x});RL.later.forEach(x=>{if(!bb[x.slot])bb[x.slot]=Object.assign({soon:1},x)})}
+  const nUp=PV?Object.keys(bb).filter(k=>!bb[k].soon).length:ups.size;
+  let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??PV))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+' · 점수 <b class="gscs">'+myS+'</b>'+(nUp?' · <em>▲ '+nUp+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups,bb)).join('')+'</div>'
    +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
    +'<div class="gsc" title="착용 장비 능력치 × 내 전문화 점수표를 모두 더한 값"><b>'+myS+'</b><span>장비 점수</span>'+(upS>=1?'<em>추천대로 바꾸면 +'+upS+'</em>':'')+'</div>'
    +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+Math.round(tot[k]||0)+'</b></div>').join('')+'</div>'+hitCapHtml(c)
-   +'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기</button></div>'
-   +'<div class="acol">'+DOLL_R.map(s=>dollCell(c,s,ups)).join('')+'</div></div>'
-   +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups)).join('')+'</div>';
-  h+='<p class="note" style="text-align:center">칸을 누르면 그 칸 추천이 나와요 · <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p></details>';
+   +(PV&&nEq>=nAll?'':'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기'+(PV?' ('+(nAll-nEq)+'칸)':'')+'</button>')+'</div>'
+   +'<div class="acol">'+DOLL_R.map(s=>dollCell(c,s,ups,bb)).join('')+'</div></div>'
+   +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups,bb)).join('')+'</div>';
+  h+=PV?'<p class="note pvdn">칸을 누르면 그 칸 비교 · <b>+점수</b> 지금 바꾸면 오르는 점수 · <i>파랑</i> 레벨 오르면</p></details>':'<p class="note" style="text-align:center">칸을 누르면 그 칸 추천이 나와요 · <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p></details>';
   h+='</div><div class="gR">';
-  const soonU=upgrades(c,Math.min(60,L+5),ui.ifil,L+1);const cmpN=(c.cmp||[]).length;
+  const cmpN=(c.cmp||[]).length;
   if(ui.gsub==='soon'||ui.gsub==='stat')ui.gsub='up';const gs=ui.gslot&&!offLocked(c,ui.gslot)?'me':(ui.gsub||'up');
   h+='<div class="gsub">'+[['up','img/ui-shield.png','바꿀 것',nowU.length]].concat(c.bag?[['bag','inv_misc_bag_08','내 가방',bagAll(c).filter(x=>x.ok&&x.g>.5).length||'']]:[]).concat([['cmp','img/ui-target.png','찜·비교',((c.wish||[]).length+cmpN)||''],['fr','spell_holy_prayeroffortitude','친구',frList(c).length||'']]).map(x=>'<button class="'+(gs===x[0]?'on':'')+'" data-a="gsub" data-k="'+x[0]+'">'+gic(x[1],'lg')+'<span>'+x[2]+(x[3]!==''&&x[3]!==undefined?' <b>'+x[3]+'</b>':'')+'</span></button>').join('')+'</div>';
   if(gs==='cmp'){h+=cmpView(c);return h+'</div></div>'}
@@ -1547,9 +1568,9 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   if(gs==='up'&&ui.dsp==='2'&&!dspOn(me())&&(c.lv||1)>=40){h+=dspPick(c);return h+'</div></div>'}
   if(gs==='me')h+=slotPanel(c,ui.gslot);
   const prioCard=(()=>{const P=prioLine(c);return '<div class="card prio"><div class="ph2"><b>📊 '+esc((CINFO[c.cls]||[])[0]||'')+' '+esc(sp?sp.name:'')+' 능력치 우선순위</b></div><div class="pl">'+P.map((x,i)=>'<span><i>'+(i+1)+'</i>'+esc(x)+'</span>').join('<em>›</em>')+'</div>'+(whyOf(c)?'<p class="note">'+esc(whyOf(c))+'</p>':'')+'<p class="mute src">기준: '+esc(c.gmode==='solo'&&W[c.cls][c.spec].heal&&SOLO[c.cls]?'사냥용 표(forg 기본표 바탕)':(WSRC[c.cls+'/'+c.spec]||'forg 기본표'))+' · forg.gg와 같은 공식</p></div>'})();
-  if(gs==='up')h+=upAll(c,nowU,soonU);
+  if(gs==='up')h+=upAll(c,nowU,soonU,RL);
   if(gs!=='up')return h+'</div></div>';
-  h+=setCard(c);
+  h+=PV?setFold(c):setCard(c);
   h+='<details class="card fold statf"'+(ui.statf?' open':'')+' data-tg="statf"><summary>📊 내 능력치 · 점수 매기는 법</summary>'+prioCard;
   /* 능력치 전체 */
   const all=Object.keys(tot).sort((a,b)=>(w[b]||0)-(w[a]||0));
@@ -3321,7 +3342,7 @@ function navLog(){const k=ui.tab+(ui.tab==='quest'?'/'+(ui.qmode||''):ui.tab==='
 function render(){const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');if(ui._tin){app.className+=' tin-'+ui._tin;ui._tin=null}
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(dspView(c));else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
-  app.innerHTML=hIco(topBar(c)+fsNeedBar()+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
+  app.innerHTML=hIco(topBar(c)+(PV?'<div class="pvbar"><b>🧪 새 화면 미리보기</b><span>여기서 바꾼 건 실제 앱에 안 들어가요</span><button class="lnk" data-a="pvreset">실제 기록 다시 가져오기</button><a href="./">실제 앱 ›</a></div>':'')+fsNeedBar()+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
     +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='imp'?impSheet(c):ui.sheet==='wfr'?wfrSheet(c):ui.sheet.startsWith('note:')?noteSheet(c,ui.sheet.slice(5)):ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):ui.sheet.startsWith('dgend:')?dgEndSheet(c,ui.sheet.slice(6)):ui.sheet.startsWith('cmp:')?cmpSheet(c,ui.sheet.split(':')[1],ui.sheet.split(':')[2]):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':''))
   setTabs(true);
   if(ui.side&&c)app.insertAdjacentHTML('beforeend','<div class="sidev">'+sideView(c)+'</div>');
@@ -3406,6 +3427,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='notego'){const n=((c.notes&&c.notes.p)||[])[+k];if(!n)return;ui.sheet=null;ui.tab='quest';ui.qmode='atlas';ui.amq=null;ui.am={c:n.c,z:2.6,cx:n.x,cy:n.y};render();return}
   if(a==='townall'){ui.townAll=!ui.townAll;rerender(true);return}
   if(a==='chgall'){ui.chgAll=!ui.chgAll;rerender(true);return}
+  if(a==='htab'){ui.htab=k;rerender(true);return}
+  if(a==='pvreset'){try{const o=JSON.parse(localStorage.getItem('wowf2'));if(o&&o.list){DB=o;saveRaw();toast('실제 앱 기록을 다시 가져왔어요');rerender()}else toast('실제 앱 기록이 없어요')}catch(e){toast('가져오지 못했어요')}return}
   if(a==='jlall'){ui.jlAll=!ui.jlAll;rerender(true);return}
   if(a==='tbud'){c.tbud=+k||0;save();rerender(true);return}
   if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};const back=c.rwPick[q]===i;if(back)delete c.rwPick[q];else c.rwPick[q]=i;save();toast(back?'앱 추천으로 되돌렸어요':'고를 템으로 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}
