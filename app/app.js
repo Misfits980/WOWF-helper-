@@ -2046,9 +2046,10 @@ let WLD=null,WLD_LOAD=false;
 function wldLoad(){if(WLD_LOAD)return;WLD_LOAD=true;fetch('data/qdb/world.json?v='+D_VER.world).then(r=>r.ok?r.json():null).then(j=>{WLD=j||{fp:[],inn:[],tr:{},mob:{}};if(ui.tab==='quest')rerender(true)}).catch(()=>{WLD={fp:[],inn:[],tr:{},mob:{}}})}
 const CAPITAL={human:'스톰윈드',dwarf:'아이언포지',gnome:'아이언포지',nightelf:'다르나서스',skyborne:'스톰윈드'};
 const xyTxt=xy=>{const p=(xy||'').split(',');return p.length===2?Math.round(+p[0])+', '+Math.round(+p[1]):''};
-function clsQuests(c){if(!QDB)return null;const L=c.lv;const dn=id=>{const q=QDB.get(id);return q?mqDone(c,q):true};
+function clsQuests(c){if(!QDB)return null;const L=c.lv;const dn=id=>{const q=QDB.get(id);return !q||!qdbOk(c,q)||mqDone(c,q)};
   const out=[],seen=new Set();for(const q of QDB.values()){if(!q.cls||!qdbOk(c,q)||mqDone(c,q)||/행사|축제|침공/.test(q.z||''))continue;if((q.m||0)>L+1||(q.lv||0)>L+5||(q.lv||0)<L-10)continue;
-    if(q.pre1&&!dn(q.pre1))continue;if(q.pre&&q.pre.length&&!q.pre.some(dn))continue;if(seen.has(q.n))continue;seen.add(q.n);out.push(q)}
+    /* 앞 퀘스트: pre는 모두 끝내야, pre1은 그중 하나만 끝내면 받을 수 있음 (preFirst와 같은 규칙) */
+    if(q.pre1&&q.pre1.length&&!q.pre1.some(dn))continue;if(q.pre&&q.pre.length&&!q.pre.every(dn))continue;if(seen.has(q.n))continue;seen.add(q.n);out.push(q)}
   return out.sort((a,b)=>(a.m||0)-(b.m||0)||a.lv-b.lv)}
 /* 야영지 전문기술 물건(1단계, 숙련 20) — 블리자드·가이드에 나온 것만 */
 const CAMP={'대장기술':['숯돌 바퀴','힘'],'재봉술':['진영 깃발','정신력 (같은 진영)'],'약초채집':['향초','지능'],'연금술':['마나 샘','마나 회복'],'채광':['자석석','근접 전투력'],'무두질':['야영 의자','치명타 2%'],'응급치료':['응급 상자','체력']};
@@ -2869,8 +2870,8 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
 function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map(([nm,b],i)=>'<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(nm)+'</b></div>'+(b.tac?'<ul class="roles">'+roleLines(b.tac)+'</ul>':'')+'</div></li>').join('')+'</ol>'}
 /* 포에버 던전 경험치: 10/1 던전 퀘스트의 추가 경험치 절반으로 · 10/8 몹 +20% · 11/8 핫픽스 몹 +50% (블리자드) → 그래도 퀘스트 먼저 받고 가기 */
 function dgQBanner(c,d){const S=dgState(c,d);if(!S.Q.length)return '';const notTaken=S.left.length-S.inLog.length;
-  if(S.all)return '<div class="dqb done"><b>✅ 던전 퀘스트 '+S.Q.length+'개를 다 했어요</b><small>11월 8일 핫픽스로 던전 몹 경험치가 50% 올라서, 다시 돌아도 경험치를 꽤 받아요.</small></div>';
-  return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>던전 퀘스트 경험치가 커서 받고 가는 게 좋아요 · 11월 8일부터 던전 몹 경험치 +50% · 파티원 한 명에게라도 회색인 몹은 모두 경험치 0(11/13).</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
+  if(S.all)return '<div class="dqb done"><b>✅ 던전 퀘스트 '+S.Q.length+'개를 다 했어요</b><small>11월 9일 핫픽스로 던전 몹 경험치가 50% 올라서 다시 돌아도 경험치를 꽤 받아요. 다만 파티원 한 명에게라도 회색인 몹은 경험치가 0이에요(11/13).</small></div>';
+  return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>던전 퀘스트 경험치가 커서 받고 가는 게 좋아요 · 11월 9일부터 던전 몹 경험치 +50% · 파티원 한 명에게라도 회색인 몹은 모두 경험치 0(11/13).</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
 /* 유산(Legacy) 던전 도전: 목록의 던전마다 마지막 보스를 잡으면 인정, 도전마다 1점 (allthings.how 던전별 정리, 게임 문구 「Complete the following dungeons」) */
 const SPELUNK=[['Novice Spelunker','초급',['hall-of-thanes','ruins-of-lordaeron','deadmines','wailing-caverns','shadowfang-keep','whelgar-excavation']],
  ['Experienced Spelunker','중급',['blackfathom-deeps','razorfen-kraul','gnomeregan','city-of-dalaran','sm-graveyard','sm-library','sm-armory','sm-cathedral','drowned-city','kroldok-stronghold']],
