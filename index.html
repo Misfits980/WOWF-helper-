@@ -2646,10 +2646,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=d32ad2cf"></script>
-<script>/* vefd1b2 @11/16 14:40 */
+<script>/* v95012f @11/16 14:43 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/16 14:40';
+const BUILD='11/16 14:43';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3760,23 +3760,38 @@ function addonOffHtml(){return addonCmdTable('🔕 끄는 방법 <small>게임 �
 /* ===== 레벨별 할 일 (포에버, 얼라이언스) =====
    [레벨, id, 제목, 설명, 직업(없으면 전부)] — 레벨이 되면 홈 「지금 할 일」에 체크 칸으로 나와요 */
 const MS=[[5,'prof5','전문기술 2개 고르기','채집 둘이나 채집+제작. 포에버는 야영지 물건(숯돌 바퀴·깃발·향초)도 전문기술로 만들어요'],
+ [4,'earth4','대지의 토템 퀘스트','앤빌마 테오 해머스톰 (아이언포지 엘드룬 스톰브레이커가 보내요)',['shaman']],
  [10,'tal10','특성 포인트가 생겨요','직업 교관에게서 특성을 찍어요. 11·16·21·31점에 큰 특성이 열려요'],
  [10,'pet10','사냥꾼 야수 길들이기 퀘스트','직업 교관에게 받아요. 끝내면 펫 먹이·되살리기도 배워요',['hunter']],
  [10,'void10','공허방랑자 소환 퀘스트','흑마법사 교관에게 받아요',['warlock']],
  [10,'bear10','곰 변신 퀘스트','드루이드 교관에게 받아요',['druid']],
  [10,'stance10','방어 태세 퀘스트','전사 교관에게 받아요',['warrior']],
  [10,'dw10','쌍수 배우기','도적 교관에게서 배워요 (포에버는 10레벨)',['rogue']],
+ [10,'fire10','불의 토템 퀘스트','아이언포지 엘드룬 스톰브레이커 → 던 모로 브루그스 킨들본 → 모단 호수',['shaman']],
+ [12,'redem12','구원 퀘스트 (신앙의 고서)','스톰윈드 두소리안 랄에게 받아요',['paladin']],
+ [14,'cure14','독 치료 퀘스트 (새로운 가르침)','다르나서스 마스렌길 베어워커 → 달의 숲',['druid']],
+ [16,'aqua16','16레벨 드루이드 퀘스트 (귀중한 교훈)','달의 숲 덴드리트 스타블레이즈 → 엘룬아라 호수의 시험 (물속 변신)',['druid']],
  [14,'bag14','포근한 침낭 퀘스트','쉬고 나면 경험치 최대 +3% 버프. 14레벨부터 받을 수 있어요'],
  [20,'pole20','장창 숙련 배우기','스톰윈드 무기 전문가 우 핑 (20레벨부터)',['warrior','paladin','hunter','druid']],
  [20,'dw20','쌍수 배우기','직업 교관에게서 배워요 (20레벨)',['warrior','hunter']],
+ [20,'succ20','서큐버스 소환 퀘스트','스톰윈드 대흑마법사 게이킨 → 잿빛 골짜기 사랑나무',['warlock']],
+ [20,'poison20','독 퀘스트 (잔질의 손길)','스톰윈드 단장 마티아스 쇼에게 받아요 (마티아스와 데피아즈단 다음)',['rogue']],
+ [20,'water20','물의 토템 퀘스트','아이언포지 엘드룬 스톰브레이커 → 모단 호수 노릭 록세인 → 저습지',['shaman']],
+ [20,'cat20','20레벨 드루이드 퀘스트 (거대한 살쾡이의 혼)','다르나서스 마스렌길 베어워커 → 달의 숲',['druid']],
+ [30,'stance30','광폭 태세 퀘스트 (섬 사람)','아이언포지 켈브 스턴해머 → 불모의 땅 격투의 섬',['warrior']],
+ [30,'fel30','지옥사냥개 소환 퀘스트','불모의 땅 스트라드 파선 → 아이언포지 크롬 스타우트암 (비밀의 고서)',['warlock']],
+ [30,'air30','바람의 토템 퀘스트','아이언포지 엘드룬 스톰브레이커 → 아라시 고원 베이릭 썬더헤임',['shaman']],
  [20,'prof20','전문기술 전문 등급','숙련도 125까지 올리고 교관에게서 전문 등급을 배워요'],
  [35,'prof35','전문기술 장인 등급','숙련도 200 · 장인 등급 교관에게 배워요'],
  [40,'mount40','탈것 배우기 (100골드)','종족 탈것 교관에게서 훈련하면 탈것을 함께 받아요. 평판 우호면 10% 할인'],
+ [40,'horse40','군마 소환 퀘스트 (고결함의 고서)','스톰윈드 두소리안 랄에게 받아요',['paladin']],
+ [40,'felsteed40','지옥마 소환 퀘스트','톱니항 스트라드 파선 (끝내면 승마 기술도 생겨요)',['warlock']],
  [40,'dual40','이중 특성 열기','직업 교관에게서 둘째 특성을 열 수 있어요. 앱 장비 화면에서 두 특성 추천을 같이 볼 수 있어요'],
  [40,'mail40','사슬 갑옷 배우기','직업 교관에게서 배워요. 이제 사슬 템도 추천에 나와요',['hunter','shaman']],
  [40,'plate40','판금 갑옷 배우기','직업 교관에게서 배워요. 이제 판금 템도 추천에 나와요',['warrior','paladin']],
  [60,'mount60','빠른 탈것 (1,000골드)','종족 탈것 교관 · 평판 우호면 10% 할인'],
  [60,'raid60','레이드 준비','12월 9일 레이드 열림 · 던전 장비 모으기·적중 상한(근접 8%·주문 17%) 맞추기']];
+MS.sort((a,b)=>a[0]-b[0]);
 function msRows(c){const L=c.lv||1,ms=c.ms||{};const mine=MS.filter(m=>!m[4]||m[4].includes(c.cls));
   const due=mine.filter(m=>m[0]<=L&&!ms[m[1]]&&m[0]>=L-15).slice(0,3);const nx=mine.find(m=>m[0]>L);
   let h=due.map(m=>'<div class="trow ms"><span class="ti">📌</span><span class="m"><b>'+esc(m[2])+' <small>'+m[0]+'레벨</small></b><span>'+esc(m[3])+'</span></span><button class="btn sm tbtn" data-a="msok" data-k="'+m[1]+'">했어요</button></div>').join('');
