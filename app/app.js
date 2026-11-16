@@ -446,7 +446,9 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
     for(const [id,o] of M){if(lat(o.n)&&lat(o.o)){M.delete(id);continue}
       for(const k of ['g','r'])if(o[k]&&o[k][2]&&/-/.test(String(o[k][2])))o[k][2]='';
       for(const k of ['pre','pre1'])if(Array.isArray(o[k])){o[k]=o[k].filter(x=>M.has(x));if(!o[k].length)delete o[k]}
-      if(o.nx&&!M.has(o.nx))delete o.nx;if(o.m>o.lv&&o.lv>0)o.lv=o.m}
+      if(o.nx&&!M.has(o.nx))delete o.nx;if(o.m>o.lv&&o.lv>0)o.lv=o.m;
+      /* 최소 레벨 자료가 없는 퀘스트(포에버 새 퀘스트 188개 등): 0이면 아무 레벨에나 받는 것처럼 보이므로 퀘스트 레벨-5로 어림하고 「추정」 표시 */
+      if(!o.m&&o.lv>1){o.m=Math.max(1,o.lv-5);o.mEst=1}}
     QDB=M;qdbChains();
     for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
     /* 홈(마을 할 일·내 메모)·장비(가방 정리)도 퀘스트 자료를 써서 다 받으면 다시 그림 */
@@ -555,10 +557,10 @@ function chainTree(c,root,zoneIds,shownIds,opt){opt=opt||{};const L=c.lv;const a
   return h+'<div class="chflow">'+node(root,1)+'</div>'+(n>4?'<button class="chx" data-a="chx" data-k="'+root+'" data-f="1">접기 ⌃</button>':'')+'</div>'}
 function qStar(c,id){const R=RWD.get(id);if(!R)return false;for(const x of [...(R.ch||[]),...(R.fx||[])]){const it=IT.get(x[0]);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>.01)return true}}return false}
 function mqRow(c,q,inCh,same,where){const d=mqDone(c,q),L=c.lv,lock=q.m>L;const ch=inCh?null:q._ch;
-  const tags=(q.pre||q.pre1?'<span class="tag pre">앞 퀘스트 먼저</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
+  const pf=d?null:preFirst(c,q.id);const tags=(pf?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+(ch?'<span class="tag">🔗 연계 '+(ch.findIndex(r=>r[6]===q.id)+1)+'/'+ch.length+'</span>':'')+(lock?'<span class="tag">'+q.m+'레벨부터</span>':'')+(q.rep?'<span class="tag">반복</span>':'')+(q.cls?'<span class="tag">직업 전용</span>':'')+(q.rc?'<span class="tag">종족 전용</span>':'');
   const body=parch(c,q.id,{nm:q.n,obj:q.o,place:esc(q.z),tags,done:d,kind:'mq',ck:String(q.id),pre:q.pre||q.pre1});
-  let sub=taskShort({id:q.id,obj:q.o});if(!sub)sub=(q.o||'').slice(0,40);if(lock)sub='🔒 '+q.m+'레벨부터 · '+sub;if(where)sub='📍 '+where+' · '+sub;
-  return qFold({key:'m'+q.id,qd:q.id,lite:1,sub,done:d,lock,lv:q.lv,nm:q.n,body,side:(qStar(c,q.id)?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+(q.id>=10000?qico('fnew'):'')+(q.cls?qico('cls'):'')+(same?'<span class="lk">같은 퀘 '+same+'개</span>':ch?qico('chain'):'')})}
+  let sub=taskShort({id:q.id,obj:q.o});if(!sub)sub=(q.o||'').slice(0,40);if(lock)sub='🔒 '+mTxt(q)+' · '+sub;else if(pf)sub='🔒 먼저 「'+pf.n+'」 · '+sub;if(where)sub='📍 '+where+' · '+sub;
+  return qFold({key:'m'+q.id,qd:q.id,lite:1,sub,done:d,lock:lock||(!!pf&&!!c.imported),lv:q.lv,nm:q.n,body,side:(qStar(c,q.id)?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+(q.id>=10000?qico('fnew'):'')+(q.cls?qico('cls'):'')+(same?'<span class="lk">같은 퀘 '+same+'개</span>':ch?qico('chain'):'')})}
 (window.requestIdleCallback||((f)=>setTimeout(f,1)))(()=>setTimeout(qdbLoad,4000));
 function questById(id){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.id===id)return {q,z:q.gz||q.sz};
   for(const d of DGS)for(const q of d.q)if(q.id===id)return {q:Object.assign({},q,{dg:d}),z:d.ko,dg:d};return null}
@@ -696,7 +698,7 @@ function questSheet(c,id){id=+id;const f=questById(id);const d=QD.get(id)||{};co
   const X=!f&&QDB&&QDB.get(id);
   const q=f?f.q:X?{nm:X.n,lv:X.lv,obj:X.o,min:X.m}:{nm:cr?cr[1]:'퀘스트 '+id,lv:cr?cr[2]:'',obj:d.obj};
   if(X){let h='<div class="sh"><h2>['+(X.lv||'?')+'] '+esc(X.n)+'</h2><button class="x" data-a="close">✕</button></div>';
-    h+=parch(c,id,{nm:X.n,obj:X.o,place:esc(X.z||''),tags:(X.m>c.lv?'<span class="tag">'+X.m+'레벨부터</span>':''),done:mqDone(c,X),kind:'mq',ck:String(id),pre:X.pre});
+    h+=parch(c,id,{nm:X.n,obj:X.o,place:esc(X.z||''),tags:(X.m>c.lv?'<span class="tag">'+mTxt(X)+'</span>':''),done:mqDone(c,X),kind:'mq',ck:String(id),pre:X.pre});
     {const dd=dgOfQ(id);if(dd)h+='<button class="btn full" style="margin-top:8px" data-a="dgo" data-k="'+dd.slug+'">🏰 '+esc(dd.ko)+' 던전 보기</button>'}
     h+=qNoteBox(c,id);
     return h+'<button class="btn ghost full" style="margin-top:8px" data-a="mzgo" data-k="'+esc((X.c||'기타')+'|'+X.z)+'">'+esc(X.z||'')+' 퀘스트 전체 보기</button>'}
@@ -1301,15 +1303,15 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
 function bagView(c){return bagSortCard(c)+bagView0(c)}
 function bagView0(c){const A=bagAll(c);if(!c.bag)return '<div class="card"><p class="note">게임 애드온으로 가방·은행을 가져오면, 안에 든 장비를 지금 낀 것과 비교해 줘요.</p><button class="btn sm" data-a="imp">🧩 게임에서 가져오기</button></div>';
   const up=A.filter(x=>x.ok&&x.g>.5).sort((a,b)=>b.g-a.g),same=A.filter(x=>x.ok&&x.g<=.5&&x.g>=-.5),down=A.filter(x=>x.ok&&x.g<-.5).sort((a,b)=>a.g-b.g),soon=A.filter(x=>x.lvUp).sort((a,b)=>a.it.lv-b.it.lv),no=A.filter(x=>!x.ok&&!x.lvUp);
-  const row=x=>'<div class="row tap bgr" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+' · '+SLOT_KO[x.slot]+(x.cur?' · 지금: '+esc(x.cur.nm):' · 지금 비어 있음')+'</span><span class="nm">'+itName(x.it)+'</span>'+diffHtml(x.it,x.cur,c)+'</span>'
-    +(x.ok?(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+x.slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain '+(x.g<-.5?'no" style="color:var(--bad)':'no')+'">'+(x.g<-.5?'지금 게 더 좋아요':'비슷해요')+'</span>'):'<span class="gain no">'+(x.lvUp?x.it.lv+'레벨부터':'못 껴요')+'</span>')+'</div>';
+  const row=x=>'<div class="row tap bgr" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+(x.cur?' · 지금: '+esc(x.cur.nm):' · 지금 비어 있음')+'</span><span class="nm"><em class="slc">'+SLOT_KO[x.slot]+'</em>'+itName(x.it)+'</span>'+diffHtml(x.it,x.cur,c)+'</span>'
+    +(x.ok?(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+x.slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain '+(x.g<-.5?'no" style="color:var(--bad)':'no')+'">'+(x.g<-.5?'−'+(x.g<=-10?Math.round(-x.g):(-x.g).toFixed(1))+'점':'비슷해요')+'</span>'):'<span class="gain no">'+(x.lvUp?x.it.lv+'레벨부터':'못 껴요')+'</span>')+'</div>';
   const at=c.imported?armAgo(c.imported.t)+' 가져온 가방·은행':'';
   let h='<div class="card"><h3>🎒 내 가방·은행 장비 <small class="mute">'+A.length+'개 · '+at+'</small></h3>'+(c.bank?'':'<p class="note">은행은 게임에서 한 번 열고 다시 가져오면 같이 보여요.</p>');
   if(!A.length)h+='<p class="note">가방·은행에 낄 수 있는 장비가 없어요.</p>';
-  if(up.length)h+='<h4 class="bgh good">⬆️ 끼면 좋아져요 · '+up.length+'</h4>'+up.map(row).join('');
-  if(same.length)h+='<h4 class="bgh">↔️ 비슷해요 · '+same.length+'</h4>'+same.map(row).join('');
-  if(soon.length)h+='<h4 class="bgh">⏳ 레벨 오르면 낄 수 있어요 · '+soon.length+'</h4>'+soon.map(row).join('');
-  if(down.length)h+='<h4 class="bgh bad">⬇️ 지금 게 더 좋아요 · '+down.length+' <small>팔거나 정리해도 돼요</small></h4>'+down.map(row).join('');
+  if(up.length)h+=gSec('good','끼면 좋아져요',up.length,'')+up.map(row).join('');
+  if(same.length)h+=gSec('same','비슷해요',same.length,'')+same.map(row).join('');
+  if(soon.length)h+=gSec('soon','레벨 오르면 낄 수 있어요',soon.length,'')+soon.map(row).join('');
+  if(down.length)h+=gSec('bad','지금 게 더 좋아요',down.length,'팔거나 정리해도 돼요')+down.map(row).join('');
   if(no.length)h+='<details class="bgno"><summary>🚫 이 직업·레벨로 못 끼는 것 '+no.length+'개</summary>'+no.map(row).join('')+'</details>';
   return h+'</div>'}
 /* 바꿀 것들을 얻는 곳별로 묶기: 던전 한 번 · 퀘스트 · 몹 · 상인 */
@@ -1385,10 +1387,12 @@ function upAll(c,nowU,soonU){const nE=SLOTS.filter(([sl])=>!offLocked(c,sl)).len
     +(fG&&fG.a?'<button class="upgo" data-a="'+fG.a+'" data-k="'+esc(String(fG.k))+'">'+fG.ic+' '+esc(fG.nm)+' 보러 가기 ›</button>':'');
   const R=rows.filter(inF);
   h+=(R.length?R.map(x=>uRow(c,x)).join(''):'<p class="note">'+(f?'이 곳에서 바꿀 건 없어요.':'지금 레벨에서 더 좋은 장비가 없어요 👍')+'</p>');
-  if(!f&&later.length)h+='<div class="ulsep">🔜 레벨 오르면 바꿀 것</div>'+later.map(x=>uRow(c,x,1)).join('');
+  if(!f&&later.length)h+=gSec('soon','레벨 오르면 바꿀 것',later.length,'')+later.map(x=>uRow(c,x,1)).join('');
   if(!f&&nE-rows.length-later.length>0)h+='<p class="uok">✓ 나머지 '+(nE-rows.length-later.length)+'칸은 지금 장비가 제일 좋아요</p>';
   if(!f&&(c.nogo||[]).length)h+='<p class="note">🚫 「못 얻어요」로 뺀 장비 '+c.nogo.length+'개는 추천에서 빼고 있어요 · <button class="lnk" data-a="nogoclr" data-k="*">모두 다시 넣기</button></p>';
   return h+'</div>'}
+/* 장비 목록의 묶음 제목(가방 정리 카드와 같은 모양): 색 띠 · 제목 · 개수 · 설명 */
+function gSec(k,t,n,sub){return '<div class="gsec g-'+k+'"><b>'+t+'</b><span class="n">'+n+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</div>'}
 function uRow(c,x,soon){const cur=eqIt(c,x.slot);const it=x.it;const st=it.st||{};const w=wOf(c);
   const top=Object.keys(st).filter(k=>STAT_KO[k]&&st[k]>0&&(w[k]||(k==='dps'&&(it.sl==='ra'?w.rdps:w.dps)))&&!dupSH(k,st,w)).sort((a,b)=>(k=>k==='dps'?1e3:(w[k]||0)*st[k])(b)-(k=>k==='dps'?1e3:(w[k]||0)*st[k])(a)).slice(0,3)
     .map(k=>{const pct=/ %$/.test(STAT_KO[k]);return (k==='dps'?'초당':pct?STAT_KO[k].slice(0,-2):STAT_KO[k].replace(' 주문력',''))+' '+(k==='dps'||(pct&&st[k]%1)?st[k].toFixed(1):Math.round(st[k]))+(pct?'%':'')}).join(' · ');
@@ -1485,7 +1489,7 @@ function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFo
   if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div><p class="note">지금보다 좋은 게 없어요 👍</p>'}
   else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
   if(c.bag){const w2=wOf(c);const O=bagAll(c).filter(x=>x.ok&&fits(x.it,slot,c)&&x.it.id!==(cur&&cur.id)).map(x=>Object.assign({},x,{g:sc(x.it,slot,w2)-sc(cur,slot,w2)})).sort((a,b)=>b.g-a.g);
-    h+='<div class="owb"><h4>🎒 내 가방·은행의 '+SLOT_KO[slot]+' 템 <small>'+(O.length?O.length+'개':'없어요')+'</small></h4>'+O.slice(0,5).map(x=>'<div class="row">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+'</span><span class="nm">'+itName(x.it)+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'</span>'+(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain no">'+(x.g<-.5?'지금 게 더 좋아요':'비슷해요')+'</span>')+'</div>').join('')+'</div>'}
+    h+='<div class="owb"><h4>🎒 내 가방·은행의 '+SLOT_KO[slot]+' 템 <small>'+(O.length?O.length+'개':'없어요')+'</small></h4>'+O.slice(0,5).map(x=>'<div class="row">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+'</span><span class="nm">'+itName(x.it)+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'</span>'+(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain no">'+(x.g<-.5?'−'+(x.g<=-10?Math.round(-x.g):(-x.g).toFixed(1))+'점':'비슷해요')+'</span>')+'</div>').join('')+'</div>'}
   {const ng=(c.nogo||[]).filter(id=>{const it=IT.get(id);return it&&fits(it,slot,c)});if(ng.length)h+='<p class="note">🚫 못 얻는다고 뺀 장비 '+ng.length+'개 · <button class="lnk" data-a="nogoclr" data-k="'+slot+'">다시 넣기</button></p>'}
   h+='<button class="btn ghost full" style="margin-top:8px" data-a="slot" data-k="'+slot+'">후보 전체 보기 · 이름으로 찾기</button></div>';
   return h}
@@ -2263,7 +2267,12 @@ function recQ(id,z0){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!q&&!d.g
   if(!o&&!talk&&qt&&qObjAct(qt)){const pl=qTextPlace(qt,zq);o={nm:pl?pl.nm:'퀘스트 목표',xy:pl&&pl.xy||null,z:zq,tx:1}}
   return {id,nm:(q&&q.n)||'',lv:(q&&q.lv)||0,z:zq,g:[G[0],G[1]||zq,gxy],r:[R[0],R[1]||zq,rxy],o,/* 대화만 하면 끝나는 퀘스트는 '하기' 단계를 만들지 않음 */rep:repUp&&!o,cnt:wf.filter(x=>x[1]>0)}}
 /* 게임에서 불러온 기록이 있을 때만: 앞 퀘스트를 아직 안 했으면 「먼저 ○○」 (불러온 적 없으면 끝낸 퀘스트를 몰라서 안 보여 줌) */
-function preHint(c,id){if(!c.imported||!QDB)return '';const D=QDB.get(id);if(!D)return '';const ql=c.ql||{};
+/* 「N레벨부터」 — 자료에 없어 어림한 값이면 (추정) */
+function mTxt(q){return ((q&&q.m)||1)+'레벨부터'+(q&&q.mEst?' (추정)':'')}
+/* 아직 안 한 앞 퀘스트(받을 수 있는 것) 하나 — 목록에 「먼저 「…」」로 */
+function preFirst(c,id){const X=QDB&&QDB.get(id);if(!X)return null;const dn=p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)};
+  for(const g of [...(X.pre||[]).map(p=>[p]),...(X.pre1&&X.pre1.length?[X.pre1]:[])]){if(g.some(dn))continue;const P=QDB.get(g.find(p=>QDB.has(p)));if(P)return P}return null}
+function preHint(c,id){if(!QDB)return '';const D=QDB.get(id);if(!D)return '';const ql=c.ql||{};
   const P=[...new Set([...(D.pre||[]),...((D.pre1&&D.pre1.length===1)?D.pre1:[]),...(QPAR[id]!=null?[QPAR[id]]:[])])].filter(p=>p!==id);
   for(const p of P){const X=QDB.get(p);if(!X||mqDone(c,X)||(ql[p]||0)>=1)continue;return ' · <b class="prh">먼저 「'+esc(X.n||'')+'」</b>'}return ''}
 /* 퀘스트 글에 직접 할 일이 있는지 (처치·모으기·구출·호위… 또는 「6개·8마리」 같은 개수) */
@@ -2382,7 +2391,19 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   const minLv=q=>((QDB&&QDB.get(q.id))||{}).m||0;
   /* 장인의 계약서(전문기술로 만든 물건 120개를 내는 퀘스트)는 누구에게나 권하지 않음 */
   const prof=q=>/^장인의 계약서/.test(q.nm||'');
-  const stOf=n=>recStages(c,qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)<=L&&(!QDB||QDB.has(q.id))&&!prof(q)),c.lpos);
+  /* 앞 퀘스트 맞추기(게임 기록을 불러왔을 때): 앞 퀘스트를 안 했고 이 구간에도 없으면 받을 수 있는 앞 퀘스트를 구간에 끌어오고(4단계까지),
+     그래도 안 되면 단계에서 빼고 「먼저 「…」」로 알려 줌 — 예: 마이조스는 트롤의 마법·대령 쿠르젠을 끝내야 받을 수 있음 */
+  const preFix=(n,list)=>{if(!c.imported||!QDB)return {list,blk:[]};const ids=new Set(list.map(q=>q.id)),out=list.slice(),blk=[],ql=c.ql||{};
+    const dn=p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)};
+    const groups=id=>{const X=QDB.get(id);if(!X)return [];const G=(X.pre||[]).map(p=>[p]);if(X.pre1&&X.pre1.length)G.push(X.pre1);return G.filter(g=>!g.some(dn))};
+    const pull=(id,d)=>{for(const g of groups(id)){if(g.some(p=>ids.has(p)))continue;let ok=false;
+        for(const p of g){const P=QDB.get(p);if(!P||(P.m||0)>L||d>4||prof({nm:P.n}))continue;if(!pull(p,d+1))continue;const r=recQ(p,n.z);if(!r)continue;out.push(r);ids.add(p);ok=true;break}
+        if(!ok)return false}return true};
+    for(const q of list){if((ql[q.id]||0)>=1)continue;if(!pull(q.id,0)){const g=groups(q.id).find(g=>!g.some(p=>ids.has(p)));blk.push({q,need:g&&QDB.get(g[0])})}}
+    const B=new Set(blk.map(x=>x.q.id));return {list:out.filter(q=>!B.has(q.id)),blk}};
+  const baseOf=n=>qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)<=L&&(!QDB||QDB.has(q.id))&&!prof(q));
+  const blkOf=n=>preFix(n,baseOf(n)).blk;
+  const stOf=n=>recStages(c,preFix(n,baseOf(n)).list,c.lpos);
   const lockOf=n=>qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)>L&&(c.ql||{})[q.id]==null);
   let node=selN||curN,ST=stOf(node),moved=null;
   /* 이 구간 퀘스트를 다 했으면 다음 구간으로 자동으로 넘어감 (레벨을 안 올렸어도) */
@@ -2393,6 +2414,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   const lk=lockOf(moved||node);const lkMsg=lk.length?' · 남은 '+lk.length+'개는 '+Math.min(...lk.map(minLv))+'레벨부터 받을 수 있어요':'';
   if(!ST.length)return h+'<div class="card"><p class="note">'+esc(z)+' '+node.a+'–'+node.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg+'. ':' 퀘스트를 다 했어요 🎉 ')+(pk.nodes.indexOf(node)<pk.nodes.length-1?'여정 줄에서 다음 구간을 눌러 보세요.':'이 루트 끝까지 왔어요.')+'</p></div>';
   if(moved)h+='<p class="note mvn">✓ '+esc(moved.z)+' '+moved.a+'–'+moved.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg:' 퀘스트를 다 했어요')+' · 다음 구간으로 넘어갔어요: <b>'+esc(node.z)+' '+node.a+'–'+node.b+'</b>'+(node.a>L+2?' · 몹 레벨이 조금 높으니 조심하세요':'')+'</p>';
+  {const bk=blkOf(moved||node);if(bk.length)h+='<div class="card blkq"><p class="note">🔒 <b>앞 퀘스트를 먼저 끝내야 받을 수 있는 퀘스트 '+bk.length+'개</b> — 단계에서 뺐어요.</p><ul>'+bk.slice(0,6).map(x=>'<li><button class="lnk" data-a="qopen" data-k="'+x.q.id+'">「'+esc(x.q.nm)+'」</button>'+(x.need?' ← 먼저 <button class="lnk" data-a="qopen" data-k="'+x.need.id+'">「'+esc(x.need.n)+'」</button> <small class="mute">'+esc(x.need.z||'')+' · '+mTxt(x.need)+'</small>':'')+'</li>').join('')+'</ul></div>'}
   const s0=ST[0];const xpOf=s=>s.items.filter(i=>i.type==='turn').reduce((n,i)=>n+((RWD.get(i.q.id)||{}).xp||0),0);
   const xy=s=>s.xy?' '+s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'';
   h+='<button class="swrow" data-a="rmap"><span class="sw'+(recMapOn(c)?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 길 따라</small></button>';
