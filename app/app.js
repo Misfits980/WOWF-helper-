@@ -451,7 +451,11 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
       if(!o.m&&o.lv>1){o.m=Math.max(1,o.lv-5);o.mEst=1}}
     QDB=M;qdbChains();
     /* 최소 레벨을 어림한 퀘스트가 던전 퀘스트 자료(forg)에 있으면 그 값으로 (예: 아감마간의 피 45) */
-    for(const d of DGS)for(const q of d.q){const X=M.get(+q.id);if(X&&X.mEst&&q.min>0){X.m=q.min;delete X.mEst}}
+    for(const d of DGS)for(const q of d.q){const X=M.get(+q.id);if(X&&X.mEst&&q.min>0){X.m=q.min;delete X.mEst}
+      /* 던전 퀘스트 자료(forg)의 영어 이름·목표는 퀘스트 자료의 한글로 (예: Bring Loremaster Dibbs' … → 현자 딥스의 이랄라이 번역본을 …) */
+      if(X){if(lat(q.nm)&&!lat(X.n))q.nm=X.n;if((!q.obj||lat(q.obj))&&X.o&&!lat(X.o))q.obj=X.o}}
+    /* 던전 퀘스트 순서: 앞 퀘스트가 적은 것(바로 받을 수 있는 것) 먼저, 같으면 낮은 레벨 — 연계 퀘스트는 앞 단계가 위에 */
+    for(const d of DGS){const dep=new Map(d.q.map(q=>[q.id,preChain(+q.id).length]));d.q.sort((a,b)=>dep.get(a.id)-dep.get(b.id)||(a.lv||0)-(b.lv||0))}
     for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
     /* 홈(마을 할 일·내 메모)·장비(가방 정리)도 퀘스트 자료를 써서 다 받으면 다시 그림 */
     if(ui.tab==='quest'||ui.tab==='home'||ui.tab==='gear'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}

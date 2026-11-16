@@ -1,0 +1,8 @@
+# 퀘스트 목표 아이템 이름 영→한(QuestieDB 아이템 번호의 영어 이름 + 게임 캐시 한글 이름, 같은 영어 이름이 한 가지 한글일 때만) — 번호|목표 순서|영어|한글
+90702|0|Ring of the Fallen Soldier|쓰러진 병사의 반지
+91698|0|Deadwood Key|마른가지일족 열쇠
+92317|0|Drop of Stolen Life|빼앗긴 생명의 방울
+93422|1|Blackthorne Intelligence|블랙쏜 기밀 정보
+94324|1|Distilled Firewater|증류된 화주
+95378|2|Bones of Frezzlie Popwhiz|프레즐리 팝위즈의 유골
+98247|0|Shipping Label|화물 송장
