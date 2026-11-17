@@ -3002,11 +3002,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=dfc04806"></script>
-<script>/* vb4cc2f @11/17 21:46 */
+<script src="app-data.js?v=948f6602"></script>
+<script>/* v9731b1 @11/17 22:12 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 21:46';
+const BUILD='11/17 22:12';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3928,7 +3928,7 @@ const WSK0={rogue:[15,16],priest:[4,19],mage:[10,19],warlock:[15,19],druid:[4,10
 const WTR={0:'불리위프 스톤헤드 (아이언포지)',1:'불리위프 스톤헤드 (아이언포지)',4:'불리위프 스톤헤드 (아이언포지)',5:'불리위프 스톤헤드 (아이언포지)',3:'불리위프 스톤헤드 (아이언포지)',13:'불리위프 스톤헤드 (아이언포지) · 일예니아 문파이어 (다르나서스)',
   7:'우 핑 (스톰윈드)',8:'우 핑 (스톰윈드)',6:'우 핑 (스톰윈드)',10:'우 핑 (스톰윈드) · 일예니아 문파이어 (다르나서스)',15:'우 핑 (스톰윈드) · 빅시 와블봉크 (아이언포지) · 일예니아 문파이어 (다르나서스)',18:'우 핑 (스톰윈드) · 빅시 와블봉크 (아이언포지)',2:'일예니아 문파이어 (다르나서스)',16:'빅시 와블봉크 (아이언포지)'};
 const wskNeed=(it,c)=>{const [a,b]=(it.cs||'').split('.').map(Number);if(a!==2||!WTR[b])return null;
-  if(c.wsk){const k=c.wsk[b];if(k)return k[1]&&k[0]<k[1]*.7?{ko:CS_KO[it.cs]||'무기',at:WTR[b],low:k}:null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b]}}
+  if(c.wsk&&Object.keys(c.wsk).length){const k=c.wsk[b];if(k)return k[1]&&k[0]<k[1]*.7?{ko:CS_KO[it.cs]||'무기',at:WTR[b],low:k}:null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b]}}
   if(!WSK0[c.cls]||WSK0[c.cls].includes(b))return null;return {ko:CS_KO[it.cs]||'무기',at:WTR[b],guess:1}};
 const skTag=(it,c)=>{const n=wskNeed(it,c);if(!n)return '';if(n.low)return ' <span class="lkt sk" title="숙련도 '+n.low[0]+'/'+n.low[1]+'">🎓 '+esc(n.ko)+' 숙련 '+n.low[0]+'/'+n.low[1]+'</span>';return ' <span class="lkt sk" title="'+esc(n.ko)+' 숙련은 '+esc(n.at)+'에게 배워요">🎓 '+esc(n.ko)+' 숙련 필요</span>'};
 const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead WoW Forever 직업 가이드 추천">📘 공략 추천</span>':'';
@@ -4293,13 +4293,13 @@ function msRows(c){const L=c.lv||1,ms=c.ms||{};const mine=MS.filter(m=>!m[4]||m[
   let h=due.map(m=>'<div class="trow ms">'+(PV?'<span class="ti lvk">'+m[0]+'</span>':'<span class="ti">📌</span>')+'<span class="m"><b>'+esc(m[2])+(PV?'':' <small>'+m[0]+'레벨</small>')+'</b><span>'+esc(m[3])+'</span></span><button class="btn sm tbtn" data-a="msok" data-k="'+m[1]+'">했어요</button></div>').join('');
   if(nx&&nx[0]<=L+5)h+='<div class="trow soon">'+(PV?'<span class="ti lvk soon">'+nx[0]+'</span>':'<span class="ti">🔜</span>')+'<span class="m"><b>'+(PV?'':nx[0]+'레벨 · ')+esc(nx[2])+(PV?' <small>'+nx[0]+'레벨에</small>':'')+'</b><span>'+esc(nx[3])+'</span></span></div>';return h}
 function addonCard(c){const im=c.imported;const ago=im?armAgo(im.t):'';
-  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.8.1</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
-  if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드');if(c.wsk)got.push('무기 숙련');if(c.tal&&/^game/.test(c.tal.src||''))got.push('내 특성')}
+  let h='<div class="card adc"><div class="hd"><h3>🧩 게임 애드온 <small>와포 도우미 v3.9</small></h3>'+(im?'<button class="more" data-a="imp">다시 가져오기 ›</button>':'')+'</div>';
+  if(im){const got=['끝낸 퀘스트 '+(im.n||0)+'개'];if(c.ql&&Object.keys(c.ql).length)got.push('퀘스트창 '+Object.keys(c.ql).length+'개');if(c.qp&&Object.keys(c.qp).length)got.push('진행도');if((im.v||1)>=2){if(c.eq&&Object.keys(c.eq).length)got.push('장비');if(c.profLv)got.push('전문기술');if(c.xp)got.push('경험치')}if((im.v||1)>=3){if(c.bag)got.push('가방');if(c.rep)got.push('평판');if(c.gold!=null)got.push('골드');if(c.wsk&&Object.keys(c.wsk).length)got.push('무기 숙련');if(c.tal&&/^game/.test(c.tal.src||''))got.push('내 특성')}
     h+='<p class="adl"><b>'+ago+'</b>에 가져왔어요 · '+got.join(' · ')+'</p>';
     if((im.v||1)<3)h+='<p class="adw">'+((im.v||1)<2?'옛 애드온':'v2 애드온')+' 코드예요. 새 애드온(v3)을 받으면 아래 기능을 모두 쓸 수 있어요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(c.eq&&Object.keys(c.eq).length&&c.eqv===undefined)h+='<p class="adw">새 애드온(v3.5)은 <b>끼고 있는 장비의 실제 능력치</b>도 가져와요. 「산적의 ○○」 같은 무작위 옵션 장비나 포에버에서 능력치가 바뀐 장비도 점수가 맞게 나와요. 새로 받아 <code>/wfh</code> 코드를 다시 넣어 주세요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!DB.gq)h+='<p class="adw">새 애드온(v3.4)은 <b>게임이 알려 주는 퀘스트 위치</b>(목표·반납·동굴 입구 같은 길안내 지점)도 가져와요. 지도 동선이 게임과 같아져요. 새로 받아 <code>/wfh</code> 코드를 다시 넣어 주세요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
-    else if(!(c.tal&&/^game/.test(c.tal.src||''))&&c.lv>=10)h+='<p class="adw">새 애드온(v3.3)은 <b>찍은 특성</b>도 가져와요. 직업 탭에 「🎮 내 특성」으로 나오고 가이드와 다른 칸을 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
+    else if(!(c.tal&&/^game/.test(c.tal.src||''))&&c.lv>=10&&!im.nt)h+='<p class="adw">새 애드온(v3.3)은 <b>찍은 특성</b>도 가져와요. 직업 탭에 「🎮 내 특성」으로 나오고 가이드와 다른 칸을 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!c.taxi&&(im.v||1)>=3)h+='<p class="adw">새 애드온(v3.2)은 연 비행 경로도 가져와요. 게임에서 비행 조련사 창을 한 번 열고 <code>/wfh</code> 하면 동선에 안 연 비행 경로를 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(!c.wsk&&['warrior','rogue','hunter','paladin','shaman'].includes(c.cls))h+='<p class="adw">새 애드온(v3.1)은 배운 무기 숙련과 숙련도도 가져와요. 도적 한손 도끼처럼 「숙련 필요」를 정확히 알려 줘요. <a class="lnk" href="addon/WowfHelper.zip" download>새로 받기</a></p>';
     else if(Date.now()-im.t>36e5)h+='<p class="adw">한 시간 넘게 지났어요. 게임에서 <code>/wfh</code> 로 새 코드를 가져오면 퀘스트·장비·가방이 다시 맞춰져요.'+(FSA?' PC라면 <button class="lnk" data-a="fsload">📂 파일에서 바로 불러오기</button>도 돼요.':'')+'</p>'}
@@ -6495,7 +6495,7 @@ function impParse(txt){const m=(txt||'').match(/WFH([12]);/);if(!m)return null;c
   /* 애드온 v3.7~3.8.0이 접속 종료 순간에 저장한 코드: 게임이 경험치·장비·가방·돈을 이미 비운 상태 → 빈 칸으로 앱 기록을 지우지 않음 */
   const thin=sec.X!=null&&!(xp&&xp[1]>0)&&!eq.length;
   return {ver:sec.S||sec.B||sec.R?3:ver,name:f[1],realm:f[2],cls:(f[3]||'').toLowerCase(),lv:+f[4]||0,race:(f[5]||'').toLowerCase(),fac:f[6],done:d,log:l,eq,eqv,pf,tl,tu,xp:xp&&xp.length>=2&&xp[1]>0?{cur:xp[0],max:xp[1],rest:xp[2]||0}:null,
-    sess:S&&S.length>=4?sessFix({xp:S[0],secs:S[1],hx:S[2],hs:S[3]}):null,gold:sec.G&&!(thin&&+sec.G===0)?+sec.G:null,bag:sec.B!=null&&!(thin&&!sec.B)?items(sec.B):null,bank:sec.K?items(sec.K):null,rep:rp,alts:al,wsk:sec.W!=null&&!(thin&&!ws.length)?ws:null,thin,taxi:sec.F!=null?sec.F.split('^').filter(Boolean):null,gq,ent,obs,qlv,qop}}
+    sess:S&&S.length>=4?sessFix({xp:S[0],secs:S[1],hx:S[2],hs:S[3]}):null,gold:sec.G&&!(thin&&+sec.G===0)?+sec.G:null,bag:sec.B!=null&&!(thin&&!sec.B)?items(sec.B):null,bank:sec.K?items(sec.K):null,rep:rp,alts:al,wsk:sec.W!=null&&!(thin&&!ws.length)?ws:null,thin,tuSeen:sec.U!=null,taxi:sec.F!=null?sec.F.split('^').filter(Boolean):null,gq,ent,obs,qlv,qop}}
 /* 특성 칸 순서 → 앱 특성 (드루이드는 야성이 둘이라 지금 고른 쪽 유지) */
 /* 게임 특성(트리-줄-칸-랭크-아이콘) → 앱 특성 번호. 줄·칸이 같은 칸, 없으면 같은 트리에서 아이콘이 같은 칸 */
 function impTal(cls,tu){const C=D_CLS[cls];if(!C||!tu||!tu.length)return null;const T=Object.entries(C.talents);const M={};let miss=0;
@@ -6529,12 +6529,12 @@ function impPreview(c){const P=ui.imp;if(!P)return ui.impraw?'<p class="note war
 /* 애드온 코드 적용 (붙여 넣기·PC 파일·자동 맞춤이 같이 씀) */
 function impApply(c,P,o){o=o||{};const U={eq:o.eq!=null?o.eq:ui.impEq,sp:o.sp!=null?o.sp:ui.impSp,tl:o.tl!=null?o.tl:ui.impTl,alt:o.alt!=null?o.alt:ui.impAlt};
     c.mq=c.mq||{};c.dq=c.dq||{};let n=0;const dqIds=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id)));P.done.forEach(id=>{if(!c.mq[id]){c.mq[id]=1;n++}if(dqIds.has(id))c.dq[id]=1});
-    if(!P.thin||P.log.length){c.ql={};c.qp={};P.log.forEach(x=>{c.ql[x.id]=x.done?2:1;if(x.obj.length)c.qp[x.id]=x.obj})}if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length,v:P.ver};
+    if(!P.thin||P.log.length){c.ql={};c.qp={};P.log.forEach(x=>{c.ql[x.id]=x.done?2:1;if(x.obj.length)c.qp[x.id]=x.obj})}if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length,v:P.ver};if(P.tuSeen&&!P.tu.length&&!P.thin&&P.lv>=10)c.imported.nt=1;
     const extra=[];if(P.eq.length&&U.eq){const ne={};P.eq.forEach(([sl,id])=>{if(IT.has(id))ne[sl]=id});c.eq=ne;extra.push('장비 '+Object.keys(ne).length+'칸');
       if(P.eqv){c.eqv={};for(const sl in ne){const v=P.eqv[sl];if(v&&v.id===ne[sl]&&varDiff(IT.get(v.id),v.nm,v.st))c.eqv[sl]={id:v.id,nm:v.nm||undefined,st:v.st}}const nv=Object.keys(c.eqv).length;if(nv)extra.push('게임 능력치로 맞춘 장비 '+nv+'칸')}}
     if(U.sp){const sp=impSpec(c,P);if(sp&&sp!==c.spec){c.spec=sp;extra.push('특성')}}
     if(U.tl!==false){const T=impTal(c.cls,P.tu);if(T&&T.n){c.tal={cls:c.cls,r:T.r,src:'game',at:Date.now()};ui.tlv='me';extra.push('내 특성 '+T.n+'점')}}
-    if(P.wsk){c.wsk={};P.wsk.forEach(w=>{c.wsk[w[0]]=[w[1],w[2]]});extra.push('무기 숙련 '+P.wsk.length+'개')}
+    if(P.wsk){c.wsk={};P.wsk.forEach(w=>{c.wsk[w[0]]=[w[1],w[2]]});if(P.wsk.length)extra.push('무기 숙련 '+P.wsk.length+'개')}
     if(P.taxi&&P.taxi.length){c.taxi=P.taxi;extra.push('비행 경로 '+P.taxi.length+'곳')}
     if(P.gq&&P.gq.length){DB.gq=DB.gq||{};P.gq.forEach(x=>{DB.gq[x.id]={ph:x.ph,o:x.o,w:x.w,t:x.t,at:Date.now()}});extra.push('게임 퀘스트 위치 '+P.gq.length+'개')}
     if(P.ent&&P.ent.length){DB.ent=DB.ent||[];P.ent.forEach(e=>{const o=DB.ent.find(y=>y.z===e.z&&y.n===e.n&&Math.hypot(y.x-e.x,y.y-e.y)<4);if(o){o.c=Math.max(o.c||1,e.c)}else DB.ent.push(e)});if(DB.ent.length>400)DB.ent=DB.ent.slice(-400);extra.push('동굴 입구 '+P.ent.length+'곳')}

@@ -1,4 +1,4 @@
--- 와포 도우미 · 게임 안 길 안내 (v3.7)
+-- 와포 도우미 · 게임 안 길 안내 (v3.7 · v3.9 퀘스트창 읽기 고침)
 -- 앱 「레벨업」 탭의 단계(받기·하기·반납)를 /wfh 추천 코드로 넣으면
 -- 화면에 다음 목적지 · 거리 · 방향 화살표를 띄우고, 퀘스트를 받거나 반납하면 저절로 다음 단계로 넘어가요.
 -- /wfh 길        길 안내 창 켜기/끄기
@@ -69,11 +69,18 @@ local function qDone(id)
 end
 local function qLog(id)
   local idx = (GetQuestLogIndexByID and GetQuestLogIndexByID(id)) or (C_QuestLog and C_QuestLog.GetLogIndexForQuestID and C_QuestLog.GetLogIndexForQuestID(id))
-  if idx and idx > 0 and GetQuestLogTitle then
+  if not idx or idx <= 0 then return false, false end
+  if GetQuestLogTitle then
     local title, _, _, _, _, isComplete = GetQuestLogTitle(idx)
     return true, (isComplete == 1 or isComplete == true), title
   end
-  return false, false
+  -- v3.9: 포에버(새 엔진)엔 GetQuestLogTitle이 없음 → C_QuestLog.GetInfo·IsComplete (전엔 받은 퀘스트를 못 알아봐서 「받기」·「하기」 단계가 반납 때까지 안 넘어갔음)
+  if C_QuestLog and C_QuestLog.GetInfo then
+    local ok, info = pcall(C_QuestLog.GetInfo, idx)
+    local okc, comp = pcall(C_QuestLog.IsComplete or function() return false end, id)
+    return true, (okc and comp) and true or false, ok and type(info) == "table" and info.title or nil
+  end
+  return true, false
 end
 local function stepDone(s)
   local ids = s[6] or {}

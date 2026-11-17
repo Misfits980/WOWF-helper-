@@ -1,4 +1,4 @@
--- 와포 도우미 (WowfHelper) v3.8
+-- 와포 도우미 (WowfHelper) v3.9
 -- 이 캐릭터 정보를 글자 코드로 만들어 줘요:
 --   끝낸 퀘스트 · 지금 퀘스트 목록(+ 목표 진행도) · 끼고 있는 장비 · 전문기술 숙련도 · 특성 포인트 · 경험치
 --   사냥 기록(시간당 경험치) · 가방·은행 아이템 · 골드 · 평판 · 이 컴퓨터의 부캐
@@ -24,6 +24,7 @@
 --       접속을 끝내거나 /reload 하면 앱 코드를 저장 파일에 남겨요(PC 앱의 「📂 PC에서 바로 불러오기」가 읽음).
 -- v3.8: 퀘스트를 받을 수 있었던 레벨(NPC가 퀘스트를 보여 주거나 받을 때)과 목표 진행도가 오른 자리(몹을 잡거나 물건을 주운 곳)도 담아요.
 --       앱이 「몇 레벨부터」·「어디서 하나」 자료가 빈 퀘스트를 채우는 데 써요.
+-- v3.9: 포에버(새 게임 엔진) 방식으로도 전문기술(GetProfessions)·평판(C_Reputation)을 읽어요. 옛 방식이 있으면 옛 방식 먼저.
 -- v3.6.2: /wfh 아이템 이 효과 글을 1.5초·4초 뒤 한 번 더 읽음, /wfh 아이템 다시 추가.
 -- v3.6.1: GetItemInfo·GetItemStats가 C_Item 안에 있는 클라이언트도 지원(끼고 있는 장비 능력치도 이제 담김).
 -- v3.6: /wfh 아이템 — 앱 장비 목록의 한글 이름·착용 효과·무기 공격력을 게임에서 읽어 저장 파일에 남겨요.
@@ -154,14 +155,34 @@ local PROF = {
   ["Leatherworking"] = "가죽세공", ["Tailoring"] = "재봉술", ["Herbalism"] = "약초채집", ["Mining"] = "채광",
   ["Skinning"] = "무두질", ["Cooking"] = "요리", ["First Aid"] = "응급치료", ["Fishing"] = "낚시",
 }
+-- 전문기술 번호(skillLine) → 이름: 새 엔진의 GetProfessionInfo는 이름 말고 번호도 줘서 언어와 상관없이 맞출 수 있음
+local PROF_LINE = { [171] = "연금술", [164] = "대장기술", [333] = "마법부여", [202] = "기계공학", [165] = "가죽세공", [197] = "재봉술",
+  [182] = "약초채집", [186] = "채광", [393] = "무두질", [185] = "요리", [129] = "응급치료", [356] = "낚시" }
 local function professions()
   local out = {}
-  if not (GetNumSkillLines and GetSkillLineInfo) then return out end
-  local n = GetNumSkillLines() or 0
-  for i = 1, n do
-    local name, isHeader, _, rank, _, _, maxRank = GetSkillLineInfo(i)
-    if not isHeader and name and PROF[name] and rank then
-      out[#out + 1] = { PROF[name], rank, maxRank or 0 }
+  if GetNumSkillLines and GetSkillLineInfo then
+    local n = GetNumSkillLines() or 0
+    for i = 1, n do
+      local name, isHeader, _, rank, _, _, maxRank = GetSkillLineInfo(i)
+      if not isHeader and name and PROF[name] and rank then
+        out[#out + 1] = { PROF[name], rank, maxRank or 0 }
+      end
+    end
+  end
+  -- v3.9: 포에버는 리테일 방식(GetProfessions → GetProfessionInfo: 이름·아이콘·숙련도·최대·…·skillLine)
+  if #out == 0 and GetProfessions and GetProfessionInfo then
+    local slots = { GetProfessions() }
+    local seen = {}
+    for i = 1, select("#", GetProfessions()) do
+      local idx = slots[i]
+      if type(idx) == "number" and idx > 0 then
+        local ok, name, _, rank, maxRank, _, _, line = pcall(GetProfessionInfo, idx)
+        local ko = ok and (PROF_LINE[tonumber(line) or 0] or (name and PROF[name]))
+        if ko and not seen[ko] and tonumber(rank) then
+          seen[ko] = true
+          out[#out + 1] = { ko, tonumber(rank), tonumber(maxRank) or 0 }
+        end
+      end
     end
   end
   return out
@@ -284,12 +305,22 @@ end
 -- 8) 평판 (번호 · 등급 · 값 · 이름)
 local function reps()
   local out = {}
-  if not (GetNumFactions and GetFactionInfo) then return out end
-  for i = 1, GetNumFactions() or 0 do
-    local name, _, standing, _, _, value, _, _, isHeader, _, hasRep, _, _, fid = GetFactionInfo(i)
-    if name and (not isHeader or hasRep) and standing then
-      local nm = name:gsub("[%s]", "_"):gsub("[;%.:,~%-%*]", "")
-      out[#out + 1] = (fid or 0) .. "-" .. standing .. "-" .. (value or 0) .. "-" .. nm
+  local function add(name, standing, value, fid)
+    local nm = name:gsub("[%s]", "_"):gsub("[;%.:,~%-%*]", "")
+    out[#out + 1] = (fid or 0) .. "-" .. standing .. "-" .. (value or 0) .. "-" .. nm
+  end
+  if GetNumFactions and GetFactionInfo then
+    for i = 1, GetNumFactions() or 0 do
+      local name, _, standing, _, _, value, _, _, isHeader, _, hasRep, _, _, fid = GetFactionInfo(i)
+      if name and (not isHeader or hasRep) and standing then add(name, standing, value, fid) end
+    end
+  elseif C_Reputation and C_Reputation.GetNumFactions and C_Reputation.GetFactionDataByIndex then
+    -- v3.9: 포에버(새 엔진)는 C_Reputation 표(이름·reaction 등급·currentStanding 값·factionID)
+    for i = 1, C_Reputation.GetNumFactions() or 0 do
+      local ok, d = pcall(C_Reputation.GetFactionDataByIndex, i)
+      if ok and type(d) == "table" and d.name and (not d.isHeader or d.isHeaderWithRep) and d.reaction then
+        add(d.name, d.reaction, d.currentStanding, d.factionID)
+      end
     end
   end
   return out
@@ -718,10 +749,11 @@ local function selfTest()
   local apis = {}
   if not (C_QuestLog and C_QuestLog.GetQuestObjectives) and not GetQuestLogLeaderBoard then apis[#apis + 1] = "목표 진행도" end
   if not GetInventoryItemID then apis[#apis + 1] = "장비" end
-  if not GetSkillLineInfo then apis[#apis + 1] = "전문기술" end
-  if not GetTalentTabInfo then apis[#apis + 1] = "특성" end
+  if not (GetSkillLineInfo or (GetProfessions and GetProfessionInfo)) then apis[#apis + 1] = "전문기술" end
+  if not GetSkillLineInfo then apis[#apis + 1] = "무기 숙련" end
+  if not GetTalentTabInfo then apis[#apis + 1] = "특성(앱은 전투정보실로 맞춰요)" end
   if not (C_Container or GetContainerNumSlots) then apis[#apis + 1] = "가방" end
-  if not GetFactionInfo then apis[#apis + 1] = "평판" end
+  if not (GetFactionInfo or (C_Reputation and C_Reputation.GetFactionDataByIndex)) then apis[#apis + 1] = "평판" end
   if #apis > 0 then say("이 게임에서 못 읽는 것: " .. table.concat(apis, ", ")) end
 end
 
