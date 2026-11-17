@@ -2835,10 +2835,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=7ecd5645"></script>
-<script>/* v3069ff @11/17 12:04 */
+<script>/* v606ef9 @11/17 12:33 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 12:04';
+const BUILD='11/17 12:33';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3262,12 +3262,18 @@ function armSt(g){const st={};(g.stats||[]).forEach(([k,v])=>{const m=ARM_STAT[k
 function armItem(g){let it=IT.get(g.id);if(it)return it;const st=armSt(g);
   it={id:g.id,lv:g.req||1,est:false,sl:ARM_INV[g.inv]||'',cs:g.cls+'.'+g.sub,q:ARM_Q[g.q]||'c',st,eff:false,src:[],mask:511,ph:'',allow:null,prof:'',nm:g.nm,ic:'',icUrl:g.icon,ob:g.req||1,arm:true};
   ITEMS.push(it);IT.set(it.id,it);return it}
-function armApply(c,silent){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};
+function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};
   for(const g of Object.values(A.gear)){const s=ARM_SLOT[g.slot];if(!s)continue;armItem(g);c.eq[s]=g.id}
-  if(A.level)c.lv=+A.level||c.lv;if(A.cls&&CL.includes(A.cls)&&c.cls!==A.cls){c.cls=A.cls;c.spec=D_CLS[A.cls].specs[0].id}
+  const nc=A.cls&&CL.includes(A.cls)&&c.cls!==A.cls;
+  if(A.level)c.lv=+A.level||c.lv;if(nc){c.cls=A.cls;c.spec=D_CLS[A.cls].specs[0].id}
+  /* 처음 연결하거나 직업이 바뀔 때: 종족은 전투정보실 그대로, 전문화는 특성 점수가 가장 많은 쪽
+     · 있을 수 없는 종족·직업 조합(예전 연결 때 생긴 노움 드루이드 등)은 다음 갱신 때 둘 다 바로잡음 */
+  const bad=!(RACE_CLS[c.race]||[]).includes(c.cls);
+  {const ar=(A.race||A.raceName)?armRace(A.race||A.raceName):null;if(ar&&(RACE_CLS[ar]||[]).includes(c.cls)&&(nc||link||bad))c.race=ar}
   /* 전투정보실 특성 → 「내 특성」 (게임 애드온으로 더 최근에 불러온 게 있으면 그대로 둠) */
   if(A.tal&&A.tal.length&&c.cls===A.cls){const C=D_CLS[c.cls];const T=Object.entries(C.talents);const M={};
     A.tal.forEach(tr=>{const tree=C.trees.includes(tr.name)?tr.name:null;(tr.t||[]).forEach(([nm,rk,ic])=>{let e=T.find(([k,v])=>(!tree||v[1]===tree)&&v[0]===nm);if(!e&&ic)e=T.find(([k,v])=>(!tree||v[1]===tree)&&String(v[3])===String(ic));if(e&&rk>0)M[e[0]]=Math.min(e[1][2],rk)})});
+    if(nc||link||bad){const tl=C.trees.map(n=>Object.keys(M).reduce((s,k)=>s+(C.talents[k][1]===n?M[k]:0),0));const sp=impSpec(c,{tl});if(sp)c.spec=sp}
     const at=Date.parse(A.checked)||Date.now();if(Object.keys(M).length&&!(c.tal&&c.tal.src==='game'&&c.tal.at>at))c.tal={cls:c.cls,r:M,src:'armory',at}}
   c.armAt=A.checked;save();if(!silent)toast('전투정보실에서 불러왔어요');return true}
 function armAgo(t){if(!t)return '';const m=Math.round((Date.now()-new Date(t))/60000);return m<1?'방금':m<60?m+'분 전':m<1440?Math.round(m/60)+'시간 전':Math.round(m/1440)+'일 전'}
@@ -3276,7 +3282,7 @@ let ARM_AT=0;
 function armFetch(manual){ARM_AT=Date.now();
   return fetch('data/armory/chars.json?t='+(manual?Date.now():Math.floor(Date.now()/300000)),{cache:manual?'no-store':'default'}).then(r=>r.ok?r.json():{}).then(j=>{ARM=j||{};ARM_OK=true;
   /* 이미 연결된 캐릭터는 새 자료가 오면 자동으로 맞춤 */
-  let ch=0;DB.list.forEach(c=>{const A=ARM[c.arm];if(A&&A.checked&&A.checked!==c.armAt&&A.gear){armApply(c,true);ch++}});
+  let ch=0;DB.list.forEach(c=>{const A=ARM[c.arm];if(A&&A.checked&&(A.checked!==c.armAt||!(RACE_CLS[c.race]||[]).includes(c.cls))&&A.gear){armApply(c,true);ch++}});
   DB.list.forEach(c=>{const A=ARM[c.arm];if(A&&A.gear)Object.values(A.gear).forEach(armItem)});
   if(manual||ch)render();return ch}).catch(()=>{ARM_OK=true;return -1})}
 armFetch().then(()=>render());
@@ -3294,7 +3300,9 @@ function armBox(c){const keys=Object.keys(ARM).filter(k=>ARM[k]&&ARM[k].gear);co
 
 /* ===================== 퀘스트 상세 (할 일·모을 것·연계) — 필요할 때 불러옴 ===================== */
 const QD=new Map();let QD_OK=false;
-fetch('data/forg/quests.jsonl?v='+D_VER.fq).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);QD.set(o.id,o)}catch(e){}});QD_OK=true;if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'))rerender(true)}).catch(()=>{QD_OK=true});
+/* forg 자료에 목표 목록(t)이 빠진 퀘스트는 퀘스트 DB 목표로 채움 — 없으면 동선에 「하기」 단계가 안 생김 (11-17 자료 갱신 때 94개) */
+function qdFill(q){const d=QD.get(q.id);if(!d){QD.set(q.id,qdbToQD(q));return}if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch;if(!(d.t&&d.t.length)&&q.t&&q.t.length)d.t=qdbToQD(q).t}
+fetch('data/forg/quests.jsonl?v='+D_VER.fq).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);QD.set(o.id,o)}catch(e){}});if(QDB&&QDB.size)QDB.forEach(q=>qdFill(q));QD_OK=true;if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'))rerender(true)}).catch(()=>{QD_OK=true});
 const RWD=new Map();
 fetch('data/forg/rewards.jsonl?v='+D_VER.rw).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);RWD.set(o.id,o)}catch(e){}});if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'||ui.sheet))rerender(true)}).catch(()=>{});
 /* 퀘스트 번호로 찾기 (지역 루트 → 던전 퀘스트 순) */
@@ -3344,7 +3352,7 @@ function qdbLoad(){if(QDB_LOAD)return;QDB_LOAD=true;
     try{gObsApply()}catch(e){}
     /* 던전 퀘스트 순서: 앞 퀘스트가 적은 것(바로 받을 수 있는 것) 먼저, 같으면 낮은 레벨 — 연계 퀘스트는 앞 단계가 위에 */
     for(const d of DGS){const dep=new Map(d.q.map(q=>[q.id,preChain(+q.id).length]));d.q.sort((a,b)=>dep.get(a.id)-dep.get(b.id)||(a.lv||0)-(b.lv||0))}
-    for(const q of M.values()){const d=QD.get(q.id);if(!d)QD.set(q.id,qdbToQD(q));else if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch}
+    for(const q of M.values())qdFill(q)
     /* 홈(마을 할 일·내 메모)·장비(가방 정리)도 퀘스트 자료를 써서 다 받으면 다시 그림 */
     if(ui.tab==='quest'||ui.tab==='home'||ui.tab==='gear'||ui.sheet)rerender(true)}).catch(()=>{QDB=new Map();rerender(true)})}
 let QKIDS={},QPAR={};
@@ -6441,7 +6449,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='add'){ui.sheet=null;ui.onb={name:'',race:c.race,cls:'',spec:'',lv:1};render();window.scrollTo(0,0);return}
   if(a==='del'){if(!ui.delAsk){ui.delAsk=1;rerender(true);return}DB.del=DB.del||{};DB.del[c.id]=Date.now();DB.list=DB.list.filter(x=>x.id!==c.id);DB.cur=DB.list[0]?DB.list[0].id:null;save();ui.delAsk=0;ui.sheet=null;render();toast('지웠어요');return}
   if(a==='crace'){c.race=k;save();rerender(true);return}
-  if(a==='armlink'){c.arm=k;armApply(c);rerender(true);return}
+  if(a==='armlink'){c.arm=k;armApply(c,false,true);rerender(true);return}
   if(a==='armnow'){armApply(c);rerender(true);return}
   if(a==='armoff'){delete c.arm;save();rerender(true);return}
   if(a==='ccls'){if(c.cls!==k){c.cls=k;c.spec=D_CLS[k].specs[0].id;c.eq={};save()}rerender(true);return}
