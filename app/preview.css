@@ -324,3 +324,6 @@
 .rcp2 .rcr.my{background:rgba(232,180,60,.08)}.rcp2 .rcr.my .m b{color:var(--gold)}
 .rcp2 .rcr em{flex:none;font-style:normal;font-size:12.5px;color:#d6c3f5;font-variant-numeric:tabular-nums}
 .rcp2 .src{margin:6px 12px 8px;font-size:11.5px}
+
+/* 던전 퀘스트 「던전 안에서 반납」 */
+.tag.rin{background:rgba(232,120,60,.16);border-color:rgba(232,120,60,.55);color:#f6b08a}
