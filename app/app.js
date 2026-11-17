@@ -2740,6 +2740,8 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
   {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오가면 알려 주기 */const ISL=[['페더문','페더문 요새는 섬이에요. 페랄라스 서쪽 해안 선착장(31, 39 근처)에서 배를 타고 건너요.']];const isl=x=>x?ISL.find(i=>x.place.includes(i[0])):null;
    const hit=isl(s0)||isl(ST[1]);if(hit)h+='<div class="isl">⛵ '+esc(hit[1])+'</div>';
    else{const bt=boatTip(s0.zone,ST[1]&&ST[1].zone);if(bt)h+='<div class="isl">⛵ '+esc(bt)+'</div>'}}
+  /* 하기 단계인데 지도 위치 자료가 없으면(강물터·셴드랄라스 새 퀘스트, 악령의 숲 오염된 식물 등 62곳) 퀘스트 목표 글로 어디인지 힌트 */
+  if(s0.type==='do'&&!s0.xy&&QDB){const o=s0.items.map(it=>(QDB.get(it.q.id)||{}).o).find(t=>typeof t==='string'&&t.trim());if(o)h+='<div class="isl">지도 위치 자료가 없어요 · 퀘스트 목표: 「'+esc(o.length>90?o.slice(0,88)+'…':o)+'」</div>'}
   h+=s0.items.map(it=>{const q=it.q;if(it.type==='do'&&q.cnt.length)return q.cnt.map((o,i)=>{const k=q.id+'|'+i;const v=(c.qc||{})[k]||0;return '<div class="ob4"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+'</small>'+(i===0?qnTag(c,q.id):'')+'</span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+v+'/'+o[1]+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
     return '<div class="ob4"><span class="m">'+esc(q.nm)+'<small>'+(it.type==='get'?esc(q.g[0]||'')+(q.lv>0?' · Lv '+q.lv:'')+preHint(c,q.id):it.type==='turn'?'반납 · '+esc(q.r[0]||''):esc(q.o?q.o.nm:'평판 올리기'))+'</small>'+qnTag(c,q.id)+'</span>'+(it.type==='turn'&&(RWD.get(q.id)||{}).xp?'<span class="xp">+'+((RWD.get(q.id)||{}).xp).toLocaleString()+'</span>':'')+'</div>'}).join('');
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
