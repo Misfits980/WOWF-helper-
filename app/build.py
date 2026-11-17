@@ -90,6 +90,8 @@ _TKO = {k: v for k, v in json.loads(_tkf.read_text(encoding='utf-8')).items() if
 # 이름이 그 직업 기술·특성에 없으면 괄호를 벗겨 글로 두고 알려 줌(잘못 적은 이름 찾기)
 _OPN_RAW = json.loads(rd(ROOT / 'data/guides/openers.json')) if (ROOT / 'data/guides/openers.json').exists() else {}
 _OPN_MISS = []
+# 전문화별 「포에버에서 달라진 점·레벨업 팁」(data/guides/spec-tips.json, 우리 말로 정리)
+_STIP = {k: v for k, v in json.loads(rd(ROOT / 'data/guides/spec-tips.json')).items() if not k.startswith('_')} if (ROOT / 'data/guides/spec-tips.json').exists() else {}
 def _opener(cid, c, s):
     o = _OPN_RAW.get(cid + '/' + s['id'])
     if not o:
@@ -125,7 +127,7 @@ for cid, c in cls.items():
         'specs': [{'id': s['id'], 'name': s['name'], 'icon': s['icon'], 'steps': s['steps'],
                    'rot': [[_enko(r['when']), _enko(r['txt'])] for r in s['rotation']],
                    'early': [[_enko(r['when']), _enko(r['txt'])] for r in s['early']],
-                   'late': [[_enko(r['when']), _enko(r['txt'])] for r in s['late']], 'open': _opener(cid, c, s)} for s in c['specs']],
+                   'late': [[_enko(r['when']), _enko(r['txt'])] for r in s['late']], 'open': _opener(cid, c, s), 'tips': _STIP.get(cid + '/' + s['id'])} for s in c['specs']],
     }
 if _OPN_MISS:
     print('딜 사이클: 기술·특성 목록에 없는 이름', len(_OPN_MISS), _OPN_MISS[:30])

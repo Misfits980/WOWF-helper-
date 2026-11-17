@@ -186,3 +186,10 @@
 .acc2 .afix time{display:inline-block;min-width:44px;margin-right:6px;color:#9fc4e6;font-variant-numeric:tabular-nums}
 .acc2 .achk{margin:0 0 6px;font-size:12px;color:#e0b56a}
 .acc2 .src{margin:4px 0 0;font-size:11.5px}
+
+/* 직업 탭 「포에버에서 달라진 점·레벨업 팁」 */
+.ktip h3{margin:0 0 6px;font-size:15px}
+.ktip h4{margin:10px 0 4px;font-size:13px;color:#e6c88a}
+.ktip ul{margin:0;padding-left:18px}
+.ktip li{margin:3px 0;font-size:13.5px;line-height:1.6;color:#dcd6ca}
+.ktip .src{margin:8px 0 0;font-size:11.5px}

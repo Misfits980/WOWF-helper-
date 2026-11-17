@@ -3252,7 +3252,9 @@ function klass(c){const C=D_CLS[c.cls],sp=specOf(c),L=c.lv,sec=ui.csec;
   if(sec==='rot'){const blk=(t,arr,sub)=>arr.length?'<div class="card krot"><h3>'+t+'</h3>'+(sub?'<p class="note">'+sub+'</p>':'')+arr.map(r=>'<div class="rot2"><div class="w"><i>'+rotEmo(r[0])+'</i>'+esc(r[0])+'</div><div class="v">'+rotHtml(C,r[1],L)+'</div></div>').join('')+'</div>':'';
     /* 딜 사이클 여는 법: 보스 앞 준비 → 순서대로 → 큰 기술 겹치기 (data/guides/openers.json) */
     const op=sp.open;const opH=op&&op.open&&op.open.length?'<div class="card krot kopen"><h3>⚔️ 딜 사이클 여는 법 <small>보스 · 60레벨 기준</small></h3>'+(op.pre?'<p class="kpre"><b>시작 전</b> '+rotHtml(C,op.pre,L)+'</p>':'')+'<ol class="kop">'+op.open.map(t=>'<li>'+rotHtml(C,t,L)+'</li>').join('')+'</ol>'+(op.cd?'<p class="kcd"><b>큰 기술</b> '+rotHtml(C,op.cd,L)+'</p>':'')+(op.src?'<p class="mute src">'+esc(op.src)+'</p>':'')+'</div>':'';
-    h+='<p class="note kn">흐린 기술은 아직 못 배운 거예요 · 작은 숫자는 배우는 레벨</p>'+(L>=40?opH:'')+(L<30?blk('🌱 초반 (레벨업)',sp.early,'혼자 사냥하며 올릴 때')+blk('🔁 기본 운영',sp.rot,'던전·만렙까지 쓰는 기본 순서'):blk('🔁 기본 운영',sp.rot,'던전·만렙까지 쓰는 기본 순서')+blk('🌱 초반 (레벨업)',sp.early,'혼자 사냥하며 올릴 때'))+blk('🏰 후반',sp.late,'60레벨·레이드')+(L<40?opH:'')}
+    /* 포에버에서 달라진 점·레벨업 팁 (data/guides/spec-tips.json) — 미리보기 */
+    const tp=PV&&sp.tips;const tpH=tp?'<div class="card ktip"><h3>포에버에서 달라진 점</h3><ul>'+(tp.ch||[]).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>'+((tp.tip||[]).length?'<h4>'+(L>=60?'알아 두면 좋은 것':'레벨업 팁')+'</h4><ul>'+tp.tip.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'')+'<p class="mute src">와우헤드 포에버 직업 가이드(10월~11월 갱신) 정리 · 패치로 바뀔 수 있어요</p></div>':'';
+    h+='<p class="note kn">흐린 기술은 아직 못 배운 거예요 · 작은 숫자는 배우는 레벨</p>'+tpH+(L>=40?opH:'')+(L<30?blk('🌱 초반 (레벨업)',sp.early,'혼자 사냥하며 올릴 때')+blk('🔁 기본 운영',sp.rot,'던전·만렙까지 쓰는 기본 순서'):blk('🔁 기본 운영',sp.rot,'던전·만렙까지 쓰는 기본 순서')+blk('🌱 초반 (레벨업)',sp.early,'혼자 사냥하며 올릴 때'))+blk('🏰 후반',sp.late,'60레벨·레이드')+(L<40?opH:'')}
   if(sec==='learn')h+=learnView(c,C,L);
   if(sec==='prof')h+=profView(c);
   h+='<p class="note kn">출처: forg.gg 직업 가이드 (Wowhead·Mobalytics 빌드 정리) · 게임 업데이트로 바뀔 수 있어요</p>';
