@@ -431,8 +431,9 @@ function armItem(g){let it=IT.get(g.id);if(it)return it;const st=armSt(g);
 function armTalM(A){const C=D_CLS[A.cls];const M={};if(!C||!A.tal)return M;const T=Object.entries(C.talents);
   A.tal.forEach(tr=>{const tree=C.trees.includes(tr.name)?tr.name:null;(tr.t||[]).forEach(([nm,rk,ic])=>{let e=T.find(([k,v])=>(!tree||v[1]===tree)&&v[0]===nm);if(!e&&ic)e=T.find(([k,v])=>(!tree||v[1]===tree)&&String(v[3])===String(ic));if(e&&rk>0)M[e[0]]=Math.min(e[1][2],rk)})});return M}
 const talTreePts=(C,M)=>C.trees.map(n=>Object.keys(M).reduce((s,k)=>s+(C.talents[k][1]===n?M[k]:0),0));
-function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};
-  for(const g of Object.values(A.gear)){const s=ARM_SLOT[g.slot];if(!s)continue;armItem(g);c.eq[s]=g.id}
+function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};c.eqv={};
+  /* 「산적의 ○○」처럼 붙는 능력치가 다른 템은 전투정보실의 실제 능력치를 같이 저장 (친구 화면과 같은 규칙 · 예전엔 기본 능력치(없음)로 계산돼 빈 칸처럼 추천됨) */
+  for(const g of Object.values(A.gear)){const s=ARM_SLOT[g.slot];if(!s)continue;const base=IT.get(g.id);armItem(g);c.eq[s]=g.id;if(base){const gs=armSt(g);if(varDiff(base,g.nm,gs))c.eqv[s]={id:g.id,nm:g.nm,st:gs}}}
   const nc=A.cls&&CL.includes(A.cls)&&c.cls!==A.cls;
   if(A.level)c.lv=+A.level||c.lv;if(nc){c.cls=A.cls;c.spec=D_CLS[A.cls].specs[0].id}
   /* 처음 연결하거나 직업이 바뀔 때: 종족은 전투정보실 그대로, 전문화는 특성 점수가 가장 많은 쪽

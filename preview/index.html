@@ -2835,10 +2835,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=b922b819"></script>
-<script>/* v9d15dd @11/17 13:31 */
+<script>/* vcd476d @11/17 13:39 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 13:31';
+const BUILD='11/17 13:39';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3269,8 +3269,9 @@ function armItem(g){let it=IT.get(g.id);if(it)return it;const st=armSt(g);
 function armTalM(A){const C=D_CLS[A.cls];const M={};if(!C||!A.tal)return M;const T=Object.entries(C.talents);
   A.tal.forEach(tr=>{const tree=C.trees.includes(tr.name)?tr.name:null;(tr.t||[]).forEach(([nm,rk,ic])=>{let e=T.find(([k,v])=>(!tree||v[1]===tree)&&v[0]===nm);if(!e&&ic)e=T.find(([k,v])=>(!tree||v[1]===tree)&&String(v[3])===String(ic));if(e&&rk>0)M[e[0]]=Math.min(e[1][2],rk)})});return M}
 const talTreePts=(C,M)=>C.trees.map(n=>Object.keys(M).reduce((s,k)=>s+(C.talents[k][1]===n?M[k]:0),0));
-function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};
-  for(const g of Object.values(A.gear)){const s=ARM_SLOT[g.slot];if(!s)continue;armItem(g);c.eq[s]=g.id}
+function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};c.eqv={};
+  /* 「산적의 ○○」처럼 붙는 능력치가 다른 템은 전투정보실의 실제 능력치를 같이 저장 (친구 화면과 같은 규칙 · 예전엔 기본 능력치(없음)로 계산돼 빈 칸처럼 추천됨) */
+  for(const g of Object.values(A.gear)){const s=ARM_SLOT[g.slot];if(!s)continue;const base=IT.get(g.id);armItem(g);c.eq[s]=g.id;if(base){const gs=armSt(g);if(varDiff(base,g.nm,gs))c.eqv[s]={id:g.id,nm:g.nm,st:gs}}}
   const nc=A.cls&&CL.includes(A.cls)&&c.cls!==A.cls;
   if(A.level)c.lv=+A.level||c.lv;if(nc){c.cls=A.cls;c.spec=D_CLS[A.cls].specs[0].id}
   /* 처음 연결하거나 직업이 바뀔 때: 종족은 전투정보실 그대로, 전문화는 특성 점수가 가장 많은 쪽
