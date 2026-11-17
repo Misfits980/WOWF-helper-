@@ -166,6 +166,9 @@ DB.list.forEach(c=>{if(c&&typeof c.lv!=='number')c.lv=Math.max(1,Math.min(60,par
 /* 애드온 v3.8.0 이하가 남긴 1970년부터 센 접속 시간(그때 같이 들어온 돈 0도) 정리 */
 DB.list.forEach(c=>{if(!c)return;if(c.sess&&!(c.sess.secs<=259200)){delete c.sess;if(c.gold===0)delete c.gold}(c.jl||[]).forEach(e=>{if(e.ss>259200){e.ss=0;e.sx=0}})});
 const saveRaw=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}};
+/* 다른 탭·창에서 저장하면 이 탭 기록도 그걸로 바꿈 — 예전엔 먼저 열려 있던 탭이 저장하면서 다른 탭에서 바꾼 레벨·찜을 덮고 지운 캐릭터를 되살림 · 보고 있던 캐릭터는 그대로 */
+addEventListener('storage',e=>{if(e.key!==KEY||!e.newValue)return;try{const o=JSON.parse(e.newValue);if(!o||!Array.isArray(o.list))return;const cur=DB.cur;DB=o;
+  if(cur&&DB.list.some(x=>x.id===cur))DB.cur=cur;else if(!DB.list.some(x=>x.id===DB.cur))DB.cur=DB.list[0]?DB.list[0].id:null;rerender(true)}catch(_){}});
 /* 저장할 때 지금 캐릭터에 고친 시각을 남기고(기기 연동 합치기용), 연동 중이면 몇 초 뒤 올림 */
 const save=()=>{const c=DB.list.find(x=>x.id===DB.cur);if(c)c._t=Date.now();saveRaw();syQueue()};
 /* ===== 📱💻 휴대폰·컴퓨터 자동 연동: 내 GitHub 비공개 Gist 한 개에 기록을 두고 서로 맞춤 =====
