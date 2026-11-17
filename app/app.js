@@ -3466,6 +3466,7 @@ function charsSheet(){const c=me();let h='<div class="sh"><h2>내 캐릭터</h2>
   h+='<button class="btn full" style="margin-top:10px" data-a="add">＋ 부캐 추가</button>';
   if(c){h+='<h3>지금 캐릭터 고치기</h3><label class="flab">캐릭터 이름</label><input class="inp" maxlength="12" value="'+esc(c.name)+'" placeholder="비우면 「'+esc(CINFO[c.cls][0])+'」로 보여요" data-c="cname"><label class="flab">종족</label><div class="chips wr">'+RACES.map(r=>'<button class="chip'+(c.race===r[0]?' on':'')+'" data-a="crace" data-k="'+r[0]+'">'+r[1]+'</button>').join('')+'</div>';
     h+='<label class="flab">직업</label><div class="chips wr">'+CL.map(k=>'<button class="chip'+(c.cls===k?' on':'')+'" data-a="ccls" data-k="'+k+'">'+CINFO[k][0]+'</button>').join('')+'</div><p class="note">직업을 바꾸면 장비 칸이 비워져요.</p>';
+    if(D_CLS[c.cls])h+='<label class="flab">전문화</label><div class="chips wr">'+D_CLS[c.cls].specs.map(s=>'<button class="chip'+(c.spec===s.id?' on':'')+'" data-a="spec" data-k="'+s.id+'">'+esc(s.name)+'</button>').join('')+'</div><p class="note">전문화에 따라 장비 추천·특성·운영 순서가 바뀌어요.</p>';
     h+='<div class="card">'+armBox(c)+'</div>';
     /* (개발용 「최근 화면 이동 기록」은 정리함) */
     h+='<div class="card"><h3>🔠 글씨 크기</h3><p class="note">이 기기에서만 바뀌어요.</p><div class="chips wr">'+FS_OPT.map(o=>'<button class="chip'+(Math.abs(fsGet()-o[0])<.01?' on':'')+'" data-a="fs" data-k="'+o[0]+'" style="font-size:'+Math.round(13*o[0])+'px">'+o[1]+'</button>').join('')+'</div></div>';
