@@ -1151,7 +1151,10 @@ function onboard(){const d=ui.onb;const C=d.cls?D_CLS[d.cls]:null;const first=!D
   return h}
 
 /* ===================== 홈 ===================== */
-function routeOf(c){return ROUTE[RACE_START[c.race]||'dwarf-gnome']||[]}
+/* 루트 줄 중 이 캐릭터 종족·직업이 못 받는 퀘스트는 뺌: 12~17 구간이 종족 공용이라 휴먼에게 「텔드랏실의 물고기」(나이트 엘프 전용)·드워프에게 「긴급 전갈」(휴먼 전용) 등이 나왔음 */
+const _RTC={};function routeOf(c){const k=RACE_START[c.race]||'dwarf-gnome';const R=ROUTE[k]||[];if(!QDB||!QDB.size)return R;
+  const key=k+'|'+c.race+'|'+c.cls+'|'+QDB.size;if(_RTC[key])return _RTC[key];
+  return _RTC[key]=R.map(S=>{const q=S.q.filter(x=>{const X=x.id&&QDB.get(x.id);return !X||qdbOk(c,X)});return q.length===S.q.length?S:Object.assign({},S,{q})})}
 /* 던전은 파티 찾기 최소 레벨(lo)부터 들어감 — 39레벨에 40레벨 던전(크롤도크 보루)이 「지금」으로 나오던 것 */
 function dgNow(L){return DGS.filter(d=>!d.soon&&L>=d.lo&&L<=d.hi).sort((a,b)=>a.fit-b.fit)}
 /* ⏱️ 사냥 기록 · 골드 (애드온) */
@@ -2323,7 +2326,7 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
     else if(nxL)rows.push(['trn','<img class="hic" src="img/ui-book.png" alt="">','교관','<p class="mute">다음 기술은 <b>'+nxL+'레벨</b>에 배워요 ('+nx.filter(l=>l[0]===nxL).map(l=>esc(l[1])).join(' · ')+')</p>'])}
   /* 3) 던전 */
   const dq=c.dq||{};const D=DGS.filter(d=>d.lo&&d.lo<=L&&d.hi>=L&&d.lo>=10).sort((a,b)=>a.lo-b.lo).slice(0,3);
-  if(D.length)rows.push(['dg','<img class="hic" src="img/eye.png" alt="">','지금 갈 만한 던전',D.map(d=>{const n=dqOf(c,d).filter(q=>(q.min||0)<=L&&!dqIsDone(c,q)).length;
+  if(D.length)rows.push(['dg','<img class="hic" src="img/eye.png" alt="">','지금 갈 만한 던전',D.map(d=>{const n=dqOf(c,d).filter(q=>{const X=QDB&&QDB.get(+q.id);/* 던전 탭과 같은 기준: 앱 자료·퀘스트 자료 최소 레벨 중 높은 쪽 (예: 마라우돈 「생명의 씨앗」 39 → 45) */return Math.max(q.min||0,X&&!X.mEst?X.m||0:0)<=L&&!dqIsDone(c,q)}).length;
     return '<button class="lhq" data-a="dgo" data-k="'+d.slug+'"><span class="qlv">'+d.lo+'–'+d.hi+'</span><span class="t"><b>'+esc(d.ko)+'</b><span>'+(n?'던전 퀘스트 '+n+'개 · 들어가기 전에 받아 두세요':'던전 퀘스트 없음')+'</span></span></button>'}).join('')]);
   /* 4) 이동: 이 구간 비행 조련사·여관, 구간 끝나면 다음 구간 */
   if(WLD&&zs.length){const fpIn=z=>WLD.fp.find(x=>x[1]===z),innIn=z=>WLD.inn.find(x=>x[1]===z);
