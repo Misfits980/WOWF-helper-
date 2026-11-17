@@ -1153,12 +1153,17 @@ def _dg_acc():
     if not ap.exists():
         return 0
     raw = rd(p); g = json.loads(raw); A = json.loads(rd(ap)); n = 0
+    mp_ = ROOT / 'data/guides/dungeon-mobs.json'; MB = json.loads(rd(mp_)) if mp_.exists() else {}
     for slug, t in g.items():
         a = A.get(slug)
         if a:
             t['acc'] = {k: v for k, v in a.items() if v}; n += 1
         else:
             t.pop('acc', None)
+        for fi, f in enumerate(t.get('floors') or []):
+            m = (MB.get(slug) or {}).get(str(fi))
+            if m: f['mob'] = m
+            else: f.pop('mob', None)
     out = json.dumps(g, ensure_ascii=False, separators=(',', ':'))
     if out != raw:
         p.write_text(out, encoding='utf-8')

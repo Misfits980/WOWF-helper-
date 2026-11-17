@@ -285,3 +285,14 @@
 .legc .lgn{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:7px 9px;border-radius:9px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:inherit;text-align:left;cursor:pointer;min-height:44px}
 .legc .lgn.on{border-color:rgba(232,180,60,.6);background:rgba(232,180,60,.1)}
 .legc .lgn b{font-size:12.5px}.legc .lgn em{font-style:normal;font-size:12px;color:var(--gold);font-variant-numeric:tabular-nums}.legc .lgn small{font-size:11px;color:var(--mute);line-height:1.35}
+
+/* 던전 지도 쫄 무리·순찰 (클래식 던전, CMaNGOS 생성 자리) */
+.mobtg{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0}.mobtg .mute{font-size:11.5px}
+.mapw .mobpat{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.mapw .mobpat polyline{fill:none;stroke:#8fd3ff;stroke-width:1.6;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;opacity:.9}
+.mapw .mob{position:absolute;transform:translate(-50%,-50%);width:calc(7px + var(--n,1)*1.6px);height:calc(7px + var(--n,1)*1.6px);padding:0;border-radius:50%;border:1.5px solid #1a1208;background:#e8b43c;box-shadow:0 0 0 1px rgba(0,0,0,.5);cursor:pointer;z-index:1}
+.mapw .mob::before{content:'';position:absolute;inset:-9px;border-radius:50%}
+.mapw .mob.el{background:#f08a3c}
+.mapw .mob.rr{background:#c58cff}
+.mapw .mob.pt{border-color:#8fd3ff;border-width:2px}
+.mapw .pin{z-index:2}

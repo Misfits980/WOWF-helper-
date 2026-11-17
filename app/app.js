@@ -3211,7 +3211,9 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   const FL=stepFloor(g);
   if(g.floors&&g.floors.length){const fi=Math.min(ui.dfloor||0,g.floors.length-1);const f=g.floors[fi];
     h+='<div class="rmap2">'+(g.floors.length>1?'<div class="chips seg fl">'+g.floors.map((x,i)=>'<button class="chip'+(i===fi?' on':'')+'" data-a="dfl" data-k="'+i+'">'+(i+1)+'층 '+esc(x.name)+'</button>').join('')+'</div>':'')
+     +(PV&&f.mob?'<div class="mobtg"><button class="chip'+(ui.dmob!==0?' on':'')+'" data-a="dmob">쫄 무리·순찰 '+(ui.dmob!==0?'보이기':'숨김')+'</button><span class="mute">무리 '+f.mob.p.length+' · 순찰 '+f.mob.t.length+' · 점을 누르면 몹 이름 · 몹 자리 CMaNGOS 클래식 자료(GPL)</span></div>':'')
      +'<div class="mapw"><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'
+     +(PV&&f.mob&&ui.dmob!==0?'<svg class="mobpat" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">'+f.mob.t.map(t=>'<polyline points="'+t[1].map(q=>q[0]+','+q[1]).join(' ')+'"/>').join('')+'</svg>'+f.mob.p.map((m,i)=>'<button class="mob'+(m[8]?' rr':m[4]?' el':'')+(f.mob.t.some(t=>t[0]===i)?' pt':'')+'" style="left:'+m[0]+'%;top:'+m[1]+'%;--n:'+Math.min(m[2],6)+'" data-a="mobi" data-k="'+fi+':'+i+'" aria-label="'+esc(m[7].map(x=>x[0]+' '+x[1]).join(', '))+'"></button>').join(''):'')
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
         if(num)return '<button class="pin n '+(x?'k-'+x.kind:'')+(/!/.test(p.t)?' q':'')+(x&&x.kind!=='obj'&&KL[x.st.nm]?' kd':'')+(ui.stopen[n]?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%" data-a="stp" data-k="'+n+'">'+n+'</button>';
         const t=(p.t||'').replace(/\d+$/,'');const to=t.match(/→\s*(.+)$/);return '<span class="pin l" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(to?'↗ '+to[1]:t.replace(/←.*$/,'↙ 들어옴'))+'</span>'}).join('')+'</div><p class="mute src">번호를 누르면 아래 그 단계가 펼쳐져요 · 지도: wowf.io</p></div>'}
@@ -3844,6 +3846,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='frsp'){const [kk,sp]=k.split('|');c.frsp=c.frsp||{};c.frsp[kk]=sp;save();rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
   if(a==='libck'){c.lib=c.lib||{};if(c.lib[k])delete c.lib[k];else c.lib[k]=1;save();rerender(true);return}
+  if(a==='dmob'){ui.dmob=ui.dmob===0?1:0;rerender(true);return}
+  if(a==='mobi'){const d=DG[ui.dg];const g=DGG&&d&&DGG[d.slug];const [fi,i]=k.split(':').map(Number);const m=g&&g.floors[fi]&&g.floors[fi].mob&&g.floors[fi].mob.p[i];if(m){const TY={1:'짐승',2:'용족',3:'악마',4:'정령',5:'거인',6:'언데드',7:'인간형',9:'기계'};toast(m[7].map(x=>x[0]+(x[1]>1?' ×'+x[1]:'')).join(', ')+(m[2]>m[7].reduce((s,x)=>s+x[1],0)?' 외':'')+' · '+(m[5]===m[6]?m[5]:m[5]+'–'+m[6])+'레벨'+(m[4]?' · 정예 '+m[4]:'')+(TY[m[3]]?' · '+TY[m[3]]:'')+(g.floors[fi].mob.t.some(t=>t[0]===i)?' · 순찰':'')+(m[8]?' · 희귀':''))}return}
   if(a==='legg'){ui.legg=k;rerender(true);return}
   if(a==='legck'){c.legC=c.legC||{};if(c.legC[k])delete c.legC[k];else c.legC[k]=1;save();rerender(true);return}
   if(a==='legclr'){c.legP={};save();rerender(true);return}

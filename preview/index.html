@@ -2957,14 +2957,25 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .legc .lgn{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:7px 9px;border-radius:9px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);color:inherit;text-align:left;cursor:pointer;min-height:44px}
 .legc .lgn.on{border-color:rgba(232,180,60,.6);background:rgba(232,180,60,.1)}
 .legc .lgn b{font-size:calc(12.5px*var(--fs,1))}.legc .lgn em{font-style:normal;font-size:calc(12px*var(--fs,1));color:var(--gold);font-variant-numeric:tabular-nums}.legc .lgn small{font-size:calc(11px*var(--fs,1));color:var(--mute);line-height:1.35}
+
+/* 던전 지도 쫄 무리·순찰 (클래식 던전, CMaNGOS 생성 자리) */
+.mobtg{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0}.mobtg .mute{font-size:calc(11.5px*var(--fs,1))}
+.mapw .mobpat{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.mapw .mobpat polyline{fill:none;stroke:#8fd3ff;stroke-width:1.6;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;opacity:.9}
+.mapw .mob{position:absolute;transform:translate(-50%,-50%);width:calc(7px + var(--n,1)*1.6px);height:calc(7px + var(--n,1)*1.6px);padding:0;border-radius:50%;border:1.5px solid #1a1208;background:#e8b43c;box-shadow:0 0 0 1px rgba(0,0,0,.5);cursor:pointer;z-index:1}
+.mapw .mob::before{content:'';position:absolute;inset:-9px;border-radius:50%}
+.mapw .mob.el{background:#f08a3c}
+.mapw .mob.rr{background:#c58cff}
+.mapw .mob.pt{border-color:#8fd3ff;border-width:2px}
+.mapw .pin{z-index:2}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=62dd9ecf"></script>
-<script>/* v668ecb @11/17 17:38 */
+<script src="app-data.js?v=154f2b57"></script>
+<script>/* vb64e92 @11/17 17:48 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 17:38';
+const BUILD='11/17 17:48';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -6175,7 +6186,9 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   const FL=stepFloor(g);
   if(g.floors&&g.floors.length){const fi=Math.min(ui.dfloor||0,g.floors.length-1);const f=g.floors[fi];
     h+='<div class="rmap2">'+(g.floors.length>1?'<div class="chips seg fl">'+g.floors.map((x,i)=>'<button class="chip'+(i===fi?' on':'')+'" data-a="dfl" data-k="'+i+'">'+(i+1)+'층 '+esc(x.name)+'</button>').join('')+'</div>':'')
+     +(PV&&f.mob?'<div class="mobtg"><button class="chip'+(ui.dmob!==0?' on':'')+'" data-a="dmob">쫄 무리·순찰 '+(ui.dmob!==0?'보이기':'숨김')+'</button><span class="mute">무리 '+f.mob.p.length+' · 순찰 '+f.mob.t.length+' · 점을 누르면 몹 이름 · 몹 자리 CMaNGOS 클래식 자료(GPL)</span></div>':'')
      +'<div class="mapw"><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'
+     +(PV&&f.mob&&ui.dmob!==0?'<svg class="mobpat" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">'+f.mob.t.map(t=>'<polyline points="'+t[1].map(q=>q[0]+','+q[1]).join(' ')+'"/>').join('')+'</svg>'+f.mob.p.map((m,i)=>'<button class="mob'+(m[8]?' rr':m[4]?' el':'')+(f.mob.t.some(t=>t[0]===i)?' pt':'')+'" style="left:'+m[0]+'%;top:'+m[1]+'%;--n:'+Math.min(m[2],6)+'" data-a="mobi" data-k="'+fi+':'+i+'" aria-label="'+esc(m[7].map(x=>x[0]+' '+x[1]).join(', '))+'"></button>').join(''):'')
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
         if(num)return '<button class="pin n '+(x?'k-'+x.kind:'')+(/!/.test(p.t)?' q':'')+(x&&x.kind!=='obj'&&KL[x.st.nm]?' kd':'')+(ui.stopen[n]?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%" data-a="stp" data-k="'+n+'">'+n+'</button>';
         const t=(p.t||'').replace(/\d+$/,'');const to=t.match(/→\s*(.+)$/);return '<span class="pin l" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(to?'↗ '+to[1]:t.replace(/←.*$/,'↙ 들어옴'))+'</span>'}).join('')+'</div><p class="mute src">번호를 누르면 아래 그 단계가 펼쳐져요 · 지도: wowf.io</p></div>'}
@@ -6808,6 +6821,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='frsp'){const [kk,sp]=k.split('|');c.frsp=c.frsp||{};c.frsp[kk]=sp;save();rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
   if(a==='libck'){c.lib=c.lib||{};if(c.lib[k])delete c.lib[k];else c.lib[k]=1;save();rerender(true);return}
+  if(a==='dmob'){ui.dmob=ui.dmob===0?1:0;rerender(true);return}
+  if(a==='mobi'){const d=DG[ui.dg];const g=DGG&&d&&DGG[d.slug];const [fi,i]=k.split(':').map(Number);const m=g&&g.floors[fi]&&g.floors[fi].mob&&g.floors[fi].mob.p[i];if(m){const TY={1:'짐승',2:'용족',3:'악마',4:'정령',5:'거인',6:'언데드',7:'인간형',9:'기계'};toast(m[7].map(x=>x[0]+(x[1]>1?' ×'+x[1]:'')).join(', ')+(m[2]>m[7].reduce((s,x)=>s+x[1],0)?' 외':'')+' · '+(m[5]===m[6]?m[5]:m[5]+'–'+m[6])+'레벨'+(m[4]?' · 정예 '+m[4]:'')+(TY[m[3]]?' · '+TY[m[3]]:'')+(g.floors[fi].mob.t.some(t=>t[0]===i)?' · 순찰':'')+(m[8]?' · 희귀':''))}return}
   if(a==='legg'){ui.legg=k;rerender(true);return}
   if(a==='legck'){c.legC=c.legC||{};if(c.legC[k])delete c.legC[k];else c.legC[k]=1;save();rerender(true);return}
   if(a==='legclr'){c.legP={};save();rerender(true);return}
