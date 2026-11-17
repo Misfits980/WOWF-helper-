@@ -2671,10 +2671,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=b922b819"></script>
-<script>/* v1ce3d7 @11/17 13:49 */
+<script>/* v08a3c4 @11/17 13:57 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 13:49';
+const BUILD='11/17 13:57';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3600,7 +3600,7 @@ const clothNo=(c,it)=>it.cs==='4.1'&&it.sl!=='ba'&&(['warrior','rogue','hunter']
 function obOf(it,m){if(!it._sv||m==='all')return it.ob;if(!it.obm){const M={};for(const [s,v] of it._sv)for(const k of ['q','dg','ok','rd']){const hit=k==='ok'?srcSure(s)&&!s.raid&&!s.pvp:k==='rd'?srcSure(s)&&!s.pvp:srcCat(s)===k;if(hit)M[k]=Math.min(M[k]??99,k!=='q'&&it._rw!=null?Math.min(v,it._rw):v)}
   it.obm={};for(const k in M)it.obm[k]=Math.max(it.ob,M[k])}return it.obm[m]||it.ob}
 function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>obOf(it,mode)<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
-function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
+function upgrades(c,L,mode,minLv,ex){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);if(ex)ex.forEach(i=>ng.add(i));/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
     const curS=Math.min(...pair.map(p=>sc(eqIt(c,p),p,w)));const tgt=pair.reduce((a,p)=>sc(eqIt(c,p),p,w)<=sc(eqIt(c,a),a,w)?p:a,pair[0]);
@@ -3618,6 +3618,10 @@ function upgrades(c,L,mode,minLv){const out=[];const w=wOf(c);const ng=new Set(c
     const oneS=Math.max(m1?m1.s:0,curM&&curM.sl!=='2h'?sc(curM,'main',w):0);
     if(two>=oneS+offS)out.splice(oi,1);
     else{if(m1&&(!curM||m1.s>sc(curM,'main',w)+.01)){const b0=sc(curM,'main',w);out[mi]={slot:'main',it:m1.it,g:m1.s-b0,base:b0,empty:!curM}}else out.splice(mi,1)}}
+  /* 「하나 고르기」 퀘스트 보상(그 퀘스트로만 얻는 템)이 두 칸 이상에 같이 추천되면 하나만 남김: 직접 고른 템 → 없으면 더 좋아지는 쪽 · 나머지 칸은 다음 추천으로 */
+  {const by={};out.forEach(o=>{const q=pickOneQ(o.it);if(q)(by[q]=by[q]||[]).push(o)});const drop=new Set(ex||[]);let more=false;
+    for(const q in by){const G=by[q];if(G.length<2)continue;const pk=(c.rwPick||{})[q];const keep=G.find(o=>o.it.id===pk)||G.reduce((a,b)=>b.g>a.g?b:a);G.forEach(o=>{if(o!==keep){drop.add(o.it.id);more=true}})}
+    if(more&&drop.size<60)return upgrades(c,L,mode,minLv,drop)}
   return out.sort((a,b)=>(b.empty-a.empty)||(b.g/Math.max(b.base,4))-(a.g/Math.max(a.base,4)))}
 function gainTag(g,base,empty){if(empty)return '<span class="gain new">빈 칸 채우기</span>';if(g<-.5)return '<span class="gain no" style="color:var(--bad)">나빠짐</span>';if(!(g>.01))return '<span class="gain no">변화 없음</span>';const r=g/Math.max(base,4);const n=' <b class="gp">+'+(g>=10?Math.round(g):g.toFixed(1))+'</b>';return r>=.5?'<span class="gain big">크게 좋아짐'+n+'</span>':r>=.2?'<span class="gain mid">좋아짐'+n+'</span>':'<span class="gain sm">조금 좋아짐'+n+'</span>'}
 const PCTK={crit:1,hit:1,scrit:1,shit:1,dodge:1,parry:1,blockp:1,exp:1};
@@ -4251,6 +4255,8 @@ function nextStops(c){const L=c.lv;const S0=routeOf(c).find(S=>L>=S.a&&L<=S.b);i
   return nowPlan(c,S0).filter(H=>H.i<97&&(H.get.some(x=>!x.done&&!x.prof)||H.turn.some(x=>!x.done))).slice(0,6).map(H=>{const m=String(H.n).match(/^(.*?) \((\d+), (\d+)\)$/);const xy=H.xy||(m?[+m[2],+m[3]]:null);
     return [cl(H.npc?H.npc:(m?m[1]:H.n)),cl(H.z),xy?Math.round(xy[0]):'',xy?Math.round(xy[1]):'',H.get.filter(x=>!x.done&&!x.prof).length+H.turn.filter(x=>!x.done).length]})}
 /* 퀘스트 보상 고르기: 퀘스트창·지금/다음 구간·던전 퀘스트 중 「골라 받는 보상」이 있는 것 → [퀘스트, 템] */
+/* 이 템을 얻는 곳이 「하나 고르기」 퀘스트 하나뿐이면 그 퀘스트 번호 */
+function pickOneQ(it){const S=(it.src||[]).map(i=>SRC[i]).filter(Boolean);if(!S.length||S.some(s=>s.k!==1))return 0;const qs=[...new Set(S.map(s=>srcQid(s)).filter(Boolean))];if(qs.length!==1)return 0;const ch=rwChoices(qs[0]);return ch.length>=2&&ch.includes(it.id)?qs[0]:0}
 function rwChoices(id){const R=qRw(id);if(R&&R.ch&&R.ch.length)return R.ch.map(x=>x[0]);const d=dgOfQ(id);const q=d&&d.q.find(x=>x.id===id);return q&&q.choose&&q.rw.length>1?q.rw:[]}
 function rwPickFor(c,id){const ch=rwChoices(id);if(ch.length<2)return 0;const pk=(c.rwPick||{})[id];if(pk&&ch.includes(pk))return pk;let bi=0,bg=.01;ch.forEach(i=>{const it=IT.get(i);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});return bi}
 function rwPicks(c){const L=c.lv;const ids=new Set(Object.keys(c.ql||{}).map(Number));Object.keys(c.rwPick||{}).forEach(k=>ids.add(+k));
