@@ -2670,11 +2670,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=7ecd5645"></script>
-<script>/* v606ef9 @11/17 12:33 */
+<script src="app-data.js?v=b922b819"></script>
+<script>/* v67b659 @11/17 13:02 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 12:33';
+const BUILD='11/17 13:02';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -6158,7 +6158,7 @@ function charsSheet(){const c=me();let h='<div class="sh"><h2>내 캐릭터</h2>
       +'<div class="bkb"><button class="btn sm" data-a="bkout">📤 내보내기 (코드 복사)</button><button class="btn sm ghost" data-a="bklink">🔗 링크로 옮기기</button></div>'
       +(ui.bkcode?'<textarea class="inp bkta" readonly rows="3">'+esc(ui.bkcode)+'</textarea>':'')
       +'<textarea class="inp bkta" rows="2" placeholder="받은 백업 코드를 붙여 넣으세요" data-c="bkin"></textarea><div class="bkb"><button class="btn sm" data-a="bkin" data-k="merge">📥 불러오기 (합치기)</button><button class="btn sm ghost" data-a="bkin" data-k="replace">전부 바꾸기</button></div></div>';
-    h+='<button class="btn danger full" style="margin-top:14px" data-a="del">'+(ui.delAsk?'정말 지울까요? 한 번 더 누르면 지워져요':'이 캐릭터 지우기')+'</button>'}
+    h+='<button class="btn danger full" style="margin-top:14px" data-a="del">'+(ui.delAsk===c.id?'정말 지울까요? 한 번 더 누르면 지워져요':'이 캐릭터 지우기')+'</button>'}
   return h}
 
 /* ===== 기록 백업: 내보내기·불러오기 (압축 지원하면 압축) ===== */
@@ -6168,7 +6168,11 @@ async function bkDecode(code){code=(code||'').trim().replace(/^.*#?bk=/,'');if(!
   if(kind==='WF1z'){const u=new Uint8Array([...raw].map(ch=>ch.charCodeAt(0)));const ds=new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'));return JSON.parse(await new Response(ds).text())}
   if(kind==='WF1j')return JSON.parse(decodeURIComponent(escape(raw)));throw new Error('코드 모양이 달라요')}
 async function bkImport(code,mode){try{const o=await bkDecode(code);if(!o||!Array.isArray(o.list))throw new Error('캐릭터 자료가 없어요');
-    if(mode==='replace'){DB.list=o.list;DB.cur=o.cur||(o.list[0]||{}).id}else{for(const x of o.list){const i=DB.list.findIndex(y=>y.id===x.id);if(i>=0){const y=DB.list[i];for(const k of ['fq','mq','dq'])x[k]=Object.assign({},y[k]||{},x[k]||{});DB.list[i]=Object.assign({},y,x)}else DB.list.push(x)}if(!DB.cur)DB.cur=o.cur}
+    if(mode==='replace'){DB.list=o.list;DB.cur=o.cur||(o.list[0]||{}).id}else{for(const x of o.list){const i=DB.list.findIndex(y=>y.id===x.id);
+      /* 같은 캐릭터: 더 늦게 고친 쪽을 남기고 다른 쪽 진행(끝낸 퀘스트·일지 등)만 더함 — 연동과 같은 규칙 (예전엔 옛 백업이 지금 레벨·퀘스트 진행을 덮었음) */
+      if(i>=0){const y=DB.list[i];if((x._t||0)>(y._t||0)){const w=JSON.parse(JSON.stringify(x));syFold(w,y);DB.list[i]=w}else syFold(y,x)}else DB.list.push(x)}if(!DB.cur)DB.cur=o.cur}
+    /* 지웠던 캐릭터를 백업으로 되살리면 지운 기록을 풀고 지금 시각으로 — 연동 때 다시 지워지지 않게 */
+    if(DB.del)for(const x of o.list)if(DB.del[x.id]){delete DB.del[x.id];const z=DB.list.find(y=>y.id===x.id);if(z)z._t=Date.now()}
     save();ui.bkcode='';ui.onb=null;toast('기록을 불러왔어요 ('+o.list.length+'명)');render();return true}catch(e){toast('불러오지 못했어요. 코드를 처음부터 끝까지 다 복사했는지 확인해 주세요');return false}}
 if(location.hash.startsWith('#bk=')){const code=location.hash.slice(1);history.replaceState(null,'',location.pathname);setTimeout(()=>{ui.bkpend=code;ui.sheet='bkask';render()},300)}
 function bkAskSheet(){return '<div class="sh"><h2>기록 불러오기</h2><button class="x" data-a="close">✕</button></div><p class="note">링크에 다른 기기의 캐릭터 기록이 들어 있어요. 이 기기에 불러올까요?</p><div class="bkb"><button class="btn" data-a="bkpend" data-k="merge">합치기 (지금 기록 유지)</button><button class="btn ghost" data-a="bkpend" data-k="replace">전부 바꾸기</button></div>'}
@@ -6283,7 +6287,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     ui.impExtra=extra.join(' · ');ui.imp=null;ui.impraw='';ui.sheet=null;if(P.log.length){ui.tab='quest';ui.qmode='log'}save();toast('✓ 끝낸 퀘스트 '+P.done.length+'개를 불러왔어요 (새로 '+n+'개)'+(ui.impExtra?' · '+ui.impExtra:''));ui.impEq=null;ui.impSp=null;rerender(true);return}
   if(a==='pick'){DB.cur=k;save();ui.sheet=null;ui.dg=null;ui.qz=null;render();window.scrollTo(0,0);toast('캐릭터를 바꿨어요');return}
   if(a==='add'){ui.sheet=null;ui.onb={name:'',race:c.race,cls:'',spec:'',lv:1};render();window.scrollTo(0,0);return}
-  if(a==='del'){if(!ui.delAsk){ui.delAsk=1;rerender(true);return}DB.del=DB.del||{};DB.del[c.id]=Date.now();DB.list=DB.list.filter(x=>x.id!==c.id);DB.cur=DB.list[0]?DB.list[0].id:null;save();ui.delAsk=0;ui.sheet=null;render();toast('지웠어요');return}
+  if(a==='del'){/* 한 번 더 누르기는 같은 캐릭터에서만 (창 안에서 다른 캐릭터로 바꾸면 처음부터) */if(ui.delAsk!==c.id){ui.delAsk=c.id;rerender(true);return}DB.del=DB.del||{};DB.del[c.id]=Date.now();DB.list=DB.list.filter(x=>x.id!==c.id);DB.cur=DB.list[0]?DB.list[0].id:null;save();ui.delAsk=0;ui.sheet=null;render();toast('지웠어요');return}
   if(a==='crace'){c.race=k;save();rerender(true);return}
   if(a==='armlink'){c.arm=k;armApply(c,false,true);rerender(true);return}
   if(a==='armnow'){armApply(c);rerender(true);return}
@@ -6508,7 +6512,7 @@ document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||e.rep
   const TB={'1':'home','2':'gear','3':'quest','4':'dungeon','5':'class'};
   if(TB[e.key]){e.preventDefault();NAVW='단축키 '+e.key;ui.tab=TB[e.key];ui.sheet=null;ui.amback=null;if(ui.tab==='quest'||ui.tab==='dungeon')qdbLoad();if(ui.tab==='dungeon')dggLoad();render();window.scrollTo(0,0);return}
   if(e.key==='/'){e.preventDefault();if(ui.tab!=='quest'){ui.tab='quest';render()}setTimeout(()=>{const i=document.querySelector('.qsearch input');if(i){i.focus();i.select()}},30);return}
-  if(e.key==='Escape'){if(ui.gfull){ui.gfull=false;rerender(true);return}if(ui.sheet){ui.sheet=null;rerender(true);return}if(ui.amq&&ui.qmode==='atlas'&&!ui.amfull){ui.amq=null;rerender(true)}return}
+  if(e.key==='Escape'){if(ui.gfull){ui.gfull=false;rerender(true);return}if(ui.sheet){ui.sheet=null;ui.delAsk=0;rerender(true);return}if(ui.amq&&ui.qmode==='atlas'&&!ui.amfull){ui.amq=null;rerender(true)}return}
   if(e.key==='?'){toast('단축키: 1~5 탭 이동 · / 퀘스트 찾기 · Esc 닫기');return}});
 /* 접는 칸 열림 상태 기억 (다시 그려도 그대로) */
 document.addEventListener('toggle',e=>{const t=e.target;if(t.dataset&&t.dataset.tg)ui[t.dataset.tg]=t.open},true);

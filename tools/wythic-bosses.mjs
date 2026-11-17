@@ -7,7 +7,7 @@ const idx=await get('https://wythic.com/ko/forever/dungeons');
 const links=[...new Set([...idx.matchAll(/href="(\/ko\/forever\/dungeons\/\d+)"/g)].map(m=>m[1]))];
 const out=[];const probe=[];
 for(const l of links){const h=await get('https://wythic.com'+l);if(!h)continue;
-  const title=dec((h.match(/<title>([^<|]+)/)||[])[1]||'').replace(/^와우 포에버\s*/,'').replace(/\s*던전 공략.*$/,'').trim();
+  const title=dec((h.match(/<title>([^<|]+)/)||[])[1]||'').replace(/^와우 포에버\s*/,'').replace(/\s*(던전\s*)?공략.*$/,'').trim();/* 제목이 「○○ 던전 공략…」에서 「○○ 공략과 전리품: …」으로 바뀐 적 있음 */
   const body=h.replace(/<script[\s\S]*?<\/script>/g,'');
   for(const m of body.matchAll(/https:\/\/wow\.zamimg\.com\/modelviewer\/[a-z]+\/webthumbs\/npc\/\d+\/\d+\.webp/g)){
     const after=dec(body.slice(m.index,m.index+1500).replace(/<[^>]+>/g,'\n')).split('\n').map(s=>s.trim()).filter(Boolean);
