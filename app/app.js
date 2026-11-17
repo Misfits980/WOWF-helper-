@@ -1352,6 +1352,22 @@ function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='
   return h+'<p class="note chgn">블리자드는 화요일 점검 때 직업을 조정해요 · 원문: 공식 포럼 「WoW: Forever Hotfixes」</p></div>'}
 /* 🧪 미리보기 홈: 아래쪽 카드(마을·변경·사냥 기록·일지·메모·평판·애드온)를 한 장에 탭으로 → 스크롤 짧게, 내용은 그대로 */
 const pvHm=m=>m<60?m+'분':Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':'');
+/* 홈 「포에버 콘텐츠」: 포에버에만 있는 것들을 한 탭에 — 일정·새 지역·도서관 책·캠핑·납품·유산 (미리보기) */
+const FV_SUB=[['raid','일정'],['zone','새 지역'],['lib','도서관 책'],['camp','캠핑'],['dlv','납품·호의'],['leg','유산']];
+function dDay(ds){const t=new Date();const a=Date.UTC(t.getFullYear(),t.getMonth(),t.getDate());const [y,m,d]=ds.split('-').map(Number);return Math.round((Date.UTC(y,m-1,d)-a)/864e5)}
+function fvCard(c){const k=FV_SUB.some(x=>x[0]===ui.fvs)?ui.fvs:'raid';const F={raid:schedCard,zone:zoneCard,lib:libCard,camp:campCard,dlv:dlvCard,leg:legCard}[k];
+  const ev=(typeof D_SCHED!=='undefined'&&D_SCHED.ev||[]).find(e=>dDay(e.d)>=0);
+  return '<div class="flt2 fvs" role="tablist">'+FV_SUB.map(([x,t])=>'<button role="tab" aria-selected="'+(x===k)+'" class="'+(x===k?'on':'')+'" data-a="fvs" data-k="'+x+'">'+t+(x==='raid'&&ev?' <small>D-'+dDay(ev.d)+'</small>':'')+'</button>').join('')+'</div>'+(F?F(c):'')}
+function schedCard(c){const D=typeof D_SCHED!=='undefined'?D_SCHED:null;if(!D||!D.ev)return '';const E=D.ev.filter(e=>dDay(e.d)>=-7);if(!E.length)return '<div class="card schc"><p class="note">다가오는 일정이 아직 없어요.</p></div>';
+  return '<div class="card schc">'+E.map(e=>{const n=dDay(e.d);const [y,m,d]=e.d.split('-').map(Number);return '<div class="sche"><div class="schd"><b>'+(n>0?'D-'+n:n===0?'오늘':'열림')+'</b><small>'+m+'월 '+d+'일</small></div><div class="m"><h3>'+esc(e.t)+'</h3>'+(e.items||[]).map(x=>'<p><b>'+esc(x[0])+'</b> <span class="mute">'+esc(x[1])+'</span></p>').join('')+(e.note?'<p class="mute">'+esc(e.note)+(c.lv<60?' · 지금 '+c.lv+'레벨이에요':'')+'</p>':'')+'</div></div>'}).join('')+'<p class="mute src">'+esc(D.src)+'</p></div>'}
+function zoneCard(c){const D=typeof D_ZONEN!=='undefined'?D_ZONEN:null;if(!D||!D.zones)return '';const DGN=s=>{const d=DG&&DG[s];return d?d.ko:s};
+  return '<div class="card znc">'+D.zones.map(z=>{const L=(z.lv||'').split('~').map(Number);const fit=L.length===2?c.lv>=L[0]-2&&c.lv<=L[1]:z.lv==='60'&&c.lv>=58;
+    return '<section class="zn'+(fit?' fit':'')+'"><div class="znh"><h3>'+esc(z.nm)+'</h3><span>'+(z.lv?esc(z.lv)+'레벨 · ':'')+esc(z.tag)+(fit?' · 지금 레벨에 맞아요':'')+'</span></div><p>'+esc(z.one)+'</p>'
+     +(z.hub?'<ul class="znl">'+z.hub.map(x=>'<li><b>'+esc(x[0])+'</b> <span class="mute">'+esc(x[1])+'</span></li>').join('')+'</ul>':'')
+     +(z.go||[]).map(t=>'<p class="zgo">'+esc(t)+'</p>').join('')
+     +(z.pt?'<div class="zpt">'+z.pt.map(x=>'<button data-a="waycp" data-k="'+esc('/way '+x[1]+' '+x[2].toFixed(1)+' '+x[3].toFixed(1))+'"><span>'+esc(x[0])+'</span><em>'+(x[1]!==z.nm?esc(x[1])+' ':'')+x[2].toFixed(1)+', '+x[3].toFixed(1)+'</em></button>').join('')+'</div>':'')
+     +(z.note||[]).map(t=>'<p class="mute">'+esc(t)+'</p>').join('')
+     +(z.dg?'<p class="zdg">이어지는 던전 '+z.dg.map(s=>'<button class="lnk" data-a="dgo" data-k="'+s+'">'+esc(DGN(s))+'</button>').join(' · ')+'</p>':'')+'</section>'}).join('')+'<p class="mute src">좌표 누르면 /way 복사 · 와우보초 새 지역 안내(11-14) 정리</p></div>'}
 /* 납품·상인의 호의 (data/guides/deliver.json → D_DLV): 가진 호의 → 제작법·보상마다 앞으로 상자 몇 개, 상자 재료는 가방과 비교 — 미리보기 */
 function dlvCard(c){const D=typeof D_DLV!=='undefined'?D_DLV:null;if(!D||!D.rows)return '';const fav=c.fav||0;const PS=['연금술','대장기술','요리','마법부여','기계공학','가죽세공','재봉술'];
   const mine=PS.filter(p=>(c.profs||[]).includes(p)||(c.profLv||{})[p]!=null).sort((a,b)=>{const i=x=>{const k=(c.profs||[]).indexOf(x);return k<0?99:k};return i(a)-i(b)});const f=ui.dvp||(mine[0]||'공용');
@@ -1420,7 +1436,7 @@ function libCard(c){const D=typeof D_LIB!=='undefined'?D_LIB:null;if(!D||!D.book
     return hd+'<div class="lbz"><h4>'+esc(z)+' <small>'+G[k].length+'권'+(k===hk?' · 지금 있는 지역':'')+'</small></h4>'+G[k].map(b=>{const st=libSt(c,b);const enemy=b.z==='오그리마';
       return '<div class="lbr s'+st+(enemy?' en':'')+'"><button class="lck" data-a="libck" data-k="'+b.id+'" aria-pressed="'+(st>=2)+'"'+(st===3?' disabled':'')+' aria-label="'+esc(b.ko)+' 반납했어요">'+(st>=2?'✓':'')+'</button><span class="m"><b>'+esc(b.ko)+'</b><small>'+(st===3?'반납함(게임 기록) · ':st===1?'가방에 있음 · ':'')+(enemy?'호드 도시 안 · ':'')+esc(b.w||'')+'</small></span><button class="lxy" data-a="waycp" data-k="'+esc('/way '+b.z+' '+b.x.toFixed(1)+' '+b.y.toFixed(1))+'">'+xy(b)+'</button></div>'}).join('')+'</div>'}).join('')||'<p class="empty-st">남은 책이 없어요.</p>';
   return h+'<p class="note">'+esc(D.turn)+'</p>'+(D.note||[]).map(t=>'<p class="mute">'+esc(t)+'</p>').join('')+'<p class="mute src">좌표·안쪽 위치: 와우헤드 포에버 도서관 가이드(11-13) 정리 · 게임에서 불러온 끝낸 퀘스트가 있으면 반납한 책은 저절로 ✓</p></div>'}
-function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['lib','도서관 책',()=>libCard(c)],['camp','캠핑',()=>campCard(c)],['dlv','납품·호의',()=>dlvCard(c)],['leg','유산',()=>legCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
+function pvTabs(c){if(FV_SUB.some(x=>x[0]===ui.htab)){ui.fvs=ui.htab;ui.htab='fv'}const T=[['town','마을 할 일',()=>townCard(c)],['fv','포에버 콘텐츠',()=>fvCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
     .map(([k,t,f])=>{let x='';try{x=f()}catch(e){}/* 탭 안 작은 제목 앞 이모지는 뺌(탭이 제목 역할) */x=x.replace(/(<h3[^>]*>)\s*(?:\p{Extended_Pictographic}\uFE0F?\s*)+/u,'$1');return [k,t,x]}).filter(x=>x[2]);if(!T.length)return '';
   const on=T.find(x=>x[0]===ui.htab)||T[0];
   return '<div class="card pvtab"><div class="pvtb" role="tablist">'+T.map(([k,t])=>'<button role="tab" aria-selected="'+(k===on[0])+'" class="'+(k===on[0]?'on':'')+'" data-a="htab" data-k="'+k+'">'+t+'</button>').join('')+'</div><div class="pvtp">'+on[2]+'</div></div>'}
@@ -3848,6 +3864,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='libck'){c.lib=c.lib||{};if(c.lib[k])delete c.lib[k];else c.lib[k]=1;save();rerender(true);return}
   if(a==='dmob'){ui.dmob=ui.dmob===0?1:0;rerender(true);return}
   if(a==='mobi'){const d=DG[ui.dg];const g=DGG&&d&&DGG[d.slug];const [fi,i]=k.split(':').map(Number);const m=g&&g.floors[fi]&&g.floors[fi].mob&&g.floors[fi].mob.p[i];if(m){const TY={1:'짐승',2:'용족',3:'악마',4:'정령',5:'거인',6:'언데드',7:'인간형',9:'기계'};toast(m[7].map(x=>x[0]+(x[1]>1?' ×'+x[1]:'')).join(', ')+(m[2]>m[7].reduce((s,x)=>s+x[1],0)?' 외':'')+' · '+(m[5]===m[6]?m[5]:m[5]+'–'+m[6])+'레벨'+(m[4]?' · 정예 '+m[4]:'')+(TY[m[3]]?' · '+TY[m[3]]:'')+(g.floors[fi].mob.t.some(t=>t[0]===i)?' · 순찰':'')+(m[8]?' · 희귀':''))}return}
+  if(a==='fvs'){ui.fvs=k;rerender(true);return}
   if(a==='legg'){ui.legg=k;rerender(true);return}
   if(a==='legck'){c.legC=c.legC||{};if(c.legC[k])delete c.legC[k];else c.legC[k]=1;save();rerender(true);return}
   if(a==='legclr'){c.legP={};save();rerender(true);return}

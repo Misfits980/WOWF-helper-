@@ -296,3 +296,21 @@
 .mapw .mob.rr{background:#c58cff}
 .mapw .mob.pt{border-color:#8fd3ff;border-width:2px}
 .mapw .pin{z-index:2}
+
+/* 홈 「포에버 콘텐츠」 묶음 · 일정 · 새 지역 */
+.fvs{flex-wrap:wrap;margin:0 0 8px}.fvs small{font-size:11px;color:#f2c96b;margin-left:2px}
+.schc .sche{display:flex;gap:14px;align-items:flex-start}
+.schc .schd{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:76px;padding:10px 6px;border-radius:12px;background:rgba(232,180,60,.12);border:1px solid rgba(232,180,60,.45)}
+.schc .schd b{font-size:22px;color:var(--gold);line-height:1.1;font-variant-numeric:tabular-nums}.schc .schd small{font-size:12px;color:var(--mute)}
+.schc .m{flex:1;min-width:0}.schc h3{margin:0 0 6px;font-size:15px}.schc .m p{margin:4px 0;font-size:13.5px;line-height:1.5}
+.znc .zn{padding:10px 0;border-top:1px solid rgba(255,255,255,.08)}.znc .zn:first-child{border-top:0;padding-top:0}
+.znc .zn.fit{margin:0 -8px;padding:10px 8px;border-radius:10px;background:rgba(120,200,120,.07)}
+.znc .znh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.znc .znh h3{margin:0;font-size:15px}.znc .znh span{font-size:12px;color:var(--mute)}
+.znc .zn.fit .znh span{color:#9fdc8f}
+.znc .zn>p{margin:5px 0;font-size:13.5px;line-height:1.55}.znc .zn>p.mute{font-size:12.5px}
+.znc .znl{margin:4px 0;padding-left:18px}.znc .znl li{margin:2px 0;font-size:13px}
+.znc .zgo{color:#d8d0bf}
+.znc .zpt{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;margin:6px 0}
+.znc .zpt button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:7px 10px;border-radius:9px;border:1px solid rgba(96,160,220,.32);background:rgba(96,160,220,.07);color:inherit;text-align:left;cursor:pointer;min-height:44px}
+.znc .zpt span{font-size:13px;font-weight:600}.znc .zpt em{font-style:normal;font-size:12px;color:#9fc4e6;font-variant-numeric:tabular-nums}
+.znc .zdg{font-size:13px}.znc .lnk{padding:0;border:0;background:none;color:#9fc4e6;font:inherit;text-decoration:underline;cursor:pointer}

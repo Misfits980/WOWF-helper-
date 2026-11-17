@@ -1197,6 +1197,8 @@ data = '\n'.join([
     'const D_CAMP=' + (json.dumps(json.loads(rd(ROOT / 'data/guides/camp.json')), ensure_ascii=False, separators=(',', ':')) if (ROOT / 'data/guides/camp.json').exists() else '{}') + ';',
     'const D_DLV=' + (json.dumps(json.loads(rd(ROOT / 'data/guides/deliver.json')), ensure_ascii=False, separators=(',', ':')) if (ROOT / 'data/guides/deliver.json').exists() else '{}') + ';',
     'const D_LEG=' + (json.dumps(json.loads(rd(ROOT / 'data/guides/legacy.json')), ensure_ascii=False, separators=(',', ':')) if (ROOT / 'data/guides/legacy.json').exists() else '{}') + ';',
+    'const D_ZONEN=' + (json.dumps(json.loads(rd(ROOT / 'data/guides/zones-new.json')), ensure_ascii=False, separators=(',', ':')) if (ROOT / 'data/guides/zones-new.json').exists() else '{}') + ';',
+    'const D_SCHED=' + (json.dumps(json.loads(rd(ROOT / 'data/guides/schedule.json')), ensure_ascii=False, separators=(',', ':')) if (ROOT / 'data/guides/schedule.json').exists() else '{}') + ';',
     'const D_LIB=' + (json.dumps(json.loads(rd(ROOT / 'data/guides/library-books.json')), ensure_ascii=False, separators=(',', ':')) if (ROOT / 'data/guides/library-books.json').exists() else '{}') + ';',
     PROFS_JS,
     'const PICO=' + json.dumps(PICO, ensure_ascii=False, separators=(',', ':')) + ';',
