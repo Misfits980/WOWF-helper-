@@ -1352,6 +1352,23 @@ function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='
   return h+'<p class="note chgn">블리자드는 화요일 점검 때 직업을 조정해요 · 원문: 공식 포럼 「WoW: Forever Hotfixes」</p></div>'}
 /* 🧪 미리보기 홈: 아래쪽 카드(마을·변경·사냥 기록·일지·메모·평판·애드온)를 한 장에 탭으로 → 스크롤 짧게, 내용은 그대로 */
 const pvHm=m=>m<60?m+'분':Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':'');
+/* 캠핑 플래너 (data/guides/camp.json → D_CAMP): 요리 숙련으로 피울 수 있는 모닥불, 내 전문기술 캠프 물건 3단계, 역할별 추천·직업 버프와 겹침 — 미리보기 */
+function campCard(c){const D=typeof D_CAMP!=='undefined'?D_CAMP:null;if(!D||!D.profs)return '';const PL=c.profLv||{};const sk=p=>{const v=PL[p];return Array.isArray(v)?v[0]:+v||0};const mine=p=>(c.profs||[]).includes(p)||PL[p]!=null;
+  const DGN=s=>{const d=DG&&DG[s];return d?d.ko:s};const drop=d=>d?'<button class="lnk" data-a="dgo" data-k="'+d[0]+'">'+esc(DGN(d[0]))+'</button> '+esc(d[1])+' 약 '+d[2]+'%':'';
+  const ck=sk('요리');const F=D.fires;const fi=F.filter(f=>ck>=f.sk).pop();const fn=F.find(f=>ck<f.sk);
+  let h='<div class="card campc"><div class="hd"><h3>캠핑</h3></div>';
+  h+='<div class="cpf"><span class="cpn">'+(fi?fi.slots:0)+'<small>칸</small></span><span class="m"><b>'+(fi?esc(fi.nm):'아직 모닥불 없음')+'</b><small>'+(mine('요리')||ck?'요리 '+ck:'요리를 배우면 피울 수 있어요')+(fn?' · 다음 '+esc(fn.nm)+'('+fn.slots+'칸)은 요리 '+fn.sk+(fn.drop?' · 도면 '+esc(DGN(fn.drop[0]))+' '+esc(fn.drop[1])+' 약 '+fn.drop[2]+'%':''):'')+'</small></span></div>';
+  const MP=D.profs.filter(p=>mine(p.p));
+  if(MP.length)h+='<h4>내가 놓을 수 있는 물건</h4>'+MP.map(p=>{const s=sk(p.p);return '<div class="cpp"><p class="cph"><b>'+esc(p.p)+'</b> <small>숙련 '+s+'</small></p>'+p.t.map((t,i)=>{const ok=s>=t.sk;
+      return '<div class="cpt'+(ok?' ok':'')+'"><span class="cpl">'+(i+1)+'단계</span><span class="m"><b>'+esc(t.nm)+'</b><small>'+esc(t.fx)+'</small><small class="cps">'+(ok?'숙련 충분':'숙련 '+t.sk+' (앞으로 '+(t.sk-s)+')')+' · '+(t.drop?'도면 '+drop(t.drop):'트레이너·퀘스트')+'</small><small class="cpm">재료 '+esc(t.mat.filter(m=>m[2]>0).map(m=>m[1]+' '+m[2]).join(' · '))+'</small></span></div>'}).join('')+'</div>'}).join('');
+  else h+='<p class="note">게임에서 전문기술을 불러오면 내가 만들 수 있는 캠프 물건을 골라 보여 줘요.</p>';
+  const w=wOf(c)||{};const r=myRole(c);const rk=r==='dp'&&(w.sp||0)>(w.ap||0)?'sp':r;const RN={tk:'탱커',dp:'근접 딜러',sp:'주문 딜러',hl:'치유사'};
+  const byNm={};D.profs.forEach(p=>p.t.forEach((t,i)=>{if(i===0)byNm[t.nm]=p}));
+  h+='<h4>'+RN[rk]+'에게 좋은 캠프 물건</h4><ul class="cpr">'+(D.role[rk]||[]).map(nm=>{const p=byNm[nm];return '<li><b>'+esc(nm)+'</b> <small>'+esc(p?p.p:'')+(p&&mine(p.p)?' · 내가 만들 수 있어요':'')+(p&&p.ov?' · 「'+esc(p.ov)+'」 버프와는 같이 안 걸려요':'')+'</small></li>'}).join('')+'</ul>';
+  h+='<details class="cpall"><summary>모든 전문기술 물건 · 겹치는 직업 버프<i>⌄</i></summary>'+D.profs.map(p=>'<div class="cpa"><b>'+esc(p.p)+'</b>'+(p.ov?'<small>같이 안 걸림: '+esc(p.ov)+'</small>':'')+'<p>'+p.t.map(t=>esc(t.nm)+' <span class="mute">'+t.sk+'</span>'+(t.drop?' <span class="mute">· '+esc(DGN(t.drop[0]))+' '+t.drop[2]+'%</span>':'')).join('<br>')+'</p></div>').join('')
+   +'<div class="cpa"><b>요리</b><p>'+D.cook.map(t=>esc(t.nm)+' <span class="mute">'+t.sk+' · '+esc(DGN(t.drop[0]))+' '+t.drop[2]+'%</span>').join('<br>')+'</p></div></details>';
+  h+='<ul class="cprule">'+D.rules.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul><p class="mute src">'+esc(D.how)+' · 블리자드 캠핑 소개(10-21)·11-10 핫픽스 정리</p></div>';
+  return h}
 /* 도서관 책 40권 (data/guides/library-books.json → D_LIB): 반납 퀘스트를 게임에서 불러왔으면 자동 ✓, 가방에 있으면 「가방」, 아니면 손으로 체크 — 미리보기 */
 function libSt(c,b){if(b.q&&(c.mq||{})[b.q])return 3;if((c.lib||{})[b.id])return 2;if(c.bag&&c.bag[b.id])return 1;return 0}
 function libCard(c){const D=typeof D_LIB!=='undefined'?D_LIB:null;if(!D||!D.books)return '';const B=D.books;const mine=B.filter(b=>b.z!=='오그리마');
@@ -1371,7 +1388,7 @@ function libCard(c){const D=typeof D_LIB!=='undefined'?D_LIB:null;if(!D||!D.book
     return hd+'<div class="lbz"><h4>'+esc(z)+' <small>'+G[k].length+'권'+(k===hk?' · 지금 있는 지역':'')+'</small></h4>'+G[k].map(b=>{const st=libSt(c,b);const enemy=b.z==='오그리마';
       return '<div class="lbr s'+st+(enemy?' en':'')+'"><button class="lck" data-a="libck" data-k="'+b.id+'" aria-pressed="'+(st>=2)+'"'+(st===3?' disabled':'')+' aria-label="'+esc(b.ko)+' 반납했어요">'+(st>=2?'✓':'')+'</button><span class="m"><b>'+esc(b.ko)+'</b><small>'+(st===3?'반납함(게임 기록) · ':st===1?'가방에 있음 · ':'')+(enemy?'호드 도시 안 · ':'')+esc(b.w||'')+'</small></span><button class="lxy" data-a="waycp" data-k="'+esc('/way '+b.z+' '+b.x.toFixed(1)+' '+b.y.toFixed(1))+'">'+xy(b)+'</button></div>'}).join('')+'</div>'}).join('')||'<p class="empty-st">남은 책이 없어요.</p>';
   return h+'<p class="note">'+esc(D.turn)+'</p>'+(D.note||[]).map(t=>'<p class="mute">'+esc(t)+'</p>').join('')+'<p class="mute src">좌표·안쪽 위치: 와우헤드 포에버 도서관 가이드(11-13) 정리 · 게임에서 불러온 끝낸 퀘스트가 있으면 반납한 책은 저절로 ✓</p></div>'}
-function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['lib','도서관 책',()=>libCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
+function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['lib','도서관 책',()=>libCard(c)],['camp','캠핑',()=>campCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
     .map(([k,t,f])=>{let x='';try{x=f()}catch(e){}/* 탭 안 작은 제목 앞 이모지는 뺌(탭이 제목 역할) */x=x.replace(/(<h3[^>]*>)\s*(?:\p{Extended_Pictographic}\uFE0F?\s*)+/u,'$1');return [k,t,x]}).filter(x=>x[2]);if(!T.length)return '';
   const on=T.find(x=>x[0]===ui.htab)||T[0];
   return '<div class="card pvtab"><div class="pvtb" role="tablist">'+T.map(([k,t])=>'<button role="tab" aria-selected="'+(k===on[0])+'" class="'+(k===on[0]?'on':'')+'" data-a="htab" data-k="'+k+'">'+t+'</button>').join('')+'</div><div class="pvtp">'+on[2]+'</div></div>'}

@@ -216,3 +216,24 @@
 .libc .lbr .m b{font-size:13.5px;font-weight:600}
 .libc .lbr .m small{font-size:12px;color:var(--mute)}
 .libc .lxy{flex:none;min-height:32px;padding:0 9px;border-radius:8px;border:1px solid rgba(96,160,220,.35);background:rgba(96,160,220,.08);color:#9fc4e6;font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer}
+
+/* 홈 「캠핑」 */
+.campc h4{margin:12px 0 6px;font-size:14px;color:#e6c88a}
+.campc .cpf{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:10px;background:rgba(232,140,60,.1);border:1px solid rgba(232,140,60,.35)}
+.campc .cpn{flex:none;min-width:44px;text-align:center;font-size:22px;font-weight:800;color:#f2a35b;line-height:1}.campc .cpn small{display:block;font-size:11px;font-weight:400;color:var(--mute)}
+.campc .m{display:flex;flex-direction:column;min-width:0;flex:1}.campc .m b{font-size:13.5px}.campc .m small{font-size:12px;color:var(--mute);line-height:1.5}
+.campc .cpp{margin:6px 0 10px}.campc .cph{margin:0 0 4px;font-size:13.5px}.campc .cph small{color:var(--mute)}
+.campc .cpt{display:flex;gap:10px;padding:7px 0;border-top:1px solid rgba(255,255,255,.06);opacity:.75}
+.campc .cpt.ok{opacity:1}
+.campc .cpl{flex:none;width:44px;font-size:12px;color:var(--mute);padding-top:2px}
+.campc .cpt.ok .cpl{color:#9fdc8f}
+.campc .cps{color:#cbb98f!important}.campc .cpm{font-size:11.5px!important}
+.campc .lnk{padding:0;border:0;background:none;color:#9fc4e6;font:inherit;text-decoration:underline;cursor:pointer}
+.campc .cpr{margin:0;padding-left:18px}.campc .cpr li{margin:3px 0;font-size:13.5px}.campc .cpr small{color:var(--mute)}
+.campc .cpall{margin:10px 0;border-radius:10px;border:1px solid rgba(255,255,255,.1)}
+.campc .cpall>summary{display:flex;padding:9px 12px;font-size:13px;font-weight:700;list-style:none;cursor:pointer}.campc .cpall>summary::-webkit-details-marker{display:none}
+.campc .cpall>summary i{margin-left:auto;font-style:normal;color:var(--mute)}.campc .cpall[open]>summary i{transform:rotate(180deg)}
+.campc .cpall[open]{padding-bottom:6px}
+.campc .cpa{padding:6px 12px;border-top:1px solid rgba(255,255,255,.06)}.campc .cpa b{font-size:13px}.campc .cpa small{margin-left:6px;font-size:11.5px;color:#e0b56a}
+.campc .cpa p{margin:3px 0 0;font-size:12.5px;line-height:1.6}
+.campc .cprule{margin:6px 0;padding-left:18px}.campc .cprule li{margin:2px 0;font-size:12.5px;color:#cfc6b4;line-height:1.55}
