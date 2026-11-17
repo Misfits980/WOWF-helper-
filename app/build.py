@@ -530,6 +530,14 @@ if (Q / 'items-addon.jsonl').exists():
         if _w and ('dps' in _cur or f[3].startswith('2.')):  # 투척 무기처럼 초당 공격력이 빠져 있던 무기도 게임 값으로
             _new['dps'] = _w
         # 장착 자리도 게임 값으로: 「주장비 전용」을 한손(보조 손 가능)으로 잡아 쌍수 보조 무기로 추천하던 것(서슬피 등 98개)
+        # 방어도(게임 툴팁 「방어도 N」 = 기본 + 추가): 탱커 점수에 씀. 방어구(천·가죽·사슬·판금·망토)는 bar(화면에 안 보이는 칸, 앱 sc()가 탱커 방어도 가중치로 셈),
+        # 방패는 원래 armor 칸이 전체 방어도라 게임 값으로 맞춤. 그동안 방어도는 「추가 방어도」가 있는 템 300여 개만 있어 탱커 방어도 가중치가 거의 안 쓰였음
+        _ga = (o_.get('gs') or {}).get('RESISTANCE0_NAME')
+        if _ga and _ga > 0:
+            if f[3] in ('4.1', '4.2', '4.3', '4.4'):
+                _new['bar'] = round(_ga)
+            elif f[3] == '4.6':
+                _new['armor'] = round(_ga)
         _sl = _LOC.get(o_.get('loc') or '')
         if _sl and f[2] != _sl:
             f[2] = _sl; _al += 1

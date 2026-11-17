@@ -61,11 +61,14 @@ const FS={warrior:{arms:['str',{dps2h:2}],fury:['str',FL],protection:['tank',{dp
   mage:{arcane:['cast',{arcane:.9}],fire:['cast',{fire:1}],frost:['cast',{frost:.8}]},warlock:{affliction:['cast',{sta:.3,shadow:.9}],demonology:['cast',{sta:.3,shadow:.8,fire:.2}],destruction:['cast',{sta:.3,shadow:.7,fire:.3}]},
   druid:{balance:['cast',{dpsWand:0,nature:.5,arcane:.5}],'feral-cat':['str',{agi:.8,dps2h:2}],'feral-bear':[null,{str:1,agi:.8,ap:.5,sta:.5,armor:.02,def:.4,dps2h:2}],restoration:['heal',{dpsWand:0}]}};
 const WSRC={};
+/* 시뮬 기본 장비가 이미 적중 상한을 채운 특성(야수·생존 사냥꾼 0.1·0.6, 방어 전사 0.4)은 적중 값이 0 가까이 나옴.
+   상한 전 값은 보통 치명타 이상이라 치명타 값으로 둠. 상한 넘은 캐릭터는 hitInfo·capF가 따로 깎음 */
+function simU(sim){const u=Object.assign({},sim.unscored||{});if(u.crit&&u.hit!=null&&u.hit<u.crit*.3)u.hit=u.crit;return u}
 for(const c in FS)for(const s in FS[c]){if(!W[c]||!W[c][s])continue;const [b,ex]=FS[c][s];let w=Object.assign({},b?FB[b]:{},ex||{});const role=b==='tank'||s==='feral-bear'?'tank':b==='heal'?'heal':b==='cast'?'cast':'phys';
   const sim=(typeof D_SIMW!=='undefined'&&D_SIMW.specs||{})[c+'/'+s];let src='forg 기본표';
-  if(sim&&role!=='tank'){const keep={sta:w.sta||0};w=Object.assign({},sim.weights,keep);const u=sim.unscored||{};
+  if(sim&&role!=='tank'){const keep={sta:w.sta||0};w=Object.assign({},sim.weights,keep);const u=simU(sim);
     if(role==='cast'){w.scrit=u.crit||0;w.shit=u.hit||0}else{w.crit=u.crit||0;w.hit=u.hit||0}src='포에버 시뮬레이터 ('+(SIM_KO[sim.preset]||sim.preset)+')'}
-  else if(role==='tank'){const u=sim&&sim.unscored||{};Object.assign(w,{dodge:12,hit:(u.hit||14)*.4,crit:(u.crit||12)*.25});if(s!=='feral-bear')Object.assign(w,{parry:10,blockp:6})}
+  else if(role==='tank'){const u=sim?simU(sim):{};Object.assign(w,{dodge:12,hit:(u.hit||14)*.4,crit:(u.crit||12)*.25});if(s!=='feral-bear')Object.assign(w,{parry:10,blockp:6})}
   else if(role==='heal')w.scrit=6;
   else if(role==='cast')Object.assign(w,{scrit:10,shit:15});
   else Object.assign(w,{crit:13,hit:15});
@@ -870,7 +873,7 @@ function fits(it,slot,c,lv){const S=SLOTS.find(s=>s[0]===slot);if(!S||!S[2].incl
   if(slot==='off'){if(it.sl==='1h'||(it.sl==='oh'&&it.cs!=='4.6'))return DW.has(c.cls)&&DWLV[c.cls]<=Math.max(lv||0,c.lv||1);return true}
   return true}
 function slotsFor(it,c){return SLOTS.filter(s=>fits(it,s[0],c)).map(s=>s[0])}
-function sc(it,slot,w){if(!it)return 0;let s=0;for(const k in it.st){const v=it.st[k];if(k==='ap'&&it.sl==='ra'&&!(w.dpsRanged>0)&&/^2\.(2|3|18|16)$/.test(it.cs||''))continue;/* 활·총·석궁·투척의 전투력은 원거리 전투력 → 사냥꾼만 */if(k==='dps'){s+=v*dpsW(it,slot,w);continue}s+=v*(w[k]||0)}return s}
+function sc(it,slot,w){if(!it)return 0;let s=0;for(const k in it.st){const v=it.st[k];/* bar = 게임 툴팁 방어도 전체(방어구) → 탱커 방어도 가중치. 있으면 armor(추가 방어도)는 그 안에 들어 있어 따로 안 셈 */if(k==='bar'){s+=v*(w.armor||0);continue}if(k==='armor'&&it.st.bar!=null)continue;if(k==='ap'&&it.sl==='ra'&&!(w.dpsRanged>0)&&/^2\.(2|3|18|16)$/.test(it.cs||''))continue;/* 활·총·석궁·투척의 전투력은 원거리 전투력 → 사냥꾼만 */if(k==='dps'){s+=v*dpsW(it,slot,w);continue}s+=v*(w[k]||0)}return s}
 /* 착용 장비: 앱 자료 + 게임(애드온·전투정보실)이 읽은 실제 능력치. 무작위 옵션(「산적의 궁수 장화」)·포에버에서 바뀐 템을 맞추려고.
    주 능력치(힘·민첩·체력·지능·정신)는 게임 값을 그대로, 나머지는 게임이 알려 준 것만 덮고 적중·치명타 같은 건 앱 자료 유지 */
 const GPRI=['str','agi','sta','int','spi'];
@@ -978,7 +981,7 @@ function itemTipHtml(c,it,slot){const st=it.st||{};const QC={p:'qp',c:'qc',u:'qu
   let h='<div class="tt-n '+QC+'">'+esc(it.nm)+'</div>'+(eqd?'<div class="tt-eq">지금 끼고 있어요</div>':'');
   h+='<div class="tt-m"><span>'+esc(SL_KO[it.sl]||it.sl||'')+'</span><span>'+esc(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?CS_KO[it.cs]:'')+'</span></div>';
   if(st.dps)h+='<div class="tt-l">초당 공격력 '+st.dps.toFixed(1)+'</div>';
-  if(st.armor)h+='<div class="tt-l">방어도 '+Math.round(st.armor)+'</div>';
+  /* 게임 툴팁처럼 방어도 전체(bar). 없으면 예전 값(방패·추가 방어도) */if(st.bar||st.armor)h+='<div class="tt-l">방어도 '+Math.round(st.bar||st.armor)+'</div>';
   TIP_BASE.forEach(k=>{if(st[k])h+='<div class="tt-l">'+(st[k]>0?'+':'')+Math.round(st[k])+' '+STAT_KO[k]+'</div>'});
   Object.keys(st).filter(k=>!TIP_BASE.includes(k)&&k!=='dps'&&k!=='armor'&&STAT_KO[k]&&!SHDUP(k,st)).forEach(k=>{h+='<div class="tt-g">착용 효과: '+STAT_KO[k].replace(/ %$/,'')+' '+(/%$/.test(STAT_KO[k])?st[k]+'%':'+'+Math.round(st[k]))+'</div>'});
   if(it.eff)h+='<div class="tt-g">착용 효과: 특수 효과 있음 (게임 툴팁 확인)</div>';
@@ -1694,7 +1697,7 @@ const dif2=(a,b,c)=>b?diffHtml(a,b,c).replace('<span class="dif">','<span class=
 /* 포에버는 적중·치명타가 근접·주문 공통(normST)이라 같은 값이면 「적중 %」를 한 번만 보여 줌 */
 const SHDUP=(k,st)=>(k==='shit'&&Math.abs((st.hit||0)-(st.shit||0))<.01)||(k==='scrit'&&Math.abs((st.crit||0)-(st.scrit||0))<.01);
 const dupSH=(k,st,w)=>(k==='shit'&&st.hit===st.shit&&(w.hit||0)>=(w.shit||0))||(k==='hit'&&st.hit===st.shit&&(w.shit||0)>(w.hit||0))||(k==='scrit'&&st.crit===st.scrit&&(w.crit||0)>=(w.scrit||0))||(k==='crit'&&st.crit===st.scrit&&(w.scrit||0)>(w.crit||0))||(w.heal&&!(w.sp>0)?(k==='sp'&&st.heal>=st.sp):(k==='heal'&&st.sp>=st.heal));
-function itStats(it,c){if(!it||!it.st)return '';const w=wOf(c);const st=it.st;const ks=Object.keys(st).filter(k=>STAT_KO[k]&&st[k]&&!dupSH(k,st,w)&&!(k==='armor'&&!w.armor&&it.cs!=='4.6'));
+function itStats(it,c){if(!it||!it.st)return '';const w=wOf(c);const st=w.armor&&it.st.bar?Object.assign({},it.st,{armor:it.st.bar}):it.st;const ks=Object.keys(st).filter(k=>STAT_KO[k]&&st[k]&&!dupSH(k,st,w)&&!(k==='armor'&&!w.armor&&it.cs!=='4.6'));
   if(!ks.length)return '';ks.sort((a,b)=>((w[b]||0)*Math.abs(st[b])+(b==='dps'?99:0))-((w[a]||0)*Math.abs(st[a])+(a==='dps'?99:0)));
   return '<span class="its">'+ks.map(k=>{const v=st[k];const pct=/ %$/.test(STAT_KO[k]);const nm=k==='dps'?'초당 공격력':pct?STAT_KO[k].slice(0,-2):STAT_KO[k];const use=(w[k]||(k==='dps'&&(w.dps||w.rdps)))?'':' class="dim"';
     return '<i'+use+'>'+nm+' '+(v<0?'−':'')+(k==='dps'||(pct&&Math.abs(v)%1)?Math.abs(v).toFixed(1):Math.round(Math.abs(v)))+(pct?'%':'')+'</i>'}).join('')+'</span>'}
@@ -1766,7 +1769,7 @@ function dspSeg(c){if((c.lv||1)<40)return '';const r=me();const C=D_CLS[r.cls];i
   return '<span class="gseg dsp"><button class="'+(c._dsp===2?'':'on')+'" data-a="dsp" data-k="1">'+ic(r.spec)+'<span>'+esc(nm(r.spec))+'</span></button><button class="'+(c._dsp===2?'on':'')+'" data-a="dsp" data-k="2">'+(r.spec2&&r.spec2!==r.spec?ic(r.spec2)+'<span>'+esc(nm(r.spec2))+'</span>':'<span>둘째 특성 +</span>')+'</button>'+(c._dsp===2?'<button data-a="dsp2" data-k="" title="둘째 특성 바꾸기">↺</button>':'')+'</span>'}
 function dspPick(c){const r=me();const C=D_CLS[r.cls];return '<div class="card dspk"><b>둘째 특성 고르기</b><p class="note">40레벨부터 직업 교관에게서 이중 특성을 열 수 있어요. 고르면 그 특성 기준 추천을 따로 보고, 두 특성에 다 좋은 템은 🔁 로 표시해요.</p><div class="chips">'+C.specs.filter(x=>x.id!==r.spec).map(x=>'<button class="chip" data-a="dsp2" data-k="'+x.id+'">'+esc(x.name)+'</button>').join('')+'</div></div>'}
 const bothTag=it=>ui._both&&ui._both.has(it.id)?' <span class="lkt both" title="다른 특성에도 바꾸면 좋은 템이에요">🔁 두 특성 다</span>':'';
-function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
+function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 끝낸 퀘스트 보상을 거름 (장비 탭에서 새로고침·바로가기로 바로 열 때도) → 다 받으면 qdbLoad가 다시 그림 */if(!QDB)qdbLoad();const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   {const oc=dspOther(c);ui._both=oc?new Set(SLOTS.flatMap(([s])=>offLocked(oc,s)?[]:bestFor(oc,s,L,ui.ifil||'ok').slice(0,6).map(x=>x.it.id))):null}
   const ups=new Set(SLOTS.map(x=>x[0]).filter(s=>!offLocked(c,s)&&bestFor(c,s,L,ui.ifil).length));
   const tot=statTotals(c);const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]-a[1]).map(([k])=>k).slice(0,6);
