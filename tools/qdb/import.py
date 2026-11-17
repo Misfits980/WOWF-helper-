@@ -232,6 +232,18 @@ for k, v in SORT.items():
 CLASS_SORT = {'WARRIOR': '전사', 'PALADIN': '성기사', 'HUNTER': '사냥꾼', 'ROGUE': '도적', 'PRIEST': '사제', 'SHAMAN': '주술사', 'MAGE': '마법사', 'WARLOCK': '흑마법사', 'DRUID': '드루이드'}
 
 
+def _dnorm(x):
+    return re.sub(r'[^a-z]', '', re.sub(r'\b(the|forever)\b', '', (x or '').lower().replace("'", '')))
+
+
+DGN_KO = {}
+if os.path.exists(os.path.join(OUT, 'dungeons-new.txt')):
+    for _l in rd(os.path.join(OUT, 'dungeons-new.txt')).splitlines():
+        _f = _l.split('|')
+        if len(_f) > 3 and _f[0] == 'D':
+            DGN_KO[_dnorm(_f[3])] = _f[2]
+
+
 def zone_name(z):
     if z is None:
         return None, None
@@ -247,6 +259,9 @@ def zone_name(z):
         seen += 1
     en = DUNGEON.get(zz) or ZEN.get(zz) or sym_en(zz)
     ko = ZKO.get(en, en)
+    # 번역이 없는 포에버 새 던전(예: THE_SHAPERS_TERRACE_FOREVER → 「The Shapers Terrace Forever」) → dungeons-new.txt 한글 이름
+    if ko and not re.search('[가-힣]', ko) and _dnorm(ko) in DGN_KO:
+        return DGN_KO[_dnorm(ko)], '던전'
     g = ZONE_GROUP.get(zz, '') or ZONE_GROUP.get(z, '')
     if zz in DUNGEON or 'dungeon' in g.lower() or 'instance' in g.lower():
         cont = '던전'
