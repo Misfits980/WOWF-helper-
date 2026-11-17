@@ -120,6 +120,9 @@ const ROUTE={};{let cur=null,sec=null;for(const l of D_LVL.split('\n')){if(!l)co
   if(l[0]==='@'){cur=ROUTE[l.slice(1)]=[];continue}
   if(l[0]==='#'){const [a,b,z]=l.slice(1).split('|');sec={a:+a,b:+b,z,q:[]};cur.push(sec);continue}
   const f=l.split('|');if(!sec)continue;sec.q.push({lv:+f[0],min:+f[1]||Math.max(1,+f[0]-5),nm:f[2],gz:f[3],gv:f[4],xy:f[5],ch:+f[6]||0,pre:+f[7]||0,obj:f[8]||'',id:+f[9]||0,sz:sec.z.split(' · ')[0]});const r=sec.q[sec.q.length-1];if(QGM[r.id])r.min=QGM[r.id]}}
+/* 레벨업 동선에만 있고 퀘스트 DB엔 아직 없는 퀘스트(새 포에버 퀘스트 등): 동선 자료(이름·레벨·주는 NPC·좌표·목표)로 채움 — 없으면 동선에서 빠지거나 이름 없이 나옴 */
+const RQ=new Map();for(const k in ROUTE)for(const S of ROUTE[k])for(const x of S.q)if(x.id&&!RQ.has(x.id))RQ.set(x.id,x);
+function rqAsQ(id){const x=RQ.get(id);if(!x)return null;return {id,n:x.nm,lv:x.lv,m:x.min,z:x.gz||x.sz,o:x.obj,g:(x.gv||x.xy)?[x.gv||'',x.gz||x.sz,x.xy||'','npc']:null,r:null,t:[],rt:1}}
 
 /* ----- 얻을 수 있는 레벨: 아이템 착용 레벨보다 퀘스트·던전 레벨이 높으면 그걸 따른다 ----- */
 {const QMIN={};for(const k in ROUTE)for(const S of ROUTE[k])for(const q of S.q){if(QMIN[q.nm]==null||q.min<QMIN[q.nm])QMIN[q.nm]=q.min}
@@ -2557,7 +2560,7 @@ function recPlans(c){const L=c.lv;const R=routeOf(c);const out=[];
     if(top.length)out.push({k:'many',name:'퀘스트 많은 곳',nodes:top,n:top.reduce((n,t)=>n+t.qs.length,0)})}
   return out}
 /* 퀘스트 하나 → 받기·하기·반납 위치 */
-function recQ(id,z0){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!q&&!d.g)return null;
+function recQ(id,z0){const q=(QDB&&QDB.get(id))||(QDB?rqAsQ(id):null);const d=QD.get(id)||{};if(!q&&!d.g)return null;
   const G=(q&&q.g)||d.g||[],R=(q&&q.r)||d.r||[];const t=(d.t||[])[0];const wf=(d.wf&&d.wf.t)||[];const qp=qPlace(q);const txy=t?xyOf(t[2]):null;
   const GO=GOB(id)||{},GG=GQ(id);
   /* 받은 물건을 가져다주기만 하는 퀘스트(전달: 메이벨의 연애 편지 등)도 반납이 곧 할 일 → 위치 없는 「하기」 단계를 만들지 않음 */
