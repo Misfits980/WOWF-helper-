@@ -1366,6 +1366,24 @@ function dlvCard(c){const D=typeof D_DLV!=='undefined'?D_DLV:null;if(!D||!D.rows
   const MAT=typeof D_MATID!=='undefined'?D_MATID:{};const have=(nm,n)=>{const id=MAT[nm];return id&&c.bag&&(c.bag[id]||0)>=n};const myT=c.lv>=35?'전문':c.lv>=20?'숙련':'수습';
   h+='<details class="dvcr"><summary>상자에 담는 재료 · '+D.crates.length+'가지<i>⌄</i></summary>'+['초급','수습','숙련','전문'].map(t=>{const C=D.crates.filter(x=>x.t===t);return '<div class="dvct"><b>'+t+' <small>'+C[0].lv+'레벨~</small></b>'+C.map(x=>{const all=c.bag&&x.need.every(m=>have(m[1],m[0]));return '<p'+(all?' class="ok"':'')+'><span>'+esc(x.k)+'</span>'+x.need.map(m=>esc(m[1])+' '+m[0]).join(' · ')+(all?' <em>가방에 다 있어요</em>':'')+'</p>'}).join('')+'</div>'}).join('')+'</details>';
   return h+'<p class="mute src">'+esc(D.note)+' · 와우헤드 포에버 상업 관리국 가이드(11-11) 정리</p></div>'}
+/* 유산 (data/guides/legacy.json → D_LEG): 도전 65개(계정 — 앱의 모든 캐릭터 레벨·전문기술·던전 기록으로 자동 ✓, 나머지는 손으로) · 보상 4단계 · 캐릭터별 특전 16점 계획 — 미리보기 */
+function legDone(c,x){const L=DB.list;if(x.g==='class'&&L.some(ch=>ch.cls===x.cls&&(ch.lv||0)>=x.lv))return 2;
+  if(x.g==='prof'&&L.some(ch=>{const v=(ch.profLv||{})[x.prof];return (Array.isArray(v)?v[0]:+v||0)>=x.sk}))return 2;
+  if(x.g==='dungeon'&&SPELUNK[x.sp]&&SPELUNK[x.sp][2].every(s=>L.some(ch=>spDone(ch,s))))return 2;
+  return L.some(ch=>(ch.legC||{})[x.id])?1:0}
+function legLow(c,t,tier){const T=D_LEG.tree[t];const P=c.legP||{};return T.n.reduce((s,n,j)=>s+(n[1]<tier?(P[t+'-'+j]||0):0),0)}
+function legCard(c){const D=typeof D_LEG!=='undefined'?D_LEG:null;if(!D||!D.ch)return '';const st=D.ch.map(x=>legDone(c,x));const n=st.filter(Boolean).length;const nx=D.rw.find(r=>n<r[0]);const g=ui.legg||'all';
+  let h='<div class="card legc"><div class="hd"><h3>유산</h3><span class="lbn"><b>'+n+'</b>/'+D.ch.length+'점</span></div>'
+   +'<div class="lbt">'+D.rw.map(r=>'<span class="'+(n>=r[0]?'on':nx===r?'nx':'')+'"><b>'+r[0]+'점</b><small>'+esc(r[2])+'</small></span>').join('')+'</div>'
+   +(nx?'<p class="note">다음 보상 「'+esc(nx[1])+'」까지 <b>'+(nx[0]-n)+'점</b></p>':'<p class="note">보상을 다 받았어요.</p>')
+   +'<div class="flt2">'+[['all','전부']].concat(D.groups).map(x=>{const k=x[0];const c2=k==='all'?'':' '+D.ch.filter((y,i)=>y.g===k&&st[i]).length+'/'+D.ch.filter(y=>y.g===k).length;return '<button class="'+(g===k?'on':'')+'" data-a="legg" data-k="'+k+'">'+x[1]+c2+'</button>'}).join('')+'</div>';
+  const GR=D.groups.filter(x=>g==='all'||x[0]===g);
+  h+=GR.map(G=>'<div class="lgg"><h4>'+G[1]+'</h4>'+D.ch.map((x,i)=>[x,i]).filter(([x])=>x.g===G[0]).map(([x,i])=>'<div class="lgr s'+st[i]+'"><button class="lck" data-a="legck" data-k="'+x.id+'"'+(st[i]===2?' disabled':'')+' aria-pressed="'+(!!st[i])+'" aria-label="'+esc(x.ko)+' 했어요">'+(st[i]?'✓':'')+'</button><span class="m"><b>'+esc(x.ko)+'</b><small>'+esc(x.d)+(st[i]===2?' · 앱 기록으로 확인':'')+'</small></span></div>').join('')+'</div>').join('');
+  /* 특전 계획 */
+  const P=c.legP||{};const used=Object.values(P).reduce((s,v)=>s+(v||0),0);
+  h+='<div class="lgp"><div class="hd2"><h4>특전 계획 <small>이 캐릭터 '+used+'/'+D.cap+'점</small></h4><span><button class="btn sm ghost" data-a="legrec">레벨업 추천</button> <button class="btn sm ghost" data-a="legclr">비우기</button></span></div>'
+   +D.tree.map((T,t)=>'<div class="lgt"><b class="lgtn">'+esc(T.t)+' <small>'+T.n.reduce((s,_,j)=>s+(P[t+'-'+j]||0),0)+'점</small></b>'+[0,1,2].map(tier=>{const lock=legLow(c,t,tier)<D.tierNeed[tier];return '<div class="lgrow'+(lock?' lk':'')+'">'+(tier?'<i>'+D.tierNeed[tier]+'점 뒤</i>':'')+T.n.map((nd,j)=>nd[1]!==tier?'':'<button class="lgn'+((P[t+'-'+j]||0)>0?' on':'')+'" data-a="legp" data-k="'+t+'-'+j+'"'+(lock?' aria-disabled="true"':'')+'><b>'+esc(nd[0])+'</b><em>'+(P[t+'-'+j]||0)+'/'+nd[2]+'</em><small>'+esc(nd[3])+'</small></button>').join('')+'</div>'}).join('')+'</div>').join('')+'</div>';
+  return h+(D.note||[]).map(t=>'<p class="mute">'+esc(t)+'</p>').join('')+'<p class="mute src">도전 이름·조건은 게임 문구 정리 · 실제 점수는 게임 유산 창(Y)이 정확해요</p></div>'}
 /* 캠핑 플래너 (data/guides/camp.json → D_CAMP): 요리 숙련으로 피울 수 있는 모닥불, 내 전문기술 캠프 물건 3단계, 역할별 추천·직업 버프와 겹침 — 미리보기 */
 function campCard(c){const D=typeof D_CAMP!=='undefined'?D_CAMP:null;if(!D||!D.profs)return '';const PL=c.profLv||{};const sk=p=>{const v=PL[p];return Array.isArray(v)?v[0]:+v||0};const mine=p=>(c.profs||[]).includes(p)||PL[p]!=null;
   const DGN=s=>{const d=DG&&DG[s];return d?d.ko:s};const drop=d=>d?'<button class="lnk" data-a="dgo" data-k="'+d[0]+'">'+esc(DGN(d[0]))+'</button> '+esc(d[1])+' 약 '+d[2]+'%':'';
@@ -1402,7 +1420,7 @@ function libCard(c){const D=typeof D_LIB!=='undefined'?D_LIB:null;if(!D||!D.book
     return hd+'<div class="lbz"><h4>'+esc(z)+' <small>'+G[k].length+'권'+(k===hk?' · 지금 있는 지역':'')+'</small></h4>'+G[k].map(b=>{const st=libSt(c,b);const enemy=b.z==='오그리마';
       return '<div class="lbr s'+st+(enemy?' en':'')+'"><button class="lck" data-a="libck" data-k="'+b.id+'" aria-pressed="'+(st>=2)+'"'+(st===3?' disabled':'')+' aria-label="'+esc(b.ko)+' 반납했어요">'+(st>=2?'✓':'')+'</button><span class="m"><b>'+esc(b.ko)+'</b><small>'+(st===3?'반납함(게임 기록) · ':st===1?'가방에 있음 · ':'')+(enemy?'호드 도시 안 · ':'')+esc(b.w||'')+'</small></span><button class="lxy" data-a="waycp" data-k="'+esc('/way '+b.z+' '+b.x.toFixed(1)+' '+b.y.toFixed(1))+'">'+xy(b)+'</button></div>'}).join('')+'</div>'}).join('')||'<p class="empty-st">남은 책이 없어요.</p>';
   return h+'<p class="note">'+esc(D.turn)+'</p>'+(D.note||[]).map(t=>'<p class="mute">'+esc(t)+'</p>').join('')+'<p class="mute src">좌표·안쪽 위치: 와우헤드 포에버 도서관 가이드(11-13) 정리 · 게임에서 불러온 끝낸 퀘스트가 있으면 반납한 책은 저절로 ✓</p></div>'}
-function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['lib','도서관 책',()=>libCard(c)],['camp','캠핑',()=>campCard(c)],['dlv','납품·호의',()=>dlvCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
+function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['lib','도서관 책',()=>libCard(c)],['camp','캠핑',()=>campCard(c)],['dlv','납품·호의',()=>dlvCard(c)],['leg','유산',()=>legCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
     .map(([k,t,f])=>{let x='';try{x=f()}catch(e){}/* 탭 안 작은 제목 앞 이모지는 뺌(탭이 제목 역할) */x=x.replace(/(<h3[^>]*>)\s*(?:\p{Extended_Pictographic}\uFE0F?\s*)+/u,'$1');return [k,t,x]}).filter(x=>x[2]);if(!T.length)return '';
   const on=T.find(x=>x[0]===ui.htab)||T[0];
   return '<div class="card pvtab"><div class="pvtb" role="tablist">'+T.map(([k,t])=>'<button role="tab" aria-selected="'+(k===on[0])+'" class="'+(k===on[0]?'on':'')+'" data-a="htab" data-k="'+k+'">'+t+'</button>').join('')+'</div><div class="pvtp">'+on[2]+'</div></div>'}
@@ -2372,14 +2390,14 @@ function restHtml(c){const L=c.lv,X=myXp(c);let h='';
   const mine=(c.profs||[]).filter(p=>CAMP[p]);if(mine.length)h+='<p class="mute">내 전문기술 물건(숙련 20부터): '+mine.map(p=>esc(p)+' → <b>'+CAMP[p][0]+'</b>('+CAMP[p][1]+')').join(' · ')+'</p>';
   else h+='<p class="mute">전문기술 숙련 20이면 야영지 물건을 만들어요: 대장기술 숯돌 바퀴(힘) · 재봉술 진영 깃발(정신력) · 약초채집 향초(지능) · 채광 자석석(전투력) · 무두질 야영 의자(치명타) 등</p>';
   h+='<p><b>요리 음식</b> 능력치 버프 음식을 먹고 나가세요.</p>';return h}
-/* 레거시(포에버 계정 진척도): 캐릭터당 16점. 모험 트리 — Well Rested 5, Thrill of Adventure 5, Talented 5(Well Rested 5 필요) */
-function legacyHtml(c){const L=c.lv;const reag=['mage','priest','paladin','shaman','warlock','druid','rogue'].includes(c.cls);
-  const plan=L<15?[['Well Rested',5,'휴식 경험치가 최대 20% 더 빨리·더 많이 쌓여요'],['Talented',5,'특성 포인트를 더 일찍(최대 5레벨부터) 받아요'],['Thrill of Adventure',5,'몹을 잡을 때마다 생명력·마나 5% 회복 (던전 제외)']]
-    :[['Well Rested',5,'휴식 경험치가 최대 20% 더 빨리·더 많이 쌓여요'],['Thrill of Adventure',5,'몹을 잡을 때마다 생명력·마나 5% 회복 → 쉬는 시간이 줄어요 (던전 제외)'],['Gourmand',3,'음식 버프가 더 오래가요']];
-  if(reag)plan.push(['Reagent Economy',1,'직업 기술 재료 부담이 줄어요']);
+/* 레거시(포에버 계정 진척도): 캐릭터당 16점. 모험 트리 — 충분한 휴식 5 → 재능 5(그 트리 5점 뒤) → 모험의 전율 5.
+   재능은 「특성 포인트를 10레벨보다 일찍(랭크마다 1레벨)」 받고 51점은 그대로라, 55레벨 무렵까지 늘 특성이 최대 5점 더 많음(15레벨 넘어서도 이득).
+   셋째 줄(단골 승객·재료 경제학·집중 연구)은 그 트리에 10점을 먼저 넣어야 열림 → 16점으로는 레벨업 세 가지와 같이 못 찍음 */
+function legacyHtml(c){const L=c.lv;
+  const plan=[['충분한 휴식',5,'휴식 경험치가 4%씩 더 빨리, 더 많이 쌓여요(5점이면 20%)'],['재능',5,'특성 포인트를 일찍 받아요. 5점이면 5레벨부터, 55레벨 무렵까지 특성이 늘 5점 더 많아요'],['모험의 전율',5,'몹을 잡을 때마다 생명력·마나 1%씩 회복(5점이면 5%) → 쉬는 시간이 줄어요 (던전 제외)']];
   const sp='<p class="mute">점수 얻는 곳(모두 65점): 직업마다 25·45·60레벨 27점 · 제작 전문기술 18점 · PvP 12점 · 탐험 2점 · 레이드 3점 · 던전 3점 — '+SPELUNK.map(S=>S[1]+' '+S[2].filter(x=>spDone(c,x)).length+'/'+S[2].length).join(' · ')+' (던전 화면에서 확인)</p>';
   let n=0;return sp+'<p>레벨업용으로 이 순서로 찍으세요 (캐릭터당 16점까지):</p>'+plan.map(p=>{n+=p[1];return '<p><b>'+p[0]+' '+p[1]+'점</b> <span class="mute">누적 '+n+'</span><br><span class="mute">'+p[2]+'</span></p>'}).join('')
-   +'<p class="mute">'+(L<15?'새로 키우는 부캐는 재능(Talented)이 좋아요. 60레벨이 되면 빼고 다른 데 쓰세요.':'15레벨이 넘으면 재능(Talented)은 효과가 거의 없어요.')+''+' 재능은 휴식(Well Rested)을 5점 다 찍어야 열려요.</p>'}
+   +'<p class="mute">재능은 모험 트리에 5점(충분한 휴식)을 먼저 찍어야 열려요. 남는 1점은 아무 첫 줄 특전에 넣어도 돼요. 단골 승객(비행 반값)·재료 경제학은 그 트리에 10점이 먼저 필요해서 이 셋과 같이 못 찍어요.</p>'}
 /* 비행 경로를 열었나: 애드온 이름(「마을, 지역」) 지역이 같거나, 직접 표시 */
 function fpKnown(c,f){if((c.fpk||{})[f[0]+'|'+f[1]])return 'm';if(!c.taxi)return false;const z=zn(f[1]);return c.taxi.some(t=>{const p=t.split(/,\s*/);return zn(p[p.length-1])===z||zn(p[0])===z})?'a':false}
 /* 몹 이름 → 그 몹이 떨구는 장비 (forg 출처 「드랍 · 몹」) */
@@ -3826,6 +3844,15 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='frsp'){const [kk,sp]=k.split('|');c.frsp=c.frsp||{};c.frsp[kk]=sp;save();rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
   if(a==='libck'){c.lib=c.lib||{};if(c.lib[k])delete c.lib[k];else c.lib[k]=1;save();rerender(true);return}
+  if(a==='legg'){ui.legg=k;rerender(true);return}
+  if(a==='legck'){c.legC=c.legC||{};if(c.legC[k])delete c.legC[k];else c.legC[k]=1;save();rerender(true);return}
+  if(a==='legclr'){c.legP={};save();rerender(true);return}
+  if(a==='legrec'){c.legP={'1-0':5,'1-3':5,'1-1':5};save();toast('충분한 휴식 5 · 재능 5 · 모험의 전율 5 — 1점 남아요');rerender(true);return}
+  if(a==='legp'){const [t,i]=k.split('-').map(Number);const T=D_LEG.tree[t],nd=T.n[i];c.legP=c.legP||{};const P=c.legP;const cur=P[k]||0;
+    if(legLow(c,t,nd[1])<D_LEG.tierNeed[nd[1]]){toast('이 줄은 '+T.t+' 트리 앞줄에 '+D_LEG.tierNeed[nd[1]]+'점을 먼저 넣어야 열려요');return}
+    if(cur>=nd[2]){P[k]=0;[1,2].forEach(tier=>{if(legLow(c,t,tier)<D_LEG.tierNeed[tier])T.n.forEach((m,j)=>{if(m[1]===tier)P[t+'-'+j]=0})})}
+    else{const used=Object.values(P).reduce((s,v)=>s+(v||0),0);if(used>=D_LEG.cap){toast('한 캐릭터는 '+D_LEG.cap+'점까지예요');return}P[k]=cur+1}
+    Object.keys(P).forEach(x=>{if(!P[x])delete P[x]});save();rerender(true);return}
   if(a==='dvp'){ui.dvp=k;rerender(true);return}
   if(a==='libf'){ui.libf=k;rerender(true);return}
   if(a==='waycp'){(navigator.clipboard?navigator.clipboard.writeText(k):Promise.reject()).then(()=>toast('복사했어요 · '+k),()=>toast(k));return}
