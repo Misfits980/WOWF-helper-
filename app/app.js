@@ -427,6 +427,10 @@ function armSt(g){const st={};(g.stats||[]).forEach(([k,v])=>{const m=ARM_STAT[k
 function armItem(g){let it=IT.get(g.id);if(it)return it;const st=armSt(g);
   it={id:g.id,lv:g.req||1,est:false,sl:ARM_INV[g.inv]||'',cs:g.cls+'.'+g.sub,q:ARM_Q[g.q]||'c',st,eff:false,src:[],mask:511,ph:'',allow:null,prof:'',nm:g.nm,ic:'',icUrl:g.icon,ob:g.req||1,arm:true};
   ITEMS.push(it);IT.set(it.id,it);return it}
+/* 전투정보실 특성 이름 → 앱 특성 번호·점수 (나무 이름이 「야성」/「야성 전투」처럼 달라도 이름·아이콘으로 맞춤) */
+function armTalM(A){const C=D_CLS[A.cls];const M={};if(!C||!A.tal)return M;const T=Object.entries(C.talents);
+  A.tal.forEach(tr=>{const tree=C.trees.includes(tr.name)?tr.name:null;(tr.t||[]).forEach(([nm,rk,ic])=>{let e=T.find(([k,v])=>(!tree||v[1]===tree)&&v[0]===nm);if(!e&&ic)e=T.find(([k,v])=>(!tree||v[1]===tree)&&String(v[3])===String(ic));if(e&&rk>0)M[e[0]]=Math.min(e[1][2],rk)})});return M}
+const talTreePts=(C,M)=>C.trees.map(n=>Object.keys(M).reduce((s,k)=>s+(C.talents[k][1]===n?M[k]:0),0));
 function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};
   for(const g of Object.values(A.gear)){const s=ARM_SLOT[g.slot];if(!s)continue;armItem(g);c.eq[s]=g.id}
   const nc=A.cls&&CL.includes(A.cls)&&c.cls!==A.cls;
@@ -436,9 +440,8 @@ function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;
   const bad=!(RACE_CLS[c.race]||[]).includes(c.cls);
   {const ar=(A.race||A.raceName)?armRace(A.race||A.raceName):null;if(ar&&(RACE_CLS[ar]||[]).includes(c.cls)&&(nc||link||bad))c.race=ar}
   /* 전투정보실 특성 → 「내 특성」 (게임 애드온으로 더 최근에 불러온 게 있으면 그대로 둠) */
-  if(A.tal&&A.tal.length&&c.cls===A.cls){const C=D_CLS[c.cls];const T=Object.entries(C.talents);const M={};
-    A.tal.forEach(tr=>{const tree=C.trees.includes(tr.name)?tr.name:null;(tr.t||[]).forEach(([nm,rk,ic])=>{let e=T.find(([k,v])=>(!tree||v[1]===tree)&&v[0]===nm);if(!e&&ic)e=T.find(([k,v])=>(!tree||v[1]===tree)&&String(v[3])===String(ic));if(e&&rk>0)M[e[0]]=Math.min(e[1][2],rk)})});
-    if(nc||link||bad){const tl=C.trees.map(n=>Object.keys(M).reduce((s,k)=>s+(C.talents[k][1]===n?M[k]:0),0));const sp=impSpec(c,{tl});if(sp)c.spec=sp}
+  if(A.tal&&A.tal.length&&c.cls===A.cls){const C=D_CLS[c.cls];const M=armTalM(A);
+    if(nc||link||bad){const sp=impSpec(c,{tl:talTreePts(C,M)});if(sp)c.spec=sp}
     const at=Date.parse(A.checked)||Date.now();if(Object.keys(M).length&&!(c.tal&&c.tal.src==='game'&&c.tal.at>at))c.tal={cls:c.cls,r:M,src:'armory',at}}
   c.armAt=A.checked;save();if(!silent)toast('전투정보실에서 불러왔어요');return true}
 function armAgo(t){if(!t)return '';const m=Math.round((Date.now()-new Date(t))/60000);return m<1?'방금':m<60?m+'분 전':m<1440?Math.round(m/60)+'시간 전':Math.round(m/1440)+'일 전'}
@@ -1061,12 +1064,12 @@ function cmpSheet(c,slot,id){const it=IT.get(+id);if(!it)return '';const {csp,w}
   return h}
 /* ===== 👥 친구 장비 (전투정보실) ===== */
 function frList(c){return Object.keys(ARM).filter(k=>k!==c.arm&&ARM[k]&&ARM[k].gear&&CL.includes(ARM[k].cls))}
-/* 전문화는 전투정보실에 없어서 장비 능력치로 짐작 (바꿀 수 있음) */
-function frGuess(A){const C=D_CLS[A.cls];const t={};Object.values(A.gear).forEach(g=>{const it=armItem(g);for(const k in it.st)t[k]=(t[k]||0)+it.st[k]});
+/* 친구 전문화: 전투정보실 특성 점수가 있으면 그걸로, 없으면 장비 능력치로 짐작 (바꿀 수 있음) */
+function frGuess(A){const C=D_CLS[A.cls];if(A.tal&&A.tal.length){const sp=impSpec({cls:A.cls,spec:''},{tl:talTreePts(C,armTalM(A))});if(sp)return sp}const t={};Object.values(A.gear).forEach(g=>{const it=armItem(g);for(const k in it.st)t[k]=(t[k]||0)+it.st[k]});
   const role=(t.heal||0)>=8?'치유':((t.def||0)+(t.dodge||0)+(t.parry||0)+(t.block||0))>=6?'탱커':((t.int||0)+(t.sp||0)+(t.shadow||0)+(t.fire||0)+(t.frost||0)+(t.arcane||0)+(t.nature||0))>((t.str||0)+(t.agi||0)+(t.ap||0))?'원거리 딜':'근접 딜';
   const S=C.specs.find(x=>ROLE[A.cls+'/'+x.id]===role)||C.specs.find(x=>/딜/.test(role)&&/딜/.test(ROLE[A.cls+'/'+x.id]||''))||C.specs[0];return S.id}
-function frChar(k){const A=ARM[k];ui.frsp=ui.frsp||{};const spec=ui.frsp[k]||frGuess(A);const eq={},eqv={};Object.values(A.gear).forEach(g=>{const s=ARM_SLOT[g.slot];if(s){const base=IT.get(g.id);armItem(g);eq[s]=g.id;if(base){const gs=armSt(g);if(varDiff(base,g.nm,gs))eqv[s]={id:g.id,nm:g.nm,st:gs}}}});
-  return {cls:A.cls,spec,lv:A.level||1,race:A.race,eq,eqv,gmode:'heal',name:A.name,key:k}}
+function frChar(k){const A=ARM[k];/* 직접 고른 친구 전문화는 캐릭터에 저장 (새로고침·연동 뒤에도) */const fs=(me()&&me().frsp)||{};const spec=(fs[k]&&D_CLS[A.cls].specs.some(s=>s.id===fs[k]))?fs[k]:frGuess(A);const eq={},eqv={};Object.values(A.gear).forEach(g=>{const s=ARM_SLOT[g.slot];if(s){const base=IT.get(g.id);armItem(g);eq[s]=g.id;if(base){const gs=armSt(g);if(varDiff(base,g.nm,gs))eqv[s]={id:g.id,nm:g.nm,st:gs}}}});
+  return {cls:A.cls,spec,lv:A.level||1,race:(A.race||A.raceName)?armRace(A.race||A.raceName):A.race,eq,eqv,gmode:'heal',name:A.name,key:k}}
 function eqScore(c){const w=wOf(c);return SLOTS.reduce((a,[sl])=>a+(offLocked(c,sl)?0:sc(eqIt(c,sl),sl,w)),0)}
 function frScore(fc){const w=wOf(fc);return Object.entries(fc.eq).reduce((a,[s,id])=>a+sc(IT.get(id),s,w),0)}
 function frView(c){const ks=frList(c);if(!ARM_OK)return '<p class="note">전투정보실 자료를 불러오는 중…</p>';
@@ -3740,7 +3743,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     c.cmp=own.slice(0,1).concat(rec).slice(0,3);if(!c.cmp.length){const cur=eqIt(c,k);const alt=cands(c,k,c.lv,ui.ifil).filter(x=>!cur||x.it.id!==cur.id).sort((a,b)=>b.s-a.s).slice(0,2).map(x=>x.it.id);c.cmp=alt.length?alt:(cur?[cur.id]:[]);toast(SLOT_KO[k]+' · 지금 게 제일 좋아요 👍 '+(alt.length?'다음 후보와 견줘요':''))}save();rerender(true);
     setTimeout(()=>{const t=document.querySelector('.cmpc .cmpt,.cmpc table');if(t&&t.getBoundingClientRect().top>innerHeight-80)t.scrollIntoView({behavior:'smooth',block:'start'})},30);return}
   if(a==='fro'){ui.fropen=ui.fropen||{};ui.fropen[k]=!ui.fropen[k];rerender(true);return}
-  if(a==='frsp'){const [kk,sp]=k.split('|');ui.frsp=ui.frsp||{};ui.frsp[kk]=sp;rerender(true);return}
+  if(a==='frsp'){const [kk,sp]=k.split('|');c.frsp=c.frsp||{};c.frsp[kk]=sp;save();rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
   if(a==='frcopy'){const t=frText(k);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('복사했어요 · 디스코드·카톡에 붙여 넣으세요')).catch(()=>{ui.sheet=null;prompt('복사해서 쓰세요',t)});return}
   if(a==='nogo'){const id=+k;c.nogo=c.nogo||[];if(!c.nogo.includes(id))c.nogo.push(id);const it=IT.get(id);toast('🚫 '+(it?it.nm:'')+' 뺐어요 · 다음 추천을 넣었어요');save();rerender(true);return}
