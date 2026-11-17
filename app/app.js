@@ -523,7 +523,10 @@ function qdbChains(){const P={};const K={};const add=(a,b)=>{if(a===b||!QDB.has(
   const row=qchRow;
   for(const q of QDB.values()){delete q._ch;delete q._root;
     const back=[q.id];let x=q.id,k=0;while(P[x]!=null&&k++<30){x=P[x];back.unshift(x)}
-    const fwd=[];x=q.id;k=0;while(K[x]&&K[x].length===1&&k++<30){x=K[x][0];fwd.push(x)}
+    /* 다음이 갈래여도 이름이 같은 다음 퀘스트가 딱 하나면 그게 본줄기: 데피아즈단 6단계(호위) 다음 = 데피아즈단(밴클리프) · 붉은 비단 복면.
+       예전엔 갈래에서 멈춰 앞 단계에서 보면 「6단계」로 끝났음(7단계). 다른 갈래는 갈라지는 퀘스트를 열면 forkBox가 보여 줌 */
+    const nxOf=x=>{const ks=K[x];if(!ks)return null;if(ks.length===1)return ks[0];const n=QDB.get(x).n;const same=ks.filter(b=>QDB.get(b).n===n);return same.length===1?same[0]:null};
+    const fwd=[];x=q.id;k=0;let y;while((y=nxOf(x))!=null&&k++<30){x=y;fwd.push(x)}
     const ids=[...back,...fwd];q._root=back[0];
     if(ids.length>1||K[q.id])q._ch=ids.length>1?ids.map(row):null}}
 /* 떨구는 몹·상자 목록: 한글 이름이 하나라도 있으면 한글 없이 영어로만 남은 이름(Felsteel Chest처럼 이 서버에 없는 상자 등)은 뺌 */
