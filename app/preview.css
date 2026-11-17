@@ -327,3 +327,5 @@
 
 /* 던전 퀘스트 「던전 안에서 반납」 */
 .tag.rin{background:rgba(232,120,60,.16);border-color:rgba(232,120,60,.55);color:#f6b08a}
+.rmap2 .m3{margin-bottom:6px}
+.mapw .pin.n.ap{outline:2px dashed rgba(255,255,255,.75);outline-offset:1px}

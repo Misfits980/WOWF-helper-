@@ -1,0 +1,217 @@
+{
+"deadmines": {
+"map": 36,
+"prep": "deadmines",
+"floors": [
+{
+"z": [
+-10,
+70
+],
+"name": ""
+}
+]
+},
+"wailing-caverns": {
+"map": 43,
+"prep": "wailing-caverns",
+"floors": [
+{
+"z": [
+-125,
+-20
+],
+"name": ""
+}
+]
+},
+"shadowfang-keep": {
+"map": 33,
+"prep": "shadowfang-keep",
+"floors": [
+{
+"z": [
+70,
+92
+],
+"name": "안마당 · 연회장",
+"above": 3,
+"below": 20
+},
+{
+"z": [
+92,
+118
+],
+"name": "성벽 통로",
+"above": 3,
+"below": 12
+},
+{
+"z": [
+118,
+140
+],
+"name": "관측소 하층",
+"above": 3,
+"below": 12
+},
+{
+"z": [
+140,
+165
+],
+"name": "관측소 상층 · 아루갈의 방",
+"above": 4,
+"below": 12
+}
+]
+},
+"stockade": {
+"map": 34,
+"prep": "stockade",
+"floors": [
+{
+"z": [
+-40,
+10
+],
+"name": ""
+}
+]
+},
+"blackfathom-deeps": {
+"map": 48,
+"prep": "blackfathom-deeps",
+"floors": [
+{
+"z": [
+-85,
+-15
+],
+"name": "",
+"above": 8
+}
+]
+},
+"razorfen-kraul": {
+"map": 47,
+"prep": "razorfen-kraul",
+"floors": [
+{
+"z": [
+40,
+95
+],
+"name": "",
+"above": 6
+}
+]
+},
+"gnomeregan": {
+"map": 90,
+"prep": "gnomeregan",
+"ent": [
+"Gnomeregan - Entering"
+],
+"floors": [
+{
+"z": [
+-192,
+-140
+],
+"name": "톱니바퀴의 전당",
+"above": 4,
+"below": 10
+},
+{
+"z": [
+-235,
+-192
+],
+"name": "거주 지구",
+"above": 4,
+"below": 10
+},
+{
+"z": [
+-295,
+-235
+],
+"name": "출격실",
+"above": 4,
+"below": 10
+},
+{
+"z": [
+-345,
+-295
+],
+"name": "땜장이 왕실",
+"above": 4,
+"below": 10
+}
+]
+},
+"uldaman": {
+"map": 70,
+"prep": "uldaman",
+"floors": [
+{
+"z": [
+-65,
+-20
+],
+"name": "",
+"above": 8
+}
+]
+},
+"temple-of-atal-hakkar": {
+"map": 109,
+"prep": "temple-of-atal-hakkar",
+"floors": [
+{
+"z": [
+-165,
+-118
+],
+"name": "아래층",
+"above": 4,
+"below": 12
+},
+{
+"z": [
+-118,
+-80
+],
+"name": "가운데층",
+"above": 4,
+"below": 10
+},
+{
+"z": [
+-80,
+-45
+],
+"name": "위층 · 발코니",
+"above": 5,
+"below": 10
+}
+]
+},
+"razorfen-downs": {
+"map": 129,
+"prep": "razorfen-downs",
+"floors": [
+{
+"z": [
+18,
+70
+],
+"name": "",
+"above": 6
+}
+]
+}
+}

@@ -1,0 +1,3 @@
+{"out":"/home/claude/dgmap/out/deadmines","export":"/mnt/user-data/uploads/G:--World of Warcraft/_export/maps/deadminesinstance",
+ "parts":[{"name":"b","obj":"../../world/wmo/dungeon/az_deadmines/az_deadmines_b_set0.obj","pos":[17718.26171875,29.84957504272461,17223.072265625],"rotY":269},
+ {"name":"t32_32","obj":"adt_32_32.obj","world":true,"texmax":2048},{"name":"t33_32","obj":"adt_33_32.obj","world":true,"texmax":2048}]}

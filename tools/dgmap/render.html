@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head><body style="margin:0;background:#000">
+<canvas id="c"></canvas>
+<script>
+/* 위에서 본 직교 투영. 북(+X) 위, 서(+Y) 왼쪽. 아래를 보는 면(천장)과 zcut 위는 버림. */
+const VS=`#version 300 es
+in vec3 p;in vec2 uv;in vec3 n;
+uniform vec4 B;uniform vec2 Z;
+out vec2 vUV;out vec3 vN;out float vZ;
+void main(){vUV=uv;vN=n;vZ=p.z;
+ float cx=(B.w-p.y)/(B.w-B.z)*2.-1.;float cy=(p.x-B.x)/(B.y-B.x)*2.-1.;
+ float cz=1.-2.*(p.z-Z.x)/(Z.y-Z.x);
+ gl_Position=vec4(cx,cy,clamp(cz,-1.,1.),1.);}`;
+const FS=`#version 300 es
+precision highp float;
+in vec2 vUV;in vec3 vN;in float vZ;
+uniform sampler2D T;uniform int hasT;uniform vec2 S;uniform float sgn;uniform vec2 Z;uniform float dim;
+out vec4 o;
+void main(){
+ if(vZ>S.y||vZ<S.x)discard;
+ vec3 nn=normalize(vN)*sgn;
+ if(nn.z<-0.15)discard;
+ vec4 c=hasT==1?texture(T,vec2(vUV.x,1.-vUV.y)):vec4(.5,.47,.42,1.);
+ if(c.a<.35)discard;
+ vec3 L=normalize(vec3(.45,.35,.82));
+ float d=clamp(dot(nn,L),0.,1.);
+ float wall=1.-smoothstep(.25,.55,nn.z);
+ float h=clamp((vZ-S.x)/max(1.,S.y-S.x),0.,1.);
+ vec3 col=c.rgb*(.45+.65*d)*(.72+.38*h);
+ col=mix(col,vec3(.07,.06,.05),wall*.85);
+ o=vec4(col*dim,1.);}`;
+async function run(cfg){
+ const M=await (await fetch(cfg.dir+'/mesh.json')).json();
+ const buf=async f=>new Float32Array(await (await fetch(cfg.dir+'/'+f)).arrayBuffer());
+ const P=await buf('pos.bin'),U=await buf('uv.bin'),N=await buf('nrm.bin');
+ const cv=document.getElementById('c');cv.width=cfg.w;cv.height=cfg.h;
+ const gl=cv.getContext('webgl2',{preserveDrawingBuffer:true,antialias:true});
+ const sh=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x};
+ const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(pr);gl.useProgram(pr);
+ const at=(nm,a,k)=>{const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,a,gl.STATIC_DRAW);const l=gl.getAttribLocation(pr,nm);gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,k,gl.FLOAT,false,0,0)};
+ at('p',P,3);at('uv',U,2);at('n',N,3);
+ const u=n=>gl.getUniformLocation(pr,n);
+ gl.uniform4f(u('B'),cfg.b[0],cfg.b[1],cfg.b[2],cfg.b[3]);
+ gl.uniform2f(u('Z'),cfg.z[0],cfg.z[1]);gl.uniform2f(u('S'),cfg.s[0],cfg.s[1]);gl.uniform1f(u('sgn'),cfg.sgn||1);
+ gl.viewport(0,0,cfg.w,cfg.h);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+ gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LESS);
+ const texs={};
+ const load=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src});
+ for(const d of M.draws){if(d.tex&&!(d.tex in texs)){const im=await load(cfg.dir+'/tex/'+d.tex);if(!im){texs[d.tex]=null;continue}
+   const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,im);gl.generateMipmap(gl.TEXTURE_2D);
+   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.REPEAT);
+   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);texs[d.tex]=t}}
+ /* 지형(t로 시작)을 먼저 깔고 깊이를 지운 뒤 건물(WMO)을 위에: 지하 통로가 지형에 안 가림 */
+ const isT=d=>/^t/.test(d.part);
+ for(const pass of [1,2]){if(pass===2)gl.clear(gl.DEPTH_BUFFER_BIT);
+  for(const d of M.draws){if((pass===1)!==isT(d))continue;if(cfg.skip&&cfg.skip.some(s=>d.part.includes(s)))continue;const t=d.tex&&texs[d.tex];
+   gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,t||null);gl.uniform1i(u('T'),0);gl.uniform1i(u('hasT'),t?1:0);
+   gl.uniform1f(u('dim'),isT(d)?(cfg.tdim||.8):1.);
+   gl.drawArrays(gl.TRIANGLES,d.first,d.count)}}
+ gl.finish();
+ return cv.toDataURL('image/png');
+}
+window.run=run;
+</script></body></html>

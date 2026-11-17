@@ -1,0 +1,19 @@
+# 던전 위에서 본 지도 (data/dgmap · data/guides/dungeon-maps3d.json)
+
+포에버 클라이언트에서 wow.export(v0.2.21)로 던전 모델을 내보내 위에서 본 그림을 만든다. 게임 파일은 저장소에 넣지 않고 결과 그림(webp)과 좌표만 올림.
+
+1. wow.export Maps 탭
+   - 새 엔진 던전 지도(지형 칸이 있는 것: 죽음의 폐광·그림자송곳니·가시덩굴 우리·구릉·수도원 등): 칸 전부 선택(Ctrl+A) → Export OBJ. 칸마다 `adt_X_Y_ModelPlacementInformation.csv`에 WMO 자리(PositionX/Y/Z, RotationY).
+   - WMO 하나짜리 지도(통곡의 동굴·지하감옥·심연·놈리건·울다만·가라앉은 사원 등): Export Global WMO. 자리 = (17066.67, 0, 17066.67), 회전 0.
+   - 내보내기 설정: Export WMO만 켬(WMO Sets·M2 끔: 빠르고 위에서 볼 때 상관없음).
+2. 좌표(실측, 몹 자리로 확인 — 몹 89~100%가 바닥 3야드 안):
+   - 모델 OBJ (x,y,z) → 모델 좌표 (x, −z, y), Z 위
+   - 세계 = R(RotationY + 180°) · 모델 + (17066.67 − PosZ, 17066.67 − PosX, PosY)
+   - 지형 OBJ (x,y,z) = (세계Y, 세계Z, 세계X)
+3. `prep.py parts/<던전>.json` → 세계 좌표 정점·텍스처 묶음 (skiptex로 지붕·LOD·덩굴 뺌)
+4. `make.py <slug>` (conf.json: 층마다 높이 범위) → render.html(WebGL, 헤드리스 크롬)로 위에서 본 직교 투영. 아래를 보는 면(천장)과 층 높이 위는 버림. 지형은 먼저 깔고 건물을 위에.
+   - 핀: 보스 이름이 CMaNGOS(classic-db) 몹과 같으면 그 자리(w=1). 아니면 예전 wowf.io 지도 핀을 그 층 보스 2곳 이상으로 맞춘 1차식으로 옮김(w=2, 점선).
+   - 쫄 무리·순찰: /tmp/cmout/packs.json(tools/mobs) 세계 좌표 → 그림 %.
+5. `combine.py` → data/dgmap/*.webp + data/guides/dungeon-maps3d.json. build.py가 dungeon-guide.json 각 던전 f3 칸에 넣고, 미리보기에서 「위에서 본 지도 / 예전 지도」로 바꿔 봄.
+
+경로(/home/claude/dgmap, /mnt/user-data/uploads/...)는 작업 공간 기준이라 쓸 때 맞춰 바꿀 것.

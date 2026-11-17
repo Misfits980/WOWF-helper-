@@ -1162,6 +1162,8 @@ def _dg_acc():
         return 0
     raw = rd(p); g = json.loads(raw); A = json.loads(rd(ap)); n = 0
     mp_ = ROOT / 'data/guides/dungeon-mobs.json'; MB = json.loads(rd(mp_)) if mp_.exists() else {}
+    # 게임 모델로 그린 위에서 본 지도(tools/dgmap, 미리보기에서 씀): 층마다 그림·핀·쫄 무리가 같은 좌표
+    m3_ = ROOT / 'data/guides/dungeon-maps3d.json'; M3 = json.loads(rd(m3_)) if m3_.exists() else {}
     rp_ = ROOT / 'data/guides/recipe-drops.json'; RC = {}
     for r in (json.loads(rd(rp_))['rows'] if rp_.exists() else []):
         RC.setdefault(r[0], []).append(r[1:])
@@ -1173,6 +1175,8 @@ def _dg_acc():
             t.pop('acc', None)
         if RC.get(slug): t['rcp'] = RC[slug]
         else: t.pop('rcp', None)
+        if (M3.get(slug) or {}).get('floors'): t['f3'] = M3[slug]['floors']
+        else: t.pop('f3', None)
         for fi, f in enumerate(t.get('floors') or []):
             m = (MB.get(slug) or {}).get(str(fi))
             if m: f['mob'] = m
