@@ -1352,6 +1352,20 @@ function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='
   return h+'<p class="note chgn">블리자드는 화요일 점검 때 직업을 조정해요 · 원문: 공식 포럼 「WoW: Forever Hotfixes」</p></div>'}
 /* 🧪 미리보기 홈: 아래쪽 카드(마을·변경·사냥 기록·일지·메모·평판·애드온)를 한 장에 탭으로 → 스크롤 짧게, 내용은 그대로 */
 const pvHm=m=>m<60?m+'분':Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':'');
+/* 납품·상인의 호의 (data/guides/deliver.json → D_DLV): 가진 호의 → 제작법·보상마다 앞으로 상자 몇 개, 상자 재료는 가방과 비교 — 미리보기 */
+function dlvCard(c){const D=typeof D_DLV!=='undefined'?D_DLV:null;if(!D||!D.rows)return '';const fav=c.fav||0;const PS=['연금술','대장기술','요리','마법부여','기계공학','가죽세공','재봉술'];
+  const mine=PS.filter(p=>(c.profs||[]).includes(p)||(c.profLv||{})[p]!=null).sort((a,b)=>{const i=x=>{const k=(c.profs||[]).indexOf(x);return k<0?99:k};return i(a)-i(b)});const f=ui.dvp||(mine[0]||'공용');
+  const rows=D.rows.filter(r=>f==='공용'?!r[4]&&r[3]>0&&!/인증서$/.test(r[2]):r[4]===f||r[2]===f+' 인증서').sort((a,b)=>a[3]-b[3]||a[5]-b[5]);
+  const v=D.vend.find(x=>f==='공용'?x[0]==0:x[1]===f);const PL=c.profLv||{};const sk=Array.isArray(PL[f])?PL[f][0]:0;
+  let h='<div class="card dlvc"><div class="hd"><h3>납품 · 상인의 호의</h3></div><ol class="dvf">'+D.flow.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ol>'
+   +'<div class="dvfav"><label>지금 가진 호의 <input type="number" inputmode="numeric" min="0" step="5" value="'+fav+'" data-c="fav"></label><span class="dvt">'+D.fav.map(x=>'<span>'+x[0]+' <b>'+x[1]+'</b>/<b class="g">'+x[2]+'</b></span>').join('')+'</span></div><p class="mute">상자 하나에 주는 호의(흰/<span class="g">초록</span>) · '+esc(D.favNote)+'</p>'
+   +'<div class="flt2 dvp">'+mine.concat(PS.filter(p=>!mine.includes(p))).concat(['공용']).map(p=>'<button class="'+(f===p?'on':'')+'" data-a="dvp" data-k="'+p+'">'+p+(mine.includes(p)?' ★':'')+'</button>').join('')+'</div>'
+   +(v?'<p class="dvv">'+esc(D.zone)+' 세 갈래길 진지 · '+esc(v[1]==='진지 관리인'?'진지 관리인':v[1]+' 상인')+' <button class="lxy" data-a="waycp" data-k="'+esc('/way '+D.zone+' '+v[2].toFixed(1)+' '+v[3].toFixed(1))+'">'+v[2].toFixed(1)+', '+v[3].toFixed(1)+'</button></p>':'');
+  const need=r=>{const n=r[3]-fav;if(n<=0)return '<em class="ok">살 수 있어요</em>';return '<em>앞으로 '+n+' · 초급 '+Math.ceil(n/5)+'개 / 숙련 초록 '+Math.ceil(n/30)+'개</em>'};
+  h+='<div class="dvr">'+rows.map(r=>'<div class="dvrow'+(r[5]&&sk&&sk<r[5]?' lo':'')+'"><span class="m"><b>'+esc(r[2])+'</b><small>'+[r[5]?'숙련 '+r[5]:'',r[6]?r[6]:''].filter(Boolean).join(' · ')+'</small></span><span class="cst"><b>'+r[3].toLocaleString()+'</b>'+need(r)+'</span></div>').join('')+'</div>';
+  const MAT=typeof D_MATID!=='undefined'?D_MATID:{};const have=(nm,n)=>{const id=MAT[nm];return id&&c.bag&&(c.bag[id]||0)>=n};const myT=c.lv>=35?'전문':c.lv>=20?'숙련':'수습';
+  h+='<details class="dvcr"><summary>상자에 담는 재료 · '+D.crates.length+'가지<i>⌄</i></summary>'+['초급','수습','숙련','전문'].map(t=>{const C=D.crates.filter(x=>x.t===t);return '<div class="dvct"><b>'+t+' <small>'+C[0].lv+'레벨~</small></b>'+C.map(x=>{const all=c.bag&&x.need.every(m=>have(m[1],m[0]));return '<p'+(all?' class="ok"':'')+'><span>'+esc(x.k)+'</span>'+x.need.map(m=>esc(m[1])+' '+m[0]).join(' · ')+(all?' <em>가방에 다 있어요</em>':'')+'</p>'}).join('')+'</div>'}).join('')+'</details>';
+  return h+'<p class="mute src">'+esc(D.note)+' · 와우헤드 포에버 상업 관리국 가이드(11-11) 정리</p></div>'}
 /* 캠핑 플래너 (data/guides/camp.json → D_CAMP): 요리 숙련으로 피울 수 있는 모닥불, 내 전문기술 캠프 물건 3단계, 역할별 추천·직업 버프와 겹침 — 미리보기 */
 function campCard(c){const D=typeof D_CAMP!=='undefined'?D_CAMP:null;if(!D||!D.profs)return '';const PL=c.profLv||{};const sk=p=>{const v=PL[p];return Array.isArray(v)?v[0]:+v||0};const mine=p=>(c.profs||[]).includes(p)||PL[p]!=null;
   const DGN=s=>{const d=DG&&DG[s];return d?d.ko:s};const drop=d=>d?'<button class="lnk" data-a="dgo" data-k="'+d[0]+'">'+esc(DGN(d[0]))+'</button> '+esc(d[1])+' 약 '+d[2]+'%':'';
@@ -1388,7 +1402,7 @@ function libCard(c){const D=typeof D_LIB!=='undefined'?D_LIB:null;if(!D||!D.book
     return hd+'<div class="lbz"><h4>'+esc(z)+' <small>'+G[k].length+'권'+(k===hk?' · 지금 있는 지역':'')+'</small></h4>'+G[k].map(b=>{const st=libSt(c,b);const enemy=b.z==='오그리마';
       return '<div class="lbr s'+st+(enemy?' en':'')+'"><button class="lck" data-a="libck" data-k="'+b.id+'" aria-pressed="'+(st>=2)+'"'+(st===3?' disabled':'')+' aria-label="'+esc(b.ko)+' 반납했어요">'+(st>=2?'✓':'')+'</button><span class="m"><b>'+esc(b.ko)+'</b><small>'+(st===3?'반납함(게임 기록) · ':st===1?'가방에 있음 · ':'')+(enemy?'호드 도시 안 · ':'')+esc(b.w||'')+'</small></span><button class="lxy" data-a="waycp" data-k="'+esc('/way '+b.z+' '+b.x.toFixed(1)+' '+b.y.toFixed(1))+'">'+xy(b)+'</button></div>'}).join('')+'</div>'}).join('')||'<p class="empty-st">남은 책이 없어요.</p>';
   return h+'<p class="note">'+esc(D.turn)+'</p>'+(D.note||[]).map(t=>'<p class="mute">'+esc(t)+'</p>').join('')+'<p class="mute src">좌표·안쪽 위치: 와우헤드 포에버 도서관 가이드(11-13) 정리 · 게임에서 불러온 끝낸 퀘스트가 있으면 반납한 책은 저절로 ✓</p></div>'}
-function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['lib','도서관 책',()=>libCard(c)],['camp','캠핑',()=>campCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
+function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['lib','도서관 책',()=>libCard(c)],['camp','캠핑',()=>campCard(c)],['dlv','납품·호의',()=>dlvCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
     .map(([k,t,f])=>{let x='';try{x=f()}catch(e){}/* 탭 안 작은 제목 앞 이모지는 뺌(탭이 제목 역할) */x=x.replace(/(<h3[^>]*>)\s*(?:\p{Extended_Pictographic}\uFE0F?\s*)+/u,'$1');return [k,t,x]}).filter(x=>x[2]);if(!T.length)return '';
   const on=T.find(x=>x[0]===ui.htab)||T[0];
   return '<div class="card pvtab"><div class="pvtb" role="tablist">'+T.map(([k,t])=>'<button role="tab" aria-selected="'+(k===on[0])+'" class="'+(k===on[0]?'on':'')+'" data-a="htab" data-k="'+k+'">'+t+'</button>').join('')+'</div><div class="pvtp">'+on[2]+'</div></div>'}
@@ -3812,6 +3826,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='frsp'){const [kk,sp]=k.split('|');c.frsp=c.frsp||{};c.frsp[kk]=sp;save();rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
   if(a==='libck'){c.lib=c.lib||{};if(c.lib[k])delete c.lib[k];else c.lib[k]=1;save();rerender(true);return}
+  if(a==='dvp'){ui.dvp=k;rerender(true);return}
   if(a==='libf'){ui.libf=k;rerender(true);return}
   if(a==='waycp'){(navigator.clipboard?navigator.clipboard.writeText(k):Promise.reject()).then(()=>toast('복사했어요 · '+k),()=>toast(k));return}
   if(a==='frcopy'){const t=frText(k);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('복사했어요 · 디스코드·카톡에 붙여 넣으세요')).catch(()=>{ui.sheet=null;prompt('복사해서 쓰세요',t)});return}
@@ -3843,6 +3858,7 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
   if(f==='onb-name'){ui.onb.name=t.value;return}
   if(f==='onb-lv'){ui.onb.lv=Math.max(1,Math.min(60,parseInt(t.value)||1));rerender(true);return}
   if(!c)return;
+  if(f==='fav'){c.fav=Math.max(0,Math.min(99999,parseInt(t.value)||0));save();rerender(true);return}
   if(f==='lv'){setLv(c,t.value);rerender(true);return}
   if(f==='cname'){c.name=t.value.trim();save();rerender(true);return}
   if(f==='qnote'){const v=t.value.trim();c.notes=c.notes||{};c.notes.q=c.notes.q||{};c.notes.q[t.dataset.k]=v;save();return}

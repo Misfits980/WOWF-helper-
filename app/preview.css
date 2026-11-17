@@ -237,3 +237,26 @@
 .campc .cpa{padding:6px 12px;border-top:1px solid rgba(255,255,255,.06)}.campc .cpa b{font-size:13px}.campc .cpa small{margin-left:6px;font-size:11.5px;color:#e0b56a}
 .campc .cpa p{margin:3px 0 0;font-size:12.5px;line-height:1.6}
 .campc .cprule{margin:6px 0;padding-left:18px}.campc .cprule li{margin:2px 0;font-size:12.5px;color:#cfc6b4;line-height:1.55}
+
+/* 홈 「납품·호의」 */
+.dlvc .dvf{margin:4px 0 8px;padding-left:20px}.dlvc .dvf li{margin:2px 0;font-size:13px;line-height:1.55;color:#d8d0bf}
+.dlvc .dvfav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:8px 10px;border-radius:10px;background:rgba(232,180,60,.08);border:1px solid rgba(232,180,60,.3)}
+.dlvc .dvfav label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.dlvc .dvfav input{width:90px;min-height:36px;padding:0 8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.3);color:inherit;font-size:15px;font-variant-numeric:tabular-nums}
+.dlvc .dvt{display:flex;gap:10px;font-size:12px;color:var(--mute)}.dlvc .dvt b{color:#e6dccb}.dlvc .g{color:#8fd47f!important}
+.dlvc .dvp{margin-top:8px;flex-wrap:wrap}
+.dlvc .dvv{margin:6px 0;font-size:12.5px;color:var(--mute);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dlvc .lxy{min-height:30px;padding:0 9px;border-radius:8px;border:1px solid rgba(96,160,220,.35);background:rgba(96,160,220,.08);color:#9fc4e6;font-size:12px;cursor:pointer}
+.dlvc .dvr{max-height:520px;overflow:auto;margin:4px 0;border-top:1px solid rgba(255,255,255,.06)}
+.dlvc .dvrow{display:flex;align-items:center;gap:10px;padding:7px 2px;border-bottom:1px solid rgba(255,255,255,.06)}
+.dlvc .dvrow.lo{opacity:.55}
+.dlvc .dvrow .m{display:flex;flex-direction:column;min-width:0;flex:1}.dlvc .dvrow .m b{font-size:13px;font-weight:600}.dlvc .dvrow .m small{font-size:11.5px;color:var(--mute)}
+.dlvc .cst{flex:none;display:flex;flex-direction:column;align-items:flex-end;text-align:right;max-width:52%}
+.dlvc .cst b{font-size:14px;color:var(--gold);font-variant-numeric:tabular-nums}
+.dlvc .cst em{font-style:normal;font-size:11px;color:var(--mute);line-height:1.35}.dlvc .cst em.ok{color:#9fdc8f}
+.dlvc .dvcr{margin:10px 0;border-radius:10px;border:1px solid rgba(255,255,255,.1)}
+.dlvc .dvcr>summary{display:flex;padding:9px 12px;font-size:13px;font-weight:700;list-style:none;cursor:pointer}.dlvc .dvcr>summary::-webkit-details-marker{display:none}
+.dlvc .dvcr>summary i{margin-left:auto;font-style:normal;color:var(--mute)}.dlvc .dvcr[open]>summary i{transform:rotate(180deg)}
+.dlvc .dvct{padding:6px 12px;border-top:1px solid rgba(255,255,255,.06)}.dlvc .dvct>b{font-size:13px}.dlvc .dvct small{color:var(--mute);font-weight:400}
+.dlvc .dvct p{margin:4px 0;font-size:12.5px;line-height:1.55;color:#d0c8b8}.dlvc .dvct p span{display:inline-block;min-width:92px;color:#e6c88a;font-weight:600}
+.dlvc .dvct p.ok{color:#bfe8b3}.dlvc .dvct p em{font-style:normal;color:#9fdc8f;font-size:11.5px}
