@@ -193,3 +193,26 @@
 .ktip ul{margin:0;padding-left:18px}
 .ktip li{margin:3px 0;font-size:13.5px;line-height:1.6;color:#dcd6ca}
 .ktip .src{margin:8px 0 0;font-size:11.5px}
+
+/* 홈 「도서관 책」 */
+.libc .hd{display:flex;align-items:center;justify-content:space-between}
+.libc .lbn{font-size:13px;color:var(--mute)}.libc .lbn b{font-size:18px;color:var(--gold)}
+.libc .lbt{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:8px 0 4px}
+.libc .lbt span{display:flex;flex-direction:column;align-items:center;padding:6px 2px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.2);text-align:center}
+.libc .lbt b{font-size:13px}.libc .lbt small{font-size:11px;color:var(--mute);line-height:1.3}
+.libc .lbt span.on{border-color:rgba(120,200,120,.45);background:rgba(80,160,80,.12)}.libc .lbt span.on b{color:#9fdc8f}
+.libc .lbt span.nx{border-color:rgba(232,180,60,.55)}.libc .lbt span.nx b{color:var(--gold)}
+.libc .lbbag{margin:6px 0;padding:7px 10px;border-radius:8px;background:rgba(232,180,60,.12);color:#f2c96b;font-size:13px}
+.libc .lbcn{margin:12px 0 2px;font-size:12px;color:var(--mute);letter-spacing:.02em}
+.libc .lbz{margin:4px 0 8px}
+.libc .lbz h4{margin:6px 0 4px;font-size:14px}.libc .lbz h4 small{font-weight:400;color:var(--mute);font-size:12px}
+.libc .lbr{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid rgba(255,255,255,.06)}
+.libc .lck{flex:none;width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.25);color:#9fdc8f;font-size:16px;cursor:pointer}
+.libc .lbr.s2 .lck,.libc .lbr.s3 .lck{background:rgba(80,160,80,.2);border-color:rgba(120,200,120,.5)}
+.libc .lbr.s2 .m b,.libc .lbr.s3 .m b{color:var(--mute);text-decoration:line-through}
+.libc .lbr.s1 .m small{color:#f2c96b}
+.libc .lbr.en{opacity:.6}
+.libc .lbr .m{display:flex;flex-direction:column;min-width:0;flex:1}
+.libc .lbr .m b{font-size:13.5px;font-weight:600}
+.libc .lbr .m small{font-size:12px;color:var(--mute)}
+.libc .lxy{flex:none;min-height:32px;padding:0 9px;border-radius:8px;border:1px solid rgba(96,160,220,.35);background:rgba(96,160,220,.08);color:#9fc4e6;font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer}

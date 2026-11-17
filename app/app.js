@@ -1352,7 +1352,26 @@ function chgCard(c){const now=Date.now(),D=864e5;const L=CHG.filter(x=>(x[1]==='
   return h+'<p class="note chgn">블리자드는 화요일 점검 때 직업을 조정해요 · 원문: 공식 포럼 「WoW: Forever Hotfixes」</p></div>'}
 /* 🧪 미리보기 홈: 아래쪽 카드(마을·변경·사냥 기록·일지·메모·평판·애드온)를 한 장에 탭으로 → 스크롤 짧게, 내용은 그대로 */
 const pvHm=m=>m<60?m+'분':Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':'');
-function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
+/* 도서관 책 40권 (data/guides/library-books.json → D_LIB): 반납 퀘스트를 게임에서 불러왔으면 자동 ✓, 가방에 있으면 「가방」, 아니면 손으로 체크 — 미리보기 */
+function libSt(c,b){if(b.q&&(c.mq||{})[b.q])return 3;if((c.lib||{})[b.id])return 2;if(c.bag&&c.bag[b.id])return 1;return 0}
+function libCard(c){const D=typeof D_LIB!=='undefined'?D_LIB:null;if(!D||!D.books)return '';const B=D.books;const mine=B.filter(b=>b.z!=='오그리마');
+  const n=mine.filter(b=>libSt(c,b)>=2).length,bag=mine.filter(b=>libSt(c,b)===1).length;const nx=D.tiers.find(t=>n<t[0]);const f=ui.libf||'left';
+  const xy=b=>b.x.toFixed(1)+', '+b.y.toFixed(1);
+  let h='<div class="card libc"><div class="hd"><h3>도서관 책</h3><span class="lbn"><b>'+n+'</b>/'+mine.length+'권</span></div>'
+   +'<div class="lbt">'+D.tiers.map(t=>'<span class="'+(n>=t[0]?'on':nx===t?'nx':'')+'"><b>'+t[0]+'권</b><small>'+esc(t[3].split(' · ')[0])+(t[1]>1?' · '+t[1]+'레벨':'')+'</small></span>').join('')+'</div>'
+   +(nx?'<p class="note">다음 보상까지 <b>'+(nx[0]-n)+'권</b> · '+esc(nx[2].join(' / '))+'</p>':'<p class="note">보상 단계를 다 채웠어요.</p>')
+   +(bag?'<p class="lbbag">가방에 '+esc(mine.filter(b=>libSt(c,b)===1).map(b=>b.ko).join(', '))+' — 사서에게 반납하면 돼요</p>':'')
+   +'<div class="flt2">'+[['left','남은 책 '+(mine.length-n)],['all','전부 '+B.length]].map(x=>'<button class="'+(f===x[0]?'on':'')+'" data-a="libf" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
+  const show=B.filter(b=>f==='all'||libSt(c,b)<2);
+  const G={};show.forEach(b=>{(G[b.c+'|'+b.z]=G[b.c+'|'+b.z]||[]).push(b)});
+  const here=(c.lpos&&c.lpos.z)||'';const hk=Object.keys(G).find(k=>k.split('|')[1]===here);
+  const keys=Object.keys(G).filter(k=>k!==hk).sort((a,b)=>a.split('|')[0]===b.split('|')[0]?G[b].length-G[a].length||a.localeCompare(b):a.split('|')[0]==='동부 왕국'?-1:1);if(hk)keys.unshift(hk);
+  let lastC='';
+  h+=keys.map(k=>{const [cn,z]=k.split('|');const hd=k===hk?'':cn!==lastC?'<p class="lbcn">'+esc(cn)+'</p>':'';lastC=cn;
+    return hd+'<div class="lbz"><h4>'+esc(z)+' <small>'+G[k].length+'권'+(k===hk?' · 지금 있는 지역':'')+'</small></h4>'+G[k].map(b=>{const st=libSt(c,b);const enemy=b.z==='오그리마';
+      return '<div class="lbr s'+st+(enemy?' en':'')+'"><button class="lck" data-a="libck" data-k="'+b.id+'" aria-pressed="'+(st>=2)+'"'+(st===3?' disabled':'')+' aria-label="'+esc(b.ko)+' 반납했어요">'+(st>=2?'✓':'')+'</button><span class="m"><b>'+esc(b.ko)+'</b><small>'+(st===3?'반납함(게임 기록) · ':st===1?'가방에 있음 · ':'')+(enemy?'호드 도시 안 · ':'')+esc(b.w||'')+'</small></span><button class="lxy" data-a="waycp" data-k="'+esc('/way '+b.z+' '+b.x.toFixed(1)+' '+b.y.toFixed(1))+'">'+xy(b)+'</button></div>'}).join('')+'</div>'}).join('')||'<p class="empty-st">남은 책이 없어요.</p>';
+  return h+'<p class="note">'+esc(D.turn)+'</p>'+(D.note||[]).map(t=>'<p class="mute">'+esc(t)+'</p>').join('')+'<p class="mute src">좌표·안쪽 위치: 와우헤드 포에버 도서관 가이드(11-13) 정리 · 게임에서 불러온 끝낸 퀘스트가 있으면 반납한 책은 저절로 ✓</p></div>'}
+function pvTabs(c){const T=[['town','마을 할 일',()=>townCard(c)],['lib','도서관 책',()=>libCard(c)],['chg','최근 변경',()=>chgCard(c)],['play','사냥 기록',()=>playCard(c)],['jl','플레이 일지',()=>jlCard(c)],['note','메모',()=>notesList(c)],['rep','평판',()=>repCard(c)],['addon','애드온',()=>addonCard(c)]]
     .map(([k,t,f])=>{let x='';try{x=f()}catch(e){}/* 탭 안 작은 제목 앞 이모지는 뺌(탭이 제목 역할) */x=x.replace(/(<h3[^>]*>)\s*(?:\p{Extended_Pictographic}\uFE0F?\s*)+/u,'$1');return [k,t,x]}).filter(x=>x[2]);if(!T.length)return '';
   const on=T.find(x=>x[0]===ui.htab)||T[0];
   return '<div class="card pvtab"><div class="pvtb" role="tablist">'+T.map(([k,t])=>'<button role="tab" aria-selected="'+(k===on[0])+'" class="'+(k===on[0]?'on':'')+'" data-a="htab" data-k="'+k+'">'+t+'</button>').join('')+'</div><div class="pvtp">'+on[2]+'</div></div>'}
@@ -3775,6 +3794,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='fro'){ui.fropen=ui.fropen||{};ui.fropen[k]=!ui.fropen[k];rerender(true);return}
   if(a==='frsp'){const [kk,sp]=k.split('|');c.frsp=c.frsp||{};c.frsp[kk]=sp;save();rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
+  if(a==='libck'){c.lib=c.lib||{};if(c.lib[k])delete c.lib[k];else c.lib[k]=1;save();rerender(true);return}
+  if(a==='libf'){ui.libf=k;rerender(true);return}
   if(a==='waycp'){(navigator.clipboard?navigator.clipboard.writeText(k):Promise.reject()).then(()=>toast('복사했어요 · '+k),()=>toast(k));return}
   if(a==='frcopy'){const t=frText(k);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('복사했어요 · 디스코드·카톡에 붙여 넣으세요')).catch(()=>{ui.sheet=null;prompt('복사해서 쓰세요',t)});return}
   if(a==='nogo'){const id=+k;c.nogo=c.nogo||[];if(!c.nogo.includes(id))c.nogo.push(id);const it=IT.get(id);toast('🚫 '+(it?it.nm:'')+' 뺐어요 · 다음 추천을 넣었어요');save();rerender(true);return}
