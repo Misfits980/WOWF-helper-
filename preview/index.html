@@ -2835,10 +2835,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=b922b819"></script>
-<script>/* v2d76d4 @11/17 14:02 */
+<script>/* v481b1f @11/17 15:18 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 14:02';
+const BUILD='11/17 15:18';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3006,7 +3006,9 @@ DB.list.forEach(c=>{if(!c)return;if(c.sess&&!(c.sess.secs<=259200)){delete c.ses
 const saveRaw=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}};
 /* 다른 탭·창에서 저장하면 이 탭 기록도 그걸로 바꿈 — 예전엔 먼저 열려 있던 탭이 저장하면서 다른 탭에서 바꾼 레벨·찜을 덮고 지운 캐릭터를 되살림 · 보고 있던 캐릭터는 그대로 */
 addEventListener('storage',e=>{if(e.key!==KEY||!e.newValue)return;try{const o=JSON.parse(e.newValue);if(!o||!Array.isArray(o.list))return;const cur=DB.cur;DB=o;
-  if(cur&&DB.list.some(x=>x.id===cur))DB.cur=cur;else if(!DB.list.some(x=>x.id===DB.cur))DB.cur=DB.list[0]?DB.list[0].id:null;rerender(true)}catch(_){}});
+  if(cur&&DB.list.some(x=>x.id===cur))DB.cur=cur;else if(!DB.list.some(x=>x.id===DB.cur))DB.cur=DB.list[0]?DB.list[0].id:null;stRe()}catch(_){}});
+/* 입력 중(이름·백업 코드·메모 등)이면 칸에서 나온 뒤에 다시 그림 — 쓰던 글이 지워지지 않게 */
+function stRe(){if(document.querySelector('input:focus,textarea:focus')){if(!stRe.w){stRe.w=1;document.addEventListener('focusout',()=>setTimeout(()=>{stRe.w=0;stRe()},0),{once:true})}return}rerender(true)}
 /* 저장할 때 지금 캐릭터에 고친 시각을 남기고(기기 연동 합치기용), 연동 중이면 몇 초 뒤 올림 */
 const save=()=>{const c=DB.list.find(x=>x.id===DB.cur);if(c)c._t=Date.now();saveRaw();syQueue()};
 /* ===== 📱💻 휴대폰·컴퓨터 자동 연동: 내 GitHub 비공개 Gist 한 개에 기록을 두고 서로 맞춤 =====
@@ -3271,6 +3273,8 @@ function armItem(g){let it=IT.get(g.id);if(it)return it;const st=armSt(g);
 /* 전투정보실 특성 이름 → 앱 특성 번호·점수 (나무 이름이 「야성」/「야성 전투」처럼 달라도 이름·아이콘으로 맞춤) */
 function armTalM(A){const C=D_CLS[A.cls];const M={};if(!C||!A.tal)return M;const T=Object.entries(C.talents);
   A.tal.forEach(tr=>{const tree=C.trees.includes(tr.name)?tr.name:null;(tr.t||[]).forEach(([nm,rk,ic])=>{let e=T.find(([k,v])=>(!tree||v[1]===tree)&&v[0]===nm);if(!e&&ic)e=T.find(([k,v])=>(!tree||v[1]===tree)&&String(v[3])===String(ic));if(e&&rk>0)M[e[0]]=Math.min(e[1][2],rk)})});return M}
+/* 지금 종족·직업이 있을 수 없는 조합이고, 전투정보실 종족으로 바꾸면 맞게 될 때만 true */
+function armFixable(c,A){if((RACE_CLS[c.race]||[]).includes(c.cls))return false;const ar=(A.race||A.raceName)?armRace(A.race||A.raceName):null;return !!ar&&(RACE_CLS[ar]||[]).includes(A.cls||c.cls)}
 const talTreePts=(C,M)=>C.trees.map(n=>Object.keys(M).reduce((s,k)=>s+(C.talents[k][1]===n?M[k]:0),0));
 function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;c.eq={};c.eqv={};
   /* 「산적의 ○○」처럼 붙는 능력치가 다른 템은 전투정보실의 실제 능력치를 같이 저장 (친구 화면과 같은 규칙 · 예전엔 기본 능력치(없음)로 계산돼 빈 칸처럼 추천됨) */
@@ -3279,7 +3283,7 @@ function armApply(c,silent,link){const A=ARM[c.arm];if(!A||!A.gear)return false;
   if(A.level)c.lv=+A.level||c.lv;if(nc){c.cls=A.cls;c.spec=D_CLS[A.cls].specs[0].id}
   /* 처음 연결하거나 직업이 바뀔 때: 종족은 전투정보실 그대로, 전문화는 특성 점수가 가장 많은 쪽
      · 있을 수 없는 종족·직업 조합(예전 연결 때 생긴 노움 드루이드 등)은 다음 갱신 때 둘 다 바로잡음 */
-  const bad=!(RACE_CLS[c.race]||[]).includes(c.cls);
+  const bad=armFixable(c,A);
   {const ar=(A.race||A.raceName)?armRace(A.race||A.raceName):null;if(ar&&(RACE_CLS[ar]||[]).includes(c.cls)&&(nc||link||bad))c.race=ar}
   /* 전투정보실 특성 → 「내 특성」 (게임 애드온으로 더 최근에 불러온 게 있으면 그대로 둠) */
   if(A.tal&&A.tal.length&&c.cls===A.cls){const C=D_CLS[c.cls];const M=armTalM(A);
@@ -3292,7 +3296,7 @@ let ARM_AT=0;
 function armFetch(manual){ARM_AT=Date.now();
   return fetch('data/armory/chars.json?t='+(manual?Date.now():Math.floor(Date.now()/300000)),{cache:manual?'no-store':'default'}).then(r=>r.ok?r.json():{}).then(j=>{ARM=j||{};ARM_OK=true;
   /* 이미 연결된 캐릭터는 새 자료가 오면 자동으로 맞춤 */
-  let ch=0;DB.list.forEach(c=>{const A=ARM[c.arm];if(A&&A.checked&&(A.checked!==c.armAt||!(RACE_CLS[c.race]||[]).includes(c.cls))&&A.gear){armApply(c,true);ch++}});
+  let ch=0;DB.list.forEach(c=>{const A=ARM[c.arm];if(A&&A.checked&&(A.checked!==c.armAt||armFixable(c,A))&&A.gear){armApply(c,true);ch++}});
   DB.list.forEach(c=>{const A=ARM[c.arm];if(A&&A.gear)Object.values(A.gear).forEach(armItem)});
   if(manual||ch)render();return ch}).catch(()=>{ARM_OK=true;return -1})}
 armFetch().then(()=>render());
@@ -3765,21 +3769,22 @@ function obOf(it,m){if(!it._sv||m==='all')return it.ob;if(!it.obm){const M={};fo
   it.obm={};for(const k in M)it.obm[k]=Math.max(it.ob,M[k])}return it.obm[m]||it.ob}
 function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>obOf(it,mode)<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 function upgrades(c,L,mode,minLv,ex){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);if(ex)ex.forEach(i=>ng.add(i));
-  /* 이미 낀 템이 「하나 고르기」 퀘스트 보상이면 그 퀘스트의 다른 보상은 못 받음 */const eqQ=new Set(SLOTS.map(([s])=>eqIt(c,s)).filter(Boolean).map(pickOneQ).filter(Boolean));/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
+  /* 「하나 고르기」 퀘스트: 이미 그 보상을 끼고 있거나 직접 다른 보상을 골랐으면 나머지 보상은 못 받음 */const eqQ=new Set(SLOTS.map(([s])=>eqIt(c,s)).filter(Boolean).map(pickOneQ).filter(Boolean));const rp=c.rwPick||{};const hasRp=Object.keys(rp).length>0;
+  const p1No=it=>{if(!eqQ.size&&!hasRp)return false;const q=pickOneQ(it);return !!q&&(eqQ.has(q)||(rp[q]&&rp[q]!==it.id&&rwChoices(q).includes(rp[q])))};/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
     const curS=Math.min(...pair.map(p=>sc(eqIt(c,p),p,w)));const tgt=pair.reduce((a,p)=>sc(eqIt(c,p),p,w)<=sc(eqIt(c,a),a,w)?p:a,pair[0]);
     let base=curS;if(slot==='main')base=sc(eqIt(c,'main'),'main',w)+(0);
     if(slot==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h')continue;
     const have=new Set(pair.map(p=>c.eq[p]).filter(Boolean));
-    const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&!ng.has(x.it.id)&&!(eqQ.size&&eqQ.has(pickOneQ(x.it)))&&(minLv==null||obOf(x.it,mode)>=minLv)&&!(slot==='off'&&out.some(o=>o.slot==='main'&&o.it.id===x.it.id)));
+    const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&!ng.has(x.it.id)&&!p1No(x.it)&&(minLv==null||obOf(x.it,mode)>=minLv)&&!(slot==='off'&&out.some(o=>o.slot==='main'&&o.it.id===x.it.id)));
     for(const x of list.slice(0,1)){let g;
       if(slot==='main'&&x.it.sl==='2h')g=x.s-(sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w));else g=x.s-base;
       if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):base,empty:!eqIt(c,tgt)})}}
   /* 양손 무기 추천과 보조 추천이 같이 나오지 않게: 양손 vs (한손+보조) 중 나은 쪽만 */
   const mi=out.findIndex(o=>o.slot==='main'&&o.it.sl==='2h'),oi=out.findIndex(o=>o.slot==='off');
   if(mi>=0&&oi>=0){const m=out[mi],o=out[oi];const two=m.base+m.g;const offS=o.base+o.g;
-    const m1=cands(c,'main',L,mode).find(x=>x.it.sl!=='2h'&&x.it.id!==o.it.id&&!ng.has(x.it.id)&&(minLv==null||obOf(x.it,mode)>=minLv));const curM=eqIt(c,'main');
+    const m1=cands(c,'main',L,mode).find(x=>x.it.sl!=='2h'&&x.it.id!==o.it.id&&!ng.has(x.it.id)&&!p1No(x.it)&&(minLv==null||obOf(x.it,mode)>=minLv));const curM=eqIt(c,'main');
     const oneS=Math.max(m1?m1.s:0,curM&&curM.sl!=='2h'?sc(curM,'main',w):0);
     if(two>=oneS+offS)out.splice(oi,1);
     else{if(m1&&(!curM||m1.s>sc(curM,'main',w)+.01)){const b0=sc(curM,'main',w);out[mi]={slot:'main',it:m1.it,g:m1.s-b0,base:b0,empty:!curM}}else out.splice(mi,1)}}
@@ -3912,8 +3917,9 @@ function cmpSheet(c,slot,id){const it=IT.get(+id);if(!it)return '';const {csp,w}
 /* ===== 👥 친구 장비 (전투정보실) ===== */
 function frList(c){return Object.keys(ARM).filter(k=>k!==c.arm&&ARM[k]&&ARM[k].gear&&CL.includes(ARM[k].cls))}
 /* 친구 전문화: 전투정보실 특성 점수가 있으면 그걸로, 없으면 장비 능력치로 짐작 (바꿀 수 있음) */
-function frGuess(A){const C=D_CLS[A.cls];if(A.tal&&A.tal.length){const sp=impSpec({cls:A.cls,spec:''},{tl:talTreePts(C,armTalM(A))});if(sp)return sp}const t={};Object.values(A.gear).forEach(g=>{const it=armItem(g);for(const k in it.st)t[k]=(t[k]||0)+it.st[k]});
+function frGuess(A){const C=D_CLS[A.cls];let tsp=null;if(A.tal&&A.tal.length){tsp=impSpec({cls:A.cls,spec:''},{tl:talTreePts(C,armTalM(A))});if(tsp&&!/^feral/.test(tsp))return tsp}const t={};Object.values(A.gear).forEach(g=>{const it=armItem(g);for(const k in it.st)t[k]=(t[k]||0)+it.st[k]});
   const role=(t.heal||0)>=8?'치유':((t.def||0)+(t.dodge||0)+(t.parry||0)+(t.block||0))>=6?'탱커':((t.int||0)+(t.sp||0)+(t.shadow||0)+(t.fire||0)+(t.frost||0)+(t.arcane||0)+(t.nature||0))>((t.str||0)+(t.agi||0)+(t.ap||0))?'원거리 딜':'근접 딜';
+  /* 야성 특성 드루이드는 특성만으로 곰·고양이를 못 가려서 장비 역할로 */if(tsp)return role==='탱커'?'feral-bear':'feral-cat';
   const S=C.specs.find(x=>ROLE[A.cls+'/'+x.id]===role)||C.specs.find(x=>/딜/.test(role)&&/딜/.test(ROLE[A.cls+'/'+x.id]||''))||C.specs[0];return S.id}
 function frChar(k){const A=ARM[k];/* 직접 고른 친구 전문화는 캐릭터에 저장 (새로고침·연동 뒤에도) */const fs=(me()&&me().frsp)||{};const spec=(fs[k]&&D_CLS[A.cls].specs.some(s=>s.id===fs[k]))?fs[k]:frGuess(A);const eq={},eqv={};Object.values(A.gear).forEach(g=>{const s=ARM_SLOT[g.slot];if(s){const base=IT.get(g.id);armItem(g);eq[s]=g.id;if(base){const gs=armSt(g);if(varDiff(base,g.nm,gs))eqv[s]={id:g.id,nm:g.nm,st:gs}}}});
   return {cls:A.cls,spec,lv:A.level||1,race:(A.race||A.raceName)?armRace(A.race||A.raceName):A.race,eq,eqv,gmode:'heal',name:A.name,key:k}}
@@ -4516,7 +4522,8 @@ function gear(c){const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   const tot=statTotals(c);const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]-a[1]).map(([k])=>k).slice(0,6);
   const nEq=SLOTS.filter(([sl])=>eqIt(c,sl)).length,nAll=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
   const nowU=upgrades(c,L,ui.ifil),myS=Math.round(eqScore(c)),upS=Math.round(nowU.reduce((a,x)=>a+(x.g||0),0));
-  const soonU=upgrades(c,Math.min(60,L+5),ui.ifil,L+1),farU=L<55?upgrades(c,Math.min(60,L+10),ui.ifil,L+6):[],RL=upRowsOf(c,nowU,soonU,farU);
+  /* 같은 「하나 고르기」 퀘스트 보상이 「지금」과 「곧」에 나뉘어 나오지 않게 */const p1Ex=U=>{const s=new Set();U.forEach(o=>{const q=pickOneQ(o.it);if(q)rwChoices(q).forEach(i=>{if(i!==o.it.id)s.add(i)})});return s};
+  const soonU=upgrades(c,Math.min(60,L+5),ui.ifil,L+1,p1Ex(nowU)),farU=L<55?upgrades(c,Math.min(60,L+10),ui.ifil,L+6,p1Ex(nowU.concat(soonU))):[],RL=upRowsOf(c,nowU,soonU,farU);
   /* 미리보기: 칸마다 바꾸면 오르는 점수(초록) · 레벨 오르면 바꿀 칸(파랑) — 아래 목록과 같은 줄 */
   const bb={};if(PV){RL.rows.forEach(x=>{if(x.g>.01||x.empty)bb[x.slot]=x});RL.later.forEach(x=>{if(!bb[x.slot])bb[x.slot]=Object.assign({soon:1},x)})}
   /* 위 「▲ N칸」·탭 숫자·「바꿀 것 N칸」은 같은 목록(RL.rows)을 셈: 예전엔 칸 표시(ups)를 세서 빈 반지 2칸·양손 무기 추천 때 보조 손까지 더해 1~2칸 많았음 */
@@ -5604,7 +5611,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return '<p class="note">퀘�
    const hit=isl(s0)||isl(ST[1]);if(hit)h+='<div class="isl">⛵ '+esc(hit[1])+'</div>';
    else{const bt=boatTip(s0.zone,ST[1]&&ST[1].zone);if(bt)h+='<div class="isl">⛵ '+esc(bt)+'</div>'}}
   /* 하기 단계인데 지도 위치 자료가 없으면(강물터·셴드랄라스 새 퀘스트, 악령의 숲 오염된 식물 등 62곳) 퀘스트 목표 글로 어디인지 힌트 */
-  if(s0.type==='do'&&!s0.xy&&QDB){const o=s0.items.map(it=>(QDB.get(it.q.id)||{}).o).find(t=>typeof t==='string'&&t.trim());if(o)h+='<div class="isl">지도 위치 자료가 없어요 · 퀘스트 목표: 「'+esc(o.length>90?o.slice(0,88)+'…':o)+'」</div>'}
+  if(s0.type==='do'&&!s0.xy&&QDB){const o=s0.items.map(it=>(QDB.get(it.q.id)||rqAsQ(it.q.id)||{}).o).find(t=>typeof t==='string'&&t.trim());if(o)h+='<div class="isl">지도 위치 자료가 없어요 · 퀘스트 목표: 「'+esc(o.length>90?o.slice(0,88)+'…':o)+'」</div>'}
   h+=s0.items.map(it=>{const q=it.q;if(it.type==='do'&&q.cnt.length)return q.cnt.map((o,i)=>{const k=q.id+'|'+i;const v=(c.qc||{})[k]||0;return '<div class="ob4"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+'</small>'+(i===0?qnTag(c,q.id):'')+'</span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+v+'/'+o[1]+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
     return '<div class="ob4"><span class="m">'+esc(q.nm)+'<small>'+(it.type==='get'?esc(q.g[0]||'')+(q.lv>0?' · Lv '+q.lv:'')+preHint(c,q.id):it.type==='turn'?'반납 · '+esc(q.r[0]||''):esc(q.o?q.o.nm:'평판 올리기'))+'</small>'+qnTag(c,q.id)+'</span>'+(it.type==='turn'&&(RWD.get(q.id)||{}).xp?'<span class="xp">+'+((RWD.get(q.id)||{}).xp).toLocaleString()+'</span>':'')+'</div>'}).join('');
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
@@ -6290,7 +6297,7 @@ function fsPick(i){const x=(ui.fsList||[])[i];if(!x)return;ui.fsCur=i;ui.fsMsg='
 const fsAutoOn=()=>{try{return localStorage.getItem('wowf_fsauto')!=='0'}catch(e){return true}};
 function fsAutoSet(v){try{localStorage.setItem('wowf_fsauto',v?'1':'0')}catch(e){}}
 let fsBusy=false,fsLastChk=0;
-async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy)return;const c=me();if(!c||!(c.fsName||c.name)||ui.sheet==='imp')return;
+async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy)return;let c=me();if(!c||!(c.fsName||c.name)||ui.sheet==='imp')return;
   if(!force&&Date.now()-fsLastChk<2500)return;fsLastChk=Date.now();fsBusy=true;
   try{let L=ui.fsList;
     if(!L||!L.length){const h=await idbH('get');if(!h)return;
@@ -6300,6 +6307,7 @@ async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy)return;const c=me();if
     const nm=c.fsName||c.name;const x=L.find(y=>y.name===nm);if(!x||!x.fh)return;
     const f=await x.fh.getFile();if(f.lastModified<=(c.fsT||0))return;
     const t=await f.text();const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(!m)return;
+    /* 읽는 사이 다른 탭이 저장해 기록이 바뀌었을 수 있어 지금 기록의 같은 캐릭터를 다시 잡음 */c=DB.list.find(y=>y.id===c.id);if(!c)return;
     const code=luaStr(m[1]);x.code=code;x.t=f.lastModified;const P=impParse(code);if(!P||P.name!==nm){c.fsT=f.lastModified;return}
     const snap=JSON.stringify(DB);const lv0=c.lv;
     const r=impApply(c,P,{eq:true,sp:false});c.fsT=f.lastModified;save();rerender(true);
@@ -6364,7 +6372,7 @@ function navLog(){const k=ui.tab+(ui.tab==='quest'?'/'+(ui.qmode||''):ui.tab==='
   try{const L=JSON.parse(sessionStorage.getItem('wfh_nav')||'[]');L.push([new Date().toTimeString().slice(0,8),NAVP||'-',k,NAVW]);sessionStorage.setItem('wfh_nav',JSON.stringify(L.slice(-30)));
     sessionStorage.setItem('wfh_view',JSON.stringify({tab:ui.tab,qmode:ui.qmode,dg:ui.dg}))}catch(e){}
   NAVP=k;NAVW='?'}
-function render(){{const c0=me();if(c0&&ui._ifc!==c0.id){ui._ifc=c0.id;ui.ifil=c0.ifil||'ok'}}const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');if(ui._tin){app.className+=' tin-'+ui._tin;ui._tin=null}
+function render(){if(ui.sheet!=='chars')ui.delAsk=0;/* 지우기 「한 번 더」는 캐릭터 창이 열려 있는 동안만 */{const c0=me();if(c0&&ui._ifc!==c0.id){ui._ifc=c0.id;ui.ifil=c0.ifil||'ok'}}const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');if(ui._tin){app.className+=' tin-'+ui._tin;ui._tin=null}
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(dspView(c));else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
   app.innerHTML=hIco(topBar(c)+(PV?'<div class="pvbar"><b>🧪 새 화면 미리보기</b><span>여기서 바꾼 건 실제 앱에 안 들어가요</span><button class="lnk" data-a="pvreset">실제 기록 다시 가져오기</button><a href="./">실제 앱 ›</a></div>':'')+fsNeedBar()+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
@@ -6613,7 +6621,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='info'){ui.sheet='info:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}
   if(a==='gsort'){ui.gsort=k;rerender(true);return}
   if(a==='autofill'){let n=0;/* 「바꿀 것」 목록의 빈 칸 추천을 그대로 끼움 — 예전엔 칸마다 따로 골라 같은 무기를 두 손에, 「하나 고르기」 보상을 두 칸에 끼웠음 */
-    for(let r=0;r<4;r++){const U=upgrades(c,c.lv,ui.ifil||'ok').filter(o=>o.empty&&!c.eq[o.slot]&&!offLocked(c,o.slot));if(!U.length)break;for(const o of U){if(c.eq[o.slot]||offLocked(c,o.slot))continue;c.eq[o.slot]=o.it.id;n++;if(o.slot==='main'&&o.it.sl==='2h')delete c.eq.off}}save();rerender(true);toast(n?n+'칸을 추천 장비로 채웠어요':'채울 빈 칸이 없어요');return}
+    const cv=ui.tab==='gear'?dspView(c):c;/* 둘째 특성 화면이면 그 특성 추천으로 (장비 칸은 같은 것) */
+    for(let r=0;r<4;r++){const U=upgrades(cv,c.lv,ui.ifil||'ok').filter(o=>o.empty&&!c.eq[o.slot]&&!offLocked(cv,o.slot));if(!U.length)break;for(const o of U){if(c.eq[o.slot]||offLocked(cv,o.slot))continue;c.eq[o.slot]=o.it.id;n++;if(o.slot==='main'&&o.it.sl==='2h')delete c.eq.off}}save();rerender(true);toast(n?n+'칸을 추천 장비로 채웠어요':'채울 빈 칸이 없어요');return}
   if(a==='equip'){const id=+b.dataset.id;const it=IT.get(id);c.eq=c.eq||{};c.eq[k]=id;if(k==='main'&&it&&it.sl==='2h')delete c.eq.off;save();ui.sheet=null;rerender(true);toast(it.nm+' 착용');return}
   if(a==='unequip'){delete c.eq[k];save();rerender(true);return}
 });
