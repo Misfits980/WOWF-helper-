@@ -12,12 +12,12 @@ gnomeregan|놈리건|Gnomeregan|던 모로|32|29–38|6,19,19
 razorfen-kraul|가시덩굴 우리|Razorfen Kraul|불모의 땅|32|29–38|9,27,6
 sm-graveyard|붉은십자군 수도원: 묘지|Scarlet Monastery: Graveyard|티리스팔 숲|32|30–38|5,15,2
 sm-library|붉은십자군 수도원: 도서관|Scarlet Monastery: Library|티리스팔 숲|35|33–41|2,10,3
-drowned-city|가라앉은 도시|The Drowned City|가시덤불 골짜기 해안|36|35–40|6,12,10
+drowned-city|가라앉은 도시|The Drowned City|가시덤불 골짜기 해안|36|35–40|6,14,10
 sm-armory|붉은십자군 수도원: 무기고|Scarlet Monastery: Armory|티리스팔 숲|38|36–44|1,4,0
-razorfen-downs|가시덩굴 구릉|Razorfen Downs|불모의 땅|40|37–46|6,18,7
+razorfen-downs|가시덩굴 구릉|Razorfen Downs|불모의 땅|40|37–46|6,21,7
 sm-cathedral|붉은십자군 수도원: 대성당|Scarlet Monastery: Cathedral|티리스팔 숲|40|38–46|3,10,2
 kroldok-stronghold|크롤도크 보루|Krol&#x27;dok Stronghold|강물터|41|40–45|6,23,13
-uldaman|울다만|Uldaman|황야의 땅|44|41–51|10,26,22
+uldaman|울다만|Uldaman|황야의 땅|44|41–51|10,33,22
 zul-farrak|줄파락|Zul&#x27;Farrak|타나리스|47|44–54|12,30,10
 maraudon|마라우돈|Maraudon|잊혀진 땅|49|46–55|9,34,11
 alcaz-prison|알카즈 감옥|Alcaz Prison|알카즈 섬|49|48–53|5,12,10

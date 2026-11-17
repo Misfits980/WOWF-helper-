@@ -396,13 +396,13 @@
 1~퀘스트 · 현상 수배: 오토와 팰컨크레스트~/forever/quest/685
 0~달라란 · 대마법사의 망령~dg:city-of-dalaran
 5~상인 · Gezzy Gunkgear~wh:npc=265575
-1~퀘스트 · 도둑의 명예 따윈 없다~wh:quest=79242
+1~퀘스트 · 도둑의 명예 따윈 없다~/forever/quest/79242
 3~드랍 · Bloodscalp Headhunter~wh:npc=671
 3~드랍 · Shadowforge Darkweaver~wh:npc=2740
 3~드랍 · Singer~wh:npc=2600
 0~놈리건 · 멕기니어 텔마플러그~dg:gnomeregan
 1~퀘스트 · 배고픈 오우거~/forever/quest/1177
-1~퀘스트 · 지켜 낼 터전~wh:quest=92867
+1~퀘스트 · 지켜 낼 터전~/forever/quest/92867
 3~드랍 · Syndicate Assassin~wh:npc=2246
 3~드랍 · Kovork~wh:npc=2603
 3~드랍 · Skhowl~wh:npc=2452
@@ -427,7 +427,7 @@
 1~붉은십자군 수도원: 도서관 · 퀘스트 보상~dg:sm-library
 3~드랍 · Digmaster Shovelphlange~wh:npc=7057
 1~퀘스트 · 완성된 다르오라힐의 보주~wh:quest=4964
-1~퀘스트 · 칸 젠~wh:quest=93196
+1~퀘스트 · 칸 젠~/forever/quest/93196
 1~퀘스트 · 칸 젠~/forever/quest/93128
 0~가라앉은 도시 · 바르타카~dg:drowned-city
 0~가라앉은 도시 · 대장 드레드라이즈~dg:drowned-city
@@ -457,6 +457,7 @@
 1~붉은십자군 수도원: 대성당 · 퀘스트 보상~dg:sm-cathedral
 0~붉은십자군 수도원: 대성당 · 종교재판관 화이트메인~dg:sm-cathedral
 0~붉은십자군 수도원: 대성당 · 붉은십자군 사령관 모그레인~dg:sm-cathedral
+0~울다만 · 흑요석 파수꾼~dg:uldaman
 0~크롤도크 보루 · 노예파괴자 그록스~dg:kroldok-stronghold
 1~퀘스트 · 자재 모으기~/forever/quest/733
 1~퀘스트 · 최고의 품질~/forever/quest/2821
@@ -469,7 +470,6 @@
 0~크롤도크 보루 · 조련사 아쉬카~dg:kroldok-stronghold
 5~상인 · Friz Frazzlespark~wh:npc=255897
 1~퀘스트 · 훌륭한 도서관의 친구~wh:quest=82208
-1~퀘스트 · 부분적인 신비한 기록~wh:quest=95384
 0~크롤도크 보루 · 두목 투프~dg:kroldok-stronghold
 0~울다만 · 고대 바위 문지기~dg:uldaman
 0~줄파락 · 산다르 듄리버~dg:zul-farrak
@@ -507,7 +507,7 @@
 0~검은바위 나락 · 사냥개조련사 그렙마르~dg:blackrock-depths
 0~검은바위 나락 · 대심문관 게르스탄~dg:blackrock-depths
 0~검은바위 나락 · 불의군주 록코르~dg:blackrock-depths
-1~퀘스트 · It's Dangerous to Go Alone~/forever/quest/3962
+1~퀘스트 · 혼자서 가기 무서운 곳~/forever/quest/3962
 5~상인 · Linken~wh:npc=8737
 0~마라우돈 · 저주받은 셀레브라스~dg:maraudon
 0~알카즈 감옥 · 해일여제 카자스~dg:alcaz-prison
@@ -539,7 +539,7 @@
 1~퀘스트 · 쉬즐의 비행선~/forever/quest/4503
 1~퀘스트 · 테러닥스 주의~/forever/quest/4501
 0~검은바위 나락 · 플러거 스파즈링~dg:blackrock-depths
-1~퀘스트 · Runecloth~/forever/quest/6031
+1~퀘스트 · 룬매듭~/forever/quest/6031
 5~상인 · Lhara~wh:npc=14846
 1~퀘스트 · 트롤의 깃털~wh:quest=8422
 1~퀘스트 · Just Compensation~wh:quest=8933
@@ -554,14 +554,14 @@
 0~검은바위 첨탑 상층 · 제드 룬와처~dg:upper-blackrock-spire
 1~퀘스트 · 이상한 근원~/forever/quest/4842
 3~드랍 · Verek~wh:npc=9042
-1~퀘스트 · Heroes of Old~/forever/quest/2701
+1~퀘스트 · 과거의 영웅~/forever/quest/2701
 0~검은바위 나락 · 광신자 고로쉬~dg:blackrock-depths
 0~검은바위 나락 · 문지기 스틸기스~dg:blackrock-depths
 0~검은바위 나락 · 운명의 문지기~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 불타는 지옥군단병~dg:lower-blackrock-spire
 0~스트라솔름: 이승 · 스컬~dg:stratholme-live
 0~스트라솔름: 이승 · 용서받지 못한 자~dg:stratholme-live
-1~퀘스트 · In Dreams~wh:quest=5944
+1~퀘스트 · 탤런의 꿈~wh:quest=5944
 1~퀘스트 · 엘룬의 올빼미야수~/forever/quest/4902
 0~스칼로맨스 · 조교 말리시아~dg:scholomance
 0~스칼로맨스 · 군주 알렉세이 바로브~dg:scholomance
@@ -591,9 +591,9 @@
 0~스칼로맨스 · 들창어금니~dg:scholomance
 0~스트라솔름: 저승 · 먹보 람스타인~dg:stratholme-dead
 0~혈투의 전장: 동쪽 · 칼날바람 알진~dg:dire-maul-east
-1~퀘스트 · Confront Yeh'kinya~wh:quest=8181
+1~퀘스트 · 예킨야와의 대면~wh:quest=8181
 1~퀘스트 · 현상 수배: 사막의 난폭자 죽음의 갈고리~/forever/quest/8283
-1~퀘스트 · Enchanted Azsharite Fel Weaponry~/forever/quest/3625
+1~퀘스트 · 마력이 깃든 아즈샤리트 퇴마 무기~/forever/quest/3625
 0~검은바위 첨탑 하층 · 반노크 그림액스~dg:lower-blackrock-spire
 0~검은바위 첨탑 상층 · 기스~dg:upper-blackrock-spire
 0~검은바위 첨탑 하층 · 대군주 오모크~dg:lower-blackrock-spire
@@ -602,13 +602,13 @@
 0~검은바위 첨탑 하층 · 병참장교 지그리스~dg:lower-blackrock-spire
 0~검은바위 첨탑 상층 · 고랄루크 앤빌크랙~dg:upper-blackrock-spire
 0~스트라솔름: 저승 · 남작부인 아나스타리~dg:stratholme-dead
-1~퀘스트 · Hidden Treasures~/forever/quest/5942
+1~퀘스트 · 숨겨진 보물~/forever/quest/5942
 0~검은바위 첨탑 하층 · 대군주 웜타라크~dg:lower-blackrock-spire
 0~스칼로맨스 · 라스 프로스트위스퍼~dg:scholomance
 0~스트라솔름: 이승 · 포병대장 윌리~dg:stratholme-live
 0~검은바위 첨탑 상층 · 대족장 렌드 블랙핸드~dg:upper-blackrock-spire
 0~혈투의 전장: 북쪽~dg:dire-maul-north
-1~퀘스트 · Suppression~wh:quest=7583
+1~퀘스트 · 감옥에 가두기~wh:quest=7583
 1~퀘스트 · Strength of Mount Mugamba~wh:quest=8041
 1~퀘스트 · Strength of Mount Mugamba~wh:quest=8042
 1~퀘스트 · The Heathen's Brand~wh:quest=8045
@@ -640,18 +640,18 @@
 0~혈투의 전장: 서쪽 · 굽이나무 텐드리스~dg:dire-maul-west
 0~혈투의 전장: 북쪽 · 정찰병 초루쉬~dg:dire-maul-north
 0~스칼로맨스 · 벡투스~dg:scholomance
-1~퀘스트 · Paragons of Power: The Vindicator's Belt~wh:quest=8078
-1~퀘스트 · Paragons of Power: The Vindicator's Armguards~wh:quest=8058
-1~퀘스트 · Paragons of Power: The Freethinker's Belt~wh:quest=8054
-1~퀘스트 · Paragons of Power: The Freethinker's Armguards~wh:quest=8053
-1~퀘스트 · Paragons of Power: The Predator's Belt~wh:quest=8066
-1~퀘스트 · Paragons of Power: The Madcap's Mantle~wh:quest=8072
-1~퀘스트 · Paragons of Power: The Madcap's Bracers~wh:quest=8063
-1~퀘스트 · Paragons of Power: The Confessor's Wraps~wh:quest=8061
-1~퀘스트 · Paragons of Power: The Illusionist's Mantle~wh:quest=8068
-1~퀘스트 · Paragons of Power: The Illusionist's Wraps~wh:quest=8060
-1~퀘스트 · Paragons of Power: The Demoniac's Wraps~wh:quest=8059
-1~퀘스트 · Paragons of Power: The Demoniac's Mantle~wh:quest=8076
+1~퀘스트 · 마력의 보물: 구원자의 허리띠~wh:quest=8078
+1~퀘스트 · 마력의 보물: 구원자의 손목보호대~wh:quest=8058
+1~퀘스트 · 마력의 보물: 자유사상가의 허리띠~wh:quest=8054
+1~퀘스트 · 마력의 보물: 자유사상가의 손목보호대~wh:quest=8053
+1~퀘스트 · 마력의 보물: 수렵꾼의 허리띠~wh:quest=8066
+1~퀘스트 · 마력의 보물: 개혁가의 어깨보호대~wh:quest=8072
+1~퀘스트 · 마력의 보물: 개혁가의 팔보호구~wh:quest=8063
+1~퀘스트 · 마력의 보물: 성자의 손목띠~wh:quest=8061
+1~퀘스트 · 마력의 보물: 환영술사의 어깨보호대~wh:quest=8068
+1~퀘스트 · 마력의 보물: 환영술사의 손목띠~wh:quest=8060
+1~퀘스트 · 마력의 보물: 악령술사의 손목띠~wh:quest=8059
+1~퀘스트 · 마력의 보물: 악령술사의 어깨보호대~wh:quest=8076
 0~혈투의 전장: 동쪽 · 이살리엔~dg:dire-maul-east
 0~검은바위 나락 · 텔드렌~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 모르 그레이후프~dg:lower-blackrock-spire
@@ -684,7 +684,7 @@
 3~드랍 · Flamegor~wh:npc=11981
 1~퀘스트 · 1200 Tickets - Amulet of the Darkmoon~wh:quest=7981
 1~퀘스트 · Maelstrom's Wrath~wh:quest=8148
-1~퀘스트 · Paragons of Power: The Vindicator's Breastplate~wh:quest=8079
+1~퀘스트 · 마력의 보물: 구원자의 흉갑~wh:quest=8079
 3~드랍 · Jin'do the Hexxer~wh:npc=11380
 3~드랍 · Emeriss~wh:npc=14889
 3~드랍 · Ysondre~wh:npc=14887
@@ -694,7 +694,7 @@
 1~퀘스트 · The Path of the Protector~wh:quest=8750
 1~퀘스트 · The Path of the Invoker~wh:quest=8759
 1~퀘스트 · The Path of the Invoker~wh:quest=8760
-1~퀘스트 · Imperial Qiraji Regalia~wh:quest=8790
+1~퀘스트 · 제국의 퀴라지 표장~wh:quest=8790
 1~퀘스트 · Conqueror's Crown~wh:quest=8561
 1~퀘스트 · Conqueror's Spaulders~wh:quest=8544
 1~퀘스트 · Conqueror's Breastplate~wh:quest=8562
@@ -728,7 +728,7 @@
 1~퀘스트 · Blade of Vaulted Secrets~wh:quest=8707
 1~퀘스트 · Drape of Vaulted Secrets~wh:quest=8691
 1~퀘스트 · Shroud of Unspoken Names~wh:quest=8694
-1~퀘스트 · The Fall of Ossirian~wh:quest=8791
+1~퀘스트 · 오시리안 처치~wh:quest=8791
 1~퀘스트 · Treasure of the Timeless One~/forever/quest/8745
 1~퀘스트 · The Nightmare Manifests~/forever/quest/8736
 3~드랍 · Emperor Vek'lor~wh:npc=15276
@@ -741,7 +741,7 @@
 3~드랍 · The Prophet Skeram~wh:npc=15263
 1~퀘스트 · The Savior of Kalimdor~wh:quest=8802
 1~퀘스트 · An Earnest Proposition~wh:quest=8908
-1~퀘스트 · The Perfect Poison~/forever/quest/9023
+1~퀘스트 · 완벽한 독~/forever/quest/9023
 1~퀘스트 · Dreadnaught Breastplate~wh:quest=9034
 1~퀘스트 · Dreadnaught Legplates~wh:quest=9036
 1~퀘스트 · Dreadnaught Helmet~wh:quest=9037

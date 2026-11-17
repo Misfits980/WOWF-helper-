@@ -69,12 +69,12 @@ Q|whelgar-excavation|95646|alliance|31|24|고원의 공포||신록의수호자 �
 Q|whelgar-excavation|95737|alliance|31|24|케이틀린을 찾아서||라나 · 잿빛 골짜기 35.0, 48.5|0||||
 Q|whelgar-excavation|95647|alliance|31|24|덤불 속 실종자||케이틀린 그라스만 · 저습지 11.9, 58.8|0||||
 Q|whelgar-excavation|95809|alliance|31|24|갈대로 엮은 마음||시작 · 던전 안|1|280766,2459|||
-Q|whelgar-excavation|98815|alliance|28|24|고원 가죽||제임스 할로란 · 저습지 8.6, 55.7|0||||
+Q|whelgar-excavation|98815|alliance|28|24|고원 가죽||제임스 할로란 · 저습지 8.6, 55.7|1||||
 Q|whelgar-excavation|95697|horde|31|24|달라지는 입맛||보르스탄 · 오그리마 57.2, 53.3|0|280766,280805||1|
 Q|whelgar-excavation|95664|horde|31|24|장로의 지식||티탄의 유물 · 던전 안|0||||
 Q|whelgar-excavation|98823|horde|31|24|대지의 메아리||바샤나 룬토템 · 썬더 블러프 71.1, 34.2|1|271766,271767,271719||1|
 Q|whelgar-excavation|95663|horde|31|24|용아귀 소문||자루크 · 아라시 고원 74.5, 35.6|0||||
-Q|whelgar-excavation|95682|horde|31|24|용아귀 열기|발굴 현장 안에 있는 용아귀 군대를 물리친 후, 발견한 것을 가지고 밖에 있는 죽음추적자에게 가야 합니다.|죽음의 추적자 · 저습지 51.4, 59.2|1|271740,271732||1|
+Q|whelgar-excavation|95682|horde|31|24|용아귀 열기|발굴 현장 안에 있는 용아귀 군대를 물리친 후, 발견한 것을 가지고 밖에 있는 죽음추적자에게 가야 합니다.|죽음추적자 · 저습지 51.4, 59.2|1|271740,271732||1|
 B|city-of-dalaran|atrexis-the-grave-knight=무덤 기사 아트렉시스;lyn-the-ignored=외면받는 린;arcane-anomaly=비전 변형물;arcanic-enigma=신비한 수수께끼;unstable-sentinel=불안정한 파수꾼;mana-devourer=마나 포식자;fel-ancient=지옥의 고대정령;shade-of-the-archmage=대마법사의 망령
 Q|city-of-dalaran|92458|alliance|33|24|분열의 심장||Image of Archmage Modera · 알터랙 산맥 14.3, 59.6|1|279839,279840,279841||1|
 Q|city-of-dalaran|92457|alliance|33|24|비전에 굶주린 자들||Image of Archmage Modera · 알터랙 산맥 14.3, 59.6|1|279837,279838||1|
@@ -119,16 +119,16 @@ Q|sm-library|1049|horde|38|28|타락의 개요||현자 트루스시커 · 썬더
 Q|sm-library|1050|alliance|38|28|티탄 신화||사서 메이 페일더스트 · 아이언포지 75.0, 12.5|0|7746|||
 Q|sm-library|1160|horde|36|26|지혜의 시험||파쿠알 핀탈라스 · 언더시티 57.8, 65.4|1||||
 B|drowned-city|zul-alai=줄알라이;var-taka=바르타카;primeval-elemental=태고의 정령;captain-dreadrise=대장 드레드라이즈;deathless-guardians=죽지 않는 수호자;minloth-the-serpent=독사 민로스
-Q|drowned-city|95799|alliance|40|30|Findings for the Explorer's League||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279880,279881||1|
-Q|drowned-city|95798|alliance|40|30|The Web of Magic||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279879,279878||1|
-Q|drowned-city|95788|alliance|40|30|Magics of the Drowned City||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0||||
-Q|drowned-city|95787|alliance|40|30|Take Two With Water||현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0||||
-Q|drowned-city|97130|alliance|40|34|Ancient Gurubashi Secrets||시작 · 알터랙 산맥|0||||
+Q|drowned-city|95799|alliance|40|30|탐험가 연맹에 전할 연구 결과|현자 딥스의 이랄라이 번역본을 아이언포지에 있는 역사가 카르닉에게 전달해야 합니다.|현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279880,279881||1|
+Q|drowned-city|95798|alliance|40|30|그물처럼 엉킨 마법|이랄라이 우상을 달라란에 있는 수리수리 마순이에게 가져가야 합니다.|현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279879,279878||1|
+Q|drowned-city|95788|alliance|40|30|가라앉은 도시의 마법|가라앉은 도시에 있는 트롤에게서 이랄라이 우상 5개를 수집해야 합니다.|현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|1||||
+Q|drowned-city|95787|alliance|40|30|다시 한번 물속으로|가죽과 목탄을 사용해 가라앉은 도시에서 발견된 서판의 탁본을 만들어야 합니다.|현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|1||||
+Q|drowned-city|97130|alliance|40|34|고대 구루바시의 비밀|가라앉은 도시에서 고대 구루바시 우상을 회수해야 합니다.|시작 · 알터랙 산맥|0||||
 Q|drowned-city|95789|both|40|34|수상쩍은 소금선견자|가라앉은 도시의 소금선견자 해적에게서 부두가 깃든 유물 10개를 수집해야 합니다.|크라젝 · 가시덤불 골짜기 51.6, 26.8|0|279882,279930||1|
 Q|drowned-city|95791|both|40|34|소금선견자 대장|가라앉은 도시에서 소금선견자 검시관 3명과 대장 드레드라이즈를 처치해야 합니다.|크라젝 · 가시덤불 골짜기 51.6, 26.8|0|279883,279884||1|
-Q|drowned-city|95776|horde|38|30|The Only Good Brinescale...||사령관 아그로고쉬 · 가시덤불 골짜기 32.2, 28.9|0|279889,279888||1|
+Q|drowned-city|95776|horde|38|30|착한 소금비늘은 죽은 소금비늘뿐...||사령관 아그로고쉬 · 가시덤불 골짜기 32.2, 28.8|0|279889,279888||1|
 Q|drowned-city|96774|horde|40|30|고대 구루바시 우상||Mazu'kon · 멀고어 32.5, 20.7|0||||
-Q|drowned-city|95775|horde|40|30|The Drowned City||킨윌레이 · 가시덤불 골짜기 32.3, 27.7|0||||
+Q|drowned-city|95775|horde|40|30|가라앉은 도시||킨윌레이 · 가시덤불 골짜기 32.2, 27.8|1||||
 B|sm-armory|herod=헤로드
 B|razorfen-downs|tuten-kash=투텐카쉬;mordresh-fire-eye=불꽃눈 모드레쉬;glutton=게걸먹보;ragglesnout=너덜주둥이;amnennar-the-coldbringer=혹한의 암네나르;plaguemaw-the-rotting=썩어가는 역병아귀
 Q|razorfen-downs|6626|both|35|28|악의 무리||미리암 문싱어 · 입구 앞|0||||
@@ -141,19 +141,19 @@ B|sm-cathedral|scarlet-commander-mograine=붉은십자군 사령관 모그레인
 Q|sm-cathedral|1053|alliance|40|34|빛의 이름으로!||경건한 신자 랄레이 · 힐스브래드 구릉지 51.5, 58.4|1|6829,6830,6831,11262||1|
 Q|sm-cathedral|1048|horde|42|33|붉은십자군 수도원으로||바리마트라스 · 언더시티 56.3, 92.2|0|6802,6803,10711||1|
 B|kroldok-stronghold|slavecrusher-grox=노예파괴자 그록스;twilight-commander-zarmok=황혼의 사령관 자르모크;nargurk=나르구르크;handler-ashka=조련사 아쉬카;bossman-toof=두목 투프;overseer-mugg=감독관 머그
-Q|kroldok-stronghold|94982|alliance|45|40|Eye of Mugg||시작 · 강물터|0|279852,279853,279480||1|
-Q|kroldok-stronghold|94981|alliance|41|38|Key Ingredients||시작 · 강물터|0|267089|||
-Q|kroldok-stronghold|94980|alliance|41|38|Krol'dok Moulding||아이템에서 시작|0||||
-Q|kroldok-stronghold|94998|alliance|42|38|Curios of Curiosity||시작 · 강물터|0|279850|||
-Q|kroldok-stronghold|94997|alliance|42|38|Lingering Essence||시작 · 강물터|0||||
-Q|kroldok-stronghold|94983|alliance|42|38|Twilight Mementos||시작 · 강물터|0||||
-Q|kroldok-stronghold|94984|alliance|44|39|Tome of Twilight||시작 · 강물터|0|279854,279855||1|
-Q|kroldok-stronghold|96771|alliance|45|37|Vengeance of the Highborne||시작 · 알터랙 산맥|0||||
-Q|kroldok-stronghold|94968|horde|45|40|Eye of Mugg||시작 · 강물터|0|279852,279853,279480||1|
-Q|kroldok-stronghold|94974|horde|41|38|Key Ingredients||시작 · 강물터|0|267089|||
-Q|kroldok-stronghold|94973|horde|41|38|Krol'dok Moulding||아이템에서 시작|0||||
-Q|kroldok-stronghold|94975|horde|42|38|A Token of Vengeance||시작 · 강물터|0|267090|||
-Q|kroldok-stronghold|94972|horde|44|39|Tome of Twilight||시작 · 강물터|0|279859,279860||1|
+Q|kroldok-stronghold|94982|alliance|45|40|머그의 눈|크롤도크 보루에 침투한 뒤, 우두머리가 죽었다는 증거를 확보해 사령관 브랜트에게 가야 합니다.|시작 · 강물터|0|279852,279853,279480||1|
+Q|kroldok-stronghold|94981|alliance|41|38|핵심 재료|두꺼운 가죽 4개와 철 주괴 12개를 알퐁스 뒤마에게 가져가야 합니다.|시작 · 강물터|1|267089|||
+Q|kroldok-stronghold|94980|alliance|41|38|크롤도크 거푸집|파홀드 성채에서 거푸집에 관해 아는 사람을 찾아야 합니다.|아이템에서 시작|0||||
+Q|kroldok-stronghold|94998|alliance|42|38|호기심을 부르는 장신구|유품 가방을 멜라니 세이블에게 가져가야 합니다.|시작 · 강물터|1|279850|||
+Q|kroldok-stronghold|94997|alliance|42|38|지속되는 정수|저주받은 유품 가방을 파홀드 성채에 있는 애시 앰버홀에게 가져가야 합니다.|시작 · 강물터|1||||
+Q|kroldok-stronghold|94983|alliance|42|38|황혼의 기념품|크롤도크 보루 내 황혼의 망치단에게서 이교도 팔찌 8개를 수집해야 합니다.|시작 · 강물터|0||||
+Q|kroldok-stronghold|94984|alliance|44|39|황혼의 고서|크롤도크 보루에서 나르구르크를 처치하고 귀중한 정보를 확보해야 합니다.|시작 · 강물터|1|279854,279855||1|
+Q|kroldok-stronghold|96771|alliance|45|37|명가의 복수|크롤도크 보루로 이동해 잘판 문섀도를 처치해야 합니다.|시작 · 알터랙 산맥|0||||
+Q|kroldok-stronghold|94968|horde|45|40|머그의 눈|크롤도크 보루에 침투한 뒤, 우두머리가 죽었다는 증거를 확보해 크롬로쉬에게 가야 합니다.|시작 · 강물터|0|279852,279853,279480||1|
+Q|kroldok-stronghold|94974|horde|41|38|핵심 재료|두꺼운 가죽 4개와 철 주괴 12개를 크레자 다크쏜에게 가져가야 합니다.|시작 · 강물터|1|267089|||
+Q|kroldok-stronghold|94973|horde|41|38|크롤도크 거푸집|로그마에서 거푸집에 관해 아는 사람을 찾아야 합니다.|아이템에서 시작|0||||
+Q|kroldok-stronghold|94975|horde|42|38|복수의 증표|크롤도크 보루 내 황혼의 망치단에게서 이교도 귀 15개를 수집해야 합니다.|시작 · 강물터|0|267090|||
+Q|kroldok-stronghold|94972|horde|44|39|황혼의 고서|크롤도크 보루에서 황혼의 고서를 회수해야 합니다.|시작 · 강물터|0|279859,279860||1|
 B|uldaman|eric-the-swift=날쌘돌이 에릭;baelog=밸로그;olaf=올라프;revelosh=레벨로쉬;ironaya=아이로나야;obsidian-sentinel=흑요석 파수꾼;ancient-stone-keeper=고대 바위 문지기;galgann-firehammer=갈간 파이어해머;grimlok=그림로크;archaedas=아카에다스
 Q|uldaman|2418|both|36|30|마법석||리글퍼즈 · 황야의 땅 42.4, 52.9|0|9522,10358,10359||1|
 Q|uldaman|709|both|40|30|멸망의 해결책||실성한 텔두린 · 황야의 땅 51.4, 76.9|0|4746|||
@@ -294,9 +294,9 @@ Q|dire-maul-west|7877|both|60|56|셴드랄라의 보물||셴드랄라 고대인 
 Q|dire-maul-west|7462|alliance|60|56|셴드랄라의 보물||셴드랄라 고대인 · 던전 안|1|18420,18421,18424||1|
 Q|dire-maul-west|7481|horde|60|54|엘프의 전설||현자 코로루스크 · 페랄라스 74.4, 44.0|0||||
 Q|dire-maul-west|7482|alliance|60|54|엘프의 전설||학자 룬쏜 · 페랄라스 31.7, 43.5|0||||
-Q|dire-maul-west|7483|both|60|58|신속의 성서||현자 리드로스 · 던전 안|1|18329|||
-Q|dire-maul-west|7484|both|60|58|집중의 성서||현자 리드로스 · 던전 안|1|18330|||
-Q|dire-maul-west|7485|both|60|58|보호의 성서||현자 리드로스 · 던전 안|1|18331|||
+Q|dire-maul-west|7483|both|60|54|신속의 성서||현자 리드로스 · 던전 안|1|18329|||
+Q|dire-maul-west|7484|both|60|54|집중의 성서||현자 리드로스 · 던전 안|1|18330|||
+Q|dire-maul-west|7485|both|60|54|보호의 성서||현자 리드로스 · 던전 안|1|18331|||
 Q|dire-maul-west|8948|both|60|58|안시온의 오랜 친구||안시온 하몬 · 동부 역병지대 26.1, 11.3|1||||
 Q|dire-maul-west|8949|both|60|58|팔린의 피의 복수||팔린 트리셰이퍼 · 던전 안|1|22150,22149||1|
 Q|dire-maul-west|8950|both|60|58|주동자의 마법||팔린 트리셰이퍼 · 던전 안|1||||
