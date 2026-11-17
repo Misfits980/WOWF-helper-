@@ -562,3 +562,9 @@
 287034|inv_weapon_shortblade_25|
 287036|inv_wand_07|
 287037|inv_chest_cloth_51|
+254129|inv_boots_cloth_17|
+252603|inv_pants_mail_09|
+252606|inv_pants_mail_36|
+250595|inv_chest_plate11|
+250596|inv_pants_plate_10|
+250597|inv_helmet_10|
