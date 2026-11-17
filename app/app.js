@@ -3197,16 +3197,22 @@ function dgAcc(g){const a=g&&g.acc;if(!a||!PV)return '';const E=a.ent||[],K=a.ke
    +(F.length?'<div class="afix"><b>고친 내용</b>'+F.map(f=>'<p><time>'+esc(f[0])+'</time>'+esc(f[1])+'</p>').join('')+'</div>':'')
    +(a.chk?'<p class="achk">확인 전 · '+esc(a.chk)+'</p>':'')
    +'<p class="mute src">복사하면 /way 좌표가 돼요. TomTom 같은 길찾기 애드온이 있으면 채팅창에 붙여 넣어 화살표를 띄워요.</p></div></details>'}
+/* 던전에서 나오는 제작법 (data/guides/recipe-drops.json → rcp): 내 전문기술 것을 위로 — 미리보기 */
+function dgRcp(g){const R=g&&g.rcp;if(!R||!PV)return '';const c=me();const mine=p=>(c.profs||[]).includes(p)||(c.profLv||{})[p]!=null;
+  const S=R.slice().sort((a,b)=>(mine(b[3])-mine(a[3]))||((b[4]||0)-(a[4]||0)));const n=S.filter(r=>mine(r[3])).length;
+  return '<details class="rcp2"'+(n?' open':'')+'><summary><span class="m"><b>이 던전 제작법 '+R.length+'</b><small>'+(n?'내 전문기술 '+n+'개':'보스가 떨구는 도면·주문식')+'</small></span><i>⌄</i></summary>'
+   +S.map(r=>'<div class="rcr'+(mine(r[3])?' my':'')+'"><span class="m"><b>'+esc(r[2])+'</b><small>'+esc(r[0])+' · '+esc(r[3])+'</small></span><em>'+(r[4]!=null?r[4]+'%':'확률 기록 없음')+'</em></div>').join('')
+   +'<p class="mute src">드랍률은 와우헤드 집계라 표본이 작아요 · 와우보초 전문기술 가이드 정리</p></details>'}
 function dgPrep(g){if(!g)return '';return (g.prep&&g.prep.length?'<details class="warn2"><summary><span class="ic" style="background-image:url('+ICO('inv_misc_book_09')+')"></span>들어가기 전에 알아 둘 것 '+g.prep.length+'개<i>⌄</i></summary><ul>'+g.prep.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></details>':'')+(g.src?'<p class="mute src">📝 '+esc(g.src)+'</p>':'')}
 function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
   const g=DGG[d.slug];if(!g||!(g.steps&&g.steps.length)){
     const W2=wyOf(d);if(!(g&&g.boss)&&W2&&W2.bosses&&W2.bosses.length){/* 신규 던전: wythic.com 공략(입구·보스 순서·기술 한 줄) */const its=dgItems(c,d);
-      return dgAcc(g)+'<div class="card"><p class="note">'+esc(W2.sum||'')+'</p><p class="mute src">자료: wythic.com 공략 · 지도 위치는 추정일 수 있어요</p><ol class="route">'
+      return dgAcc(g)+dgRcp(g)+'<div class="card"><p class="note">'+esc(W2.sum||'')+'</p><p class="mute src">자료: wythic.com 공략 · 지도 위치는 추정일 수 있어요</p><ol class="route">'
         +W2.bosses.map((b,i)=>{const n=its.filter(it=>it.src.some(x=>SRC[x]&&SRC[x].k===0&&SRC[x].dg===d.slug&&SRC[x].boss===b.npc)).length;return '<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(b.npc)+'</b>'+(b.opt?' <small class="mute">선택</small>':'')+(n?' <small class="mute">드랍 '+n+'</small>':'')+'</div>'+(b.tip?'<p class="bt">'+esc(b.tip)+'</p>':'')+'</div></li>'}).join('')+'</ol></div>'}
     if(!(g&&g.boss)&&d.bosses.length){/* 신규·개방 예정 던전: wowf.io 보스 순서만 */const its=dgItems(c,d);if(!WY)wyLoad();
-      return (tg||'')+dgAcc(g)+dgPrep(g)+'<div class="card">'+(g&&g.sum?'<p>'+esc(g.sum)+'</p>':'')+'<p class="note">'+(g&&g.prep&&g.prep.length?'보스 순서는 아직 정리된 곳이 없어서 게임 목록 순서로 보여 줘요. 길이 여러 갈래라 순서는 파티와 정하세요.':d.soon?'🚧 아직 열리지 않은 던전이에요. 열리면 동선·보스 기술을 채울게요. 지금은 wowf.io에 나온 <b>보스 순서</b>와 드랍만 보여 줘요.':'진행 순서 자료가 아직 없어요. 보스 순서와 드랍만 보여 줘요.')+'</p><ol class="route">'
+      return (tg||'')+dgAcc(g)+dgRcp(g)+dgPrep(g)+'<div class="card">'+(g&&g.sum?'<p>'+esc(g.sum)+'</p>':'')+'<p class="note">'+(g&&g.prep&&g.prep.length?'보스 순서는 아직 정리된 곳이 없어서 게임 목록 순서로 보여 줘요. 길이 여러 갈래라 순서는 파티와 정하세요.':d.soon?'🚧 아직 열리지 않은 던전이에요. 열리면 동선·보스 기술을 채울게요. 지금은 wowf.io에 나온 <b>보스 순서</b>와 드랍만 보여 줘요.':'진행 순서 자료가 아직 없어요. 보스 순서와 드랍만 보여 줘요.')+'</p><ol class="route">'
         +d.bosses.map((b,i)=>{const n=its.filter(it=>it.src.some(x=>SRC[x]&&SRC[x].k===0&&SRC[x].dg===d.slug&&SRC[x].boss===b.nm)).length;const rare=/^mob-/.test(b.slug);return '<li class="rs boss"><span class="no">'+(rare?'◆':i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(b.nm)+'</b>'+(rare?' <small class="mute">희귀몹</small>':'')+(n?' <small class="mute">드랍 '+n+'</small>':'')+'</div></div></li>'}).join('')+'</ol></div>'}
-    return dgAcc(g)+'<p class="empty-st">이 던전 진행 순서 자료가 아직 없어요. 보스 공략만 보여 줘요.</p>'+(g&&g.boss?bossTacOnly(g):'')}
+    return dgAcc(g)+dgRcp(g)+'<p class="empty-st">이 던전 진행 순서 자료가 아직 없어요. 보스 공략만 보여 줘요.</p>'+(g&&g.boss?bossTacOnly(g):'')}
   const B=g.boss||{};const items=dgItems(c,d);ui.stopen=ui.stopen||{};const me=myRole(c);
   const fbOf=st=>B[st.nm]||Object.values(B).find(b=>b.en&&b.en===st.en);
   const goodOf=nm=>items.filter(it=>usable(it,c)&&it.src.some(i=>{const s=SRC[i];return s&&s.k===0&&s.dg===d.slug&&s.boss===nm})).map(it=>bestSlot(it,c)).filter(b=>b&&b.g>.01).length;
@@ -3220,7 +3226,7 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
        :'<button class="go" data-a="rkgo"><span class="ic" style="background-image:url('+ICO('ability_warrior_charge')+')"></span>던전 시작</button>')+'</div>'
    +(on?'':'<p class="rhint">'+RNM[me]+' 기준으로 보여 줘요 · 시작하면 보스 잡을 때마다 ✓'+(()=>{const r=(c.dgRuns||[]).filter(x=>x.d===d.slug);return r.length?' · 지난번 '+new Date(r[0].t).toLocaleDateString('ko-KR',{month:'numeric',day:'numeric'})+(r[0].m?' '+r[0].m+'분':'')+(r.length>1?' (모두 '+r.length+'번)':''):''})()+'</p>')+'</div>';
   h+=tg||'';
-  h+=dgAcc(g)+dgPrep(g);
+  h+=dgAcc(g)+dgRcp(g)+dgPrep(g);
   if(g.sum)h+='<details class="card sum2"><summary><p>'+esc(g.sum)+'</p><span class="more">더 보기 ›</span></summary><p>'+esc(g.sum)+'</p></details>';
   h+='<div class="dg2"><div class="dgL">';
   /* 지도: 기본으로 1층만 펼쳐 둠, 핀 누르면 그 단계로 */
