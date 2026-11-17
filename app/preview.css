@@ -159,3 +159,30 @@
 .bgs .bgph{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;padding:10px 2px 6px;border-bottom:1px solid rgba(255,255,255,.06)}
 .bgs .bgph b{font-size:14.5px;color:var(--c)}
 .bgs .bgph small{font-size:12px;color:var(--mute)}
+
+/* 던전 「가는 길」 (입구 좌표·/way 복사·열쇠·고친 내용) */
+.acc2{margin:8px 0;border-radius:12px;background:rgba(96,160,220,.08);border:1px solid rgba(96,160,220,.32)}
+.acc2>summary{display:flex;align-items:center;gap:10px;padding:9px 12px;list-style:none;cursor:pointer}
+.acc2>summary::-webkit-details-marker{display:none}
+.acc2 .ic{width:24px;height:24px;flex:none;border-radius:5px}
+.acc2 .m{display:flex;flex-direction:column;min-width:0}
+.acc2 .m b{font-size:14px;color:#cfe3f7}
+.acc2 .m small{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc2>summary i{margin-left:auto;font-style:normal;color:var(--mute)}
+.acc2[open]>summary i{transform:rotate(180deg)}
+.acc2 .acb{padding:0 12px 10px}
+.acc2 .aw{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px;margin-bottom:8px}
+.acc2 .aw button{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;border:1px solid rgba(255,255,255,.09);background:rgba(0,0,0,.22);color:inherit;text-align:left;cursor:pointer;min-height:44px}
+.acc2 .aw button span{display:flex;flex-direction:column;min-width:0;flex:1}
+.acc2 .aw b{font-size:13px}
+.acc2 .aw small{font-size:12px;color:#9fc4e6;font-variant-numeric:tabular-nums}
+.acc2 .aw em{font-style:normal;font-size:12px;color:var(--mute);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:2px 7px}
+.acc2 .aw button:active{background:rgba(96,160,220,.18)}
+.acc2 .ago{margin:0 0 8px;font-size:13px;line-height:1.6;color:#d8dde4}
+.acc2 .akey{margin:0 0 8px;padding-left:18px;font-size:13px;line-height:1.55;color:#e6d7b5}
+.acc2 .afix{margin:0 0 8px;padding:7px 10px;border-radius:9px;background:rgba(0,0,0,.2)}
+.acc2 .afix b{display:block;font-size:12px;color:var(--mute);margin-bottom:3px}
+.acc2 .afix p{margin:2px 0;font-size:13px;line-height:1.5}
+.acc2 .afix time{display:inline-block;min-width:44px;margin-right:6px;color:#9fc4e6;font-variant-numeric:tabular-nums}
+.acc2 .achk{margin:0 0 6px;font-size:12px;color:#e0b56a}
+.acc2 .src{margin:4px 0 0;font-size:11.5px}

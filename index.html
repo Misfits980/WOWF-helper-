@@ -2670,11 +2670,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=b922b819"></script>
-<script>/* v481b1f @11/17 15:18 */
+<script src="app-data.js?v=96243015"></script>
+<script>/* vddd205 @11/17 17:13 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/17 15:18';
+const BUILD='11/17 17:13';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -5778,16 +5778,25 @@ function stepFlags(st,fb){if(!/우두머리|희귀/.test(st.type||''))return [];
   if(/피하|바닥 ?(?:불|의 불|에 남|웅덩이|장판)|흩어(?:져|지)|떨어져 서|avoid|spread/.test(t))F.push(['mv','🏃','피하기']);
   return F}
 function stepFloor(g){/* 지도 핀 번호로 단계가 몇 층인지 */const m={};(g.floors||[]).forEach(f=>f.pins.forEach(p=>{const n=parseInt(p.t);if(/^\d+!?$/.test(p.t||'')&&!m[n])m[n]=f}));return m}
+/* 던전 가는 길: 입구 좌표(/way 복사)·얼라 길·열쇠·고친 내용 (data/guides/dungeon-access.json → acc) */
+function dgAcc(g){const a=g&&g.acc;if(!a||!PV)return '';const E=a.ent||[],K=a.key||[],F=a.fix||[];const xy=e=>(+e[2]).toFixed(1)+', '+(+e[3]).toFixed(1);
+  const sub=[E[0]?E[0][1]+' '+xy(E[0]):'',K.length?'준비 '+K.length:'',F.length?'고친 내용 '+F.length:''].filter(Boolean).join(' · ');
+  return '<details class="acc2"'+(ui.accOpen?' open':'')+'><summary><span class="ic" style="background-image:url('+ICO('inv_misc_map_01')+')"></span><span class="m"><b>가는 길</b><small>'+esc(sub)+'</small></span><i>⌄</i></summary><div class="acb">'
+   +(E.length?'<div class="aw">'+E.map(e=>'<button data-a="waycp" data-k="'+esc('/way '+e[1]+' '+(+e[2]).toFixed(1)+' '+(+e[3]).toFixed(1))+'"><span><b>'+esc(e[0])+'</b><small>'+esc(e[1])+' '+xy(e)+'</small></span><em>복사</em></button>').join('')+'</div>':'')
+   +(a.go?'<p class="ago">'+esc(a.go)+'</p>':'')+(K.length?'<ul class="akey">'+K.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'')
+   +(F.length?'<div class="afix"><b>고친 내용</b>'+F.map(f=>'<p><time>'+esc(f[0])+'</time>'+esc(f[1])+'</p>').join('')+'</div>':'')
+   +(a.chk?'<p class="achk">확인 전 · '+esc(a.chk)+'</p>':'')
+   +'<p class="mute src">복사하면 /way 좌표가 돼요. TomTom 같은 길찾기 애드온이 있으면 채팅창에 붙여 넣어 화살표를 띄워요.</p></div></details>'}
 function dgPrep(g){if(!g)return '';return (g.prep&&g.prep.length?'<details class="warn2"><summary><span class="ic" style="background-image:url('+ICO('inv_misc_book_09')+')"></span>들어가기 전에 알아 둘 것 '+g.prep.length+'개<i>⌄</i></summary><ul>'+g.prep.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></details>':'')+(g.src?'<p class="mute src">📝 '+esc(g.src)+'</p>':'')}
 function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
   const g=DGG[d.slug];if(!g||!(g.steps&&g.steps.length)){
     const W2=wyOf(d);if(!(g&&g.boss)&&W2&&W2.bosses&&W2.bosses.length){/* 신규 던전: wythic.com 공략(입구·보스 순서·기술 한 줄) */const its=dgItems(c,d);
-      return '<div class="card"><p class="note">'+esc(W2.sum||'')+'</p><p class="mute src">자료: wythic.com 공략 · 지도 위치는 추정일 수 있어요</p><ol class="route">'
+      return dgAcc(g)+'<div class="card"><p class="note">'+esc(W2.sum||'')+'</p><p class="mute src">자료: wythic.com 공략 · 지도 위치는 추정일 수 있어요</p><ol class="route">'
         +W2.bosses.map((b,i)=>{const n=its.filter(it=>it.src.some(x=>SRC[x]&&SRC[x].k===0&&SRC[x].dg===d.slug&&SRC[x].boss===b.npc)).length;return '<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(b.npc)+'</b>'+(b.opt?' <small class="mute">선택</small>':'')+(n?' <small class="mute">드랍 '+n+'</small>':'')+'</div>'+(b.tip?'<p class="bt">'+esc(b.tip)+'</p>':'')+'</div></li>'}).join('')+'</ol></div>'}
     if(!(g&&g.boss)&&d.bosses.length){/* 신규·개방 예정 던전: wowf.io 보스 순서만 */const its=dgItems(c,d);if(!WY)wyLoad();
-      return (tg||'')+dgPrep(g)+'<div class="card">'+(g&&g.sum?'<p>'+esc(g.sum)+'</p>':'')+'<p class="note">'+(g&&g.prep&&g.prep.length?'보스 순서는 아직 정리된 곳이 없어서 게임 목록 순서로 보여 줘요. 길이 여러 갈래라 순서는 파티와 정하세요.':d.soon?'🚧 아직 열리지 않은 던전이에요. 열리면 동선·보스 기술을 채울게요. 지금은 wowf.io에 나온 <b>보스 순서</b>와 드랍만 보여 줘요.':'진행 순서 자료가 아직 없어요. 보스 순서와 드랍만 보여 줘요.')+'</p><ol class="route">'
+      return (tg||'')+dgAcc(g)+dgPrep(g)+'<div class="card">'+(g&&g.sum?'<p>'+esc(g.sum)+'</p>':'')+'<p class="note">'+(g&&g.prep&&g.prep.length?'보스 순서는 아직 정리된 곳이 없어서 게임 목록 순서로 보여 줘요. 길이 여러 갈래라 순서는 파티와 정하세요.':d.soon?'🚧 아직 열리지 않은 던전이에요. 열리면 동선·보스 기술을 채울게요. 지금은 wowf.io에 나온 <b>보스 순서</b>와 드랍만 보여 줘요.':'진행 순서 자료가 아직 없어요. 보스 순서와 드랍만 보여 줘요.')+'</p><ol class="route">'
         +d.bosses.map((b,i)=>{const n=its.filter(it=>it.src.some(x=>SRC[x]&&SRC[x].k===0&&SRC[x].dg===d.slug&&SRC[x].boss===b.nm)).length;const rare=/^mob-/.test(b.slug);return '<li class="rs boss"><span class="no">'+(rare?'◆':i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(b.nm)+'</b>'+(rare?' <small class="mute">희귀몹</small>':'')+(n?' <small class="mute">드랍 '+n+'</small>':'')+'</div></div></li>'}).join('')+'</ol></div>'}
-    return '<p class="empty-st">이 던전 진행 순서 자료가 아직 없어요. 보스 공략만 보여 줘요.</p>'+(g&&g.boss?bossTacOnly(g):'')}
+    return dgAcc(g)+'<p class="empty-st">이 던전 진행 순서 자료가 아직 없어요. 보스 공략만 보여 줘요.</p>'+(g&&g.boss?bossTacOnly(g):'')}
   const B=g.boss||{};const items=dgItems(c,d);ui.stopen=ui.stopen||{};const me=myRole(c);
   const fbOf=st=>B[st.nm]||Object.values(B).find(b=>b.en&&b.en===st.en);
   const goodOf=nm=>items.filter(it=>usable(it,c)&&it.src.some(i=>{const s=SRC[i];return s&&s.k===0&&s.dg===d.slug&&s.boss===nm})).map(it=>bestSlot(it,c)).filter(b=>b&&b.g>.01).length;
@@ -5801,7 +5810,7 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
        :'<button class="go" data-a="rkgo"><span class="ic" style="background-image:url('+ICO('ability_warrior_charge')+')"></span>던전 시작</button>')+'</div>'
    +(on?'':'<p class="rhint">'+RNM[me]+' 기준으로 보여 줘요 · 시작하면 보스 잡을 때마다 ✓'+(()=>{const r=(c.dgRuns||[]).filter(x=>x.d===d.slug);return r.length?' · 지난번 '+new Date(r[0].t).toLocaleDateString('ko-KR',{month:'numeric',day:'numeric'})+(r[0].m?' '+r[0].m+'분':'')+(r.length>1?' (모두 '+r.length+'번)':''):''})()+'</p>')+'</div>';
   h+=tg||'';
-  h+=dgPrep(g);
+  h+=dgAcc(g)+dgPrep(g);
   if(g.sum)h+='<details class="card sum2"><summary><p>'+esc(g.sum)+'</p><span class="more">더 보기 ›</span></summary><p>'+esc(g.sum)+'</p></details>';
   h+='<div class="dg2"><div class="dgL">';
   /* 지도: 기본으로 1층만 펼쳐 둠, 핀 누르면 그 단계로 */
@@ -6438,6 +6447,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='fro'){ui.fropen=ui.fropen||{};ui.fropen[k]=!ui.fropen[k];rerender(true);return}
   if(a==='frsp'){const [kk,sp]=k.split('|');c.frsp=c.frsp||{};c.frsp[kk]=sp;save();rerender(true);return}
   if(a==='frmore'){ui.frmore=k;rerender(true);return}
+  if(a==='waycp'){(navigator.clipboard?navigator.clipboard.writeText(k):Promise.reject()).then(()=>toast('복사했어요 · '+k),()=>toast(k));return}
   if(a==='frcopy'){const t=frText(k);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('복사했어요 · 디스코드·카톡에 붙여 넣으세요')).catch(()=>{ui.sheet=null;prompt('복사해서 쓰세요',t)});return}
   if(a==='nogo'){const id=+k;c.nogo=c.nogo||[];if(!c.nogo.includes(id))c.nogo.push(id);const it=IT.get(id);toast('🚫 '+(it?it.nm:'')+' 뺐어요 · 다음 추천을 넣었어요');save();rerender(true);return}
   if(a==='nogoclr'){c.nogo=k==='*'?[]:(c.nogo||[]).filter(id=>{const it=IT.get(id);return !(it&&fits(it,k,c))});toast('뺀 장비를 다시 넣었어요');save();rerender(true);return}
@@ -6518,6 +6528,7 @@ document.addEventListener('wheel',e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(
 /* 퀘스트 줄 왼쪽 ❗ 누르면 바로 끝냄 표시 (펼치지 않고) */
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-qd]');if(!t)return;e.preventDefault();e.stopPropagation();const c=me();if(!c)return;
   const id=+t.dataset.qd;const q=QDB&&QDB.get(id);c.mq=c.mq||{};if(q&&mqDone(c,q)){delete c.mq[id];if(c.fq)delete c.fq[q.z+'|'+q.n]}else c.mq[id]=1;save();rerender(true);toast(c.mq[id]?'끝냄으로 표시했어요':'끝냄 표시를 뺐어요')},true);
+document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('acc2'))ui.accOpen=t.open},true);
 document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('zinfo')){const was=!!ui.zinfo;ui.zinfo=t.open;if(t.open&&!was)rerender(true)}},true);
 
 /* 전체 화면 지도: 뒤로 가기·Esc로도 작게 */

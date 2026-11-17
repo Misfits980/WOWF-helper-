@@ -1145,6 +1145,23 @@ def _dg_extra():
         p.write_text(out, encoding='utf-8')
     return n
 print('dungeon extra', _dg_extra())
+# 던전 가는 길·열쇠·고친 내용(data/guides/dungeon-access.json) → dungeon-guide.json 각 던전 acc 칸 (자료 파일이 늘 이김)
+def _dg_acc():
+    p = ROOT / 'data/forg/dungeon-guide.json'; ap = ROOT / 'data/guides/dungeon-access.json'
+    if not ap.exists():
+        return 0
+    raw = rd(p); g = json.loads(raw); A = json.loads(rd(ap)); n = 0
+    for slug, t in g.items():
+        a = A.get(slug)
+        if a:
+            t['acc'] = {k: v for k, v in a.items() if v}; n += 1
+        else:
+            t.pop('acc', None)
+    out = json.dumps(g, ensure_ascii=False, separators=(',', ':'))
+    if out != raw:
+        p.write_text(out, encoding='utf-8')
+    return n
+print('dungeon access', _dg_acc())
 DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
 # 길 따라 동선 격자(data/route/*.png, tools/route/build_grid.py): 파일 전체 지문 하나 + 있는 지역 번호
 _rg = sorted((ROOT / 'data' / 'route').glob('*.png'))
