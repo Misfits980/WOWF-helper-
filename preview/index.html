@@ -177,7 +177,7 @@ details.fold summary{color:var(--mute);font-size:calc(13px*var(--fs,1));cursor:p
 .foot a{color:var(--mute)}
 /* 글 속 링크: 모양·줄 간격은 그대로, 위아래로 누르는 곳만 넓힘(25px 넘게) */
 .foot a,.note a{padding:6px 0}
-.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#3a301b;border:1px solid var(--gold2);color:var(--gold);padding:8px 16px;border-radius:999px;z-index:60;font-size:calc(14px*var(--fs,1))}.doll{grid-template-columns:1fr 1fr 1fr}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#3a301b;border:1px solid var(--gold2);color:var(--gold);padding:8px 16px;border-radius:19px;z-index:60;font-size:calc(14px*var(--fs,1));width:max-content;max-width:calc(100vw - 32px)}/* left:50%라 긴 알림이 화면 절반 폭으로 줄고 999px 둥근 테두리라 여러 줄이면 타원이 돼 글자가 밖으로 나왔음 — 한 줄은 그대로 알약 모양 */.doll{grid-template-columns:1fr 1fr 1fr}
 
 /* 전투정보실 모양 */
 .armory{display:grid;grid-template-columns:auto 1fr auto;gap:8px;margin-top:12px;background:radial-gradient(ellipse at 50% 35%,#2c261c 0%,#1a1712 70%);border:1px solid var(--line);border-radius:14px;padding:10px 8px}
@@ -1635,7 +1635,7 @@ h2.hh small{font-size:calc(13px*var(--fs,1));color:var(--mute);font-weight:600}
 .agn2{color:#a9dcff;font-size:calc(10.5px*var(--fs,1));font-weight:800;margin-left:4px}
 .gin .gt{position:absolute;display:block;max-width:none}
 .gmap.nomap{background-color:#221c14;background-image:repeating-linear-gradient(0deg,transparent 0 9.8%,#3a3122 9.8% 10%),repeating-linear-gradient(90deg,transparent 0 9.8%,#3a3122 9.8% 10%)}
-.toast.undo{display:flex;align-items:center;gap:10px;padding:6px 6px 6px 16px;white-space:nowrap}.toast.undo button{background:var(--gold2);color:#1a140a;border:0;border-radius:999px;font:inherit;font-size:calc(13px*var(--fs,1));font-weight:800;padding:5px 12px;cursor:pointer}
+.toast.undo{display:flex;align-items:center;gap:10px;padding:6px 6px 6px 16px;white-space:nowrap;border-radius:999px;max-width:none}.toast.undo button{background:var(--gold2);color:#1a140a;border:0;border-radius:999px;font:inherit;font-size:calc(13px*var(--fs,1));font-weight:800;padding:5px 12px;cursor:pointer}
 .mypf{display:flex;flex-wrap:wrap;gap:5px;padding:2px 0 8px}
 .mypf button{background:var(--bg);border:1px solid var(--line);color:#d8ccad;border-radius:999px;font:inherit;font-size:calc(11.5px*var(--fs,1));font-weight:700;padding:3px 9px;cursor:pointer}
 .mypf button.on{border-color:var(--gold2);color:var(--gold);background:#3a2c16}
@@ -3123,10 +3123,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=ee228754"></script>
-<script>/* v034755 @11/18 23:47 */
+<script>/* vc64af6 @11/18 23:55 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/18 23:47';
+const BUILD='11/18 23:55';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3606,7 +3606,7 @@ function armBox(c){const keys=Object.keys(ARM).filter(k=>ARM[k]&&ARM[k].gear);co
 /* ===================== 퀘스트 상세 (할 일·모을 것·연계) — 필요할 때 불러옴 ===================== */
 const QD=new Map();let QD_OK=false;
 /* forg 자료에 목표 목록(t)이 빠진 퀘스트는 퀘스트 DB 목표로 채움 — 없으면 동선에 「하기」 단계가 안 생김 (11-17 자료 갱신 때 94개) */
-function qdFill(q){const d=QD.get(q.id);if(!d){QD.set(q.id,qdbToQD(q));return}if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch;if(!(d.t&&d.t.length)&&q.t&&q.t.length)d.t=qdbToQD(q).t}
+function qdFill(q){const d=QD.get(q.id);if(!d){QD.set(q.id,qdbToQD(q));return}if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch;if(!(d.t&&d.t.length)&&q.t&&q.t.length)d.t=qdbToQD(q).t;if(!(d.r&&d.r[0])&&q.r&&q.r[0])d.r=qdbToQD(q).r/* forg·동선 자료에 반납 NPC가 없으면 창에 「반납하는 곳」 줄이 빠졌음(202개) */}
 fetch('data/forg/quests.jsonl?v='+D_VER.fq).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);QD.set(o.id,o)}catch(e){}});if(QDB&&QDB.size)QDB.forEach(q=>qdFill(q));QD_OK=true;if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'))rerender(true)}).catch(()=>{QD_OK=true});
 const RWD=new Map();
 fetch('data/forg/rewards.jsonl?v='+D_VER.rw).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);RWD.set(o.id,o)}catch(e){}});if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'||ui.tab==='gear'||ui.sheet))rerender(true)}).catch(()=>{});
@@ -3862,7 +3862,7 @@ function miniMap(id,d,nm){const X=QDB&&QDB.get(id);const P=[];
   let t='';for(let x=tx0;x<=tx1;x++)for(let y=ty0;y<=ty1;y++)t+='<img src="https://assets.wowf.io/world/atlas/'+T.n+'/'+z+'/'+x+'_'+y+'.webp" style="left:'+((x*span-cx)*s)+'px;top:'+((y*span-cy)*s)+'px" alt="" loading="lazy" draggable="false" onerror="this.style.visibility=\'hidden\'">';
   const ic={g:QMK.g,r:QMK.r,ob:'⚔️'};
   const pins=Q.filter(p=>p.rx).map(p=>{const R=Math.max(12,p.rx*s);return '<span class="mma" style="left:'+((p.x-cx)*s)+'px;top:'+((p.y-cy)*s)+'px;width:'+2*R+'px;height:'+2*R+'px"></span>'}).join('')+Q.map(p=>'<span class="mmp k-'+p.kind+'" style="left:'+((p.x-cx)*s)+'px;top:'+((p.y-cy)*s)+'px"><i>'+ic[p.kind]+'</i><b>'+esc(p.nm||'')+'</b></span>').join('');
-  const zl=gz?'<span class="mmz">'+esc(gz)+(G?' · '+xyTxt(G[2]):'')+'</span>':'';
+  const zl=gz?'<span class="mmz">'+esc(ZKO[gz]||gz)+(G?' · '+xyTxt(G[2]):'')+'</span>':'';
   const ax=away.length?'<span class="mmx">'+away.map(p=>(p.kind==='r'?QMK.r+' 반납':p.kind==='g'?QMK.g+' 받기':'⚔️')+' <b>'+esc(p.nm||'')+'</b> · '+esc(zn(p.zone||''))+' (다른 지역)').join('<br>')+'</span>':'';
   return '<div class="mm'+(away.length?' hasx':'')+'" data-a="mmgo" data-k="'+id+'" title="눌러서 큰 지도로"><div class="mmc">'+t+pins+'</div>'+zl+ax+'<button class="mmgo" data-a="mmgo" data-k="'+id+'">지도에서 크게 ›</button></div>'}
 /* 큰 지도에 없는 지역(제프라스 섬 등): 지도 그림 없이 좌표만으로 받기·할 일 구역·반납을 그림 */
@@ -4692,6 +4692,9 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
 /* 🧹 가방 정리 도우미: 불러온 가방·은행을 「퀘스트에 씀 · 팔아도 됨 · 내 전문기술 재료 · 은행·경매장」으로 (item-bag.txt는 열 때 받음) */
 let BAGDB=null,BAGL=false;
 function bagDbLoad(){if(BAGL)return;BAGL=true;fetch('data/qdb/item-bag.txt?v='+((D_VER&&D_VER.bag)||'0')).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();t.split('\n').forEach(l=>{if(!l)return;const f=l.split('|');M.set(+f[0],{nm:f[1],q:+f[2],cls:+f[3],sell:+f[4],ic:f[5]||''})});BAGDB=M;rerender(true)}).catch(()=>{BAGDB=new Map();rerender(true)})}
+/* 「추천으로 빈 칸 채우기」 계획: 장비를 복사해 실제 채우기와 같은 순서로 [칸, 템 번호(null=비움)] — 미리보기 버튼 숫자도 이걸로 셈 */
+function fillPlan(c){const t=Object.assign({},c,{eq:Object.assign({},c.eq||{})});const cv=ui.tab==='gear'?dspView(t):t;/* 둘째 특성 화면이면 그 특성 추천으로 (장비 칸은 같은 것) */const P=[];
+  for(let r=0;r<4;r++){const U=upgrades(cv,c.lv,ui.ifil||'ok').filter(o=>o.empty&&!t.eq[o.slot]&&!offLocked(cv,o.slot));if(!U.length)break;for(const o of U){if(t.eq[o.slot]||offLocked(cv,o.slot)||(o.slot==='off'&&o.it.id===t.eq.main)||(o.slot==='main'&&o.it.id===t.eq.off))continue;t.eq[o.slot]=o.it.id;P.push([o.slot,o.it.id]);if(o.slot==='main'&&o.it.sl==='2h'){delete t.eq.off;P.push(['off',null])}}}return P}
 function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id);/* 재봉술 단계엔 두루마리만 적혀 있음 — 그 원재료 옷감(양모·비단 등)도 내 재료 */const cl=/두루마리$/.test(nm)&&typeof D_MATID!=='undefined'&&D_MATID[nm.replace(/두루마리$/,'옷감')];if(cl)S.add(cl)})));return S}
 function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{})){const X=QDB&&QDB.get(+id);((X&&X.t)||[]).forEach(t=>{if(t[0]==='수집'&&t[1])N.add(t[1])});/* 아이템으로 시작한 퀘스트(장인의 계약서 등)는 그 아이템도 있어야 끝낼 수 있음 */if(X&&X.g&&X.g[3]==='item'&&X.g[0])N.add(X.g[0]);const d=QD.get(+id);((d&&d.wf&&d.wf.t)||[]).forEach(t=>{if(t[0])N.add(t[0])})}
   (ui._st||[]).forEach(s=>s.items.forEach(it=>(it.q.cnt||[]).forEach(o=>N.add(o[0]))));return N}
@@ -4911,11 +4914,12 @@ function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 
   const bb={};if(PV){RL.rows.forEach(x=>{if(x.g>.01||x.empty)bb[x.slot]=x});RL.later.forEach(x=>{if(!bb[x.slot])bb[x.slot]=Object.assign({soon:1},x)})}
   /* 위 「▲ N칸」·탭 숫자·「바꿀 것 N칸」은 같은 목록(RL.rows)을 셈: 예전엔 칸 표시(ups)를 세서 빈 반지 2칸·양손 무기 추천 때 보조 손까지 더해 1~2칸 많았음 */
   const nUp=PV?Object.keys(bb).filter(k=>!bb[k].soon).length:RL.rows.length;
+  /* 미리보기 「빈 칸 채우기 (N칸)」: 실제로 채울 칸 수(fillPlan) — 예전엔 추천 없는 장신구 칸까지 세어 눌러도 「채울 빈 칸이 없어요」 */const nFill=PV&&nEq<nAll?fillPlan(c).filter(x=>x[1]!=null).length:0;
   let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??PV))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+' · 점수 <b class="gscs">'+myS+'</b>'+(nUp?' · <em>▲ '+nUp+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups,bb)).join('')+'</div>'
    +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
    +'<div class="gsc" title="착용 장비 능력치 × 내 전문화 점수표를 모두 더한 값"><b>'+myS+'</b><span>장비 점수</span>'+(upS>=1?'<em>추천대로 바꾸면 +'+upS+'</em>':'')+'</div>'
-   +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+Math.round(tot[k]||0)+'</b></div>').join('')+'</div>'+hitCapHtml(c)
-   +(PV&&nEq>=nAll?'':'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기'+(PV?' ('+(nAll-nEq)+'칸)':'')+'</button>')+'</div>'
+   +'<div class="ast">'+keys.map(k=>'<div><span>'+STAT_KO[k].replace(' 주문력','')+'</span><b>'+(/%$/.test(STAT_KO[k])?Math.round((tot[k]||0)*10)/10:Math.round(tot[k]||0))+'</b></div>'/* % 능력치는 소수 한 자리 — 정수로 반올림해 바로 아래 적중 상한 칸(7.5%)과 8로 달랐음 */).join('')+'</div>'+hitCapHtml(c)
+   +(PV&&!nFill?'':'<button class="btn sm ghost" data-a="autofill" style="margin-top:8px">추천으로 빈 칸 채우기'+(PV?' ('+nFill+'칸)':'')+'</button>')+'</div>'
    +'<div class="acol">'+DOLL_R.map(s=>dollCell(c,s,ups,bb)).join('')+'</div></div>'
    +'<div class="abot">'+DOLL_B.map(s=>dollCell(c,s,ups,bb)).join('')+'</div>';
   h+=PV?'<p class="note pvdn">칸을 누르면 그 칸 비교 · <b>+점수</b> 지금 바꾸면 오르는 점수 · <i>파랑</i> 레벨 오르면</p></details>':'<p class="note" style="text-align:center">칸을 누르면 그 칸 추천이 나와요 · <span style="color:var(--good)">▲</span> = 더 좋은 게 있어요</p></details>';
@@ -5207,7 +5211,8 @@ let _DGQ=null;const dgOfQ=id=>(_DGQ||(_DGQ=new Map(DGS.flatMap(d=>d.q.map(q=>[q.
 /* 「지역 (x, y)」 글. 자료가 대륙 지도 좌표(예: 검은바위 산 보들리 = 동부 왕국 48.9, 63.9)면 퀘스트 지역 이름을 앞에 */
 function contPlace(z,xy){const a=xy?toAtlas(z,String(xy)):null;if(!a)return '';let best=null;for(const slug in DGLOC){const L=DGLOC[slug];const b=toAtlas(L[0],L[1]);if(!b||b.c!==a.c)continue;const d=Math.hypot(a.x-b.x,a.y-b.y);if(!best||d<best.d)best={d,slug}}
   if(!best||best.d>250)return '';return /blackrock|molten-core|blackwing/.test(best.slug)?'검은바위 산':(DG[best.slug]?DG[best.slug].ko:best.slug)+' 입구 근처'}
-function placeTxt(z,xy,id){const c=String(xy||'').replace(',',', ');if(/^(동부 왕국|칼림도어)$/.test(z||'')){const p=contPlace(z,xy);return (p?p+' ':'')+'('+z+' 지도'+(c?' '+c:'')+')'}return (z||'')+(c?' ('+c+')':'')}
+const ZKO={"Temple of Ahn'Qiraj":'안퀴라즈 사원','Azeroth':'아제로스'};/* 퀘스트 DB에 영어로 남은 지역 */
+function placeTxt(z,xy,id){z=ZKO[z]||z;const c=String(xy||'').replace(',',', ');if(/^(동부 왕국|칼림도어)$/.test(z||'')){const p=contPlace(z,xy);return (p?p+' ':'')+'('+z+' 지도'+(c?' '+c:'')+')'}return (z||'')+(c?' ('+c+')':'')}
 /* 할 일 위치를 「지역 좌표」로: 좌표만 있으면 받는 곳 지역으로 착각하기 쉬움(예: 아그몬드의 운명 — 받는 곳은 모단 호수, 단지는 황야의 땅 울다만 입구)
    던전 퀘스트면 던전 안인지 · 입구 근처(15 이내)인지도 붙임 */
 function qWhere(id,nm,where){let w=(where||'').replace(/[()]/g,'').trim();const X=QDB&&QDB.get(id);let z='',tt=null;
@@ -7236,9 +7241,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='qopen'){ui.qch=b.dataset.ch?b.dataset.ch.split('.').map(Number):null;ui.sheet='q:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}
   if(a==='info'){ui.sheet='info:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}
   if(a==='gsort'){ui.gsort=k;rerender(true);return}
-  if(a==='autofill'){let n=0;/* 「바꿀 것」 목록의 빈 칸 추천을 그대로 끼움 — 예전엔 칸마다 따로 골라 같은 무기를 두 손에, 「하나 고르기」 보상을 두 칸에 끼웠음 */
-    const cv=ui.tab==='gear'?dspView(c):c;/* 둘째 특성 화면이면 그 특성 추천으로 (장비 칸은 같은 것) */
-    for(let r=0;r<4;r++){const U=upgrades(cv,c.lv,ui.ifil||'ok').filter(o=>o.empty&&!c.eq[o.slot]&&!offLocked(cv,o.slot));if(!U.length)break;for(const o of U){if(c.eq[o.slot]||offLocked(cv,o.slot)||(o.slot==='off'&&o.it.id===c.eq.main)||(o.slot==='main'&&o.it.id===c.eq.off))continue;c.eq[o.slot]=o.it.id;n++;if(o.slot==='main'&&o.it.sl==='2h')delete c.eq.off}}save();rerender(true);toast(n?n+'칸을 추천 장비로 채웠어요':'채울 빈 칸이 없어요');return}
+  if(a==='autofill'){let n=0;/* 「바꿀 것」 목록의 빈 칸 추천을 그대로 끼움(fillPlan) — 예전엔 칸마다 따로 골라 같은 무기를 두 손에, 「하나 고르기」 보상을 두 칸에 끼웠음 */
+    c.eq=c.eq||{};for(const [s,id] of fillPlan(c)){if(id==null)delete c.eq[s];else{c.eq[s]=id;n++}}if(n)save();/* 채운 게 없으면 저장값(_t)도 그대로 */rerender(true);toast(n?n+'칸을 추천 장비로 채웠어요':'채울 빈 칸이 없어요');return}
   if(a==='equip'){const id=+b.dataset.id;const it=IT.get(id);c.eq=c.eq||{};c.eq[k]=id;if(k==='main'&&it&&it.sl==='2h')delete c.eq.off;save();ui.sheet=null;rerender(true);toast(it.nm+' 착용');return}
   if(a==='unequip'){delete c.eq[k];save();rerender(true);return}
 });
