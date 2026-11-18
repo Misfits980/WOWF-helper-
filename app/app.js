@@ -483,7 +483,7 @@ const QD=new Map();let QD_OK=false;
 function qdFill(q){const d=QD.get(q.id);if(!d){QD.set(q.id,qdbToQD(q));return}if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch;if(!(d.t&&d.t.length)&&q.t&&q.t.length)d.t=qdbToQD(q).t}
 fetch('data/forg/quests.jsonl?v='+D_VER.fq).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);QD.set(o.id,o)}catch(e){}});if(QDB&&QDB.size)QDB.forEach(q=>qdFill(q));QD_OK=true;if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'))rerender(true)}).catch(()=>{QD_OK=true});
 const RWD=new Map();
-fetch('data/forg/rewards.jsonl?v='+D_VER.rw).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);RWD.set(o.id,o)}catch(e){}});if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'||ui.sheet))rerender(true)}).catch(()=>{});
+fetch('data/forg/rewards.jsonl?v='+D_VER.rw).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);RWD.set(o.id,o)}catch(e){}});if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'||ui.tab==='gear'||ui.sheet))rerender(true)}).catch(()=>{});
 /* 퀘스트 번호로 찾기 (지역 루트 → 던전 퀘스트 순) */
 /* 사용자가 고른 퀘스트 표시 아이콘 (icons.html: 1 2 6 1 3 5 3) */
 const QIC={gear:'inv_shield_06',chain:'inv_scroll_05',xp:'inv_misc_book_09',dg:'inv_misc_key_03',fnew:'spell_holy_holybolt',cls:'spell_holy_sealofmight',quest:'inv_misc_map_01'};
@@ -903,7 +903,7 @@ const srcQid=s=>{const m=(s.href||'').match(/(?:quest=|\/quest\/)(\d+)/);if(m)re
    · 포에버 퀘스트 자료(QuestieDB)에 아예 없는 퀘스트(옛 호드 퀘스트·시험용). 시작 자료가 없어 앱 목록에서만 빠진 공용 퀘스트(예: 부분적인 신비한 기록)는 얻을 수 있음으로 둠 */
 let _HQ=null;const hordeQ=q=>(_HQ||(_HQ=new Set(typeof D_HQ!=='undefined'?D_HQ:[]))).has(q);
 let _QX=null;const nolistQ=q=>(_QX||(_QX=new Set(typeof D_QX!=='undefined'?D_QX:[]))).has(q);
-function qGone(c,q){if(!q)return false;if(hordeQ(q))return true;if(!QDB){/* 퀘스트 자료가 오기 전(느린 폰·새로고침): 직업·종족 제한만 미리 받은 표로 — 예전엔 다른 직업 보상이 첫 화면에 추천됐음 */const r=typeof D_QCR!=='undefined'&&D_QCR[q];return r?!qdbOk(c,{cls:r[0],rc:r[1]}):false}const X=QDB.get(q);if(!X)return !(dgOfQ(q)||nolistQ(q));return !qdbOk(c,X)||exOut(c,X)}
+function qGone(c,q){if(!q)return false;if(hordeQ(q))return true;if(!QDB){/* 퀘스트 자료가 오기 전(느린 폰·새로고침): 직업·종족 제한만 미리 받은 표로 — 예전엔 다른 직업 보상이 첫 화면에 추천됐음 */const r=typeof D_QCR!=='undefined'&&D_QCR[q];if(r&&r[0]===-1)return !(dgOfQ(q)||nolistQ(q));/* -1 = 퀘스트 자료에 없는 퀘스트 */return r?!qdbOk(c,{cls:r[0],rc:r[1]}):false}const X=QDB.get(q);if(!X)return !(dgOfQ(q)||nolistQ(q));return !qdbOk(c,X)||exOut(c,X)}
 function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)return S;const done=id=>!!((c.mq||{})[id]||(c.dq||{})[id]);
   return S.filter(s=>{if(s.k!==1)return true;const q=srcQid(s);if(q)return !done(q)&&!qGone(c,q);if(/^dg:/.test(s.href||'')){const qs=IT_Q[it.id]||[];return !qs.length||qs.some(x=>!done(x))}return true})}
 const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
@@ -1121,11 +1121,11 @@ function cmpSearch(c){const q=(ui.csrch||'').replace(/\s+/g,'');if(q.length<1)re
   return L.length?'<div class="csl">'+L.map(it=>'<div class="row">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+'</span><span class="sub">'+itMeta(it)+(usable(it,c)?'':' · <span style="color:var(--bad)">못 씀</span>')+'</span></span><button class="btn sm'+(((c.cmp||[]).includes(it.id))?' ghost':'')+'" data-a="cmpadd" data-k="'+it.id+'">'+(((c.cmp||[]).includes(it.id))?'담음':'담기')+'</button></div>').join('')+'</div>':'<p class="note">찾는 장비가 없어요.</p>'}
 /* ===== 세트 장비 (wowf.io 툴팁의 세트 정보) ===== */
 let _SETS=null;function setsIdx(){if(_SETS)return _SETS;const byNm={};ITEMS.forEach(it=>{(byNm[it.nm]=byNm[it.nm]||[]).push(it)});const S=[];const of={};
-  (typeof D_SETS!=='undefined'?D_SETS:[]).forEach(([n,parts,bon])=>{const ps=parts.map(pn=>{const a=byNm[pn]||[];return a.sort((x,y)=>y.lv-x.lv)[0]||null});if(!ps.some(Boolean))return;const o={n,parts,ps,bon};S.push(o);ps.forEach(it=>{if(it)of[it.id]=o})});
+  (typeof D_SETS!=='undefined'?D_SETS:[]).forEach(([n,parts,bon,tot])=>{const ps=parts.map(pn=>{const a=byNm[pn]||[];return a.sort((x,y)=>y.lv-x.lv)[0]||null});if(!ps.some(Boolean))return;const o={n,parts,ps,bon,tot};S.push(o);ps.forEach(it=>{if(it)of[it.id]=o})});
   _SETS={S,of};return _SETS}
 const setOf=id=>setsIdx().of[id]||null;
 const ownSet=(c,it)=>!!it&&(Object.values(c.eq||{}).includes(it.id)||!!ownedOf(c,it.id));
-function setHtml(c,o,full){const have=o.ps.filter(it=>ownSet(c,it)).length;const N=o.parts.length;
+function setHtml(c,o,full){const have=o.ps.filter(it=>ownSet(c,it)).length;const N=Math.max(o.tot||0,o.parts.length);/* 게임 툴팁 (0/N) — 부위 이름이 N개보다 적은 세트(숲지기 등)도 6 */
   let h='<div class="setc"><div class="seth"><b>🧩 '+esc(o.n)+'</b><em>'+have+'/'+N+'</em></div><div class="setp">'+o.parts.map((pn,i)=>{const it=o.ps[i];const own=ownSet(c,it);return it?'<button class="setpi'+(own?' own':'')+'" data-a="info" data-k="'+it.id+'">'+(own?'✓ ':'')+esc(pn)+'</button>':'<span class="setpi">'+esc(pn)+'</span>'}).join('')+'</div>';
   if(full||have)h+='<div class="setb">'+o.bon.map(([n,t])=>'<p class="'+(have>=n?'on':'')+'"><b>('+n+')</b> '+esc(t)+'</p>').join('')+'</div>';
   return h+'</div>'}
@@ -4105,7 +4105,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='wfr'){ui.sheet='wfr';rerender(true);return}
   if(a==='wfrcp'){const t=document.querySelector('.sheet textarea');if(t){t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast('복사했어요 · 게임에서 /wfh 추천'),()=>{document.execCommand('copy');toast('복사했어요')})}catch(e){document.execCommand('copy');toast('복사했어요')}}return}
   if(a==='slotnav'){slotGo(k);return}
-  if(a==='gsel'){ui.gslot=k||null;rerender(true);if(k)requestAnimationFrame(()=>{const p=document.querySelector('.spanel');if(p&&p.getBoundingClientRect().top>window.innerHeight-120)p.scrollIntoView({behavior:'smooth',block:'start'})});return}
+  if(a==='gsel'){ui.gslot=k||null;rerender(true);if(k)requestAnimationFrame(()=>{const p=document.querySelector('.spanel');const tb=document.querySelector('.tabs');const bot=window.innerHeight-(tb&&getComputedStyle(tb).position==='fixed'?tb.getBoundingClientRect().height:0);/* 아래 고정 탭 막대 뒤에 숨던 것(태블릿·폰 아래쪽 칸) */if(p&&p.getBoundingClientRect().top>bot-120)p.scrollIntoView({behavior:'smooth',block:'start'})});return}
   if(a==='gopanel'){ui.tab='gear';ui.gslot=k;render();const p=document.querySelector('.spanel');if(p)p.scrollIntoView({block:'start'});return}
   if(a==='qopen'){ui.qch=b.dataset.ch?b.dataset.ch.split('.').map(Number):null;ui.sheet='q:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}
   if(a==='info'){ui.sheet='info:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}

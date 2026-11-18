@@ -276,7 +276,7 @@ details.qf summary::-webkit-details-marker{display:none}
 .ptask{list-style:none;margin:0;padding:0}
 .ptask li{padding:6px 0;border-bottom:1px dashed rgba(90,60,20,.3);font-size:14.5px}
 .ptask li span{font-size:12.5px;color:#5a4120}
-.rgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:6px 0}/* 1fr은 내용 폭보다 안 줄어 폰에서 오른쪽 칸이 양피지 밖으로 22px 넘쳤음 */
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0}
 .rt2{display:flex;align-items:center;gap:8px;text-align:left;padding:6px 8px;border-radius:6px;border:1.5px solid #9a7a45;background:rgba(255,248,230,.55);color:#2b1d0e;position:relative;font-family:inherit;min-height:52px}
 .rt2 .ic{width:38px;height:38px;flex:none}
 .rt2 .rn{font-size:14px;font-weight:800;line-height:1.25}

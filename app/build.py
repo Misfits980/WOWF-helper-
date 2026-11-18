@@ -225,7 +225,7 @@ def _sets():
                 if mb:
                     bon.append([int(mb.group(1)), _qfix(mb.group(2))])
             if nm not in out or len(bon) > len(out[nm][2]):
-                out[nm] = [nm, parts, bon]
+                out[nm] = [nm, parts, bon, n]  # n = 게임 툴팁 (0/N)
             break
     return list(out.values())
 
@@ -923,7 +923,17 @@ for _fn in ('item-en-ko.txt', 'item-en-ko2.txt'):
                 _IENKO.setdefault(_en.strip(), _ko.strip())
 # 출처에 영어 이름만 있고 한글 퀘스트 자료로도 못 찾는 클래식 레이드 퀘스트(줄구룹 잔달라 · 안퀴라즈 폐허·사원)
 _RAIDQ_EN = {'Strength of Mount Mugamba', "The Heathen's Brand", 'The Pebble of Kajaro', "The Maelstrom's Tendril",
-             'Armaments of War', 'The Path of the Invoker', 'Signet of the Unseen Path', "Conqueror's Crown", 'The Savior of Kalimdor'}
+             'The Path of the Invoker', 'Signet of the Unseen Path', "Conqueror's Crown", 'The Savior of Kalimdor'}
+def _qcr():
+    """퀘스트 자료(2MB)가 오기 전에 쓰는 표: 직업·종족 제한 [cls, rc] · 아이템 출처에 있지만 퀘스트 자료에 없는 퀘스트는 [-1, -1](자료 뒤엔 qGone이 「얻을 수 없음」으로 봄)"""
+    qa = _qa if (Q / 'quests.jsonl').exists() else []
+    out = {str(o['id']): [o.get('cls') or 0, o.get('rc') or 0] for o in qa if o.get('cls') or o.get('rc')}
+    have = set(o['id'] for o in qa)
+    if have:
+        for m in set(int(x) for x in re.findall(r'(?:quest=|/quest/)(\d+)', srcs)):
+            if m not in have:
+                out[str(m)] = [-1, -1]
+    return out
 def _rflag(l):
     f = l.split('~')
     if len(f) < 2:
@@ -1245,7 +1255,7 @@ data = '\n'.join([
     # 게임 퀘스트 캐시에서 확인한 레벨·최소 레벨·목표 글 (tools/qdb/gamecache.py → data/qdb/quest-game.txt)
     'const D_QGAME=' + json.dumps([[int(f[0]), int(f[1]), int(f[2]), f[3]] for f in (l.split('|', 3) for l in (rd(Q / 'quest-game.txt').splitlines() if (Q / 'quest-game.txt').exists() else []) if l and not l.startswith('#'))], ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_QX=' + json.dumps([int(x) for x in (rd(Q / 'quests-nolist.txt').split() if (Q / 'quests-nolist.txt').exists() else [])], separators=(',', ':')) + ';',
-    'const D_QCR=' + json.dumps({str(o['id']): [o.get('cls') or 0, o.get('rc') or 0] for o in (_qa if (Q / 'quests.jsonl').exists() else []) if o.get('cls') or o.get('rc')}, separators=(',', ':')) + ';',
+    'const D_QCR=' + json.dumps(_qcr(), separators=(',', ':')) + ';',
     'const D_HQ=' + json.dumps([int(x) for x in (rd(Q / 'horde-quests.txt').split() if (Q / 'horde-quests.txt').exists() else [])], separators=(',', ':')) + ';',
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(_dgl()) + ';',
