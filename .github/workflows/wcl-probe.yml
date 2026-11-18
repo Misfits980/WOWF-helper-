@@ -1,0 +1,16 @@
+name: 워크래프트로그 자료 살펴보기
+on:
+  workflow_dispatch:
+  push:
+    paths: ['tools/wcl/probe.py', '.github/workflows/wcl-probe.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/wcl/probe.py
+        env:
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
