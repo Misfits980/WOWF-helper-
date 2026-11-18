@@ -352,6 +352,8 @@
 .mapw .mpk.on{border:2px solid var(--gold);background:rgba(232,192,106,.14);box-shadow:0 0 0 3px rgba(0,0,0,.45)}
 .mapw .mpn{position:absolute;transform:translate(calc(-50% + 13px),calc(-50% - 13px));min-width:17px;height:17px;padding:0 3px;border-radius:9px;border:1.5px solid var(--c);background:#16130e;color:#fff;font:700 10.5px/14px system-ui,sans-serif;cursor:pointer;z-index:3;box-shadow:0 1px 2px rgba(0,0,0,.6)}
 .mapw .mpn::before{content:'';position:absolute;inset:-6px;border-radius:12px}
+/* 탱 풀 짜기: 풀 번호의 보이지 않는 넓은 누름 영역이 작은 무리를 통째로 덮어 넣을 수 없었음 → 번호 크기만큼만 */
+.mapw .mpn[data-a="dpsel"]::before{inset:0}
 .mapw .mpn.on{background:var(--c);color:#16130e}
 .mapw.sel .mi:not(.on),.mapw.sel .mpn:not(.on),.mapw.sel .mob:not(.on){opacity:.35}
 .mapw .mi.on{z-index:2;width:15px;height:15px}
