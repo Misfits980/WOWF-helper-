@@ -3121,10 +3121,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=636aaed5"></script>
-<script>/* v3c086c @11/18 13:14 */
+<script>/* vb2f4f0 @11/18 14:13 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v))}fsApply(fsGet());
-const BUILD='11/18 13:14';
+const BUILD='11/18 14:13';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -6397,7 +6397,7 @@ const NAVC={},SEGC={};
 function navLoad(f){const n=f.nav;if(!n)return null;if(NAVC[n.img])return NAVC[n.img]&&NAVC[n.img].ok?NAVC[n.img]:null;NAVC[n.img]={};const im=new Image();
   im.onload=()=>{try{const cv=document.createElement('canvas');cv.width=n.gw;cv.height=n.gh;const x=cv.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0);const d=x.getImageData(0,0,n.gw,n.gh).data;
     const N=n.gw*n.gh,R=new Uint8Array(N),G=new Uint8Array(N),A=new Uint8Array(N);for(let i=0;i<N;i++){R[i]=d[i*4];G[i]=d[i*4+1];A[i]=d[i*4+3]}
-    NAVC[n.img]={ok:1,R,G,A,n};if(ui.dpm&&ui.tab==='dungeon')rerender(true)}catch(e){NAVC[n.img]={bad:1}}};
+    NAVC[n.img]={ok:1,R,G,A,n};if(ui.dpm&&ui.tab==='dungeon')rrMap(true)/* 예전엔 rerender라 지도 스크롤이 0,0으로 돌아가 지금 풀이 가장자리에 놓였음 */}catch(e){NAVC[n.img]={bad:1}}};
   im.onerror=()=>{NAVC[n.img]={bad:1}};im.src=n.img;return null}
 function navSnap(V,x,y){const n=V.n;const cx=Math.floor(x/n.kx),cy=Math.floor(y/n.ky);let best=-1,bd=1e9;for(let r=0;r<=12&&best<0;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){const X=cx+dx,Y=cy+dy;if(X<0||Y<0||X>=n.gw||Y>=n.gh)continue;const i=Y*n.gw+X;if(V.A[i]===255){const dd=dx*dx+dy*dy;if(dd<bd){bd=dd;best=i}}}return best}
 function navPath(V,s,t){const n=V.n,W=n.gw,H=n.gh,N=W*H;const key=n.img+':'+s+':'+t;if(SEGC[key])return SEGC[key];
@@ -6423,7 +6423,8 @@ function tankStops(f,fi){const P=DGX.P;const st=[];const ent=f.pins.find(p=>p.t=
   const boss=f.pins.filter(p=>/^\d+!?$/.test(p.t)&&f.rpos&&f.rpos[p.t]!=null).map(p=>({x:p.x,y:p.y,k:'b',t:p.t,pos:f.rpos[p.t]})).sort((a,b)=>a.pos-b.pos);
   let bi=0;pulls.forEach(q=>{while(bi<boss.length&&boss[bi].pos<q.pos){st.push(boss[bi]);bi++}st.push(q)});while(bi<boss.length)st.push(boss[bi++]);return st}
 function tankRoute(f,fi){const V=navLoad(f);if(!V)return null;const st=tankStops(f,fi);const segs=[];for(let i=1;i<st.length;i++){const a=navSnap(V,st[i-1].x,st[i-1].y),b=navSnap(V,st[i].x,st[i].y);
-    const r=a>=0&&b>=0?navPath(V,a,b):null;segs.push({from:st[i-1],to:st[i],pts:r?[[st[i-1].x,st[i-1].y]].concat(r.pts,[[st[i].x,st[i].y]]):[[st[i-1].x,st[i-1].y],[st[i].x,st[i].y]],yd:r?r.yd:null,ok:!!r})}return segs}
+    const r=a>=0&&b>=0?navPath(V,a,b):null;const sx=(f.sc||300)/100,sy=sx*(f.h/f.w),stub=(p,q)=>Math.hypot((p.x-q[0])*sx,(p.y-q[1])*sy);/* 정류장 ↔ 가까운 길 칸 토막도 셈(짧은 구간이 직선보다 짧게 나오던 것) */
+    segs.push({from:st[i-1],to:st[i],pts:r?[[st[i-1].x,st[i-1].y]].concat(r.pts,[[st[i].x,st[i].y]]):[[st[i-1].x,st[i-1].y],[st[i].x,st[i].y]],yd:r?r.yd+stub(st[i-1],r.pts[0])+stub(st[i],r.pts[r.pts.length-1]):null,ok:!!r})}return segs}
 function mobLayer(f,fi){if(!(PV&&f.mob&&(ui.dmob!==0||dpmOn())))return '';const M=f.mob,W=f.w||100,H=f.h||100,sel=dpmOn()?'p:'+(DGX.P.k+1):ui.dmsel;const PM=dpmOn();
   const pt=new Set(M.t.map(t=>t[0]));const RM=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   const P2=q=>(q[0]*W/100).toFixed(1)+','+(q[1]*H/100).toFixed(1);
@@ -7186,8 +7187,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
       dgPlanEdit(P=>{const fl0=ks=>ks.length?Math.min(...ks.map(x=>+x.split(':')[0])):1e9;let ins=-1;P.p.forEach((ks,j)=>{if(ks.some(x=>+x.split(':')[0]===fi))ins=j+1});if(ins<0){ins=P.p.findIndex(ks=>fl0(ks)>fi&&fl0(ks)<1e9);if(ins<0)ins=P.p.length}P.p.splice(ins,0,[k]);P.k=ins;delete P.auto2});rrMap();return}
     dgPlanEdit(P=>{const cur=P.p[P.k]||(P.p[P.k]=[]);const at=cur.indexOf(k);if(at>=0)cur.splice(at,1);else{P.p.forEach(x=>{const j=x.indexOf(k);if(j>=0)x.splice(j,1)});cur.push(k)}delete P.auto2});rrMap();return}
   if(a==='dpn'||a==='dpsel'){const P=DGX&&DGX.P;if(!P)return;const cur=ui.dpkI||0;let j=a==='dpn'?cur+(+k):+k;
-    /* 비워 둔 지금 풀을 떠나면 그 풀은 빠지므로(dgPlan) 뒤 번호를 하나 당김 */if(j>cur&&P.p[cur]&&!P.p[cur].length)j--;
-    ui.dpkI=Math.max(0,Math.min(j,P.p.length-1));dpFloor();rrMap(true);return}
+    /* 비워 둔 지금 풀(＋ 새 풀)을 떠나면 저장에서도 빼고 뒤 번호를 하나 당김 */if(j!==cur&&DGX.pl&&P.p.length>1&&P.p[cur]&&!P.p[cur].length){if(j>cur)j--;j=Math.max(0,Math.min(j,P.p.length-2));dgPlanEdit(Q=>{Q.p.splice(Q.k,1);Q.k=j})}
+    else ui.dpkI=Math.max(0,Math.min(j,P.p.length-1));dpFloor();rrMap(true);return}
   if(a==='dpadd'){dgPlanEdit(P=>{P.p.splice(P.k+1,0,[]);P.k=P.k+1;delete P.auto2});rrMap();return}
   if(a==='dpmerge'){dgPlanEdit(P=>{if(P.k>0){P.p[P.k-1]=P.p[P.k-1].concat(P.p[P.k]);P.p.splice(P.k,1);P.k--}delete P.auto2});dpFloor();rrMap(true);return}
   if(a==='dpdel'){dgPlanEdit(P=>{P.p.splice(P.k,1);P.k=Math.max(0,P.k-1);delete P.auto2});dpFloor();rrMap(true);return}
