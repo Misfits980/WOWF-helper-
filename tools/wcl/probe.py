@@ -15,27 +15,14 @@ def q(query, var=None):
 pts = lambda: q('{ rateLimitData { pointsSpentThisHour } }')['data']['rateLimitData']['pointsSpentThisHour']
 p0 = pts()
 now = int(time.time() * 1000)
-codes = []
-for args in ('zoneID:3000, limit:100, page:1', 'zoneID:3000, limit:100, page:2', 'zoneID:3000, limit:100, startTime:%d, endTime:%d' % (now - 7 * 864e5, now)):
-    r = q('{ reportData { reports(%s) { total per_page current_page last_page has_more_pages data { code startTime zone { id } } } } }' % args)
+for args in ('limit:100', 'limit:100, page:2', 'gameZoneID:36, limit:100', 'gameZoneID:48, limit:100', 'zoneID:3000, limit:100, startTime:0', 'zoneID:3001, limit:100', 'limit:100, startTime:%d, endTime:%d' % (now - 3600e3, now), 'guildServerRegion:"US", limit:100'):
+    r = q('{ reportData { reports(%s) { total per_page current_page has_more_pages data { code startTime zone { id name } } } } }' % args)
     rr = ((r.get('data') or {}).get('reportData') or {}).get('reports') or {}
-    print('reports', args, '→', len(rr.get('data') or []), {k: rr.get(k) for k in ('total', 'per_page', 'current_page', 'last_page', 'has_more_pages')}, r.get('errors'))
-    codes += [x['code'] for x in rr.get('data') or []]
-codes = list(dict.fromkeys(codes))
-print('기록 수', len(codes), '점수', round(pts() - p0, 2)); p1 = pts()
-# 20개씩 묶어 싸움 받기
-enc = {}
-for i in range(0, min(len(codes), 60), 20):
-    part = codes[i:i + 20]
-    qq = '{ reportData { ' + ' '.join('r%d: report(code:"%s") { code fights(killType: Kills) { id encounterID kill size startTime endTime friendlyPlayers } }' % (j, c) for j, c in enumerate(part)) + ' } }'
-    r = q(qq)
-    for k, v in ((r.get('data') or {}).get('reportData') or {}).items():
-        for f in (v or {}).get('fights') or []:
-            if f.get('encounterID'):
-                enc.setdefault(f['encounterID'], []).append((v['code'], f['id'], f['size'], len(f['friendlyPlayers'] or []), round((f['endTime'] - f['startTime']) / 60000, 1)))
-    if r.get('errors'): print('오류', json.dumps(r['errors'])[:300])
-print('싸움 60개 기록 점수', round(pts() - p1, 2))
-for e, L in sorted(enc.items(), key=lambda x: -len(x[1])): print('던전', e, '판', len(L), L[:3])
+    D = rr.get('data') or []
+    from collections import Counter
+    print('reports', args, '→', len(D), 'more', rr.get('has_more_pages'), Counter((x.get('zone') or {}).get('id') for x in D).most_common(6), json.dumps(r.get('errors'))[:200] if r.get('errors') else '')
+print('점수', round(pts() - p0, 2))
+sys.exit(0)
 # 사건 한 쪽 비용(DamageDone 10000개)
 c, fid = '17paTd8tYnM9zjxZ', 1
 p2 = pts()
