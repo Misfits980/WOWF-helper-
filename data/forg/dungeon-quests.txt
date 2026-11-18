@@ -140,7 +140,7 @@ Q|razorfen-downs|3341|horde|42|37|암네나르 처치||앤드류 브로넬 · �
 B|sm-cathedral|scarlet-commander-mograine=붉은십자군 사령관 모그레인;high-inquisitor-whitemane=종교재판관 화이트메인;high-inquisitor-fairbanks=종교재판관 페어뱅크스
 Q|sm-cathedral|1053|alliance|40|34|빛의 이름으로!||경건한 신자 랄레이 · 힐스브래드 구릉지 51.5, 58.4|1|6829,6830,6831,11262||1|
 Q|sm-cathedral|1048|horde|42|33|붉은십자군 수도원으로||바리마트라스 · 언더시티 56.3, 92.2|0|6802,6803,10711||1|
-B|kroldok-stronghold|slavecrusher-grox=노예파괴자 그록스;twilight-commander-zarmok=황혼의 사령관 자르모크;nargurk=나르구르크;handler-ashka=조련사 아쉬카;bossman-toof=두목 투프;overseer-mugg=감독관 머그
+B|kroldok-stronghold|slavecrusher-grox=노예파괴자 그록스;twilight-commander-zarmok=황혼의 사령관 자르모크;handler-ashka=조련사 아쉬카;nargurk=나르구르크;bossman-toof=두목 투프;overseer-mugg=감독관 머그
 Q|kroldok-stronghold|94982|alliance|45|40|머그의 눈|크롤도크 보루에 침투한 뒤, 우두머리가 죽었다는 증거를 확보해 사령관 브랜트에게 가야 합니다.|시작 · 강물터|0|279852,279853,279480||1|
 Q|kroldok-stronghold|94981|alliance|41|38|핵심 재료|두꺼운 가죽 4개와 철 주괴 12개를 알퐁스 뒤마에게 가져가야 합니다.|시작 · 강물터|1|267089|||
 Q|kroldok-stronghold|94980|alliance|41|38|크롤도크 거푸집|파홀드 성채에서 거푸집에 관해 아는 사람을 찾아야 합니다.|아이템에서 시작|0||||
