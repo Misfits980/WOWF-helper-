@@ -54,4 +54,10 @@ for host in ('forever', 'classic', 'fresh', 'sod', 'www'):
     for e in ex:
         zs = e.get('zones') or []
         print('  확장팩', e.get('id'), e.get('name'), '· 지역', len(zs), ':', ', '.join('%s(%s)' % (z['name'], z['id']) for z in zs[:40]))
+# 포에버 사이트(forever.warcraftlogs.com)는 /api/v2가 없음 → 다른 사이트 API로 포에버 지역·기록을 읽을 수 있는지
+Q2 = '{ worldData { z0: zone(id: 3000) { id name expansion { id name } encounters { id name } } z1: zone(id: 3001) { id name } } reportData { report(code: "17paTd8tYnM9zjxZ") { title startTime zone { id name } fights { id name encounterID kill } } } }'
+for host in ('www', 'classic', 'fresh'):
+    st, body = post('https://%s.warcraftlogs.com/api/v2/client' % host, json.dumps({'query': Q2}).encode(),
+                    {'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json'})
+    print('포에버 확인', host, 'HTTP', st, body[:900])
 sys.exit(0 if ok_any else 1)
