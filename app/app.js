@@ -3246,11 +3246,17 @@ function dgAuto(fl,lv){const S=DPS[lv]||DPS[2];const C=[];fl.forEach((f,fi)=>f.m
     if(cur&&cur.fi===x.fi&&cur.w+w<=S.w+.01&&x.pos-cur.p0<=S.g&&cur.ms.some(m=>packYd(f,m,x.m)<=S.d)){cur.k.push(x.fi+':'+x.i);cur.w+=w;cur.ms.push(x.m)}
     else{cur={fi:x.fi,p0:x.pos,w,k:[x.fi+':'+x.i],ms:[x.m]};out.push(cur)}});
   return out.map(g=>g.k)}
-function dgPlan(c,slug,fl){const sig=dgSig(fl);const P=c&&c.dgp&&c.dgp[slug];if(P&&P.s===sig&&Array.isArray(P.p))return P;return {s:sig,p:dgAuto(fl,2),k:0,lv:2,auto:1}}
+function dgPlan(c,slug,fl){const sig=dgSig(fl);const P=c&&c.dgp&&c.dgp[slug];if(P&&P.s===sig&&Array.isArray(P.p)){
+  /* 빈 풀은 탱 풀 짜기에서 지금 고른 빈 풀(＋ 새 풀 등)만 남김 — 예전엔 비워 둔 채 떠난 풀이 저장에 남아 풀 번호가 1,3,4…로 건너뛰고 새로고침 뒤에도 그대로였음.
+     복사본을 돌려줌(그릴 때 정하는 지금 풀 k가 저장된 계획에 섞이지 않게) */
+  const nw=ui.dpm&&ui.dpNew===slug?(ui.dpkI||0):-1;return Object.assign({},P,{p:P.p.filter((x,j)=>x.length||j===nw)})}
+  return {s:sig,p:dgAuto(fl,2),k:0,lv:2,auto:1}}
 function dgPlanEdit(fn){if(!DGX||!DGX.pl)return;const c=DGX.c;const P=JSON.parse(JSON.stringify(dgPlan(c,DGX.slug,DGX.fl)));delete P.auto;P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));fn(P);
   /* 빈 풀은 지금 풀만 남김 · 지금 풀 번호 맞춤 */
-  const keep=[];let nk=P.k;P.p.forEach((x,j)=>{if(x.length||j===P.k)keep.push(x);else if(j<P.k)nk--});P.p=keep;if(!P.p.length)P.p=[[]];P.k=Math.max(0,Math.min(nk,P.p.length-1));ui.dpkI=P.k;delete P.k;
+  const keep=[];let nk=P.k;P.p.forEach((x,j)=>{if(x.length||j===P.k)keep.push(x);else if(j<P.k)nk--});P.p=keep;if(!P.p.length)P.p=[[]];P.k=Math.max(0,Math.min(nk,P.p.length-1));ui.dpkI=P.k;ui.dpNew=P.p[P.k].length?null:DGX.slug;delete P.k;
   c.dgp=c.dgp||{};c.dgp[DGX.slug]=P;save()}
+/* 고른 풀이 지금 층에 없으면 그 풀의 층으로 — 「이 풀 지우기」·「앞 풀과 합치기」 뒤 다른 층 풀이 골라져도 지도가 예전 층에 남았음 */
+function dpFloor(){if(!DGX||!DGX.pl)return;const P=dgPlan(DGX.c,DGX.slug,DGX.fl);ui.dpkI=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));const L=planMs(P,ui.dpkI);if(L.length&&!L.some(x=>x[3]===(ui.dfloor||0)))ui.dfloor=L[0][3]}
 function planIdx(P){const I={};P.p.forEach((ks,j)=>ks.forEach(k=>{I[k]=j}));return I}
 function planNo(fi,i){if(!DGX||!DGX.P)return 0;const j=DGX.I[fi+':'+i];return j==null?0:j+1}
 function planMs(P,j){const L=[];(P.p[j]||[]).forEach(k=>{const [fi,i]=k.split(':').map(Number);const f=DGX.fl[fi];const m=f&&f.mob&&f.mob.p[i];if(m)L.push([m,i,f,fi])});return L}
@@ -3282,7 +3288,7 @@ function navPath(V,s,t){const n=V.n,W=n.gw,H=n.gh,N=W*H;const key=n.img+':'+s+':
       if(au===255&&av===255&&Math.abs(V.R[u]-V.R[v])*dz<=1.3*L)c=L*(1+(V.G[u]+V.G[v])/160);else if(au===128||av===128||(au===255&&av===255))c=L*120;else c=L*45;
       const ng=g[u]+c;if(ng<g[v]){g[v]=ng;pr[v]=u;push(v,ng+hh(v))}}}
   let r=null;if(isFinite(g[t])){const P=[];let k=t;while(k>=0){P.push(k);if(k===s)break;k=pr[k]}P.reverse();
-    if(g[t]<=45*P.length*.5){let pts=P.map(i=>[(i%W+.5)*n.kx,(((i/W)|0)+.5)*n.ky]);pts=rdpPts(pts,.3);r={pts,yd:P.length*n.cy}}}
+    if(g[t]<=45*P.length*.5){let pts=P.map(i=>[(i%W+.5)*n.kx,(((i/W)|0)+.5)*n.ky]);pts=rdpPts(pts,.3);/* 걸음마다 1칸 또는 대각선 √2칸 — 예전엔 칸 수로만 세어 직선거리보다 짧게 나왔음 */let st=0;for(let i=1;i<P.length;i++)st+=(P[i]%W!==P[i-1]%W&&((P[i]/W)|0)!==((P[i-1]/W)|0))?Math.SQRT2:1;r={pts,yd:st*n.cy}}}
   SEGC[key]=r;return r}
 function rdpPts(P,e){if(P.length<3)return P;const a=P[0],b=P[P.length-1];const ab=[b[0]-a[0],b[1]-a[1]];const n=Math.hypot(ab[0],ab[1])||1e-9;let mi=0,md=0;
   for(let i=1;i<P.length-1;i++){const d=Math.abs(ab[0]*(P[i][1]-a[1])-ab[1]*(P[i][0]-a[0]))/n;if(d>md){md=d;mi=i}}
@@ -3327,17 +3333,20 @@ function mobLayer(f,fi){if(!(PV&&f.mob&&(ui.dmob!==0||dpmOn())))return '';const 
 function hull(P){if(P.length<3)return P.slice();const p=P.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[],up=[];
   p.forEach(q=>{while(lo.length>1&&cr(lo[lo.length-2],lo[lo.length-1],q)<=0)lo.pop();lo.push(q)});for(let i=p.length-1;i>=0;i--){const q=p[i];while(up.length>1&&cr(up[up.length-2],up[up.length-1],q)<=0)up.pop();up.push(q)}
   up.pop();lo.pop();return lo.concat(up)}
-function pullAgg(L){const A={};let n=0,el=0,lo=99,hi=0,pt=0;L.forEach(([m,i,f])=>{n+=m[2];el+=m[4]||0;lo=Math.min(lo,m[5]);hi=Math.max(hi,m[6]);if(f.mob.t.some(t=>t[0]===i))pt=1;
+function pullAgg(L){const A={};let n=0,el=0,lo=99,hi=0,pt=0;L.forEach(([m,i,f])=>{n+=m[2];
+  /* 정예 수·레벨은 목록에 나오는 몹으로 셈 — 무리 자료의 정예·레벨엔 핀으로 따로 보이는 보스·이름 NPC가 섞여 카드 머리글과 목록이 어긋났음(77·55곳) */
+  if(m[7].length)m[7].forEach(x=>{if(x[2]>=1&&x[2]!==4)el+=x[1];lo=Math.min(lo,x[3]!=null?x[3]:m[5]);hi=Math.max(hi,x[4]!=null?x[4]:m[6])});else{el+=m[4]||0;lo=Math.min(lo,m[5]);hi=Math.max(hi,m[6])}if(f.mob.t.some(t=>t[0]===i))pt=1;
   m[7].forEach(x=>{const a=A[x[0]]||(A[x[0]]={nm:x[0],c:0,rk:x[2],lo:x[3]!=null?x[3]:m[5],hi:x[4]!=null?x[4]:m[6],ty:x[5]});a.c+=x[1];if(x[2]!=null&&x[2]>(a.rk||0))a.rk=x[2]})});
   return {rows:Object.values(A).sort((a,b)=>b.c-a.c),n,el,lo,hi,pt}}
 function mobRows(g,n,my){return g.rows.map(x=>{const rk=x.rk!=null?mobRk(x.rk):'n';return '<li><i class="mi sm '+rk+'" style="--c:'+pCol(n)+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x.ty]?x.ty:0)+'"/></svg></i><b>'+esc(x.nm)+'</b>'+(x.c>1?'<span class="cnt">×'+x.c+'</span>':'')+(rk==='e'?'<em class="rk e">정예</em>':rk==='r'?'<em class="rk r">희귀</em>':'')
     +'<span class="lv '+conCol(my,x.hi)+'">'+(x.lo===x.hi?x.lo:x.lo+'–'+x.hi)+'</span>'+(MTY[x.ty]?'<small>'+MTY[x.ty]+'</small>':'')+'</li>'}).join('')}
 /* 이 풀 몹 가까이(12야드) 지나가는 다른 순찰 */
 function patrolNear(L,P){const out=new Set();L.forEach(([m,i,f,fi])=>{const sx=(f.sc||300)/100,sy=(f.sc||300)*(f.h/f.w)/100;const pts=m[9]&&m[9].length?m[9]:[[m[0],m[1]]];
-  f.mob.t.forEach(t=>{if(L.some(x=>x[3]===fi&&x[1]===t[0]))return;if(t[1].some(q=>pts.some(p=>Math.hypot((p[0]-q[0])*sx,(p[1]-q[1])*sy)<=12))){const n=planNo(fi,t[0]);out.add(n?'풀 '+n:'옆길')}})});return [...out]}
+  /* 순찰 길의 선분까지 거리 — 예전엔 꼭짓점만 봐서 무리 바로 옆을 지나는 순찰을 놓쳤음 */const sd=(p,a,b)=>{const dx=(b[0]-a[0])*sx,dy=(b[1]-a[1])*sy,px=(p[0]-a[0])*sx,py=(p[1]-a[1])*sy,L2=dx*dx+dy*dy,u=L2?Math.max(0,Math.min(1,(px*dx+py*dy)/L2)):0;return Math.hypot(px-u*dx,py-u*dy)};
+  f.mob.t.forEach(t=>{if(L.some(x=>x[3]===fi&&x[1]===t[0]))return;if(t[1].some((q,j)=>pts.some(p=>sd(p,j?t[1][j-1]:q,q)<=12))){const n=planNo(fi,t[0]);out.add(n?'풀 '+n:'옆길')}})});return [...out]}
 function mobCard(c,f,fi){if(!(PV&&f.mob&&ui.dmob!==0)||dpmOn())return '';const sel=ui.dmsel;if(!sel)return '';const M=f.mob;let L=[],title='',n=0;
   if(sel.startsWith('p:')){n=+sel.slice(2);L=planMs(DGX.P,n-1);title='풀 '+n}
-  else{const [,a,b]=sel.split(':');if(+a!==fi)return '';const m=M.p[+b];if(m)L=[[m,+b,f,fi]];title=m&&m[8]?'희귀 몹':'안 잡는 무리'}
+  else{const [,a,b]=sel.split(':');if(+a!==fi)return '';const m=M.p[+b];if(m)L=[[m,+b,f,fi]];title=m&&m[7].some(x=>x[2]===2||x[2]===4)?'희귀 몹':'안 잡는 무리'}
   if(!L.length)return '';const g=pullAgg(L);const my=c.lv||1;const dg=dangerOf(L,my);const pn=patrolNear(L);
   return '<div class="mobcard"><div class="mch">'+(n?'<span class="pnum" style="--c:'+pCol(n)+'">'+n+'</span>':'')+'<b>'+title+' · '+g.n+'마리</b><span>'+(g.lo===g.hi?g.lo:g.lo+'–'+g.hi)+'레벨'+(g.el?' · 정예 '+g.el:'')+'</span><em class="dgr '+dg[1]+'">'+dg[0]+'</em>'+(g.pt?'<em class="ptb">순찰 있음</em>':'')+'<button class="x" data-a="mobx" aria-label="닫기">✕</button></div>'
     +'<ul>'+mobRows(g,n,my)+'</ul>'+(pn.length?'<p class="warn">순찰 몹이 가까이 지나가요('+pn.join(', ')+') — 지나간 뒤 잡거나 같이 묶기</p>':'')+'<p class="mute">레벨 색: 내 캐릭터 '+my+'레벨 기준 · 위험도는 5인 파티 기준 대략</p></div>'}
@@ -3368,10 +3377,11 @@ function planPanel(c,f,fi){const P=DGX.P;const my=c.lv||1;const k=P.k;const tot=
     return '<button role="listitem" class="pp'+(j===k?' on':'')+' '+(d2[1]||'')+'" style="--c:'+pCol(j+1)+'" data-a="dpsel" data-k="'+j+'" aria-label="'+esc(lab)+'" title="'+esc(lab)+'">'+(j+1)+'</button>'}).join('')+'</div></div>';
   return h}
 function rrMap(center){const v=document.querySelector('.mapv');const sx=v?v.scrollLeft:0,sy=v?v.scrollTop:0;rerender(true);const v2=document.querySelector('.mapv');if(!v2)return;v2.scrollLeft=sx;v2.scrollTop=sy;
-  if(center&&v2.classList.contains('zm')){const t=v2.querySelector('.mpn.on');if(t){const r=t.getBoundingClientRect(),rv=v2.getBoundingClientRect();v2.scrollLeft+=r.left+r.width/2-(rv.left+rv.width/2);v2.scrollTop+=r.top+r.height/2-(rv.top+rv.height/2)}}}
+  if(center&&v2.classList.contains('zm')){const cen=()=>{const t=v2.querySelector('.mpn.on');if(t){const r=t.getBoundingClientRect(),rv=v2.getBoundingClientRect();v2.scrollLeft+=r.left+r.width/2-(rv.left+rv.width/2);v2.scrollTop+=r.top+r.height/2-(rv.top+rv.height/2)}};cen();
+    /* 처음 보는 층은 그림이 아직 안 받아져 자리가 틀림 → 받으면 다시 가운데로 */const im=v2.querySelector('.mapw>img');if(im&&!im.complete)im.addEventListener('load',cen,{once:true})}}
 function mapZoomBtns(f){if(!(PV&&f.w&&f.h))return '';const z=ui.dz||1;return '<div class="mz"><button data-a="dfs" aria-label="'+(ui.dfs?'크게 보기 닫기':'크게 보기')+'">'+(ui.dfs?'✕':'⛶')+'</button><button data-a="dzm" data-k="1" aria-label="확대"'+(z>=4?' disabled':'')+'>+</button><button data-a="dzm" data-k="-1" aria-label="축소"'+(z<=1?' disabled':'')+'>−</button></div>'}
 function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
-  let g=DGG[d.slug];if(ui.dmD!==d.slug){ui.dmD=d.slug;ui.dmsel=null;ui.dz=1;ui.dfs=false;ui.dpall=false;ui.dpkI=0}
+  let g=DGG[d.slug];if(ui.dmD!==d.slug){ui.dmD=d.slug;ui.dmsel=null;ui.dz=1;ui.dfs=false;ui.dpall=false;ui.dpkI=0;ui.dpNew=null}
   /* 미리보기: 게임 모델로 그린 위에서 본 지도(f3 — 핀·쫄 자리가 게임 좌표 그대로) */const G3=PV&&g&&g.f3&&g.f3.length?g:null;if(G3&&ui.d3!==0)g=Object.assign({},g,{floors:g.f3});if(!g||!(g.steps&&g.steps.length)){
     const W2=wyOf(d);if(!(g&&g.boss)&&W2&&W2.bosses&&W2.bosses.length){/* 신규 던전: wythic.com 공략(입구·보스 순서·기술 한 줄) */const its=dgItems(c,d);
       return dgAcc(g)+dgRcp(g)+'<div class="card"><p class="note">'+esc(W2.sum||'')+'</p><p class="mute src">자료: wythic.com 공략 · 지도 위치는 추정일 수 있어요</p><ol class="route">'
@@ -4046,11 +4056,17 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='dpm'){ui.dpm=k==='1';ui.dmsel=null;
     /* 이 층에 풀이 하나도 없으면 지금 풀이 있는 층으로 */
     if(ui.dpm&&DGX&&DGX.P){const fi=ui.dfloor||0;const has=DGX.P.p.some((x,j)=>planMs(DGX.P,j).some(y=>y[3]===fi));const L=planMs(DGX.P,Math.min(ui.dpkI||0,DGX.P.p.length-1));if(!has&&L.length)ui.dfloor=L[0][3]}if(ui.dpm&&innerWidth<700&&(ui.dz||1)<2.5)ui.dz=2.5;rrMap(true);setTimeout(()=>rrMap(true),400);return}
-  if(a==='dpk'){dgPlanEdit(P=>{const cur=P.p[P.k]||(P.p[P.k]=[]);const at=cur.indexOf(k);if(at>=0)cur.splice(at,1);else{P.p.forEach(x=>{const j=x.indexOf(k);if(j>=0)x.splice(j,1)});cur.push(k)}delete P.auto2});rrMap();return}
-  if(a==='dpn'||a==='dpsel'){const P=DGX&&DGX.P;if(!P)return;const j=a==='dpn'?(ui.dpkI||0)+(+k):+k;ui.dpkI=Math.max(0,Math.min(j,P.p.length-1));const L=planMs(P,ui.dpkI);if(L.length&&L[0][3]!==(ui.dfloor||0)&&!L.some(x=>x[3]===(ui.dfloor||0)))ui.dfloor=L[0][3];rrMap(true);return}
+  if(a==='dpk'){const fi=+k.split(':')[0];const P0=DGX&&DGX.pl?DGX.P:null;const c0=P0&&P0.p[P0.k]||[];
+    /* 지금 풀이 다른 층에만 있으면: 이미 풀에 든 무리는 그 풀을 고르고, 아니면 이 층에 새 풀을 만들어 넣음 — 예전엔 풀 없는 층(놈리건 1층 등)에서 누른 무리가 다른 층의 지금 풀에 말없이 붙어 층을 넘는 풀이 됐음 */
+    if(c0.length&&!c0.some(x=>+x.split(':')[0]===fi)){const own=DGX.I[k];if(own!=null){ui.dpkI=own;rrMap();return}
+      dgPlanEdit(P=>{const fl0=ks=>ks.length?Math.min(...ks.map(x=>+x.split(':')[0])):1e9;let ins=-1;P.p.forEach((ks,j)=>{if(ks.some(x=>+x.split(':')[0]===fi))ins=j+1});if(ins<0){ins=P.p.findIndex(ks=>fl0(ks)>fi&&fl0(ks)<1e9);if(ins<0)ins=P.p.length}P.p.splice(ins,0,[k]);P.k=ins;delete P.auto2});rrMap();return}
+    dgPlanEdit(P=>{const cur=P.p[P.k]||(P.p[P.k]=[]);const at=cur.indexOf(k);if(at>=0)cur.splice(at,1);else{P.p.forEach(x=>{const j=x.indexOf(k);if(j>=0)x.splice(j,1)});cur.push(k)}delete P.auto2});rrMap();return}
+  if(a==='dpn'||a==='dpsel'){const P=DGX&&DGX.P;if(!P)return;const cur=ui.dpkI||0;let j=a==='dpn'?cur+(+k):+k;
+    /* 비워 둔 지금 풀을 떠나면 그 풀은 빠지므로(dgPlan) 뒤 번호를 하나 당김 */if(j>cur&&P.p[cur]&&!P.p[cur].length)j--;
+    ui.dpkI=Math.max(0,Math.min(j,P.p.length-1));dpFloor();rrMap(true);return}
   if(a==='dpadd'){dgPlanEdit(P=>{P.p.splice(P.k+1,0,[]);P.k=P.k+1;delete P.auto2});rrMap();return}
-  if(a==='dpmerge'){dgPlanEdit(P=>{if(P.k>0){P.p[P.k-1]=P.p[P.k-1].concat(P.p[P.k]);P.p.splice(P.k,1);P.k--}delete P.auto2});rrMap(true);return}
-  if(a==='dpdel'){dgPlanEdit(P=>{P.p.splice(P.k,1);P.k=Math.max(0,P.k-1);delete P.auto2});rrMap(true);return}
+  if(a==='dpmerge'){dgPlanEdit(P=>{if(P.k>0){P.p[P.k-1]=P.p[P.k-1].concat(P.p[P.k]);P.p.splice(P.k,1);P.k--}delete P.auto2});dpFloor();rrMap(true);return}
+  if(a==='dpdel'){dgPlanEdit(P=>{P.p.splice(P.k,1);P.k=Math.max(0,P.k-1);delete P.auto2});dpFloor();rrMap(true);return}
   if(a==='dpauto'){const v=+k;dgPlanEdit(P=>{P.p=dgAuto(DGX.fl,v);P.lv=v;P.auto2=1;P.k=0});toast('자동 묶기: '+DPS[v].t+' — 지도에서 눌러 더 고칠 수 있어요');rrMap();return}
   if(a==='dpreset'){if(DGX&&c.dgp){delete c.dgp[DGX.slug];save()}ui.dpkI=0;toast('처음 추천으로 돌렸어요');rrMap();return}
   if(a==='dzm'){const v=document.querySelector('.mapv');const fx=v&&v.scrollWidth>v.clientWidth?(v.scrollLeft+v.clientWidth/2)/v.scrollWidth:.5,fy=v&&v.scrollHeight>v.clientHeight?(v.scrollTop+v.clientHeight/2)/v.scrollHeight:.5;
