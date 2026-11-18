@@ -1,7 +1,7 @@
 """WCL 기록 한 판 → 대표 판 재생용 원자료(이름 없음). 손으로 한 번 돌리는 작업(예약·자동 커밋 없음).
 
 입력(환경 변수): WCL_CODE(기록 코드 16자), WCL_FIGHT(싸움 번호).
-출력: out/replay-raw.json.gz — Actions 결과물로만 올림(저장소에 안 씀).
+출력: out/replay-raw.json.gz — Actions 결과물·실행 기록(base64)으로만(저장소에 안 씀).
 플레이어 이름·서버·길드는 쓰지 않음: 플레이어는 기록 안 번호·직업·역할만, 몹은 게임 번호(gameID)만.
 """
 import os, re, json, gzip, base64, urllib.request, urllib.parse, sys
@@ -54,7 +54,7 @@ print('점수 시작', p0, '/', lim)
 V = {'c': CODE, 'f': [FIGHT]}
 
 FQ = 'id startTime endTime kill encounterID friendlyPlayers enemyNPCs { id gameID instanceCount } maps { id }'
-PULLS = ' dungeonPulls { id startTime endTime x y kill maps { id } enemyNPCs { id gameID instanceCount minimumInstanceID maximumInstanceID } boundingBox { minX maxX minY maxY } }'
+PULLS = ' dungeonPulls { id startTime endTime x y kill maps { id } enemyNPCs { id gameID minimumInstanceID maximumInstanceID } boundingBox { minX maxX minY maxY } }'
 r = q('query($c:String,$f:[Int]){ reportData { report(code:$c) { startTime fights(fightIDs:$f) { %s } } } }' % (FQ + PULLS), V)
 if r.get('errors'):
     r = q('query($c:String,$f:[Int]){ reportData { report(code:$c) { startTime fights(fightIDs:$f) { %s } } } }' % FQ, V)
@@ -106,3 +106,9 @@ out = {'code': CODE, 'fight': {k: F.get(k) for k in ('id', 'startTime', 'endTime
 with gzip.open('out/replay-raw.json.gz', 'wt', encoding='utf-8') as f:
     json.dump(out, f, ensure_ascii=False, separators=(',', ':'))
 print('파일', os.path.getsize('out/replay-raw.json.gz'), '바이트 · 점수 사용', round(pts()[0] - p0, 2))
+# 결과물 내려받기가 안 되는 곳에서도 받을 수 있게 같은 파일을 실행 기록에 base64로(이름 없는 자료)
+b = base64.b64encode(open('out/replay-raw.json.gz', 'rb').read()).decode()
+print('B64BEGIN', len(b))
+for i in range(0, len(b), 4000):
+    print('B64:' + b[i:i + 4000])
+print('B64END')
