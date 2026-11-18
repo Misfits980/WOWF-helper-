@@ -213,9 +213,14 @@ def _sets():
             if not m:
                 continue
             nm, n = m.group(1), int(m.group(2))
-            parts = L[i + 1:i + 1 + n]
+            # 부위 줄은 「(n) 세트: …」 효과 줄 앞까지만 — wowf.io 툴팁은 (0/6)인데 부위가 4줄뿐인 세트가 있어 효과 2줄이 부위로 들어가고 (2)·(3) 효과가 빠졌음(세트 18개)
+            parts = []
+            for y in L[i + 1:i + 1 + n]:
+                if re.match(r'^\(\d+\) 세트: ', y):
+                    break
+                parts.append(y)
             bon = []
-            for y in L[i + 1 + n:]:
+            for y in L[i + 1 + len(parts):]:
                 mb = re.match(r'^\((\d+)\) 세트: (.+)$', y)
                 if mb:
                     bon.append([int(mb.group(1)), _qfix(mb.group(2))])
@@ -783,6 +788,13 @@ for sq in re.findall(r"'((?:[^'\\]|\\.)*)'", PROFS_JS):
             PICO[nm_] = v_[1]
         if nm_ and nm_ in KO_ID:
             MATID[nm_] = KO_ID[nm_]
+# 납품 상자 재료(data/guides/deliver.json)도 — 예전엔 전문기술 단계 글에 나오는 재료만 넣어 광석·주괴·결정 등이 빠져 상자 21개에서 「가방에 다 있어요」가 안 나왔음
+if (ROOT / 'data/guides/deliver.json').exists():
+    for _c in json.loads(rd(ROOT / 'data/guides/deliver.json')).get('crates', []):
+        for _n in (_c.get('need') or []):
+            nm_ = str(_n[1]).strip() if isinstance(_n, list) and len(_n) > 1 else ''
+            if nm_ and nm_ not in MATID and nm_ in KO_ID:
+                MATID[nm_] = KO_ID[nm_]
 # 한글판이 아직 없는 영문 이름 템 → wythic.com 던전 자료(data/wythic/dungeons.json)의 한글 이름으로
 _wyko = {}
 if (ROOT / 'data' / 'wythic' / 'dungeons.json').exists():
