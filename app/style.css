@@ -1481,7 +1481,7 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .jy2::before{content:'';position:absolute;left:26px;right:26px;top:23px;height:3px;border-radius:2px;background:#5d4a28}
 .jn2{position:relative;z-index:1;flex:1;min-width:0;max-width:80px;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0;border:0;background:none;color:inherit;font-family:inherit;cursor:pointer}
 .jn2 .c{width:46px;height:46px;border-radius:50%;background:#000 center/cover;border:2px solid #5d4a28;box-shadow:0 0 0 3px var(--bg);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:20px}
-.jn2 b{font-size:11.5px;margin-top:5px;line-height:1.2;word-break:keep-all;overflow-wrap:anywhere;max-width:100%}/* 글씨 크게: 칸보다 긴 한 단어(이글거리는)가 옆 이름과 붙던 것 → 칸 안에서 줄바꿈 */.jn2 small{font-size:10px;color:var(--mute)}
+.jn2 b{font-size:11.5px;margin-top:5px;line-height:1.2;word-break:keep-all}.fsbig .jn2 b{overflow-wrap:anywhere;max-width:100%}/* 글씨 크게(1.12·1.25)일 때만: 칸보다 긴 한 단어(이글거리는)가 옆 이름과 붙던 것 → 칸 안에서 줄바꿈 */.jn2 small{font-size:10px;color:var(--mute)}
 .jn2.now .c{border-color:#e8c06a;box-shadow:0 0 0 3px var(--bg),0 0 0 5px rgba(232,192,106,.35)}.jn2.now b{color:var(--gold)}
 .jn2 .nb{position:absolute;top:-4px;right:6px;font-size:9.5px;font-weight:900;color:#1a140a;background:#e8c06a;border-radius:5px;padding:0 4px}
 .jn2.dg .c{width:40px;height:40px;margin-top:3px;border-radius:12px;border-color:#a35bd6}.jn2.dg b{color:#d7b4ff}
