@@ -3123,10 +3123,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=ee228754"></script>
-<script>/* v8d4610 @11/18 23:31 */
+<script>/* vfd7e4c @11/18 23:37 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/18 23:31';
+const BUILD='11/18 23:37';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4692,7 +4692,7 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
 /* 🧹 가방 정리 도우미: 불러온 가방·은행을 「퀘스트에 씀 · 팔아도 됨 · 내 전문기술 재료 · 은행·경매장」으로 (item-bag.txt는 열 때 받음) */
 let BAGDB=null,BAGL=false;
 function bagDbLoad(){if(BAGL)return;BAGL=true;fetch('data/qdb/item-bag.txt?v='+((D_VER&&D_VER.bag)||'0')).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();t.split('\n').forEach(l=>{if(!l)return;const f=l.split('|');M.set(+f[0],{nm:f[1],q:+f[2],cls:+f[3],sell:+f[4],ic:f[5]||''})});BAGDB=M;rerender(true)}).catch(()=>{BAGDB=new Map();rerender(true)})}
-function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id)})));return S}
+function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id);/* 재봉술 단계엔 두루마리만 적혀 있음 — 그 원재료 옷감(양모·비단 등)도 내 재료 */const cl=/두루마리$/.test(nm)&&typeof D_MATID!=='undefined'&&D_MATID[nm.replace(/두루마리$/,'옷감')];if(cl)S.add(cl)})));return S}
 function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{})){const X=QDB&&QDB.get(+id);((X&&X.t)||[]).forEach(t=>{if(t[0]==='수집'&&t[1])N.add(t[1])});/* 아이템으로 시작한 퀘스트(장인의 계약서 등)는 그 아이템도 있어야 끝낼 수 있음 */if(X&&X.g&&X.g[3]==='item'&&X.g[0])N.add(X.g[0]);const d=QD.get(+id);((d&&d.wf&&d.wf.t)||[]).forEach(t=>{if(t[0])N.add(t[0])})}
   (ui._st||[]).forEach(s=>s.items.forEach(it=>(it.q.cnt||[]).forEach(o=>N.add(o[0]))));return N}
 /* 아이템 이름 → 그 아이템을 쓰는 퀘스트(모으기 목표 · 아이템으로 시작) — 가방 정리에서 「어느 퀘스트·몇 레벨」 보여 주기 */
