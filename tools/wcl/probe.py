@@ -14,13 +14,17 @@ def q(query, var=None):
     except Exception: return {'raw': b[:300], 'st': st}
 pts = lambda: q('{ rateLimitData { pointsSpentThisHour } }')['data']['rateLimitData']['pointsSpentThisHour']
 p0 = pts()
-now = int(time.time() * 1000)
-for args in ('limit:100', 'limit:100, page:2', 'gameZoneID:36, limit:100', 'gameZoneID:48, limit:100', 'zoneID:3000, limit:100, startTime:0', 'zoneID:3001, limit:100', 'limit:100, startTime:%d, endTime:%d' % (now - 3600e3, now), 'guildServerRegion:"US", limit:100'):
-    r = q('{ reportData { reports(%s) { total per_page current_page has_more_pages data { code startTime zone { id name } } } } }' % args)
-    rr = ((r.get('data') or {}).get('reportData') or {}).get('reports') or {}
-    D = rr.get('data') or []
-    from collections import Counter
-    print('reports', args, '→', len(D), 'more', rr.get('has_more_pages'), Counter((x.get('zone') or {}).get('id') for x in D).most_common(6), json.dumps(r.get('errors'))[:200] if r.get('errors') else '')
+def qh(host, query):
+    st, b = post('https://%s.warcraftlogs.com/api/v2/client' % host, json.dumps({'query': query}).encode(), {'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json'})
+    try: return json.loads(b)
+    except Exception: return {'raw': b[:200], 'st': st}
+from collections import Counter
+for host in ('classic', 'fresh', 'sod', 'vanilla', 'www'):
+    for args in ('zoneID:3000, limit:100',):
+        r = qh(host, '{ reportData { reports(%s) { has_more_pages data { code startTime zone { id } } } } }' % args)
+        rr = ((r.get('data') or {}).get('reportData') or {}).get('reports') or {}
+        D = rr.get('data') or []
+        print('reports', host, args, '→', len(D), 'more', rr.get('has_more_pages'), Counter((x.get('zone') or {}).get('id') for x in D).most_common(4), (D[0]['code'] if D else ''), json.dumps(r.get('errors'))[:200] if r.get('errors') else r.get('raw', '')[:100])
 print('점수', round(pts() - p0, 2))
 sys.exit(0)
 # 사건 한 쪽 비용(DamageDone 10000개)
