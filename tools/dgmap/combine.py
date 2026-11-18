@@ -6,6 +6,7 @@ for p in sorted(glob.glob('/home/claude/dgmap/final/*.json')):
     slug=os.path.basename(p)[:-5];d=json.load(open(p))
     for f in d['floors']:
         shutil.copy('/home/claude/dgmap/final/'+os.path.basename(f['img']),R+'/'+f['img'])
+        if f.get('nav'): shutil.copy('/home/claude/dgmap/final/'+os.path.basename(f['nav']['img']),R+'/'+f['nav']['img'])
     out[slug]={'floors':d['floors']}
 json.dump(out,open(R+'/data/guides/dungeon-maps3d.json','w'),ensure_ascii=False,separators=(',',':'))
 print({k:len(v['floors']) for k,v in out.items() if k!='_'})

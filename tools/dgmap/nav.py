@@ -205,6 +205,33 @@ def run(slug):
             while len(m) < 10: m.append([])
             if len(m) == 10: m.append(0)
             m[10] = nums.get(i, 0)
+        # 무리마다 길 위 위치(야드)와 길에서 거리 → 탱 풀 짜기에서 순서·옆길 판단
+        def proj(p):
+            best = (1e9, 0)
+            for j in range(len(full) - 1):
+                d, t = seg_dist((p[0] * sx, p[1] * sy), (full[j][0] * sx, full[j][1] * sy), (full[j + 1][0] * sx, full[j + 1][1] * sy))
+                if d < best[0]: best = (d, cum[j] + t * (cum[j + 1] - cum[j]))
+            return best
+        for i, m in enumerate(f['mob']['p']):
+            pts = [(q[0], q[1]) for q in (m[9] if m[9] else [(m[0], m[1])])]
+            bb = min((proj(p) for p in pts), default=(1e9, 0)) if len(full) > 1 else (1e9, 0)
+            while len(m) < 13: m.append(0)
+            m[11] = round(bb[1], 1) if bb[0] < 1e9 else -1
+            m[12] = round(bb[0], 1) if bb[0] < 1e9 else -1
+        f['rpos'] = {p['t']: round(proj((p['x'], p['y']))[1], 1) for p in f['pins'] if len(full) > 1}
+        # 길찾기 칸 그림(브라우저에서 탱 동선 계산): R 높이 · G 벽 가까움 · A 255 걸음/128 벽/0 빈 곳
+        hc, wc = W.shape
+        Wk2 = W & ~wall
+        zs = G[Wk2] if Wk2.any() else np.array([0.0, 1.0])
+        z0n, z1n = float(np.nanmin(zs)), float(np.nanmax(zs)); dzq = max((z1n - z0n) / 255.0, 1e-3)
+        img = np.zeros((hc, wc, 4), np.uint8)
+        img[..., 0] = np.clip(np.round((np.nan_to_num(G, nan=z0n) - z0n) / dzq), 0, 255)
+        img[..., 1] = np.clip(np.round(pen * 80), 0, 255)
+        img[..., 3] = np.where(Wk2, 255, np.where(wall, 128, 0))
+        nn = f['img'].split('/')[-1].replace('.webp', '-nav.png')
+        Image.fromarray(img, 'RGBA').save('/home/claude/dgmap/final/' + nn, optimize=True)
+        f['nav'] = {'img': 'data/dgmap/' + nn, 'gw': wc, 'gh': hc, 'z0': round(z0n, 2), 'dz': round(dzq, 4),
+                    'kx': round(c / wr * 100, 5), 'ky': round(c / hr * 100, 5), 'cy': round(c / ppy, 3)}
         f['route'] = routes
         report.append((li + 1, '길 %d/%d' % (ok, ok + bad), '길목 무리 %d/%d' % (len(nums), len(f['mob']['p'])), '풀 %d' % len(set(nums.values()))))
     json.dump(D, open(fj, 'w'), ensure_ascii=False)
