@@ -901,6 +901,17 @@ if (Q / 'quests.jsonl').exists():
     for o in _qa:
         _QNR.setdefault(o.get('n'), []).append(o['id'] in _RQ)
     _PQ = set(o['id'] for o in _qa if o.get('z') in ('알터랙 계곡', '전쟁노래 협곡', '아라시 분지'))  # 전장 퀘스트 = PvP
+# 아이템 영어 → 한글 이름 (낙스라마스·안퀴라즈 보상 퀘스트는 출처에 영어 이름만 있고, 그 이름이 보상 아이템 이름과 같음)
+_IENKO = {}
+for _fn in ('item-en-ko.txt', 'item-en-ko2.txt'):
+    if (Q / _fn).exists():
+        for _l in rd(Q / _fn).splitlines():
+            if '|' in _l:
+                _en, _ko = _l.split('|', 1)
+                _IENKO.setdefault(_en.strip(), _ko.strip())
+# 출처에 영어 이름만 있고 한글 퀘스트 자료로도 못 찾는 클래식 레이드 퀘스트(줄구룹 잔달라 · 안퀴라즈 폐허·사원)
+_RAIDQ_EN = {'Strength of Mount Mugamba', "The Heathen's Brand", 'The Pebble of Kajaro', "The Maelstrom's Tendril",
+             'Armaments of War', 'The Path of the Invoker', 'Signet of the Unseen Path', "Conqueror's Crown", 'The Savior of Kalimdor'}
 def _rflag(l):
     f = l.split('~')
     if len(f) < 2:
@@ -912,7 +923,18 @@ def _rflag(l):
         if m:
             fl = 'r' if int(m.group(1)) in _RQ else 'p' if int(m.group(1)) in _PQ else ''
         elif not hr.startswith('dg:'):
-            v = _QNR.get(lb.replace('퀘스트 · ', '', 1))
+            nm = lb.replace('퀘스트 · ', '', 1)
+            v = _QNR.get(nm)
+            # 영어 이름만 있는 퀘스트(예: Frostfire Robe = 낙스라마스 「얼음불꽃 로브」 퀘스트)는 한글 이름으로 찾음 — 예전엔 레이드 표시가 안 붙어
+            # 「퀘스트만」·「퀘스트+던전」 추천에 T3·안퀴라즈 보상이 섞였음. 레이드로 확인되면 화면 글도 한글 이름으로
+            if v is None and re.match('[A-Za-z]', nm):
+                ko = _IENKO.get(nm)
+                v2 = _QNR.get(ko) if ko else None
+                # 영어 이름은 클래식 자료에서 온 것 → 같은 한글 이름 퀘스트 중 레이드 퀘스트가 있으면 레이드(예: 정복자의 왕관 = 안퀴라즈 + 포에버 새 퀘스트)
+                if (v2 and any(v2)) or nm in _RAIDQ_EN:
+                    v = [True]
+                    if ko and v2:
+                        f[1] = '퀘스트 · ' + ko
             fl = 'r' if v and all(v) else ''
     elif k == '3':
         n = lb.replace('드랍 · ', '', 1)
@@ -1012,6 +1034,17 @@ def _lvl_forever(txt):
     rg, sd = srt(Z['강물터']), srt(Z['셴드랄라스'])
     if len(rg) < 20 or len(sd) < 10:
         return txt
+    # forg 원본이 이미 강물터(#36|40|강물터 …·#41|44|강물터 …)를 넣은 새 모양이면: 셴드랄라스만 43~45로 끼움(41~44 → 41~42, 45~50 → 46~50)
+    if re.search(r'^#36\|40\|강물터', txt, re.M) and re.search(r'^#41\|44\|', txt, re.M):
+        out = []
+        for l in txt.split('\n'):
+            if l.startswith('#41|44|'):
+                l = '#41|42|' + l.split('|', 2)[2]
+            elif l.startswith('#45|50|'):
+                out.extend(['#43|45|셴드랄라스'] + [line(q) for q in sd])
+                l = '#46|50|' + l.split('|', 2)[2]
+            out.append(l)
+        return _hyjal('\n'.join(out), qp)
     # 강물터 퀘스트는 대부분 36레벨부터 받을 수 있어서 36부터 (앞 33~34 구간을 35까지 늘림)
     new = ['#36|40|강물터'] + [line(q) for q in rg if q['lv'] <= 40] + ['#41|42|강물터'] + [line(q) for q in rg if q['lv'] > 40] + ['#43|45|셴드랄라스'] + [line(q) for q in sd]
     out, skip = [], False
@@ -1200,6 +1233,7 @@ data = '\n'.join([
     # 게임 퀘스트 캐시에서 확인한 레벨·최소 레벨·목표 글 (tools/qdb/gamecache.py → data/qdb/quest-game.txt)
     'const D_QGAME=' + json.dumps([[int(f[0]), int(f[1]), int(f[2]), f[3]] for f in (l.split('|', 3) for l in (rd(Q / 'quest-game.txt').splitlines() if (Q / 'quest-game.txt').exists() else []) if l and not l.startswith('#'))], ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_QX=' + json.dumps([int(x) for x in (rd(Q / 'quests-nolist.txt').split() if (Q / 'quests-nolist.txt').exists() else [])], separators=(',', ':')) + ';',
+    'const D_QCR=' + json.dumps({str(o['id']): [o.get('cls') or 0, o.get('rc') or 0] for o in (_qa if (Q / 'quests.jsonl').exists() else []) if o.get('cls') or o.get('rc')}, separators=(',', ':')) + ';',
     'const D_HQ=' + json.dumps([int(x) for x in (rd(Q / 'horde-quests.txt').split() if (Q / 'horde-quests.txt').exists() else [])], separators=(',', ':')) + ';',
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(_dgl()) + ';',
