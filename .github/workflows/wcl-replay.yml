@@ -1,0 +1,31 @@
+name: 워크래프트로그 한 판 받기 (대표 판 재생)
+# 손으로만 돌림: 고른 기록 한 판을 받아 이름 없는 원자료를 결과물로 올림(저장소에 안 씀, 하루 뒤 지워짐)
+on:
+  workflow_dispatch:
+    inputs:
+      code:
+        description: '기록 코드 (16자)'
+        required: true
+      fight:
+        description: '싸움 번호'
+        required: true
+        default: '1'
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/wcl/replay.py
+        env:
+          WCL_CODE: ${{ inputs.code }}
+          WCL_FIGHT: ${{ inputs.fight }}
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: replay-raw
+          path: out/replay-raw.json.gz
+          retention-days: 1
