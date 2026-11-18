@@ -1230,7 +1230,7 @@
 {"id": 98109, "n": "최첨단", "o": "Speak with Adon the high elf northwest of the ruins of Northdale, on the road to Quel'Thalas.", "rr": 1, "ft": 1}
 {"id": 98166, "n": "첫 번째 말", "o": "Inspect the riding horses to choose your first mount.", "rr": 1, "ft": 1}
 {"id": 98898, "rr": 1, "ft": 1, "n": "검은창 군도의 충돌"}
-{"id": 98905, "n": "검은창 군도 전투!", "o": "Win a Darkspear Islands battleground and return back to Brelinda McFarry at Northwatch Hold.", "rr": 1, "ft": 1}
+{"id": 98905, "n": "검은창 군도 전투!", "o": "검은창 군도 전장에서 승리하고 북부 전초기지에 있는 브렐린다 맥패리에게 보고해야 합니다.", "rr": 1, "ft": 1}
 {"id": 99205, "n": "바람 타기", "o": "Learn the Journeyman Riding skill from Jartsam.", "rr": 1, "ft": 1}
 {"id": 99326, "n": "첫 번째 말", "o": "Inspect the riding horses to choose your first mount.", "rr": 1, "ft": 1}
 {"id": 99435, "rr": 1, "ft": 1, "n": "대단한 가장무도회"}
