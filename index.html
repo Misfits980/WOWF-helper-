@@ -2670,11 +2670,11 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .dollf summary>b{white-space:nowrap;flex:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=ee228754"></script>
-<script>/* vc64af6 @11/18 23:55 */
+<script src="app-data.js?v=c050cfa5"></script>
+<script>/* v9f8971 @11/19 00:56 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/18 23:55';
+const BUILD='11/19 00:56';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3153,8 +3153,9 @@ function armBox(c){const keys=Object.keys(ARM).filter(k=>ARM[k]&&ARM[k].gear);co
 
 /* ===================== 퀘스트 상세 (할 일·모을 것·연계) — 필요할 때 불러옴 ===================== */
 const QD=new Map();let QD_OK=false;
+/* 퀘스트 DB에 영어로 남은 지역 — 보여 줄 때만 한글로(지도 위치 찾기는 영어 이름 그대로 씀) */const ZKO={"Temple of Ahn'Qiraj":'안퀴라즈 사원','Azeroth':'아제로스'};
 /* forg 자료에 목표 목록(t)이 빠진 퀘스트는 퀘스트 DB 목표로 채움 — 없으면 동선에 「하기」 단계가 안 생김 (11-17 자료 갱신 때 94개) */
-function qdFill(q){const d=QD.get(q.id);if(!d){QD.set(q.id,qdbToQD(q));return}if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch;if(!(d.t&&d.t.length)&&q.t&&q.t.length)d.t=qdbToQD(q).t;if(!(d.r&&d.r[0])&&q.r&&q.r[0])d.r=qdbToQD(q).r/* forg·동선 자료에 반납 NPC가 없으면 창에 「반납하는 곳」 줄이 빠졌음(202개) */}
+function qdFill(q){const d=QD.get(q.id);if(!d){QD.set(q.id,qdbToQD(q));return}if(!(d.ch&&d.ch.length>1)&&q._ch)d.ch=q._ch;if(!(d.t&&d.t.length)&&q.t&&q.t.length)d.t=qdbToQD(q).t;if(q.r&&q.r[0]&&(!(d.r&&d.r[0])||(!d.r[1]&&!d.r[3]&&q.r[1]&&q.r[0]===d.r[0])))d.r=qdbToQD(q).r/* forg·동선 자료에 반납 NPC가 없거나(202개) 같은 NPC인데 지역·좌표가 빠졌으면(180개) 퀘스트 DB 것으로 */}
 fetch('data/forg/quests.jsonl?v='+D_VER.fq).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);QD.set(o.id,o)}catch(e){}});if(QDB&&QDB.size)QDB.forEach(q=>qdFill(q));QD_OK=true;if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'))rerender(true)}).catch(()=>{QD_OK=true});
 const RWD=new Map();
 fetch('data/forg/rewards.jsonl?v='+D_VER.rw).then(r=>r.ok?r.text():'').then(t=>{t.split('\n').forEach(l=>{if(!l)return;try{const o=JSON.parse(l);RWD.set(o.id,o)}catch(e){}});if(me()&&(ui.tab==='quest'||ui.tab==='dungeon'||ui.tab==='gear'||ui.sheet))rerender(true)}).catch(()=>{});
@@ -3572,7 +3573,7 @@ function bestSlot(it,c){const w=wOf(c);let best=null;
 const srcSure=s=>!!s&&!(s.k===0&&DG[s.dg]&&DG[s.dg].soon)&&(s.k===0||s.k===1||s.k===5||(s.k===3&&!/미공개/.test(s.label||'')));
 /* 아이템 → 그걸 주는 던전 퀘스트 번호 (끝낸 퀘스트 보상은 다시 못 받으니 빼기 위해) */
 const IT_Q={};DGS.forEach(d=>d.q.forEach(q=>q.rw.forEach(id=>{(IT_Q[id]=IT_Q[id]||[]).push(q.id)})));
-const srcQid=s=>{const m=(s.href||'').match(/(?:quest=|\/quest\/)(\d+)/);if(m)return +m[1];/* 번호가 없으면 이름으로 찾기 */const n=QDB&&s.qn?qByName(s.qn):null;return n&&n.length?n[0]:0};
+const srcQid=s=>{const m=(s.href||'').match(/(?:quest=|\/quest\/)(\d+)/);if(m)return +m[1];/* 번호가 없으면 이름으로 찾기 */const n=QDB&&s.qn?qByName(s.qn):null;if(n&&n.length)return n[0];/* 퀘스트 자료 전: 빌드 때 같은 규칙으로 찾아 둔 번호(D_QN) — 없으면 직업·종족 제한을 못 봐 다른 직업 보상이 첫 화면에 나왔음 */if(!QDB&&s.qn&&typeof D_QN!=='undefined'){const i=D_QN[nkey(s.qn)];if(i)return i}return 0};
 /* 이 캐릭터가 받을 수 없는 퀘스트: 호드만 받는 퀘스트(QuestieDB 종족 조건) · 직업·종족이 안 맞음 · 짝 퀘스트를 이미 함
    · 포에버 퀘스트 자료(QuestieDB)에 아예 없는 퀘스트(옛 호드 퀘스트·시험용). 시작 자료가 없어 앱 목록에서만 빠진 공용 퀘스트(예: 부분적인 신비한 기록)는 얻을 수 있음으로 둠 */
 let _HQ=null;const hordeQ=q=>(_HQ||(_HQ=new Set(typeof D_HQ!=='undefined'?D_HQ:[]))).has(q);
@@ -3674,8 +3675,8 @@ function questTipHtml(c,id){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!
   let h='<div class="tt-n qe2">'+esc(nm)+'</div><div class="tt-m"><span>'+(q?'권장 '+q.lv+' · '+mTxt(q):'')+'</span><span>'+esc(q?q.z:'')+'</span></div>';
   const o=(q&&q.o)||d.obj||'';if(o)h+='<div class="tt-o">'+esc(o.length>140?o.slice(0,139)+'…':o)+'</div>';
   const T=tasksOf(d,(q&&q.o)||d.obj||'').filter(t=>t.nm);if(T.length)h+=T.slice(0,4).map(t=>'<div class="tt-l">· '+esc(t.nm)+(t.cnt?' '+t.cnt+(t.type==='처치'?'마리':'개'):'')+(t.type?' <small>'+esc(T_KO[t.type]||t.type)+'</small>':'')+'</div>').join('');
-  if(q&&q.g)h+='<div class="tt-gv"><span class="k">받기</span>'+esc(q.g[0])+' <small>'+esc(q.g[1]||'')+'</small></div>';
-  if(q&&q.r)h+='<div class="tt-gv"><span class="k r">반납</span>'+esc(q.r[0])+' <small>'+esc(q.r[1]||'')+'</small></div>';
+  if(q&&q.g)h+='<div class="tt-gv"><span class="k">받기</span>'+esc(q.g[0])+' <small>'+esc(ZKO[q.g[1]]||q.g[1]||'')+'</small></div>';
+  if(q&&q.r)h+='<div class="tt-gv"><span class="k r">반납</span>'+esc(q.r[0])+' <small>'+esc(ZKO[q.r[1]]||q.r[1]||'')+'</small></div>';
   const rw=RWD.get(id)||{};if(rw.xp){const x=qxpAt(q||{id,lv:L},L);h+='<div class="tt-xp">경험치 '+x.toLocaleString()+(xpPct(x,L)?' <small>(레벨의 '+xpPct(x,L)+'%)</small>':'')+'</div>'}
   if(rw.ch&&rw.ch.length)h+='<div class="tt-ch">보상 하나 고르기</div>'+rw.ch.slice(0,5).map(r=>'<div class="tt-rw q'+(r[3]||'c')+'">'+esc(r[1])+'</div>').join('');
   const ch=typeof chainOf==='function'?chainOf(id):null;if(ch&&ch.length>1){const i=ch.findIndex(r=>r[6]===id);h+='<div class="tt-src">연계 퀘스트 '+(i+1)+'/'+ch.length+'단계</div>'}
@@ -3795,11 +3796,11 @@ function cmpSearch(c){const q=(ui.csrch||'').replace(/\s+/g,'');if(q.length<1)re
   return L.length?'<div class="csl">'+L.map(it=>'<div class="row">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+'</span><span class="sub">'+itMeta(it)+(usable(it,c)?'':' · <span style="color:var(--bad)">못 씀</span>')+'</span></span><button class="btn sm'+(((c.cmp||[]).includes(it.id))?' ghost':'')+'" data-a="cmpadd" data-k="'+it.id+'">'+(((c.cmp||[]).includes(it.id))?'담음':'담기')+'</button></div>').join('')+'</div>':'<p class="note">찾는 장비가 없어요.</p>'}
 /* ===== 세트 장비 (wowf.io 툴팁의 세트 정보) ===== */
 let _SETS=null;function setsIdx(){if(_SETS)return _SETS;const byNm={};ITEMS.forEach(it=>{(byNm[it.nm]=byNm[it.nm]||[]).push(it)});const S=[];const of={};
-  (typeof D_SETS!=='undefined'?D_SETS:[]).forEach(([n,parts,bon,tot])=>{const ps=parts.map(pn=>{const a=byNm[pn]||[];return a.sort((x,y)=>y.lv-x.lv)[0]||null});if(!ps.some(Boolean))return;const o={n,parts,ps,bon,tot};S.push(o);ps.forEach(it=>{if(it)of[it.id]=o})});
+  (typeof D_SETS!=='undefined'?D_SETS:[]).forEach(([n,parts,bon,tot])=>{const ps=parts.map(pn=>{const a=byNm[pn]||[];return a.sort((x,y)=>y.lv-x.lv)[0]||null});if(!ps.some(Boolean))return;const o={n,parts,ps,bon,tot,N:Math.max(tot||0,parts.length)/* 게임 툴팁 (0/N) — 부위 이름이 N개보다 적은 세트(숲지기 등)도 6 */};S.push(o);ps.forEach(it=>{if(it)of[it.id]=o})});
   _SETS={S,of};return _SETS}
 const setOf=id=>setsIdx().of[id]||null;
 const ownSet=(c,it)=>!!it&&(Object.values(c.eq||{}).includes(it.id)||!!ownedOf(c,it.id));
-function setHtml(c,o,full){const have=o.ps.filter(it=>ownSet(c,it)).length;const N=Math.max(o.tot||0,o.parts.length);/* 게임 툴팁 (0/N) — 부위 이름이 N개보다 적은 세트(숲지기 등)도 6 */
+function setHtml(c,o,full){const have=o.ps.filter(it=>ownSet(c,it)).length;const N=o.N;
   let h='<div class="setc"><div class="seth"><b>🧩 '+esc(o.n)+'</b><em>'+have+'/'+N+'</em></div><div class="setp">'+o.parts.map((pn,i)=>{const it=o.ps[i];const own=ownSet(c,it);return it?'<button class="setpi'+(own?' own':'')+'" data-a="info" data-k="'+it.id+'">'+(own?'✓ ':'')+esc(pn)+'</button>':'<span class="setpi">'+esc(pn)+'</span>'}).join('')+'</div>';
   if(full||have)h+='<div class="setb">'+o.bon.map(([n,t])=>'<p class="'+(have>=n?'on':'')+'"><b>('+n+')</b> '+esc(t)+'</p>').join('')+'</div>';
   return h+'</div>'}
@@ -3807,7 +3808,7 @@ function setCard(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>own
   return '<div class="card"><h3>🧩 세트 장비 <small class="mute">'+mine.length+'세트 모으는 중</small></h3>'+mine.map(o=>setHtml(c,o)).join('')+'</div>'}
 /* 미리보기: 세트 장비는 접어 두고 제목 줄에 모은 개수만 */
 function setFold(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>ownSet(c,it)));if(!mine.length)return '';
-  return '<details class="card fold setf"'+(ui.setf?' open':'')+' data-tg="setf"><summary>🧩 세트 장비 <small class="mute">'+mine.map(o=>o.ps.filter(it=>ownSet(c,it)).length+'/'+o.ps.length).join(' · ')+'</small></summary>'+mine.map(o=>setHtml(c,o)).join('')+'</details>'}
+  return '<details class="card fold setf"'+(ui.setf?' open':'')+' data-tg="setf"><summary>🧩 세트 장비 <small class="mute">'+mine.map(o=>o.ps.filter(it=>ownSet(c,it)).length+'/'+o.N).join(' · ')+'</small></summary>'+mine.map(o=>setHtml(c,o)).join('')+'</details>'}
 /* 「어디서 얻나요」 칸 (템 정보 창·비교 펼치기에서 같이 씀) */
 function srcParts(c,it){let h='';
   const parts=[];const seen=new Set();
@@ -3817,7 +3818,7 @@ function srcParts(c,it){let h='';
     if(s.k===0){const d=DG[s.dg];const n=d?bossNo(d,s.boss):null;parts.push('<div class="src"><b>🏰 던전 보스 드랍</b><div class="nm">'+esc(d?d.ko:s.dn)+(n?' · '+n+'번째 보스':'')+' 「'+esc(s.boss)+'」</div>'+(d?'<div class="sub">'+esc(d.loc)+' · 권장 레벨 '+d.lo+'–'+d.hi+(d.bosses.length?' · 보스 '+d.bosses.length+'마리'+(n?' 중 '+n+'번째':''):'')+'</div><button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 보기</button>':'')+'</div>')}
     else if(s.k===1){if(dq&&srcQid(s)===dq.q.id)continue;const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);if(m){if(seen.has('dq'))continue;const d=DGS.find(x=>x.ko===m[1]);parts.push('<div class="src"><b>📜 던전 퀘스트 보상</b><div class="nm">'+esc(m[1])+' 퀘스트 중 하나</div>'+(d?'<button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 퀘스트 보기</button>':'')+'</div>');continue}
       const f=findZoneQuest(s.qn);if(f){const q=f.q;const z=q.gz||q.sz;parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div>'+(q.obj?'<div class="obj">'+esc(q.obj)+'</div>':'')+'<div class="sub">'+esc(z)+' '+contTag(z)+'</div><div class="sub">'+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 '+q.pre+'개 먼저':'')+(q.ch?' · 연계 '+q.ch+'개 이어짐':'')+'</div><div class="bkb">'+(q.id?'<button class="btn sm" data-a="qopen" data-k="'+q.id+'">퀘스트·위치 보기</button>':'')+'<button class="btn sm ghost" data-a="goz" data-k="'+esc(z)+'">이 지역 퀘스트</button></div></div>')}
-      else if(QDB&&QDB.get(srcQid(s))){const X=QDB.get(srcQid(s));parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(X.n)+'」 <span class="lvb '+lvCls(X.lv,c.lv)+'">'+(X.lv||'?')+'</span></div><div class="sub">'+(X.g&&X.g[0]?'받는 곳 '+esc(X.g[0])+(X.g[1]?' ('+esc(X.g[1])+')':'')+(X.z&&X.g[1]&&X.g[1]!==X.z?' · 하는 곳 '+esc(X.z):''):esc(X.z||''))+' · '+mTxt(X)+(mqDone(c,X)?' · ✅ 했어요':'')+'</div><div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+X.id+'">퀘스트·위치 보기</button>'+(X.z?'<button class="btn sm ghost" data-a="goz" data-k="'+esc(X.z)+'">이 지역 퀘스트</button>':'')+'</div></div>')}
+      else if(QDB&&QDB.get(srcQid(s))){const X=QDB.get(srcQid(s));parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(X.n)+'」 <span class="lvb '+lvCls(X.lv,c.lv)+'">'+(X.lv||'?')+'</span></div><div class="sub">'+(X.g&&X.g[0]?'받는 곳 '+esc(X.g[0])+(X.g[1]?' ('+esc(ZKO[X.g[1]]||X.g[1])+')':'')+(X.z&&X.g[1]&&(ZKO[X.g[1]]||X.g[1])!==X.z?' · 하는 곳 '+esc(X.z):''):esc(X.z||''))+' · '+mTxt(X)+(mqDone(c,X)?' · ✅ 했어요':'')+'</div><div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+X.id+'">퀘스트·위치 보기</button>'+(X.z?'<button class="btn sm ghost" data-a="goz" data-k="'+esc(X.z)+'">이 지역 퀘스트</button>':'')+'</div></div>')}
       else parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(s.qn)+'」</div>'+(QDB?'':'<div class="sub">퀘스트 자료를 불러오는 중…</div>')+'<div class="sub">앱 자료에 없는 퀘스트예요. <a href="https://www.wowhead.com/forever/ko/'+esc(s.href.replace('wh:','').replace('=','='))+'" target="_blank" rel="noopener">와우헤드에서 보기 ↗</a></div></div>')}
     else if(s.k===3)parts.push('<div class="src"><b>⚔️ 몹 드랍</b><div class="nm">'+esc(s.label.replace('드랍 · ',''))+'</div><div class="sub">이 몹을 잡으면 낮은 확률로 나와요.</div></div>');
     else if(s.k===2)parts.push('<div class="src"><b>🎲 월드 드랍</b><div class="sub">레벨 맞는 필드 몹에게서 무작위로 나와요. 경매장에서 사는 게 빨라요.</div></div>');
@@ -4241,9 +4242,10 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
 let BAGDB=null,BAGL=false;
 function bagDbLoad(){if(BAGL)return;BAGL=true;fetch('data/qdb/item-bag.txt?v='+((D_VER&&D_VER.bag)||'0')).then(r=>r.ok?r.text():'').then(t=>{const M=new Map();t.split('\n').forEach(l=>{if(!l)return;const f=l.split('|');M.set(+f[0],{nm:f[1],q:+f[2],cls:+f[3],sell:+f[4],ic:f[5]||''})});BAGDB=M;rerender(true)}).catch(()=>{BAGDB=new Map();rerender(true)})}
 /* 「추천으로 빈 칸 채우기」 계획: 장비를 복사해 실제 채우기와 같은 순서로 [칸, 템 번호(null=비움)] — 미리보기 버튼 숫자도 이걸로 셈 */
+let FPN=null;
 function fillPlan(c){const t=Object.assign({},c,{eq:Object.assign({},c.eq||{})});const cv=ui.tab==='gear'?dspView(t):t;/* 둘째 특성 화면이면 그 특성 추천으로 (장비 칸은 같은 것) */const P=[];
   for(let r=0;r<4;r++){const U=upgrades(cv,c.lv,ui.ifil||'ok').filter(o=>o.empty&&!t.eq[o.slot]&&!offLocked(cv,o.slot));if(!U.length)break;for(const o of U){if(t.eq[o.slot]||offLocked(cv,o.slot)||(o.slot==='off'&&o.it.id===t.eq.main)||(o.slot==='main'&&o.it.id===t.eq.off))continue;t.eq[o.slot]=o.it.id;P.push([o.slot,o.it.id]);if(o.slot==='main'&&o.it.sl==='2h'){delete t.eq.off;P.push(['off',null])}}}return P}
-function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id);/* 재봉술 단계엔 두루마리만 적혀 있음 — 그 원재료 옷감(양모·비단 등)도 내 재료 */const cl=/두루마리$/.test(nm)&&typeof D_MATID!=='undefined'&&D_MATID[nm.replace(/두루마리$/,'옷감')];if(cl)S.add(cl)})));return S}
+function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id);/* 재봉술 단계엔 두루마리만 적혀 있음 — 그 원재료 옷감(양모·비단 등)도 내 재료 */const cl=p.ko==='재봉술'&&/두루마리$/.test(nm)&&typeof D_MATID!=='undefined'&&D_MATID[nm.replace(/두루마리$/,'옷감')];/* 옷감으로 두루마리를 만드는 건 재봉술뿐 — 가죽세공 등은 두루마리 자체가 재료 */if(cl)S.add(cl)})));return S}
 function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{})){const X=QDB&&QDB.get(+id);((X&&X.t)||[]).forEach(t=>{if(t[0]==='수집'&&t[1])N.add(t[1])});/* 아이템으로 시작한 퀘스트(장인의 계약서 등)는 그 아이템도 있어야 끝낼 수 있음 */if(X&&X.g&&X.g[3]==='item'&&X.g[0])N.add(X.g[0]);const d=QD.get(+id);((d&&d.wf&&d.wf.t)||[]).forEach(t=>{if(t[0])N.add(t[0])})}
   (ui._st||[]).forEach(s=>s.items.forEach(it=>(it.q.cnt||[]).forEach(o=>N.add(o[0]))));return N}
 /* 아이템 이름 → 그 아이템을 쓰는 퀘스트(모으기 목표 · 아이템으로 시작) — 가방 정리에서 「어느 퀘스트·몇 레벨」 보여 주기 */
@@ -4462,7 +4464,7 @@ function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 
   const bb={};if(PV){RL.rows.forEach(x=>{if(x.g>.01||x.empty)bb[x.slot]=x});RL.later.forEach(x=>{if(!bb[x.slot])bb[x.slot]=Object.assign({soon:1},x)})}
   /* 위 「▲ N칸」·탭 숫자·「바꿀 것 N칸」은 같은 목록(RL.rows)을 셈: 예전엔 칸 표시(ups)를 세서 빈 반지 2칸·양손 무기 추천 때 보조 손까지 더해 1~2칸 많았음 */
   const nUp=PV?Object.keys(bb).filter(k=>!bb[k].soon).length:RL.rows.length;
-  /* 미리보기 「빈 칸 채우기 (N칸)」: 실제로 채울 칸 수(fillPlan) — 예전엔 추천 없는 장신구 칸까지 세어 눌러도 「채울 빈 칸이 없어요」 */const nFill=PV&&nEq<nAll?fillPlan(c).filter(x=>x[1]!=null).length:0;
+  /* 미리보기 「빈 칸 채우기 (N칸)」: 실제로 채울 칸 수(fillPlan) — 예전엔 추천 없는 장신구 칸까지 세어 눌러도 「채울 빈 칸이 없어요」 */const fk=PV&&nEq<nAll?JSON.stringify([c,ui.dsp,ui.ifil,!!QDB,RWD.size,QD.size]):null;const nFill=fk?(FPN&&FPN[0]===fk?FPN[1]:(FPN=[fk,fillPlan(c).filter(x=>x[1]!=null).length])[1]):0;/* 같은 캐릭터·자료 상태면 다시 셈하지 않음 — 매번 셈하면 미리보기 장비 탭 그리기가 두 배 느려졌음 */
   let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??PV))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+' · 점수 <b class="gscs">'+myS+'</b>'+(nUp?' · <em>▲ '+nUp+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups,bb)).join('')+'</div>'
    +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
    +'<div class="gsc" title="착용 장비 능력치 × 내 전문화 점수표를 모두 더한 값"><b>'+myS+'</b><span>장비 점수</span>'+(upS>=1?'<em>추천대로 바꾸면 +'+upS+'</em>':'')+'</div>'
@@ -4759,7 +4761,6 @@ let _DGQ=null;const dgOfQ=id=>(_DGQ||(_DGQ=new Map(DGS.flatMap(d=>d.q.map(q=>[q.
 /* 「지역 (x, y)」 글. 자료가 대륙 지도 좌표(예: 검은바위 산 보들리 = 동부 왕국 48.9, 63.9)면 퀘스트 지역 이름을 앞에 */
 function contPlace(z,xy){const a=xy?toAtlas(z,String(xy)):null;if(!a)return '';let best=null;for(const slug in DGLOC){const L=DGLOC[slug];const b=toAtlas(L[0],L[1]);if(!b||b.c!==a.c)continue;const d=Math.hypot(a.x-b.x,a.y-b.y);if(!best||d<best.d)best={d,slug}}
   if(!best||best.d>250)return '';return /blackrock|molten-core|blackwing/.test(best.slug)?'검은바위 산':(DG[best.slug]?DG[best.slug].ko:best.slug)+' 입구 근처'}
-const ZKO={"Temple of Ahn'Qiraj":'안퀴라즈 사원','Azeroth':'아제로스'};/* 퀘스트 DB에 영어로 남은 지역 */
 function placeTxt(z,xy,id){z=ZKO[z]||z;const c=String(xy||'').replace(',',', ');if(/^(동부 왕국|칼림도어)$/.test(z||'')){const p=contPlace(z,xy);return (p?p+' ':'')+'('+z+' 지도'+(c?' '+c:'')+')'}return (z||'')+(c?' ('+c+')':'')}
 /* 할 일 위치를 「지역 좌표」로: 좌표만 있으면 받는 곳 지역으로 착각하기 쉬움(예: 아그몬드의 운명 — 받는 곳은 모단 호수, 단지는 황야의 땅 울다만 입구)
    던전 퀘스트면 던전 안인지 · 입구 근처(15 이내)인지도 붙임 */
@@ -6784,7 +6785,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='wfr'){ui.sheet='wfr';rerender(true);return}
   if(a==='wfrcp'){const t=document.querySelector('.sheet textarea');if(t){t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast('복사했어요 · 게임에서 /wfh 추천'),()=>{document.execCommand('copy');toast('복사했어요')})}catch(e){document.execCommand('copy');toast('복사했어요')}}return}
   if(a==='slotnav'){slotGo(k);return}
-  if(a==='gsel'){ui.gslot=k||null;rerender(true);if(k)requestAnimationFrame(()=>{const p=document.querySelector('.spanel');const tb=document.querySelector('.tabs');const bot=window.innerHeight-(tb&&getComputedStyle(tb).position==='fixed'?tb.getBoundingClientRect().height:0);/* 아래 고정 탭 막대 뒤에 숨던 것(태블릿·폰 아래쪽 칸) */if(p&&p.getBoundingClientRect().top>bot-120)p.scrollIntoView({behavior:'smooth',block:'start'})});return}
+  if(a==='gsel'){ui.gslot=k||null;rerender(true);if(k)requestAnimationFrame(()=>{const p=document.querySelector('.spanel');if(!p)return;const tb=document.querySelector('.tabs');const tr=tb&&getComputedStyle(tb).position==='fixed'?tb.getBoundingClientRect():null;const bot=tr&&tr.top>window.innerHeight/2?tr.top:window.innerHeight;/* 아래 고정 탭 막대 위까지만 보이는 것으로 셈(폰·태블릿) — 넓은 화면(1000px~)의 .tabs는 왼쪽 세로 막대라 빼지 않음 */const tp=document.querySelector('.top');const off=tp?Math.max(0,tp.getBoundingClientRect().bottom):0;/* 위 고정 머리줄 밑에 비교 칸 제목·✕가 깔리지 않게 */if(p.getBoundingClientRect().top>bot-120)window.scrollTo({top:window.scrollY+p.getBoundingClientRect().top-off-8,behavior:'smooth'})});return}
   if(a==='gopanel'){ui.tab='gear';ui.gslot=k;render();const p=document.querySelector('.spanel');if(p)p.scrollIntoView({block:'start'});return}
   if(a==='qopen'){ui.qch=b.dataset.ch?b.dataset.ch.split('.').map(Number):null;ui.sheet='q:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}
   if(a==='info'){ui.sheet='info:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}

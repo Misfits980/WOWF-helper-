@@ -934,6 +934,36 @@ def _qcr():
             if m not in have:
                 out[str(m)] = [-1, -1]
     return out
+def _qnmap():
+    """퀘스트 번호 없이 이름만 있는 퀘스트 출처 → 퀘스트 번호. 퀘스트 자료(2MB)가 오기 전에도 앱이 자료 뒤(qByName)와 같은 퀘스트를 찾게.
+    앱이 자료를 읽을 때 빼는 것(영어 이름·목표 둘 다 영어, 같은 이름·지역에 호드 도시 쪽 짝)을 똑같이 빼고 파일 순서의 첫 번호"""
+    qa = _qa if (Q / 'quests.jsonl').exists() else []
+    if not qa:
+        return {}
+    lat = lambda t: bool(re.search(r'[A-Za-z]{3}', t or '')) and not re.search(r'[가-힣]', t or '')
+    M = [o for o in qa if not (lat(o.get('n')) and lat(o.get('o')))]
+    HZ = re.compile(r'^(듀로타|멀고어|티리스팔 숲|은빛소나무 숲|오그리마|언더시티|썬더 블러프)$')
+    byN, drop = {}, set()
+    for o in M:
+        byN.setdefault(str(o.get('n')) + '|' + str(o.get('z')), []).append(o)
+    for L in byN.values():
+        if len(L) < 2:
+            continue
+        ok = [o for o in L if not (o.get('g') and HZ.match((o['g'][1] if len(o['g']) > 1 else '') or ''))]
+        if ok and len(ok) < len(L):
+            drop.update(o['id'] for o in L if o not in ok)
+    first = {}
+    for o in M:
+        if o['id'] not in drop:
+            first.setdefault(re.sub(r'\s', '', str(o.get('n') or '')), o['id'])
+    names = set()
+    for l in SRC_TXT.split('\n'):
+        f = l.split('~')
+        if len(f) >= 2 and f[0] == '1':
+            hr = f[2] if len(f) > 2 else ''
+            if not re.search(r'(?:quest=|/quest/)\d+', hr) and not hr.startswith('dg:'):
+                names.add(re.sub(r'\s', '', f[1].replace('퀘스트 · ', '', 1)))
+    return {k: first[k] for k in sorted(names) if k in first}
 def _rflag(l):
     f = l.split('~')
     if len(f) < 2:
@@ -1256,6 +1286,7 @@ data = '\n'.join([
     'const D_QGAME=' + json.dumps([[int(f[0]), int(f[1]), int(f[2]), f[3]] for f in (l.split('|', 3) for l in (rd(Q / 'quest-game.txt').splitlines() if (Q / 'quest-game.txt').exists() else []) if l and not l.startswith('#'))], ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_QX=' + json.dumps([int(x) for x in (rd(Q / 'quests-nolist.txt').split() if (Q / 'quests-nolist.txt').exists() else [])], separators=(',', ':')) + ';',
     'const D_QCR=' + json.dumps(_qcr(), separators=(',', ':')) + ';',
+    'const D_QN=' + json.dumps(_qnmap(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_HQ=' + json.dumps([int(x) for x in (rd(Q / 'horde-quests.txt').split() if (Q / 'horde-quests.txt').exists() else [])], separators=(',', ':')) + ';',
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(_dgl()) + ';',
