@@ -1,217 +1,674 @@
 {
-"deadmines": {
-"map": 36,
-"prep": "deadmines",
-"floors": [
-{
-"z": [
--10,
-70
-],
-"name": ""
-}
-]
-},
-"wailing-caverns": {
-"map": 43,
-"prep": "wailing-caverns",
-"floors": [
-{
-"z": [
--125,
--20
-],
-"name": ""
-}
-]
-},
-"shadowfang-keep": {
-"map": 33,
-"prep": "shadowfang-keep",
-"floors": [
-{
-"z": [
-70,
-92
-],
-"name": "안마당 · 연회장",
-"above": 3,
-"below": 20
-},
-{
-"z": [
-92,
-118
-],
-"name": "성벽 통로",
-"above": 3,
-"below": 12
-},
-{
-"z": [
-118,
-140
-],
-"name": "관측소 하층",
-"above": 3,
-"below": 12
-},
-{
-"z": [
-140,
-165
-],
-"name": "관측소 상층 · 아루갈의 방",
-"above": 4,
-"below": 12
-}
-]
-},
-"stockade": {
-"map": 34,
-"prep": "stockade",
-"floors": [
-{
-"z": [
--40,
-10
-],
-"name": ""
-}
-]
-},
-"blackfathom-deeps": {
-"map": 48,
-"prep": "blackfathom-deeps",
-"floors": [
-{
-"z": [
--85,
--15
-],
-"name": "",
-"above": 8
-}
-]
-},
-"razorfen-kraul": {
-"map": 47,
-"prep": "razorfen-kraul",
-"floors": [
-{
-"z": [
-40,
-95
-],
-"name": "",
-"above": 6
-}
-]
-},
-"gnomeregan": {
-"map": 90,
-"prep": "gnomeregan",
-"ent": [
-"Gnomeregan - Entering"
-],
-"floors": [
-{
-"z": [
--192,
--140
-],
-"name": "톱니바퀴의 전당",
-"above": 4,
-"below": 10
-},
-{
-"z": [
--235,
--192
-],
-"name": "거주 지구",
-"above": 4,
-"below": 10
-},
-{
-"z": [
--295,
--235
-],
-"name": "출격실",
-"above": 4,
-"below": 10
-},
-{
-"z": [
--345,
--295
-],
-"name": "땜장이 왕실",
-"above": 4,
-"below": 10
-}
-]
-},
-"uldaman": {
-"map": 70,
-"prep": "uldaman",
-"floors": [
-{
-"z": [
--65,
--20
-],
-"name": "",
-"above": 8
-}
-]
-},
-"temple-of-atal-hakkar": {
-"map": 109,
-"prep": "temple-of-atal-hakkar",
-"floors": [
-{
-"z": [
--165,
--118
-],
-"name": "아래층",
-"above": 4,
-"below": 12
-},
-{
-"z": [
--118,
--80
-],
-"name": "가운데층",
-"above": 4,
-"below": 10
-},
-{
-"z": [
--80,
--45
-],
-"name": "위층 · 발코니",
-"above": 5,
-"below": 10
-}
-]
-},
-"razorfen-downs": {
-"map": 129,
-"prep": "razorfen-downs",
-"floors": [
-{
-"z": [
-18,
-70
-],
-"name": "",
-"above": 6
-}
-]
-}
+ "deadmines": {
+  "map": 36,
+  "prep": "deadmines",
+  "floors": [
+   {
+    "z": [
+     -10,
+     70
+    ],
+    "name": ""
+   }
+  ]
+ },
+ "wailing-caverns": {
+  "map": 43,
+  "prep": "wailing-caverns",
+  "floors": [
+   {
+    "z": [
+     -125,
+     -20
+    ],
+    "name": ""
+   }
+  ]
+ },
+ "shadowfang-keep": {
+  "map": 33,
+  "prep": "shadowfang-keep",
+  "floors": [
+   {
+    "z": [
+     70,
+     92
+    ],
+    "name": "안마당 · 연회장",
+    "above": 3,
+    "below": 20
+   },
+   {
+    "z": [
+     92,
+     118
+    ],
+    "name": "성벽 통로",
+    "above": 3,
+    "below": 12
+   },
+   {
+    "z": [
+     118,
+     140
+    ],
+    "name": "관측소 하층",
+    "above": 3,
+    "below": 12
+   },
+   {
+    "z": [
+     140,
+     165
+    ],
+    "name": "관측소 상층 · 아루갈의 방",
+    "above": 4,
+    "below": 12
+   }
+  ]
+ },
+ "stockade": {
+  "map": 34,
+  "prep": "stockade",
+  "floors": [
+   {
+    "z": [
+     -40,
+     10
+    ],
+    "name": ""
+   }
+  ]
+ },
+ "blackfathom-deeps": {
+  "map": 48,
+  "prep": "blackfathom-deeps",
+  "floors": [
+   {
+    "z": [
+     -85,
+     -15
+    ],
+    "name": "",
+    "above": 8
+   }
+  ]
+ },
+ "razorfen-kraul": {
+  "map": 47,
+  "prep": "razorfen-kraul",
+  "floors": [
+   {
+    "z": [
+     40,
+     95
+    ],
+    "name": "",
+    "above": 6
+   }
+  ]
+ },
+ "gnomeregan": {
+  "map": 90,
+  "prep": "gnomeregan",
+  "ent": [
+   "Gnomeregan - Entering"
+  ],
+  "floors": [
+   {
+    "z": [
+     -192,
+     -140
+    ],
+    "name": "톱니바퀴의 전당",
+    "above": 4,
+    "below": 10
+   },
+   {
+    "z": [
+     -235,
+     -192
+    ],
+    "name": "거주 지구",
+    "above": 4,
+    "below": 10
+   },
+   {
+    "z": [
+     -295,
+     -235
+    ],
+    "name": "출격실",
+    "above": 4,
+    "below": 10
+   },
+   {
+    "z": [
+     -345,
+     -295
+    ],
+    "name": "땜장이 왕실",
+    "above": 4,
+    "below": 10
+   }
+  ]
+ },
+ "uldaman": {
+  "map": 70,
+  "prep": "uldaman",
+  "floors": [
+   {
+    "z": [
+     -65,
+     -20
+    ],
+    "name": "",
+    "above": 8
+   }
+  ]
+ },
+ "temple-of-atal-hakkar": {
+  "map": 109,
+  "prep": "temple-of-atal-hakkar",
+  "floors": [
+   {
+    "z": [
+     -165,
+     -118
+    ],
+    "name": "아래층",
+    "above": 4,
+    "below": 12
+   },
+   {
+    "z": [
+     -118,
+     -80
+    ],
+    "name": "가운데층",
+    "above": 4,
+    "below": 10
+   },
+   {
+    "z": [
+     -80,
+     -45
+    ],
+    "name": "위층 · 발코니",
+    "above": 5,
+    "below": 10
+   }
+  ]
+ },
+ "razorfen-downs": {
+  "map": 129,
+  "prep": "razorfen-downs",
+  "floors": [
+   {
+    "z": [
+     18,
+     70
+    ],
+    "name": "",
+    "above": 6
+   }
+  ]
+ },
+ "sm-cathedral": {
+  "map": 189,
+  "prep": "sm-cathedral",
+  "floors": [
+   {
+    "z": [
+     13.0,
+     37.6
+    ],
+    "box": [
+     762.5209350585938,
+     1223.81591796875,
+     1253.1622314453125,
+     1507.368896484375
+    ],
+    "pad": -5,
+    "name": "",
+    "above": 6
+   }
+  ]
+ },
+ "sm-graveyard": {
+  "map": 189,
+  "prep": "sm-graveyard",
+  "floors": [
+   {
+    "z": [
+     -12.9,
+     26.7
+    ],
+    "box": [
+     1616.95458984375,
+     2030.1478271484375,
+     977.4141235351562,
+     1538.542724609375
+    ],
+    "pad": -5,
+    "name": "",
+    "above": 6
+   }
+  ]
+ },
+ "sm-library": {
+  "map": 189,
+  "prep": "sm-library",
+  "floors": [
+   {
+    "z": [
+     13.5,
+     25.5
+    ],
+    "box": [
+     117.99170684814453,
+     289.84930419921875,
+     -451.9083251953125,
+     -132.301513671875
+    ],
+    "pad": 3,
+    "name": "",
+    "above": 6
+   }
+  ]
+ },
+ "sm-armory": {
+  "map": 189,
+  "prep": "sm-armory",
+  "floors": [
+   {
+    "z": [
+     1.2999999999999998,
+     23.8
+    ],
+    "box": [
+     1517.58154296875,
+     1992.22607421875,
+     -458.8009338378906,
+     -253.891357421875
+    ],
+    "pad": -5,
+    "name": "",
+    "above": 6
+   }
+  ]
+ },
+ "zul-farrak": {
+  "map": 209,
+  "prep": "zul-farrak",
+  "floors": [
+   {
+    "z": [
+     0,
+     60
+    ],
+    "name": "",
+    "above": 15,
+    "below": 15
+   }
+  ]
+ },
+ "lower-blackrock-spire": {
+  "map": 229,
+  "prep": "brs",
+  "floors": [
+   {
+    "z": [
+     18,
+     55
+    ],
+    "name": "입구·호드마르 도시",
+    "above": 10
+   },
+   {
+    "z": [
+     0,
+     18
+    ],
+    "name": "그물걸이 통로",
+    "above": 4,
+    "below": 12
+   },
+   {
+    "z": [
+     -30,
+     0
+    ],
+    "name": "타즈알로",
+    "above": 4
+   },
+   {
+    "z": [
+     55,
+     96
+    ],
+    "name": "할리콘의 둥지·전투의 방",
+    "clip": [
+     -999,
+     40,
+     -999,
+     999
+    ],
+    "above": 8
+   }
+  ]
+ },
+ "upper-blackrock-spire": {
+  "map": 229,
+  "prep": "brs",
+  "floors": [
+   {
+    "z": [
+     55,
+     100
+    ],
+    "name": "불의수호자의 방",
+    "clip": [
+     40,
+     999,
+     -999,
+     999
+    ],
+    "above": 6
+   },
+   {
+    "z": [
+     100,
+     135
+    ],
+    "name": "블랙핸드의 전당",
+    "above": 12,
+    "below": 8
+   }
+  ]
+ },
+ "blackrock-depths": {
+  "map": 230,
+  "prep": "brd",
+  "floors": [
+   {
+    "z": [
+     -102,
+     -35
+    ],
+    "name": "감금 구역·법의 심판장",
+    "clip": [
+     -9999,
+     745,
+     -9999,
+     9999
+    ],
+    "above": 10,
+    "below": 20
+   },
+   {
+    "z": [
+     -125,
+     -35
+    ],
+    "name": "어둠괴철로 도시",
+    "clip": [
+     745,
+     1220,
+     -9999,
+     9999
+    ],
+    "above": 10,
+    "below": 8
+   },
+   {
+    "z": [
+     -102,
+     -70
+    ],
+    "name": "제왕의 방",
+    "clip": [
+     1220,
+     9999,
+     -9999,
+     9999
+    ],
+    "above": 12,
+    "below": 15
+   }
+  ]
+ },
+ "scholomance": {
+  "map": 289,
+  "prep": "scholo",
+  "floors": [
+   {
+    "z": [
+     112,
+     145
+    ],
+    "name": "입구·소환의 방",
+    "above": 10,
+    "below": 10,
+    "box": [
+     45,
+     337,
+     -28,
+     205
+    ],
+    "pad": 6
+   },
+   {
+    "z": [
+     92,
+     112
+    ],
+    "name": "상층 연구실",
+    "above": 6,
+    "below": 8
+   },
+   {
+    "z": [
+     80,
+     92
+    ],
+    "name": "교장의 연구실 위층",
+    "above": 5,
+    "below": 6
+   },
+   {
+    "z": [
+     62,
+     80
+    ],
+    "name": "교장의 연구실 아래층",
+    "above": 5,
+    "below": 10
+   }
+  ]
+ },
+ "stratholme-live": {
+  "map": 329,
+  "prep": "strat",
+  "floors": [
+   {
+    "z": [
+     110,
+     150
+    ],
+    "name": "",
+    "clip": [
+     3300,
+     3760,
+     -3560,
+     -2900
+    ],
+    "above": 6,
+    "below": 15,
+    "pad": 25
+   }
+  ]
+ },
+ "stratholme-dead": {
+  "map": 329,
+  "prep": "strat",
+  "floors": [
+   {
+    "z": [
+     105,
+     152
+    ],
+    "name": "",
+    "clip": [
+     3560,
+     4150,
+     -3780,
+     -3290
+    ],
+    "above": 6,
+    "below": 15,
+    "pad": 25
+   }
+  ]
+ },
+ "maraudon": {
+  "map": 349,
+  "prep": "mara",
+  "floors": [
+   {
+    "z": [
+     -100,
+     -25
+    ],
+    "name": "바깥 동굴(주황·보라)",
+    "clip": [
+     735,
+     9999,
+     -9999,
+     9999
+    ],
+    "above": 12,
+    "below": 12,
+    "pad": 55
+   },
+   {
+    "z": [
+     -215,
+     -55
+    ],
+    "name": "재타르의 무덤·대지노래 폭포",
+    "clip": [
+     -9999,
+     735,
+     -9999,
+     9999
+    ],
+    "above": 10,
+    "below": 10
+   }
+  ]
+ },
+ "ragefire-chasm": {
+  "map": 389,
+  "prep": "rfc",
+  "floors": [
+   {
+    "z": [
+     -70,
+     10
+    ],
+    "name": "",
+    "above": 12,
+    "below": 15,
+    "pad": 30
+   }
+  ]
+ },
+ "dire-maul-east": {
+  "map": 429,
+  "prep": "dm",
+  "ent": [
+   "East"
+  ],
+  "floors": [
+   {
+    "z": [
+     -25,
+     35
+    ],
+    "name": "굽이나무 지구",
+    "clip": [
+     -9999,
+     400,
+     -9999,
+     -120
+    ],
+    "above": 10,
+    "below": 8
+   },
+   {
+    "z": [
+     -130,
+     -25
+    ],
+    "name": "엘드레사르 제단",
+    "clip": [
+     -9999,
+     400,
+     -9999,
+     -120
+    ],
+    "above": 4,
+    "below": 10
+   }
+  ]
+ },
+ "dire-maul-north": {
+  "map": 429,
+  "prep": "dm",
+  "ent": [
+   "North"
+  ],
+  "floors": [
+   {
+    "z": [
+     -35,
+     50
+    ],
+    "name": "",
+    "clip": [
+     230,
+     9999,
+     -100,
+     9999
+    ],
+    "above": 10,
+    "below": 12
+   }
+  ]
+ },
+ "dire-maul-west": {
+  "map": 429,
+  "prep": "dm",
+  "ent": [
+   "West"
+  ],
+  "floors": [
+   {
+    "z": [
+     -55,
+     35
+    ],
+    "name": "",
+    "clip": [
+     -9999,
+     230,
+     120,
+     9999
+    ],
+    "above": 10,
+    "below": 10
+   }
+  ]
+ }
 }

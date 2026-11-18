@@ -10,10 +10,16 @@
    - 모델 OBJ (x,y,z) → 모델 좌표 (x, −z, y), Z 위
    - 세계 = R(RotationY + 180°) · 모델 + (17066.67 − PosZ, 17066.67 − PosX, PosY)
    - 지형 OBJ (x,y,z) = (세계Y, 세계Z, 세계X)
+   - 도우미: `texneed.py parts/<던전>.json` → 아직 안 가져온 텍스처 경로 목록, `autoparts.py <slug> <maps 폴더> <칸들> <WMO 정규식>` → 지형 칸+WMO 설정 만들기.
 3. `prep.py parts/<던전>.json` → 세계 좌표 정점·텍스처 묶음 (skiptex로 지붕·LOD·덩굴 뺌)
 4. `make.py <slug>` (conf.json: 층마다 높이 범위) → render.html(WebGL, 헤드리스 크롬)로 위에서 본 직교 투영. 아래를 보는 면(천장)과 층 높이 위는 버림. 지형은 먼저 깔고 건물을 위에.
-   - 핀: 보스 이름이 CMaNGOS(classic-db) 몹과 같으면 그 자리(w=1). 아니면 예전 wowf.io 지도 핀을 그 층 보스 2곳 이상으로 맞춘 1차식으로 옮김(w=2, 점선).
+   - 층 설정: z(높이 범위)·above/below(위아래로 더 보일 높이)·pad·box(세계 x,y 범위 직접)·clip(같은 높이에 다른 구역이 겹칠 때 이 층 구역만: 검은바위 첨탑 아래/위, 검은바위 나락 3구역, 혈투의 전장 동·북·서, 마라우돈 바깥/안쪽, 스트라솔름 정문/뒷문).
+   - 핀: 보스 이름이 CMaNGOS(classic-db) 몹과 같으면 그 자리(w=1). 영어 이름이 없으면 한글 이름(· 로 나뉜 것 중 하나, 3곳 이하인 NPC)으로도 찾음. 아니면 예전 wowf.io 지도 핀을 그 층 보스 2곳 이상으로 맞춘 1차식으로 옮김(w=2, 점선).
    - 쫄 무리·순찰: /tmp/cmout/packs.json(tools/mobs) 세계 좌표 → 그림 %.
 5. `combine.py` → data/dgmap/*.webp + data/guides/dungeon-maps3d.json. build.py가 dungeon-guide.json 각 던전 f3 칸에 넣고, 미리보기에서 「위에서 본 지도 / 예전 지도」로 바꿔 봄.
+
+`NOSHOT=1 make.py …`: 그림은 그대로 두고 핀·쫄만 다시 계산(/tmp 원본 그림 재사용).
+
+만든 던전(26): 통곡의 동굴, 죽음의 폐광, 그림자송곳니, 지하감옥, 검은심연, 가시덩굴 우리, 놈리건, 붉은십자군 수도원 4곳, 가시덩굴 구릉, 울다만, 줄파락, 가라앉은 사원, 성난불길 협곡, 마라우돈, 검은바위 나락, 검은바위 첨탑 아래·위, 혈투의 전장 동·북·서, 스칼로맨스, 스트라솔름 정문·뒷문. 포에버 전용 던전(달라란·드워프 발굴지 등)은 CMaNGOS 자리 자료가 없어 예전 지도만.
 
 경로(/home/claude/dgmap, /mnt/user-data/uploads/...)는 작업 공간 기준이라 쓸 때 맞춰 바꿀 것.

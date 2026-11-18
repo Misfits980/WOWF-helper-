@@ -4,7 +4,7 @@
 설정은 CONF. 묶음(prep.py 결과)은 out/<묶음>.
 결과: /home/claude/dgmap/final/<slug>-<n>.webp, final/<slug>.json
 """
-import json, sys, os, math
+import json, sys, os, math, re
 import numpy as np
 from PIL import Image
 sys.path.insert(0, '/home/claude/dgmap')
@@ -28,17 +28,32 @@ def spawns_by_name(mp):
         if t: out.setdefault(t[0], []).append((x, y, z))
     return out
 
+def ko_spawns(mp):
+    out = {}
+    for g, e, x, y, z, mt, sd in C['maps'][str(mp)]:
+        n = NAMES.get(str(e))
+        if n: out.setdefault(n[0], []).append((x, y, z))
+    return out
+
+def step_spawns(st, S, KO):
+    """단계의 NPC 자리: 영어 이름 → 없으면 한글 이름(· 로 나뉜 첫 일치, 3곳 이하일 때만)."""
+    en = st.get('en')
+    if en and S.get(en): return S[en]
+    for part in re.split(r'\s*[·,/]\s*', st.get('nm') or ''):
+        if part in KO and len(KO[part]) <= 3: return KO[part]
+    return []
+
 def old_fit(slug):
     """옛 지도(wowf.io) 층마다: 옛 % ↔ 세계 좌표 축별 1차식 (보스 2곳 이상)."""
-    mp = str(CONF[slug]['map']); g = G[slug]; S = spawns_by_name(mp); fits = {}
+    mp = str(CONF[slug]['map']); g = G[slug]; S = spawns_by_name(mp); KO = ko_spawns(mp); fits = {}
     for fi, f in enumerate(g.get('floors') or []):
         pts = []
         for st in g['steps']:
-            en = st.get('en')
-            if not en or en not in S: continue
+            sp = step_spawns(st, S, KO)
+            if not sp: continue
             pins = [p for p in f['pins'] if p['t'].rstrip('!') == str(st['n'])]
             if pins:
-                x, y, z = S[en][0]; pts.append((x, y, z, pins[0]['x'], pins[0]['y']))
+                x, y, z = sp[0]; pts.append((x, y, z, pins[0]['x'], pins[0]['y']))
         if len(pts) < 2: continue
         X = np.array([p[0] for p in pts]); Y = np.array([p[1] for p in pts])
         if np.ptp(X) < 8 or np.ptp(Y) < 8: continue
@@ -50,7 +65,7 @@ def old_fit(slug):
 
 def build(slug):
     cf = CONF[slug]; mp = str(cf['map']); g = G[slug]
-    S = spawns_by_name(mp)
+    S = spawns_by_name(mp); KO = ko_spawns(mp)
     packs = P['packs'][mp]
     fits = old_fit(slug)
     ent = [e for e in ENT.get(mp, []) if not cf.get('ent') or any(k in e[0] for k in cf['ent'])]
@@ -58,6 +73,8 @@ def build(slug):
     used_steps = set(); done_old = set()
     for li, fl in enumerate(cf['floors']):
         z0, z1 = fl['z']
+        cl = fl.get('clip')  # 같은 높이에 다른 구역이 겹칠 때: 세계 x,y 범위로 이 층만
+        CL = (lambda x, y: cl[0] <= x <= cl[1] and cl[2] <= y <= cl[3]) if cl else (lambda x, y: True)
         # 범위: 지정 or 이 층 높이의 쫄 + 보스
         if fl.get('box'):
             xmin, xmax, ymin, ymax = fl['box']
@@ -65,6 +82,7 @@ def build(slug):
             pts = [p['c'] for p in packs if z0 <= p['c'][2] <= z1]
             pts += [s for st in g['steps'] if st.get('en') in S for s in S[st['en']] if z0 <= s[2] <= z1]
             pts += [e[1:] for e in ent if z0 <= e[3] <= z1 and (not fl.get('entbox') or True)]
+            pts = [q for q in pts if CL(q[0], q[1])]
             A = np.array(pts)
             xmin, xmax, ymin, ymax = A[:, 0].min(), A[:, 0].max(), A[:, 1].min(), A[:, 1].max()
         pad = fl.get('pad', 30)
@@ -72,13 +90,13 @@ def build(slug):
         span = max(xmax - xmin, ymax - ymin)
         ppy = min(6.0, 2400.0 / span)
         w = int((ymax - ymin) * ppy); h = int((xmax - xmin) * ppy)
-        inb = lambda x, y, z, m=0: xmin + m <= x <= xmax - m and ymin + m <= y <= ymax - m and z0 - 3 <= z <= z1 + 3
+        inb = lambda x, y, z, m=0: xmin + m <= x <= xmax - m and ymin + m <= y <= ymax - m and z0 - 3 <= z <= z1 + 3 and CL(x, y)
         X = lambda y: round((ymax - y) / (ymax - ymin) * 100, 1)
         Y = lambda x: round((xmax - x) / (xmax - xmin) * 100, 1)
         rcfg = {'dir': 'out/' + cf['prep'], 'b': [float(xmin), float(xmax), float(ymin), float(ymax)],
                 'z': [z0 - 200, z1 + 300], 's': [z0 - fl.get('below', 25), z1 + fl.get('above', 12)], 'w': w, 'h': h, 'tdim': .75}
         raw = '/tmp/dg_%s_%d.png' % (slug, li)
-        shoot(rcfg, raw)
+        if not (os.environ.get('NOSHOT') and os.path.exists(raw)): shoot(rcfg, raw)
         im = Image.open(raw)
         # 빈 둘레 잘라내기는 안 함(좌표 % 유지)
         im.thumbnail((1800, 1800))
@@ -93,10 +111,11 @@ def build(slug):
             for f in g.get('floors') or []:
                 for p in f['pins']:
                     if p['t'].rstrip('!') == str(n): old = p['t']
-            cand = [s for s in S.get(en, []) if inb(*s)] if en else []
+            sp = step_spawns(st, S, KO)
+            cand = [s for s in sp if inb(*s)]
             if cand:
                 x, y, z = cand[0]; pins.append({'x': X(y), 'y': Y(x), 't': old or str(n), 'w': 1}); used_steps.add(n); continue
-            if en and S.get(en):
+            if sp:
                 continue  # 다른 층에 정확한 자리가 있음
             # 옛 지도 핀 → 그 층 맞춤식으로 세계 좌표
             for fi, f in enumerate(g.get('floors') or []):
