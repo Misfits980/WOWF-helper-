@@ -59,5 +59,12 @@ Q2 = '{ worldData { z0: zone(id: 3000) { id name expansion { id name } encounter
 for host in ('www', 'classic', 'fresh'):
     st, body = post('https://%s.warcraftlogs.com/api/v2/client' % host, json.dumps({'query': Q2}).encode(),
                     {'Authorization': 'Bearer ' + tok, 'Content-Type': 'application/json'})
-    print('포에버 확인', host, 'HTTP', st, body[:900])
+    try:
+        d = json.loads(body); z = ((d.get('data') or {}).get('worldData') or {}).get('z0') or {}; r = ((d.get('data') or {}).get('reportData') or {}).get('report')
+        print('포에버 확인', host, 'HTTP', st, '· 던전 지역', z.get('id'), (z.get('expansion') or {}).get('name'), '보스', len(z.get('encounters') or []),
+              '· 기록', (r or {}).get('title'), ((r or {}).get('zone') or {}).get('name'), '싸움', len((r or {}).get('fights') or []),
+              [(f['name'], f['encounterID'], f['kill']) for f in ((r or {}).get('fights') or []) if f.get('encounterID')][:8],
+              '· 오류', json.dumps(d.get('errors'), ensure_ascii=False)[:300] if d.get('errors') else '없음')
+    except Exception as e:
+        print('포에버 확인', host, 'HTTP', st, body[:300])
 sys.exit(0 if ok_any else 1)
