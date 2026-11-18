@@ -20,8 +20,14 @@ def shoot(cfg, out):
         url = pg.evaluate('(c)=>run(c)', cfg)
         b.close()
     s.shutdown()
+    errs = [e for e in errs if 'favicon' not in e and '404' not in e]
     if errs: print('오류', errs[:3])
-    open(out, 'wb').write(base64.b64decode(url.split(',', 1)[1]))
+    if isinstance(url, dict):
+        open(out, 'wb').write(base64.b64decode(url['c'].split(',', 1)[1]))
+        open(out[:-4] + '_h.png', 'wb').write(base64.b64decode(url['h'].split(',', 1)[1]))
+        if url.get('n'): open(out[:-4] + '_n.png', 'wb').write(base64.b64decode(url['n'].split(',', 1)[1]))
+    else:
+        open(out, 'wb').write(base64.b64decode(url.split(',', 1)[1]))
 
 if __name__ == '__main__':
     shoot(json.loads(sys.argv[1]), sys.argv[2])

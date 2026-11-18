@@ -1175,8 +1175,7 @@ def _dg_acc():
             t.pop('acc', None)
         if RC.get(slug): t['rcp'] = RC[slug]
         else: t.pop('rcp', None)
-        if (M3.get(slug) or {}).get('floors'): t['f3'] = M3[slug]['floors']
-        else: t.pop('f3', None)
+        t.pop('f3', None)  # 위에서 본 지도는 미리보기만 data/guides/dungeon-maps3d.json을 따로 받음(실제 앱 자료 가볍게)
         for fi, f in enumerate(t.get('floors') or []):
             m = (MB.get(slug) or {}).get(str(fi))
             if m: f['mob'] = m
@@ -1186,7 +1185,7 @@ def _dg_acc():
         p.write_text(out, encoding='utf-8')
     return n
 print('dungeon access', _dg_acc())
-DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
+DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'm3': 'data/guides/dungeon-maps3d.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
 # 길 따라 동선 격자(data/route/*.png, tools/route/build_grid.py): 파일 전체 지문 하나 + 있는 지역 번호
 _rg = sorted((ROOT / 'data' / 'route').glob('*.png'))
 DVER['rg'] = hashlib.md5(b''.join(p.read_bytes() for p in _rg)).hexdigest()[:10] if _rg else '0'

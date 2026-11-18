@@ -14,7 +14,7 @@ void main(){vUV=uv;vN=n;vZ=p.z;
 const FS=`#version 300 es
 precision highp float;
 in vec2 vUV;in vec3 vN;in float vZ;
-uniform sampler2D T;uniform int hasT;uniform vec2 S;uniform float sgn;uniform vec2 Z;uniform float dim;
+uniform sampler2D T;uniform int hasT;uniform vec2 S;uniform float sgn;uniform vec2 Z;uniform float dim;uniform int mode;
 out vec4 o;
 void main(){
  if(vZ>S.y||vZ<S.x)discard;
@@ -22,6 +22,8 @@ void main(){
  if(nn.z<-0.15)discard;
  vec4 c=hasT==1?texture(T,vec2(vUV.x,1.-vUV.y)):vec4(.5,.47,.42,1.);
  if(c.a<.35)discard;
+ if(mode==2){o=vec4(clamp(nn.z,0.,1.),0.,0.,1.);return;}
+ if(mode==1){float t=clamp((vZ-Z.x)/(Z.y-Z.x),0.,1.)*16777215.;float r=floor(t/65536.);float g=floor((t-r*65536.)/256.);float b=t-r*65536.-g*256.;o=vec4(r/255.,g/255.,b/255.,1.);return;}
  vec3 L=normalize(vec3(.45,.35,.82));
  float d=clamp(dot(nn,L),0.,1.);
  float wall=1.-smoothstep(.25,.55,nn.z);
@@ -52,13 +54,31 @@ async function run(cfg){
    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);texs[d.tex]=t}}
  /* 지형(t로 시작)을 먼저 깔고 깊이를 지운 뒤 건물(WMO)을 위에: 지하 통로가 지형에 안 가림 */
  const isT=d=>/^t/.test(d.part);
- for(const pass of [1,2]){if(pass===2)gl.clear(gl.DEPTH_BUFFER_BIT);
+ const draw=()=>{for(const pass of [1,2]){if(pass===2)gl.clear(gl.DEPTH_BUFFER_BIT);
   for(const d of M.draws){if((pass===1)!==isT(d))continue;if(cfg.skip&&cfg.skip.some(s=>d.part.includes(s)))continue;const t=d.tex&&texs[d.tex];
    gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,t||null);gl.uniform1i(u('T'),0);gl.uniform1i(u('hasT'),t?1:0);
    gl.uniform1f(u('dim'),isT(d)?(cfg.tdim||.8):1.);
-   gl.drawArrays(gl.TRIANGLES,d.first,d.count)}}
- gl.finish();
- return cv.toDataURL('image/png');
+   gl.drawArrays(gl.TRIANGLES,d.first,d.count)}}};
+ gl.uniform1i(u('mode'),0);draw();gl.finish();
+ const col=cv.toDataURL('image/png');
+ if(!cfg.hmap)return col;
+ /* 높이 그림(길찾기용): 안티에일리어싱 없는 틀에 높이를 24비트로 */
+ const fb=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,fb);
+ const ct=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,ct);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,cfg.w,cfg.h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+ gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,ct,0);
+ const rb=gl.createRenderbuffer();gl.bindRenderbuffer(gl.RENDERBUFFER,rb);gl.renderbufferStorage(gl.RENDERBUFFER,gl.DEPTH_COMPONENT24,cfg.w,cfg.h);gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.RENDERBUFFER,rb);
+ /* 길찾기용은 가장 낮은 위쪽 면(바닥) — 문틀·들보 윗면에 안 막히게 */
+ gl.viewport(0,0,cfg.w,cfg.h);gl.clearColor(0,0,0,0);gl.clearDepth(0);gl.depthFunc(gl.GREATER);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+ gl.uniform1i(u('mode'),1);draw();gl.finish();
+ const grab=()=>{const px=new Uint8Array(cfg.w*cfg.h*4);gl.readPixels(0,0,cfg.w,cfg.h,gl.RGBA,gl.UNSIGNED_BYTE,px);
+  const c2=document.createElement('canvas');c2.width=cfg.w;c2.height=cfg.h;const x2=c2.getContext('2d');const id=x2.createImageData(cfg.w,cfg.h);
+  for(let y=0;y<cfg.h;y++)id.data.set(px.subarray((cfg.h-1-y)*cfg.w*4,(cfg.h-y)*cfg.w*4),y*cfg.w*4);
+  x2.putImageData(id,0,0);return c2.toDataURL('image/png')};
+ const hm=grab();
+ /* 위에서 보이는 면의 기울기(벽이면 0에 가까움) — 벽은 못 지나가게 */
+ gl.clearDepth(1);gl.depthFunc(gl.LESS);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+ gl.uniform1i(u('mode'),2);draw();gl.finish();
+ return {c:col,h:hm,n:grab()};
 }
 window.run=run;
 </script></body></html>

@@ -9,6 +9,7 @@ import numpy as np
 from PIL import Image
 sys.path.insert(0, '/home/claude/dgmap')
 from shoot import shoot
+from post import enhance
 
 REPO = '/home/claude/wowf-helper-'
 C = json.load(open('/tmp/cmout/classic.json'))
@@ -94,10 +95,12 @@ def build(slug):
         X = lambda y: round((ymax - y) / (ymax - ymin) * 100, 1)
         Y = lambda x: round((xmax - x) / (xmax - xmin) * 100, 1)
         rcfg = {'dir': 'out/' + cf['prep'], 'b': [float(xmin), float(xmax), float(ymin), float(ymax)],
-                'z': [z0 - 200, z1 + 300], 's': [z0 - fl.get('below', 25), z1 + fl.get('above', 12)], 'w': w, 'h': h, 'tdim': .75}
+                'z': [z0 - 200, z1 + 300], 's': [z0 - fl.get('below', 25), z1 + fl.get('above', 12)], 'w': w, 'h': h, 'tdim': .75, 'hmap': True}
         raw = '/tmp/dg_%s_%d.png' % (slug, li)
-        if not (os.environ.get('NOSHOT') and os.path.exists(raw)): shoot(rcfg, raw)
-        im = Image.open(raw)
+        rawh = raw[:-4] + '_h.png'
+        if not (os.environ.get('NOSHOT') and os.path.exists(raw) and os.path.exists(rawh) and os.path.exists(raw[:-4] + '_n.png')): shoot(rcfg, raw)
+        json.dump({'b': rcfg['b'], 'z': rcfg['z'], 'ppy': ppy, 'zf': [z0, z1]}, open(raw[:-4] + '.json', 'w'))
+        im = enhance(raw, ppy)
         # 빈 둘레 잘라내기는 안 함(좌표 % 유지)
         im.thumbnail((1800, 1800))
         os.makedirs('/home/claude/dgmap/final', exist_ok=True)
@@ -134,6 +137,11 @@ def build(slug):
                 pins.append({'x': X(y), 'y': Y(x), 't': '입구', 'w': 1})
         # 쫄 무리·순찰 (보스·핀 있는 NPC 빼고)
         pinned = {st.get('en') for st in g['steps'] if st.get('en')}
+        # 한글 이름으로만 찾은 단계 NPC(예: 광부 존슨)도 쫄에서 뺌
+        for st in g['steps']:
+            for part in re.split(r'\s*[·,/]\s*', st.get('nm') or ''):
+                if part in KO and len(KO[part]) <= 3:
+                    pinned |= {NAMES[k][1] for k in NAMES if NAMES[k][0] == part}
         pk = []; pt = []
         for p in packs:
             if p['boss']: continue
@@ -142,12 +150,15 @@ def build(slug):
             x, y, z = p['c']
             if not inb(x, y, z, 2): continue
             n = sum(cn for _, cn in keep)
-            nm = [[NAMES[str(e2)][0], cn] for e2, cn in keep[:3]]
-            pk.append([X(y), Y(x), n, p['ty'], p['el'], p['lv'][0], p['lv'][1], nm, 1 if p['rare'] else 0])
+            # 몹 종류: [이름, 수, 등급(0 일반·1 정예·2 희귀 정예·4 희귀), 최저·최고 레벨, 종족]
+            nm = [[NAMES[str(e2)][0], cn] + [TPL[str(e2)][i] for i in (1, 2, 3, 4)] for e2, cn in keep]
+            ki = {e2: i for i, (e2, _) in enumerate(keep)}
+            pts = [[X(q[1]), Y(q[0]), ki[q[2]]] for q in p['pts'] if len(q) > 2 and q[2] in ki]
+            pk.append([X(y), Y(x), n, p['ty'], p['el'], p['lv'][0], p['lv'][1], nm, 1 if p['rare'] else 0, pts])
             if p['pat']:
                 path = [[X(q[1]), Y(q[0])] for q in p['pat']]
                 if all(-3 <= q[0] <= 103 and -3 <= q[1] <= 103 for q in path): pt.append([len(pk) - 1, path])
-        res['floors'].append({'n': li + 1, 'name': fl.get('name', ''), 'img': 'data/dgmap/' + fn, 'w': im.size[0], 'h': im.size[1],
+        res['floors'].append({'n': li + 1, 'name': fl.get('name', ''), 'img': 'data/dgmap/' + fn, 'w': im.size[0], 'h': im.size[1], 'sc': round(float(ymax - ymin), 1),
                               'pins': pins, 'mob': {'p': pk, 't': pt}})
         print(slug, li + 1, im.size, '핀', len(pins), '무리', len(pk), '순찰', len(pt))
     miss = [st['n'] for st in g['steps'] if st['n'] not in used_steps]

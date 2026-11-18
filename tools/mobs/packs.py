@@ -50,7 +50,7 @@ for mp,rows in C['maps'].items():
         pat=next((m['p'] for m in ms if m['p']),None)
         boss=any(m['r']==3 for m in ms);rare=any(m['r'] in (2,4) for m in ms)
         packs.append({'c':[cx,cy,cz],'m':[[e,c] for e,c in sorted(cnt.items(),key=lambda x:-x[1])],'el':sum(1 for m in ms if m['r']>=1),'lv':[min(m['lv'][0] for m in ms),max(m['lv'][1] for m in ms)],'ty':max(set(m['ty'] for m in ms),key=[m['ty'] for m in ms].count),
-                      'pts':[[m['x'],m['y']] for m in ms],'pat':pat,'boss':boss,'rare':rare})
+                      'pts':[[m['x'],m['y'],m['e'],m['r']] for m in ms],'pat':pat,'boss':boss,'rare':rare})
     out[mp]=packs
     stat[mp]=(len(mobs),len(packs),sum(1 for p in packs if p['pat']))
 names={}
