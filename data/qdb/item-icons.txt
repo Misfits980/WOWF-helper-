@@ -568,3 +568,4 @@
 250595|inv_chest_plate11|
 250596|inv_pants_plate_10|
 250597|inv_helmet_10|
+270126|inv_jewelry_necklace_03|

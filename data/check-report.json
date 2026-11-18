@@ -1,5 +1,5 @@
 {
- "퀘스트 수": 3928,
+ "퀘스트 수": 4074,
  "영어로 남은 퀘스트 이름": [
   [
    9269,
@@ -17,19 +17,219 @@
    "전설"
   ],
   [
-   78089,
-   "Advice From Stormwind",
-   "성기사 직업"
-  ],
-  [
-   78090,
-   "A Second Opinion",
-   "성기사 직업"
-  ],
-  [
    79953,
    "A Ludite's Guide to Caring for Your Demonic Pet",
    "스톰윈드"
+  ],
+  [
+   80241,
+   "The Origins of Smithing",
+   "대장기술"
+  ],
+  [
+   80453,
+   "Best Laid Plans",
+   "도적 직업"
+  ],
+  [
+   80454,
+   "One Last Drop",
+   "도적 직업"
+  ],
+  [
+   80455,
+   "Biding Our Time",
+   "도적 직업"
+  ],
+  [
+   81786,
+   "Hinterlands Mission I: Defeat Moonkin",
+   "동부 내륙지"
+  ],
+  [
+   81787,
+   "Hinterlands Mission II: Defeat Giant Turtles",
+   "동부 내륙지"
+  ],
+  [
+   81788,
+   "Hinterlands Mission III: Defeat Dragonkin",
+   "동부 내륙지"
+  ],
+  [
+   81789,
+   "Hinterlands Mission IV: Dragon Intelligence",
+   "동부 내륙지"
+  ],
+  [
+   81817,
+   "Hinterlands Mission V: Turtle Intelligence",
+   "동부 내륙지"
+  ],
+  [
+   81820,
+   "Hinterlands Mission VI: Moonkin Intelligence",
+   "동부 내륙지"
+  ],
+  [
+   81826,
+   "Hinterlands Mission VII: Recover Star-Touched Dragonegg",
+   "동부 내륙지"
+  ],
+  [
+   81830,
+   "Hinterlands Mission VIII: Recover Elunar Relic",
+   "동부 내륙지"
+  ],
+  [
+   81832,
+   "Hinterlands Mission IX: Recover Dreampearl",
+   "동부 내륙지"
+  ],
+  [
+   81833,
+   "Hinterlands Mission X: Star Lotus",
+   "동부 내륙지"
+  ],
+  [
+   81834,
+   "Hinterlands Mission XI: Starsilver Ore",
+   "동부 내륙지"
+  ],
+  [
+   81835,
+   "Hinterlands Mission XII: Starshells",
+   "동부 내륙지"
+  ],
+  [
+   81837,
+   "Hinterlands Mission XIII: Defeat Florius",
+   "동부 내륙지"
+  ],
+  [
+   81838,
+   "Hinterlands Mission XIV: Defeat Doomkin",
+   "동부 내륙지"
+  ],
+  [
+   81839,
+   "Hinterlands Mission XV: Defeat Ghamoo-Raja",
+   "동부 내륙지"
+  ],
+  [
+   81850,
+   "Hinterlands Mission XVI: Rescue Elianar Shadowdrinker",
+   "동부 내륙지"
+  ],
+  [
+   81851,
+   "Hinterlands Mission XVII: Rescue Serlina Starbright",
+   "동부 내륙지"
+  ],
+  [
+   81852,
+   "Hinterlands Mission XVIII: Rescue Veanna Cloudsleeper",
+   "동부 내륙지"
+  ],
+  [
+   81855,
+   "Feralas Mission I: Defeat Children of Cenarius",
+   "페랄라스"
+  ],
+  [
+   81856,
+   "Feralas Mission II: Defeat Harpies",
+   "페랄라스"
+  ],
+  [
+   81857,
+   "Feralas Mission III: Defeat Dragonkin",
+   "페랄라스"
+  ],
+  [
+   81858,
+   "Feralas Mission IV: Dragon Intelligence",
+   "페랄라스"
+  ],
+  [
+   81859,
+   "Feralas Mission V: Cenarion Intelligence",
+   "페랄라스"
+  ],
+  [
+   81860,
+   "Feralas Mission VI: Harpy Intelligence",
+   "페랄라스"
+  ],
+  [
+   81861,
+   "Feralas Mission VII: Recover Moonglow Dragonegg",
+   "페랄라스"
+  ],
+  [
+   81863,
+   "Feralas Mission VIII: Recover Keeper's Notes",
+   "페랄라스"
+  ],
+  [
+   81864,
+   "Feralas Mission IX: Recover Harpy Screed",
+   "페랄라스"
+  ],
+  [
+   81865,
+   "Feralas Mission X: Moonroot",
+   "페랄라스"
+  ],
+  [
+   81866,
+   "Feralas Mission XI: Greater Moonstone",
+   "페랄라스"
+  ],
+  [
+   81867,
+   "Feralas Mission XII: Greater Moondragon Scales",
+   "페랄라스"
+  ],
+  [
+   81868,
+   "Feralas Mission XIII: Defeat Tyrannikus",
+   "페랄라스"
+  ],
+  [
+   81870,
+   "Feralas Mission XIV: Defeat Alondrius",
+   "페랄라스"
+  ],
+  [
+   81871,
+   "Feralas Mission XV: Defeat Slirena",
+   "페랄라스"
+  ],
+  [
+   81872,
+   "Feralas Mission XVI: Rescue Mellias Earthtender",
+   "페랄라스"
+  ],
+  [
+   81873,
+   "Feralas Mission XVII: Rescue Nerene Brooksinger",
+   "페랄라스"
+  ],
+  [
+   81874,
+   "Feralas Mission XVIII: Rescue Jamniss Treemender",
+   "페랄라스"
+  ],
+  [
+   81885,
+   "The Ritual",
+   "성기사 직업"
+  ],
+  [
+   81944,
+   "A Newly Discovered Purpose...",
+   "성기사 직업"
   ],
   [
    81951,
@@ -37,9 +237,249 @@
    "스톰윈드"
   ],
   [
+   82135,
+   "The Price of Hope",
+   "성기사 직업"
+  ],
+  [
+   82657,
+   "Wild Leather Vest",
+   "가죽세공"
+  ],
+  [
+   82662,
+   "The Way of the Weaponsmith",
+   "대장기술"
+  ],
+  [
+   84135,
+   "Beach Bot",
+   "타나리스"
+  ],
+  [
+   84138,
+   "Frosty Favors",
+   "타나리스"
+  ],
+  [
+   84146,
+   "Red Bag Blues",
+   "여명의 설원"
+  ],
+  [
+   84151,
+   "An Earnest Proposition",
+   "아이언포지"
+  ],
+  [
+   84152,
+   "An Earnest Proposition",
+   "아이언포지"
+  ],
+  [
+   84163,
+   "Just Compensation",
+   "아이언포지"
+  ],
+  [
+   84164,
+   "Just Compensation",
+   "아이언포지"
+  ],
+  [
+   84165,
+   "Just Compensation",
+   "아이언포지"
+  ],
+  [
+   84166,
+   "Just Compensation",
+   "아이언포지"
+  ],
+  [
+   84167,
+   "Just Compensation",
+   "아이언포지"
+  ],
+  [
+   84168,
+   "Just Compensation",
+   "아이언포지"
+  ],
+  [
+   84169,
+   "Just Compensation",
+   "아이언포지"
+  ],
+  [
+   84170,
+   "Just Compensation",
+   "아이언포지"
+  ],
+  [
+   84179,
+   "Anthion's Parting Words",
+   "아이언포지"
+  ],
+  [
+   84180,
+   "Anthion's Parting Words",
+   "아이언포지"
+  ],
+  [
+   84181,
+   "Anthion's Parting Words",
+   "아이언포지"
+  ],
+  [
+   84182,
+   "Anthion's Parting Words",
+   "아이언포지"
+  ],
+  [
+   84183,
+   "Anthion's Parting Words",
+   "아이언포지"
+  ],
+  [
+   84184,
+   "Anthion's Parting Words",
+   "아이언포지"
+  ],
+  [
+   84186,
+   "Anthion's Parting Words",
+   "아이언포지"
+  ],
+  [
+   84195,
+   "Saving the Best for Last",
+   "아이언포지"
+  ],
+  [
+   84196,
+   "Saving the Best for Last",
+   "아이언포지"
+  ],
+  [
+   84200,
+   "Saving the Best for Last",
+   "아이언포지"
+  ],
+  [
+   84202,
+   "Saving the Best for Last",
+   "아이언포지"
+  ],
+  [
+   84211,
+   "Poacher's Den",
+   "불타는 평원"
+  ],
+  [
+   84212,
+   "Bookin' it Back",
+   "여명의 설원"
+  ],
+  [
+   84213,
+   "Rift Away",
+   "타나리스"
+  ],
+  [
+   84319,
+   "Oh No Ye Don't!",
+   "동부 역병지대"
+  ],
+  [
+   84332,
+   "A Thane's Gratitude",
+   "성기사 직업"
+  ],
+  [
+   84394,
+   "Greater Friend of the Library",
+   "특별 퀘스트"
+  ],
+  [
+   84414,
+   "Send Me On Me Way",
+   "성기사 직업"
+  ],
+  [
+   85713,
+   "The Art of the Armorsmith",
+   "대장기술"
+  ],
+  [
+   86752,
+   "Report to Rageroar",
+   "아즈샤라"
+  ],
+  [
+   86799,
+   "Encroaching Corruption",
+   "아즈샤라"
+  ],
+  [
+   86804,
+   "An Unlikely Source",
+   "아즈샤라"
+  ],
+  [
+   86812,
+   "Transmuted Tincture",
+   "아즈샤라"
+  ],
+  [
+   86813,
+   "Potential Panacea",
+   "아즈샤라"
+  ],
+  [
+   86925,
+   "Toil and Trouble",
+   "아즈샤라"
+  ],
+  [
+   86926,
+   "Felfire Burn, Cauldron Bubble",
+   "아즈샤라"
+  ],
+  [
+   86927,
+   "Running Firewater",
+   "아즈샤라"
+  ],
+  [
    89015,
    "Deadliest Catch",
    "아즈샤라"
+  ],
+  [
+   96914,
+   "Field of Honor: Week 3",
+   "전쟁노래 협곡"
+  ],
+  [
+   97169,
+   "The Darkreaver Menace",
+   "아이언포지"
+  ],
+  [
+   97171,
+   "Your First Horse",
+   "저습지"
+  ],
+  [
+   97883,
+   "End of the Dark Horde",
+   "스톰윈드"
+  ],
+  [
+   99214,
+   "An Epic Ride",
+   "다르나서스"
   ]
  ],
  "반납 NPC 없는 퀘스트": [
@@ -49,39 +489,14 @@
    "알터랙 계곡"
   ],
   [
-   91877,
-   "악마사냥꾼을 뒤쫓는 자",
-   "아즈샤라"
+   8152,
+   "재빠른 탈출",
+   "서부 역병지대"
   ],
   [
-   92754,
-   "이제 필요한 건 암흑 보호",
-   "잊혀진 땅"
-  ],
-  [
-   93551,
-   "찬사",
-   "붉은마루 산맥"
-  ],
-  [
-   94271,
-   "장인의 계약서: 화려한 미스릴 어깨보호구",
-   "제작"
-  ],
-  [
-   94276,
-   "장인의 계약서: 날카로운 미스릴 검",
-   "제작"
-  ],
-  [
-   94278,
-   "장인의 계약서: 황금 미늘 건틀릿",
-   "제작"
-  ],
-  [
-   94287,
-   "장인의 계약서: 화염 고글",
-   "제작"
+   91564,
+   "고치고 싶어 근질근질",
+   "하이잘 산"
   ],
   [
    94291,
@@ -89,53 +504,8 @@
    "제작"
   ],
   [
-   94305,
-   "장인의 계약서: 그림자매듭 장갑",
-   "제작"
-  ],
-  [
-   94309,
-   "장인의 계약서: 별장식 허리띠",
-   "제작"
-  ],
-  [
-   94316,
-   "장인의 계약서: 악마 사냥의 물약",
-   "제작"
-  ],
-  [
-   94317,
-   "장인의 계약서: 숙면의 물약",
-   "제작"
-  ],
-  [
-   94318,
-   "장인의 계약서: 상급 화염 보호 물약",
-   "제작"
-  ],
-  [
-   94319,
-   "장인의 계약서: 악마 감지의 약물",
-   "제작"
-  ],
-  [
-   94320,
-   "장인의 계약서: 아서스의 선물",
-   "제작"
-  ],
-  [
    94321,
    "장인의 계약서: 마력 저항의 영약",
-   "제작"
-  ],
-  [
-   94322,
-   "장인의 계약서: 제한된 무적 물약",
-   "제작"
-  ],
-  [
-   94323,
-   "장인의 계약서: 일급 회복 물약",
    "제작"
   ],
   [
@@ -156,11 +526,6 @@
   [
    94327,
    "장인의 계약서: 오크족 전투 다리보호구",
-   "제작"
-  ],
-  [
-   94328,
-   "장인의 계약서: 미스릴 박차",
    "제작"
   ],
   [
@@ -194,11 +559,6 @@
    "제작"
   ],
   [
-   94335,
-   "장인의 계약서: 녹색 렌즈",
-   "제작"
-  ],
-  [
    94336,
    "장인의 계약서: 감쪽같은 기계개구리",
    "제작"
@@ -216,16 +576,6 @@
   [
    94339,
    "장인의 계약서: 야전수리로봇 74A",
-   "제작"
-  ],
-  [
-   94340,
-   "장인의 계약서: 진은 변환기",
-   "제작"
-  ],
-  [
-   94341,
-   "장인의 계약서: 저격용 조준경",
    "제작"
   ],
   [
@@ -249,16 +599,6 @@
    "제작"
   ],
   [
-   94346,
-   "장인의 계약서: 룬문자 가죽 머리띠",
-   "제작"
-  ],
-  [
-   94347,
-   "장인의 계약서: 악의의 가죽 팔보호구",
-   "제작"
-  ],
-  [
    94348,
    "장인의 계약서: 키메라 조끼",
    "제작"
@@ -266,11 +606,6 @@
   [
    94349,
    "장인의 계약서: 두꺼운 전갈 투구",
-   "제작"
-  ],
-  [
-   94350,
-   "장인의 계약서: 룬문자 가죽 팔보호구",
    "제작"
   ],
   [
@@ -284,18 +619,8 @@
    "제작"
   ],
   [
-   94353,
-   "장인의 계약서: 룬매듭 가방",
-   "제작"
-  ],
-  [
    94354,
    "장인의 계약서: 룬매듭 장화",
-   "제작"
-  ],
-  [
-   94355,
-   "장인의 계약서: 턱시도 재킷",
    "제작"
   ],
   [
@@ -306,11 +631,6 @@
   [
    94357,
    "장인의 계약서: 세나리온 약초 가방",
-   "제작"
-  ],
-  [
-   94358,
-   "장인의 계약서: 그림자매듭 복면",
    "제작"
   ],
   [
@@ -339,47 +659,26 @@
    "발굴 현장: 저습지"
   ],
   [
-   95924,
-   "혼란의 발굴현장",
-   "구체자의 정원"
-  ],
-  [
-   95925,
-   "나아갈 길을 그리다",
-   "구체자의 정원"
-  ],
-  [
-   96676,
-   "검은가시 서약단의 실체",
-   "하이잘 산"
-  ],
-  [
-   96912,
-   "명예의 전장: 1주 차",
+   96913,
+   "명예의 전장: 2주 차",
    "타나리스"
   ],
   [
-   97173,
-   "검은아귀 마법",
-   "알터랙 산맥"
+   98898,
+   "검은창 군도의 충돌",
+   null
   ],
   [
-   97987,
-   "스톰윈드 고등 마법원",
-   "동부 역병지대"
-  ],
-  [
-   99205,
+   99203,
    "바람 타기",
-   "다르나서스"
-  ],
-  [
-   99435,
-   "대단한 가장무도회",
-   "스톰윈드"
+   "제프라스 섬"
   ]
  ],
  "레벨 0 퀘스트": [
+  [
+   8152,
+   "재빠른 탈출"
+  ],
   [
    60860,
    "누군가의 선물"
@@ -393,8 +692,8 @@
    "브레루파를 위한 구슬"
   ],
   [
-   96602,
-   "더 많은 불안정한 마법"
+   98898,
+   "검은창 군도의 충돌"
   ]
  ],
  "레벨이 거꾸로 이어진 연계(5레벨 이상)": [
@@ -701,25 +1000,9 @@
    98896,
    "검은창 군도의 충돌",
    39
-  ],
-  [
-   98899,
-   "검은창 군도의 충돌",
-   59,
-   98898,
-   "검은창 군도의 충돌",
-   49
-  ],
-  [
-   98901,
-   "검은창 군도의 충돌",
-   60,
-   98898,
-   "검은창 군도의 충돌",
-   49
   ]
  ],
- "장비 수": 9846,
+ "장비 수": 9847,
  "영어 이름 장비": [
   [
    "287037",
@@ -2044,12 +2327,12 @@
  "진행 순서 없는 던전": [],
  "지도 없는 던전": [],
  "요약": {
-  "퀘스트 수": 3928,
-  "영어로 남은 퀘스트 이름": 8,
-  "반납 NPC 없는 퀘스트": 67,
-  "레벨 0 퀘스트": 4,
-  "레벨이 거꾸로 이어진 연계(5레벨 이상)": 40,
-  "장비 수": 9846,
+  "퀘스트 수": 4074,
+  "영어로 남은 퀘스트 이름": 96,
+  "반납 NPC 없는 퀘스트": 38,
+  "레벨 0 퀘스트": 5,
+  "레벨이 거꾸로 이어진 연계(5레벨 이상)": 38,
+  "장비 수": 9847,
   "영어 이름 장비": 1,
   "능력치가 레벨에 비해 지나친 장비": 35,
   "출처 없는 장비": 102,

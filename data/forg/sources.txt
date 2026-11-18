@@ -1,6 +1,6 @@
 1~퀘스트 · 희귀 서적~/forever/quest/91777
 1~퀘스트 · 반납 기한 초과~/forever/quest/96800
-1~퀘스트 · 도서관의 친구~
+1~퀘스트 · 도서관의 친구~/forever/quest/78150
 1~퀘스트 · 젤토스의 뿔~
 1~알카즈 감옥 · 퀘스트 보상~dg:alcaz-prison
 1~크롤도크 보루 · 퀘스트 보상~dg:kroldok-stronghold
@@ -10,7 +10,7 @@
 1~검은아귀 요새 · 퀘스트 보상~dg:blackmaw-hold
 1~영주의 전당 · 퀘스트 보상~dg:hall-of-thanes
 1~구체자의 정원 · 퀘스트 보상~dg:shapers-terrace
-1~퀘스트 · 폭풍우의 병기~
+1~퀘스트 · 폭풍우의 병기~/forever/quest/96016
 1~웰가르 발굴 현장 · 퀘스트 보상~dg:whelgar-excavation
 1~퀘스트 · 뒤틀린 증오~/forever/quest/98403
 4~제작 · 대장기술 · 경매장 거래~
@@ -59,7 +59,7 @@
 1~퀘스트 · 바샬아란~/forever/quest/957
 3~드랍 · 역병노잡이~
 3~드랍 · 크르르~
-1~퀘스트 · 얼라이언스 연합 둘러보기~
+1~퀘스트 · 얼라이언스 연합 둘러보기~/forever/quest/93963
 3~드랍 · Matriarch Bristlefur~
 3~드랍 · Nightscreech~
 3~드랍 · 유령송곳니~
@@ -118,7 +118,7 @@
 4~제작 · 가죽세공 · 직접 제작~
 4~제작 · 재봉술 · 직접 제작~
 3~드랍 · Den'dralass~
-1~퀘스트 · 하늘파괴자 보루 방패~
+1~퀘스트 · 하늘파괴자 보루 방패~/forever/quest/94003
 1~퀘스트 · 쓰러진 자의 깃발~/forever/quest/86585
 1~퀘스트 · 현상 수배: 자이바넬~/forever/quest/98025
 3~드랍 · 악취나는 검은이끼괴물~
@@ -196,7 +196,7 @@
 3~드랍 · 붉은마루일족 부대장~
 3~드랍 · 레프리투스~
 0~죽음의 폐광 · 스니드의 벌목기~dg:deadmines
-1~퀘스트 · 국왕 알현~
+1~퀘스트 · 국왕 알현~/forever/quest/396
 0~죽음의 폐광 · 라크조르~dg:deadmines
 0~죽음의 폐광 · 쿠키~dg:deadmines
 0~죽음의 폐광 · 길니드~dg:deadmines
@@ -254,19 +254,19 @@
 3~드랍 · 아루갈의 보이드워커~
 1~퀘스트 · 장의사의 신부~/forever/quest/253
 1~검은심연 나락 · 퀘스트 보상~dg:blackfathom-deeps
-1~퀘스트 · 소랜루크 수정구~
-1~퀘스트 · 정의의 시험~
-1~퀘스트 · 그리먼트의 갑옷~
-1~퀘스트 · 푸렌의 갑옷~
-1~퀘스트 · 메시엘의 방어구~
-1~퀘스트 · 클락몰트의 창작품~
+1~퀘스트 · 소랜루크 수정구~/forever/quest/1740
+1~퀘스트 · 정의의 시험~/forever/quest/1806
+1~퀘스트 · 그리먼트의 갑옷~/forever/quest/1706
+1~퀘스트 · 푸렌의 갑옷~/forever/quest/1782
+1~퀘스트 · 메시엘의 방어구~/forever/quest/1711
+1~퀘스트 · 클락몰트의 창작품~/forever/quest/1709
 3~드랍 · 브론투스~
 3~드랍 · 살육의 괴물~
 5~상인 · Winklespark~
 6~상인 · Winklespark~
 1~퀘스트 · 돌발톱 보급품 조달~/forever/quest/86574
-1~퀘스트 · 가족의 벗~
-1~퀘스트 · 훌륭한 도서관의 친구~
+1~퀘스트 · 가족의 벗~/forever/quest/98191
+1~퀘스트 · 훌륭한 도서관의 친구~/forever/quest/79536
 3~드랍 · 사자왕 후마르~
 3~드랍 · 진흙주둥이 놀~
 3~드랍 · 채굴꾼 플레임포지~
@@ -291,7 +291,7 @@
 0~검은심연 나락 · 겔리하스트~dg:blackfathom-deeps
 0~검은심연 나락 · 가무라~dg:blackfathom-deeps
 1~퀘스트 · 격노~/forever/quest/378
-1~퀘스트 · 델그렌에게 가기~
+1~퀘스트 · 델그렌에게 가기~/forever/quest/78093
 1~퀘스트 · 살육자~/forever/quest/98283
 3~드랍 · 토라 페더문~
 3~드랍 · 이안 스위프트리버~
@@ -351,7 +351,7 @@
 3~드랍 · 무쇠턱 우두머리랩터~
 1~퀘스트 · 피즐에게 전할 소식~/forever/quest/1137
 3~드랍 · 붉은십자군 요술쟁이~
-1~퀘스트 · 노움의 실력 향상~
+1~퀘스트 · 노움의 실력 향상~/forever/quest/2948
 1~퀘스트 · 대단한 사냥꾼~/forever/quest/208
 1~퀘스트 · 딸의 사랑~/forever/quest/231
 0~웰가르 발굴 현장 · 유물 수호자~dg:whelgar-excavation
@@ -386,8 +386,8 @@
 1~퀘스트 · 멀달록~/forever/quest/739
 0~가시덩굴 우리 · 서슬깃 차를가~dg:razorfen-kraul
 1~퀘스트 · 회수전문회사를 위한 재료~/forever/quest/1467
-1~퀘스트 · 소용돌이 무기~
-1~퀘스트 · 마법사의 마법봉~
+1~퀘스트 · 소용돌이 무기~/forever/quest/1792
+1~퀘스트 · 마법사의 마법봉~/forever/quest/1952
 0~붉은십자군 수도원: 묘지 · 혈법사 탈노스~dg:sm-graveyard
 0~붉은십자군 수도원: 묘지 · 무쇠해골~dg:sm-graveyard
 0~붉은십자군 수도원: 묘지 · 타락한 용사~dg:sm-graveyard
@@ -436,11 +436,11 @@
 1~퀘스트 · 가라앉은 보물~/forever/quest/666
 1~퀘스트 · 칸 흐라사~/forever/quest/1380
 1~퀘스트 · 칸 흐라사~/forever/quest/1381
-1~퀘스트 · 천공의 힘~
+1~퀘스트 · 천공의 힘~/forever/quest/1958
 1~붉은십자군 수도원: 도서관 · 퀘스트 보상~dg:sm-library
 3~드랍 · 발굴단장 쇼벨플랜지~
 3~드랍 · 어둠괴철로단 악당~
-1~퀘스트 · 완성된 다르오라힐의 보주~
+1~퀘스트 · 완성된 다르오라힐의 보주~/forever/quest/4964
 1~퀘스트 · 칸 젠~/forever/quest/93196
 1~퀘스트 · 칸 젠~/forever/quest/93128
 0~가라앉은 도시 · 바르타카~dg:drowned-city
@@ -448,7 +448,7 @@
 0~가라앉은 도시 · 태고의 정령~dg:drowned-city
 3~드랍 · 로그로쉬~
 1~퀘스트 · 덩치큰 바다악어 가죽~/forever/quest/628
-1~퀘스트 · 마젠의 부탁~
+1~퀘스트 · 마젠의 부탁~/forever/quest/1364
 0~가시덩굴 구릉 · 불꽃눈 모드레쉬~dg:razorfen-downs
 1~퀘스트 · 잃어버린 눈~/forever/quest/576
 0~붉은십자군 수도원: 무기고 · 헤로드~dg:sm-armory
@@ -479,7 +479,7 @@
 1~퀘스트 · 최고의 품질~/forever/quest/2821
 1~퀘스트 · 맥킨리에게 배달~/forever/quest/2874
 1~퀘스트 · 유물 전달~/forever/quest/2871
-1~퀘스트 · 그림자매듭~
+1~퀘스트 · 그림자매듭~/forever/quest/3379
 3~드랍 · 갓 부화한 화염 새끼용~
 1~퀘스트 · 남쪽바다해적단 처리반~/forever/quest/8366
 6~상인 · Rettrick~
@@ -488,6 +488,7 @@
 0~크롤도크 보루 · 조련사 아쉬카~dg:kroldok-stronghold
 5~상인 · Friz Frazzlespark~
 6~상인 · Friz Frazzlespark~
+1~퀘스트 · 훌륭한 도서관의 친구~
 0~크롤도크 보루 · 두목 투프~dg:kroldok-stronghold
 0~울다만 · 고대 바위 문지기~dg:uldaman
 0~줄파락 · 산다르 듄리버~dg:zul-farrak
@@ -527,7 +528,7 @@
 0~마라우돈 · 정원사 메슬로크~dg:maraudon
 0~마라우돈 · 녹시온~dg:maraudon
 0~마라우돈 · 칼날채찍~dg:maraudon
-1~퀘스트 · 티모르에게 돌아가기~
+1~퀘스트 · 티모르에게 돌아가기~/forever/quest/3461
 0~아탈학카르 신전 · 학카르의 피조물~dg:temple-of-atal-hakkar
 0~검은바위 나락 · 사냥개조련사 그렙마르~dg:blackrock-depths
 0~검은바위 나락 · 대심문관 게르스탄~dg:blackrock-depths
@@ -551,7 +552,7 @@
 0~검은바위 나락 · 왕거미 헤드룸~dg:blackrock-depths
 0~검은바위 나락 · 파괴자 오크토르~dg:blackrock-depths
 1~검은바위 나락 · 퀘스트 보상~dg:blackrock-depths
-1~퀘스트 · 수액괴물 견본 수집~
+1~퀘스트 · 수액괴물 견본 수집~/forever/quest/4513
 1~퀘스트 · 팅키에게 돌아가는 길~/forever/quest/4810
 0~마라우돈 · 공주 테라드라스~dg:maraudon
 0~알카즈 감옥 · 청소부 카테리나~dg:alcaz-prison
@@ -567,7 +568,7 @@
 0~검은바위 나락 · 플러거 스파즈링~dg:blackrock-depths
 1~퀘스트 · 룬매듭~/forever/quest/6031
 6~상인 · 라흐라~
-1~퀘스트 · 트롤의 깃털~
+1~퀘스트 · 트롤의 깃털~/forever/quest/8422
 1~퀘스트 · Just Compensation~
 5~상인 · Zippie Fizzbolt~
 6~상인 · Zippie Fizzbolt~
@@ -588,7 +589,7 @@
 0~검은바위 나락 · 운명의 문지기~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 불타는 지옥군단병~dg:lower-blackrock-spire
 0~스트라솔름: 이승 · 용서받지 못한 자~dg:stratholme-live
-1~퀘스트 · 탤런의 꿈~
+1~퀘스트 · 탤런의 꿈~/forever/quest/5944
 1~퀘스트 · 엘룬의 올빼미야수~/forever/quest/4902
 3~드랍 · 성난발톱용혈족~
 0~스칼로맨스 · 조교 말리시아~dg:scholomance
@@ -631,7 +632,7 @@
 0~스트라솔름: 저승 · 먹보 람스타인~dg:stratholme-dead
 0~혈투의 전장: 동쪽 · 칼날바람 알진~dg:dire-maul-east
 0~스칼로맨스 · 마르두크 블랙풀~dg:scholomance
-1~퀘스트 · 예킨야와의 대면~
+1~퀘스트 · 예킨야와의 대면~/forever/quest/8181
 1~퀘스트 · 현상 수배: 사막의 난폭자 죽음의 갈고리~/forever/quest/8283
 1~퀘스트 · 마력이 깃든 아즈샤리트 퇴마 무기~/forever/quest/3625
 0~검은바위 첨탑 하층 · 반노크 그림액스~dg:lower-blackrock-spire
@@ -678,24 +679,25 @@
 0~혈투의 전장: 서쪽 · 굽이나무 텐드리스~dg:dire-maul-west
 0~혈투의 전장: 북쪽 · 정찰병 초루쉬~dg:dire-maul-north
 0~스칼로맨스 · 벡투스~dg:scholomance
-1~퀘스트 · 마력의 보물: 구원자의 허리띠~
-1~퀘스트 · 마력의 보물: 구원자의 손목보호대~
-1~퀘스트 · 마력의 보물: 자유사상가의 허리띠~
-1~퀘스트 · 마력의 보물: 자유사상가의 손목보호대~
-1~퀘스트 · 마력의 보물: 수렵꾼의 허리띠~
-1~퀘스트 · 마력의 보물: 개혁가의 어깨보호대~
-1~퀘스트 · 마력의 보물: 개혁가의 팔보호구~
-1~퀘스트 · 마력의 보물: 성자의 손목띠~
-1~퀘스트 · 마력의 보물: 환영술사의 어깨보호대~
-1~퀘스트 · 마력의 보물: 환영술사의 손목띠~
-1~퀘스트 · 마력의 보물: 악령술사의 손목띠~
-1~퀘스트 · 마력의 보물: 악령술사의 어깨보호대~
+1~퀘스트 · 마력의 보물: 구원자의 허리띠~/forever/quest/8078
+1~퀘스트 · 마력의 보물: 구원자의 손목보호대~/forever/quest/8058
+1~퀘스트 · 마력의 보물: 자유사상가의 허리띠~/forever/quest/8054
+1~퀘스트 · 마력의 보물: 자유사상가의 손목보호대~/forever/quest/8053
+1~퀘스트 · 마력의 보물: 수렵꾼의 허리띠~/forever/quest/8066
+1~퀘스트 · 마력의 보물: 개혁가의 어깨보호대~/forever/quest/8072
+1~퀘스트 · 마력의 보물: 개혁가의 팔보호구~/forever/quest/8063
+1~퀘스트 · 마력의 보물: 성자의 손목띠~/forever/quest/8061
+1~퀘스트 · 마력의 보물: 환영술사의 어깨보호대~/forever/quest/8068
+1~퀘스트 · 마력의 보물: 환영술사의 손목띠~/forever/quest/8060
+1~퀘스트 · 마력의 보물: 악령술사의 손목띠~/forever/quest/8059
+1~퀘스트 · 마력의 보물: 악령술사의 어깨보호대~/forever/quest/8076
 0~혈투의 전장: 동쪽 · 이살리엔~dg:dire-maul-east
 0~검은바위 나락 · 텔드렌~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 모르 그레이후프~dg:lower-blackrock-spire
 0~스트라솔름: 저승 · 뾰족바위~dg:stratholme-dead
 0~스트라솔름: 저승 · 냉혈한 말레키~dg:stratholme-dead
 0~스칼로맨스 · 암흑스승 간들링~dg:scholomance
+3~드랍 · 군주 신슬레이어~
 0~혈투의 전장: 서쪽 · 이몰타르~dg:dire-maul-west
 0~혈투의 전장: 서쪽 · 왕자 토르텔드린~dg:dire-maul-west
 0~혈투의 전장: 북쪽 · 대장 크롬크러쉬~dg:dire-maul-north
@@ -760,7 +762,7 @@
 1~퀘스트 · Blade of Vaulted Secrets~
 1~퀘스트 · Drape of Vaulted Secrets~
 1~퀘스트 · Shroud of Unspoken Names~
-1~퀘스트 · 오시리안 처치~
+1~퀘스트 · 오시리안 처치~/forever/quest/8791
 1~퀘스트 · 시간 지배자의 보물~/forever/quest/8745
 1~퀘스트 · 드러난 악몽~/forever/quest/8736
 3~드랍 · 제왕 베클로어~

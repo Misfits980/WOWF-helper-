@@ -1614,11 +1614,11 @@
 275003|40|fe|4.4|r|str10 int15||487|511||||늑대결속자의 발보호대|inv_boots_plate_04
 276203|40|2h|2.6|r|str7 agi10 sta20 dps39.55||488;489|7||||원시 낚싯대|inv_spear_06
 276204|40|oh|4.6|r|sta5 armor1580 block24 sp14 heal5||489|34||||난타의 쓰레기|inv_shield_02
-277254|40|ra|2.2|r|agi7 sta3 dps23.75||268|12||||진실의 탐구자의 활|inv_weapon_bow_01
-277258|40|oh|4.6|r|spi12 armor1580 block24 sp4 heal11||268|34||||분별의 문장|spell_holy_powerwordshield
-286428|40|fi||r|sta6 spi5 sp7 heal22||490|511||||두목의 고리|inv_jewelry_ring_33
-286429|40|wa|4.1|r|str8 spi9 sp9 heal26||490|507||||불룩배 허리띠|inv_belt_05
-286430|40|1h|2.4|r|str7 sta5 dps30.26|1|490|315||||투프분쇄기|inv_mace_13
+277254|40|ra|2.2|r|agi7 sta3 dps23.75||490|12||||진실의 탐구자의 활|inv_weapon_bow_01
+277258|40|oh|4.6|r|spi12 armor1580 block24 sp4 heal11||490|34||||분별의 문장|spell_holy_powerwordshield
+286428|40|fi||r|sta6 spi5 sp7 heal22||491|511||||두목의 고리|inv_jewelry_ring_33
+286429|40|wa|4.1|r|str8 spi9 sp9 heal26||491|507||||불룩배 허리띠|inv_belt_05
+286430|40|1h|2.4|r|str7 sta5 dps30.26|1|491|315||||투프분쇄기|inv_mace_13
 1720|41|2h|2.10|r|str9 spi18 dps40.29 nature14||41|256||||덩굴 지팡이|inv_staff_25
 4084|41|le|4.3|u|agi12 int13||41|4||||흑철로 다리보호구|inv_pants_03
 7673|41?|ne||r|sta10 int1 sp12 heal12||421|511||||탈바쉬의 마법 목걸이|inv_jewelry_necklace_02
@@ -1629,23 +1629,23 @@
 8273|41|wr|4.4|u|str9 sta4||41|3||||용기의 판금 손목보호구|inv_bracer_16
 8277|41|wa|4.4|u|str13 sta3||41|3||||용기의 판금 벨트|inv_belt_19
 8346|41|ha|4.2|r|agi7 sp18 heal6|1|16|290||||바다의 건틀릿|inv_gauntlets_30
-9410|41|ha|4.4|r|def5||491|259||||바위주먹|inv_gauntlets_12
-9411|41|sh|4.3|r|str3 int13 spi6 sp12 heal12||491|511||||바위파편 어깨갑옷|inv_shoulder_02
+9410|41|ha|4.4|r|def5||492|259||||바위주먹|inv_gauntlets_12
+9411|41|sh|4.3|r|str3 int13 spi6 sp12 heal12||492|511||||바위파편 어깨갑옷|inv_shoulder_02
 9433|41|wr|4.1|r|agi3 sta4 int12||41|100||||잊혀진 족쇄|inv_bracer_12
-9512|41|ba|4.1|r|agi12 sta5||492|303||||흑철 단망토|inv_misc_cape_05
+9512|41|ba|4.1|r|agi12 sta5||493|303||||흑철 단망토|inv_misc_cape_05
 10024|41|he|4.1|u|int12 sp13 heal13||25|496||||검은 마법매듭 머리띠|inv_misc_bandana_01
-10026|41|fe|4.1|u|int7 sp11 heal11||25;493|498||||검은 마법매듭 장화|inv_boots_05
+10026|41|fe|4.1|u|int7 sp11 heal11||25;494|498||||검은 마법매듭 장화|inv_boots_05
 10027|41|sh|4.1|u|int9 sp10 heal10||25|498||||검은 마법매듭 어깨보호구|inv_shoulder_25
-11857|41?|2h|2.10|u|sta4 spi17 dps26.45 sp38 heal38||494|400||||독신자의 마법봉|inv_staff_11
-11860|41?|ra|2.19|u|int4 dps37.33 sp5 heal5||495|208||||충전된 벼락 막대|inv_wand_08
+11857|41?|2h|2.10|u|sta4 spi17 dps26.45 sp38 heal38||495|400||||독신자의 마법봉|inv_staff_11
+11860|41?|ra|2.19|u|int4 dps37.33 sp5 heal5||496|208||||충전된 벼락 막대|inv_wand_08
 13074|41|le|4.4|r|str22 def6||41|3||||골렘파편 다리보호구|inv_pants_04
 14436|41|he|4.1|u|agi4 int15 spi7||41|4||||바람전사 화관|inv_helmet_13
 14653|41|fe|4.2|u|agi13 sta3||41|12||||스콜파시 덧신|inv_boots_01
 14843|41|he|4.4|u|str5 agi4 sta16||41|1||||폭군 투구|inv_helmet_12
-274431|41|2h|2.10|r|sta13 dps30 mp58 nature64||491|501||||모래폭풍 지팡이|inv_staff_10
-275004|41|ne||r|agi4 sta12 sp5 heal5||496|511||||타락자의 사슬|inv_jewelry_necklace_19
-275005|41|ch|4.4|r|str10 sta10 def13||496|511||||크롤도크 전쟁판금 흉갑|inv_chest_plate01
-275006|41|he|4.4|r|str19 sta10 spi10||496|511||||크롤도크 전쟁판금 투구|inv_helmet_20
+274431|41|2h|2.10|r|sta13 dps30 mp58 nature64||492|501||||모래폭풍 지팡이|inv_staff_10
+275004|41|ne||r|agi4 sta12 sp5 heal5||497|511||||타락자의 사슬|inv_jewelry_necklace_19
+275005|41|ch|4.4|r|str10 sta10 def13||497|511||||크롤도크 전쟁판금 흉갑|inv_chest_plate01
+275006|41|he|4.4|r|str19 sta10 spi10||497|511||||크롤도크 전쟁판금 투구|inv_helmet_20
 4091|42|1h|2.15|r|str7 agi8 dps31.58||41|9||||미망단도|inv_weapon_shortblade_03
 6723|42?|ne||u|sta9||421|511||||용맹의 메달|inv_jewelry_amulet_03
 8110|42|ha|4.1|u|agi10 int10||41|4||||겨울잠 장갑|inv_gauntlets_23
@@ -1657,25 +1657,25 @@
 8202|42|le|4.2|u|int10 sp15 heal15||16|290||||부두교 바지|inv_pants_02
 8209|42|fe|4.3|u|agi12 int7||16|4||||단단한 전갈 장화|inv_boots_05
 8276|42|ha|4.4|u|str14 sta2||41|1||||용기의 판금 건틀릿|inv_gauntlets_29
-9412|42|ra|2.3|r|dps24.62|1|497|4||||갈간의 불막대|inv_weapon_rifle_07
-9414|42|le|4.2|r|agi18 spi11|1|498|511||||유포 다리보호구|inv_pants_06
-9415|42|ch|4.1|r|sta10 int5 spi14 sp10 heal29||498|511||||그림로크의 전통복|inv_shirt_05
-9416|42|2h|2.6|r|str10 agi15 sta15 dps40.93||498|7||||그림로크의 창|inv_spear_08
-9419|42|1h|2.4|r|dps20.91 sp54 heal54|1|497|315||||갈간의 불망치|inv_hammer_17
-9482|42|2h|2.10|r|spi18 dps30.65 nature66||492|256||||의술사의 지팡이|inv_staff_31
+9412|42|ra|2.3|r|dps24.62|1|498|4||||갈간의 불막대|inv_weapon_rifle_07
+9414|42|le|4.2|r|agi18 spi11|1|499|511||||유포 다리보호구|inv_pants_06
+9415|42|ch|4.1|r|sta10 int5 spi14 sp10 heal29||499|511||||그림로크의 전통복|inv_shirt_05
+9416|42|2h|2.6|r|str10 agi15 sta15 dps40.93||499|7||||그림로크의 창|inv_spear_08
+9419|42|1h|2.4|r|dps20.91 sp54 heal54|1|498|315||||갈간의 불망치|inv_hammer_17
+9482|42|2h|2.10|r|spi18 dps30.65 nature66||493|256||||의술사의 지팡이|inv_staff_31
 10028|42|sh|4.1|u|sta7 shadow17||25|144||||그림자매듭 어깨보호구|inv_shoulder_25
 10029|42|sh|4.1|u|int15 sp7 heal7||25|498||||붉은 마법매듭 어깨보호구|inv_shoulder_23
-10706|42?|wa|4.3|u|str14 sta2||499|35||||밤비늘 벨트|inv_belt_33
-11310|42|sh|4.1|r|spi10 fire14||497|499||||불점쟁이 어깨보호대|inv_shoulder_05
-11311|42|ba||r|sta14||497|511||||불비늘 단망토|inv_misc_cape_08
-12470|42|fe|4.2|r|str6 agi17 spi3||500|303||||모래추적자 발목갑옷|inv_bracer_04
-12471|42|ho|4.0|r|sta8 int7 sp7 heal20||501|464||||사막방랑자의 나뭇가지|inv_staff_21
+10706|42?|wa|4.3|u|str14 sta2||500|35||||밤비늘 벨트|inv_belt_33
+11310|42|sh|4.1|r|spi10 fire14||498|499||||불점쟁이 어깨보호대|inv_shoulder_05
+11311|42|ba||r|sta14||498|511||||불비늘 단망토|inv_misc_cape_08
+12470|42|fe|4.2|r|str6 agi17 spi3||501|303||||모래추적자 발목갑옷|inv_bracer_04
+12471|42|ho|4.0|r|sta8 int7 sp7 heal20||502|464||||사막방랑자의 나뭇가지|inv_staff_21
 13021|42|ra|2.2|r|sta6 spi4 dps24.5||41|4||||가시매듭 곡궁|inv_weapon_bow_08
 13102|42|he|4.1|r|sta7 spi9 sp15 heal44||41|498||||카산드라의 은혜|inv_jewelry_ring_03
 14659|42|le|4.2|u|agi15 sta10||41|256||||스콜파시 다리보호구|inv_pants_07
-14660|42|sh|4.2|u|str6 agi7 sta10||502|299||||스콜파시 어깨보호구|inv_shoulder_05
-14787|42|sh|4.3|u|agi12 spi5||503|4||||칸의 어깨보호대|inv_shoulder_23
-14840|42|le|4.4|u|str19 spi4||504|3||||폭군 다리갑옷|inv_pants_06
+14660|42|sh|4.2|u|str6 agi7 sta10||503|299||||스콜파시 어깨보호구|inv_shoulder_05
+14787|42|sh|4.3|u|agi12 spi5||504|4||||칸의 어깨보호대|inv_shoulder_23
+14840|42|le|4.4|u|str19 spi4||505|3||||폭군 다리갑옷|inv_pants_06
 250576|42|sh|4.4|r|str13 agi8 sta10||116|3||||장교의 견갑|inv_shoulder_13
 250577|42|sh|4.4|r|str8 sta13 def10||116|3||||파수꾼의 견갑|inv_shoulder_12
 250578|42|sh|4.4|r|sta13 def10 sp9 heal9||116|2||||보초병의 견갑|inv_shoulder_03
@@ -1695,20 +1695,20 @@
 254053|42|sh|4.1|r|sta8 int8 spi6 fire17||118|64||||황천불꽃 어깨보호구|inv_shoulder_23
 254055|42|sh|4.1|r|sta8 int8 spi6 shadow17||118|144||||황천진주 어깨보호구|inv_shoulder_25
 254057|42|sh|4.1|r|sta8 int8 spi6 arcane17||118|320||||황천광채 어깨보호구|inv_shoulder_09
-275007|42|1h|2.13|r|agi5 sta6 dps31.54|1|505|301||||머그의 떠버리|inv_weapon_hand_02
-275008|42|1h|2.13|r|str5 sta6 dps31.54|1|505|301||||머그의 싸움꾼|inv_weapon_hand_02
-275009|42|tr||r|ap14|1|505|511||||격돌의 문장|inv_misc_coin_10
-275010|42|he|4.1|r|spi21 sp15 heal15||505|499||||강한 향이 나는 두건|inv_helmet_62
+275007|42|1h|2.13|r|agi5 sta6 dps31.54|1|506|301||||머그의 떠버리|inv_weapon_hand_02
+275008|42|1h|2.13|r|str5 sta6 dps31.54|1|506|301||||머그의 싸움꾼|inv_weapon_hand_02
+275009|42|tr||r|ap14|1|506|511||||격돌의 문장|inv_misc_coin_10
+275010|42|he|4.1|r|spi21 sp15 heal15||506|499||||강한 향이 나는 두건|inv_helmet_62
 2100|43|ra|2.3|e|agi7 dps27.78 crit0.5||41|13||||정밀하게 교정된 붐스틱|inv_weapon_rifle_06
-6440|43|fi|4.0|r|sta-10 int10 spi5 sp11 heal11||492|498||||정신집중의 반지|inv_belt_30
+6440|43|fi|4.0|r|sta-10 int10 spi5 sp11 heal11||493|498||||정신집중의 반지|inv_belt_30
 7553|43|fi||u|sp13 heal13||41|498||||일각수의 고리|inv_jewelry_ring_11
 8207|43|sh|4.3|u|agi10 int10||16|36||||단단한 전갈 어깨보호구|inv_shoulder_04
 8216|43|ba||u|int9 sp5 heal5||16|498||||부두교 망토|inv_misc_cape_02
-9469|43|ch|4.3|r|sta10 spi16 sp11 heal33||506|34||||가즈릴라의 미늘갑옷|inv_chest_chain_06
-9480|43|2h|2.6|r|str10 agi23 dps41.83||492|7||||눈쏘시개|inv_spear_05
-9527|43?|2h|2.10|u|sta6 int17 dps27.59 sp40 heal40||507|432||||주술 마법봉|inv_wand_11
-9531|43?|sh|4.4|u|str5 sta10 int8||507|2||||혈암 어깨갑옷|inv_shoulder_23
-9647|43?|sh|4.2|u|str10 agi10||508|299||||실패한 비행 실험 장치|inv_shoulder_25
+9469|43|ch|4.3|r|sta10 spi16 sp11 heal33||507|34||||가즈릴라의 미늘갑옷|inv_chest_chain_06
+9480|43|2h|2.6|r|str10 agi23 dps41.83||493|7||||눈쏘시개|inv_spear_05
+9527|43?|2h|2.10|u|sta6 int17 dps27.59 sp40 heal40||508|432||||주술 마법봉|inv_wand_11
+9531|43?|sh|4.4|u|str5 sta10 int8||508|2||||혈암 어깨갑옷|inv_shoulder_23
+9647|43?|sh|4.2|u|str10 agi10||509|299||||실패한 비행 실험 장치|inv_shoulder_25
 10031|43|fe|4.1|u|spi10 shadow14||25|144||||그림자매듭 장화|inv_boots_05
 10033|43|he|4.1|u|int20 sp19 heal19||25|498||||붉은 마법매듭 머리띠|inv_misc_bandana_03
 13018|43|2h|2.1|r|str23 dps41.84 hit1|1|41|35||||집행자의 클레버|inv_axe_24
@@ -1721,28 +1721,28 @@
 14835|43|ch|4.4|u|str16 agi3 sta7||41|3||||폭군 흉갑|inv_chest_plate08
 14842|43|oh|4.6|u|str9 sta5 armor1493 block23||41|3||||폭군 방패|inv_shield_17
 14853|43|wr|4.4|u|str6 sta8 int2||41|3||||해비늘 손목보호구|inv_bracer_09
-16738|43?|ha|4.1|u|spi13 sp8 heal8||509|64||||마른열매 장갑|inv_gauntlets_15
-16739|43?|sh|4.2|u|int11 spi4 sp7 heal7||509|258||||융단나무 어깨보호대|inv_shoulder_07
-18082|43|2h|2.10|r|sta10 int10 dps31.11 sp54 heal54||510|496||||줌라의 주술지팡이|inv_staff_10
-18083|43|ha|4.1|r|sta10 int7 mp54 sp6 heal18||510|370||||주만자 장갑|inv_gauntlets_09
-19041|43?|ch|4.2|u|str6 agi7 sta15||511|256||||프랫의 수제 튜닉|inv_chest_leather_07
-19124|43?|le|4.4|u|str12 sta12 def3||512|1||||잿가루 판금 다리보호구|inv_pants_04
-21312|43?|wa|4.3|u|sta6 ap24||513|35||||동굴보초의 허리띠|inv_belt_09
+16738|43?|ha|4.1|u|spi13 sp8 heal8||510|64||||마른열매 장갑|inv_gauntlets_15
+16739|43?|sh|4.2|u|int11 spi4 sp7 heal7||510|258||||융단나무 어깨보호대|inv_shoulder_07
+18082|43|2h|2.10|r|sta10 int10 dps31.11 sp54 heal54||511|496||||줌라의 주술지팡이|inv_staff_10
+18083|43|ha|4.1|r|sta10 int7 mp54 sp6 heal18||511|370||||주만자 장갑|inv_gauntlets_09
+19041|43?|ch|4.2|u|str6 agi7 sta15||512|256||||프랫의 수제 튜닉|inv_chest_leather_07
+19124|43?|le|4.4|u|str12 sta12 def3||513|1||||잿가루 판금 다리보호구|inv_pants_04
+21312|43?|wa|4.3|u|sta6 ap24||514|35||||동굴보초의 허리띠|inv_belt_09
 249234|43|ra|2.19|u|dps39.17 sp7 heal7||32|208||||꿈결가지 마법봉|inv_wand_04
 250543|43|he|4.4|u|str14 sp15 heal15||15|2||||빛나는 미스릴 투구|inv_helmet_35
 8130|44|fe|4.3|u|agi14 int4||41|4||||미르미돈 경갑|inv_boots_01
 8206|44|le|4.3|u|agi17 int10||16|4||||단단한 전갈 다리보호구|inv_pants_12
-9413|44|2h|2.5|r|str5 dps42.7 crit2|1|514|291||||돌달구|inv_hammer_12
-9418|44|2h|2.8|r|dps42.69|1|514|7||||학살의 돌검|inv_sword_47
-9470|44|he|4.1|r|int21 shadow20||515|144||||악의 모조 가면|inv_banner_01
-9473|44|ch|4.2|r|str10 sta20 spi8||515|257||||불길한 흑마술사 가죽조끼|inv_chest_leather_05
-9474|44|le|4.2|r|int10 spi19 sp8 heal24||515|290||||불길한 흑마술사 킬트|inv_pants_05
-9479|44|he|4.2|r|str8 sta16 spi5 ap32||516|303||||라이칸의 선물|ability_mount_whitedirewolf
-9481|44|2h|2.1|r|dps42.66 sta24 spi5 str8||492|32||||미노타우로스|inv_axe_03
-9483|44|ra|2.19|r|dps47.22||492|208||||불타오르는 마법봉|inv_torch_lit
-9533|44?|fi|4.0|r|agi14 sta5||507|269||||석공 조합 반지|inv_jewelry_ring_03
-9534|44?|he|4.2|r|spi22 sp10 heal29||507|290||||기술자 조합 모자|inv_helmet_33
-9657|44?|wa|4.2|u|str14 sta3||517|291||||덩굴울타리 허리띠|inv_belt_17
+9413|44|2h|2.5|r|str5 dps42.7 crit2|1|515|291||||돌달구|inv_hammer_12
+9418|44|2h|2.8|r|dps42.69|1|515|7||||학살의 돌검|inv_sword_47
+9470|44|he|4.1|r|int21 shadow20||516|144||||악의 모조 가면|inv_banner_01
+9473|44|ch|4.2|r|str10 sta20 spi8||516|257||||불길한 흑마술사 가죽조끼|inv_chest_leather_05
+9474|44|le|4.2|r|int10 spi19 sp8 heal24||516|290||||불길한 흑마술사 킬트|inv_pants_05
+9479|44|he|4.2|r|str8 sta16 spi5 ap32||517|303||||라이칸의 선물|ability_mount_whitedirewolf
+9481|44|2h|2.1|r|dps42.66 sta24 spi5 str8||493|32||||미노타우로스|inv_axe_03
+9483|44|ra|2.19|r|dps47.22||493|208||||불타오르는 마법봉|inv_torch_lit
+9533|44?|fi|4.0|r|agi14 sta5||508|269||||석공 조합 반지|inv_jewelry_ring_03
+9534|44?|he|4.2|r|spi22 sp10 heal29||508|290||||기술자 조합 모자|inv_helmet_33
+9657|44?|wa|4.2|u|str14 sta3||518|291||||덩굴울타리 허리띠|inv_belt_17
 10025|44|he|4.1|u|int10 shadow24||25|144||||그림자매듭 복면|inv_helmet_27
 10044|44|fe|4.1|u|fire21||25|64||||불매듭 장화|inv_boots_05
 13043|44|2h|2.8|r|str10 sta24 dps42.58||41|3||||티탄의 검|inv_sword_07
@@ -1756,33 +1756,33 @@
 17775|44?|ch|4.1|u|int15 sp14 heal14||472|496||||총명의 로브|inv_chest_cloth_49
 17777|44?|ch|4.3|u|sta11 int11 ap20||472|34||||가혹의 사슬 갑옷|inv_chest_chain_07
 17778|44?|wa|4.2|u|agi11 int9||472|12||||산쑥 벨트|inv_belt_25
-19125|44?|wa|4.3|u|agi12 sta7||518|4||||이글거리는 사슬 벨트|inv_belt_16
+19125|44?|wa|4.3|u|agi12 sta7||519|4||||이글거리는 사슬 벨트|inv_belt_16
 250544|44|le|4.4|u|str14 sp16 heal16||15|2||||빛나는 미스릴 바지|inv_pants_plate_16
 250545|44|ha|4.4|u|str12 sp9 heal9||15|2||||빛나는 미스릴 건틀릿|inv_gauntlets_28
-274432|44|2h|2.10|r|sta19 dps31.72 sp35 heal105||514|501||||바위 문지기 뾰족지팡이|inv_staff_11
-1490|45?|tr|4.0|u|sta9|1|519|511||||수호 부적|inv_jewelry_talisman_05
+274432|44|2h|2.10|r|sta19 dps31.72 sp35 heal105||515|501||||바위 문지기 뾰족지팡이|inv_staff_11
+1490|45?|tr|4.0|u|sta9|1|520|511||||수호 부적|inv_jewelry_talisman_05
 2564|45|ha|4.2|r|int5 spi9 nature21||41|288||||엘프족 정기의 발톱|inv_gauntlets_07
 8208|45|he|4.3|u|agi14 int14||16|36||||단단한 전갈 투구|inv_helmet_20
 8259|45|ba||u|agi11 sta2||41|268||||뱀비늘 망토|inv_misc_cape_17
 8348|45|he|4.2|r|agi17 sta10|1|16|268||||불꽃의 투구|inv_helmet_08
 8349|45|ch|4.2|r|int10 spi24 sp19 heal19||16|290||||깃털장식 흉갑|inv_chest_leather_06
-9476|45|sh|4.4|r|str12 sta12||516|3||||사술사의 어깨갑옷|inv_shoulder_01
-9478|45|mh|2.0|r|dps33.33 ap10|1|516|1||||내릴톱|inv_axe_07
-9484|45|le|4.1|r|int10 sta9 sp23 heal23||492|498||||마법충격 다리보호구|inv_pants_08
-9654|45?|ra|2.19|u|int5 spi5 dps41.39||520|144||||묘석 은마법봉|inv_wand_07
+9476|45|sh|4.4|r|str12 sta12||517|3||||사술사의 어깨갑옷|inv_shoulder_01
+9478|45|mh|2.0|r|dps33.33 ap10|1|517|1||||내릴톱|inv_axe_07
+9484|45|le|4.1|r|int10 sta9 sp23 heal23||493|498||||마법충격 다리보호구|inv_pants_08
+9654|45?|ra|2.19|u|int5 spi5 dps41.39||521|144||||묘석 은마법봉|inv_wand_07
 10041|45|he|4.1|r|int10 spi12 sp21 heal21||25|498||||꿈매듭 머리장식|inv_crown_01
-10745|45?|sh|4.2|u|str11 sta10||521|291||||카일라리 어깨보호구|inv_shoulder_18
+10745|45?|sh|4.2|u|str11 sta10||522|291||||카일라리 어깨보호구|inv_shoulder_18
 13046|45|2h|2.5|r|str20 sta15 dps43.39||41|291||||블랑챠드의 전투망치|inv_hammer_04
 13065|45|ra|2.19|r|dps48.42||41|208||||알리스타즈의 마법봉|inv_wand_09
 13125|45|fe|4.3|r|agi18 sta3 spi7||41|4||||엘프 사슬 장화|inv_boots_01
 13139|45|ra|2.3|r|str3 agi8 dps26.11||41|13||||쌍총신 나팔총|inv_weapon_rifle_08
 14793|45|wa|4.3|u|agi10 sta10 spi4||41|4||||민병대원 허리띠|inv_belt_03
 14846|45|ha|4.4|u|str12 agi3 sta7||41|1||||해비늘 건틀릿|inv_gauntlets_04
-17752|45|1h|2.15|r|agi5 dps33.24|1|522|8||||사티로스의 채찍|inv_weapon_shortblade_09
-17754|45|le|4.3|r|agi20 int8 spi10 hitRanged1|1|522|4||||지옥마귀 다리보호구|inv_pants_wolf
-17755|45|wa|4.1|r|sta7 int10 sp14 heal14||522|498||||사티로스갈기 허리띠|inv_belt_24
-19127|45?|ch|4.2|u|agi18 sta8||523|268||||그을린 가죽 튜닉|inv_chest_leather_03
-19128|45?|ch|4.3|u|agi11 sta11 int11||523|4||||이글거리는 사슬 조끼|inv_chest_chain_13
+17752|45|1h|2.15|r|agi5 dps33.24|1|523|8||||사티로스의 채찍|inv_weapon_shortblade_09
+17754|45|le|4.3|r|agi20 int8 spi10 hitRanged1|1|523|4||||지옥마귀 다리보호구|inv_pants_wolf
+17755|45|wa|4.1|r|sta7 int10 sp14 heal14||523|498||||사티로스갈기 허리띠|inv_belt_24
+19127|45?|ch|4.2|u|agi18 sta8||524|268||||그을린 가죽 튜닉|inv_chest_leather_03
+19128|45?|ch|4.3|u|agi11 sta11 int11||524|4||||이글거리는 사슬 조끼|inv_chest_chain_13
 249453|45|2h|2.10|r|sta19 int19 dps32.29 sp56 heal56||323|500||||찬란하게 빛나는 지팡이|inv_staff_13
 249454|45|2h|2.10|r|sta19 spi19 dps32.29 sp35 heal105||323|304||||꿈지팡이|inv_staff_14
 249455|45|ho||r|sta8 int8 sp10 heal10||323|464||||진은 도관|inv_rod_enchantedadamantite
@@ -1809,9 +1809,9 @@
 7947|46|1h|2.15|u|agi9 dps30.29||15|8||||흑단 비수|inv_weapon_shortblade_14
 8274|46|ch|4.4|u|str20 spi3||41|3||||용기의 판금 흉갑|inv_chest_cloth_05
 8282|46|oh|4.6|u|str6 sta9 armor1578 block25||41|3||||용기의 방패|inv_shield_02
-10742|46?|le|4.1|u|str6 agi13 spi14||524|256||||용군단 다리보호구|inv_pants_05
-10798|46|wa|4.4|r|str18 sta8||525|3||||아탈알라리온의 어금니걸이|inv_belt_15
-10799|46|2h|2.6|r|str15 sta18 dps44.17 def7||525|3||||해골 쐐기|inv_spear_06
+10742|46?|le|4.1|u|str6 agi13 spi14||525|256||||용군단 다리보호구|inv_pants_05
+10798|46|wa|4.4|r|str18 sta8||526|3||||아탈알라리온의 어금니걸이|inv_belt_15
+10799|46|2h|2.6|r|str15 sta18 dps44.17 def7||526|3||||해골 쐐기|inv_spear_06
 13066|46|sh|4.4|r|str12 agi8 sta12||41|3||||고룡잡이 어깨갑옷|inv_shoulder_24
 13085|46|ne||r|sta4 int14 spi4||41|502||||지평선 목걸이|inv_jewelry_necklace_11
 13856|46|wa|4.1|u|int12 sp8 heal8||25|496||||룬매듭 허리띠|inv_belt_15
@@ -1820,28 +1820,28 @@
 14662|46|fe|4.2|u|str3 agi12 sta6||41|264||||문지기 장화|inv_boots_01
 15077|46|wr|4.3|u|agi8 sta8||16|4||||두꺼운 전갈 팔보호구|inv_bracer_09
 17007|46|ha|4.3|e|str20 sta11 int7 sp9 heal9||41|35||||대지진의 건틀릿|inv_gauntlets_15
-17741|46|ch|4.1|r|holy29 mp58 nature29||526|32||||자연의 은총|inv_chest_cloth_15
-17742|46|ch|4.2|r|agi25 sta10||526|268||||이끼덩굴 갑옷|inv_chest_leather_08
-17745|46|ra|2.19|r|sta5 dps50 sp5 heal5||527|208||||맹독의 마법봉|inv_wand_04
-17748|46|fe|4.1|r|int9 spi10 sp6 heal18||528|498||||덩굴뿌리 덧신|inv_boots_05
-17749|46|sh|4.2|r|agi15 sta9||528|268||||나무껍질 어깨갑옷|inv_shoulder_06
-17751|46|le|4.2|r|sta12 int7 sp23 heal23||528|290||||가시껍질 다리보호구|inv_pants_05
-17767|46|he|4.3|r|sta15 ap36||526|39||||만발의 투구|inv_helmet_17
+17741|46|ch|4.1|r|holy29 mp58 nature29||527|32||||자연의 은총|inv_chest_cloth_15
+17742|46|ch|4.2|r|agi25 sta10||527|268||||이끼덩굴 갑옷|inv_chest_leather_08
+17745|46|ra|2.19|r|sta5 dps50 sp5 heal5||528|208||||맹독의 마법봉|inv_wand_04
+17748|46|fe|4.1|r|int9 spi10 sp6 heal18||529|498||||덩굴뿌리 덧신|inv_boots_05
+17749|46|sh|4.2|r|agi15 sta9||529|268||||나무껍질 어깨갑옷|inv_shoulder_06
+17751|46|le|4.2|r|sta12 int7 sp23 heal23||529|290||||가시껍질 다리보호구|inv_pants_05
+17767|46|he|4.3|r|sta15 ap36||527|39||||만발의 투구|inv_helmet_17
 252574|46|fe|4.3|u|str8 sta10 sp8 heal8||16|2||||유연한 전갈 장화|inv_boots_chain_07
 252575|46|wa|4.3|u|int10 spi8 sp8 heal8||16|34||||충전된 전갈 허리띠|inv_belt_22
 8250|47|sh|4.1|u|agi4 int15||41|36||||붉은황실 어깨보호대|inv_shoulder_23
 8256|47|fe|4.2|u|str7 agi10 sta8||41|297||||뱀비늘 장화|inv_boots_01
 8260|47|ha|4.2|u|str11 agi11||41|296||||뱀비늘 장갑|inv_gauntlets_15
 8315|47|wa|4.4|u|str15 sta4||41|3||||무쇠 판금 벨트|inv_belt_18
-10707|47?|fe|4.4|u|str11 sta11||529|3||||강철세공 경갑|inv_boots_plate_01
-10802|47|ba|4.1|u|spi11 sp2 heal7||530|274||||날개장막 망토|inv_misc_cape_02
+10707|47?|fe|4.4|u|str11 sta11||530|3||||강철세공 경갑|inv_boots_plate_01
+10802|47|ba|4.1|u|spi11 sp2 heal7||531|274||||날개장막 망토|inv_misc_cape_02
 11302|47|tr||r|sp6 heal18|1|41|498||||우서의 힘|inv_jewelry_talisman_06
-11623|47|ba|4.1|r|sta5 int6 spi6 sp14 heal14||531|498||||요술사의 단망토|inv_misc_cape_20
-11624|47|sh|4.1|r|sta6 int13 spi6 sp14 heal14||532|498||||켄틱 아미스|inv_shoulder_25
-11631|47|oh|4.6|r|str7 sta9 armor1903||533|3||||돌비늘 파수방패|inv_shield_02
-11632|47|sh|4.4|r|str13 sta8 int8 sp11 heal11||533|3||||화산암재 어깨보호구|inv_shoulder_26
-11902|47|mh|2.7|r|dps36.94|1|534|9||||링쿠의 용자검|inv_sword_39
-11904|47|ho||r|sp21 heal21||534|464||||아쿠에멘타스의 정기|inv_ore_arcanite_02
+11623|47|ba|4.1|r|sta5 int6 spi6 sp14 heal14||532|498||||요술사의 단망토|inv_misc_cape_20
+11624|47|sh|4.1|r|sta6 int13 spi6 sp14 heal14||533|498||||켄틱 아미스|inv_shoulder_25
+11631|47|oh|4.6|r|str7 sta9 armor1903||534|3||||돌비늘 파수방패|inv_shield_02
+11632|47|sh|4.4|r|str13 sta8 int8 sp11 heal11||534|3||||화산암재 어깨보호구|inv_shoulder_26
+11902|47|mh|2.7|r|dps36.94|1|535|9||||링쿠의 용자검|inv_sword_39
+11904|47|ho||r|sp21 heal21||535|464||||아쿠에멘타스의 정기|inv_ore_arcanite_02
 12424|47|wa|4.4|u|str12 sta11||15|3||||황제의 판금 허리띠|inv_belt_01
 12428|47|sh|4.4|u|str12 sta11||15|3||||황제의 판금 어깨보호구|inv_shoulder_02
 13052|47|2h|2.8|r|str3 dps45 hit3|1|41|4||||전투사의 검|inv_sword_46
@@ -1856,7 +1856,7 @@
 14850|47|le|4.4|u|str19 agi3 sta7||41|3||||해비늘 다리갑옷|inv_pants_02
 15045|47|ch|4.3|r|sta10 sp21 heal10||16|2||||녹색용비늘 흉갑|inv_chest_chain_06
 15083|47|ha|4.2|u|agi12 sta11||16|268||||악의의 가죽 건틀릿|inv_gauntlets_31
-17740|47|he|4.2|r|sta7 int15 spi8 sp23 heal23||535|290||||예언자의 머리장식|inv_helmet_12
+17740|47|he|4.2|r|sta7 int15 spi8 sp23 heal23||536|290||||예언자의 머리장식|inv_helmet_12
 250561|47|fe|4.4|r|str13 agi9 sta12||116|3||||장교의 발덮개|inv_boots_plate_19v2
 250562|47|fe|4.4|r|str12 sta13 def9||116|3||||파수꾼의 발덮개|inv_boots_plate_20v1
 250563|47|fe|4.4|r|sta13 def9 sp14 heal14||116|2||||보초병의 발덮개|inv_boots_plate_19v1
@@ -1882,30 +1882,30 @@
 254085|47|wa|4.1|r|sta12 int9 fire19||118|64||||불타는 허리줄|inv_belt_37a
 254087|47|wa|4.1|r|sta12 int9 shadow19||118|144||||검은 허리줄|inv_belt_04
 254089|47|wa|4.1|r|sta12 int9 arcane19||118|320||||황금 허리줄|inv_belt_32
-276735|47|ra|2.19|r|sta3 int4 dps51 crit0.5|1|536|208||||해일노래 마법봉|inv_wand_01
-276736|47|wr|4.3|r|sta8 sp10|1|536|511||||바다비늘 팔보호구|inv_bracer_07
-276737|47|ba||r|sta13 hit0.5|1|536|511||||해일여제의 망토|inv_misc_cape_05
+276735|47|ra|2.19|r|sta3 int4 dps51 crit0.5|1|537|208||||해일노래 마법봉|inv_wand_01
+276736|47|wr|4.3|r|sta8 sp10|1|537|511||||바다비늘 팔보호구|inv_bracer_07
+276737|47|ba||r|sta13 hit0.5|1|537|511||||해일여제의 망토|inv_misc_cape_05
 8311|48|wr|4.4|u|str3 agi2 sta12||41|3||||무쇠 판금 완갑|inv_bracer_16
 8314|48|ha|4.4|u|str14 agi7||41|3||||무쇠 판금 건틀릿|inv_gauntlets_26
 8316|48|fe|4.4|u|str12 sta11||41|3||||무쇠 판금 경갑|inv_boots_plate_06
-9652|48?|le|4.2|u|str15 agi15||537|299||||그리핀 기수 다리보호구|inv_pants_13
-10740|48?|le|4.4|u|str15 agi15||538|3||||백인대장 다리보호구|inv_pants_04
-10741|48?|he|4.2|u|agi16 sta10 spi3||538|268||||로드렉 투구|inv_helmet_11
-11625|48|ho|4.0|r|int9 spi3 sp6 heal6||532|320||||매혹의 구슬|inv_misc_orb_03
-11626|48|ba|4.1|r|str6 agi14 spi4||532|303||||검은장막 단망토|inv_misc_cape_18
-11627|48|fe|4.3|r|agi19 sta6 int6||531|36||||날쌘걸음 경갑|inv_boots_01
-11628|48|ra|2.2|r|str3 dps27.22 ap12|1|531|13||||사냥개조련사의 활|inv_weapon_bow_04
-11629|48|ra|2.3|r|agi3 dps27.39 ap12|1|531|13||||사냥개조련사의 라이플|inv_weapon_rifle_07
-11747|48|ch|4.2|r|sta5 int4 spi16 sp20 heal20||539|290||||화염걸이 로브|inv_chest_cloth_07
-11748|48|ra|2.19|r|spi3 dps52.5 fire13||539|208||||화염 마술봉|inv_staff_13
-11749|48|le|4.3|r|agi13 sta13 int13 spi6||539|4||||이글거리는 미늘 다리보호구|inv_pants_03
-11750|48|2h|2.10|r|sta10 int12 dps34.14 sp60 heal60 crit1|1|539|496||||발화의 지팡이|inv_staff_18
-11784|48|mh|2.7|r|sta8 int5 dps23.33 sp60 heal60 hit0.7||540|194||||중재자의 검|inv_sword_23
-11867|48?|ha|4.3|u|str15 agi5||541|35||||광기의 건틀릿|inv_gauntlets_26
-12463|48|2h|2.8|r|str15 dps45.93|1|542|2||||비룡송곳니 학살검|inv_sword_19
-12464|48|ha|4.2|r|int5 spi9 sp12 heal12||542|256||||핏빛불꽃 갈퀴발톱|inv_gauntlets_19
-12465|48|ba|4.1|r|sta14 sp9 heal9||542|498||||땅거미 망토|inv_misc_cape_05
-12466|48|wa|4.1|r|int19 sp6 heal18||542|502||||동틀녘의 장식띠|inv_belt_11
+9652|48?|le|4.2|u|str15 agi15||538|299||||그리핀 기수 다리보호구|inv_pants_13
+10740|48?|le|4.4|u|str15 agi15||539|3||||백인대장 다리보호구|inv_pants_04
+10741|48?|he|4.2|u|agi16 sta10 spi3||539|268||||로드렉 투구|inv_helmet_11
+11625|48|ho|4.0|r|int9 spi3 sp6 heal6||533|320||||매혹의 구슬|inv_misc_orb_03
+11626|48|ba|4.1|r|str6 agi14 spi4||533|303||||검은장막 단망토|inv_misc_cape_18
+11627|48|fe|4.3|r|agi19 sta6 int6||532|36||||날쌘걸음 경갑|inv_boots_01
+11628|48|ra|2.2|r|str3 dps27.22 ap12|1|532|13||||사냥개조련사의 활|inv_weapon_bow_04
+11629|48|ra|2.3|r|agi3 dps27.39 ap12|1|532|13||||사냥개조련사의 라이플|inv_weapon_rifle_07
+11747|48|ch|4.2|r|sta5 int4 spi16 sp20 heal20||540|290||||화염걸이 로브|inv_chest_cloth_07
+11748|48|ra|2.19|r|spi3 dps52.5 fire13||540|208||||화염 마술봉|inv_staff_13
+11749|48|le|4.3|r|agi13 sta13 int13 spi6||540|4||||이글거리는 미늘 다리보호구|inv_pants_03
+11750|48|2h|2.10|r|sta10 int12 dps34.14 sp60 heal60 crit1|1|540|496||||발화의 지팡이|inv_staff_18
+11784|48|mh|2.7|r|sta8 int5 dps23.33 sp60 heal60 hit0.7||541|194||||중재자의 검|inv_sword_23
+11867|48?|ha|4.3|u|str15 agi5||542|35||||광기의 건틀릿|inv_gauntlets_26
+12463|48|2h|2.8|r|str15 dps45.93|1|543|2||||비룡송곳니 학살검|inv_sword_19
+12464|48|ha|4.2|r|int5 spi9 sp12 heal12||543|256||||핏빛불꽃 갈퀴발톱|inv_gauntlets_19
+12465|48|ba|4.1|r|sta14 sp9 heal9||543|498||||땅거미 망토|inv_misc_cape_05
+12466|48|wa|4.1|r|int19 sp6 heal18||543|502||||동틀녘의 장식띠|inv_belt_11
 13014|48|1h|2.0|r|agi5 sta11 dps35||41|1||||린지의 도끼|inv_axe_21
 13027|48|mh|2.4|r|str11 sta5 dps35.19||41|9||||분쇄의 망치|inv_hammer_20
 13860|48|ba||u|int8 sp9 heal9||25|498||||룬매듭 망토|inv_misc_cape_10
@@ -1914,40 +1914,40 @@
 14807|48|wr|4.3|u|agi11 spi5||41|4||||피바람 팔찌|inv_bracer_03
 14849|48|he|4.4|u|str16 agi6 sta12||41|3||||해비늘 투구|inv_helmet_22
 15084|48|wr|4.2|u|agi11 sta5||16|268||||악의의 가죽 팔보호구|inv_bracer_07
-17718|48|oh|4.6|r|int10 armor1835 mp54 sp5 heal13||543|34||||기즐록의 최첨단 방패|inv_shield_10
-17719|48|1h|2.7|r|dps23.41 sp60 heal60 crit1|1|543|194||||발명가의 초전도검|inv_sword_14
-17728|48|fe|4.2|r|agi20 sta5||544|268||||백색악어비늘 장화|inv_boots_05
-17732|48|sh|4.1|r|int18 sp13 heal13||544|498||||썩은아귀 어깨보호대|inv_shoulder_05
-17736|48|ha|4.3|r|sta10 int11 ap28||545|39||||돌죔쇠 건틀릿|inv_gauntlets_28
-17737|48|ho|4.0|r|int8 hit0.8||545|64||||구름 수정구|inv_misc_orb_01
+17718|48|oh|4.6|r|int10 armor1835 mp54 sp5 heal13||544|34||||기즐록의 최첨단 방패|inv_shield_10
+17719|48|1h|2.7|r|dps23.41 sp60 heal60 crit1|1|544|194||||발명가의 초전도검|inv_sword_14
+17728|48|fe|4.2|r|agi20 sta5||545|268||||백색악어비늘 장화|inv_boots_05
+17732|48|sh|4.1|r|int18 sp13 heal13||545|498||||썩은아귀 어깨보호대|inv_shoulder_05
+17736|48|ha|4.3|r|sta10 int11 ap28||546|39||||돌죔쇠 건틀릿|inv_gauntlets_28
+17737|48|ho|4.0|r|int8 hit0.8||546|64||||구름 수정구|inv_misc_orb_01
 17743|48?|2h|2.10|r|dps34.08 mp511 sp37 heal112|1|472|304||||회생의 마법막대|inv_staff_goldfeathered_01
-22240|48|fe|4.3|r|sta10 int10 sp11 heal11 hit1|1|546|34||||샘솟는 희망의 경갑|inv_boots_chain_04
+22240|48|fe|4.3|r|sta10 int10 sp11 heal11 hit1|1|547|34||||샘솟는 희망의 경갑|inv_boots_chain_04
 252545|48|fe|4.2|u|int5 spi8 sp8 heal8||16|288||||무늬새김 가죽 장화|inv_boots_chain_06
 252580|48|le|4.3|u|str10 sta16 sp12 heal12||16|2||||유연한 전갈 다리보호구|inv_pants_mail_09
 252581|48|he|4.3|u|int16 spi10 sp12 heal12||16|32||||충전된 전갈 투구|inv_helmet_39
-276741|48|sh|4.2|r|sta13 ap28 crit0.5|1|547|511||||데피아즈단 집행자의 어깨덧대|inv_shoulder_08
-276742|48|wa|4.4|r|str12 sta15|1|547|511||||뽑아낸 해답의 요대|inv_belt_12
-276743|48|tr||r|def6|1|547|511||||손가락분쇄자 인장|inv_misc_armorkit_02
+276741|48|sh|4.2|r|sta13 ap28 crit0.5|1|548|511||||데피아즈단 집행자의 어깨덧대|inv_shoulder_08
+276742|48|wa|4.4|r|str12 sta15|1|548|511||||뽑아낸 해답의 요대|inv_belt_12
+276743|48|tr||r|def6|1|548|511||||손가락분쇄자 인장|inv_misc_armorkit_02
 810|49|mh|2.4|e|dps39.52|1|41|9||||혹한의 망치|inv_hammer_11
 812|49|2h|2.10|e|sta15 int29 spi9 dps38.06 sp50 heal150||41|500||||빛나는 미명나무 지팡이|inv_staff_29
 1203|49|oh|4.6|r|str6 sta15 armor1867 block33||41|3||||스톰윈드의 아이기스|inv_shield_06
 1721|49|mh|2.4|r|str5 sta11 dps35.83||41|9||||바이킹 전투해머|inv_hammer_09
 8251|49|le|4.1|u|agi15 int15||41|4||||붉은황실 바지|inv_pants_06
 8262|49|le|4.2|u|str13 agi16 sta5||41|299||||뱀비늘 다리보호구|inv_pants_06
-10749|49?|he|4.4|r|agi9 sta25 spi10||519|1||||아방가드 투구|inv_helmet_22
-10751|49?|he|4.1|r|sta9 int17 spi18 sp4 heal13||519|338||||금은보석 머리장식|inv_crown_01
-10805|49|mh|2.0|r|dps35.91 ap16|1|548|1||||죽음의 파멸자|inv_axe_12
-10843|49|ba|4.1|r|sta4 spi15 sp3 heal9||549|274||||깃털가죽 단망토|inv_misc_cape_05
-10844|49|2h|2.10|r|sta16 spi16 dps34.71 sp62 heal62||549|496||||학카르의 뾰족지팡이|inv_staff_32
-10846|49|fe|4.3|r|str5 agi6 sta14 int13||549|39||||혈안의 경갑|inv_boots_01
-11633|49|ch|4.4|r|str14 sta14 int13 sp13 heal13||550|3||||거미송곳니 등껍질|inv_chest_plate02
-11634|49|ha|4.1|r|sta14 int13 mp53 sp4 heal11||550|176||||비단그물 장갑|inv_gauntlets_12
-11662|49|wa|4.1|r|sta10 int10 sp12 heal12 hit1|1|551|498||||반토크 장식띠|inv_belt_29
-11665|49|ha|4.2|r|sta9 int10 spi10 sp13 heal13||551|290||||오우거 현자 장갑|inv_gauntlets_15
-11824|49|fi|4.0|r|str4 sta8 int7 spi4 sp9 heal9||551|498||||거대한 반지|inv_jewelry_ring_08
-12021|49?|fe|4.4|r|str12 sta15 spi9||552|3||||강철 판금 발덮개|inv_boots_plate_01
-12041|49?|le|4.2|r|agi19 sta5 spi22||552|4||||칼바람 다리보호구|inv_pants_13
-12051|49?|ha|4.3|u|str12 agi12 sta2||553|35||||놋쇠 건틀릿|inv_gauntlets_04
+10749|49?|he|4.4|r|agi9 sta25 spi10||520|1||||아방가드 투구|inv_helmet_22
+10751|49?|he|4.1|r|sta9 int17 spi18 sp4 heal13||520|338||||금은보석 머리장식|inv_crown_01
+10805|49|mh|2.0|r|dps35.91 ap16|1|549|1||||죽음의 파멸자|inv_axe_12
+10843|49|ba|4.1|r|sta4 spi15 sp3 heal9||550|274||||깃털가죽 단망토|inv_misc_cape_05
+10844|49|2h|2.10|r|sta16 spi16 dps34.71 sp62 heal62||550|496||||학카르의 뾰족지팡이|inv_staff_32
+10846|49|fe|4.3|r|str5 agi6 sta14 int13||550|39||||혈안의 경갑|inv_boots_01
+11633|49|ch|4.4|r|str14 sta14 int13 sp13 heal13||551|3||||거미송곳니 등껍질|inv_chest_plate02
+11634|49|ha|4.1|r|sta14 int13 mp53 sp4 heal11||551|176||||비단그물 장갑|inv_gauntlets_12
+11662|49|wa|4.1|r|sta10 int10 sp12 heal12 hit1|1|552|498||||반토크 장식띠|inv_belt_29
+11665|49|ha|4.2|r|sta9 int10 spi10 sp13 heal13||552|290||||오우거 현자 장갑|inv_gauntlets_15
+11824|49|fi|4.0|r|str4 sta8 int7 spi4 sp9 heal9||552|498||||거대한 반지|inv_jewelry_ring_08
+12021|49?|fe|4.4|r|str12 sta15 spi9||553|3||||강철 판금 발덮개|inv_boots_plate_01
+12041|49?|le|4.2|r|agi19 sta5 spi22||553|4||||칼바람 다리보호구|inv_pants_13
+12051|49?|ha|4.3|u|str12 agi12 sta2||554|35||||놋쇠 건틀릿|inv_gauntlets_04
 12425|49|wr|4.4|u|str9 sta8||15|3||||황제의 판금 팔보호구|inv_bracer_19
 13067|49|ch|4.4|r|str13 agi8 sta20||41|3||||히드라 갑옷|inv_chest_plate06
 14043|49|ha|4.1|u|spi11 fire17||25|64||||불매듭 장갑|inv_gauntlets_05
@@ -1957,48 +1957,48 @@
 15046|49|le|4.3|r|sta10 sp17 heal22||16|34||||녹색용비늘 다리보호구|inv_pants_05
 15061|49|sh|4.2|r|sta8 spi13 sp10 heal31||16|290||||살아있는 어깨보호구|inv_shoulder_18
 15067|49|sh|4.2|r|int20 spi8 sp15 heal15||16|290||||무쇠깃털 어깨보호구|inv_shoulder_06
-15862|49?|1h|2.0|u|dps32.05 ap20||554|1||||전격의 도끼|inv_weapon_halberd_06
-15863|49?|mh|2.4|u|int8 spi5 dps21.56 sp46 heal46||554|306||||죽음의 홀|inv_mace_07
-17707|49|ne|4.0|r|sta10 int9 sp5 heal15||555|502||||보석 심장|inv_stone_01
-17710|49|mh|2.15|r|int11 dps23.75 mp52 sp38 heal116||555|304||||화염석 손칼|inv_weapon_shortblade_14
-17711|49|le|4.4|r|str20 sta16||555|3||||자연의 바위마루 다리보호구|inv_pants_04
-17713|49|fi|4.0|r|sta6 ap20 hit1|1|555|303||||흑석 반지|inv_jewelry_ring_17
-17714|49|wr|4.3|r|sta6 int5 ap28||555|39||||바위 공주의 팔보호구|inv_bracer_14
-17766|49|2h|2.5|r|dps46.47|1|555|256||||공주 테라드라스의 홀|inv_hammer_10
-17780|49|mh|2.15|e|dps26.13 sp62 heal62|1|555|496||||영원한 암흑의 칼날|inv_sword_09
+15862|49?|1h|2.0|u|dps32.05 ap20||555|1||||전격의 도끼|inv_weapon_halberd_06
+15863|49?|mh|2.4|u|int8 spi5 dps21.56 sp46 heal46||555|306||||죽음의 홀|inv_mace_07
+17707|49|ne|4.0|r|sta10 int9 sp5 heal15||556|502||||보석 심장|inv_stone_01
+17710|49|mh|2.15|r|int11 dps23.75 mp52 sp38 heal116||556|304||||화염석 손칼|inv_weapon_shortblade_14
+17711|49|le|4.4|r|str20 sta16||556|3||||자연의 바위마루 다리보호구|inv_pants_04
+17713|49|fi|4.0|r|sta6 ap20 hit1|1|556|303||||흑석 반지|inv_jewelry_ring_17
+17714|49|wr|4.3|r|sta6 int5 ap28||556|39||||바위 공주의 팔보호구|inv_bracer_14
+17766|49|2h|2.5|r|dps46.47|1|556|256||||공주 테라드라스의 홀|inv_hammer_10
+17780|49|mh|2.15|e|dps26.13 sp62 heal62|1|556|496||||영원한 암흑의 칼날|inv_sword_09
 249232|49|ra|2.19|u|dps45.75 sp8 heal8||32|208||||하급 영원의 마법봉|inv_wand_05
 250588|49|ha|4.4|u|str5 sta13 sp8 heal8||15|2||||축복받은 판금 건틀릿|inv_gauntlets_29
 254093|49|fe|4.1|u|spi11 sp9 heal26||25|498||||토양매듭 장화|inv_boots_07
-276738|49|1h|2.15|r|agi7 dps35.59|1|556|301||||카테리나의 단도|inv_weapon_shortblade_19
-276739|49|ch|4.3|r|sta20 ap32 hit1|1|556|511||||자객의 가슴보호대|inv_chest_plate12
-276740|49|ne||r|str7 hit1|1|556|511||||추억 어린 목걸이|inv_jewelry_necklace_13
-10807|50|le|4.1|r|sta9 int18 spi18 sp3 heal9||557|16||||아탈라이 예언자의 킬트|inv_pants_11
-11123|50?|le|4.1|r|sta7 spi26 sp6 heal18||519|274||||폭우의 다리보호구|inv_pants_08
-11124|50?|he|4.3|r|agi11 int18 spi17||519|36||||추방자의 투구|inv_helmet_21
+276738|49|1h|2.15|r|agi7 dps35.59|1|557|301||||카테리나의 단도|inv_weapon_shortblade_19
+276739|49|ch|4.3|r|sta20 ap32 hit1|1|557|511||||자객의 가슴보호대|inv_chest_plate12
+276740|49|ne||r|str7 hit1|1|557|511||||추억 어린 목걸이|inv_jewelry_necklace_13
+10807|50|le|4.1|r|sta9 int18 spi18 sp3 heal9||558|16||||아탈라이 예언자의 킬트|inv_pants_11
+11123|50?|le|4.1|r|sta7 spi26 sp6 heal18||520|274||||폭우의 다리보호구|inv_pants_08
+11124|50?|he|4.3|r|agi11 int18 spi17||520|36||||추방자의 투구|inv_helmet_21
 11608|50|2h|2.5|r|dps47.43|1|15|256||||검은무쇠 분쇄기|inv_hammer_09
-11675|50|fe|4.2|r|str10 agi11 sta13||558|299||||그늘마귀 장화|inv_boots_01
-11677|50|ba|4.1|r|sta15 spi5||558|2||||무덤가루 단망토|inv_misc_cape_19
-11678|50|ch|4.4|r|str11 agi11 sta22||558|3||||아눕쉬아의 등껍질|inv_chest_plate08
-11679|50|wr|4.3|r|agi8 sta14 int3||559|7||||붉은 손목보호대|inv_bracer_13
-11685|50|sh|4.2|r|str11 sta10 int10 sp9 heal9||559|290||||미늘가죽 어깨보호구|inv_shoulder_13
-11686|50|wa|4.2|r|str8 sta10 ap30 def6||559|303||||야성의 벨트|inv_belt_12
-11702|50|mh|2.0|r|str8 agi6 sta6 dps36.46||560|1||||그리즐의 무두질 도끼|inv_axe_12
-11722|50|sh|4.3|r|str8 sta6 int17 spi9||560|32||||앙금의 어깨갑옷|inv_shoulder_30
-11743|50|1h|2.13|u|dps32.86 str10||561|1||||바위주먹|inv_gauntlets_11
-11839|50|he|4.1|r|sta10 int24 spi3 hit1||562|96||||수석건축가의 단안경|inv_helmet_44
-11841|50|le|4.1|r|sta8 int7 spi18 sp12 heal37||562|498||||선임설계자의 바지|inv_pants_09
-11842|50|sh|4.3|r|int14 spi9 sp15 heal15||562|34||||선임측량사의 어깨보호대|inv_shoulder_15
-11866|50?|wa|4.2|r|str8 sta14 def9||552|256||||나그마라의 채찍 허리띠|inv_belt_11
-11907|50?|2h|2.1|u|dps42.58 ap36|1|563|32||||야수잡이 도끼|inv_axe_10
-11915|50?|oh|4.6|u|str13 sta1 armor1691 block29||564|3||||쉬즐의 비막이 덮개|inv_shield_07
-11917|50?|wr|4.1|u|sta3 int12 spi3||564|16||||쉬즐의 기름걸레|inv_bracer_07
-11918|50?|ha|4.3|u|agi12 int12||565|4||||석판 장갑|inv_gauntlets_17
-11919|50?|fe|4.4|u|str12 sta12||565|1||||바위 판금 경갑|inv_boots_plate_08
-11962|50?|wr|4.1|r|int15 sp7 heal7||552|498||||속박의 소매장식|inv_bracer_13
-12000|50?|2h|2.1|u|str21 sta6 dps42.71||552|35||||절단의 클레버|inv_axe_02
-12462|50|ch|4.1|e|int10 spi30 sp11 heal33||549|498||||천둥매의 선물|inv_chest_cloth_42
+11675|50|fe|4.2|r|str10 agi11 sta13||559|299||||그늘마귀 장화|inv_boots_01
+11677|50|ba|4.1|r|sta15 spi5||559|2||||무덤가루 단망토|inv_misc_cape_19
+11678|50|ch|4.4|r|str11 agi11 sta22||559|3||||아눕쉬아의 등껍질|inv_chest_plate08
+11679|50|wr|4.3|r|agi8 sta14 int3||560|7||||붉은 손목보호대|inv_bracer_13
+11685|50|sh|4.2|r|str11 sta10 int10 sp9 heal9||560|290||||미늘가죽 어깨보호구|inv_shoulder_13
+11686|50|wa|4.2|r|str8 sta10 ap30 def6||560|303||||야성의 벨트|inv_belt_12
+11702|50|mh|2.0|r|str8 agi6 sta6 dps36.46||561|1||||그리즐의 무두질 도끼|inv_axe_12
+11722|50|sh|4.3|r|str8 sta6 int17 spi9||561|32||||앙금의 어깨갑옷|inv_shoulder_30
+11743|50|1h|2.13|u|dps32.86 str10||562|1||||바위주먹|inv_gauntlets_11
+11839|50|he|4.1|r|sta10 int24 spi3 hit1||563|96||||수석건축가의 단안경|inv_helmet_44
+11841|50|le|4.1|r|sta8 int7 spi18 sp12 heal37||563|498||||선임설계자의 바지|inv_pants_09
+11842|50|sh|4.3|r|int14 spi9 sp15 heal15||563|34||||선임측량사의 어깨보호대|inv_shoulder_15
+11866|50?|wa|4.2|r|str8 sta14 def9||553|256||||나그마라의 채찍 허리띠|inv_belt_11
+11907|50?|2h|2.1|u|dps42.58 ap36|1|564|32||||야수잡이 도끼|inv_axe_10
+11915|50?|oh|4.6|u|str13 sta1 armor1691 block29||565|3||||쉬즐의 비막이 덮개|inv_shield_07
+11917|50?|wr|4.1|u|sta3 int12 spi3||565|16||||쉬즐의 기름걸레|inv_bracer_07
+11918|50?|ha|4.3|u|agi12 int12||566|4||||석판 장갑|inv_gauntlets_17
+11919|50?|fe|4.4|u|str12 sta12||566|1||||바위 판금 경갑|inv_boots_plate_08
+11962|50?|wr|4.1|r|int15 sp7 heal7||553|498||||속박의 소매장식|inv_bracer_13
+12000|50?|2h|2.1|u|str21 sta6 dps42.71||553|35||||절단의 클레버|inv_axe_02
+12462|50|ch|4.1|e|int10 spi30 sp11 heal33||550|498||||천둥매의 선물|inv_chest_cloth_42
 12773|50|1h|2.0|u|str10 dps32.63||116|1||||화려한 토륨 손도끼|inv_axe_12
-12793|50|ch|4.2|r|str18 agi10 sta18||566|299||||바텐더의 튜닉|inv_chest_leather_01
+12793|50|ch|4.2|r|str18 agi10 sta18||567|299||||바텐더의 튜닉|inv_chest_leather_01
 13022|50|ra|2.2|r|agi8 sta4 dps28.33||41|12||||그리핀날개 장궁|inv_weapon_bow_11
 13120|50|wr|4.2|r|str4 agi15 sta4||41|303||||앙금의 팔보호구|inv_bracer_07
 13122|50|ba||r|agi15 spi6||41|268||||검은유령 단망토|inv_misc_cape_21
@@ -2012,12 +2012,12 @@
 15064|50|ch|4.2|r|str11 agi18 sta27||16|303||||전투곰 멜빵|inv_chest_leather_04
 15078|50|ha|4.3|u|agi12 sta12||16|4||||두꺼운 전갈 건틀릿|inv_gauntlets_24
 15092|50|wr|4.2|u|int10 sp10 heal10||16|290||||룬문자 가죽 팔보호구|inv_bracer_11
-15822|50?|sh|4.2|u|agi18||567|268||||암흑가죽 어깨갑옷|inv_shoulder_24
-19303|50|ne||r|int6 mp56||568|306||||다크문 목걸이|inv_jewelry_necklace_11
-20530|50|ch|4.1|r|sta15 int10 fire23 shadow23||569|128||warlock||예속의 로브|inv_chest_cloth_10
-20534|50|tr||r|sp12 heal12|1|569|128||warlock||나락의 조각|inv_misc_gem_02
-20536|50|2h|2.10|r|sta19 int16 dps33.48 shadow73 hit1|1|569|128||warlock||영혼 수확기|inv_sword_48
-22090|50?|ha|4.4|e|str9 sta10 int10 sp11 heal11 crit1|1|570|2||paladin||성령의 건틀릿|inv_gauntlets_19
+15822|50?|sh|4.2|u|agi18||568|268||||암흑가죽 어깨갑옷|inv_shoulder_24
+19303|50|ne||r|int6 mp56||569|306||||다크문 목걸이|inv_jewelry_necklace_11
+20530|50|ch|4.1|r|sta15 int10 fire23 shadow23||570|128||warlock||예속의 로브|inv_chest_cloth_10
+20534|50|tr||r|sp12 heal12|1|570|128||warlock||나락의 조각|inv_misc_gem_02
+20536|50|2h|2.10|r|sta19 int16 dps33.48 shadow73 hit1|1|570|128||warlock||영혼 수확기|inv_sword_48
+22090|50?|ha|4.4|e|str9 sta10 int10 sp11 heal11 crit1|1|571|2||paladin||성령의 건틀릿|inv_gauntlets_19
 250551|50|ha|4.4|r|str16 agi9 sta11||116|3||||장교의 장갑|inv_gauntlets_51
 250553|50|ha|4.4|r|sta16 def11 sp11 heal11||116|2||||보초병의 장갑|inv_gauntlets_50
 250554|50|ha|4.4|r|sta9 int11 sp12 heal35||116|2||||완벽의 장갑|inv_gauntlets_26
@@ -2058,28 +2058,28 @@
 254111|50|fe|4.1|r|sta13 int9 fire20||118|224||||불타는 덧신|inv_boots_05
 254113|50|fe|4.1|r|sta13 int9 shadow20||118|144||||검은 덧신|inv_boots_05
 254115|50|fe|4.1|r|sta13 int9 arcane20||118|320||||황금 덧신|inv_boots_cloth_11
-274757|50|wa|4.3|u|agi15 ap13||571|4||||불량 허리띠 사슬|inv_belt_18
-274758|50|ch|4.4|u|str19 sta11||571;572|3||||냉철 보호대|inv_chest_plate15
-276744|50|tr||r|sp11 heal11|1|573|511||||자를라의 간식 주머니|inv_misc_bag_06
-276745|50|ch|4.1|r|int16 spi16|1|573|503||||야수결속 로브|inv_chest_cloth_20
-276746|50|le|4.2|r|agi20 hit1|1|573|511||||데피아즈단 집행자의 다리보호대|inv_pants_06
+274757|50|wa|4.3|u|agi15 ap13||572|4||||불량 허리띠 사슬|inv_belt_18
+274758|50|ch|4.4|u|str19 sta11||572;573|3||||냉철 보호대|inv_chest_plate15
+276744|50|tr||r|sp11 heal11|1|574|511||||자를라의 간식 주머니|inv_misc_bag_06
+276745|50|ch|4.1|r|int16 spi16|1|574|503||||야수결속 로브|inv_chest_cloth_20
+276746|50|le|4.2|r|agi20 hit1|1|574|511||||데피아즈단 집행자의 다리보호대|inv_pants_06
 8295|51|wr|4.2|u|agi11 sta6||41|268||||여행자 팔보호구|inv_bracer_03
-10829|51|ne|4.0|r|spi15 sp4 heal13||574|306||||용의 눈|inv_jewelry_amulet_04
-10835|51|oh|4.6|r|str6 agi6 sta7 int7 armor1930 def5||574|3||||궁극의 문장방패|inv_shield_04
-10836|51|ra|2.19|r|dps55||574|208||||부식의 마법봉|inv_wand_04
-10837|51|mh|2.0|r|str6 dps37.08 hit1|1|574|1||||에라니쿠스의 이빨|inv_axe_07
-11744|51|1h|2.13|r|sta6 dps36.67 ap12|1|561|9||||핏빛주먹|inv_gauntlets_11
-11745|51|ha|4.4|r|str20 sta9 ap4||561|3||||팔란스의 주먹|inv_gauntlets_22
-11746|51|he|4.4|r|str18 sta18 def8||575|3||||골렘 투구|inv_helmet_23
-11755|51|ne|4.0|r|str6 sta7 def3|1|576|259||||베레크의 목줄|inv_misc_bandage_14
-11803|51|2h|2.5|r|str14 dps48.13|1|577|290||||마그마의 기세|inv_hammer_09
-11809|51|2h|2.6|r|str10 sta17 dps48.18|1|578|3||||화염의 격노|inv_spear_01
-11816|51|2h|2.1|r|str22 sta11 dps48.08||579|35||||앵거포지의 전투도끼|inv_weapon_halberd_06
-11874|51?|sh|4.2|u|str12 agi12||580|299||||뜬구름 어깨보호대|inv_shoulder_30
-12112|51?|wr|4.3|u|agi11 int7||552|36||||지하 악마의 팔보호구|inv_bracer_17
-12113|51?|ba|4.1|u|spi5 fire13 mp53||552|64||||해무리 단망토|inv_misc_cape_08
-12114|51?|ha|4.2|u|str9 agi9 int9||552|292||||땅거미 장갑|inv_gauntlets_17
-12605|51|ra|2.19|r|dps59.64||581|208||||사악한 해골봉|inv_misc_bone_elfskull_01
+10829|51|ne|4.0|r|spi15 sp4 heal13||575|306||||용의 눈|inv_jewelry_amulet_04
+10835|51|oh|4.6|r|str6 agi6 sta7 int7 armor1930 def5||575|3||||궁극의 문장방패|inv_shield_04
+10836|51|ra|2.19|r|dps55||575|208||||부식의 마법봉|inv_wand_04
+10837|51|mh|2.0|r|str6 dps37.08 hit1|1|575|1||||에라니쿠스의 이빨|inv_axe_07
+11744|51|1h|2.13|r|sta6 dps36.67 ap12|1|562|9||||핏빛주먹|inv_gauntlets_11
+11745|51|ha|4.4|r|str20 sta9 ap4||562|3||||팔란스의 주먹|inv_gauntlets_22
+11746|51|he|4.4|r|str18 sta18 def8||576|3||||골렘 투구|inv_helmet_23
+11755|51|ne|4.0|r|str6 sta7 def3|1|577|259||||베레크의 목줄|inv_misc_bandage_14
+11803|51|2h|2.5|r|str14 dps48.13|1|578|290||||마그마의 기세|inv_hammer_09
+11809|51|2h|2.6|r|str10 sta17 dps48.18|1|579|3||||화염의 격노|inv_spear_01
+11816|51|2h|2.1|r|str22 sta11 dps48.08||580|35||||앵거포지의 전투도끼|inv_weapon_halberd_06
+11874|51?|sh|4.2|u|str12 agi12||581|299||||뜬구름 어깨보호대|inv_shoulder_30
+12112|51?|wr|4.3|u|agi11 int7||553|36||||지하 악마의 팔보호구|inv_bracer_17
+12113|51?|ba|4.1|u|spi5 fire13 mp53||553|64||||해무리 단망토|inv_misc_cape_08
+12114|51?|ha|4.2|u|str9 agi9 int9||553|292||||땅거미 장갑|inv_gauntlets_17
+12605|51|ra|2.19|r|dps59.64||582|208||||사악한 해골봉|inv_misc_bone_elfskull_01
 12776|51|2h|2.5|r|dps48.29 hit2|1|15|256||||마력 깃든 전투망치|inv_hammer_05
 13003|51|2h|2.1|r|str16 agi17 sta16 dps48.13||41|39||||알렉산더 대왕의 전투도끼|inv_weapon_halberd_02
 13013|51|sh|4.1|r|int20 sp11 heal11||41|496||||장로마법사 어깨보호대|inv_shoulder_14
@@ -2092,36 +2092,36 @@
 15082|51|wa|4.3|u|agi12 sta12||16|4||||두꺼운 전갈 허리띠|inv_belt_03
 15086|51|he|4.2|u|agi16 sta16||16|268||||악의의 가죽 머리띠|inv_misc_bandage_13
 15093|51|wa|4.2|u|int14 sp9 heal9||16|288||||룬문자 가죽 허리띠|inv_belt_23
-15789|51?|ba||u|agi11 sta7||582|269||||깊은여울 망토|inv_misc_cape_16
+15789|51?|ba||u|agi11 sta7||583|269||||깊은여울 망토|inv_misc_cape_16
 15802|51|fe|4.1|r|int14 spi13 sp8 heal24||25|498||||달빛매듭 장화|inv_boots_05
 20296|51|ha|4.3|r|sta5 sp14 heal40||16|34||||녹색용비늘 건틀릿|inv_gauntlets_12
-22242|51|wa|4.3|r|str8 agi7 sta8 int8 sp11 heal11||583|34||||베레크의 사슬|inv_belt_18
+22242|51|wa|4.3|r|str8 agi7 sta8 int8 sp11 heal11||584|34||||베레크의 사슬|inv_belt_18
 252478|51|le|4.2|u|str14 agi6 sta16||16|289||||푸른 고급가죽 바지|inv_pants_leather_21
 252593|51|wr|4.3|u|int7 spi6 sp9 heal9||16|34||||충전된 전갈 팔보호구|inv_bracer_30
 8294|52|fe|4.2|u|agi17 spi4||41|12||||여행자 장화|inv_boots_01
 8298|52|ha|4.2|u|str13 int12||41|32||||여행자 장갑|inv_gauntlets_15
 8320|52|oh|4.6|u|str3 sta13 armor1748 block31||41|3||||무쇠 방패|inv_shield_04
-10659|52?|tr||u|mp56|1|584|306||||갈래발굽 결정|inv_misc_gem_diamond_02
-11726|52|ch|4.3|e|str16 agi14 sta18 crit1.5|1|585|39||||잔인한 검투사 사슬 갑옷|inv_chest_chain_15
-11728|52|le|4.3|r|str12 agi18 sta19||551|39||||잔인한 검투사의 다리보호구|inv_pants_03
-11729|52|he|4.3|r|str8 agi12 sta26||550|33||||잔인한 검투사 투구|inv_helmet_01
-11730|52|ha|4.3|r|str5 agi9 sta14 int12||559|36||||잔인한 검투사 장갑|inv_gauntlets_04
-11731|52|fe|4.3|r|str9 agi15 sta13||558|39||||잔인한 검투사 경갑|inv_boots_01
-11735|52|he|4.2|r|str6 sta10 crit2|1|586|264||||맹위의 안대|inv_helmet_46
-11782|52|sh|4.1|r|sta5 int8 frost27||540|64||||북풍의 어깨보호대|inv_shoulder_02
-11783|52|wa|4.3|r|int16 spi7 sp6 heal18||540|34||||한철 벨트|inv_belt_33
-11921|52|2h|2.5|r|sta18 dps48.89 hit1 crit1.5|1|587|256||||거대한 무적 망치|inv_hammer_08
-11922|52|1h|2.15|r|sta12 dps25 sp66 heal66||587|496||||피로 새긴 비수|inv_weapon_shortblade_15
-11923|52|mh|2.4|r|dps25 sp41 heal124||575|306||||은총의 망치|inv_hammer_07
-11925|52|he|4.2|r|str10 agi19 sta18||587|303||||유령 수의|inv_helmet_41
-11929|52|le|4.1|r|int12 spi26 shadow11||575|144||||절규하는 유령의 다리보호구|inv_pants_11
+10659|52?|tr||u|mp56|1|585|306||||갈래발굽 결정|inv_misc_gem_diamond_02
+11726|52|ch|4.3|e|str16 agi14 sta18 crit1.5|1|586|39||||잔인한 검투사 사슬 갑옷|inv_chest_chain_15
+11728|52|le|4.3|r|str12 agi18 sta19||552|39||||잔인한 검투사의 다리보호구|inv_pants_03
+11729|52|he|4.3|r|str8 agi12 sta26||551|33||||잔인한 검투사 투구|inv_helmet_01
+11730|52|ha|4.3|r|str5 agi9 sta14 int12||560|36||||잔인한 검투사 장갑|inv_gauntlets_04
+11731|52|fe|4.3|r|str9 agi15 sta13||559|39||||잔인한 검투사 경갑|inv_boots_01
+11735|52|he|4.2|r|str6 sta10 crit2|1|587|264||||맹위의 안대|inv_helmet_46
+11782|52|sh|4.1|r|sta5 int8 frost27||541|64||||북풍의 어깨보호대|inv_shoulder_02
+11783|52|wa|4.3|r|int16 spi7 sp6 heal18||541|34||||한철 벨트|inv_belt_33
+11921|52|2h|2.5|r|sta18 dps48.89 hit1 crit1.5|1|588|256||||거대한 무적 망치|inv_hammer_08
+11922|52|1h|2.15|r|sta12 dps25 sp66 heal66||588|496||||피로 새긴 비수|inv_weapon_shortblade_15
+11923|52|mh|2.4|r|dps25 sp41 heal124||576|306||||은총의 망치|inv_hammer_07
+11925|52|he|4.2|r|str10 agi19 sta18||588|303||||유령 수의|inv_helmet_41
+11929|52|le|4.1|r|int12 spi26 shadow11||576|144||||절규하는 유령의 다리보호구|inv_pants_11
 13044|52|2h|2.8|r|dps48.87 ap52|1|41|7||||악마사냥꾼|inv_sword_03
 13077|52|wa|4.4|r|str9 agi9 sta10 int9 spi10||41|3||||우서의 벨트|inv_belt_32
 13118|52|wa|4.2|r|str9 agi14 sta14||41|303||||사악의 장식띠|inv_belt_25
-13181|52|ha|4.1|r|sta8 int9 spi15 shadow13||588|144||||악마가죽 장갑|inv_gauntlets_15
-13182|52|1h|2.7|r|str7 sta12 dps37.62||588|9||||차원의 검|inv_sword_36
-13404|52|he|4.2|r|sta13 def6 hit2 crit1|1|589|303||||용서받지 못한 자의 복면|inv_misc_bandana_01
-13405|52|sh|4.4|r|str14 sta14 def3||589|3||||울부짖는 밤의 어깨갑옷|inv_shoulder_25
+13181|52|ha|4.1|r|sta8 int9 spi15 shadow13||589|144||||악마가죽 장갑|inv_gauntlets_15
+13182|52|1h|2.7|r|str7 sta12 dps37.62||589|9||||차원의 검|inv_sword_36
+13404|52|he|4.2|r|sta13 def6 hit2 crit1|1|590|303||||용서받지 못한 자의 복면|inv_misc_bandana_01
+13405|52|sh|4.4|r|str14 sta14 def3||590|3||||울부짖는 밤의 어깨갑옷|inv_shoulder_25
 13865|52|le|4.1|u|spi20 sp14 heal14||25|64||||룬매듭 바지|inv_pants_09
 14108|52|fe|4.1|u|spi12 fire17||25|64||||지옥매듭 장화|inv_boots_05
 14136|52|ch|4.1|r|int12 frost40 shadow40||25|208||||겨울밤의 로브|inv_chest_cloth_49
@@ -2130,19 +2130,19 @@
 15060|52|le|4.2|r|sta8 spi25 sp9 heal26||16|290||||살아있는 다리보호구|inv_pants_05
 15065|52|le|4.2|r|str28 agi18 sta12||16|299||||전투곰 다리보호구|inv_pants_wolf
 15079|52|le|4.3|u|agi20 sta12||16|4||||두꺼운 전갈 다리보호구|inv_pants_12
-15413|52|ch|4.4|r|str9 sta22 def10||590|2||||화려한 아다만티움 흉갑|inv_chest_plate09
-16622|52?|ra|2.2|u|agi8 dps26.61||591|4||||찔레가시 활|inv_weapon_bow_06
-16623|52?|ne||u|sta3 int13||591|4||||유리 목걸이|inv_jewelry_necklace_08
-16681|52|wr|4.3|r|agi15 sta8||592|4||||야수추적자 손목띠|inv_bracer_17
-16710|52|wr|4.2|r|agi15 sta7||593|268||||어둠추적자 팔보호구|inv_bracer_07
-16714|52|wr|4.2|r|str5 int15 sp3 heal9||594|290||||자연의정수 팔보호구|inv_bracer_09
-16722|52|wr|4.4|r|str8 agi5 sta10 int7||595|3||||성전사 팔보호구|inv_bracer_14
-18043|52|fe|4.2|r|str9 sta17 def5||586|257||||석탄광 장화|inv_boots_08
-18044|52|mh|2.4|r|agi5 sta12 spi3 dps37.59||586|9||||헐레이의 술잔|inv_drink_04
-18400|52?|fi||u|str10 sta9||596|291||||생명석 반지|inv_jewelry_ring_19
-18491|52?|mh|2.15|r|sta5 int6 spi5 dps25 mp53 sp41 heal124||597|304||||지식의 단검|inv_weapon_shortblade_21
-22241|52|sh|4.2|r|str11 agi17 sta7||598|303||||암흑문지기의 어깨갑옷|inv_shoulder_07
-22275|52|fe|4.2|r|sta8 int18 sp7 heal20||599|290||||불꽃이끼 장화|inv_boots_08
+15413|52|ch|4.4|r|str9 sta22 def10||591|2||||화려한 아다만티움 흉갑|inv_chest_plate09
+16622|52?|ra|2.2|u|agi8 dps26.61||592|4||||찔레가시 활|inv_weapon_bow_06
+16623|52?|ne||u|sta3 int13||592|4||||유리 목걸이|inv_jewelry_necklace_08
+16681|52|wr|4.3|r|agi15 sta8||593|4||||야수추적자 손목띠|inv_bracer_17
+16710|52|wr|4.2|r|agi15 sta7||594|268||||어둠추적자 팔보호구|inv_bracer_07
+16714|52|wr|4.2|r|str5 int15 sp3 heal9||595|290||||자연의정수 팔보호구|inv_bracer_09
+16722|52|wr|4.4|r|str8 agi5 sta10 int7||596|3||||성전사 팔보호구|inv_bracer_14
+18043|52|fe|4.2|r|str9 sta17 def5||587|257||||석탄광 장화|inv_boots_08
+18044|52|mh|2.4|r|agi5 sta12 spi3 dps37.59||587|9||||헐레이의 술잔|inv_drink_04
+18400|52?|fi||u|str10 sta9||597|291||||생명석 반지|inv_jewelry_ring_19
+18491|52?|mh|2.15|r|sta5 int6 spi5 dps25 mp53 sp41 heal124||598|304||||지식의 단검|inv_weapon_shortblade_21
+22241|52|sh|4.2|r|str11 agi17 sta7||599|303||||암흑문지기의 어깨갑옷|inv_shoulder_07
+22275|52|fe|4.2|r|sta8 int18 sp7 heal20||600|290||||불꽃이끼 장화|inv_boots_08
 24222|52|1h|2.15|r|sta8 dps37.5 ap18||41|9||||어둠자락 단도|inv_weapon_shortblade_18
 250590|52|wr|4.4|u|str11 sta6 sp4 heal4||15|3||||축복받은 판금 팔보호구|inv_bracer_19
 250615|52|2h|2.6|r|str13 agi25 sta10 dps48.97||15|7||||토륨 도끼장창|inv_spear_05
@@ -2151,25 +2151,25 @@
 252597|52|he|4.3|u|str11 sta13 sp17 heal17||16|2||||유연한 전갈 투구|inv_helmet_34
 254119|52|sh|4.1|u|spi12 sp9 heal26||25|306||||토양매듭 어깨덧옷|inv_shoulder_05
 254123|52|wr|4.1|u|int10 sp11 heal11||25|498||||룬매듭 소매장식|inv_bracer_13
-11802|53|le|4.4|r|str27 sta12 spi5||577|3||||용암문장 다리보호구|inv_pants_04
-11807|53|wa|4.1|r|sta10 int10 spi10 fire14||577|64||||불타는 심장의 허리띠|inv_belt_11
-11814|53|ha|4.3|r|agi10 sta11 int11||578|4||||타오르는 장갑|inv_gauntlets_04
-11815|53|tr|4.0|r|ap12|1|579|303||||심판의 손길|inv_jewelry_talisman_01
-11821|53|le|4.2|r|str8 agi7 sta22 def7|1|579|257||||전쟁광의 다리보호구|inv_pants_09
-11832|53|tr|4.0|r|sp12 heal12 mp58|1|578|498||||지식의 홍수|inv_jewelry_amulet_07
-12082|53?|sh|4.2|u|ap12 hit1.5|1|552|259||||고룡가죽 어깨갑옷|inv_shoulder_16
-12083|53?|wa|4.1|u|sta6 sp17 heal17||552|16||||떡갈나무 장식띠|inv_belt_11
-12608|53|ba|4.1|r|sta7 spi15 sp3 heal9||600|402||||학살자의 의복|inv_misc_cape_18
+11802|53|le|4.4|r|str27 sta12 spi5||578|3||||용암문장 다리보호구|inv_pants_04
+11807|53|wa|4.1|r|sta10 int10 spi10 fire14||578|64||||불타는 심장의 허리띠|inv_belt_11
+11814|53|ha|4.3|r|agi10 sta11 int11||579|4||||타오르는 장갑|inv_gauntlets_04
+11815|53|tr|4.0|r|ap12|1|580|303||||심판의 손길|inv_jewelry_talisman_01
+11821|53|le|4.2|r|str8 agi7 sta22 def7|1|580|257||||전쟁광의 다리보호구|inv_pants_09
+11832|53|tr|4.0|r|sp12 heal12 mp58|1|579|498||||지식의 홍수|inv_jewelry_amulet_07
+12082|53?|sh|4.2|u|ap12 hit1.5|1|553|259||||고룡가죽 어깨갑옷|inv_shoulder_16
+12083|53?|wa|4.1|u|sta6 sp17 heal17||553|16||||떡갈나무 장식띠|inv_belt_11
+12608|53|ba|4.1|r|sta7 spi15 sp3 heal9||601|402||||학살자의 의복|inv_misc_cape_18
 12625|53|sh|4.4|r|spi10 sp15 heal44||15|2||||새벽지기의 어깨보호구|inv_shoulder_20
 12782|53|2h|2.8|r|str30 sta30 dps49.7||116|3||||부패의 검|inv_sword_07
 13004|53|ra|2.19|r|dps56.79||41|208||||오스틴의 횃불|inv_wand_11
 13007|53|ba||r|fire21||41|192||||마법불꽃 망토|inv_misc_cape_18
 13047|53|2h|2.5|r|str14 sta21 spi12 dps49.73||41|288||||세계수 가지|inv_mace_13
 13070|53|fe|4.4|r|str14 agi9 sta14||41|3||||사피론의 미늘장화|inv_boots_plate_05
-13284|53|fe|4.3|r|agi17 sta11 int10||601|4||||날쌘화살 전투장화|inv_boots_01
-13378|53|ch|4.2|r|str14 agi10 sta22 def7||602|299||||꾀꼬리 블라우스|inv_chest_cloth_38
-13383|53|le|4.3|r|sta12 int10 mp510 sp5 heal15||602|32||||명랑한 음유시인의 바지|inv_pants_14
-13384|53|wa|4.4|r|str10 agi8 sta10 spi8 sp12 heal12||602|2||||무지개 벨트|inv_belt_30
+13284|53|fe|4.3|r|agi17 sta11 int10||602|4||||날쌘화살 전투장화|inv_boots_01
+13378|53|ch|4.2|r|str14 agi10 sta22 def7||603|299||||꾀꼬리 블라우스|inv_chest_cloth_38
+13383|53|le|4.3|r|sta12 int10 mp510 sp5 heal15||603|32||||명랑한 음유시인의 바지|inv_pants_14
+13384|53|wa|4.4|r|str10 agi8 sta10 spi8 sp12 heal12||603|2||||무지개 벨트|inv_belt_30
 14111|53|he|4.1|u|int10 shadow30||25|144||||지옥매듭 두건|inv_helmet_34
 14137|53|le|4.1|r|sta12 spi21 sp11 heal31||25|306||||달빛매듭 다리보호구|inv_pants_13
 14144|53|le|4.1|u|spi20 sp26 heal26||25|496||||유령매듭 바지|inv_pants_01
@@ -2179,36 +2179,36 @@
 15066|53|ch|4.2|r|int12 spi28 sp21 heal21||16|290||||무쇠깃털 흉갑|inv_chest_leather_06
 15087|53|le|4.2|u|agi20 sta12||16|12||||악의의 가죽 바지|inv_pants_12
 15094|53|he|4.2|u|int20 sp12 heal12||16|288||||룬문자 가죽 머리띠|inv_misc_bandage_11
-15708|53?|ha|4.2|u|str8 agi13 sta8||603|268||||황폐의 가죽 장갑|inv_gauntlets_25
-16685|53|wa|4.1|r|sta6 int21 sp7 heal7||604|496||||원소술사 허리띠|inv_belt_08
-16702|53|wa|4.1|r|sta10 int14 spi9 sp9 heal9||605|496||||공포의 안개 허리띠|inv_belt_12
-16723|53|wa|4.4|r|str10 sta9 int15 sp7 heal7 hit0.5|1|606|2||||성전사 허리띠|inv_belt_11
-16736|53|wa|4.4|r|str14 agi7 sta12 spi4 def6||607|3||||용맹의 허리띠|inv_belt_34
-18301|53|ra|2.19|r|dps56.76 sp9 heal9||608|208||||레스텐드리스의 마법봉|inv_wand_06
-18302|53|fi|4.0|r|str8 agi7 sta7 spi10||608|299||||활력의 고리|inv_jewelry_ring_20
-18306|53|ha|4.1|r|sta16 mp54 shadow19||609|144||||그림자안개 장갑|inv_gauntlets_22
-18307|53|fe|4.1|r|int9 frost24||610|64||||성난파도 신발|inv_boots_05
-18311|53|2h|2.10|r|sta8 int18 spi8 dps36.79 mp58 sp41 heal124||608|304||||쿠엘도레이 시전봉|inv_staff_14
-18317|53|ne|4.0|r|int6 spi6 sp2 heal7 crit1|1|610|278||||돌개바람 부적|inv_jewelry_necklace_03
-18322|53|fe|4.2|r|int8 spi9 sp22 heal22||610|290||||용오름 장화|inv_boots_08
-18323|53|ra|2.2|r|dps29.79 ap4 hit1|1|609|13||||사티로스의 활|inv_weapon_bow_03
-18324|53|2h|2.1|r|str23 dps49.68 crit1|1|610|35||||서슬물결 도끼|inv_axe_17
-18325|53|he|4.2|r|agi21 sta14||608|268||||악마가죽 두건|inv_helmet_31
+15708|53?|ha|4.2|u|str8 agi13 sta8||604|268||||황폐의 가죽 장갑|inv_gauntlets_25
+16685|53|wa|4.1|r|sta6 int21 sp7 heal7||605|496||||원소술사 허리띠|inv_belt_08
+16702|53|wa|4.1|r|sta10 int14 spi9 sp9 heal9||606|496||||공포의 안개 허리띠|inv_belt_12
+16723|53|wa|4.4|r|str10 sta9 int15 sp7 heal7 hit0.5|1|607|2||||성전사 허리띠|inv_belt_11
+16736|53|wa|4.4|r|str14 agi7 sta12 spi4 def6||608|3||||용맹의 허리띠|inv_belt_34
+18301|53|ra|2.19|r|dps56.76 sp9 heal9||609|208||||레스텐드리스의 마법봉|inv_wand_06
+18302|53|fi|4.0|r|str8 agi7 sta7 spi10||609|299||||활력의 고리|inv_jewelry_ring_20
+18306|53|ha|4.1|r|sta16 mp54 shadow19||610|144||||그림자안개 장갑|inv_gauntlets_22
+18307|53|fe|4.1|r|int9 frost24||611|64||||성난파도 신발|inv_boots_05
+18311|53|2h|2.10|r|sta8 int18 spi8 dps36.79 mp58 sp41 heal124||609|304||||쿠엘도레이 시전봉|inv_staff_14
+18317|53|ne|4.0|r|int6 spi6 sp2 heal7 crit1|1|611|278||||돌개바람 부적|inv_jewelry_necklace_03
+18322|53|fe|4.2|r|int8 spi9 sp22 heal22||611|290||||용오름 장화|inv_boots_08
+18323|53|ra|2.2|r|dps29.79 ap4 hit1|1|610|13||||사티로스의 활|inv_weapon_bow_03
+18324|53|2h|2.1|r|str23 dps49.68 crit1|1|611|35||||서슬물결 도끼|inv_axe_17
+18325|53|he|4.2|r|agi21 sta14||609|268||||악마가죽 두건|inv_helmet_31
 19043|53|wa|4.3|r|sta9 ap42||16|39||||튼튼한 나무구렁 허리띠|inv_belt_16
 19044|53|wa|4.2|r|str21 agi14 sta9||16|303||||나무구렁일족의 힘|inv_belt_09
 19047|53|wa|4.1|r|int14 spi9 sp11 heal31||25|498||||나무구렁의 지혜|inv_belt_09
 19051|53|wa|4.4|r|str21 sta9||15|3||||여명의 벨트|inv_belt_11
 19052|53|fe|4.2|r|str9 agi14 sta18||16|299||||여명의 가죽장화|inv_boots_cloth_08
-21318|53?|ha|4.1|u|sp22 heal22||611|496||||대지수호자의 장갑|inv_gauntlets_24
-21319|53?|ha|4.2|u|str13 agi12||611|299||||길잡이의 장갑|inv_gauntlets_21
-21320|53?|ch|4.3|u|agi20 sta12||611|4||||동굴보초의 조끼|inv_chest_chain_16
+21318|53?|ha|4.1|u|sp22 heal22||612|496||||대지수호자의 장갑|inv_gauntlets_24
+21319|53?|ha|4.2|u|str13 agi12||612|299||||길잡이의 장갑|inv_gauntlets_21
+21320|53?|ch|4.3|u|agi20 sta12||612|4||||동굴보초의 조끼|inv_chest_chain_16
 252480|53|ch|4.2|u|str16 agi8 sta12||16|256||||푸른 고급가죽 갑옷|inv_chest_leather_07
 252555|53|he|4.2|u|int12 spi15 sp14 heal14||16|288||||무늬새김 가죽 왕관|inv_helmet_33
 254125|53|le|4.1|u|spi16 sp13 heal37||25|306||||토양매듭 다리보호구|inv_pants_06
-274417|53|ho||r|sta10 spi10 sp7 heal22||612|464||||나무껍질 장신구|inv_misc_bag_10_black
-274418|53|oh|4.6|r|sta15 armor2076 block36||613;612|3||||땅굴 방벽 방패|inv_shield_16
-274419|53|2h|2.6|r|agi24 sta9 dps49.69 ap27||613;612|7||||곰 찌르개 막대|inv_staff_21
-274420|53|2h|2.10|r|sta19 int23 dps36.88 sp66 heal66||612|496||||지혜발바닥 토템|inv_staff_51
+274417|53|ho||r|sta10 spi10 sp7 heal22||613|464||||나무껍질 장신구|inv_misc_bag_10_black
+274418|53|oh|4.6|r|sta15 armor2076 block36||614;613|3||||땅굴 방벽 방패|inv_shield_16
+274419|53|2h|2.6|r|agi24 sta9 dps49.69 ap27||614;613|7||||곰 찌르개 막대|inv_staff_21
+274420|53|2h|2.10|r|sta19 int23 dps36.88 sp66 heal66||613|496||||지혜발바닥 토템|inv_staff_51
 275606|53|fe|4.1|r|spi8 sp22 heal22||25|496||||맹독분출 발보호구|inv_boots_cloth_04
 275607|53|ha|4.1|r|spi20 sp5 heal16||25|272||||무리지기의 장갑|inv_gauntlets_17
 275609|53|fe|4.1|r|sta10 sp14 heal43||25|498||||무리지기의 발보호구|inv_boots_cloth_01
@@ -2221,55 +2221,55 @@
 275627|53|fe|4.4|r|str19 sta10||15|3||||무리군주의 디딤장화|inv_boots_plate_07
 2245|54|he|4.3|e|agi18 sta32 ap22||41|39||||나브의 투구|inv_helmet_05
 8305|54|ha|4.3|u|agi13 int13||41|4||||영웅의 건틀릿|inv_gauntlets_09
-11819|54|tr|4.0|r|sp5 heal15|1|614|498||||재기의 숨결|inv_jewelry_talisman_06
-11822|54|fe|4.1|r|sta8 int12 sp20 heal20||614|498||||전력의 장화|inv_boots_05
-11823|54|le|4.2|r|sta8 int20 spi8 sp22 heal22||614|290||||등불의 킬트|inv_pants_13
-11931|54|2h|2.1|r|sta8 dps50.54 ap42 crit1|1|615|35||||공포의 복수자|inv_axe_22
-11932|54|2h|2.10|r|sta11 spi10 dps37.58 mp56 sp42 heal127||615|304||||지혜의 지팡이|inv_staff_30
+11819|54|tr|4.0|r|sp5 heal15|1|615|498||||재기의 숨결|inv_jewelry_talisman_06
+11822|54|fe|4.1|r|sta8 int12 sp20 heal20||615|498||||전력의 장화|inv_boots_05
+11823|54|le|4.2|r|sta8 int20 spi8 sp22 heal22||615|290||||등불의 킬트|inv_pants_13
+11931|54|2h|2.1|r|sta8 dps50.54 ap42 crit1|1|616|35||||공포의 복수자|inv_axe_22
+11932|54|2h|2.10|r|sta11 spi10 dps37.58 mp56 sp42 heal127||616|304||||지혜의 지팡이|inv_staff_30
 12427|54|he|4.4|u|str18 sta17||15|2||||황제의 판금 투구|inv_helmet_22
-12553|54|fe|4.2|r|str5 agi21 sta8||575|269||||빠른걸음 장화|inv_boots_02
-12554|54|ha|4.1|r|int13 spi12 sp10 heal31||616|498||||고위 전령의 장갑|inv_gauntlets_32
-12557|54|sh|4.4|r|str8 agi9 sta16||616|1||||흑단강철 어깨갑옷|inv_shoulder_25
-12626|54|wr|4.1|r|int14 sp6 heal18||617|498||||장례의 소매장식|inv_bracer_07
-12651|54|ra|2.18|r|agi3 dps30.31 hit0.9|1|617|13||||검은까마귀|inv_weapon_crossbow_04
-12653|54|ra|2.2|r|dps30.23 ap22||617|13||||갈퀴올가미|inv_weapon_bow_08
+12553|54|fe|4.2|r|str5 agi21 sta8||576|269||||빠른걸음 장화|inv_boots_02
+12554|54|ha|4.1|r|int13 spi12 sp10 heal31||617|498||||고위 전령의 장갑|inv_gauntlets_32
+12557|54|sh|4.4|r|str8 agi9 sta16||617|1||||흑단강철 어깨갑옷|inv_shoulder_25
+12626|54|wr|4.1|r|int14 sp6 heal18||618|498||||장례의 소매장식|inv_bracer_07
+12651|54|ra|2.18|r|agi3 dps30.31 hit0.9|1|618|13||||검은까마귀|inv_weapon_crossbow_04
+12653|54|ra|2.2|r|dps30.23 ap22||618|13||||갈퀴올가미|inv_weapon_bow_08
 13135|54|wr|4.3|r|str7 agi7 sta8 int7 spi8||41|35||||귀족의 손목보호대|inv_bracer_17
-13255|54|ha|4.3|r|hitRanged3|1|617|4||||정조준 건틀릿|inv_gauntlets_30
-13257|54|sh|4.2|r|str12 sta12 int14||617|290||||악마 룬문자 어깨갑옷|inv_shoulder_07
-13261|54|ho|4.0|r|sta5 int11 shadow14||618|144||||디사크의 보주|inv_wand_09
-13282|54|fe|4.1|r|int13 spi13 sp9 heal26||618|498||||오우거 현자 장화|inv_boots_05
-13376|54|ba|4.1|r|sta5 int16 sp5 heal5||619|498||||왕실법관 망토|inv_misc_cape_14
+13255|54|ha|4.3|r|hitRanged3|1|618|4||||정조준 건틀릿|inv_gauntlets_30
+13257|54|sh|4.2|r|str12 sta12 int14||618|290||||악마 룬문자 어깨갑옷|inv_shoulder_07
+13261|54|ho|4.0|r|sta5 int11 shadow14||619|144||||디사크의 보주|inv_wand_09
+13282|54|fe|4.1|r|int13 spi13 sp9 heal26||619|498||||오우거 현자 장화|inv_boots_05
+13376|54|ba|4.1|r|sta5 int16 sp5 heal5||620|498||||왕실법관 망토|inv_misc_cape_14
 13866|54|he|4.1|u|int20 sp15 heal15||25|480||||룬매듭 머리띠|inv_misc_bandana_03
-14531|54|2h|2.5|r|dps50.44|1|620|256||||섬뜩한 뼈몽둥이|inv_hammer_13
+14531|54|2h|2.5|r|dps50.44|1|621|256||||섬뜩한 뼈몽둥이|inv_hammer_13
 14670|54|ch|4.2|u|agi24 sta5||41|12||||사자왕 갑옷|inv_chest_leather_02
-15786|54?|ch|4.2|u|sta5 int8 sp26 heal26||621|290||||고사리 웃옷|inv_chest_leather_06
-15787|54?|ch|4.3|u|agi20 sta10 int6||621|4||||버드나무매듭 갑옷|inv_chest_chain_16
+15786|54?|ch|4.2|u|sta5 int8 sp26 heal26||622|290||||고사리 웃옷|inv_chest_leather_06
+15787|54?|ch|4.3|u|agi20 sta10 int6||622|4||||버드나무매듭 갑옷|inv_chest_chain_16
 15890|54|oh|4.6|u|sta12 spi5 armor1805 block33||41|2||||선봉대 방패|inv_shield_10
-16672|54|ha|4.3|r|sta4 int10 spi16 sp6 heal6 hit0.9||622|32||||정령의 건틀릿|inv_gauntlets_11
-16675|54|fe|4.3|r|agi21 sta9 int3||623|4||||야수추적자 장화|inv_boots_plate_07
-16676|54|ha|4.3|r|agi14 sta10 int10 spi10||624|4||||야수추적자 장갑|inv_gauntlets_10
-16682|54|fe|4.1|r|sta7 int14 spi14 sp9 heal9||602|496||||원소술사 장화|inv_boots_02
-16684|54|ha|4.1|r|sta8 int14 spi14 sp7 heal7||625|192||||원소술사 장갑|inv_gauntlets_17
-16692|54|ha|4.1|r|sta8 int10 spi17 sp5 heal15||626|274||||기원의 장갑|inv_gauntlets_14
-16704|54|fe|4.1|r|sta17 int7 spi10 sp9 heal9||627|128||||공포의 안개 신발|inv_boots_05
-16705|54|ha|4.1|r|sta13 int9 spi14 hit1||628|64||||공포의 안개 장갑|inv_gauntlets_32
-16711|54|fe|4.2|r|agi21 sta9 hit0.3||620|269||||어둠추적자 장화|inv_boots_08
-16712|54|ha|4.2|r|str9 agi14 sta10 spi11||617|269||||어둠추적자 장갑|inv_gauntlets_24
-16734|54|fe|4.4|r|str9 agi5 sta20 def2||629|3||||용맹의 장화|inv_boots_plate_03
-16737|54|ha|4.4|r|str17 agi3 sta10 spi8 def4||630|3||||용맹의 건틀릿|inv_gauntlets_26
-18309|54|ha|4.2|r|sta13 int12 sp10 heal31||631|290||||회복의 장갑|inv_gauntlets_20
-18310|54|1h|2.7|r|agi5 dps38.75 ap18|1|631|9||||극악의 마체테|inv_sword_18
-18312|54|ch|4.4|r|str13 sta20 int12 sp15 heal15||631|2||||활력의 흉갑|inv_chest_plate11
-18314|54|fi|4.0|r|int10 mp54 hit1||631|359||||악령들린 책략의 반지|inv_jewelry_ring_31
-18321|54|mh|2.4|r|int5 dps25.87 sp68 heal68||631|306||||원기의 봉|inv_mace_13
-18327|54|wa|4.1|r|int9 mp56 sp10 heal29||631|306||||채찍줄기 허리띠|inv_belt_17
-18328|54|ba|4.1|r|str13 sta8||631|291||||그늘나무 망토|inv_misc_cape_17
-18692|54|fe|4.4|r|str11 sta11 int11 sp11 heal11||632|2||||죽음의 기사 발덮개|inv_boots_plate_08
-18725|54|2h|2.6|r|dps50.44 ap56 crit1|1|619|7||||중재의 창|inv_spear_07
-18727|54|he|4.1|r|sta8 int10 spi10 sp30 heal30||619|498||||붉은 중절모|inv_helmet_51
-20218|54?|ba||r|sta5 int8 mp56||633|32|zul-gurub|||빛 바랜 학카리 망토|inv_misc_cape_13
-20219|54?|ba||r|str11 sta10||633|291|zul-gurub|||너덜너덜한 학카리 단망토|inv_misc_cape_14
-20647|54?|mh|2.15|u|int3 dps23.33 mp54 sp52 heal52||634|32||||검은 수정 단검|inv_weapon_shortblade_20
+16672|54|ha|4.3|r|sta4 int10 spi16 sp6 heal6 hit0.9||623|32||||정령의 건틀릿|inv_gauntlets_11
+16675|54|fe|4.3|r|agi21 sta9 int3||624|4||||야수추적자 장화|inv_boots_plate_07
+16676|54|ha|4.3|r|agi14 sta10 int10 spi10||625|4||||야수추적자 장갑|inv_gauntlets_10
+16682|54|fe|4.1|r|sta7 int14 spi14 sp9 heal9||603|496||||원소술사 장화|inv_boots_02
+16684|54|ha|4.1|r|sta8 int14 spi14 sp7 heal7||626|192||||원소술사 장갑|inv_gauntlets_17
+16692|54|ha|4.1|r|sta8 int10 spi17 sp5 heal15||627|274||||기원의 장갑|inv_gauntlets_14
+16704|54|fe|4.1|r|sta17 int7 spi10 sp9 heal9||628|128||||공포의 안개 신발|inv_boots_05
+16705|54|ha|4.1|r|sta13 int9 spi14 hit1||629|64||||공포의 안개 장갑|inv_gauntlets_32
+16711|54|fe|4.2|r|agi21 sta9 hit0.3||621|269||||어둠추적자 장화|inv_boots_08
+16712|54|ha|4.2|r|str9 agi14 sta10 spi11||618|269||||어둠추적자 장갑|inv_gauntlets_24
+16734|54|fe|4.4|r|str9 agi5 sta20 def2||630|3||||용맹의 장화|inv_boots_plate_03
+16737|54|ha|4.4|r|str17 agi3 sta10 spi8 def4||631|3||||용맹의 건틀릿|inv_gauntlets_26
+18309|54|ha|4.2|r|sta13 int12 sp10 heal31||632|290||||회복의 장갑|inv_gauntlets_20
+18310|54|1h|2.7|r|agi5 dps38.75 ap18|1|632|9||||극악의 마체테|inv_sword_18
+18312|54|ch|4.4|r|str13 sta20 int12 sp15 heal15||632|2||||활력의 흉갑|inv_chest_plate11
+18314|54|fi|4.0|r|int10 mp54 hit1||632|359||||악령들린 책략의 반지|inv_jewelry_ring_31
+18321|54|mh|2.4|r|int5 dps25.87 sp68 heal68||632|306||||원기의 봉|inv_mace_13
+18327|54|wa|4.1|r|int9 mp56 sp10 heal29||632|306||||채찍줄기 허리띠|inv_belt_17
+18328|54|ba|4.1|r|str13 sta8||632|291||||그늘나무 망토|inv_misc_cape_17
+18692|54|fe|4.4|r|str11 sta11 int11 sp11 heal11||633|2||||죽음의 기사 발덮개|inv_boots_plate_08
+18725|54|2h|2.6|r|dps50.44 ap56 crit1|1|620|7||||중재의 창|inv_spear_07
+18727|54|he|4.1|r|sta8 int10 spi10 sp30 heal30||620|498||||붉은 중절모|inv_helmet_51
+20218|54?|ba||r|sta5 int8 mp56||634|32|zul-gurub|||빛 바랜 학카리 망토|inv_misc_cape_13
+20219|54?|ba||r|str11 sta10||634|291|zul-gurub|||너덜너덜한 학카리 단망토|inv_misc_cape_14
+20647|54?|mh|2.15|u|int3 dps23.33 mp54 sp52 heal52||635|32||||검은 수정 단검|inv_weapon_shortblade_20
 250591|54|le|4.4|u|str7 sta20 sp13 heal13||15|2||||축복받은 판금 다리보호구|inv_pants_plate_04
 252481|54|wa|4.2|u|str9 agi4 sta14||16|256||||푸른 고급가죽 허리띠|inv_belt_03
 252557|54|wr|4.2|u|int11 spi4 sp5 heal5||16|256||||무늬새김 가죽 팔보호구|inv_bracer_23b
@@ -2277,108 +2277,108 @@
 254121|54|ch|4.1|u|spi17 sp14 heal40||25|306||||토양매듭 조끼|inv_chest_cloth_20
 254127|54|sh|4.1|u|spi12 sp15 heal15||25|464||||유령매듭 어깨덧옷|inv_shoulder_09
 8300|55|le|4.2|u|str17 agi17||41|298||||여행자 다리보호구|inv_pants_06
-10697|55?|1h|2.15|u|dps35.67 ap18|1|635|8||||마력이 깃든 아즈샤리트 퇴마단검|inv_sword_31
-10698|55?|2h|2.10|u|dps46.61 ap40|1|635|256||||마력이 깃든 아즈샤리트 퇴마지팡이|inv_staff_13
-11684|55|mh|2.4|e|dps43.54|1|615|8||||무쇠폭군|spell_frost_frostbrand
-11810|55|tr|4.0|r|def4|1|579|257||||의지의 힘|inv_jewelry_amulet_01
-11924|55|ch|4.1|r|sta19 int12 spi10 sp18 heal18||615|498||||제왕의 로브|inv_chest_cloth_16
-11928|55|ho|4.0|r|sta7 int6 spi10 sp7 heal22||615|464||||제왕 타우릿산의 왕실 홀|inv_mace_13
-11930|55|ba|4.1|r|agi8 sta16||615|259||||벌거벗은 임금님의 단망토|inv_misc_cape_20
-11933|55|ne|4.0|r|sta8 ap32||615|303||||제왕의 보석|inv_misc_gem_sapphire_01
-12543|55?|fi|4.0|r|int7 sp18 heal18||552|498||||아이언포지의 노랫돌|inv_jewelry_ring_05
-12548|55?|fi|4.0|r|str7 sta8 crit1|1|552|271||||마그니의 결의|inv_jewelry_ring_05
-12604|55|he|4.1|r|int10 spi10 arcane37||581|64||||성화의 티아라|inv_crown_02
+10697|55?|1h|2.15|u|dps35.67 ap18|1|636|8||||마력이 깃든 아즈샤리트 퇴마단검|inv_sword_31
+10698|55?|2h|2.10|u|dps46.61 ap40|1|636|256||||마력이 깃든 아즈샤리트 퇴마지팡이|inv_staff_13
+11684|55|mh|2.4|e|dps43.54|1|616|8||||무쇠폭군|spell_frost_frostbrand
+11810|55|tr|4.0|r|def4|1|580|257||||의지의 힘|inv_jewelry_amulet_01
+11924|55|ch|4.1|r|sta19 int12 spi10 sp18 heal18||616|498||||제왕의 로브|inv_chest_cloth_16
+11928|55|ho|4.0|r|sta7 int6 spi10 sp7 heal22||616|464||||제왕 타우릿산의 왕실 홀|inv_mace_13
+11930|55|ba|4.1|r|agi8 sta16||616|259||||벌거벗은 임금님의 단망토|inv_misc_cape_20
+11933|55|ne|4.0|r|sta8 ap32||616|303||||제왕의 보석|inv_misc_gem_sapphire_01
+12543|55?|fi|4.0|r|int7 sp18 heal18||553|498||||아이언포지의 노랫돌|inv_jewelry_ring_05
+12548|55?|fi|4.0|r|str7 sta8 crit1|1|553|271||||마그니의 결의|inv_jewelry_ring_05
+12604|55|he|4.1|r|int10 spi10 arcane37||582|64||||성화의 티아라|inv_crown_02
 12633|55|he|4.4|r|int15 spi15 sp12 heal35||15|2||||순백의 투구|inv_helmet_13
-12634|55|wa|4.3|r|sta6 spi6 ap44||636|39||||조각끌 벨트|inv_belt_13
-12637|55|ha|4.4|r|str9 sta15 int9 def7||636|2||||바커스 건틀릿|inv_gauntlets_26
-12930|55|tr|4.0|r|sp15 heal15||581|498||||가시나무 줄기|inv_misc_root_02
-12953|55|he|4.3|r|sta17 ap38||637|35||||용안 코이프|inv_helmet_39
-12960|55|he|4.2|r|sta12 int15 sp11 heal33||637|290||||전통 전투 깃털장식|inv_helmet_24
+12634|55|wa|4.3|r|sta6 spi6 ap44||637|39||||조각끌 벨트|inv_belt_13
+12637|55|ha|4.4|r|str9 sta15 int9 def7||637|2||||바커스 건틀릿|inv_gauntlets_26
+12930|55|tr|4.0|r|sp15 heal15||582|498||||가시나무 줄기|inv_misc_root_02
+12953|55|he|4.3|r|sta17 ap38||638|35||||용안 코이프|inv_helmet_39
+12960|55|he|4.2|r|sta12 int15 sp11 heal33||638|290||||전통 전투 깃털장식|inv_helmet_24
 13001|55|fi||r|int7 spi6 sp18 heal18||41|498||||처녀의 고리|inv_jewelry_ring_12
-13166|55|sh|4.4|r|sta21 ap20 hit0.5||638|2||||돌진의 어깨보호대|inv_shoulder_23
-13167|55|2h|2.5|r|str29 sta12 dps51.36||638|291||||오모크의 망치|inv_hammer_04
-13168|55|ch|4.4|r|str12 sta15 int14 sp18 heal18||638|2||||주술사왕의 갑옷|inv_chest_plate13
-13169|55|le|4.2|r|sta13 int14 spi15 sp19 heal19||638|288||||다발갈기 다리보호구|inv_pants_09
-13170|55|le|4.1|r|sta11 int12 sp30 heal30||638|498||||하늘구름 다리보호구|inv_pants_13
-13177|55|ne|4.0|r|agi8 def6|1|624|12||||도피의 부적|inv_jewelry_amulet_04
-13178|55|fi|4.0|r|mp56 sp8 heal24||639|306||||붉은장미 고리|inv_jewelry_ring_22
-13179|55|wr|4.3|r|sta10 int8 mp54 sp8 heal8||624|34||||화염화로 손목보호대|inv_bracer_09
-13203|55|ba|4.1|r|sta15 ap16||640|291||||징병의 망토|inv_misc_cape_19
-13204|55|1h|2.4|r|str9 dps39.44|1|640|1||||난타 망치|inv_mace_15
-13210|55|fe|4.2|r|sta14 ap40||641|299||||사나운 늑대 발보호구|inv_boots_wolf
-13211|55|wr|4.3|r|agi7 sta7 spi9 hit1|1|641|39||||칼날발톱 팔보호구|inv_bracer_07
-13212|55|ne|4.0|r|sta7 ap20|1|641|303||||할리콘의 가시 박힌 목줄|inv_belt_14
-13213|55|tr|4.0|r|hit1|1|642|511||||불그물거미 눈|inv_misc_gem_pearl_01
-13244|55|ha|4.3|r|sta14 int10 mp54 sp7 heal22||642|34||||귀족 건틀릿|inv_gauntlets_29
-13252|55|wa|4.2|r|str13 agi14||643|296||||구름걸이 벨트|inv_belt_10
-13253|55|ha|4.1|r|int9 spi8 sp23 heal23||643|498||||마력의 장갑|inv_gauntlets_14
-13372|55|2h|2.10|r|str29 sta12 dps51.41||630|289||||노예감독의 지팡이|inv_staff_08
-13373|55|fi|4.0|r|str6 agi3 sta16||630|259||||살덩어리 고리|inv_misc_bone_04
-13374|55|sh|4.1|r|int22 hit1||630|64||||영혼강탈자 어깨보호대|inv_shoulder_02
-13375|55|oh|4.6|r|str14 armor2057|1|630|1||||응보의 문장방패|inv_shield_19
-13394|55|ch|4.4|r|str19 sta20 def6||644|1||||스컬의 싸늘한 손아귀|inv_chest_chain_15
-13395|55|ha|4.2|r|sta10 int5 ap42||644|303||||스컬의 뼈장갑|inv_gauntlets_27
-13396|55|ra|2.19|r|dps59.72 shadow14||644|208||||스컬의 오싹한 손길|inv_misc_bone_elfskull_01
-13400|55|wr|4.4|r|str7 sta8 crit1|1|645|1||||학대의 완갑|inv_bracer_17
-13402|55|fe|4.3|r|agi18 sta11 int10||645|4||||티미의 장화|inv_boots_01
-13498|55|le|4.4|r|str25 sta12||646|3||||장인의 수제 다리보호구|inv_pants_04
-13534|55|ra|2.19|r|dps59.74 mp51||627|208||||밴시의 손톱|inv_weapon_shortblade_18
-13958|55?|wr|4.1|r|spi15 sp7 heal20||647|498||||웜타라크의 족쇄|inv_bracer_04
-13959|55?|wa|4.4|r|str14 sta9 crit1|1|647|1||||오모크의 허리죔쇠|inv_belt_13
-13961|55?|sh|4.2|r|int19 sp15 heal15||647|288||||할리콘의 재갈|inv_shoulder_24
-13963|55?|ha|4.3|r|agi9 sta15 hit1.5|1|647|7||||부네의 사술 장갑|inv_gauntlets_15
+13166|55|sh|4.4|r|sta21 ap20 hit0.5||639|2||||돌진의 어깨보호대|inv_shoulder_23
+13167|55|2h|2.5|r|str29 sta12 dps51.36||639|291||||오모크의 망치|inv_hammer_04
+13168|55|ch|4.4|r|str12 sta15 int14 sp18 heal18||639|2||||주술사왕의 갑옷|inv_chest_plate13
+13169|55|le|4.2|r|sta13 int14 spi15 sp19 heal19||639|288||||다발갈기 다리보호구|inv_pants_09
+13170|55|le|4.1|r|sta11 int12 sp30 heal30||639|498||||하늘구름 다리보호구|inv_pants_13
+13177|55|ne|4.0|r|agi8 def6|1|625|12||||도피의 부적|inv_jewelry_amulet_04
+13178|55|fi|4.0|r|mp56 sp8 heal24||640|306||||붉은장미 고리|inv_jewelry_ring_22
+13179|55|wr|4.3|r|sta10 int8 mp54 sp8 heal8||625|34||||화염화로 손목보호대|inv_bracer_09
+13203|55|ba|4.1|r|sta15 ap16||641|291||||징병의 망토|inv_misc_cape_19
+13204|55|1h|2.4|r|str9 dps39.44|1|641|1||||난타 망치|inv_mace_15
+13210|55|fe|4.2|r|sta14 ap40||642|299||||사나운 늑대 발보호구|inv_boots_wolf
+13211|55|wr|4.3|r|agi7 sta7 spi9 hit1|1|642|39||||칼날발톱 팔보호구|inv_bracer_07
+13212|55|ne|4.0|r|sta7 ap20|1|642|303||||할리콘의 가시 박힌 목줄|inv_belt_14
+13213|55|tr|4.0|r|hit1|1|643|511||||불그물거미 눈|inv_misc_gem_pearl_01
+13244|55|ha|4.3|r|sta14 int10 mp54 sp7 heal22||643|34||||귀족 건틀릿|inv_gauntlets_29
+13252|55|wa|4.2|r|str13 agi14||644|296||||구름걸이 벨트|inv_belt_10
+13253|55|ha|4.1|r|int9 spi8 sp23 heal23||644|498||||마력의 장갑|inv_gauntlets_14
+13372|55|2h|2.10|r|str29 sta12 dps51.41||631|289||||노예감독의 지팡이|inv_staff_08
+13373|55|fi|4.0|r|str6 agi3 sta16||631|259||||살덩어리 고리|inv_misc_bone_04
+13374|55|sh|4.1|r|int22 hit1||631|64||||영혼강탈자 어깨보호대|inv_shoulder_02
+13375|55|oh|4.6|r|str14 armor2057|1|631|1||||응보의 문장방패|inv_shield_19
+13394|55|ch|4.4|r|str19 sta20 def6||645|1||||스컬의 싸늘한 손아귀|inv_chest_chain_15
+13395|55|ha|4.2|r|sta10 int5 ap42||645|303||||스컬의 뼈장갑|inv_gauntlets_27
+13396|55|ra|2.19|r|dps59.72 shadow14||645|208||||스컬의 오싹한 손길|inv_misc_bone_elfskull_01
+13400|55|wr|4.4|r|str7 sta8 crit1|1|646|1||||학대의 완갑|inv_bracer_17
+13402|55|fe|4.3|r|agi18 sta11 int10||646|4||||티미의 장화|inv_boots_01
+13498|55|le|4.4|r|str25 sta12||647|3||||장인의 수제 다리보호구|inv_pants_04
+13534|55|ra|2.19|r|dps59.74 mp51||628|208||||밴시의 손톱|inv_weapon_shortblade_18
+13958|55?|wr|4.1|r|spi15 sp7 heal20||648|498||||웜타라크의 족쇄|inv_bracer_04
+13959|55?|wa|4.4|r|str14 sta9 crit1|1|648|1||||오모크의 허리죔쇠|inv_belt_13
+13961|55?|sh|4.2|r|int19 sp15 heal15||648|288||||할리콘의 재갈|inv_shoulder_24
+13963|55?|ha|4.3|r|agi9 sta15 hit1.5|1|648|7||||부네의 사술 장갑|inv_gauntlets_15
 14138|55|ch|4.1|r|int20 spi19 sp9 heal26||25|370||||달빛매듭 조끼|inv_chest_cloth_08
 15051|55|sh|4.3|r|sta9 ap40||16|39||||검은용비늘 어깨보호구|inv_shoulder_01
 15062|55|le|4.2|r|sta12 ap46 crit1|1|16|301||||데빌사우루스 다리보호구|inv_pants_wolf
 15088|55|wa|4.2|u|agi14 sta13||16|8||||악의의 가죽 허리띠|inv_belt_03
-15854|55?|2h|2.10|r|int12 spi29 dps38.13 sp68 heal68||648|496||||춤추는 은마법봉|inv_staff_07
-15856|55?|ne||r|sta8 int10 sp12 heal12||649|498||||광명의 부적|inv_jewelry_necklace_11
-16679|55|sh|4.3|r|agi11 sta17 int7 spi7||650|4||||야수추적자 어깨보호대|inv_shoulder_10
-16689|55|sh|4.1|r|sta6 int22 sp8 heal8||651|208||||원소술사 어깨보호대|inv_shoulder_23
-16695|55|sh|4.1|r|sta4 int21 spi9 sp4 heal11||652|16||||기원의 어깨보호대|inv_shoulder_02
-16701|55|sh|4.1|r|sta14 int15 sp11 heal11||653|210||||공포의 안개 어깨보호대|inv_misc_bone_taurenskull_01
-16708|55|sh|4.2|r|agi22 sta9 hit0.2||654|268||||어둠추적자 어깨갑옷|inv_shoulder_07
-16718|55|sh|4.2|r|sta9 int18 spi8 sp7 heal20||655|290||||자연의정수 어깨갑옷|inv_shoulder_01
-16729|55|sh|4.4|r|str9 agi5 sta15 int10 hit0.9||656|3||||성전사 어깨갑옷|inv_shoulder_10
-16733|55|sh|4.4|r|str11 agi9 sta17 def4||657|3||||용맹의 어깨갑옷|inv_shoulder_30
-18048|55|mh|2.4|r|sta10 dps26.25 sp68 heal68 hit1||646|306||||장인의 망치|inv_hammer_06
-18346|55|le|4.1|r|sta18 sp23 heal23||658|210||||초라한 바지|inv_pants_09
-18366|55?|ha|4.4|r|str10 sta10 spi9 crit1|1|659|1||||고르독의 손보호대|inv_gauntlets_09
-18367|55?|ha|4.3|r|sta10 int10 sp11 heal11 crit1|1|659|32||||고르독의 건틀릿|inv_gauntlets_09
-18368|55?|ha|4.2|r|agi9 sta10 int10 crit1|1|659|12||||고르독의 장갑|inv_gauntlets_01
-18450|55|ch|4.1|u|int17 fire26||660|64||||연소의 로브|inv_chest_cloth_24
-18458|55|wr|4.3|u|int10 sp12 heal12||660|34||||품위의 손목보호대|inv_bracer_03
-18459|55|wr|4.4|u|int10 sp7 heal22||660|2||||수행원의 손목보호구|inv_bracer_19
-18460|55|ra|2.3|u|str8 dps27.8||660|1||||엉성한 손대포|inv_weapon_rifle_07
-18463|55|1h|2.7|u|sta5 dps35.83 ap16||660|8||||오우거 주머니칼|inv_sword_04
-18464|55|fi|4.0|u|str8 sta12||660|257||||고르독 코걸이|inv_jewelry_ring_06
-18493|55|sh|4.4|r|str15 sta12 spi5 def7||660|3||||커다란 철제 어깨보호대|inv_shoulder_26
-18494|55|sh|4.3|r|sta10 int10 spi10 sp18 heal18||660|34||||굴지기의 어깨보호대|inv_shoulder_15
-18496|55|ba|4.1|r|int10 crit1|1|660|148||||양꽃마리 망토|inv_misc_cape_02
-18497|55|wr|4.1|r|sta6 int10 spi6 sp12 heal12||660|498||||고귀의 손목보호구|inv_bracer_13
-18498|55|1h|2.0|r|str5 sta11 dps39.47||660|1||||울타리 절단기|inv_axe_11
-18728|55|ne|4.0|r|sta15 shadow11||627|144||||아나스타리 가보|inv_jewelry_necklace_11
-18729|55|ra|2.2|r|sta4 dps30.65||627|4||||비명소리 활|inv_weapon_bow_12
-18730|55|ha|4.1|r|int15 mp53 sp11 heal11||627|32||||어둠매듭 장갑|inv_gauntlets_16
-19574|55?|ne||u|str7 sta10 def4||661|1|zul-gurub|warrior||무감바의 힘|inv_jewelry_necklace_23
-19575|55?|ne||r|str7 agi6 sta10 def4||661|1|zul-gurub|warrior||무감바의 힘|inv_jewelry_necklace_24
-19579|55?|ne||u|str8 sta8 spi7||662|2|zul-gurub|paladin||이교도의 징표|inv_jewelry_necklace_23
-19585|55?|ne||r|str8 sta8 int6 spi7||662|2|zul-gurub|paladin||이교도의 징표|inv_jewelry_necklace_24
-19598|55?|ne||u|sta7 int10 sp7 heal7||663|64|zul-gurub|mage||카자로 자갈|inv_jewelry_necklace_23
-19599|55?|ne||r|sta7 int10 spi6 sp7 heal7||663|64|zul-gurub|mage||카자로 자갈|inv_jewelry_necklace_24
-19602|55?|ne||u|sta10 sp12 heal12||664|128|zul-gurub|warlock||케잔의 타락|inv_jewelry_necklace_23
-19603|55?|ne||r|sta10 int6 sp12 heal12||664|128|zul-gurub|warlock||케잔의 타락|inv_jewelry_necklace_24
-19614|55?|ne||u|agi12 sta7||665|8|zul-gurub|rogue||잔달라 그림자 부적|inv_jewelry_necklace_23
-19615|55?|ne||r|str6 agi12 sta7||665|8|zul-gurub|rogue||잔달라 그림자 부적|inv_jewelry_necklace_24
-19618|55?|ne||u|agi12 sta7||666|4|zul-gurub|hunter||혼돈의 소용돌이 덩굴손|inv_jewelry_necklace_23
-19619|55?|ne||r|agi12 sta7 int6||666|4|zul-gurub|hunter||혼돈의 소용돌이 덩굴손|inv_jewelry_necklace_24
+15854|55?|2h|2.10|r|int12 spi29 dps38.13 sp68 heal68||649|496||||춤추는 은마법봉|inv_staff_07
+15856|55?|ne||r|sta8 int10 sp12 heal12||650|498||||광명의 부적|inv_jewelry_necklace_11
+16679|55|sh|4.3|r|agi11 sta17 int7 spi7||651|4||||야수추적자 어깨보호대|inv_shoulder_10
+16689|55|sh|4.1|r|sta6 int22 sp8 heal8||652|208||||원소술사 어깨보호대|inv_shoulder_23
+16695|55|sh|4.1|r|sta4 int21 spi9 sp4 heal11||653|16||||기원의 어깨보호대|inv_shoulder_02
+16701|55|sh|4.1|r|sta14 int15 sp11 heal11||654|210||||공포의 안개 어깨보호대|inv_misc_bone_taurenskull_01
+16708|55|sh|4.2|r|agi22 sta9 hit0.2||655|268||||어둠추적자 어깨갑옷|inv_shoulder_07
+16718|55|sh|4.2|r|sta9 int18 spi8 sp7 heal20||656|290||||자연의정수 어깨갑옷|inv_shoulder_01
+16729|55|sh|4.4|r|str9 agi5 sta15 int10 hit0.9||657|3||||성전사 어깨갑옷|inv_shoulder_10
+16733|55|sh|4.4|r|str11 agi9 sta17 def4||658|3||||용맹의 어깨갑옷|inv_shoulder_30
+18048|55|mh|2.4|r|sta10 dps26.25 sp68 heal68 hit1||647|306||||장인의 망치|inv_hammer_06
+18346|55|le|4.1|r|sta18 sp23 heal23||659|210||||초라한 바지|inv_pants_09
+18366|55?|ha|4.4|r|str10 sta10 spi9 crit1|1|660|1||||고르독의 손보호대|inv_gauntlets_09
+18367|55?|ha|4.3|r|sta10 int10 sp11 heal11 crit1|1|660|32||||고르독의 건틀릿|inv_gauntlets_09
+18368|55?|ha|4.2|r|agi9 sta10 int10 crit1|1|660|12||||고르독의 장갑|inv_gauntlets_01
+18450|55|ch|4.1|u|int17 fire26||661|64||||연소의 로브|inv_chest_cloth_24
+18458|55|wr|4.3|u|int10 sp12 heal12||661|34||||품위의 손목보호대|inv_bracer_03
+18459|55|wr|4.4|u|int10 sp7 heal22||661|2||||수행원의 손목보호구|inv_bracer_19
+18460|55|ra|2.3|u|str8 dps27.8||661|1||||엉성한 손대포|inv_weapon_rifle_07
+18463|55|1h|2.7|u|sta5 dps35.83 ap16||661|8||||오우거 주머니칼|inv_sword_04
+18464|55|fi|4.0|u|str8 sta12||661|257||||고르독 코걸이|inv_jewelry_ring_06
+18493|55|sh|4.4|r|str15 sta12 spi5 def7||661|3||||커다란 철제 어깨보호대|inv_shoulder_26
+18494|55|sh|4.3|r|sta10 int10 spi10 sp18 heal18||661|34||||굴지기의 어깨보호대|inv_shoulder_15
+18496|55|ba|4.1|r|int10 crit1|1|661|148||||양꽃마리 망토|inv_misc_cape_02
+18497|55|wr|4.1|r|sta6 int10 spi6 sp12 heal12||661|498||||고귀의 손목보호구|inv_bracer_13
+18498|55|1h|2.0|r|str5 sta11 dps39.47||661|1||||울타리 절단기|inv_axe_11
+18728|55|ne|4.0|r|sta15 shadow11||628|144||||아나스타리 가보|inv_jewelry_necklace_11
+18729|55|ra|2.2|r|sta4 dps30.65||628|4||||비명소리 활|inv_weapon_bow_12
+18730|55|ha|4.1|r|int15 mp53 sp11 heal11||628|32||||어둠매듭 장갑|inv_gauntlets_16
+19574|55?|ne||u|str7 sta10 def4||662|1|zul-gurub|warrior||무감바의 힘|inv_jewelry_necklace_23
+19575|55?|ne||r|str7 agi6 sta10 def4||662|1|zul-gurub|warrior||무감바의 힘|inv_jewelry_necklace_24
+19579|55?|ne||u|str8 sta8 spi7||663|2|zul-gurub|paladin||이교도의 징표|inv_jewelry_necklace_23
+19585|55?|ne||r|str8 sta8 int6 spi7||663|2|zul-gurub|paladin||이교도의 징표|inv_jewelry_necklace_24
+19598|55?|ne||u|sta7 int10 sp7 heal7||664|64|zul-gurub|mage||카자로 자갈|inv_jewelry_necklace_23
+19599|55?|ne||r|sta7 int10 spi6 sp7 heal7||664|64|zul-gurub|mage||카자로 자갈|inv_jewelry_necklace_24
+19602|55?|ne||u|sta10 sp12 heal12||665|128|zul-gurub|warlock||케잔의 타락|inv_jewelry_necklace_23
+19603|55?|ne||r|sta10 int6 sp12 heal12||665|128|zul-gurub|warlock||케잔의 타락|inv_jewelry_necklace_24
+19614|55?|ne||u|agi12 sta7||666|8|zul-gurub|rogue||잔달라 그림자 부적|inv_jewelry_necklace_23
+19615|55?|ne||r|str6 agi12 sta7||666|8|zul-gurub|rogue||잔달라 그림자 부적|inv_jewelry_necklace_24
+19618|55?|ne||u|agi12 sta7||667|4|zul-gurub|hunter||혼돈의 소용돌이 덩굴손|inv_jewelry_necklace_23
+19619|55?|ne||r|agi12 sta7 int6||667|4|zul-gurub|hunter||혼돈의 소용돌이 덩굴손|inv_jewelry_necklace_24
 20295|55|le|4.3|r|int20 sp19 heal19||16|32||||푸른용비늘 다리보호구|inv_pants_mail_15
-22087|55?|fe|4.4|e|str12 sta13 int12 spi10 mp54 sp12 heal12||667|2||paladin||성령의 장화|inv_boots_plate_03
-22089|55?|ch|4.4|e|str16 sta17 int17 spi12 sp14 heal14 crit1|1|668|2||paladin||성령의 흉갑|inv_chest_plate03
-22091|55?|he|4.4|e|str16 sta17 int17 spi12 sp14 heal14 crit1|1|668|2||paladin||성령의 투구|inv_helmet_08
-22225|55|he|4.1|r|sta12 int15 sp18 heal18||637|480||||용비늘 두건|inv_helmet_27
+22087|55?|fe|4.4|e|str12 sta13 int12 spi10 mp54 sp12 heal12||668|2||paladin||성령의 장화|inv_boots_plate_03
+22089|55?|ch|4.4|e|str16 sta17 int17 spi12 sp14 heal14 crit1|1|669|2||paladin||성령의 흉갑|inv_chest_plate03
+22091|55?|he|4.4|e|str16 sta17 int17 spi12 sp14 heal14 crit1|1|669|2||paladin||성령의 투구|inv_helmet_08
+22225|55|he|4.1|r|sta12 int15 sp18 heal18||638|480||||용비늘 두건|inv_helmet_27
 22385|55|le|4.4|e|str30 hit2 crit1|1|15|3||||티탄의 다리보호구|inv_pants_04
-23125|55|ne||r|sp22 heal22||669|498||||리치의 사슬|inv_belt_18
+23125|55|ne||r|sp22 heal22||670|498||||리치의 사슬|inv_belt_18
 249237|55|ra|2.19|u|dps53.33 sp9 heal9||32|208||||상급 영원의 마법봉|inv_wand_14
 249385|55|ra|2.19|r|int7 dps59.58 sp9 heal9||323|208||||영롱한 마법봉|inv_wand_07
 250593|55|he|4.4|u|str11 sta7 sp23 heal23||15|2||||축복받은 판금 투구|inv_helmet_24
@@ -2389,112 +2389,112 @@
 260214|55?|2h|2.10|u|spi19 dps34.6 sp52 heal52 crit1|1|9|501||||야생 야수의 지팡이|inv_staff_51
 260215|55?|2h|2.5|u|str13 agi11 sta12 spi8 dps46.47||9|291||||야생 망치|inv_mace_01
 944|56|2h|2.10|e|int26 dps42.66 fire100 frost100||41|64||||정령 마법사 지팡이|inv_staff_07
-12589|56|wa|4.1|r|sta10 int17 sp9 heal9||652|208||||먼지깃털 장식띠|inv_belt_11
-12603|56|ch|4.2|r|agi6 sta10 ap50||652|303||||밤의은총 튜닛|inv_chest_plate06
-12606|56|wa|4.2|r|sta6 int19 spi6 sp13 heal13||652|288||||결정화 벨트|inv_belt_10
+12589|56|wa|4.1|r|sta10 int17 sp9 heal9||653|208||||먼지깃털 장식띠|inv_belt_11
+12603|56|ch|4.2|r|agi6 sta10 ap50||653|303||||밤의은총 튜닛|inv_chest_plate06
+12606|56|wa|4.2|r|sta6 int19 spi6 sp13 heal13||653|288||||결정화 벨트|inv_belt_10
 12640|56|he|4.4|e|str18 hit2 crit2||15|3||||사자심장 투구|inv_helmet_36
-12926|56|fi|4.0|r|fire24||622|64||||타오르는 고리|spell_holy_innerfire
-12927|56|sh|4.2|r|sta10 ap24 hit1.5|1|622|271||||명중의 어깨보호대|inv_shoulder_10
-12929|56|ne|4.0|r|sta8 sp6 heal6 crit1|1|622|145||||앙금의 부적|inv_jewelry_necklace_05
+12926|56|fi|4.0|r|fire24||623|64||||타오르는 고리|spell_holy_innerfire
+12927|56|sh|4.2|r|sta10 ap24 hit1.5|1|623|271||||명중의 어깨보호대|inv_shoulder_10
+12929|56|ne|4.0|r|sta8 sp6 heal6 crit1|1|623|145||||앙금의 부적|inv_jewelry_necklace_05
 13116|56|sh|4.2|r|agi22 sta7 int4||41|268||||유령 어깨갑옷|inv_shoulder_18
-13161|56|2h|2.10|r|sta12 int25 dps38.81 mp56 sp70 heal70||650|496||||고리하늘 지팡이|inv_staff_29
-13162|56|ha|4.4|r|str11 sta15 crit1|1|650|3||||약탈의 발톱|inv_gauntlets_29
-13184|56|ha|4.2|r|sta11 int12 spi11 sp7 heal20||670|290||||꼬리그물 장갑|inv_gauntlets_13
-13205|56|oh|4.6|r|int14 spi7 armor2089 sp12 heal12||655|34||||롬비어드 수호 방패|inv_shield_14
-13208|56|wr|4.2|r|int9 spi14 sp5 heal15||655|290||||울음소리 손목보호대|inv_bracer_07
-13259|56|fe|4.4|r|str10 agi10 sta19||639|1||||강철빗살 경갑|inv_boots_plate_08
-13380|56|ra|2.3|r|sta9 dps31.21 ap10||654|5||||윌리의 휴대용 곡사포|inv_weapon_rifle_07
-13382|56|tr|4.0|r|hit0.5|1|654|261||||휴대용 대포|inv_misc_bomb_04
-13388|56|ch|4.1|r|sta13 int20 spi10 sp18 heal18||671|498||||우체국장의 튜닉|inv_chest_leather_10
-13389|56|le|4.1|r|sta12 int20 spi15 sp13 heal13||671|208||||우체국장의 바지|inv_pants_06
-13390|56|he|4.1|r|sta10 int25 spi10 sp15 heal15||671|464||||우체국장의 머리띠|inv_misc_bandage_15
-13391|56|fe|4.1|r|sta14 int15 spi6 sp9 heal9||671|208||||우체국장의 장화|inv_boots_02
-13392|56|fi|4.0|r|sta6 int3 spi12 sp13 heal13||671|498||||우체국장의 인장|inv_jewelry_ring_23
-13956|56|wa|4.1|r|sta10 int19 hit1|1|629|244||||안드로스의 손아귀|inv_belt_12
-13957|56|ha|4.2|r|str10 sta12 crit1|1|629|256||||가고일 갈퀴발톱|inv_gauntlets_09
-13960|56|ne|4.0|r|sta10 spi10 sp7 heal22||629|306||||마귀의 심장|inv_misc_orb_03
-13967|56|fe|4.3|r|agi20 int4 hit1|1|629|7||||칼날바람 경갑|inv_boots_plate_04
-13969|56|wr|4.3|r|sta6 int7 mp53 sp10 heal29||629|34||||절벽지기 손목보호대|inv_bracer_16
-14024|56|1h|2.15|r|dps40 ap20|1|629|9||||섬뜩한 갈퀴발톱|inv_weapon_shortblade_16
+13161|56|2h|2.10|r|sta12 int25 dps38.81 mp56 sp70 heal70||651|496||||고리하늘 지팡이|inv_staff_29
+13162|56|ha|4.4|r|str11 sta15 crit1|1|651|3||||약탈의 발톱|inv_gauntlets_29
+13184|56|ha|4.2|r|sta11 int12 spi11 sp7 heal20||671|290||||꼬리그물 장갑|inv_gauntlets_13
+13205|56|oh|4.6|r|int14 spi7 armor2089 sp12 heal12||656|34||||롬비어드 수호 방패|inv_shield_14
+13208|56|wr|4.2|r|int9 spi14 sp5 heal15||656|290||||울음소리 손목보호대|inv_bracer_07
+13259|56|fe|4.4|r|str10 agi10 sta19||640|1||||강철빗살 경갑|inv_boots_plate_08
+13380|56|ra|2.3|r|sta9 dps31.21 ap10||655|5||||윌리의 휴대용 곡사포|inv_weapon_rifle_07
+13382|56|tr|4.0|r|hit0.5|1|655|261||||휴대용 대포|inv_misc_bomb_04
+13388|56|ch|4.1|r|sta13 int20 spi10 sp18 heal18||672|498||||우체국장의 튜닉|inv_chest_leather_10
+13389|56|le|4.1|r|sta12 int20 spi15 sp13 heal13||672|208||||우체국장의 바지|inv_pants_06
+13390|56|he|4.1|r|sta10 int25 spi10 sp15 heal15||672|464||||우체국장의 머리띠|inv_misc_bandage_15
+13391|56|fe|4.1|r|sta14 int15 spi6 sp9 heal9||672|208||||우체국장의 장화|inv_boots_02
+13392|56|fi|4.0|r|sta6 int3 spi12 sp13 heal13||672|498||||우체국장의 인장|inv_jewelry_ring_23
+13956|56|wa|4.1|r|sta10 int19 hit1|1|630|244||||안드로스의 손아귀|inv_belt_12
+13957|56|ha|4.2|r|str10 sta12 crit1|1|630|256||||가고일 갈퀴발톱|inv_gauntlets_09
+13960|56|ne|4.0|r|sta10 spi10 sp7 heal22||630|306||||마귀의 심장|inv_misc_orb_03
+13967|56|fe|4.3|r|agi20 int4 hit1|1|630|7||||칼날바람 경갑|inv_boots_plate_04
+13969|56|wr|4.3|r|sta6 int7 mp53 sp10 heal29||630|34||||절벽지기 손목보호대|inv_bracer_16
+14024|56|1h|2.15|r|dps40 ap20|1|630|9||||섬뜩한 갈퀴발톱|inv_weapon_shortblade_16
 14106|56|ch|4.1|u|sta7 shadow36||25|144||||지옥매듭 로브|inv_chest_cloth_09
 14139|56|sh|4.1|r|sta9 spi11 sp13 heal37||25|306||||달빛매듭 어깨보호구|inv_shoulder_02
-14612|56|le|4.3|r|str15 agi12 sta16 int15||672|32||||피고리 다리보호대|inv_pants_06
-14614|56|wa|4.3|r|str12 agi12 sta11 int9||672|36||||피고리 허리띠|inv_belt_23
-14615|56|ha|4.3|r|str11 sta10 int10 crit1|1|672|1||||피고리 건틀릿|inv_gauntlets_26
-14616|56|fe|4.3|r|str9 agi8 sta10 int10 hit1|1|672|39||||피고리 장화|inv_boots_01
-14626|56|ch|4.1|r|sta22 int12 spi12 sp15 heal15||672|208||||시체더미 로브|inv_chest_cloth_43
-14629|56|wr|4.1|r|sta12 int11 spi4 sp6 heal6||672|466||||시체더미 소매장식|inv_bracer_07
-14631|56|fe|4.1|r|sta15 int10 spi9 sp13 heal13||672|498||||시체더미 장화|inv_boots_05
-14636|56|wa|4.2|r|sta12 ap40||672|264||||시체 허리띠|inv_belt_16
-14637|56|ch|4.2|r|sta10 ap60||672|299||||시체 갑옷|inv_chest_leather_03
-14638|56|le|4.2|r|sta18 ap52||672|303||||시체 다리보호구|inv_pants_07
-14640|56|ha|4.2|r|sta9 ap44||672|303||||시체 장갑|inv_gauntlets_15
-14641|56|fe|4.2|r|sta20 ap24||672|256||||시체 장화|inv_boots_05
+14612|56|le|4.3|r|str15 agi12 sta16 int15||673|32||||피고리 다리보호대|inv_pants_06
+14614|56|wa|4.3|r|str12 agi12 sta11 int9||673|36||||피고리 허리띠|inv_belt_23
+14615|56|ha|4.3|r|str11 sta10 int10 crit1|1|673|1||||피고리 건틀릿|inv_gauntlets_26
+14616|56|fe|4.3|r|str9 agi8 sta10 int10 hit1|1|673|39||||피고리 장화|inv_boots_01
+14626|56|ch|4.1|r|sta22 int12 spi12 sp15 heal15||673|208||||시체더미 로브|inv_chest_cloth_43
+14629|56|wr|4.1|r|sta12 int11 spi4 sp6 heal6||673|466||||시체더미 소매장식|inv_bracer_07
+14631|56|fe|4.1|r|sta15 int10 spi9 sp13 heal13||673|498||||시체더미 장화|inv_boots_05
+14636|56|wa|4.2|r|sta12 ap40||673|264||||시체 허리띠|inv_belt_16
+14637|56|ch|4.2|r|sta10 ap60||673|299||||시체 갑옷|inv_chest_leather_03
+14638|56|le|4.2|r|sta18 ap52||673|303||||시체 다리보호구|inv_pants_07
+14640|56|ha|4.2|r|sta9 ap44||673|303||||시체 장갑|inv_gauntlets_15
+14641|56|fe|4.2|r|sta20 ap24||673|256||||시체 장화|inv_boots_05
 15047|56|ch|4.3|r|sp19 heal57||16|34||||붉은용비늘 흉갑|inv_chest_chain_06
 15085|56|ch|4.2|u|agi25 sta7||16|4||||악의의 가죽 갑옷|inv_chest_plate06
-15805|56?|ho|4.0|r|int11 spi10 sp7 heal22||648|464||||페넬로프의 장미|inv_misc_flower_04
-15806|56?|1h|2.7|r|str9 agi9 dps40||648|9||||미라의 노래|inv_sword_34
+15805|56?|ho|4.0|r|int11 spi10 sp7 heal22||649|464||||페넬로프의 장미|inv_misc_flower_04
+15806|56?|1h|2.7|r|str9 agi9 dps40||649|9||||미라의 노래|inv_sword_34
 15943|56|oh|4.6|u|str3 sta14 armor1861 block35||41|3||||마력 깃든 방패|inv_shield_10
-16678|56|le|4.3|r|str6 agi26 sta6 int10 spi12||673|36||||야수추적자 바지|inv_pants_03
-16687|56|le|4.1|r|sta12 int15 spi21 sp7 heal7 hit0.9||673|192||||원소술사 다리보호구|inv_pants_06
-16694|56|le|4.1|r|sta12 int15 spi23 sp8 heal24||673|272||||기원의 스커트|inv_pants_08
-16699|56|le|4.1|r|sta15 int14 spi21 sp12 heal12||673|192||||공포의 안개 다리보호구|inv_pants_08
-16709|56|le|4.2|r|agi25 sta14 spi14||673|268||||어둠추적자 바지|inv_pants_02
-16728|56|le|4.4|r|str20 agi9 sta14 int12 mp53||673|3||||성전사 다리갑옷|inv_pants_04
-16732|56|le|4.4|r|str23 agi11 sta15 spi4||673|3||||용맹의 다리갑옷|inv_pants_04
-17044|56?|ne|4.0|r|sta10 ap30||674|303||||순교자의 결의|inv_jewelry_talisman_07
-17045|56?|fi|4.0|r|sta10 int10 sp12 heal12||674|498||||순교자의 피|inv_jewelry_ring_25
-18347|56|1h|2.0|r|agi11 sta9 dps40||675|1||||균형잡힌 고급 도끼|inv_axe_11
-18349|56|ha|4.3|r|agi15 spi13 hit1|1|675|5||||적중의 건틀릿|inv_gauntlets_12
-18350|56|ba|4.1|r|spi14 sp15 heal15||676|498||||증폭의 망토|inv_misc_cape_18
-18353|56|2h|2.10|r|int24 dps38.83 sp70 heal70 crit1|1|677|496||||바위꽃 지팡이|inv_staff_08
-18386|56|le|4.1|r|int20 mp57 sp12 heal37||675|306||||신부의 바지|inv_pants_06
-18393|56|wa|4.3|r|agi13 sta9 int6 crit1|1|677|4||||굽이나무 허리띠|inv_belt_34
-18397|56|ne|4.0|r|int10 spi7 sp7 heal7||676|368||||장로 마법사 펜던트|inv_jewelry_necklace_07
-18483|56|ra|2.19|r|dps60.94 mp52||678|208||||마나집중 마법봉|inv_wand_05
-18484|56|1h|2.7|r|dps40 ap20||678|9||||초루쉬의 검|inv_weapon_shortblade_04
-18485|56|oh|4.6|r|sta7 int14 armor2089 hit1||678|34||||정찰병의 방패|inv_shield_13
+16678|56|le|4.3|r|str6 agi26 sta6 int10 spi12||674|36||||야수추적자 바지|inv_pants_03
+16687|56|le|4.1|r|sta12 int15 spi21 sp7 heal7 hit0.9||674|192||||원소술사 다리보호구|inv_pants_06
+16694|56|le|4.1|r|sta12 int15 spi23 sp8 heal24||674|272||||기원의 스커트|inv_pants_08
+16699|56|le|4.1|r|sta15 int14 spi21 sp12 heal12||674|192||||공포의 안개 다리보호구|inv_pants_08
+16709|56|le|4.2|r|agi25 sta14 spi14||674|268||||어둠추적자 바지|inv_pants_02
+16728|56|le|4.4|r|str20 agi9 sta14 int12 mp53||674|3||||성전사 다리갑옷|inv_pants_04
+16732|56|le|4.4|r|str23 agi11 sta15 spi4||674|3||||용맹의 다리갑옷|inv_pants_04
+17044|56?|ne|4.0|r|sta10 ap30||675|303||||순교자의 결의|inv_jewelry_talisman_07
+17045|56?|fi|4.0|r|sta10 int10 sp12 heal12||675|498||||순교자의 피|inv_jewelry_ring_25
+18347|56|1h|2.0|r|agi11 sta9 dps40||676|1||||균형잡힌 고급 도끼|inv_axe_11
+18349|56|ha|4.3|r|agi15 spi13 hit1|1|676|5||||적중의 건틀릿|inv_gauntlets_12
+18350|56|ba|4.1|r|spi14 sp15 heal15||677|498||||증폭의 망토|inv_misc_cape_18
+18353|56|2h|2.10|r|int24 dps38.83 sp70 heal70 crit1|1|678|496||||바위꽃 지팡이|inv_staff_08
+18386|56|le|4.1|r|int20 mp57 sp12 heal37||676|306||||신부의 바지|inv_pants_06
+18393|56|wa|4.3|r|agi13 sta9 int6 crit1|1|678|4||||굽이나무 허리띠|inv_belt_34
+18397|56|ne|4.0|r|int10 spi7 sp7 heal7||677|368||||장로 마법사 펜던트|inv_jewelry_necklace_07
+18483|56|ra|2.19|r|dps60.94 mp52||679|208||||마나집중 마법봉|inv_wand_05
+18484|56|1h|2.7|r|dps40 ap20||679|9||||초루쉬의 검|inv_weapon_shortblade_04
+18485|56|oh|4.6|r|sta7 int14 armor2089 hit1||679|34||||정찰병의 방패|inv_shield_13
 18486|56|ch|4.1|r|sta12 int25 sp9 heal26||25|304||||달빛매듭 로브|inv_chest_cloth_04
-18680|56|ra|2.2|r|agi11 dps31.25||672|12||||고대의 해골 장궁|inv_weapon_bow_08
-18681|56|sh|4.1|r|sta4 int16 sp20 heal20||672|498||||석실 어깨걸이|inv_shoulder_05
-18682|56|le|4.2|r|sta20 int8 spi9 sp15 heal44||672|290||||구울가죽 다리보호구|inv_pants_02
-18683|56|1h|2.4|r|str8 sta12 dps40.2||672|1||||심야의 망치|inv_hammer_13
-18691|56|ne|4.0|r|sta9 int8 shadow20||679|144||||암흑의 조언자 목걸이|inv_jewelry_necklace_06
-18721|56|wa|4.3|r|sta8 int8 spi6 sp23 heal23||654|34||||탄막 벨트|inv_belt_18
-18738|56|ra|2.18|r|agi5 sta9 dps31.21||623|4||||가시뼈 석궁|inv_weapon_crossbow_04
-18740|56|wa|4.1|r|sta11 int12 spi11 sp12 heal12||623|496||||투자딘 장식띠|inv_belt_13
+18680|56|ra|2.2|r|agi11 dps31.25||673|12||||고대의 해골 장궁|inv_weapon_bow_08
+18681|56|sh|4.1|r|sta4 int16 sp20 heal20||673|498||||석실 어깨걸이|inv_shoulder_05
+18682|56|le|4.2|r|sta20 int8 spi9 sp15 heal44||673|290||||구울가죽 다리보호구|inv_pants_02
+18683|56|1h|2.4|r|str8 sta12 dps40.2||673|1||||심야의 망치|inv_hammer_13
+18691|56|ne|4.0|r|sta9 int8 shadow20||680|144||||암흑의 조언자 목걸이|inv_jewelry_necklace_06
+18721|56|wa|4.3|r|sta8 int8 spi6 sp23 heal23||655|34||||탄막 벨트|inv_belt_18
+18738|56|ra|2.18|r|agi5 sta9 dps31.21||624|4||||가시뼈 석궁|inv_weapon_crossbow_04
+18740|56|wa|4.1|r|sta11 int12 spi11 sp12 heal12||624|496||||투자딘 장식띠|inv_belt_13
 19049|56|ha|4.2|r|str21 agi14 sta9||16|299||||나무구렁일족 장갑|inv_gauntlets_26
 19050|56|sh|4.1|r|int13 sp17 heal17 crit1||25|496||||나무구렁일족 어깨보호대|inv_shoulder_19
 19057|56|ha|4.4|r|str21 sta9||15|1||||여명의 장갑|inv_gauntlets_29
 19058|56|sh|4.2|r|str13 agi11 sta20||16|299||||여명의 황금 어깨보호대|inv_shoulder_26
 19059|56|sh|4.1|r|spi7 sp25 heal25||25|496||||은빛 여명회 어깨보호구|inv_shoulder_13
-19823|56?|wa|4.4|e|str25 sta10 crit1|1|680|1|zul-gurub|warrior||잔달라 구원자의 허리띠|inv_belt_32
-19824|56?|wr|4.4|e|str13 agi13 sta13||681|1|zul-gurub|warrior||잔달라 구원자의 손목보호대|inv_bracer_14
-19826|56?|wa|4.4|e|str16 agi10 sta16 int12 heal26||682|2|zul-gurub|paladin||잔달라 자유사상가의 허리띠|inv_belt_32
-19827|56?|wr|4.4|e|str12 agi6 sta12 int10 heal11||683|2|zul-gurub|paladin||잔달라 자유사상가의 손목보호대|inv_bracer_14
-19832|56?|wa|4.3|e|agi20 sta12 int12 spi9 hit1|1|684|4|zul-gurub|hunter||잔달라 수렵꾼의 허리띠|inv_belt_19
-19835|56?|sh|4.2|e|str12 agi20 sta12 hit1|1|685|8|zul-gurub|rogue||잔달라 개혁가의 어깨보호대|inv_shoulder_29
-19836|56?|wr|4.2|e|str9 agi14 sta14||686|8|zul-gurub|rogue||잔달라 개혁가의 팔보호구|inv_bracer_14
-19843|56?|wr|4.1|e|sta10 int11 spi12 heal24||687|16|zul-gurub|priest||잔달라 성자의 손목띠|inv_bracer_07
-19845|56?|sh|4.1|e|sta13 int21 spi10 sp12 heal12||688|64|zul-gurub|mage||잔달라 환영술사의 어깨보호대|inv_shoulder_17
-19846|56?|wr|4.1|e|sta11 int11 spi9 sp14 heal14||689|64|zul-gurub|mage||잔달라 환영술사의 손목띠|inv_bracer_07
-19848|56?|wr|4.1|e|sta15 int8 sp16 heal16||690|128|zul-gurub|warlock||잔달라 악령술사의 손목띠|inv_bracer_07
-19849|56?|sh|4.1|e|sta23 int19 sp12 heal12||691|128|zul-gurub|warlock||잔달라 악령술사의 어깨보호대|inv_shoulder_17
-22231|56|fe|4.1|r|sta11 int18 sp4 heal4 hit1|1|624|498||||적중의 케이저 장화|inv_boots_cloth_02
-22232|56|wa|4.3|r|agi21 mp52 hit1|1|639|5||||명사수의 벨트|inv_belt_18
-22311|56|fe|4.1|r|sta17 int11 hit1||656|64||priest,mage,warlock||무쇠매듭 장화|inv_boots_cloth_05
-22313|56|wr|4.1|r|sta14 int8 hit0.5||641|128||priest,mage,warlock||무쇠매듭 팔보호구|inv_bracer_13
-22314|56|2h|2.6|r|dps52.22 agi35||692|4||||수렵꾼의 작살|inv_spear_06
-22317|56|1h|2.13|r|dps40 str5 agi12||693|9||||레프티의 청동너클|inv_gauntlets_11
-22318|56|ra|2.2|r|dps31.21 sta4 ap20||693|13||||말겐의 장궁|inv_weapon_bow_12
-22322|56|1h|2.4|r|dps40.31 critMelee1|1|694|1||||턱뼈 파쇄기|inv_mace_15
-22325|56|wa|4.2|r|agi22 sta9||694|268||||책략가의 허리띠|inv_belt_26
-22403|56|ne|4.0|r|sta7 int8 sp9 heal9 hit1|1|654|502||||진주 껍질 목걸이|inv_jewelry_necklace_10
-22404|56|mh|2.13|r|sta12 dps40.19 ap16||654|9||||윌리의 효자손|inv_weapon_shortblade_16
-22405|56|sh|4.1|r|sta11 int12 spi12 sp7 heal20||654|306||||붉은십자군의 어깨보호대|inv_shoulder_02
-22406|56|2h|2.10|r|spi12 dps38.81 mp512 sp43 heal131||654|304||||구원의 지팡이|inv_staff_23
-22407|56|he|4.2|r|sta14 int14 spi12 sp23 heal23||654|290||||초승달 투구|inv_helmet_41
-22472|56|fe|4.2|r|agi13 sta13 str13||692|299||||야성의 장화|inv_boots_08
+19823|56?|wa|4.4|e|str25 sta10 crit1|1|681|1|zul-gurub|warrior||잔달라 구원자의 허리띠|inv_belt_32
+19824|56?|wr|4.4|e|str13 agi13 sta13||682|1|zul-gurub|warrior||잔달라 구원자의 손목보호대|inv_bracer_14
+19826|56?|wa|4.4|e|str16 agi10 sta16 int12 heal26||683|2|zul-gurub|paladin||잔달라 자유사상가의 허리띠|inv_belt_32
+19827|56?|wr|4.4|e|str12 agi6 sta12 int10 heal11||684|2|zul-gurub|paladin||잔달라 자유사상가의 손목보호대|inv_bracer_14
+19832|56?|wa|4.3|e|agi20 sta12 int12 spi9 hit1|1|685|4|zul-gurub|hunter||잔달라 수렵꾼의 허리띠|inv_belt_19
+19835|56?|sh|4.2|e|str12 agi20 sta12 hit1|1|686|8|zul-gurub|rogue||잔달라 개혁가의 어깨보호대|inv_shoulder_29
+19836|56?|wr|4.2|e|str9 agi14 sta14||687|8|zul-gurub|rogue||잔달라 개혁가의 팔보호구|inv_bracer_14
+19843|56?|wr|4.1|e|sta10 int11 spi12 heal24||688|16|zul-gurub|priest||잔달라 성자의 손목띠|inv_bracer_07
+19845|56?|sh|4.1|e|sta13 int21 spi10 sp12 heal12||689|64|zul-gurub|mage||잔달라 환영술사의 어깨보호대|inv_shoulder_17
+19846|56?|wr|4.1|e|sta11 int11 spi9 sp14 heal14||690|64|zul-gurub|mage||잔달라 환영술사의 손목띠|inv_bracer_07
+19848|56?|wr|4.1|e|sta15 int8 sp16 heal16||691|128|zul-gurub|warlock||잔달라 악령술사의 손목띠|inv_bracer_07
+19849|56?|sh|4.1|e|sta23 int19 sp12 heal12||692|128|zul-gurub|warlock||잔달라 악령술사의 어깨보호대|inv_shoulder_17
+22231|56|fe|4.1|r|sta11 int18 sp4 heal4 hit1|1|625|498||||적중의 케이저 장화|inv_boots_cloth_02
+22232|56|wa|4.3|r|agi21 mp52 hit1|1|640|5||||명사수의 벨트|inv_belt_18
+22311|56|fe|4.1|r|sta17 int11 hit1||657|64||priest,mage,warlock||무쇠매듭 장화|inv_boots_cloth_05
+22313|56|wr|4.1|r|sta14 int8 hit0.5||642|128||priest,mage,warlock||무쇠매듭 팔보호구|inv_bracer_13
+22314|56|2h|2.6|r|dps52.22 agi35||693|4||||수렵꾼의 작살|inv_spear_06
+22317|56|1h|2.13|r|dps40 str5 agi12||694|9||||레프티의 청동너클|inv_gauntlets_11
+22318|56|ra|2.2|r|dps31.21 sta4 ap20||694|13||||말겐의 장궁|inv_weapon_bow_12
+22322|56|1h|2.4|r|dps40.31 critMelee1|1|695|1||||턱뼈 파쇄기|inv_mace_15
+22325|56|wa|4.2|r|agi22 sta9||695|268||||책략가의 허리띠|inv_belt_26
+22403|56|ne|4.0|r|sta7 int8 sp9 heal9 hit1|1|655|502||||진주 껍질 목걸이|inv_jewelry_necklace_10
+22404|56|mh|2.13|r|sta12 dps40.19 ap16||655|9||||윌리의 효자손|inv_weapon_shortblade_16
+22405|56|sh|4.1|r|sta11 int12 spi12 sp7 heal20||655|306||||붉은십자군의 어깨보호대|inv_shoulder_02
+22406|56|2h|2.10|r|spi12 dps38.81 mp512 sp43 heal131||655|304||||구원의 지팡이|inv_staff_23
+22407|56|he|4.2|r|sta14 int14 spi12 sp23 heal23||655|290||||초승달 투구|inv_helmet_41
+22472|56|fe|4.2|r|agi13 sta13 str13||693|299||||야성의 장화|inv_boots_08
 250598|56|le|4.4|e|str18 sp38 heal38 crit1|1|15|2||||용사의 다리갑옷|inv_pants_plate_02
 250599|56|he|4.4|e|str12 sp38 heal38 hit2|1|15|3||||굳건한 투구|inv_helmet_22
 250600|56|le|4.4|e|int14 spi18 sp25 heal73||15|2||||순교자의 다리갑옷|inv_pants_plate_21
@@ -2513,155 +2513,155 @@
 2243|57|1h|2.4|e|int13 spi10 dps29.69 sp90 heal90|1|41|306||||외팔이 에드워드의 손|inv_mace_14
 12620|57|he|4.4|r|str12 sta25 def9||15|1||||마력 깃든 토륨 투구|inv_helmet_02
 13006|57|mh|2.4|r|str10 sta10 dps40.89||41|1||||맥고완의 무쇠망치|inv_hammer_17
-13163|57|2h|2.8|r|str20 agi9 sta11 dps53.03|1|650|3||||무자비의 낫|inv_sword_18
-13314|57|ch|4.1|e|sta20 int20 sp23 heal23||651|498||||알란나의 보살핌|inv_chest_cloth_12
-13368|57|1h|2.15|r|dps40.71 ap30||673|9||||해골 절단기|inv_weapon_shortblade_12
-13397|57|ba|4.1|r|str7 agi8 sta14||695|299||||돌가죽 가고일 단망토|inv_misc_cape_19
-13524|57|ho|4.0|r|hit1||696|64||||불타는 어둠의 해골|inv_misc_bone_humanskull_01
-13937|57|2h|2.10|e|sta30 spi20 dps43.28 sp90 heal90|1|697|496||||교장의 해골지팡이|inv_jewelry_talisman_12
-13938|57|ra|2.19|r|int5 dps62.63 sp11 heal11||697|208||||가시해골 쐐기|inv_misc_bone_taurenskull_01
-13944|57|ch|4.2|r|str12 sta12 crit2|1|697|265||||비석 흉갑|inv_chest_chain_17
-13954|57|fe|4.2|r|nature24 mp55 sp12 heal38||695|290||||신록의 장화|inv_boots_08
-13964|57|1h|2.15|r|int8 dps27.19 sp72 heal72||697|496||||마녀의 비수|inv_weapon_shortblade_25
+13163|57|2h|2.8|r|str20 agi9 sta11 dps53.03|1|651|3||||무자비의 낫|inv_sword_18
+13314|57|ch|4.1|e|sta20 int20 sp23 heal23||652|498||||알란나의 보살핌|inv_chest_cloth_12
+13368|57|1h|2.15|r|dps40.71 ap30||674|9||||해골 절단기|inv_weapon_shortblade_12
+13397|57|ba|4.1|r|str7 agi8 sta14||696|299||||돌가죽 가고일 단망토|inv_misc_cape_19
+13524|57|ho|4.0|r|hit1||697|64||||불타는 어둠의 해골|inv_misc_bone_humanskull_01
+13937|57|2h|2.10|e|sta30 spi20 dps43.28 sp90 heal90|1|698|496||||교장의 해골지팡이|inv_jewelry_talisman_12
+13938|57|ra|2.19|r|int5 dps62.63 sp11 heal11||698|208||||가시해골 쐐기|inv_misc_bone_taurenskull_01
+13944|57|ch|4.2|r|str12 sta12 crit2|1|698|265||||비석 흉갑|inv_chest_chain_17
+13954|57|fe|4.2|r|nature24 mp55 sp12 heal38||696|290||||신록의 장화|inv_boots_08
+13964|57|1h|2.15|r|int8 dps27.19 sp72 heal72||698|496||||마녀의 비수|inv_weapon_shortblade_25
 14112|57|sh|4.1|u|spi5 shadow26||25|144||||지옥매듭 어깨보호구|inv_shoulder_23
 14140|57|he|4.1|r|sta13 spi15 sp17 heal51||25|306||||달빛매듭 머리장식|inv_misc_bandana_01
-14146|57|ha|4.1|e|int10 sp9 heal9 crit2||25|208||priest,mage,warlock||주문 전문화 장갑|inv_gauntlets_06
+14146|57|ha|4.1|e|int10 sp9 heal9 crit2||25;699|208||priest,mage,warlock||주문 전문화 장갑|inv_gauntlets_06
 14152|57|ch|4.1|e|int12 sp40 heal40 crit1|1|118|64||mage||대마법사의 로브|inv_chest_cloth_38
 14153|57|ch|4.1|e|sta10 int9 sp46 heal46|1|118|128||warlock||공허의 로브|inv_chest_cloth_51
 14154|57|ch|4.1|e|sta14 spi16 sp25 heal73|1|118|16||priest||신앙의 예복|inv_chest_cloth_31
-14503|57|sh|4.2|r|str10 agi10 sta10 int10 hit0.6||651|299||||죽음의 손아귀|inv_shoulder_25
-14525|57|ha|4.4|r|str16 sta15 def7||651|3||||뼈죔쇠 건틀릿|inv_gauntlets_29
-14528|57|oh|4.6|r|sta7 int12 armor2121 sp5 heal15||620|34||||덜그럭거리는 버클러|inv_shield_02
-14538|57|sh|4.1|r|sta19 int11 shadow17||620|144||||사자의 어깨보호대|inv_shoulder_02
-14548|57|sh|4.3|r|sta15 spi13 sp9 heal26||653|32||||왕실 어깨보호대|inv_shoulder_11
+14503|57|sh|4.2|r|str10 agi10 sta10 int10 hit0.6||652|299||||죽음의 손아귀|inv_shoulder_25
+14525|57|ha|4.4|r|str16 sta15 def7||652|3||||뼈죔쇠 건틀릿|inv_gauntlets_29
+14528|57|oh|4.6|r|sta7 int12 armor2121 sp5 heal15||621|34||||덜그럭거리는 버클러|inv_shield_02
+14538|57|sh|4.1|r|sta19 int11 shadow17||621|144||||사자의 어깨보호대|inv_shoulder_02
+14548|57|sh|4.3|r|sta15 spi13 sp9 heal26||654|32||||왕실 어깨보호대|inv_shoulder_11
 15052|57|le|4.3|r|sta8 ap54||16|32||||검은용비늘 다리보호구|inv_pants_03
-16677|57|he|4.3|r|agi20 sta20 int13 spi6||697|4||||야수추적자 모자|inv_helmet_24
-16686|57|he|4.1|r|sta10 int30 sp11 heal11||697|64||||원소술사 관|inv_crown_02
-16693|57|he|4.1|r|sta13 int24 spi15 sp7 heal20||697|16||||기원의 관|inv_crown_01
-16698|57|he|4.1|r|sta15 int23 spi12 sp14 heal14||697|208||||공포의 안개 복면|inv_helmet_29
-16707|57|he|4.2|r|str6 agi20 sta20 spi13||697|268||||어둠추적자 모자|inv_helmet_41
-16731|57|he|4.4|r|str15 agi9 sta27||697|3||||용맹의 투구|inv_helmet_02
-18370|57|tr|4.0|r|str10|1|698|299||||경계의 부적|inv_misc_stonetablet_04
-18372|57|mh|2.15|r|sta15 dps27.14 shadow88||698|144||||초승달 단도|inv_weapon_shortblade_18
-18373|57|ch|4.2|r|sta10 int20 spi6 sp23 heal23||699|288||||평온의 흉갑|inv_chest_leather_08
-18374|57|sh|4.2|r|str11 agi12 sta10||676|265||||화염에 그을린 어깨보호대|inv_shoulder_24
-18375|57|wr|4.2|r|agi10 sta9 ap24||699|303||||쇠퇴의 팔보호구|inv_bracer_07
-18378|57|le|4.3|r|agi6 sta16 int16 spi10 sp18 heal18||699|2||||실버문 다리보호구|inv_pants_03
-18379|57|fe|4.3|r|sta18 int9 ap22||698|34||||혐오의 경갑|inv_boots_plate_06
-18380|57|le|4.4|r|str15 sta20 int9 crit1|1|699|1||||으스스한 강화 다리보호구|inv_pants_04
-18381|57|ne|4.0|r|agi15 def7||698|268||||악마눈 목걸이|inv_misc_eye_01
-18384|57|sh|4.4|r|str17 sta10 int9 def7||698|3||||어깨갑옷|inv_shoulder_17
-18385|57|ch|4.1|r|sta11 int13 spi5 sp27 heal27||698|498||||영원한 밤의 로브|inv_chest_cloth_51
-18388|57|ra|2.18|r|dps31.72 hitRanged1|1|699|4||||암석 분쇄기|inv_weapon_crossbow_08
-18389|57|ba|4.1|r|sta7 int14 sp7 heal20||698|498||||질서의 망토|inv_misc_cape_01
-18391|57|wa|4.2|r|sta9 int18 sp10 heal31||698|290||||눈자루 장식끈|inv_belt_26
-18395|57|fi|4.0|r|sta7 int12 spi8 sp5 heal15||699|306||||에메랄드 불꽃 반지|inv_jewelry_ring_11
-18396|57|mh|2.7|r|dps27.25 sp72 heal72||699|194||||정신의 조각칼|inv_weapon_shortblade_22
+16677|57|he|4.3|r|agi20 sta20 int13 spi6||698|4||||야수추적자 모자|inv_helmet_24
+16686|57|he|4.1|r|sta10 int30 sp11 heal11||698|64||||원소술사 관|inv_crown_02
+16693|57|he|4.1|r|sta13 int24 spi15 sp7 heal20||698|16||||기원의 관|inv_crown_01
+16698|57|he|4.1|r|sta15 int23 spi12 sp14 heal14||698|208||||공포의 안개 복면|inv_helmet_29
+16707|57|he|4.2|r|str6 agi20 sta20 spi13||698|268||||어둠추적자 모자|inv_helmet_41
+16731|57|he|4.4|r|str15 agi9 sta27||698|3||||용맹의 투구|inv_helmet_02
+18370|57|tr|4.0|r|str10|1|700|299||||경계의 부적|inv_misc_stonetablet_04
+18372|57|mh|2.15|r|sta15 dps27.14 shadow88||700|144||||초승달 단도|inv_weapon_shortblade_18
+18373|57|ch|4.2|r|sta10 int20 spi6 sp23 heal23||701|288||||평온의 흉갑|inv_chest_leather_08
+18374|57|sh|4.2|r|str11 agi12 sta10||677|265||||화염에 그을린 어깨보호대|inv_shoulder_24
+18375|57|wr|4.2|r|agi10 sta9 ap24||701|303||||쇠퇴의 팔보호구|inv_bracer_07
+18378|57|le|4.3|r|agi6 sta16 int16 spi10 sp18 heal18||701|2||||실버문 다리보호구|inv_pants_03
+18379|57|fe|4.3|r|sta18 int9 ap22||700|34||||혐오의 경갑|inv_boots_plate_06
+18380|57|le|4.4|r|str15 sta20 int9 crit1|1|701|1||||으스스한 강화 다리보호구|inv_pants_04
+18381|57|ne|4.0|r|agi15 def7||700|268||||악마눈 목걸이|inv_misc_eye_01
+18384|57|sh|4.4|r|str17 sta10 int9 def7||700|3||||어깨갑옷|inv_shoulder_17
+18385|57|ch|4.1|r|sta11 int13 spi5 sp27 heal27||700|498||||영원한 밤의 로브|inv_chest_cloth_51
+18388|57|ra|2.18|r|dps31.72 hitRanged1|1|701|4||||암석 분쇄기|inv_weapon_crossbow_08
+18389|57|ba|4.1|r|sta7 int14 sp7 heal20||700|498||||질서의 망토|inv_misc_cape_01
+18391|57|wa|4.2|r|sta9 int18 sp10 heal31||700|290||||눈자루 장식끈|inv_belt_26
+18395|57|fi|4.0|r|sta7 int12 spi8 sp5 heal15||701|306||||에메랄드 불꽃 반지|inv_jewelry_ring_11
+18396|57|mh|2.7|r|dps27.25 sp72 heal72||701|194||||정신의 조각칼|inv_weapon_shortblade_22
 18405|57|wa|4.1|e|sta10 int16 sp20 heal20 crit1|1|25|502||||대마법사의 허리띠|inv_belt_31
 18407|57|ha|4.1|r|sta9 shadow33||25|144||||지옥매듭 장갑|inv_gauntlets_19
 18408|57|ha|4.1|r|int9 fire33||25|192||||지옥불 장갑|inv_gauntlets_19
 18409|57|ha|4.1|r|sta9 int16 sp11 heal33||25|498||||달빛매듭 장갑|inv_gauntlets_17
 18504|57|wa|4.2|r|sta9 int23 sp15 heal15||16|290||||통찰의 벨트|inv_belt_26
 18506|57|fe|4.2|r|agi23 sta9||16|268||||살쾡이 장화|inv_boots_08
-18507|57|fe|4.1|r|sta12 int12 spi11 sp9 heal26||700|306||||보름달 장화|inv_boots_05
+18507|57|fe|4.1|r|sta12 int12 spi11 sp9 heal26||702|306||||보름달 장화|inv_boots_05
 18509|57|ba|4.1|e|sta10 crit1||16|1||||오색 망토|inv_misc_cape_02
 18510|57|ba||e|sta8 int10 sp14 heal42||16|498||||야생의 장막|inv_misc_cape_01
 18511|57|ba||e|agi17 sta8|1|16|269||||변화의 망토|inv_misc_cape_20
-18679|57|fi||u|int10 frost14||701|64||||극한의 반지|inv_jewelry_ring_29
-18686|57|sh|4.3|r|agi19 sta9 int12||620|4||||해골 골렘 어깨보호구|inv_shoulder_03
-18689|57|ba|4.1|r|str12 sta11||653|291||||환영 망토|inv_misc_cape_20
-18693|57|ha|4.1|r|sta12 int12 spi9 frost17||651|64||||공포의 장갑|inv_gauntlets_16
-18722|57|ha|4.4|r|str22 hit0.5|1|619|3||||죽음의 고리장갑|inv_gauntlets_13
-18723|57|ne|4.0|r|sta8 spi7 sp11 heal33||630|498||||생기의 사슬 목걸이|inv_jewelry_necklace_01
-18734|57|ba|4.1|r|str9 sta12 hit0.3||696|291||||잿빛 달망토|inv_misc_cape_11
-18735|57|fe|4.1|r|sta19 int11 shadow17||696|144||||말레키의 장화|inv_boots_03
-18754|57|wr|4.4|r|str12 sta12 def3||702|3||||지옥에서 벼려낸 팔보호구|inv_bracer_15
-18755|57|ra|2.3|r|dps31.73 sta6 agi4||702|4||||소로시안 불막대|inv_weapon_rifle_03
-18756|57|oh|4.6|r|armor2121 str18 sta5||702|1||||공포의 수호방패|inv_shield_17
-18758|57|1h|2.15|r|dps40.83 ap24|1|703|9||||유령의 칼날|inv_weapon_shortblade_18
-18759|57|2h|2.1|r|sta30 dps52.9 ap28||703|34||||악의의 도끼|inv_axe_18
-18761|57|ra|2.19|r|int7 dps62.5 sp9 heal9||703|208||||망각의 손길|inv_wand_12
-21184|57?|wr|4.4|e|str19 agi10 sta8||704|3||||깊은바위 팔보호구|inv_bracer_07
-21185|57?|ho||e|int10 mp58 sp6 heal18||704|336||||고요한 대지의 보주|inv_misc_gem_pearl_06
-21186|57?|wr|4.1|e|sta7 sp27 heal27 hit1|1|704|498||||성난바위 팔보호구|inv_bracer_12
+18679|57|fi||u|int10 frost14||703|64||||극한의 반지|inv_jewelry_ring_29
+18686|57|sh|4.3|r|agi19 sta9 int12||621|4||||해골 골렘 어깨보호구|inv_shoulder_03
+18689|57|ba|4.1|r|str12 sta11||654|291||||환영 망토|inv_misc_cape_20
+18693|57|ha|4.1|r|sta12 int12 spi9 frost17||652|64||||공포의 장갑|inv_gauntlets_16
+18722|57|ha|4.4|r|str22 hit0.5|1|620|3||||죽음의 고리장갑|inv_gauntlets_13
+18723|57|ne|4.0|r|sta8 spi7 sp11 heal33||631|498||||생기의 사슬 목걸이|inv_jewelry_necklace_01
+18734|57|ba|4.1|r|str9 sta12 hit0.3||697|291||||잿빛 달망토|inv_misc_cape_11
+18735|57|fe|4.1|r|sta19 int11 shadow17||697|144||||말레키의 장화|inv_boots_03
+18754|57|wr|4.4|r|str12 sta12 def3||704|3||||지옥에서 벼려낸 팔보호구|inv_bracer_15
+18755|57|ra|2.3|r|dps31.73 sta6 agi4||704|4||||소로시안 불막대|inv_weapon_rifle_03
+18756|57|oh|4.6|r|armor2121 str18 sta5||704|1||||공포의 수호방패|inv_shield_17
+18758|57|1h|2.15|r|dps40.83 ap24|1|705|9||||유령의 칼날|inv_weapon_shortblade_18
+18759|57|2h|2.1|r|sta30 dps52.9 ap28||705|34||||악의의 도끼|inv_axe_18
+18761|57|ra|2.19|r|int7 dps62.5 sp9 heal9||705|208||||망각의 손길|inv_wand_12
+21184|57?|wr|4.4|e|str19 agi10 sta8||706|3||||깊은바위 팔보호구|inv_bracer_07
+21185|57?|ho||e|int10 mp58 sp6 heal18||706|336||||고요한 대지의 보주|inv_misc_gem_pearl_06
+21186|57?|wr|4.1|e|sta7 sp27 heal27 hit1|1|706|498||||성난바위 팔보호구|inv_bracer_12
 21278|57|ha|4.2|r|hit1 crit1||16|271||||폭풍안개 장갑|inv_gauntlets_05
-22331|57|fi|4.0|r|str7 sta12 def7||705|257||||흔들리지 않는 영웅의 고리|inv_jewelry_ring_33
-22333|57|2h|2.5|r|dps53.1 int15 sta13 sp27 heal27||705|2||||성스러운 힘의 망치|inv_hammer_04
-22394|57|2h|2.10|r|sta15 int15 spi22 dps39.29 sp45 heal135||653|304||||회개의 지팡이|inv_staff_29
+22331|57|fi|4.0|r|str7 sta12 def7||707|257||||흔들리지 않는 영웅의 고리|inv_jewelry_ring_33
+22333|57|2h|2.5|r|dps53.1 int15 sta13 sp27 heal27||707|2||||성스러운 힘의 망치|inv_hammer_04
+22394|57|2h|2.10|r|sta15 int15 spi22 dps39.29 sp45 heal135||654|304||||회개의 지팡이|inv_staff_29
 250595|57|ch|4.4|r|sta25 def9 sp14 heal14||116|2||||농축된 토륨 가슴보호갑|
 5267|58|1h|2.15|r|agi10 sta10 dps41.33||41|8||||붉은 크리스|inv_weapon_shortblade_03
-12103|58|ne|4.0|r|sta7 int7 spi7 hit1.3|1|706|487||||미스타리아의 별|inv_jewelry_talisman_08
-12587|58|he|4.2|r|str15 sta17 hit0.5 crit1.5|1|657|265||||렌드의 눈|inv_helmet_46
-12590|58|1h|2.15|e|dps45.59|1|657|9||||필살의 비수|inv_weapon_shortblade_25
-12592|58|2h|2.8|e|dps59.43|1|707|1||||샤크람의 흑도|inv_sword_29
+12103|58|ne|4.0|r|sta7 int7 spi7 hit1.3|1|708|487||||미스타리아의 별|inv_jewelry_talisman_08
+12587|58|he|4.2|r|str15 sta17 hit0.5 crit1.5|1|658|265||||렌드의 눈|inv_helmet_46
+12590|58|1h|2.15|e|dps45.59|1|658|9||||필살의 비수|inv_weapon_shortblade_25
+12592|58|2h|2.8|e|dps59.43|1|709|1||||샤크람의 흑도|inv_sword_29
 12619|58|le|4.4|r|str20 sta21 def8||15|1||||마력 깃든 토륨 다리보호구|inv_pants_04
 12783|58|1h|2.15|r|agi4 dps41.32 crit1||15|9||||심장적출 단검|inv_sword_17
 12784|58|2h|2.1|r|sta13 dps53.82 ap62||15|39||||아케이나이트 도끼|inv_axe_09
 12796|58|2h|2.5|r|str15 dps53.82|1|15|256||||티탄의 망치|inv_hammer_09
-12936|58|wr|4.4|r|spi7 hit1 crit1|1|657|3||||전투판금 손목보호대|inv_bracer_17
-12940|58|mh|2.7|r|str4 dps41.43 crit1|1|657|11||||달렌드의 성검|inv_sword_43
-12963|58|le|4.2|r|ap24 hit1 crit1|1|656|271||||검사의 다리보호구|inv_pants_06
-12965|58|le|4.1|r|sta13 int16 spi16 sp19 heal19||656|464||||정기구름 다리보호구|inv_pants_06
-12966|58|wr|4.2|r|str5 sta13 hit1|1|656|299||||검은안개 손목보호대|inv_bracer_07
-12968|58|ba|4.1|r|int13 frost13||656|64||||냉기술사 단망토|inv_misc_cape_18
+12936|58|wr|4.4|r|spi7 hit1 crit1|1|658|3||||전투판금 손목보호대|inv_bracer_17
+12940|58|mh|2.7|r|str4 dps41.43 crit1|1|658|11||||달렌드의 성검|inv_sword_43
+12963|58|le|4.2|r|ap24 hit1 crit1|1|657|271||||검사의 다리보호구|inv_pants_06
+12965|58|le|4.1|r|sta13 int16 spi16 sp19 heal19||657|464||||정기구름 다리보호구|inv_pants_06
+12966|58|wr|4.2|r|str5 sta13 hit1|1|657|299||||검은안개 손목보호대|inv_bracer_07
+12968|58|ba|4.1|r|int13 frost13||657|64||||냉기술사 단망토|inv_misc_cape_18
 13023|58|ra|2.2|r|agi10 sta4 dps32.22||41|13||||독수리뿔 장궁|inv_weapon_bow_11
-13098|58|fi|4.0|r|sta9 ap12 crit1|1|707|271||||아픔의 반지|inv_jewelry_ring_18
-13141|58|ne|4.0|r|sta7 int11 mp53 sp5 heal15||707|306||||그나르의 이빨|inv_jewelry_necklace_09
-13142|58|wa|4.4|r|str14 sta18 hit1|1|707|3||||약탈의 벨트|inv_belt_33
-13340|58|ba|4.1|r|agi15 ap20||673|303||||검은 남작의 단망토|inv_misc_cape_20
-13344|58|ha|4.3|r|sta10 int11 spi9 sp19 heal19||673|34||||용족 건틀릿|inv_gauntlets_31
-13345|58|fi|4.0|r|int17 sp8 heal8||673|68||||리븐데어의 문장|inv_jewelry_ring_16
-13346|58|ch|4.1|r|int8 spi25 sp13 heal40||673|306||||고귀한 자의 로브|inv_chest_cloth_08
-13349|58|mh|2.4|r|sta5 dps27.5 shadow88||673|16||||부정의 홀|inv_mace_07
-13353|58|ho|4.0|e|sta8 int15 spi10 shadow16|1|706|208||||사자의 책|inv_misc_book_06
-13358|58|sh|4.2|r|agi23 sta10||706|268||||고룡가죽 어깨보호구|inv_shoulder_24
-13359|58|he|4.3|r|sta25 spi-10 ap40 crit1|1|706|7||||폭정의 왕관|inv_helmet_03
-13360|58|1h|2.15|r|sta6 int10 spi7 dps27.67 sp45 heal135||706|304||||엘프 마술사의 선물|inv_weapon_shortblade_15
-13369|58|fe|4.1|r|spi5 fire29||706|64||||불길의 장화|inv_boots_05
-13505|58|2h|2.8|e|dps59.44|1|673|1||||남작 리븐데어의 룬검|inv_sword_17
-13965|58?|tr|4.0|r|critMelee1|1|708|271||||블랙핸드의 팔찌|inv_misc_armorkit_09
-13968|58?|tr|4.0|r|critSpell1|1|708|208||priest,shaman,mage,warlock,druid||괴수의 눈|inv_jewelry_talisman_08
+13098|58|fi|4.0|r|sta9 ap12 crit1|1|709|271||||아픔의 반지|inv_jewelry_ring_18
+13141|58|ne|4.0|r|sta7 int11 mp53 sp5 heal15||709|306||||그나르의 이빨|inv_jewelry_necklace_09
+13142|58|wa|4.4|r|str14 sta18 hit1|1|709|3||||약탈의 벨트|inv_belt_33
+13340|58|ba|4.1|r|agi15 ap20||674|303||||검은 남작의 단망토|inv_misc_cape_20
+13344|58|ha|4.3|r|sta10 int11 spi9 sp19 heal19||674|34||||용족 건틀릿|inv_gauntlets_31
+13345|58|fi|4.0|r|int17 sp8 heal8||674|68||||리븐데어의 문장|inv_jewelry_ring_16
+13346|58|ch|4.1|r|int8 spi25 sp13 heal40||674|306||||고귀한 자의 로브|inv_chest_cloth_08
+13349|58|mh|2.4|r|sta5 dps27.5 shadow88||674|16||||부정의 홀|inv_mace_07
+13353|58|ho|4.0|e|sta8 int15 spi10 shadow16|1|708|208||||사자의 책|inv_misc_book_06
+13358|58|sh|4.2|r|agi23 sta10||708|268||||고룡가죽 어깨보호구|inv_shoulder_24
+13359|58|he|4.3|r|sta25 spi-10 ap40 crit1|1|708|7||||폭정의 왕관|inv_helmet_03
+13360|58|1h|2.15|r|sta6 int10 spi7 dps27.67 sp45 heal135||708|304||||엘프 마술사의 선물|inv_weapon_shortblade_15
+13369|58|fe|4.1|r|spi5 fire29||708|64||||불길의 장화|inv_boots_05
+13505|58|2h|2.8|e|dps59.44|1|674|1||||남작 리븐데어의 룬검|inv_sword_17
+13965|58?|tr|4.0|r|critMelee1|1|710|271||||블랙핸드의 팔찌|inv_misc_armorkit_09
+13968|58?|tr|4.0|r|critSpell1|1|710|208||priest,shaman,mage,warlock,druid||괴수의 눈|inv_jewelry_talisman_08
 15991|58|oh|4.6|u|agi4 sta14 armor1918 block36||41|3||||투쟁의 방패|inv_shield_07
-16666|58|ch|4.3|r|sta13 int20 sp23 heal23||707|34||||정령의 조끼|inv_chest_chain_11
-16674|58|ch|4.3|r|str8 agi21 sta16 int13 spi6||707|36||||야수추적자 튜닉|inv_chest_chain_03
-16688|58|ch|4.1|r|sta9 int28 spi8 sp12 heal12||707|64||||원소술사 로브|inv_chest_cloth_25
-16690|58|ch|4.1|r|sta13 int24 spi15 sp7 heal20||707|272||||기원의 로브|inv_chest_cloth_11
-16721|58|ch|4.2|r|agi26 sta13 spi12 hit0.8||707|268||||어둠추적자 튜닉|inv_chest_leather_07
-16730|58|ch|4.4|r|str15 agi10 sta24 spi12||707|1||||용맹의 흉갑|inv_chest_plate03
-18102|58|fe|4.1|r|sta5 int16 sp18 heal18||657|498||||용기사 장화|inv_boots_05
-18420|58?|2h|2.5|r|str26 dps53.83 crit1|1|709|291||||해골 파쇄기|inv_mace_02
-18421|58?|he|4.3|r|agi19 sta13 int10 spi10 crit1|1|709|4||||등나무 투구|inv_helmet_19
-18520|58|2h|2.8|r|dps53.91 ap50 crit1|1|710|6||||잔혹의 검|inv_sword_11
-18522|58|fi|4.0|r|str14 sta13||710|291||||오우거 왕의 반지|inv_jewelry_ring_32
-18523|58|ho|4.0|r|sta14 sp10 heal29||710|400||||밝게 빛나는 돌|inv_misc_orb_01
-18524|58|le|4.3|r|agi14 sta21 int13 crit1|1|710|4||||파괴의 다리보호구|inv_pants_03
-18525|58|wr|4.2|r|sta8 int10 spi5 sp7 heal22||710|290||||번영의 팔보호구|inv_bracer_12
-18527|58|ha|4.3|r|sta10 int10 spi10 sp11 heal33||710|34||||화목의 건틀릿|inv_gauntlets_10
-18717|58|2h|2.5|r|sta10 int26 spi17 dps40 sp45 heal135||706|290||||십자군 사령관의 망치|inv_hammer_06
-18720|58|sh|4.1|r|int16 spi8 sp7 heal7 crit1|1|706|208||||나스레짐의 견장|inv_shoulder_23
-20713|58?|ha|4.3|r|agi16 sta15 int10||711|4||hunter||사막방랑자 건틀릿|inv_gauntlets_11
-20715|58?|fe|4.2|r|str9 agi19 sta10||711|8||rogue||모래언덕 장화|inv_boots_08
-20716|58?|ha|4.1|r|sta8 int5 sp27 heal27||711|192||mage,warlock||미늘벌레 가죽 장갑|inv_gauntlets_17
-20717|58?|ha|4.1|r|sta5 int5 spi5 sp17 heal51||711|16||priest||사막꽃 장갑|inv_gauntlets_17
-22149|58?|ne|4.0|r|sta7 int12 sp13 heal13||709|498||||오우거 주술 목걸이|inv_jewelry_amulet_05
-22150|58?|ne|4.0|r|sta7 ap24 hit1|1|709|303||||강력한 오우거의 부적목걸이|inv_jewelry_amulet_05
-22247|58|fe|4.1|r|sta10 int12 spi12 sp8 heal24||657|16||||신유의 덧신|inv_boots_cloth_03
-22253|58|ho|4.0|r|sta8 int7 sp18 heal18||707|464||||길잃은자의 고서|inv_misc_book_06
-22269|58|ba|4.1|r|agi16 sta9||707|268||||그림자 추적자의 망토|inv_misc_cape_20
-22326|58|fi|4.0|r|int6 sta5 critMelee1|1|705|5||||결정체 고리|inv_jewelry_ring_19
-22336|58|oh|4.6|r|armor2153 sta7 sp20 heal20||712|34||||군단 용기병 아이기스|inv_shield_02
-22337|58|ba|4.1|r|sta7 str17||712|291||||지배의 장막|inv_misc_cape_19
-22339|58|fi|4.0|r|sta7 sp16 heal16|1|712|498||||마법의 룬문자 고리|inv_jewelry_ring_35
-22340|58|ne|4.0|r|agi15 hitMelee1|1|712|271||||기민함의 펜던트|inv_jewelry_necklace_04
-22342|58|le|4.1|r|sta16 int16 shadow34||712|144||||고통의 다리보호구|inv_pants_09
-22343|58|ha|4.3|r|sta10 int9 ap38||712|38||||만행의 장갑|inv_gauntlets_11
+16666|58|ch|4.3|r|sta13 int20 sp23 heal23||709|34||||정령의 조끼|inv_chest_chain_11
+16674|58|ch|4.3|r|str8 agi21 sta16 int13 spi6||709|36||||야수추적자 튜닉|inv_chest_chain_03
+16688|58|ch|4.1|r|sta9 int28 spi8 sp12 heal12||709|64||||원소술사 로브|inv_chest_cloth_25
+16690|58|ch|4.1|r|sta13 int24 spi15 sp7 heal20||709|272||||기원의 로브|inv_chest_cloth_11
+16721|58|ch|4.2|r|agi26 sta13 spi12 hit0.8||709|268||||어둠추적자 튜닉|inv_chest_leather_07
+16730|58|ch|4.4|r|str15 agi10 sta24 spi12||709|1||||용맹의 흉갑|inv_chest_plate03
+18102|58|fe|4.1|r|sta5 int16 sp18 heal18||658|498||||용기사 장화|inv_boots_05
+18420|58?|2h|2.5|r|str26 dps53.83 crit1|1|711|291||||해골 파쇄기|inv_mace_02
+18421|58?|he|4.3|r|agi19 sta13 int10 spi10 crit1|1|711|4||||등나무 투구|inv_helmet_19
+18520|58|2h|2.8|r|dps53.91 ap50 crit1|1|712|6||||잔혹의 검|inv_sword_11
+18522|58|fi|4.0|r|str14 sta13||712|291||||오우거 왕의 반지|inv_jewelry_ring_32
+18523|58|ho|4.0|r|sta14 sp10 heal29||712|400||||밝게 빛나는 돌|inv_misc_orb_01
+18524|58|le|4.3|r|agi14 sta21 int13 crit1|1|712|4||||파괴의 다리보호구|inv_pants_03
+18525|58|wr|4.2|r|sta8 int10 spi5 sp7 heal22||712|290||||번영의 팔보호구|inv_bracer_12
+18527|58|ha|4.3|r|sta10 int10 spi10 sp11 heal33||712|34||||화목의 건틀릿|inv_gauntlets_10
+18717|58|2h|2.5|r|sta10 int26 spi17 dps40 sp45 heal135||708|290||||십자군 사령관의 망치|inv_hammer_06
+18720|58|sh|4.1|r|int16 spi8 sp7 heal7 crit1|1|708|208||||나스레짐의 견장|inv_shoulder_23
+20713|58?|ha|4.3|r|agi16 sta15 int10||713|4||hunter||사막방랑자 건틀릿|inv_gauntlets_11
+20715|58?|fe|4.2|r|str9 agi19 sta10||713|8||rogue||모래언덕 장화|inv_boots_08
+20716|58?|ha|4.1|r|sta8 int5 sp27 heal27||713|192||mage,warlock||미늘벌레 가죽 장갑|inv_gauntlets_17
+20717|58?|ha|4.1|r|sta5 int5 spi5 sp17 heal51||713|16||priest||사막꽃 장갑|inv_gauntlets_17
+22149|58?|ne|4.0|r|sta7 int12 sp13 heal13||711|498||||오우거 주술 목걸이|inv_jewelry_amulet_05
+22150|58?|ne|4.0|r|sta7 ap24 hit1|1|711|303||||강력한 오우거의 부적목걸이|inv_jewelry_amulet_05
+22247|58|fe|4.1|r|sta10 int12 spi12 sp8 heal24||658|16||||신유의 덧신|inv_boots_cloth_03
+22253|58|ho|4.0|r|sta8 int7 sp18 heal18||709|464||||길잃은자의 고서|inv_misc_book_06
+22269|58|ba|4.1|r|agi16 sta9||709|268||||그림자 추적자의 망토|inv_misc_cape_20
+22326|58|fi|4.0|r|int6 sta5 critMelee1|1|707|5||||결정체 고리|inv_jewelry_ring_19
+22336|58|oh|4.6|r|armor2153 sta7 sp20 heal20||714|34||||군단 용기병 아이기스|inv_shield_02
+22337|58|ba|4.1|r|sta7 str17||714|291||||지배의 장막|inv_misc_cape_19
+22339|58|fi|4.0|r|sta7 sp16 heal16|1|714|498||||마법의 룬문자 고리|inv_jewelry_ring_35
+22340|58|ne|4.0|r|agi15 hitMelee1|1|714|271||||기민함의 펜던트|inv_jewelry_necklace_04
+22342|58|le|4.1|r|sta16 int16 shadow34||714|144||||고통의 다리보호구|inv_pants_09
+22343|58|ha|4.3|r|sta10 int9 ap38||714|38||||만행의 장갑|inv_gauntlets_11
 22384|58|1h|2.4|e|dps45.71 hit1 crit1|1|15|11||||강권의 망치|inv_hammer_08
-22408|58|ra|2.19|r|sta5 dps63.85 sp11 heal11||673|208||||악령 깃든 릿신의 모조 마법봉|inv_wand_07
-22409|58|ch|4.2|r|sta14 int12 spi11 sp15 heal15 crit1|1|673|288||||초승달 튜닉|inv_chest_leather_08
-22410|58|ha|4.3|r|agi20 sta10 int6||673|4||||장인의 건틀릿|inv_gauntlets_11
-22411|58|he|4.4|r|str15 sta23 hit1.5|1|673|3||||집행자의 투구|inv_helmet_01
-22412|58|sh|4.1|r|sta11 int18 sp15 heal15||673|498||||투자딘 어깨보호대|inv_shoulder_02
-22433|58|fi|4.0|r|sta10 sp11 heal11 crit1|1|697|511||||지배의 돈 마우리쇼 고리|inv_jewelry_ring_16
+22408|58|ra|2.19|r|sta5 dps63.85 sp11 heal11||674|208||||악령 깃든 릿신의 모조 마법봉|inv_wand_07
+22409|58|ch|4.2|r|sta14 int12 spi11 sp15 heal15 crit1|1|674|288||||초승달 튜닉|inv_chest_leather_08
+22410|58|ha|4.3|r|agi20 sta10 int6||674|4||||장인의 건틀릿|inv_gauntlets_11
+22411|58|he|4.4|r|str15 sta23 hit1.5|1|674|3||||집행자의 투구|inv_helmet_01
+22412|58|sh|4.1|r|sta11 int18 sp15 heal15||674|498||||투자딘 어깨보호대|inv_shoulder_02
+22433|58|fi|4.0|r|sta10 sp11 heal11 crit1|1|698|511||||지배의 돈 마우리쇼 고리|inv_jewelry_ring_16
 250596|58|le|4.4|r|sta26 def9 sp14 heal14||116|2||||농축된 토륨 다리보호구|
 250597|58|he|4.4|r|sta21 def8 sp23 heal23||116|2||||농축된 토륨 투구|
 250617|58|2h|2.1|r|str15 sta11 dps53.89 sp32 heal32||15|2||||폭풍절단기|inv_axe_04
@@ -2671,7 +2671,7 @@
 22383|59|mh|2.7|e|sta14 int6 dps31.11 sp94 heal94 hit1|1|15|194||||현자의 검|inv_sword_51
 17193|60|2h|2.5|e|dps63.65||15|256|molten-core|||설퍼론 망치|inv_hammer_unique_sulfuras
 18282|60|ra|2.3|e|dps36.8 hit1||29|5|molten-core|||명사수의 라이플|inv_weapon_rifle_05
-18814|60|ne||e|sta7 int7 sp34 heal34||713|498|molten-core|||화염 군주의 목걸이|inv_jewelry_amulet_05
+18814|60|ne||e|sta7 int7 sp34 heal34||715|498|molten-core|||화염 군주의 목걸이|inv_jewelry_amulet_05
 19156|60|ch|4.1|e|sta35 sp23 heal23||25|128|molten-core|||화염핵 로브|inv_chest_cloth_18
 19157|60|ha|4.3|e|ap44 crit1||16|4|molten-core|||오색 건틀릿|inv_gauntlets_22
 19162|60|wa|4.2|e|int16 sp21 heal62||16|290|molten-core|||화산사냥개 허리띠|inv_belt_24
@@ -2679,14 +2679,14 @@
 19165|60|le|4.1|e|sta21 sp43 heal43||25|498|molten-core|||화염핵 다리보호구|inv_pants_06
 19167|60|2h|2.6|e|str35 sta15 dps62.62 crit1||15|7|molten-core|||검은분노|inv_spear_08
 19169|60|2h|2.1|e|dps67||15|5|molten-core|||일몰|inv_axe_12
-19377|60|ne||e|agi30 hit1|1|714|271|blackwing-lair|||음모의 프레스톨 부적|inv_jewelry_necklace_17
-19379|60|tr||e|sp44 heal44 hit2|1|714|511|blackwing-lair|||넬타리온의 눈물|inv_stone_15
-19392|60|wa|4.4|e|str20 agi10 sta15 int17 spi13||715|3|blackwing-lair|||죽은 성전사의 벨트|inv_belt_11
-19406|60|tr||e|ap56 hit2|1|716|511|blackwing-lair|||비룡이빨 부적|inv_misc_bone_06
-19426|60|ne||e|sta11 spi8 sp22 heal22||717|498||||다크문의 보주|inv_jewelry_necklace_16
-19432|60|fi||e|str12 agi22 sta9||718|299|blackwing-lair|||집중된 마력의 둥근고리|inv_jewelry_ring_37
-19491|60|ne||e|str10 agi19 sta10||719|303||||다크문의 아뮬렛|inv_jewelry_necklace_14
-19621|60?|ne||e|agi15 sta9 int6|1|720|4|zul-gurub|hunter||혼돈의 소용돌이의 격노|inv_jewelry_necklace_26
+19377|60|ne||e|agi30 hit1|1|716|271|blackwing-lair|||음모의 프레스톨 부적|inv_jewelry_necklace_17
+19379|60|tr||e|sp44 heal44 hit2|1|716|511|blackwing-lair|||넬타리온의 눈물|inv_stone_15
+19392|60|wa|4.4|e|str20 agi10 sta15 int17 spi13||717|3|blackwing-lair|||죽은 성전사의 벨트|inv_belt_11
+19406|60|tr||e|ap56 hit2|1|718|511|blackwing-lair|||비룡이빨 부적|inv_misc_bone_06
+19426|60|ne||e|sta11 spi8 sp22 heal22||719|498||||다크문의 보주|inv_jewelry_necklace_16
+19432|60|fi||e|str12 agi22 sta9||720|299|blackwing-lair|||집중된 마력의 둥근고리|inv_jewelry_ring_37
+19491|60|ne||e|str10 agi19 sta10||721|303||||다크문의 아뮬렛|inv_jewelry_necklace_14
+19621|60?|ne||e|agi15 sta9 int6|1|722|4|zul-gurub|hunter||혼돈의 소용돌이의 격노|inv_jewelry_necklace_26
 19682|60|ch|4.1|r|int13 sp27 heal27 hit2||25|498|zul-gurub||tailoring|붉은덩굴 조끼|inv_chest_cloth_07
 19683|60|le|4.1|r|int6 sp37 heal37 hit1||25|498|zul-gurub||tailoring|붉은덩굴 다리보호구|inv_pants_cloth_14
 19684|60|fe|4.1|r|int16 sp19 heal19 hit1||25|498|zul-gurub||tailoring|붉은덩굴 장화|inv_boots_cloth_02
@@ -2700,179 +2700,179 @@
 19693|60|ch|4.4|r|sta32 hit1||15|2|zul-gurub||blacksmithing|검은영혼의 흉갑|inv_chest_plate08
 19694|60|le|4.4|r|sta22 hit2||15|2|zul-gurub||blacksmithing|검은영혼의 다리보호구|inv_pants_plate_21
 19695|60|sh|4.4|r|sta24 hit1||15|2|zul-gurub||blacksmithing|검은영혼의 어깨보호구|inv_shoulder_01
-19884|60|2h|2.10|e|sta10 int10 dps46.36 mp514 sp94 heal94 hit2|1|721|496|zul-gurub|||진도의 심판|inv_staff_33
+19884|60|2h|2.10|e|sta10 int10 dps46.36 mp514 sp94 heal94 hit2|1|723|496|zul-gurub|||진도의 심판|inv_staff_33
 19999|60|he|4.1|r|mp59 hit2 crit1||29|503|zul-gurub||engineering|붉은덩굴 고글|inv_helmet_47
-20622|60|ne||e|sta21 int6 spi6 ap24||722|32|world-boss|||용심장 목걸이|inv_jewelry_necklace_18
-20639|60|le|4.4|e|str20 agi12 sta20 int21 spi16 heal29||723|2|world-boss|||기묘한 문양의 다리갑옷|inv_pants_plate_05
-20685|60|ne||e|sta5 int6 mp58 sp8 heal24||724|306||||파면의 목걸이|inv_jewelry_necklace_21
-21126|60|1h|2.15|e|sta10 dps66.39 ap38|1|725|9|ahn-qiraj-temple|||죽음의 쐐기|inv_weapon_shortblade_33
-21134|60|2h|2.1|e|str35 agi19 sta25 dps86.57|1|725|39|ahn-qiraj-temple|||광기의 암흑 도끼|inv_axe_24
-21188|60|2h|2.5|e|dps62.57 sp40 heal40 crit2|1|726|259||||세나리우스의 힘|inv_hammer_23
-21209|60|fi||e|sta8 int8 mp54 sp26 heal26||727|96|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-21268|60|1h|2.4|e|str10 sta12 dps60.71 def8||728|11|ahn-qiraj-temple|||축복받은 퀴라지 전투망치|inv_mace_24
-21273|60|2h|2.10|e|sta32 int33 dps58.5 sp108 heal108 hit2 crit1|1|728|501|ahn-qiraj-temple|||축복받은 퀴라지 시제 지팡이|inv_staff_20
-21275|60|2h|2.10|e|sta23 int24 dps58.5 mp515 sp67 heal203||728|304|ahn-qiraj-temple|||축복받은 퀴라지 예언자 지팡이|inv_staff_20
-21329|60|he|4.4|e|str29 agi18 sta34 def6||729|1|ahn-qiraj-temple|warrior||정복자의 왕관|inv_helmet_72
-21330|60|sh|4.4|e|str20 agi16 sta21 def4 hit1|1|730|1|ahn-qiraj-temple|warrior||정복자의 어깨갑옷|inv_shoulder_35
-21331|60|ch|4.4|e|str34 agi24 sta38 def6||731|1|ahn-qiraj-temple|warrior||정복자의 흉갑|inv_chest_plate12
-21332|60|le|4.4|e|str33 agi21 sta24 def6 hit1|1|732|1|ahn-qiraj-temple|warrior||정복자의 다리갑옷|inv_pants_plate_03
-21333|60|fe|4.4|e|str21 agi17 sta23 def4||733|1|ahn-qiraj-temple|warrior||정복자의 경갑|inv_boots_plate_05
-21347|60|he|4.1|e|sta24 int24 spi12 sp33 heal33 hit1 crit1|1|734|64|ahn-qiraj-temple|mage||불가사의의 머리장식|inv_helmet_06
-21354|60|sh|4.2|e|str15 agi14 sta15 int13 spi6 mp53 sp20 heal20||735|256|ahn-qiraj-temple|druid||태초의 어깨보호구|inv_shoulder_03
-21359|60|fe|4.2|e|str14 agi26 sta17 hit1|1|736|8|ahn-qiraj-temple|rogue||죽음의 선고자 장화|inv_boots_08
-21360|60|he|4.2|e|str25 agi29 sta27 hit1 crit1|1|737|8|ahn-qiraj-temple|rogue||죽음의 선고자 투구|inv_helmet_04
-21361|60|sh|4.2|e|str18 agi27 sta15 hit1|1|738|8|ahn-qiraj-temple|rogue||죽음의 선고자 어깨갑옷|inv_shoulder_03
-21362|60|le|4.2|e|str18 agi38 sta25 crit1|1|739|8|ahn-qiraj-temple|rogue||죽음의 선고자 다리보호구|inv_pants_leather_07
-21364|60|ch|4.2|e|str19 agi37 sta28 hit1 crit1|1|740|8|ahn-qiraj-temple|rogue||죽음의 선고자 조끼|inv_chest_leather_08
-21365|60|fe|4.3|e|agi31 sta16 int8 spi6 sp6 heal6||741|4|ahn-qiraj-temple|hunter||관통의 경갑|inv_boots_chain_08
-21367|60|sh|4.3|e|agi26 sta24 int11 spi5 sp6 heal6||742|4|ahn-qiraj-temple|hunter||관통의 어깨갑옷|inv_shoulder_36
-21368|60|le|4.3|e|agi36 sta22 int14 spi10 sp9 heal9 crit1|1|743|4|ahn-qiraj-temple|hunter||관통의 다리보호구|inv_pants_mail_11
-21370|60|ch|4.3|e|agi39 sta26 int15 spi7 sp9 heal9 crit1|1|744|4|ahn-qiraj-temple|hunter||관통의 갑옷|inv_chest_chain_04
-21387|60|he|4.4|e|str20 agi12 sta22 int22 spi12 sp23 heal23 crit1|1|745|2|ahn-qiraj-temple|paladin||응징의 왕관|inv_helmet_72
-21388|60|fe|4.4|e|str18 agi13 sta18 int14 spi6 mp54 sp14 heal14||746|2|ahn-qiraj-temple|paladin||응징의 경갑|inv_boots_chain_07
-21389|60|ch|4.4|e|str23 agi12 sta24 int24 spi11 sp18 heal18 crit1|1|747|2|ahn-qiraj-temple|paladin||응징의 흉갑|inv_chest_plate03
-21390|60|le|4.4|e|str21 agi12 sta22 int22 spi9 mp54 sp16 heal16 crit1|1|748|2|ahn-qiraj-temple|paladin||응징의 다리갑옷|inv_pants_plate_02
-21391|60|sh|4.4|e|str18 agi14 sta15 int13 spi6 mp53 sp14 heal14||749|2|ahn-qiraj-temple|paladin||응징의 어깨갑옷|inv_shoulder_35
-21394|60|ba||e|str15 agi9 sta9 hit1|1|750|1|ahn-qiraj-temple|warrior||굴하지 않는 힘의 망토|inv_misc_cape_20
-21397|60|ba||e|str11 sta13 int12 mp55||751|2|ahn-qiraj-temple|paladin||영원한 정의의 망토|inv_misc_cape_14
-21402|60|fi||e|agi19 sta11 int8||752|4|ahn-qiraj-temple|hunter||선도자의 인장|inv_jewelry_ring_ahnqiraj_03
-21403|60|ba||e|agi17 sta13 hit1|1|753|4|ahn-qiraj-temple|hunter||선도자의 망토|inv_misc_cape_15
-21406|60|ba||e|agi18 sta11 hit1|1|754|8|ahn-qiraj-temple|rogue||어두운 그림자의 망토|inv_misc_cape_19
-21407|60|mh|2.4|e|str9 agi7 sta10 int11 dps24.23 sp98 heal98|1|755|256|ahn-qiraj-temple|druid||영원한 삶의 철퇴|inv_mace22
-21409|60|ba||e|str12 agi8 sta10 int10 spi7 sp11 heal11||756|256|ahn-qiraj-temple|druid||영원한 삶의 망토|inv_misc_cape_15
-21410|60|mh|2.4|e|sta10 int11 dps34.44 mp54 sp61 heal184||757|16|ahn-qiraj-temple|priest||무한한 지혜의 망치|inv_mace22
-21412|60|ba||e|sta12 int14 spi11 sp8 heal24||758|16|ahn-qiraj-temple|priest||무한한 지혜의 외투|inv_misc_cape_16
-21413|60|mh|2.7|e|sta8 int16 dps24.35 sp98 heal98 hit1|1|759|64|ahn-qiraj-temple|mage||밝혀진 비밀의 칼날|inv_sword_57
-21415|60|ba||e|sta14 int9 spi6 sp18 heal18||760|64|ahn-qiraj-temple|mage||밝혀진 비밀의 망토|inv_misc_cape_19
-21418|60|ba||e|sta16 int9 sp18 heal18||761|128|ahn-qiraj-temple|warlock||절대자의 망토|inv_misc_cape_20
-21504|60|ne||e|sta9 int12 sp25 heal25||762|498|ahn-qiraj-ruins|||흐르는 모래의 부적|inv_jewelry_necklace_ahnqiraj_03
-21505|60|ne||e|sta16 ap42||762|303|ahn-qiraj-ruins|||흐르는 모래의 목걸이|inv_jewelry_necklace_ahnqiraj_03
-21506|60|ne||e|str14 sta21 def4||762|3|ahn-qiraj-ruins|||흐르는 모래의 펜던트|inv_jewelry_necklace_ahnqiraj_03
-21520|60|1h|2.7|e|str13 agi9 sta14 dps57.38||763|11|blackwing-lair|||레이븐크레스트의 유산|inv_sword_49
-21521|60|mh|2.7|e|sta17 int9 spi7 dps38.41 sp104 heal104||763|194|blackwing-lair|||혁명가의 룬문자 검|inv_sword_51
-21522|60|1h|2.15|e|str9 agi13 sta14 dps57.35||763|9|blackwing-lair|||섀도송의 비애|inv_weapon_shortblade_25
-21523|60|mh|2.15|e|sta9 int14 spi13 dps38.33 sp65 heal195||763|496|blackwing-lair|||코리알스트라즈의 송곳니|inv_weapon_shortblade_29
-21532|60|fe|4.2|e|str13 agi17 sta20||764|299|blackwing-lair|||고행의 장화|inv_boots_08
-21581|60|ha|4.4|e|str35 sta15 hit1 crit1|1|725|3|ahn-qiraj-temple|||전멸의 건틀릿|inv_gauntlets_31
-21583|60|ba||e|sta6 int12 spi7 mp58 heal40||725|306|ahn-qiraj-temple|||청명의 망토|inv_misc_cape_02
-21585|60|ha|4.1|e|sta19 int15 sp37 heal37 hit1|1|725|498|ahn-qiraj-temple|||암흑폭풍 건틀릿|inv_gauntlets_17
-21586|60|wa|4.2|e|sta20 ap64 hit1 crit1|1|725|303|ahn-qiraj-temple|||무한한 고통의 허리띠|inv_belt_26
-21596|60|fi||e|agi27 sta17||725|4|ahn-qiraj-temple|||고대신 학살자의 반지|inv_jewelry_ring_ahnqiraj_06
-21597|60|ho||e|sta10 int9 sp20 heal20 hit1 crit1|1|765|464|ahn-qiraj-temple|||베클로어의 왕실 홀|inv_wand_10
-21598|60|wa|4.4|e|str13 agi13 sta22 def8|1|765|1|ahn-qiraj-temple|||왕실 퀴라지 허리띠|inv_belt_31
-21600|60|fe|4.1|e|sta18 int19 sp34 heal34||765|498|ahn-qiraj-temple|||출현의 장화|inv_boots_cloth_05
-21602|60|wr|4.2|e|str15 agi16 sta14 hit1|1|765|303|ahn-qiraj-temple|||퀴라지 집행의 팔보호구|inv_bracer_13
-21605|60|ha|4.2|e|str18 agi21 sta22||766|303|ahn-qiraj-temple|||숨겨진 사원의 장갑|inv_gauntlets_19
-21606|60|wa|4.4|e|str17 agi13 sta17 int18 heal35||766|2|ahn-qiraj-temple|||죽은 제왕의 허리띠|inv_belt_34
-21607|60|wa|4.3|e|str13 agi12 sta17 int17 mp55 sp19 heal19||766|34|ahn-qiraj-temple|||죽은 제왕의 올가미|inv_belt_32
-21608|60|ne||e|sta9 int5 sp27 heal27 crit1|1|766|498|ahn-qiraj-temple|||베크닐라쉬의 목걸이|inv_jewelry_necklace_ahnqiraj_01
-21610|60|oh|4.6|e|sta10 int13 armor3035 block57 mp56 sp12 heal35||767|35|ahn-qiraj-temple|||벌레미늘 방호경갑|inv_shield_24
-21611|60|wr|4.1|e|sta10 int13 sp28 heal28||767|498|ahn-qiraj-temple|||땅굴 팔보호구|inv_bracer_13
-21615|60|he|4.1|e|sta18 int24 mp511 sp21 heal64||767|498|ahn-qiraj-temple|||돈 리고베르토의 잃어버린 모자|inv_helmet_51
-21616|60|ra|2.2|e|agi18 dps46.3||768|13|ahn-qiraj-temple|||후후란의 독침|inv_weapon_bow_14
-21618|60|wr|4.4|e|str23 agi18||768|3|ahn-qiraj-temple|||둥지 파멸자의 손목보호대|inv_bracer_02
-21619|60|ha|4.1|e|sta13 int17 mp510 sp9 heal26||768|306|ahn-qiraj-temple|||구세주의 장갑|inv_gauntlets_17
-21622|60|mh|2.7|e|sta14 int7 dps39.57 sp106 heal106 crit1|1|769|194|ahn-qiraj-temple|||뾰족한 실리시드 다리뼈|inv_sword_58
-21645|60|fe|4.2|e|str10 agi17 sta30||770|299|ahn-qiraj-temple|||둥지땅꾼의 장화|inv_boots_04
-21663|60|ch|4.1|e|sta20 int22 mp57 sp23 heal70||770|498|ahn-qiraj-temple|||수호성인의 로브|inv_chest_cloth_23
-21664|60|ne||e|sta10 ap44 crit1|1|770|303|ahn-qiraj-temple|||가시 목걸이|inv_jewelry_necklace_ahnqiraj_02
-21665|60|sh|4.2|e|str16 agi30 sta14||770|303|ahn-qiraj-temple|||사악한 복수의 어깨보호대|inv_shoulder_30
-21672|60|ha|4.2|e|str28 agi20 sta6 hit1|1|771|303|ahn-qiraj-temple|||집행자의 장갑|inv_gauntlets_17
-21674|60|ha|4.4|e|str19 agi18 sta20 def9||771|3|ahn-qiraj-temple|||확고한 결심의 건틀릿|inv_gauntlets_31
-21700|60|ne||e|str12 agi11 sta17 def6||772|291|ahn-qiraj-temple|||퀴라지 수호신의 목걸이|inv_jewelry_necklace_ahnqiraj_01
-21709|60|fi||e|sta5 int6 sp37 heal37 hit1|1|773|498|ahn-qiraj-temple|||죽은 신의 반지|inv_jewelry_ring_ahnqiraj_02
-21710|60|ba||e|str11 agi26 sta15||773|303|ahn-qiraj-temple|||죽은 신의 망토|inv_misc_cape_10
-21839|60|mh|2.4|e|sta10 int19 dps44.17 mp53 sp70 heal210||725|306|ahn-qiraj-temple|||거짓된 예언자의 홀|inv_mace22
-22093|60?|sh|4.4|r|str10 sta11 int11 mp54 sp12 heal12||667|2||paladin||성령의 어깨갑옷|inv_shoulder_10
+20622|60|ne||e|sta21 int6 spi6 ap24||724|32|world-boss|||용심장 목걸이|inv_jewelry_necklace_18
+20639|60|le|4.4|e|str20 agi12 sta20 int21 spi16 heal29||725|2|world-boss|||기묘한 문양의 다리갑옷|inv_pants_plate_05
+20685|60|ne||e|sta5 int6 mp58 sp8 heal24||726|306||||파면의 목걸이|inv_jewelry_necklace_21
+21126|60|1h|2.15|e|sta10 dps66.39 ap38|1|727|9|ahn-qiraj-temple|||죽음의 쐐기|inv_weapon_shortblade_33
+21134|60|2h|2.1|e|str35 agi19 sta25 dps86.57|1|727|39|ahn-qiraj-temple|||광기의 암흑 도끼|inv_axe_24
+21188|60|2h|2.5|e|dps62.57 sp40 heal40 crit2|1|728|259||||세나리우스의 힘|inv_hammer_23
+21209|60|fi||e|sta8 int8 mp54 sp26 heal26||729|96|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+21268|60|1h|2.4|e|str10 sta12 dps60.71 def8||730|11|ahn-qiraj-temple|||축복받은 퀴라지 전투망치|inv_mace_24
+21273|60|2h|2.10|e|sta32 int33 dps58.5 sp108 heal108 hit2 crit1|1|730|501|ahn-qiraj-temple|||축복받은 퀴라지 시제 지팡이|inv_staff_20
+21275|60|2h|2.10|e|sta23 int24 dps58.5 mp515 sp67 heal203||730|304|ahn-qiraj-temple|||축복받은 퀴라지 예언자 지팡이|inv_staff_20
+21329|60|he|4.4|e|str29 agi18 sta34 def6||731|1|ahn-qiraj-temple|warrior||정복자의 왕관|inv_helmet_72
+21330|60|sh|4.4|e|str20 agi16 sta21 def4 hit1|1|732|1|ahn-qiraj-temple|warrior||정복자의 어깨갑옷|inv_shoulder_35
+21331|60|ch|4.4|e|str34 agi24 sta38 def6||733|1|ahn-qiraj-temple|warrior||정복자의 흉갑|inv_chest_plate12
+21332|60|le|4.4|e|str33 agi21 sta24 def6 hit1|1|734|1|ahn-qiraj-temple|warrior||정복자의 다리갑옷|inv_pants_plate_03
+21333|60|fe|4.4|e|str21 agi17 sta23 def4||735|1|ahn-qiraj-temple|warrior||정복자의 경갑|inv_boots_plate_05
+21347|60|he|4.1|e|sta24 int24 spi12 sp33 heal33 hit1 crit1|1|736|64|ahn-qiraj-temple|mage||불가사의의 머리장식|inv_helmet_06
+21354|60|sh|4.2|e|str15 agi14 sta15 int13 spi6 mp53 sp20 heal20||737|256|ahn-qiraj-temple|druid||태초의 어깨보호구|inv_shoulder_03
+21359|60|fe|4.2|e|str14 agi26 sta17 hit1|1|738|8|ahn-qiraj-temple|rogue||죽음의 선고자 장화|inv_boots_08
+21360|60|he|4.2|e|str25 agi29 sta27 hit1 crit1|1|739|8|ahn-qiraj-temple|rogue||죽음의 선고자 투구|inv_helmet_04
+21361|60|sh|4.2|e|str18 agi27 sta15 hit1|1|740|8|ahn-qiraj-temple|rogue||죽음의 선고자 어깨갑옷|inv_shoulder_03
+21362|60|le|4.2|e|str18 agi38 sta25 crit1|1|741|8|ahn-qiraj-temple|rogue||죽음의 선고자 다리보호구|inv_pants_leather_07
+21364|60|ch|4.2|e|str19 agi37 sta28 hit1 crit1|1|742|8|ahn-qiraj-temple|rogue||죽음의 선고자 조끼|inv_chest_leather_08
+21365|60|fe|4.3|e|agi31 sta16 int8 spi6 sp6 heal6||743|4|ahn-qiraj-temple|hunter||관통의 경갑|inv_boots_chain_08
+21367|60|sh|4.3|e|agi26 sta24 int11 spi5 sp6 heal6||744|4|ahn-qiraj-temple|hunter||관통의 어깨갑옷|inv_shoulder_36
+21368|60|le|4.3|e|agi36 sta22 int14 spi10 sp9 heal9 crit1|1|745|4|ahn-qiraj-temple|hunter||관통의 다리보호구|inv_pants_mail_11
+21370|60|ch|4.3|e|agi39 sta26 int15 spi7 sp9 heal9 crit1|1|746|4|ahn-qiraj-temple|hunter||관통의 갑옷|inv_chest_chain_04
+21387|60|he|4.4|e|str20 agi12 sta22 int22 spi12 sp23 heal23 crit1|1|747|2|ahn-qiraj-temple|paladin||응징의 왕관|inv_helmet_72
+21388|60|fe|4.4|e|str18 agi13 sta18 int14 spi6 mp54 sp14 heal14||748|2|ahn-qiraj-temple|paladin||응징의 경갑|inv_boots_chain_07
+21389|60|ch|4.4|e|str23 agi12 sta24 int24 spi11 sp18 heal18 crit1|1|749|2|ahn-qiraj-temple|paladin||응징의 흉갑|inv_chest_plate03
+21390|60|le|4.4|e|str21 agi12 sta22 int22 spi9 mp54 sp16 heal16 crit1|1|750|2|ahn-qiraj-temple|paladin||응징의 다리갑옷|inv_pants_plate_02
+21391|60|sh|4.4|e|str18 agi14 sta15 int13 spi6 mp53 sp14 heal14||751|2|ahn-qiraj-temple|paladin||응징의 어깨갑옷|inv_shoulder_35
+21394|60|ba||e|str15 agi9 sta9 hit1|1|752|1|ahn-qiraj-temple|warrior||굴하지 않는 힘의 망토|inv_misc_cape_20
+21397|60|ba||e|str11 sta13 int12 mp55||753|2|ahn-qiraj-temple|paladin||영원한 정의의 망토|inv_misc_cape_14
+21402|60|fi||e|agi19 sta11 int8||754|4|ahn-qiraj-temple|hunter||선도자의 인장|inv_jewelry_ring_ahnqiraj_03
+21403|60|ba||e|agi17 sta13 hit1|1|755|4|ahn-qiraj-temple|hunter||선도자의 망토|inv_misc_cape_15
+21406|60|ba||e|agi18 sta11 hit1|1|756|8|ahn-qiraj-temple|rogue||어두운 그림자의 망토|inv_misc_cape_19
+21407|60|mh|2.4|e|str9 agi7 sta10 int11 dps24.23 sp98 heal98|1|757|256|ahn-qiraj-temple|druid||영원한 삶의 철퇴|inv_mace22
+21409|60|ba||e|str12 agi8 sta10 int10 spi7 sp11 heal11||758|256|ahn-qiraj-temple|druid||영원한 삶의 망토|inv_misc_cape_15
+21410|60|mh|2.4|e|sta10 int11 dps34.44 mp54 sp61 heal184||759|16|ahn-qiraj-temple|priest||무한한 지혜의 망치|inv_mace22
+21412|60|ba||e|sta12 int14 spi11 sp8 heal24||760|16|ahn-qiraj-temple|priest||무한한 지혜의 외투|inv_misc_cape_16
+21413|60|mh|2.7|e|sta8 int16 dps24.35 sp98 heal98 hit1|1|761|64|ahn-qiraj-temple|mage||밝혀진 비밀의 칼날|inv_sword_57
+21415|60|ba||e|sta14 int9 spi6 sp18 heal18||762|64|ahn-qiraj-temple|mage||밝혀진 비밀의 망토|inv_misc_cape_19
+21418|60|ba||e|sta16 int9 sp18 heal18||763|128|ahn-qiraj-temple|warlock||절대자의 망토|inv_misc_cape_20
+21504|60|ne||e|sta9 int12 sp25 heal25||764|498|ahn-qiraj-ruins|||흐르는 모래의 부적|inv_jewelry_necklace_ahnqiraj_03
+21505|60|ne||e|sta16 ap42||764|303|ahn-qiraj-ruins|||흐르는 모래의 목걸이|inv_jewelry_necklace_ahnqiraj_03
+21506|60|ne||e|str14 sta21 def4||764|3|ahn-qiraj-ruins|||흐르는 모래의 펜던트|inv_jewelry_necklace_ahnqiraj_03
+21520|60|1h|2.7|e|str13 agi9 sta14 dps57.38||765|11|blackwing-lair|||레이븐크레스트의 유산|inv_sword_49
+21521|60|mh|2.7|e|sta17 int9 spi7 dps38.41 sp104 heal104||765|194|blackwing-lair|||혁명가의 룬문자 검|inv_sword_51
+21522|60|1h|2.15|e|str9 agi13 sta14 dps57.35||765|9|blackwing-lair|||섀도송의 비애|inv_weapon_shortblade_25
+21523|60|mh|2.15|e|sta9 int14 spi13 dps38.33 sp65 heal195||765|496|blackwing-lair|||코리알스트라즈의 송곳니|inv_weapon_shortblade_29
+21532|60|fe|4.2|e|str13 agi17 sta20||766|299|blackwing-lair|||고행의 장화|inv_boots_08
+21581|60|ha|4.4|e|str35 sta15 hit1 crit1|1|727|3|ahn-qiraj-temple|||전멸의 건틀릿|inv_gauntlets_31
+21583|60|ba||e|sta6 int12 spi7 mp58 heal40||727|306|ahn-qiraj-temple|||청명의 망토|inv_misc_cape_02
+21585|60|ha|4.1|e|sta19 int15 sp37 heal37 hit1|1|727|498|ahn-qiraj-temple|||암흑폭풍 건틀릿|inv_gauntlets_17
+21586|60|wa|4.2|e|sta20 ap64 hit1 crit1|1|727|303|ahn-qiraj-temple|||무한한 고통의 허리띠|inv_belt_26
+21596|60|fi||e|agi27 sta17||727|4|ahn-qiraj-temple|||고대신 학살자의 반지|inv_jewelry_ring_ahnqiraj_06
+21597|60|ho||e|sta10 int9 sp20 heal20 hit1 crit1|1|767|464|ahn-qiraj-temple|||베클로어의 왕실 홀|inv_wand_10
+21598|60|wa|4.4|e|str13 agi13 sta22 def8|1|767|1|ahn-qiraj-temple|||왕실 퀴라지 허리띠|inv_belt_31
+21600|60|fe|4.1|e|sta18 int19 sp34 heal34||767|498|ahn-qiraj-temple|||출현의 장화|inv_boots_cloth_05
+21602|60|wr|4.2|e|str15 agi16 sta14 hit1|1|767|303|ahn-qiraj-temple|||퀴라지 집행의 팔보호구|inv_bracer_13
+21605|60|ha|4.2|e|str18 agi21 sta22||768|303|ahn-qiraj-temple|||숨겨진 사원의 장갑|inv_gauntlets_19
+21606|60|wa|4.4|e|str17 agi13 sta17 int18 heal35||768|2|ahn-qiraj-temple|||죽은 제왕의 허리띠|inv_belt_34
+21607|60|wa|4.3|e|str13 agi12 sta17 int17 mp55 sp19 heal19||768|34|ahn-qiraj-temple|||죽은 제왕의 올가미|inv_belt_32
+21608|60|ne||e|sta9 int5 sp27 heal27 crit1|1|768|498|ahn-qiraj-temple|||베크닐라쉬의 목걸이|inv_jewelry_necklace_ahnqiraj_01
+21610|60|oh|4.6|e|sta10 int13 armor3035 block57 mp56 sp12 heal35||769|35|ahn-qiraj-temple|||벌레미늘 방호경갑|inv_shield_24
+21611|60|wr|4.1|e|sta10 int13 sp28 heal28||769|498|ahn-qiraj-temple|||땅굴 팔보호구|inv_bracer_13
+21615|60|he|4.1|e|sta18 int24 mp511 sp21 heal64||769|498|ahn-qiraj-temple|||돈 리고베르토의 잃어버린 모자|inv_helmet_51
+21616|60|ra|2.2|e|agi18 dps46.3||770|13|ahn-qiraj-temple|||후후란의 독침|inv_weapon_bow_14
+21618|60|wr|4.4|e|str23 agi18||770|3|ahn-qiraj-temple|||둥지 파멸자의 손목보호대|inv_bracer_02
+21619|60|ha|4.1|e|sta13 int17 mp510 sp9 heal26||770|306|ahn-qiraj-temple|||구세주의 장갑|inv_gauntlets_17
+21622|60|mh|2.7|e|sta14 int7 dps39.57 sp106 heal106 crit1|1|771|194|ahn-qiraj-temple|||뾰족한 실리시드 다리뼈|inv_sword_58
+21645|60|fe|4.2|e|str10 agi17 sta30||772|299|ahn-qiraj-temple|||둥지땅꾼의 장화|inv_boots_04
+21663|60|ch|4.1|e|sta20 int22 mp57 sp23 heal70||772|498|ahn-qiraj-temple|||수호성인의 로브|inv_chest_cloth_23
+21664|60|ne||e|sta10 ap44 crit1|1|772|303|ahn-qiraj-temple|||가시 목걸이|inv_jewelry_necklace_ahnqiraj_02
+21665|60|sh|4.2|e|str16 agi30 sta14||772|303|ahn-qiraj-temple|||사악한 복수의 어깨보호대|inv_shoulder_30
+21672|60|ha|4.2|e|str28 agi20 sta6 hit1|1|773|303|ahn-qiraj-temple|||집행자의 장갑|inv_gauntlets_17
+21674|60|ha|4.4|e|str19 agi18 sta20 def9||773|3|ahn-qiraj-temple|||확고한 결심의 건틀릿|inv_gauntlets_31
+21700|60|ne||e|str12 agi11 sta17 def6||774|291|ahn-qiraj-temple|||퀴라지 수호신의 목걸이|inv_jewelry_necklace_ahnqiraj_01
+21709|60|fi||e|sta5 int6 sp37 heal37 hit1|1|775|498|ahn-qiraj-temple|||죽은 신의 반지|inv_jewelry_ring_ahnqiraj_02
+21710|60|ba||e|str11 agi26 sta15||775|303|ahn-qiraj-temple|||죽은 신의 망토|inv_misc_cape_10
+21839|60|mh|2.4|e|sta10 int19 dps44.17 mp53 sp70 heal210||727|306|ahn-qiraj-temple|||거짓된 예언자의 홀|inv_mace22
+22093|60?|sh|4.4|r|str10 sta11 int11 mp54 sp12 heal12||668|2||paladin||성령의 어깨갑옷|inv_shoulder_10
 22191|60|ch|4.3|e|ap76 crit1|1|15|38|ahn-qiraj-ruins|||흑요석 사슬 튜닉|inv_chest_chain_17
 22196|60|ch|4.4|e|str38 sta16|1|15|3|ahn-qiraj-ruins|||견고한 흑요석 흉갑|inv_chest_chain_17
-22267|60|he|4.1|r|spi13 sp33 heal33 hit1|1|707|498||||주문술사의 터번|inv_helmet_62
-22380|60?|mh|2.4|r|int6 dps28.33 sp46 heal139||774|306|ahn-qiraj-ruins|||시몬의 교화 망치|inv_hammer_05
-22416|60|ch|4.4|e|str21 sta43 def13 hit2|1|775|1|naxxramas|warrior||무쌍의 가슴보호갑|inv_chest_plate02
-22417|60|le|4.4|e|str23 sta37 def13|1|776|1|naxxramas|warrior||무쌍의 다리갑옷|inv_pants_plate_05
-22418|60|he|4.4|e|str21 sta45 def14|1|777|1|naxxramas|warrior||무쌍의 보호모|inv_helmet_58
-22420|60|fe|4.4|e|str15 sta34 def9|1|778|1|naxxramas|warrior||무쌍의 발덮개|inv_boots_plate_06
-22422|60|wa|4.4|e|str20 sta26 def9|1|779|1|naxxramas|warrior||무쌍의 허리보호대|inv_belt_27
-22423|60|wr|4.4|e|str14 sta28 def5||780|1|naxxramas|warrior||무쌍의 팔보호구|inv_bracer_15
-22436|60|ch|4.3|e|agi45 sta27 int15 mp54 hit1 crit1|1|781|4|naxxramas|hunter||지하추적자 튜닉|inv_chest_chain_15
-22437|60|le|4.3|e|agi42 sta26 int10 mp56 crit1|1|782|4|naxxramas|hunter||지하추적자 다리보호대|inv_pants_mail_15
-22438|60|he|4.3|e|agi31 sta30 int12 mp53 crit2|1|783|4|naxxramas|hunter||지하추적자 투구|inv_helmet_15
-22439|60|sh|4.3|e|agi29 sta23 int10 crit1|1|784|4|naxxramas|hunter||지하추적자 어깨보호대|inv_shoulder_14
-22440|60|fe|4.3|e|agi33 sta19 int8 hit1|1|785|4|naxxramas|hunter||지하추적자 장화|inv_boots_chain_05
-22441|60|ha|4.3|e|agi24 sta21 int15 mp54 crit1|1|786|4|naxxramas|hunter||지하추적자 장갑|inv_gauntlets_25
-22442|60|wa|4.3|e|agi23 sta22 int12 mp53 hit1 crit1|1|787|4|naxxramas|hunter||지하추적자 요대|inv_belt_22
-22443|60|wr|4.3|e|agi26 sta16 hit1|1|788|4|naxxramas|hunter||지하추적자 손목보호대|inv_bracer_02
-22476|60|ch|4.2|e|sta29 ap80 hit1 crit2|1|789|8|naxxramas|rogue||해골사신의 흉갑|inv_chest_plate02
-22477|60|le|4.2|e|str31 agi32 sta25 hit1 crit1|1|790|8|naxxramas|rogue||해골사신의 다리갑옷|inv_pants_plate_05
-22478|60|he|4.2|e|str18 agi30 sta29 hit1 crit2|1|791|8|naxxramas|rogue||해골사신의 보호모|inv_helmet_58
-22479|60|sh|4.2|e|str22 agi22 sta15 hit1 crit1|1|792|8|naxxramas|rogue||해골사신의 어깨갑옷|inv_shoulder_29
-22480|60|fe|4.2|e|sta18 ap64 hit1 crit1|1|793|8|naxxramas|rogue||해골사신의 발덮개|inv_boots_plate_06
-22481|60|ha|4.2|e|sta20 ap66 hit1 crit1|1|794|8|naxxramas|rogue||해골사신의 건틀릿|inv_gauntlets_28
-22482|60|wa|4.2|e|str23 agi24 sta20 crit1|1|795|8|naxxramas|rogue||해골사신의 허리보호대|inv_belt_27
-22483|60|wr|4.2|e|agi26 sta14 crit1|1|796|8|naxxramas|rogue||해골사신의 팔보호구|inv_bracer_15
-22496|60|ch|4.1|e|sta21 int27 sp47 heal47 hit1 crit1|1|797|64|naxxramas|mage||얼음불꽃 로브|inv_chest_cloth_43
-22497|60|le|4.1|e|sta25 int26 spi10 sp46 heal46 hit1|1|798|64|naxxramas|mage||얼음불꽃 다리보호구|inv_pants_cloth_05
-22498|60|he|4.1|e|sta22 int23 sp35 heal35 hit1 crit2|1|799|64|naxxramas|mage||얼음불꽃 관|inv_crown_01
-22499|60|sh|4.1|e|sta17 int18 spi9 sp36 heal36||800|64|naxxramas|mage||얼음불꽃 어깨보호대|inv_shoulder_25
-22501|60|ha|4.1|e|sta17 int19 spi10 sp36 heal36||801|64|naxxramas|mage||얼음불꽃 장갑|inv_gauntlets_17
-22502|60|wa|4.1|e|sta19 int21 spi10 sp28 heal28 hit1|1|802|64|naxxramas|mage||얼음불꽃 허리띠|inv_belt_03
-22503|60|wr|4.1|e|sta14 int15 sp27 heal27||803|64|naxxramas|mage||얼음불꽃 팔보호구|inv_bracer_13
-22504|60|ch|4.1|e|sta27 int22 sp51 heal51 hit1 crit1|1|804|128|naxxramas|warlock||역병의심장 로브|inv_chest_cloth_43
-22505|60|le|4.1|e|sta30 int25 sp37 heal37 crit1|1|805|128|naxxramas|warlock||역병의심장 다리보호구|inv_pants_cloth_05
-22506|60|he|4.1|e|sta28 int25 sp33 heal33 hit1 crit2|1|806|128|naxxramas|warlock||역병의심장 관|inv_crown_01
-22507|60|sh|4.1|e|sta22 int12 sp36 heal36 hit1|1|807|128|naxxramas|warlock||역병의심장 어깨보호대|inv_shoulder_25
-22508|60|fe|4.1|e|sta20 int16 sp32 heal32 crit1|1|808|128|naxxramas|warlock||역병의심장 덧신|inv_boots_fabric_01
-22510|60|wa|4.1|e|sta23 int12 sp34 heal34 crit1|1|809|128|naxxramas|warlock||역병의심장 허리띠|inv_belt_03
-22511|60|wr|4.1|e|sta23 int14 sp23 heal23||810|128|naxxramas|warlock||역병의심장 팔보호구|inv_bracer_13
-22589|60|2h|2.10|l|sta31 int32 spi24 dps64.37 sp150 heal150 hit2|1|811|64|naxxramas|mage||아티쉬 - 수호자의 지팡이|inv_staff_medivh
-22630|60|2h|2.10|l|sta30 int29 dps64.37 sp150 heal150 crit2|1|811|128|naxxramas|warlock||아티쉬 - 수호자의 지팡이|inv_staff_medivh
-22631|60|2h|2.10|l|sta28 int28 spi27 dps64.37 sp120 heal300|1|811|16|naxxramas|priest||아티쉬 - 수호자의 지팡이|inv_staff_medivh
+22267|60|he|4.1|r|spi13 sp33 heal33 hit1|1|709|498||||주문술사의 터번|inv_helmet_62
+22380|60?|mh|2.4|r|int6 dps28.33 sp46 heal139||776|306|ahn-qiraj-ruins|||시몬의 교화 망치|inv_hammer_05
+22416|60|ch|4.4|e|str21 sta43 def13 hit2|1|777|1|naxxramas|warrior||무쌍의 가슴보호갑|inv_chest_plate02
+22417|60|le|4.4|e|str23 sta37 def13|1|778|1|naxxramas|warrior||무쌍의 다리갑옷|inv_pants_plate_05
+22418|60|he|4.4|e|str21 sta45 def14|1|779|1|naxxramas|warrior||무쌍의 보호모|inv_helmet_58
+22420|60|fe|4.4|e|str15 sta34 def9|1|780|1|naxxramas|warrior||무쌍의 발덮개|inv_boots_plate_06
+22422|60|wa|4.4|e|str20 sta26 def9|1|781|1|naxxramas|warrior||무쌍의 허리보호대|inv_belt_27
+22423|60|wr|4.4|e|str14 sta28 def5||782|1|naxxramas|warrior||무쌍의 팔보호구|inv_bracer_15
+22436|60|ch|4.3|e|agi45 sta27 int15 mp54 hit1 crit1|1|783|4|naxxramas|hunter||지하추적자 튜닉|inv_chest_chain_15
+22437|60|le|4.3|e|agi42 sta26 int10 mp56 crit1|1|784|4|naxxramas|hunter||지하추적자 다리보호대|inv_pants_mail_15
+22438|60|he|4.3|e|agi31 sta30 int12 mp53 crit2|1|785|4|naxxramas|hunter||지하추적자 투구|inv_helmet_15
+22439|60|sh|4.3|e|agi29 sta23 int10 crit1|1|786|4|naxxramas|hunter||지하추적자 어깨보호대|inv_shoulder_14
+22440|60|fe|4.3|e|agi33 sta19 int8 hit1|1|787|4|naxxramas|hunter||지하추적자 장화|inv_boots_chain_05
+22441|60|ha|4.3|e|agi24 sta21 int15 mp54 crit1|1|788|4|naxxramas|hunter||지하추적자 장갑|inv_gauntlets_25
+22442|60|wa|4.3|e|agi23 sta22 int12 mp53 hit1 crit1|1|789|4|naxxramas|hunter||지하추적자 요대|inv_belt_22
+22443|60|wr|4.3|e|agi26 sta16 hit1|1|790|4|naxxramas|hunter||지하추적자 손목보호대|inv_bracer_02
+22476|60|ch|4.2|e|sta29 ap80 hit1 crit2|1|791|8|naxxramas|rogue||해골사신의 흉갑|inv_chest_plate02
+22477|60|le|4.2|e|str31 agi32 sta25 hit1 crit1|1|792|8|naxxramas|rogue||해골사신의 다리갑옷|inv_pants_plate_05
+22478|60|he|4.2|e|str18 agi30 sta29 hit1 crit2|1|793|8|naxxramas|rogue||해골사신의 보호모|inv_helmet_58
+22479|60|sh|4.2|e|str22 agi22 sta15 hit1 crit1|1|794|8|naxxramas|rogue||해골사신의 어깨갑옷|inv_shoulder_29
+22480|60|fe|4.2|e|sta18 ap64 hit1 crit1|1|795|8|naxxramas|rogue||해골사신의 발덮개|inv_boots_plate_06
+22481|60|ha|4.2|e|sta20 ap66 hit1 crit1|1|796|8|naxxramas|rogue||해골사신의 건틀릿|inv_gauntlets_28
+22482|60|wa|4.2|e|str23 agi24 sta20 crit1|1|797|8|naxxramas|rogue||해골사신의 허리보호대|inv_belt_27
+22483|60|wr|4.2|e|agi26 sta14 crit1|1|798|8|naxxramas|rogue||해골사신의 팔보호구|inv_bracer_15
+22496|60|ch|4.1|e|sta21 int27 sp47 heal47 hit1 crit1|1|799|64|naxxramas|mage||얼음불꽃 로브|inv_chest_cloth_43
+22497|60|le|4.1|e|sta25 int26 spi10 sp46 heal46 hit1|1|800|64|naxxramas|mage||얼음불꽃 다리보호구|inv_pants_cloth_05
+22498|60|he|4.1|e|sta22 int23 sp35 heal35 hit1 crit2|1|801|64|naxxramas|mage||얼음불꽃 관|inv_crown_01
+22499|60|sh|4.1|e|sta17 int18 spi9 sp36 heal36||802|64|naxxramas|mage||얼음불꽃 어깨보호대|inv_shoulder_25
+22501|60|ha|4.1|e|sta17 int19 spi10 sp36 heal36||803|64|naxxramas|mage||얼음불꽃 장갑|inv_gauntlets_17
+22502|60|wa|4.1|e|sta19 int21 spi10 sp28 heal28 hit1|1|804|64|naxxramas|mage||얼음불꽃 허리띠|inv_belt_03
+22503|60|wr|4.1|e|sta14 int15 sp27 heal27||805|64|naxxramas|mage||얼음불꽃 팔보호구|inv_bracer_13
+22504|60|ch|4.1|e|sta27 int22 sp51 heal51 hit1 crit1|1|806|128|naxxramas|warlock||역병의심장 로브|inv_chest_cloth_43
+22505|60|le|4.1|e|sta30 int25 sp37 heal37 crit1|1|807|128|naxxramas|warlock||역병의심장 다리보호구|inv_pants_cloth_05
+22506|60|he|4.1|e|sta28 int25 sp33 heal33 hit1 crit2|1|808|128|naxxramas|warlock||역병의심장 관|inv_crown_01
+22507|60|sh|4.1|e|sta22 int12 sp36 heal36 hit1|1|809|128|naxxramas|warlock||역병의심장 어깨보호대|inv_shoulder_25
+22508|60|fe|4.1|e|sta20 int16 sp32 heal32 crit1|1|810|128|naxxramas|warlock||역병의심장 덧신|inv_boots_fabric_01
+22510|60|wa|4.1|e|sta23 int12 sp34 heal34 crit1|1|811|128|naxxramas|warlock||역병의심장 허리띠|inv_belt_03
+22511|60|wr|4.1|e|sta23 int14 sp23 heal23||812|128|naxxramas|warlock||역병의심장 팔보호구|inv_bracer_13
+22589|60|2h|2.10|l|sta31 int32 spi24 dps64.37 sp150 heal150 hit2|1|813|64|naxxramas|mage||아티쉬 - 수호자의 지팡이|inv_staff_medivh
+22630|60|2h|2.10|l|sta30 int29 dps64.37 sp150 heal150 crit2|1|813|128|naxxramas|warlock||아티쉬 - 수호자의 지팡이|inv_staff_medivh
+22631|60|2h|2.10|l|sta28 int28 spi27 dps64.37 sp120 heal300|1|813|16|naxxramas|priest||아티쉬 - 수호자의 지팡이|inv_staff_medivh
 22652|60|ch|4.1|e|sta26 sp21 heal21||25|128||||빙하의 조끼|inv_chest_cloth_08
 22655|60|wr|4.1|e|sta20 sp12 heal12||25|464||||빙하의 손목보호대|inv_bracer_07
 22662|60|ha|4.2|e|agi18 sta18||16|268||||북극의 장갑|inv_gauntlets_06
-22663|60|wr|4.2|e|agi12 sta20||812;16|268||||북극의 팔보호구|inv_bracer_07
-22665|60|wr|4.3|e|sta17 ap32||813;16|35||||얼어붙은 미늘 팔보호구|inv_bracer_07
-22943|60|ne||e|sta9 int8 sp28 heal28||814|498|naxxramas|||원한의 돌 펜던트|inv_jewelry_necklace_29naxxramas
-22961|60|fi||e|agi34||815|268|naxxramas|||소생의 고리|inv_jewelry_ring_49naxxramas
-23031|60|fi||e|sp36 heal36 hit1|1|816|498|naxxramas|||운명의 고리|inv_jewelry_ring_53naxxramas
-23038|60|fi||e|ap52 hit1 crit1|1|817|303|naxxramas|||초자연력의 고리|inv_jewelry_ring_48naxxramas
-23041|60|tr||e|ap64|1|818|303|naxxramas|||학살자의 문장|inv_trinket_naxxramas03
-23046|60|tr||e|sp40 heal40|1|818|498|naxxramas|||억제된 사피론의 정수|inv_trinket_naxxramas06
-23060|60|fi||e|str20 agi20 sta10 hit1|1|819|8|naxxramas|rogue||해골사신의 반지|inv_jewelry_ring_51naxxramas
-23062|60|fi||e|sta10 int10 sp30 heal30 crit1|1|819|64|naxxramas|mage||얼음불꽃 반지|inv_jewelry_ring_51naxxramas
-23063|60|fi||e|sta24 sp29 heal29||819|128|naxxramas|warlock||역병의심장 반지|inv_jewelry_ring_51naxxramas
-23067|60|fi||e|agi30 mp56||819|4|naxxramas|hunter||지하추적자의 반지|inv_jewelry_ring_51naxxramas
-23557|60|ra|2.3|e|dps49.17 ap18 crit1|1|767|13|ahn-qiraj-temple|||대왕 벌레의 원혼|inv_weapon_rifle_10
-23577|60|1h|2.7|e|dps73 sta14|1|819|11|naxxramas|||The Hungering Cold|inv_sword_62
-227805|60|wa|4.2|e|str26 agi17 sta9||820;821|299|||leatherworking|나무구렁의 야성|inv_belt_09
-227807|60|wa|4.3|e|sta11 ap64||820;821|39|||blacksmithing|오밀조밀한 나무구렁 허리띠|inv_belt_16
-227809|60|ha|4.2|e|str20 agi10 sta14|1|820;821|299|||leatherworking|징 박힌 나무구렁일족 장갑|inv_gauntlets_26
-228190|60|wa|4.1|e|int22 sp25 heal25 hit1|1|821|498|||tailoring|나무구렁일족의 지식|inv_belt_09
-234019|60|fi||e|sta6 int7 mp53 heal40 sp14|1|822|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234023|60|fi||e|sta7 int8 mp53 heal42 sp14|1|822|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234025|60|fi||e|sta8 int8 mp54 heal46 sp16|1|822|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234026|60|fi||e|str21 sta11 hit1|1|823;822|291|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234028|60|fi||e|sta8 int8 sp26 heal26 hit1|1|822|498|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234029|60|fi||e|sta8 int8 mp54 heal48 sp16|1|822|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234030|60|fi||e|str22 sta11 hit1|1|823;822|291|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234032|60|fi||e|sta8 int9 sp28 heal28 hit1|1|822|498|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234033|60|fi||e|sta8 int9 mp55 heal53 sp18|1|822|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234034|60|fi||e|str24 sta13 hit1|1|823;822|291|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234035|60|fi||e|str13 sta24 def7|1|823|1|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234202|60|fi||e|agi24 sta13 hit1|1|823;822|269|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
-234436|60|fi||e|sta8 int9 sp30 heal30|1|822|272|ahn-qiraj-temple|priest,warlock,druid||청동용군단의 인장 반지|inv_jewelry_ring_40
-272393|60|wa|4.1|e|sta12 int24 sp19 heal19||824|64||mage||마술사의 허리끈|inv_belt_43a
-272396|60|wa|4.2|e|str14 agi24 sta11||824|256||druid||변신술사의 허리띠|inv_belt_16
-272397|60|wa|4.3|e|agi24 sta11 int14||825|4||hunter||순찰자의 허리띠|inv_belt_25
-272401|60|wa|4.2|e|sta11 int24 sp16 heal16||824|256||druid||엘루니트 허리끈|inv_belt_15
-272403|60|wa|4.4|e|str14 agi24 sta11||825|1||warrior||용맹한 자의 허리보호대|inv_belt_33
-272404|60|wa|4.4|e|str24 sta11 sp16 heal16||824|2||paladin||구원자의 허리띠|inv_belt_07
-272410|60|wa|4.3|e|str24 sta11 sp16 heal16||824|32||shaman||바람추적자의 허리띠|inv_belt_16
-272411|60|ba||r|int8 sp16 heal16 hit1|1|825;824|503||||비전매듭 망토|inv_misc_cape_05
-272413|60|ba||r|sta8 mp54 sp10 heal31||824|306||||회복의 외투|inv_misc_cape_06
-272414|60|ba||r|sta8 ap28 hit1|1|825;824|431||||울부짖는 자의 모피|inv_misc_cape_10
-272438|60|tr||r|sp18 heal18|1|824|498||||약점 분석기|inv_misc_blizzcon09_graphicscard
-272439|60|tr||r|sp7 heal21|1|824|370||||평온의 지대|inv_misc_enggizmos_36
+22663|60|wr|4.2|e|agi12 sta20||814;16|268||||북극의 팔보호구|inv_bracer_07
+22665|60|wr|4.3|e|sta17 ap32||815;16|35||||얼어붙은 미늘 팔보호구|inv_bracer_07
+22943|60|ne||e|sta9 int8 sp28 heal28||816|498|naxxramas|||원한의 돌 펜던트|inv_jewelry_necklace_29naxxramas
+22961|60|fi||e|agi34||817|268|naxxramas|||소생의 고리|inv_jewelry_ring_49naxxramas
+23031|60|fi||e|sp36 heal36 hit1|1|818|498|naxxramas|||운명의 고리|inv_jewelry_ring_53naxxramas
+23038|60|fi||e|ap52 hit1 crit1|1|819|303|naxxramas|||초자연력의 고리|inv_jewelry_ring_48naxxramas
+23041|60|tr||e|ap64|1|820|303|naxxramas|||학살자의 문장|inv_trinket_naxxramas03
+23046|60|tr||e|sp40 heal40|1|820|498|naxxramas|||억제된 사피론의 정수|inv_trinket_naxxramas06
+23060|60|fi||e|str20 agi20 sta10 hit1|1|821|8|naxxramas|rogue||해골사신의 반지|inv_jewelry_ring_51naxxramas
+23062|60|fi||e|sta10 int10 sp30 heal30 crit1|1|821|64|naxxramas|mage||얼음불꽃 반지|inv_jewelry_ring_51naxxramas
+23063|60|fi||e|sta24 sp29 heal29||821|128|naxxramas|warlock||역병의심장 반지|inv_jewelry_ring_51naxxramas
+23067|60|fi||e|agi30 mp56||821|4|naxxramas|hunter||지하추적자의 반지|inv_jewelry_ring_51naxxramas
+23557|60|ra|2.3|e|dps49.17 ap18 crit1|1|769|13|ahn-qiraj-temple|||대왕 벌레의 원혼|inv_weapon_rifle_10
+23577|60|1h|2.7|e|dps73 sta14|1|821|11|naxxramas|||The Hungering Cold|inv_sword_62
+227805|60|wa|4.2|e|str26 agi17 sta9||822;823|299|||leatherworking|나무구렁의 야성|inv_belt_09
+227807|60|wa|4.3|e|sta11 ap64||822;823|39|||blacksmithing|오밀조밀한 나무구렁 허리띠|inv_belt_16
+227809|60|ha|4.2|e|str20 agi10 sta14|1|822;823|299|||leatherworking|징 박힌 나무구렁일족 장갑|inv_gauntlets_26
+228190|60|wa|4.1|e|int22 sp25 heal25 hit1|1|823|498|||tailoring|나무구렁일족의 지식|inv_belt_09
+234019|60|fi||e|sta6 int7 mp53 heal40 sp14|1|824|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234023|60|fi||e|sta7 int8 mp53 heal42 sp14|1|824|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234025|60|fi||e|sta8 int8 mp54 heal46 sp16|1|824|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234026|60|fi||e|str21 sta11 hit1|1|825;824|291|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234028|60|fi||e|sta8 int8 sp26 heal26 hit1|1|824|498|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234029|60|fi||e|sta8 int8 mp54 heal48 sp16|1|824|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234030|60|fi||e|str22 sta11 hit1|1|825;824|291|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234032|60|fi||e|sta8 int9 sp28 heal28 hit1|1|824|498|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234033|60|fi||e|sta8 int9 mp55 heal53 sp18|1|824|306|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234034|60|fi||e|str24 sta13 hit1|1|825;824|291|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234035|60|fi||e|str13 sta24 def7|1|825|1|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234202|60|fi||e|agi24 sta13 hit1|1|825;824|269|ahn-qiraj-temple|||청동용군단의 인장 반지|inv_jewelry_ring_40
+234436|60|fi||e|sta8 int9 sp30 heal30|1|824|272|ahn-qiraj-temple|priest,warlock,druid||청동용군단의 인장 반지|inv_jewelry_ring_40
+272393|60|wa|4.1|e|sta12 int24 sp19 heal19||826|64||mage||마술사의 허리끈|inv_belt_43a
+272396|60|wa|4.2|e|str14 agi24 sta11||826|256||druid||변신술사의 허리띠|inv_belt_16
+272397|60|wa|4.3|e|agi24 sta11 int14||827|4||hunter||순찰자의 허리띠|inv_belt_25
+272401|60|wa|4.2|e|sta11 int24 sp16 heal16||826|256||druid||엘루니트 허리끈|inv_belt_15
+272403|60|wa|4.4|e|str14 agi24 sta11||827|1||warrior||용맹한 자의 허리보호대|inv_belt_33
+272404|60|wa|4.4|e|str24 sta11 sp16 heal16||826|2||paladin||구원자의 허리띠|inv_belt_07
+272410|60|wa|4.3|e|str24 sta11 sp16 heal16||826|32||shaman||바람추적자의 허리띠|inv_belt_16
+272411|60|ba||r|int8 sp16 heal16 hit1|1|827;826|503||||비전매듭 망토|inv_misc_cape_05
+272413|60|ba||r|sta8 mp54 sp10 heal31||826|306||||회복의 외투|inv_misc_cape_06
+272414|60|ba||r|sta8 ap28 hit1|1|827;826|431||||울부짖는 자의 모피|inv_misc_cape_10
+272438|60|tr||r|sp18 heal18|1|826|498||||약점 분석기|inv_misc_blizzcon09_graphicscard
+272439|60|tr||r|sp7 heal21|1|826|370||||평온의 지대|inv_misc_enggizmos_36
 279246|60|ra|2.19|e|spi11 dps76.76 sp6 heal17||32|208|hyjal-summit|||빛의 횃불|inv_torch_lit
 279252|60|wa|4.2|e|sta21 spi18 sp10 heal30||16|290|hyjal-summit|||세월숲 허리줄|inv_belt_leather_raiddruidhyjalc60_d_01
 279253|60|he|4.2|e|agi21 sta31 crit1.5||16|269|hyjal-summit|||무법자의 목장식|inv_misc_bandana_03
