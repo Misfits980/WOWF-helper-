@@ -213,14 +213,19 @@ def _sets():
             if not m:
                 continue
             nm, n = m.group(1), int(m.group(2))
-            parts = L[i + 1:i + 1 + n]
+            # 부위 줄은 「(n) 세트: …」 효과 줄 앞까지만 — wowf.io 툴팁은 (0/6)인데 부위가 4줄뿐인 세트가 있어 효과 2줄이 부위로 들어가고 (2)·(3) 효과가 빠졌음(세트 18개)
+            parts = []
+            for y in L[i + 1:i + 1 + n]:
+                if re.match(r'^\(\d+\) 세트: ', y):
+                    break
+                parts.append(y)
             bon = []
-            for y in L[i + 1 + n:]:
+            for y in L[i + 1 + len(parts):]:
                 mb = re.match(r'^\((\d+)\) 세트: (.+)$', y)
                 if mb:
                     bon.append([int(mb.group(1)), _qfix(mb.group(2))])
             if nm not in out or len(bon) > len(out[nm][2]):
-                out[nm] = [nm, parts, bon]
+                out[nm] = [nm, parts, bon, n]  # n = 게임 툴팁 (0/N)
             break
     return list(out.values())
 
@@ -783,6 +788,13 @@ for sq in re.findall(r"'((?:[^'\\]|\\.)*)'", PROFS_JS):
             PICO[nm_] = v_[1]
         if nm_ and nm_ in KO_ID:
             MATID[nm_] = KO_ID[nm_]
+# 납품 상자 재료(data/guides/deliver.json)도 — 예전엔 전문기술 단계 글에 나오는 재료만 넣어 광석·주괴·결정 등이 빠져 상자 21개에서 「가방에 다 있어요」가 안 나왔음
+if (ROOT / 'data/guides/deliver.json').exists():
+    for _c in json.loads(rd(ROOT / 'data/guides/deliver.json')).get('crates', []):
+        for _n in (_c.get('need') or []):
+            nm_ = str(_n[1]).strip() if isinstance(_n, list) and len(_n) > 1 else ''
+            if nm_ and nm_ not in MATID and nm_ in KO_ID:
+                MATID[nm_] = KO_ID[nm_]
 # 한글판이 아직 없는 영문 이름 템 → wythic.com 던전 자료(data/wythic/dungeons.json)의 한글 이름으로
 _wyko = {}
 if (ROOT / 'data' / 'wythic' / 'dungeons.json').exists():
@@ -901,6 +913,57 @@ if (Q / 'quests.jsonl').exists():
     for o in _qa:
         _QNR.setdefault(o.get('n'), []).append(o['id'] in _RQ)
     _PQ = set(o['id'] for o in _qa if o.get('z') in ('알터랙 계곡', '전쟁노래 협곡', '아라시 분지'))  # 전장 퀘스트 = PvP
+# 아이템 영어 → 한글 이름 (낙스라마스·안퀴라즈 보상 퀘스트는 출처에 영어 이름만 있고, 그 이름이 보상 아이템 이름과 같음)
+_IENKO = {}
+for _fn in ('item-en-ko.txt', 'item-en-ko2.txt'):
+    if (Q / _fn).exists():
+        for _l in rd(Q / _fn).splitlines():
+            if '|' in _l:
+                _en, _ko = _l.split('|', 1)
+                _IENKO.setdefault(_en.strip(), _ko.strip())
+# 출처에 영어 이름만 있고 한글 퀘스트 자료로도 못 찾는 클래식 레이드 퀘스트(줄구룹 잔달라 · 안퀴라즈 폐허·사원)
+_RAIDQ_EN = {'Strength of Mount Mugamba', "The Heathen's Brand", 'The Pebble of Kajaro', "The Maelstrom's Tendril",
+             'The Path of the Invoker', 'Signet of the Unseen Path', "Conqueror's Crown", 'The Savior of Kalimdor'}
+def _qcr():
+    """퀘스트 자료(2MB)가 오기 전에 쓰는 표: 직업·종족 제한 [cls, rc] · 아이템 출처에 있지만 퀘스트 자료에 없는 퀘스트는 [-1, -1](자료 뒤엔 qGone이 「얻을 수 없음」으로 봄)"""
+    qa = _qa if (Q / 'quests.jsonl').exists() else []
+    out = {str(o['id']): [o.get('cls') or 0, o.get('rc') or 0] for o in qa if o.get('cls') or o.get('rc')}
+    have = set(o['id'] for o in qa)
+    if have:
+        for m in set(int(x) for x in re.findall(r'(?:quest=|/quest/)(\d+)', srcs)):
+            if m not in have:
+                out[str(m)] = [-1, -1]
+    return out
+def _qnmap():
+    """퀘스트 번호 없이 이름만 있는 퀘스트 출처 → 퀘스트 번호. 퀘스트 자료(2MB)가 오기 전에도 앱이 자료 뒤(qByName)와 같은 퀘스트를 찾게.
+    앱이 자료를 읽을 때 빼는 것(영어 이름·목표 둘 다 영어, 같은 이름·지역에 호드 도시 쪽 짝)을 똑같이 빼고 파일 순서의 첫 번호"""
+    qa = _qa if (Q / 'quests.jsonl').exists() else []
+    if not qa:
+        return {}
+    lat = lambda t: bool(re.search(r'[A-Za-z]{3}', t or '')) and not re.search(r'[가-힣]', t or '')
+    M = [o for o in qa if not (lat(o.get('n')) and lat(o.get('o')))]
+    HZ = re.compile(r'^(듀로타|멀고어|티리스팔 숲|은빛소나무 숲|오그리마|언더시티|썬더 블러프)$')
+    byN, drop = {}, set()
+    for o in M:
+        byN.setdefault(str(o.get('n')) + '|' + str(o.get('z')), []).append(o)
+    for L in byN.values():
+        if len(L) < 2:
+            continue
+        ok = [o for o in L if not (o.get('g') and HZ.match((o['g'][1] if len(o['g']) > 1 else '') or ''))]
+        if ok and len(ok) < len(L):
+            drop.update(o['id'] for o in L if o not in ok)
+    first = {}
+    for o in M:
+        if o['id'] not in drop:
+            first.setdefault(re.sub(r'\s', '', str(o.get('n') or '')), o['id'])
+    names = set()
+    for l in SRC_TXT.split('\n'):
+        f = l.split('~')
+        if len(f) >= 2 and f[0] == '1':
+            hr = f[2] if len(f) > 2 else ''
+            if not re.search(r'(?:quest=|/quest/)\d+', hr) and not hr.startswith('dg:'):
+                names.add(re.sub(r'\s', '', f[1].replace('퀘스트 · ', '', 1)))
+    return {k: first[k] for k in sorted(names) if k in first}
 def _rflag(l):
     f = l.split('~')
     if len(f) < 2:
@@ -912,7 +975,18 @@ def _rflag(l):
         if m:
             fl = 'r' if int(m.group(1)) in _RQ else 'p' if int(m.group(1)) in _PQ else ''
         elif not hr.startswith('dg:'):
-            v = _QNR.get(lb.replace('퀘스트 · ', '', 1))
+            nm = lb.replace('퀘스트 · ', '', 1)
+            v = _QNR.get(nm)
+            # 영어 이름만 있는 퀘스트(예: Frostfire Robe = 낙스라마스 「얼음불꽃 로브」 퀘스트)는 한글 이름으로 찾음 — 예전엔 레이드 표시가 안 붙어
+            # 「퀘스트만」·「퀘스트+던전」 추천에 T3·안퀴라즈 보상이 섞였음. 레이드로 확인되면 화면 글도 한글 이름으로
+            if v is None and re.match('[A-Za-z]', nm):
+                ko = _IENKO.get(nm)
+                v2 = _QNR.get(ko) if ko else None
+                # 영어 이름은 클래식 자료에서 온 것 → 같은 한글 이름 퀘스트 중 레이드 퀘스트가 있으면 레이드(예: 정복자의 왕관 = 안퀴라즈 + 포에버 새 퀘스트)
+                if (v2 and any(v2)) or nm in _RAIDQ_EN:
+                    v = [True]
+                    if ko and v2:
+                        f[1] = '퀘스트 · ' + ko
             fl = 'r' if v and all(v) else ''
     elif k == '3':
         n = lb.replace('드랍 · ', '', 1)
@@ -1012,6 +1086,17 @@ def _lvl_forever(txt):
     rg, sd = srt(Z['강물터']), srt(Z['셴드랄라스'])
     if len(rg) < 20 or len(sd) < 10:
         return txt
+    # forg 원본이 이미 강물터(#36|40|강물터 …·#41|44|강물터 …)를 넣은 새 모양이면: 셴드랄라스만 43~45로 끼움(41~44 → 41~42, 45~50 → 46~50)
+    if re.search(r'^#36\|40\|강물터', txt, re.M) and re.search(r'^#41\|44\|', txt, re.M):
+        out = []
+        for l in txt.split('\n'):
+            if l.startswith('#41|44|'):
+                l = '#41|42|' + l.split('|', 2)[2]
+            elif l.startswith('#45|50|'):
+                out.extend(['#43|45|셴드랄라스'] + [line(q) for q in sd])
+                l = '#46|50|' + l.split('|', 2)[2]
+            out.append(l)
+        return _hyjal('\n'.join(out), qp)
     # 강물터 퀘스트는 대부분 36레벨부터 받을 수 있어서 36부터 (앞 33~34 구간을 35까지 늘림)
     new = ['#36|40|강물터'] + [line(q) for q in rg if q['lv'] <= 40] + ['#41|42|강물터'] + [line(q) for q in rg if q['lv'] > 40] + ['#43|45|셴드랄라스'] + [line(q) for q in sd]
     out, skip = [], False
@@ -1200,6 +1285,8 @@ data = '\n'.join([
     # 게임 퀘스트 캐시에서 확인한 레벨·최소 레벨·목표 글 (tools/qdb/gamecache.py → data/qdb/quest-game.txt)
     'const D_QGAME=' + json.dumps([[int(f[0]), int(f[1]), int(f[2]), f[3]] for f in (l.split('|', 3) for l in (rd(Q / 'quest-game.txt').splitlines() if (Q / 'quest-game.txt').exists() else []) if l and not l.startswith('#'))], ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_QX=' + json.dumps([int(x) for x in (rd(Q / 'quests-nolist.txt').split() if (Q / 'quests-nolist.txt').exists() else [])], separators=(',', ':')) + ';',
+    'const D_QCR=' + json.dumps(_qcr(), separators=(',', ':')) + ';',
+    'const D_QN=' + json.dumps(_qnmap(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_HQ=' + json.dumps([int(x) for x in (rd(Q / 'horde-quests.txt').split() if (Q / 'horde-quests.txt').exists() else [])], separators=(',', ':')) + ';',
     'const D_SIMW=' + (rd(F / 'sim-weights.json') if (F / 'sim-weights.json').exists() else '{}') + ';',
     'const D_DGL=' + js_str(_dgl()) + ';',

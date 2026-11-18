@@ -16,5 +16,9 @@ for(const l of links){const h=await get('https://wythic.com'+l);if(!h)continue;
     const name=dec(alt)||after.find(s=>/[가-힣]/.test(s)&&s.length<30)||'';
     out.push([title,name,m[0]].join('|'));
     if(probe.length<6)probe.push(title+' | alt='+alt+' | after='+after.slice(0,6).join(' / ')+' | before='+before.slice(-4).join(' / '))}}
-fs.writeFileSync('data/forg/bosses.txt',[...new Set(out)].join('\n')+'\n');
+/* 사이트를 못 읽거나(접속 실패·화면 바뀜) 결과가 예전의 절반도 안 되면 예전 파일을 그대로 둠 — 예전엔 빈 파일로 덮어써서 앱의 보스 그림이 모두 사라졌음 */
+const prevN=(()=>{try{return fs.readFileSync('data/forg/bosses.txt','utf8').split('\n').filter(Boolean).length}catch(e){return 0}})();
+const uniq=[...new Set(out)];
+if(!uniq.length||uniq.length<prevN*0.5){console.log('보스 그림을 거의 못 읽음('+uniq.length+'/'+prevN+'줄) → data/forg/bosses.txt 그대로 둠');process.exit(1)}
+fs.writeFileSync('data/forg/bosses.txt',uniq.join('\n')+'\n');
 console.log('dungeon pages',links.length,'boss imgs',out.length);console.log(probe.join('\n'));
