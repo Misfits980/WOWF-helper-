@@ -3233,6 +3233,8 @@ function mobRk(r){return r===4||r===2?'r':r>=1?'e':'n'}
 function conCol(my,lv){const d=lv-my;if(d>=5)return 'c-red';if(d>=3)return 'c-org';if(d>=-2)return 'c-yel';const gr=my<=5?0:my<40?my-Math.floor(my/10)-5:my<60?my-Math.floor(my/5)-1:51;return lv>gr?'c-grn':'c-gry'}
 /* 풀 계획: 던전마다 c.dgp[slug]={s:자료 서명,p:[[\'층:무리\',…],…],k:지금 풀,lv:묶기 정도}. 없으면 길 따라 자동(보통) */
 let DGX=null;
+/* 탱 풀 짜기는 풀 계획이 붙은 위에서 본 지도(DGX.pl)에서만 — 예전 지도엔 길찾기 그림(nav)이 없어 navLoad 오류로 화면이 멈추고, 그 상태에서 누른 무리가 저장된 풀 계획을 바꿨음 */
+const dpmOn=()=>!!(ui.dpm&&DGX&&DGX.pl);
 const DPS={1:{w:3,g:28,d:14,t:'안전'},2:{w:5,g:42,d:20,t:'보통'},3:{w:8,g:65,d:30,t:'많이'}};
 const mRkW=r=>r===4||r===2?1.5:r>=1?1:.4;
 function packW(m){return m[7].reduce((s,x)=>s+x[1]*mRkW(x[2]),0)+Math.max(0,m[2]-m[7].reduce((s,x)=>s+x[1],0))*.6}
@@ -3245,7 +3247,7 @@ function dgAuto(fl,lv){const S=DPS[lv]||DPS[2];const C=[];fl.forEach((f,fi)=>f.m
     else{cur={fi:x.fi,p0:x.pos,w,k:[x.fi+':'+x.i],ms:[x.m]};out.push(cur)}});
   return out.map(g=>g.k)}
 function dgPlan(c,slug,fl){const sig=dgSig(fl);const P=c&&c.dgp&&c.dgp[slug];if(P&&P.s===sig&&Array.isArray(P.p))return P;return {s:sig,p:dgAuto(fl,2),k:0,lv:2,auto:1}}
-function dgPlanEdit(fn){if(!DGX)return;const c=DGX.c;const P=JSON.parse(JSON.stringify(dgPlan(c,DGX.slug,DGX.fl)));delete P.auto;P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));fn(P);
+function dgPlanEdit(fn){if(!DGX||!DGX.pl)return;const c=DGX.c;const P=JSON.parse(JSON.stringify(dgPlan(c,DGX.slug,DGX.fl)));delete P.auto;P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));fn(P);
   /* 빈 풀은 지금 풀만 남김 · 지금 풀 번호 맞춤 */
   const keep=[];let nk=P.k;P.p.forEach((x,j)=>{if(x.length||j===P.k)keep.push(x);else if(j<P.k)nk--});P.p=keep;if(!P.p.length)P.p=[[]];P.k=Math.max(0,Math.min(nk,P.p.length-1));ui.dpkI=P.k;delete P.k;
   c.dgp=c.dgp||{};c.dgp[DGX.slug]=P;save()}
@@ -3255,14 +3257,14 @@ function planMs(P,j){const L=[];(P.p[j]||[]).forEach(k=>{const [fi,i]=k.split(':
 function dangerOf(L,my){let w=0;L.forEach(([m])=>{m[7].forEach(x=>{const hi=x[4]!=null?x[4]:m[6];w+=x[1]*mRkW(x[2])*Math.max(.5,Math.min(2,1+.12*(hi-my)))})});
   return w<=2.5?['쉬움','c-grn',1]:w<=4.5?['보통','c-yel',2]:w<=6.5?['위험','c-org',3]:['매우 위험','c-red',4]}
 function selOf(m,fi,i){const n=planNo(fi,i);return n?'p:'+n:'k:'+fi+':'+i}
-function mobBar(f){const on=ui.dmob!==0;const np=DGX&&DGX.P?DGX.P.p.filter(x=>x.length).length:0;
-  return '<div class="mobtg"><div class="chips seg dpm"><button class="chip'+(!ui.dpm?' on':'')+'" data-a="dpm" data-k="0">지도 보기</button><button class="chip'+(ui.dpm?' on':'')+'" data-a="dpm" data-k="1">탱 풀 짜기</button></div>'
-  +(ui.dpm?'':'<button class="chip'+(on?' on':'')+'" data-a="dmob">쫄 '+(on?'보이기':'숨김')+'</button>')
-  +(on||ui.dpm?'<span class="mleg">'+(ui.dpm?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
+function mobBar(f){const on=ui.dmob!==0;const np=DGX&&DGX.P?DGX.P.p.filter(x=>x.length).length:0;const PM=dpmOn();
+  return '<div class="mobtg">'+(DGX&&DGX.pl?'<div class="chips seg dpm"><button class="chip'+(!PM?' on':'')+'" data-a="dpm" data-k="0">지도 보기</button><button class="chip'+(PM?' on':'')+'" data-a="dpm" data-k="1">탱 풀 짜기</button></div>':'')
+  +(PM?'':'<button class="chip'+(on?' on':'')+'" data-a="dmob">쫄 '+(on?'보이기':'숨김')+'</button>')
+  +(on||PM?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
   +'<span class="mute">'+(np?'풀 '+np+' · ':'')+'무리 '+f.mob.p.length+' · 순찰 '+f.mob.t.length+'</span></div>'}
 /* ── 탱 동선: 층 길찾기 칸 그림(data/dgmap/*-nav.png)을 받아 브라우저에서 풀 → 풀 길 찾기 ── */
 const NAVC={},SEGC={};
-function navLoad(f){const n=f.nav;if(!n||NAVC[n.img])return NAVC[n.img]&&NAVC[n.img].ok?NAVC[n.img]:null;NAVC[n.img]={};const im=new Image();
+function navLoad(f){const n=f.nav;if(!n)return null;if(NAVC[n.img])return NAVC[n.img]&&NAVC[n.img].ok?NAVC[n.img]:null;NAVC[n.img]={};const im=new Image();
   im.onload=()=>{try{const cv=document.createElement('canvas');cv.width=n.gw;cv.height=n.gh;const x=cv.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0);const d=x.getImageData(0,0,n.gw,n.gh).data;
     const N=n.gw*n.gh,R=new Uint8Array(N),G=new Uint8Array(N),A=new Uint8Array(N);for(let i=0;i<N;i++){R[i]=d[i*4];G[i]=d[i*4+1];A[i]=d[i*4+3]}
     NAVC[n.img]={ok:1,R,G,A,n};if(ui.dpm&&ui.tab==='dungeon')rerender(true)}catch(e){NAVC[n.img]={bad:1}}};
@@ -3292,7 +3294,7 @@ function tankStops(f,fi){const P=DGX.P;const st=[];const ent=f.pins.find(p=>p.t=
   let bi=0;pulls.forEach(q=>{while(bi<boss.length&&boss[bi].pos<q.pos){st.push(boss[bi]);bi++}st.push(q)});while(bi<boss.length)st.push(boss[bi++]);return st}
 function tankRoute(f,fi){const V=navLoad(f);if(!V)return null;const st=tankStops(f,fi);const segs=[];for(let i=1;i<st.length;i++){const a=navSnap(V,st[i-1].x,st[i-1].y),b=navSnap(V,st[i].x,st[i].y);
     const r=a>=0&&b>=0?navPath(V,a,b):null;segs.push({from:st[i-1],to:st[i],pts:r?[[st[i-1].x,st[i-1].y]].concat(r.pts,[[st[i].x,st[i].y]]):[[st[i-1].x,st[i-1].y],[st[i].x,st[i].y]],yd:r?r.yd:null,ok:!!r})}return segs}
-function mobLayer(f,fi){if(!(PV&&f.mob&&(ui.dmob!==0||ui.dpm)))return '';const M=f.mob,W=f.w||100,H=f.h||100,sel=ui.dpm?'p:'+(DGX.P.k+1):ui.dmsel;const PM=!!ui.dpm;
+function mobLayer(f,fi){if(!(PV&&f.mob&&(ui.dmob!==0||dpmOn())))return '';const M=f.mob,W=f.w||100,H=f.h||100,sel=dpmOn()?'p:'+(DGX.P.k+1):ui.dmsel;const PM=dpmOn();
   const pt=new Set(M.t.map(t=>t[0]));const RM=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   const P2=q=>(q[0]*W/100).toFixed(1)+','+(q[1]*H/100).toFixed(1);
   let sv='<svg class="mobpat" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true"><defs>'+Object.entries(MGLY).map(([k,v])=>'<symbol id="mg'+k+'" viewBox="0 0 24 24">'+v+'</symbol>').join('')+'</defs>';
@@ -3311,7 +3313,9 @@ function mobLayer(f,fi){if(!(PV&&f.mob&&(ui.dmob!==0||ui.dpm)))return '';const M
     sv+='<circle class="rm'+(on?' on':'')+'" style="fill:'+pCol(planNo(fi,t[0]))+'" r="'+r.toFixed(1)+'" cx="'+(RM?P[0][0].toFixed(1):0)+'" cy="'+(RM?P[0][1].toFixed(1):0)+'">'+(RM?'':'<animateMotion dur="'+dur.toFixed(0)+'s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear" path="'+d+'"/>')+'</circle>'});
   sv+='</svg>';
   let h=sv;const PU={};
-  M.p.forEach((m,i)=>{const k=selOf(m,fi,i);const n=planNo(fi,i);const on=sel===k;const lab=esc((n?'풀 '+n+': ':'')+m[7].map(x=>x[0]+(x[1]>1?' '+x[1]:'')).join(', '));
+  /* 무리 버튼(투명한 원)은 큰 것부터 그려 작은 무리가 위에 오게 — 같은 순서로 그리면 큰 원 안에 든 작은 무리를 어떤 확대에서도 누를 수 없었음 */
+  const mR=m=>m[9]&&m[9].length?m[9].reduce((R,q)=>Math.max(R,Math.hypot(q[0]-m[0],(q[1]-m[1])*H/W)),0):-1;
+  M.p.map((m,i)=>[i,mR(m)]).sort((a,b)=>b[1]-a[1]||a[0]-b[0]).forEach(([i])=>{const m=M.p[i];const k=selOf(m,fi,i);const n=planNo(fi,i);const on=sel===k;const lab=esc((n?'풀 '+n+': ':'')+m[7].map(x=>x[0]+(x[1]>1?' '+x[1]:'')).join(', '));
     const act=PM?' data-a="dpk" data-k="'+fi+':'+i+'"':' data-a="mobi" data-k="'+k+'"';
     if(!(m[9]&&m[9].length)){h+='<button class="mob'+(m[8]?' rr':m[4]?' el':'')+(pt.has(i)?' pt':'')+(on?' on':'')+'" style="left:'+m[0]+'%;top:'+m[1]+'%;--n:'+Math.min(m[2],6)+'"'+act+' aria-label="'+lab+'"></button>';return}
     let R=0;m[9].forEach(q=>{R=Math.max(R,Math.hypot(q[0]-m[0],(q[1]-m[1])*H/W))});
@@ -3331,13 +3335,13 @@ function mobRows(g,n,my){return g.rows.map(x=>{const rk=x.rk!=null?mobRk(x.rk):'
 /* 이 풀 몹 가까이(12야드) 지나가는 다른 순찰 */
 function patrolNear(L,P){const out=new Set();L.forEach(([m,i,f,fi])=>{const sx=(f.sc||300)/100,sy=(f.sc||300)*(f.h/f.w)/100;const pts=m[9]&&m[9].length?m[9]:[[m[0],m[1]]];
   f.mob.t.forEach(t=>{if(L.some(x=>x[3]===fi&&x[1]===t[0]))return;if(t[1].some(q=>pts.some(p=>Math.hypot((p[0]-q[0])*sx,(p[1]-q[1])*sy)<=12))){const n=planNo(fi,t[0]);out.add(n?'풀 '+n:'옆길')}})});return [...out]}
-function mobCard(c,f,fi){if(!(PV&&f.mob&&ui.dmob!==0)||ui.dpm)return '';const sel=ui.dmsel;if(!sel)return '';const M=f.mob;let L=[],title='',n=0;
+function mobCard(c,f,fi){if(!(PV&&f.mob&&ui.dmob!==0)||dpmOn())return '';const sel=ui.dmsel;if(!sel)return '';const M=f.mob;let L=[],title='',n=0;
   if(sel.startsWith('p:')){n=+sel.slice(2);L=planMs(DGX.P,n-1);title='풀 '+n}
   else{const [,a,b]=sel.split(':');if(+a!==fi)return '';const m=M.p[+b];if(m)L=[[m,+b,f,fi]];title=m&&m[8]?'희귀 몹':'안 잡는 무리'}
   if(!L.length)return '';const g=pullAgg(L);const my=c.lv||1;const dg=dangerOf(L,my);const pn=patrolNear(L);
   return '<div class="mobcard"><div class="mch">'+(n?'<span class="pnum" style="--c:'+pCol(n)+'">'+n+'</span>':'')+'<b>'+title+' · '+g.n+'마리</b><span>'+(g.lo===g.hi?g.lo:g.lo+'–'+g.hi)+'레벨'+(g.el?' · 정예 '+g.el:'')+'</span><em class="dgr '+dg[1]+'">'+dg[0]+'</em>'+(g.pt?'<em class="ptb">순찰 있음</em>':'')+'<button class="x" data-a="mobx" aria-label="닫기">✕</button></div>'
     +'<ul>'+mobRows(g,n,my)+'</ul>'+(pn.length?'<p class="warn">순찰 몹이 가까이 지나가요('+pn.join(', ')+') — 지나간 뒤 잡거나 같이 묶기</p>':'')+'<p class="mute">레벨 색: 내 캐릭터 '+my+'레벨 기준 · 위험도는 5인 파티 기준 대략</p></div>'}
-function pullList(c,f,fi){if(!(PV&&f.mob))return '';if(ui.dpm)return planPanel(c,f,fi);if(ui.dmob===0)return '';const P=DGX.P;const ns=[];P.p.forEach((ks,j)=>{if(planMs(P,j).some(x=>x[3]===fi))ns.push(j+1)});if(!ns.length)return '';
+function pullList(c,f,fi){if(!(PV&&f.mob))return '';if(dpmOn())return planPanel(c,f,fi);if(ui.dmob===0)return '';const P=DGX.P;const ns=[];P.p.forEach((ks,j)=>{if(planMs(P,j).some(x=>x[3]===fi))ns.push(j+1)});if(!ns.length)return '';
   const all=ui.dpall;const show=all?ns:ns.slice(0,6);const my=c.lv||1;
   return '<div class="plist"><div class="plh"><b>풀 순서</b><small>'+(P.auto?'길 따라 자동으로 묶은 추천':P.auto2?'자동 묶기('+DPS[P.lv].t+')':'내가 짠 풀')+' · 「탱 풀 짜기」에서 바꿀 수 있어요</small></div><ol>'+show.map(n=>{const L=planMs(P,n-1);const g=pullAgg(L);const dg=dangerOf(L,my);const t=g.rows.slice(0,3).map(x=>esc(x.nm)+(x.c>1?' ×'+x.c:'')).join(', ')+(g.rows.length>3?' 외':'');
     return '<li><button class="'+(ui.dmsel==='p:'+n?'on':'')+'" data-a="mobi" data-k="p:'+n+'"><span class="pnum" style="--c:'+pCol(n)+'">'+n+'</span><span class="pt">'+t+'</span><small>'+g.n+'마리 · <span class="'+dg[1]+'">'+dg[0]+'</span></small></button></li>'}).join('')+'</ol>'
@@ -3394,10 +3398,10 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   h+='<div class="dg2"><div class="dgL">';
   /* 지도: 기본으로 1층만 펼쳐 둠, 핀 누르면 그 단계로 */
   const FL=stepFloor(g);
-  if(g.floors&&g.floors.length){const fi=Math.min(ui.dfloor||0,g.floors.length-1);const f=g.floors[fi];if(PV&&G3&&g.floors===G3.f3){const P=dgPlan(c,d.slug,g.floors);P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));DGX={c,slug:d.slug,fl:g.floors,P,I:planIdx(P)}}else DGX={c,slug:d.slug,fl:g.floors,P:{p:[],k:0,auto:1},I:{}};
+  if(g.floors&&g.floors.length){const fi=Math.min(ui.dfloor||0,g.floors.length-1);const f=g.floors[fi];if(PV&&G3&&g.floors===G3.f3){const P=dgPlan(c,d.slug,g.floors);P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));DGX={c,slug:d.slug,fl:g.floors,P,I:planIdx(P),pl:1}}else DGX={c,slug:d.slug,fl:g.floors,P:{p:[],k:0,auto:1},I:{}};
     h+='<div class="rmap2">'+(G3?'<div class="chips seg m3"><button class="chip'+(ui.d3!==0?' on':'')+'" data-a="d3" data-k="1">위에서 본 지도</button><button class="chip'+(ui.d3===0?' on':'')+'" data-a="d3" data-k="0">예전 지도</button></div>':'')+(g.floors.length>1?'<div class="chips seg fl">'+g.floors.map((x,i)=>'<button class="chip'+(i===fi?' on':'')+'" data-a="dfl" data-k="'+i+'">'+(i+1)+'층 '+esc(x.name)+'</button>').join('')+'</div>':'')
      +(PV&&f.mob?mobBar(f):'')
-     +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return '<div class="mapbox'+(PV&&ui.dfs?' fs':'')+'"><div class="mapv'+(Z>1?' zm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&(ui.dpm||ui.dmsel&&ui.dmob!==0)?' sel':'')+'"'+(Z>1?' style="width:'+(Z*100)+'%"':'')+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
+     +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return '<div class="mapbox'+(PV&&ui.dfs?' fs':'')+'"><div class="mapv'+(Z>1?' zm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&(dpmOn()||ui.dmsel&&ui.dmob!==0)?' sel':'')+'"'+(Z>1?' style="width:'+(Z*100)+'%"':'')+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
      +mobLayer(f,fi)
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
         if(num)return '<button class="pin n '+(x?'k-'+x.kind:'')+(p.w===2?' ap':'')+(/!/.test(p.t)?' q':'')+(x&&x.kind!=='obj'&&KL[x.st.nm]?' kd':'')+(ui.stopen[n]?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%" data-a="stp" data-k="'+n+'">'+n+'</button>';
