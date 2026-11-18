@@ -1,0 +1,16 @@
+name: 워크래프트로그 연결 확인
+on:
+  workflow_dispatch:
+  push:
+    paths: ['tools/wcl/check.py', '.github/workflows/wcl-check.yml']
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/wcl/check.py
+        env:
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
