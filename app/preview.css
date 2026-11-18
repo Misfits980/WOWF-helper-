@@ -354,6 +354,8 @@
 .mapw .mpn::before{content:'';position:absolute;inset:-6px;border-radius:12px}
 /* 탱 풀 짜기: 풀 번호의 보이지 않는 넓은 누름 영역이 작은 무리를 통째로 덮어 넣을 수 없었음 → 번호 크기만큼만 */
 .mapw .mpn[data-a="dpsel"]::before{inset:0}
+/* 탱 풀 짜기: 지금 풀 번호는 눌러도 하는 일이 없음 — 무리를 넣으면 그 번호가 새 중심으로 옮겨 와 방금 넣은 무리를 덮어 다시 눌러 뺄 수 없었음 → 누름을 아래 무리로 */
+.mapw .mpn.on[data-a="dpsel"]{pointer-events:none}
 .mapw .mpn.on{background:var(--c);color:#16130e}
 .mapw.sel .mi:not(.on),.mapw.sel .mpn:not(.on),.mapw.sel .mob:not(.on){opacity:.35}
 .mapw .mi.on{z-index:2;width:15px;height:15px}
