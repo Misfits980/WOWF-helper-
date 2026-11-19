@@ -87,7 +87,7 @@ for role in ('tanks', 'healers', 'dps'):
         roles[str(p.get('id'))] = role
 
 KEEP = ('timestamp', 'type', 'sourceID', 'sourceInstance', 'targetID', 'targetInstance', 'abilityGameID', 'x', 'y', 'mapID',
-        'resourceActor', 'hitPoints', 'maxHitPoints', 'facing', 'fight')
+        'resourceActor', 'hitPoints', 'maxHitPoints', 'facing', 'fight', 'amount', 'absorbed', 'overheal')  # amount·absorbed·overheal = 미터(딜량·치유량)
 events, st, n = [], F['startTime'], 0
 while st is not None and n < 40:
     r = q('query($c:String,$f:[Int],$s:Float,$e:Float){ reportData { report(code:$c) { events(fightIDs:$f, startTime:$s, endTime:$e, includeResources:true, limit:10000) { data nextPageTimestamp } } } }',
