@@ -448,13 +448,8 @@
 .pplan .ptb{font-style:normal;font-size:11.5px;color:#8fd3ff;border:1px solid rgba(143,211,255,.5);border-radius:6px;padding:0 6px}
 .pplan .plegend{font-size:11.5px;margin:0}
 /* 대표 판 재생 */
-.mapw .mobpat .rpall{fill:none;stroke:#8fd3ff;stroke-width:1.4;stroke-opacity:.35;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .mapw .mobpat .rptr{fill:none;stroke:#8fd3ff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 1px #000)}
 .mapw .mi.dd,.mapw .mob.dd,.mobtg .mleg .mi.dd{opacity:.3;filter:grayscale(1)}
-.mapw .rpn{opacity:.5}
-.mapw .rpn.nx{opacity:.95}
-.mapw .rpn.dn{opacity:.35}
-.mapw .rpn.on{opacity:1;z-index:5}
 .mapw .rpd{position:absolute;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:var(--c);border:1.5px solid #0d0c0a;box-sizing:content-box;pointer-events:none;z-index:6}
 .mapw .rpd.tk{width:13px;height:13px;border:2.5px solid #8fd3ff;box-shadow:0 0 0 1.5px #0d0c0a,0 0 8px rgba(143,211,255,.7);z-index:7}
 .mobtg .mleg .rpl{display:inline-block;width:16px;height:0;border-top:3px solid #8fd3ff;margin:0 2px 0 0;box-shadow:0 0 0 1px rgba(0,0,0,.6)}
@@ -485,10 +480,38 @@
 .mapw .rpe.r1{box-shadow:0 0 0 1px #f3cf6a}
 .mapw .rpe.r2{width:12px;height:12px;background:#ff2d2d;box-shadow:0 0 0 2px #f3cf6a;z-index:6}
 .mobtg .mleg .rpe.lg{display:inline-block;position:static;width:8px;height:8px;border-radius:50%;background:#ff5a4a;border:1.5px solid #1a0b08;margin:0 2px 0 8px;vertical-align:middle}
-.mapw.rpsel .mi:not(.cur):not(.dd),.mapw.rpsel .mob:not(.cur):not(.dd){opacity:.6}
-.mapw .mi.cur{z-index:3;width:15px;height:15px;box-shadow:0 0 0 2px var(--c),0 0 6px var(--c)}
-.mapw .mi.cur.dd{opacity:.45}
-.mapw .mobpat .rpln{stroke-width:1.6;stroke-dasharray:3 3;vector-effect:non-scaling-stroke;opacity:.9}
-.mapw .mobpat .rpfx{fill:none;stroke-width:2.2;vector-effect:non-scaling-stroke}
 .rpcard .rpg{margin:4px 0 0;font-size:12.5px;color:var(--mute)}
 .rpcard .rpg b{color:var(--gold);font-weight:600}
+/* 지금 풀(금색)·다음 풀(파란색)만 강조 — 탱 풀 짜기·실제 판 재생 */
+.mapw .mobpat .fb{stroke-linejoin:round;stroke-linecap:round}
+.mapw .mobpat .fb.fc{fill:#f0c25a;fill-opacity:.24;stroke:#f0c25a;stroke-opacity:.4}
+.mapw .mobpat .fb.fn{fill:#6fb7ff;fill-opacity:.13;stroke:#6fb7ff;stroke-opacity:.26}
+.mapw .mobpat .fbl{stroke-linecap:round}
+.mapw .mobpat .fbl.fc{stroke:#f0c25a;stroke-opacity:.4}
+.mapw .mobpat .fbl.fn{stroke:#6fb7ff;stroke-opacity:.26}
+.mapw .mobpat .tk.dim{stroke-opacity:.35;stroke-width:2}
+.mapw .mobpat .tkl{fill:none;stroke:#6fb7ff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.mapw .mobpat .rpnx{fill:none;stroke:#6fb7ff;stroke-width:3;stroke-dasharray:6 4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.mapw .mobpat .rptr{stroke-opacity:.45;stroke-width:2}
+.mapw.fx .mi{--c:#a59c8a!important;opacity:.6}
+.mapw.fx .mi.off{--c:transparent!important;border-color:#9a927f;opacity:.42;transform:translate(-50%,-50%) scale(.8)}
+.mapw.fx .mi.off svg{fill:#9a927f}
+.mapw.fx .mi.fc{--c:#f0c25a!important;opacity:1;z-index:3;width:15px;height:15px}
+.mapw.fx .mi.fn{--c:#6fb7ff!important;opacity:1;z-index:3}
+.mapw.fx .mi.dd{opacity:.2}
+.mapw.fx .mi.fc.dd{opacity:.5}
+.mapw.fx .mob:not(.fc):not(.fn){opacity:.55}
+.mapw.fx .mpn.mini{--c:#6d6658!important;min-width:14px;height:14px;padding:0 2px;font-size:9px;line-height:11px;color:#bdb4a2;opacity:.75;transform:translate(calc(-50% + 9px),calc(-50% - 9px))}
+.mapw.fx .mpn.fc{--c:#f0c25a!important;background:#f0c25a;color:#16130e;opacity:1;min-width:22px;height:22px;font-size:13px;line-height:19px;z-index:6}
+.mapw.fx .mpn.fn{--c:#6fb7ff!important;background:#0f2233;color:#cfe6ff;opacity:1;z-index:5}
+.mapw .rpn:not(.fc):not(.fn){display:none}
+.mapw.fx .pin.n{transform:translate(-50%,-50%) scale(.72);opacity:.75}
+.mapw.fx .pin.n.on{transform:translate(-50%,-50%) scale(1);opacity:1}
+.mobtg .mleg .lgf{display:inline-block;width:14px;height:10px;border-radius:5px;margin:0 3px 0 8px;vertical-align:middle;box-shadow:0 0 0 1px rgba(0,0,0,.6)}
+.mobtg .mleg .lgf.fc{background:#f0c25a}
+.mobtg .mleg .lgf.fn{background:#6fb7ff}
+.mobtg .mleg .mi.off2{background:transparent;border:1.5px solid #9a927f}
+.fcb,.fnb{display:inline-block;padding:1px 7px;border-radius:9px;font-size:11.5px;font-weight:700;line-height:17px}
+.fcb,.rpcard .mch .fcb{background:#f0c25a;color:#16130e;font-size:11.5px}
+.fnb,.rpcard .mch .fnb{background:#6fb7ff;color:#0b1a26;font-size:11.5px}
+.rpnext{margin:6px 0 0;font-size:12.5px}
