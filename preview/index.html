@@ -3510,7 +3510,7 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=ff523dbe"></script>
-<script>/* v7a65b1 @11/19 22:17 */
+<script>/* v65a51b @11/19 22:28 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3518,7 +3518,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/19 22:17';
+const BUILD='11/19 22:28';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -7421,15 +7421,19 @@ document.addEventListener('pointermove',e=>{if(MBL.t&&e.pointerId===MBL.id&&Math
 /* PC: Alt+끌기 = 몹 무리를 다른 풀로(MDT처럼) — 목록 줄·다른 풀 몹·「＋ 새 풀」 위에 놓기 · Ctrl+Alt = 누른 몹 하나만 · 폰은 꾹 눌러 메뉴의 「옮기기」 */
 const PD={};
 function pdNear(b,x,y){const [fi,i]=b.dataset.k.split(':').map(Number);const m=DGX.fl[fi]&&DGX.fl[fi].mob.p[i];if(!m||!m[9]||m[9].length<2)return 0;const w=b.closest('.mapw').getBoundingClientRect();let bj=0,bd=1e9;m[9].forEach((q,j)=>{const d=Math.hypot(w.left+q[0]/100*w.width-x,w.top+q[1]/100*w.height-y);if(d<bd){bd=d;bj=j}});return bj}
-function pdTarget(x,y){const el=document.elementFromPoint(x,y);if(!el||!el.closest)return null;if(el.closest('.mdt .mdadd'))return {t:'new',el:el.closest('.mdadd')};const li=el.closest('.mdt .mdl li[data-j]');if(li)return {t:+li.dataset.j,el:li};
+function pdTarget(x,y){const el=document.elementFromPoint(x,y);if(!el||!el.closest||el.closest('nav.tabs'))return null;if(el.closest('.mdt .mdadd'))return {t:'new',el:el.closest('.mdadd')};const li=el.closest('.mdt .mdl li[data-j]');if(li)return {t:+li.dataset.j,el:li};
   const b=el.closest('.mapw [data-a=dpk]');if(b&&b.dataset.k!==PD.k){const [fi,i]=b.dataset.k.split(':').map(Number);const n=planNoP(fi,i,pdNear(b,x,y));if(n)return {t:n-1,el:null,n}}return null}
 document.addEventListener('pointerdown',e=>{if(!dpmOn()||e.pointerType!=='mouse'||e.button!==0||!e.altKey||!e.target.closest)return;const b=e.target.closest('.mapw [data-a=dpk]');if(!b)return;
   const k=b.dataset.k;const one=e.ctrlKey||e.metaKey;PD.on=1;PD.k=k;PD.mk=one?k+':'+pdNear(b,e.clientX,e.clientY):null;PD.id=e.pointerId;PD.x=e.clientX;PD.y=e.clientY;PD.mv=0;PD.t=null;e.preventDefault();e.stopPropagation()},true);
 document.addEventListener('pointermove',e=>{if(!PD.on||e.pointerId!==PD.id)return;if(!PD.mv){if(Math.hypot(e.clientX-PD.x,e.clientY-PD.y)<5)return;PD.mv=1;const [fi,i]=PD.k.split(':').map(Number);const m=DGX.fl[fi].mob.p[i];
     const g=document.createElement('div');g.className='pdg';g.textContent=PD.mk?'몹 1':((m&&m[2])||1)+'마리';document.body.appendChild(g);PD.g=g;document.documentElement.classList.add('pdgo')}
-  PD.g.style.left=e.clientX+'px';PD.g.style.top=e.clientY+'px';const T=pdTarget(e.clientX,e.clientY);PD.t=T?T.t:null;document.querySelectorAll('.mdt .pdt').forEach(x=>x.classList.remove('pdt'));if(T&&T.el)T.el.classList.add('pdt');
+  PD.g.style.left=e.clientX+'px';PD.g.style.top=e.clientY+'px';PD.cx=e.clientX;PD.cy=e.clientY;
+  /* 창이 좁으면 풀 목록이 지도 밑(아래 메뉴에 가려짐) — 위·아래 끝에 대고 있으면 화면이 저절로 내려가고 올라감(예전엔 놓을 줄이 안 보여 못 옮겼음) */
+  {const tb=document.querySelector('.tabs');const tr=tb&&getComputedStyle(tb).display!=='none'?tb.getBoundingClientRect():null;/* PC에선 같은 .tabs가 왼쪽 옆 메뉴 — 화면 아래쪽에 붙어 있을 때만 아래 메뉴로 봄 */const bot=tr&&tr.height>0&&tr.top>innerHeight*.5&&tr.top<innerHeight?tr.top:innerHeight;
+   PD.sy=e.clientY>bot-56?Math.min(1,(e.clientY-(bot-56))/56)*.75+.25:e.clientY<90?-(Math.min(1,(90-e.clientY)/90)*.75+.25):0;if(PD.sy&&!PD.raf){const st=()=>{if(!PD.on||!PD.sy){PD.raf=0;return}scrollBy(0,PD.sy>0?Math.max(2,Math.round(PD.sy*12)):Math.min(-2,Math.round(PD.sy*12)));const T2=pdTarget(PD.cx,PD.cy);PD.t=T2?T2.t:null;document.querySelectorAll('.mdt .pdt').forEach(x=>x.classList.remove('pdt'));if(T2&&T2.el)T2.el.classList.add('pdt');if(PD.g)PD.g.dataset.t=T2?(T2.t==='new'?'새 풀':'풀 '+(T2.t+1)):'';PD.raf=requestAnimationFrame(st)};PD.raf=requestAnimationFrame(st)}}
+  const T=pdTarget(e.clientX,e.clientY);PD.t=T?T.t:null;document.querySelectorAll('.mdt .pdt').forEach(x=>x.classList.remove('pdt'));if(T&&T.el)T.el.classList.add('pdt');
   PD.g.dataset.t=T?(T.t==='new'?'새 풀':'풀 '+(T.t+1)):'';e.preventDefault()},true);
-['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{if(!PD.on||e.pointerId!==PD.id)return;PD.on=0;const mv=PD.mv,t=PD.t;if(PD.g)PD.g.remove();PD.g=null;document.documentElement.classList.remove('pdgo');document.querySelectorAll('.mdt .pdt').forEach(x=>x.classList.remove('pdt'));
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{if(!PD.on||e.pointerId!==PD.id)return;PD.on=0;PD.sy=0;const mv=PD.mv,t=PD.t;if(PD.g)PD.g.remove();PD.g=null;document.documentElement.classList.remove('pdgo');document.querySelectorAll('.mdt .pdt').forEach(x=>x.classList.remove('pdt'));
   if(!mv)return;ui._lsoAt=Date.now();if(ev==='pointercancel'||t==null)return;const k=PD.k,mk=PD.mk;
   dgPlanEdit(P=>{let j=t;if(t==='new'){j=P.k+1;P.p.splice(j,0,[]);P.k=j}if(mk)dpMobTo(P,mk,j);else dpPackTo(P,k,j);delete P.auto2;delete P.rp});
   /* 옮긴 뒤 빈 풀이 정리되면 번호가 당겨지므로 저장된 계획에서 다시 찾음(예전엔 「3번 풀로」인데 목록은 2번) */const P2=dgPlan(DGX.c,DGX.slug,DGX.fl);const nj=P2.p.findIndex(ks=>ks.includes(mk||k));const nn=nj>=0?nj+1:(t==='new'?ui.dpkI+1:t+1);
