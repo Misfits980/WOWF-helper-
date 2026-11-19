@@ -3919,7 +3919,8 @@ document.addEventListener('pointermove',e=>{if(!PD.on||e.pointerId!==PD.id)retur
 ['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{if(!PD.on||e.pointerId!==PD.id)return;PD.on=0;const mv=PD.mv,t=PD.t;if(PD.g)PD.g.remove();PD.g=null;document.documentElement.classList.remove('pdgo');document.querySelectorAll('.mdt .pdt').forEach(x=>x.classList.remove('pdt'));
   if(!mv)return;ui._lsoAt=Date.now();if(ev==='pointercancel'||t==null)return;const k=PD.k,mk=PD.mk;
   dgPlanEdit(P=>{let j=t;if(t==='new'){j=P.k+1;P.p.splice(j,0,[]);P.k=j}if(mk)dpMobTo(P,mk,j);else dpPackTo(P,k,j);delete P.auto2;delete P.rp});
-  toast((mk?'몹 하나를':'무리를')+' '+(t==='new'?'새 풀('+(ui.dpkI+1)+'번)':(t+1)+'번 풀')+'로 옮겼어요');rrMap()},true));
+  /* 옮긴 뒤 빈 풀이 정리되면 번호가 당겨지므로 저장된 계획에서 다시 찾음(예전엔 「3번 풀로」인데 목록은 2번) */const P2=dgPlan(DGX.c,DGX.slug,DGX.fl);const nj=P2.p.findIndex(ks=>ks.includes(mk||k));const nn=nj>=0?nj+1:(t==='new'?ui.dpkI+1:t+1);
+  toast((mk?'몹 하나를':'무리를')+' '+(t==='new'?'새 풀('+nn+'번)':nn+'번 풀')+'로 옮겼어요');rrMap()},true));
 /* 되돌리기: 풀 짜기 바꾼 것을 한 단계씩(이 던전, 이 화면에서만 기억) */
 function dpSnap(){const c=DGX.c;return {p:c.dgp&&c.dgp[DGX.slug]?JSON.stringify(c.dgp[DGX.slug]):null,k:ui.dpkI||0}}
 function dpStk(n){ui[n]=ui[n]||{};return ui[n][DGX.slug]=ui[n][DGX.slug]||[]}

@@ -3508,7 +3508,7 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=ff523dbe"></script>
-<script>/* v88a94f @11/19 21:43 */
+<script>/* v7a65b1 @11/19 22:17 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3516,7 +3516,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/19 21:43';
+const BUILD='11/19 22:17';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -7430,7 +7430,8 @@ document.addEventListener('pointermove',e=>{if(!PD.on||e.pointerId!==PD.id)retur
 ['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{if(!PD.on||e.pointerId!==PD.id)return;PD.on=0;const mv=PD.mv,t=PD.t;if(PD.g)PD.g.remove();PD.g=null;document.documentElement.classList.remove('pdgo');document.querySelectorAll('.mdt .pdt').forEach(x=>x.classList.remove('pdt'));
   if(!mv)return;ui._lsoAt=Date.now();if(ev==='pointercancel'||t==null)return;const k=PD.k,mk=PD.mk;
   dgPlanEdit(P=>{let j=t;if(t==='new'){j=P.k+1;P.p.splice(j,0,[]);P.k=j}if(mk)dpMobTo(P,mk,j);else dpPackTo(P,k,j);delete P.auto2;delete P.rp});
-  toast((mk?'몹 하나를':'무리를')+' '+(t==='new'?'새 풀('+(ui.dpkI+1)+'번)':(t+1)+'번 풀')+'로 옮겼어요');rrMap()},true));
+  /* 옮긴 뒤 빈 풀이 정리되면 번호가 당겨지므로 저장된 계획에서 다시 찾음(예전엔 「3번 풀로」인데 목록은 2번) */const P2=dgPlan(DGX.c,DGX.slug,DGX.fl);const nj=P2.p.findIndex(ks=>ks.includes(mk||k));const nn=nj>=0?nj+1:(t==='new'?ui.dpkI+1:t+1);
+  toast((mk?'몹 하나를':'무리를')+' '+(t==='new'?'새 풀('+nn+'번)':nn+'번 풀')+'로 옮겼어요');rrMap()},true));
 /* 되돌리기: 풀 짜기 바꾼 것을 한 단계씩(이 던전, 이 화면에서만 기억) */
 function dpSnap(){const c=DGX.c;return {p:c.dgp&&c.dgp[DGX.slug]?JSON.stringify(c.dgp[DGX.slug]):null,k:ui.dpkI||0}}
 function dpStk(n){ui[n]=ui[n]||{};return ui[n][DGX.slug]=ui[n][DGX.slug]||[]}
