@@ -3510,10 +3510,15 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=ff523dbe"></script>
-<script>/* vabfc10 @11/19 19:21 */
+<script>/* v88a94f @11/19 21:43 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
-const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/19 19:21';
+/* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
+const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
+const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.search);
+const SBX=PVE||QA;
+/* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
+const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
+const BUILD='11/19 21:43';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3673,10 +3678,13 @@ function boatTip(za,zb){if(!za||!zb||za===zb)return '';for(const [A,B,t] of BOAT
 
 
 /* ===================== 저장 ===================== */
-/* 미리보기(preview/ 주소): 실제 기록(wowf2)은 처음에 읽어 오기만 하고, 고친 건 따로(wowf2_pv) 저장 · 기기 연동 끔 → 실제 앱 기록은 안 바뀜 */
-const PV=typeof WFH_PV!=='undefined'&&!!WFH_PV;
-const KEY=PV?'wowf2_pv':'wowf2';
-let DB=(()=>{try{const o=JSON.parse(localStorage.getItem(KEY)||(PV?localStorage.getItem('wowf2'):null));if(o&&o.list)return o}catch(e){}return {cur:null,list:[]}})();
+/* 새 화면(예전엔 미리보기에만) — 2026-11-19 실제 사이트에 정식으로 넣음. 코드 곳곳의 PV는 「새 화면」 뜻으로 남김 */
+const PV=true;
+/* 미리보기(preview/ 주소): 실제 기록(wowf2)은 처음에 읽어 오기만 하고, 고친 건 따로(wowf2_pv) 저장 · 기기 연동 끔 → 실제 앱 기록은 안 바뀜
+   시험용 칸(?qa): 실제 기록을 읽지도 않고 시험 캐릭터 하나로 시작, wowf2_qa에만 저장 · 연동 끔 */
+const KEY=PVE?'wowf2_pv':QA?'wowf2_qa':'wowf2';
+const QA_DB=()=>({cur:'qa1',list:[{id:'qa1',name:'시험 캐릭터',race:'human',cls:'warrior',spec:'protection',lv:30,eq:{},fq:{},dq:{}}]});
+let DB=(()=>{try{const o=JSON.parse(localStorage.getItem(KEY)||(PVE?localStorage.getItem('wowf2'):null));if(o&&o.list)return o}catch(e){}return QA?QA_DB():{cur:null,list:[]}})();
 /* 예전 전투정보실 연결로 레벨이 글자('38')로 저장된 캐릭터 → 숫자로 (레벨+3 같은 계산이 '383'이 되던 문제) */
 DB.list.forEach(c=>{if(c&&typeof c.lv!=='number')c.lv=Math.max(1,Math.min(60,parseInt(c.lv)||1))});
 /* 애드온 v3.8.0 이하가 남긴 1970년부터 센 접속 시간(그때 같이 들어온 돈 0도) 정리 */
@@ -3692,10 +3700,10 @@ const save=()=>{const c=DB.list.find(x=>x.id===DB.cur);if(c)c._t=Date.now();save
 /* ===== 📱💻 휴대폰·컴퓨터 자동 연동: 내 GitHub 비공개 Gist 한 개에 기록을 두고 서로 맞춤 =====
    토큰(gist 권한만)은 이 기기 브라우저에만 저장. 캐릭터마다 더 늦게 고친 쪽이 이김. 지운 캐릭터는 지운 시각을 같이 남김 */
 const SYNC_K='wfh_sync',SYNC_DESC='wowf-helper sync (와포 도우미 기록)',SYNC_F='wowf-helper.json';
-let SY=(()=>{try{return JSON.parse(localStorage.getItem(SYNC_K))||{}}catch(e){return {}}})();
-const sySave=()=>{if(PV)return;try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}};
+let SY=(()=>{if(SBX)return {};try{return JSON.parse(localStorage.getItem(SYNC_K))||{}}catch(e){return {}}})();
+const sySave=()=>{if(SBX)return;try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}};
 let syT=null,syBusy=false,syHold=0;
-const syOn=()=>!PV&&(!!(SY.bid&&SY.key)||!!(SY.tok&&SY.gid));
+const syOn=()=>!SBX&&(!!(SY.bid&&SY.key)||!!(SY.tok&&SY.gid));
 /* 「되돌리기」 알림이 떠 있는 동안(6초)은 올리지 않고 기다림: 되돌릴 수 있는 바뀜이 다른 기기로 먼저 퍼지지 않게 */
 function syQueue(){if(!syOn())return;clearTimeout(syT);syT=setTimeout(()=>syPush(),Math.max(4000,syHold-Date.now()+300))}
 async function syGh(path,opt){const r=await fetch('https://api.github.com'+path,Object.assign({cache:'no-store'},opt||{},{headers:{'Authorization':'Bearer '+SY.tok,'Accept':'application/vnd.github+json','Content-Type':'application/json'}}));
@@ -3775,14 +3783,14 @@ const syErr=(e,mode)=>e&&e.name==='OperationError'?'연동 코드가 맞지 않�
 /* 저장 서비스: textdb.dev (번호를 앱이 정함, t로 시작) · 예전 jsonblob(숫자 번호)도 읽기 */
 const TD='https://textdb.dev/api/data/';
 /* 전투정보실 명단 넣기 요청: textdb 대기열(wfh-armreq)에 「지역|이름-서버」 한 줄 → GitHub armory 작업이 20분마다 확인하고 명단에 넣음 */
-let ARMRQ=(()=>{try{return JSON.parse(localStorage.getItem('wfh_armrq')||'[]')}catch(e){return []}})();
+let ARMRQ=(()=>{try{return JSON.parse(localStorage.getItem(LSK('wfh_armrq'))||'[]')}catch(e){return []}})();
 async function armReq(rg,raw){const n=String(raw||'').trim().replace(/\s+/g,'').replace(/[–—]/g,'-');
   if(!/^[^\s|/\\-]{2,12}-[^\s|/\\]{2,24}$/.test(n))return '「이름-서버」 모양으로 넣어 주세요 (예: 개추-피추)';
   if(!/^(kr|us|eu|tw)$/.test(rg))rg='kr';const line=rg+'|'+n;
   if(Object.values(ARM||{}).some(A=>A&&A.key===rg+'/'+n.toLowerCase()))return '이미 명단에 있어요';
   try{const r=await fetch(TD+'wfh-armreq',{cache:'no-store'});let t=r.ok?(await r.text()):'';const L=t.split('\n').map(x=>x.trim()).filter(Boolean);
     if(!L.includes(line))L.push(line);const w=await fetch(TD+'wfh-armreq',{method:'POST',headers:{'Content-Type':'text/plain'},body:L.slice(-200).join('\n')});if(!w.ok)throw new Error(w.status);
-    if(!ARMRQ.includes(n)){ARMRQ.push(n);try{localStorage.setItem('wfh_armrq',JSON.stringify(ARMRQ.slice(-10)))}catch(e){}}
+    if(!ARMRQ.includes(n)){ARMRQ.push(n);try{localStorage.setItem(LSK('wfh_armrq'),JSON.stringify(ARMRQ.slice(-10)))}catch(e){}}
     return '보냈어요! 20분 안에 명단에 들어가요'}catch(e){return '보내지 못했어요 · 잠시 뒤 다시 해 주세요'}}const isTD=()=>/^t/.test(SY.bid||'');
 async function syGet(){if(SY.bid&&isTD()){const r=await fetch(TD+'wfh-'+SY.bid,{cache:'no-store'});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}const t=(await r.text()).trim();if(!t)return null;return await syDec(JSON.parse(t))}
   if(SY.bid){const r=await fetch(JB+'/'+SY.bid,{cache:'no-store',headers:{Accept:'application/json'}});if(!r.ok){const e=new Error(r.status);e.status=r.status;throw e}const ex=r.headers.get('X-jsonblob-expires-at');if(ex)SY.exp=ex;return await syDec(await r.json())}
@@ -7794,8 +7802,8 @@ async function fsLoad(repick,silent){try{let h=repick?null:await idbH('get');
   catch(e){if(e&&e.name==='AbortError')return;toast('파일을 못 읽었어요: '+((e&&e.message)||e))}}
 function fsPick(i){const x=(ui.fsList||[])[i];if(!x)return;ui.fsCur=i;ui.fsMsg='';ui.fsPickCode=x.code;ui.fsPickT=x.t;ui.sheet='imp';ui.impraw=x.code;ui.imp=impParse(x.code);if(!QDB)qdbLoad();rerender(true)}
 /* 🔄 PC 자동 맞춤: 게임에서 /reload·접속 종료 → 브라우저로 돌아오면 저장 파일이 바뀌었는지 보고 저절로 불러옴 */
-const fsAutoOn=()=>{try{return localStorage.getItem('wowf_fsauto')!=='0'}catch(e){return true}};
-function fsAutoSet(v){try{localStorage.setItem('wowf_fsauto',v?'1':'0')}catch(e){}}
+const fsAutoOn=()=>{if(QA)return false;try{return localStorage.getItem('wowf_fsauto')!=='0'}catch(e){return true}};
+function fsAutoSet(v){if(QA)return;try{localStorage.setItem('wowf_fsauto',v?'1':'0')}catch(e){}}
 let fsBusy=false,fsLastChk=0;
 async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy)return;let c=me();if(!c||!(c.fsName||c.name)||ui.sheet==='imp')return;
   if(!force&&Date.now()-fsLastChk<2500)return;fsLastChk=Date.now();fsBusy=true;
@@ -7875,7 +7883,7 @@ function navLog(){const k=ui.tab+(ui.tab==='quest'?'/'+(ui.qmode||''):ui.tab==='
 function render(){if(ui.sheet!=='chars')ui.delAsk=0;/* 지우기 「한 번 더」는 캐릭터 창이 열려 있는 동안만 */{const c0=me();if(c0&&ui._ifc!==c0.id){ui._ifc=c0.id;ui.ifil=c0.ifil||'ok'}}const app=$('#app');{const t=document.querySelector('.ttip');if(t)t.style.display='none'}const c=me();app.className='t-'+(c?ui.tab:'onb')+(ui.tab==='quest'?' q-'+(ui.qmode||'route'):'');if(ui._tin){app.className+=' tin-'+ui._tin;ui._tin=null}
   if(ui.onb||!c){if(!ui.onb)ui.onb={name:'',race:'',cls:'',spec:'',lv:1};setTabs(false);app.innerHTML=onboard()+(ui.sheet==='bkask'?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+bkAskSheet()+'</div></div>':'');return}
   let v='';if(ui.tab==='home')v=home(c);else if(ui.tab==='gear')v=gear(dspView(c));else if(ui.tab==='quest')v=quest(c);else if(ui.tab==='dungeon')v=dungeon(c);else v=klass(c);
-  app.innerHTML=hIco(topBar(c)+(PV?'<div class="pvbar"><b>🧪 새 화면 미리보기</b><span>여기서 바꾼 건 실제 앱에 안 들어가요</span><button class="lnk" data-a="pvreset">실제 기록 다시 가져오기</button><a href="./">실제 앱 ›</a></div>':'')+fsNeedBar()+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
+  app.innerHTML=hIco(topBar(c)+(PVE?'<div class="pvbar"><b>🧪 새 화면 미리보기</b><span>여기서 바꾼 건 실제 앱에 안 들어가요</span><button class="lnk" data-a="pvreset">실제 기록 다시 가져오기</button><a href="./">실제 앱 ›</a></div>':QA?'<div class="pvbar qa"><b>🧪 시험용 칸</b><span>실제 기록·기기 연동과 따로 저장돼요</span><button class="lnk" data-a="qareset">처음 상태로</button><a href="./">실제 앱 ›</a></div>':'')+fsNeedBar()+v+'<p class="foot">자료: <a href="https://forg.gg/forever" target="_blank" rel="noopener">forg.gg</a> (와우헤드 포에버·Questie 정리) · 입력한 내용은 이 기기에만 저장돼요<br><span class="bld">사이트 업데이트 '+BUILD+'</span></p>'
     +(ui.sheet?'<div class="sheet-bg" data-a="bg"><div class="sheet"><div class="grab"></div>'+(ui.sheet==='chars'?charsSheet():ui.sheet==='imp'?impSheet(c):ui.sheet==='wfr'?wfrSheet(c):ui.sheet.startsWith('note:')?noteSheet(c,ui.sheet.slice(5)):ui.sheet==='bkask'?bkAskSheet():ui.sheet.startsWith('info:')?infoSheet(c,ui.sheet.slice(5)):ui.sheet.startsWith('q:')?questSheet(c,ui.sheet.slice(2)):ui.sheet.startsWith('dgend:')?dgEndSheet(c,ui.sheet.slice(6)):ui.sheet.startsWith('cmp:')?cmpSheet(c,ui.sheet.split(':')[1],ui.sheet.split(':')[2]):slotSheet(c,ui.sheet.slice(5)))+'</div></div>':''))
   setTabs(true);
   if(ui.side&&c)app.insertAdjacentHTML('beforeend','<div class="sidev">'+sideView(c)+'</div>');
@@ -7965,7 +7973,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='bagk'){ui.bagk=k;rerender(true);return}
   if(a==='townk'){ui.townk=ui.townk===k?null:k;rerender(true);return}
   if(a==='gobag'){ui.tab='gear';ui.gsub='bag';ui.gslot=null;render();window.scrollTo(0,0);return}
-  if(a==='pvreset'){try{const o=JSON.parse(localStorage.getItem('wowf2'));if(o&&o.list){DB=o;saveRaw();toast('실제 앱 기록을 다시 가져왔어요');rerender()}else toast('실제 앱 기록이 없어요')}catch(e){toast('가져오지 못했어요')}return}
+  if(a==='qareset'){if(!QA)return;DB=QA_DB();saveRaw();toast('시험용 칸을 처음 상태로 돌렸어요');rerender();return}
+  if(a==='pvreset'){if(!PVE)return;try{const o=JSON.parse(localStorage.getItem('wowf2'));if(o&&o.list){DB=o;saveRaw();toast('실제 앱 기록을 다시 가져왔어요');rerender()}else toast('실제 앱 기록이 없어요')}catch(e){toast('가져오지 못했어요')}return}
   if(a==='jlall'){ui.jlAll=!ui.jlAll;rerender(true);return}
   if(a==='tbud'){c.tbud=+k||0;save();rerender(true);return}
   if(a==='rwpick'){const [q,i]=k.split(':').map(Number);c.rwPick=c.rwPick||{};const back=c.rwPick[q]===i;if(back)delete c.rwPick[q];else c.rwPick[q]=i;save();toast(back?'앱 추천으로 되돌렸어요':'고를 템으로 정했어요 · 게임 툴팁 코드를 다시 넣으면 반영돼요');rerender(true);return}
