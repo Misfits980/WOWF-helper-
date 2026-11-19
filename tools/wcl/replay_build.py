@@ -174,39 +174,58 @@ def ko(aid):
     return ENKO.get(n.lower(), n)
 
 
-# 이름별로 몹(처음 맞은 자리) ↔ 무리 칸(지도 몹 점)을 거리 합이 가장 작게 짝지음(110야드 넘으면 안 붙임)
+# 몹 → 지도 무리 칸(몹 하나하나 자리):
+#  1) 시간 순서대로 가장 가까운 같은 이름 칸(45야드 안) — 가까운 짝을 먼저 확정
+#  2) 남은 몹·칸만 이름별 거리 합 최소 짝짓기(80야드 안). 예전엔 처음부터 2)만 해서 22야드 칸을 두고 76야드 칸에 붙기도 했음
 from scipy.optimize import linear_sum_assignment
-inst_pack = {}
-byname = {}
+inst_pack, taken = {}, set()
+slots_by = {}
+for si, (pi, nm, x, y) in enumerate(pk_pts):
+    slots_by.setdefault(nm, []).append(si)
+for k, (t, p) in sorted(first.items(), key=lambda kv: kv[1][0]):
+    cand = sorted((yd(p, pk_pts[si][2:]), si) for si in slots_by.get(ko(k[0]), []) if si not in taken)
+    if cand and cand[0][0] <= 45:
+        taken.add(cand[0][1]); inst_pack[k] = pk_pts[cand[0][1]][0]
+left = {}
 for k in first:
-    byname.setdefault(ko(k[0]), []).append(k)
-for n, ks in byname.items():
-    slots = [(pi, x, y) for pi, nm, x, y in pk_pts if nm == n]
-    if not slots:
+    if k not in inst_pack:
+        left.setdefault(ko(k[0]), []).append(k)
+for n, ks in left.items():
+    sl = [si for si in slots_by.get(n, []) if si not in taken]
+    if not sl:
         continue
-    C = np.array([[yd(first[k][1], (x, y)) for pi, x, y in slots] for k in ks])
-    Cc = np.where(C > 110, 1e6, C)
-    r, c = linear_sum_assignment(Cc)
+    C = np.array([[yd(first[k][1], pk_pts[si][2:]) for si in sl] for k in ks])
+    r, c = linear_sum_assignment(np.where(C > 80, 1e6, C))
     for i, j in zip(r, c):
-        if C[i, j] <= 110:
-            inst_pack[ks[i]] = slots[j][0]
+        if C[i, j] <= 80:
+            taken.add(sl[j]); inst_pack[ks[i]] = pk_pts[sl[j]][0]
 
-pins = {p['t'].rstrip('!'): p for p in FL['pins']}
+# 풀: 기록의 dungeonPulls(시작·끝·가운데). 몹은 처음 싸운 시각이 든 풀에 넣음
+# (기록 풀의 몹 목록은 몹 번호 「몇 번~몇 번」 범위라 사이에 낀 다른 풀 몹까지 들어가 — 바다마녀 22마리 풀처럼 — 풀 묶음이 지도 반대편까지 퍼졌음)
+DP = D['fight']['dungeonPulls'] or []
+PW = [((pl['startTime'] - T0) / 1000.0, (pl['endTime'] - T0) / 1000.0) for pl in DP]
+def pull_of(t):
+    for j, (t0, t1) in enumerate(PW):
+        if t0 - 3 <= t <= t1 + 1:
+            return j + 1
+    return min(range(len(PW)), key=lambda j: min(abs(t - PW[j][0]), abs(t - PW[j][1]))) + 1 if PW else 0
+inst_pull = {k: pull_of(t) for k, (t, p) in first.items()}
 pulls = []
-for n, pl in enumerate(D['fight']['dungeonPulls'] or [], 1):
-    t0, t1 = (pl['startTime'] - T0) / 1000.0, (pl['endTime'] - T0) / 1000.0
+for n, pl in enumerate(DP, 1):
+    t0, t1 = PW[n - 1]
+    ks = [k for k, j in inst_pull.items() if j == n]
     mobs, packs, boss = {}, set(), None
-    for en in pl['enemyNPCs']:
-        nm = ko(en['id'])
-        for ins in range(en['minimumInstanceID'], en['maximumInstanceID'] + 1):
-            k = (en['id'], ins)
-            mobs[nm] = mobs.get(nm, 0) + 1
-            if k in inst_pack:
-                packs.add(inst_pack[k])
-        if A.get(en['id'], {}).get('sub') == 'Boss':
+    for k in ks:
+        nm = ko(k[0])
+        mobs[nm] = mobs.get(nm, 0) + 1
+        if k in inst_pack:
+            packs.add(inst_pack[k])
+        if A.get(k[0], {}).get('sub') == 'Boss':
             boss = nm
     x, y = pct(pl['x'], pl['y'])
-    pulls.append({'n': n, 't': [round(t0, 1), round(t1, 1)], 'x': round(x, 1), 'y': round(y, 1),
+    fp = [first[k][1] for k in ks]
+    sp = max([yd(u, v) for i, u in enumerate(fp) for v in fp[i + 1:]] or [0])  # 몹이 처음 붙은 자리끼리 가장 먼 거리
+    pulls.append({'sp': round(sp), 'n': n, 't': [round(t0, 1), round(t1, 1)], 'x': round(x, 1), 'y': round(y, 1),
                   'k': sorted(packs), 'm': sorted(([a, b] for a, b in mobs.items()), key=lambda v: -v[1]), 'b': boss})
 
 # 무리가 다 죽은 때
@@ -219,9 +238,44 @@ for e in D['events']:
     if e.get('type') == 'death' and e.get('targetID') in order:
         deaths.append([round((e['timestamp'] - T0) / 1000.0, 1), order.index(e['targetID'])])
 
+# ── 몹 하나하나: 처음 맞은 때부터 죽을 때까지 자리(재생 중 빨간 점) ──
+erw = {}
+for e in D['events']:
+    if 'x' not in e:
+        continue
+    k = (e.get('targetID'), e.get('targetInstance', 1)) if e.get('resourceActor') == 2 else (e.get('sourceID'), e.get('sourceInstance', 1))
+    if A.get(k[0], {}).get('type') == 'NPC':
+        erw.setdefault(k, []).append(((e['timestamp'] - T0) / 1000.0, e['x'], e['y']))
+rank_by = {}
+for p in PK:
+    for nm in p[7]:
+        if nm[2] is not None:
+            rank_by[nm[0]] = max(rank_by.get(nm[0], 0), nm[2])
+MN, mobs = [], []
+for k, pts in sorted(erw.items(), key=lambda kv: min(p[0] for p in kv[1])):
+    n = ko(k[0])
+    if n not in MN:
+        MN.append(n)
+    sec = {}
+    for t, x, y in sorted(pts):
+        sec.setdefault(int(t), []).append(pct(x, y))
+    S = [(t, float(np.median([p[0] for p in v])), float(np.median([p[1] for p in v]))) for t, v in sorted(sec.items())]
+    td = death.get(k)
+    if td is not None:
+        S = [q for q in S if q[0] <= td + 1] or S[:1]
+    # 기록에 15초 넘게 안 나온 구간은 숨김(예: 겔리하스트가 79초에 한 번 보이고 1400초에 잡힘 — 그 사이를 싸우는 몹으로 그리면 틀림)
+    gaps = [[round(a[0] + 3, 1), round(b[0] - 3, 1)] for a, b in zip(S, S[1:]) if b[0] - a[0] > 15]
+    S = rdp(S, 0.35)
+    rk = 2 if A[k[0]].get('sub') == 'Boss' else (1 if rank_by.get(n, 0) >= 1 and rank_by.get(n) != 4 else 0)
+    flat = []
+    for t, x, y in S:
+        flat += [round(t, 1), round(x, 1), round(y, 1)]
+    # [이름 번호, 0 일반·1 정예·2 보스, 풀 번호, 죽은 때(-1 = 안 죽음), 지도 무리 번호(-1 = 없음), [t,x,y,…], (숨길 구간 [[a,b],…])]
+    mobs.append([MN.index(n), rk, inst_pull.get(k, 0), round(td, 1) if td is not None else -1, inst_pack.get(k, -1), flat] + ([gaps] if gaps else []))
+
 out = {'fl': FI, 'dur': DUR, 'kill': bool(D['fight'].get('kill')), 'src': 'wcl',
        'party': [{'c': t['c'], 'r': t['r']} for t in tracks], 'tr': [t['p'] for t in tracks],
-       'pulls': pulls, 'dead': {str(k): round(v, 1) for k, v in sorted(pdead.items())}, 'pd': deaths}
+       'pulls': pulls, 'mn': MN, 'mb': mobs, 'dead': {str(k): round(v, 1) for k, v in sorted(pdead.items())}, 'pd': deaths}
 OUT = os.path.join(ROOT, 'data/guides/dungeon-replays.json')
 allr = json.load(open(OUT, encoding='utf-8')) if os.path.exists(OUT) else {}
 allr[slug] = out

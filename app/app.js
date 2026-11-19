@@ -3277,7 +3277,7 @@ function selOf(m,fi,i){const n=planNo(fi,i);return n?'p:'+n:'k:'+fi+':'+i}
 function mobBar(f){const on=ui.dmob!==0;const PM=dpmOn(),RPm=drpOn();const np=RPm?DGX.rp.pulls.length:DGX&&DGX.P?DGX.P.p.filter(x=>x.length).length:0;
   return '<div class="mobtg">'+(DGX&&DGX.pl?'<div class="chips seg dpm"><button class="chip'+(!PM&&!RPm?' on':'')+'" data-a="dpm" data-k="0">지도 보기</button><button class="chip'+(PM?' on':'')+'" data-a="dpm" data-k="1">탱 풀 짜기</button>'+(DGX.rp?'<button class="chip'+(RPm?' on':'')+'" data-a="dpm" data-k="2">실제 판 재생</button>':'')+'</div>':'')
   +(PM||RPm?'':'<button class="chip'+(on?' on':'')+'" data-a="dmob">쫄 '+(on?'보이기':'숨김')+'</button>')
-  +(RPm?'<span class="mleg"><i class="rpl"></i>탱 지나온 길<i class="mi lg" style="--c:'+PCOL[0]+'"></i>실제 풀<i class="mi lg dd" style="--c:'+PCOL[0]+'"></i>잡힘<i class="mi lg" style="--c:#7a756b"></i>안 잡음</span>':on||PM?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
+  +(RPm?'<span class="mleg"><i class="rpl"></i>탱 지나온 길<i class="rpe lg"></i>싸우는 몹<i class="mi lg" style="--c:'+PCOL[0]+'"></i>실제 풀<i class="mi lg dd" style="--c:'+PCOL[0]+'"></i>잡힘<i class="mi lg" style="--c:#7a756b"></i>안 잡음</span>':on||PM?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
   +'<span class="mute">'+(np?'풀 '+np+' · ':'')+'무리 '+f.mob.p.length+' · 순찰 '+f.mob.t.length+'</span></div>'}
 /* ── 탱 동선: 층 길찾기 칸 그림(data/dgmap/*-nav.png)을 받아 브라우저에서 풀 → 풀 길 찾기 ── */
 const NAVC={},SEGC={};
@@ -3334,7 +3334,7 @@ function mobLayer(f,fi){const RQ=drpOn()&&DGX.rp.fl===fi?DGX.rp:null;if(!(PV&&f.
   /* 무리 버튼(투명한 원)은 큰 것부터 그려 작은 무리가 위에 오게 — 같은 순서로 그리면 큰 원 안에 든 작은 무리를 어떤 확대에서도 누를 수 없었음 */
   const mR=m=>m[9]&&m[9].length?m[9].reduce((R,q)=>Math.max(R,Math.hypot(q[0]-m[0],(q[1]-m[1])*H/W)),0):-1;
   M.p.map((m,i)=>[i,mR(m)]).sort((a,b)=>b[1]-a[1]||a[0]-b[0]).forEach(([i])=>{const m=M.p[i];const k=selOf(m,fi,i);const n=NO(fi,i);const on=sel===k;const lab=esc((n?'풀 '+n+': ':'')+m[7].map(x=>x[0]+(x[1]>1?' '+x[1]:'')).join(', '));
-    const act=RQ?(n?' data-a="rpj" data-k="'+(n-1)+'"':' tabindex="-1"'):PM?' data-a="dpk" data-k="'+fi+':'+i+'"':' data-a="mobi" data-k="'+k+'"';const DP=RQ?(rpDead(RQ,i)?' dd':'')+'" data-p="'+i:'';
+    const act=RQ?(n?' data-a="rpj" data-k="'+(n-1)+'"':' tabindex="-1"'):PM?' data-a="dpk" data-k="'+fi+':'+i+'"':' data-a="mobi" data-k="'+k+'"';const DP=RQ?(rpDead(RQ,i)?' dd':'')+(rpInCur(RQ,i)?' cur':'')+'" data-p="'+i:'';
     if(!(m[9]&&m[9].length)){h+='<button class="mob'+(m[8]?' rr':m[4]?' el':'')+(pt.has(i)?' pt':'')+(on?' on':'')+DP+'" style="left:'+m[0]+'%;top:'+m[1]+'%;--n:'+Math.min(m[2],6)+'"'+act+' aria-label="'+lab+'"></button>';return}
     let R=0;m[9].forEach(q=>{R=Math.max(R,Math.hypot(q[0]-m[0],(q[1]-m[1])*H/W))});
     h+='<button class="mpk'+(on?' on':'')+(PM?' pm':'')+'" style="left:'+m[0]+'%;top:'+m[1]+'%;width:'+(2*R+1.6).toFixed(2)+'%"'+act+' aria-label="'+lab+(PM?(n?' · 누르면 빼기':' · 누르면 지금 풀에 넣기'):'')+'"></button>';
@@ -3357,13 +3357,27 @@ function rpAt(tr,t){const n=tr.length/3;if(!n)return null;if(t<=tr[0])return [tr
 function rpCur(R,t){let j=-1;for(let i=0;i<R.pulls.length;i++){if(R.pulls[i].t[0]<=t)j=i;else break}return j}
 const rpTk=R=>Math.max(0,R.party.findIndex(p=>p.r==='T'));
 function rpPts(tr,t,W,H){let s='';const n=tr.length/3;for(let i=0;i<n&&tr[i*3]<=t;i++)s+=(s?'L':'M')+(tr[i*3+1]*W/100).toFixed(1)+','+(tr[i*3+2]*H/100).toFixed(1);const p=rpAt(tr,t);if(p&&t<1e8)s+=(s?'L':'M')+(p[0]*W/100).toFixed(1)+','+(p[1]*H/100).toFixed(1);return s}
-function rpSvg(R,W,H){const tr=R.tr[rpTk(R)];return '<path class="rpall" d="'+rpPts(tr,1e9,W,H)+'"/><path class="rptr" id="rptr" d="'+rpPts(tr,RP.t,W,H)+'"/>'}
+function rpSvg(R,W,H){const tr=R.tr[rpTk(R)];const cj=rpCur(R,RP.t);return '<g id="rpgrp" data-j="'+cj+'">'+rpGroupSvg(R,cj,W,H)+'</g><path class="rpall" d="'+rpPts(tr,1e9,W,H)+'"/><path class="rptr" id="rptr" d="'+rpPts(tr,RP.t,W,H)+'"/>'}
 const rpDead=(R,i)=>R.dead[i]!=null&&R.dead[i]<=RP.t;
+/* 몹 하나하나 자리: 처음 맞은 때 ~ 죽은 때(안 죽었으면 마지막으로 보인 뒤 3초) · 기록에 15초 넘게 안 나온 구간(m[6])은 숨김 */
+function rpMobAt(m,t){const tr=m[5];if(!tr||!tr.length)return null;const t1=m[3]>=0?m[3]:tr[tr.length-3]+3;if(t<tr[0]||t>t1)return null;if(m[6]&&m[6].some(g=>t>g[0]&&t<g[1]))return null;return rpAt(tr,t)}
+/* 풀마다 묶은 무리: 무리 몹 자리·가운데, 무리끼리 가장 먼 거리(야드) */
+function rpGeo(R){if(R._g)return R._g;const F=DGX.fl[R.fl],M=F.mob,sx=(F.sc||300)/100,sy=sx*(F.h||100)/(F.w||100);
+  return R._g=R.pulls.map(p=>{const C=p.k.map(i=>{const m=M.p[i];const q=m&&m[9]&&m[9].length?m[9]:m?[[m[0],m[1]]]:[];return {i,pts:q,c:q.length?[q.reduce((a,v)=>a+v[0],0)/q.length,q.reduce((a,v)=>a+v[1],0)/q.length]:[p.x,p.y]}});
+    let far=0;for(let a=0;a<C.length;a++)for(let b=a+1;b<C.length;b++)far=Math.max(far,Math.hypot((C[a].c[0]-C[b].c[0])*sx,(C[a].c[1]-C[b].c[1])*sy));return {C,far}})}
+const rpInCur=(R,i)=>{const j=rpCur(R,RP.t);return j>=0&&R.pulls[j].k.includes(i)};
+/* 지금 풀 묶음: 든 무리만 띠로 감싸고, 무리 자리 → 싸운 자리 선 */
+function rpGroupSvg(R,j,W,H){if(j<0)return '';const p=R.pulls[j],G=rpGeo(R)[j],col=pCol(j+1),fx=p.x*W/100,fy=p.y*H/100;let s='';const pts=[];
+  G.C.forEach(c=>{c.pts.forEach(q=>pts.push([q[0]*W/100,q[1]*H/100]));s+='<line class="rpln" x1="'+(c.c[0]*W/100).toFixed(1)+'" y1="'+(c.c[1]*H/100).toFixed(1)+'" x2="'+fx.toFixed(1)+'" y2="'+fy.toFixed(1)+'" style="stroke:'+col+'"/>'});
+  if(pts.length&&G.far<=60){const hl=hull(pts),pad=Math.max(W,H)*.012;s='<path class="hul on rphl" style="--c:'+col+';stroke-width:'+(pad*2).toFixed(1)+'" d="'+(hl.length>1?'M'+hl.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join('L')+'Z':'M'+hl[0][0].toFixed(1)+','+hl[0][1].toFixed(1)+'h.1')+'"/>'+s}
+  return s+'<circle class="rpfx" cx="'+fx.toFixed(1)+'" cy="'+fy.toFixed(1)+'" r="'+(Math.max(W,H)*.007).toFixed(1)+'" style="stroke:'+col+'"/>'}
 function rpMarks(R){const cj=rpCur(R,RP.t);let h='';
   R.pulls.forEach((p,j)=>{h+='<button class="mpn rpn'+(j===cj?' on':p.t[1]<RP.t?' dn':j===cj+1?' nx':'')+'" id="rpn-'+j+'" style="left:'+p.x+'%;top:'+p.y+'%;--c:'+pCol(j+1)+'" data-a="rpj" data-k="'+j+'" aria-label="실제 풀 '+(j+1)+(p.b?' · '+esc(p.b):'')+'">'+(j+1)+'</button>'});
+  (R.mb||[]).forEach((m,k)=>{const v=rpMobAt(m,RP.t);h+='<i class="rpe r'+m[1]+'" id="rpe-'+k+'" style="'+(v?'left:'+v[0].toFixed(2)+'%;top:'+v[1].toFixed(2)+'%':'display:none')+'"></i>'});
   R.party.forEach((p,k)=>{const q=rpAt(R.tr[k],RP.t)||[0,0];h+='<i class="rpd'+(p.r==='T'?' tk':'')+'" id="rpd-'+k+'" style="left:'+q[0].toFixed(2)+'%;top:'+q[1].toFixed(2)+'%;--c:'+(RPC[p.c]||'#ccc')+'"></i>'});return h}
-function rpCard(R,j){if(j<0)return '<p class="mute">입구에서 출발 · 첫 풀 '+mmss(R.pulls[0].t[0])+'</p>';const p=R.pulls[j];const live=RP.t<=p.t[1];const nx=R.pulls[j+1];
+function rpCard(R,j){if(j<0)return '<p class="mute">입구에서 출발 · 첫 풀 '+mmss(R.pulls[0].t[0])+'</p>';const p=R.pulls[j];const live=RP.t<=p.t[1];const nx=R.pulls[j+1];const G=rpGeo(R)[j];const nm=p.m.reduce((a,x)=>a+x[1],0);
   return '<div class="mch"><span class="pnum" style="--c:'+pCol(j+1)+'">'+(j+1)+'</span><b>풀 '+(j+1)+' / '+R.pulls.length+'</b><span>'+mmss(p.t[0])+'부터 '+Math.max(1,Math.round(p.t[1]-p.t[0]))+'초'+(live?' · 싸우는 중':'')+'</span>'+(p.b?'<em class="ptb">보스</em>':'')+'</div>'
+    +(nm?'':'<p class="rpg">새로 붙은 몹 없음 · 앞 풀에서 남은 몹과 이어서 싸움</p>')+(nm?'<p class="rpg">몹 '+nm+'마리'+(G.C.length?' · 지도 무리 '+G.C.length+'개':'')+(p.sp>60?' · <b>쉬지 않고 이어 잡으며 이동</b>(처음 붙은 자리끼리 최대 약 '+p.sp+'야드)':p.sp>25?' · <b>떨어진 몹까지 같이 끌어옴</b>(약 '+p.sp+'야드)':'')+'</p>':'')
     +'<ul class="rpm">'+p.m.map(x=>'<li'+(x[0]===p.b?' class="bs"':'')+'><b>'+esc(x[0])+'</b>'+(x[1]>1?'<span class="cnt">×'+x[1]+'</span>':'')+'</li>').join('')+'</ul>'
     +'<p class="mute">'+(nx?'다음 풀까지 '+Math.max(0,Math.round(nx.t[0]-p.t[1]))+'초':'마지막 풀')+'</p>'}
 function rpPanel(c,f,fi){const R=DGX.rp;const cj=rpCur(R,RP.t);
@@ -3378,8 +3392,10 @@ function rpFollow(force){const v=document.querySelector('.mapv.zm');const R=DGX&
 function rpDraw(){const R=DGX&&DGX.rp;if(!R||!drpOn())return false;const sv=document.querySelector('.mapw .mobpat');if(!sv||!document.getElementById('rpd-0'))return false;const t=RP.t,vb=sv.viewBox.baseVal;
   R.party.forEach((p,k)=>{const e=document.getElementById('rpd-'+k);const q=rpAt(R.tr[k],t);if(e&&q){e.style.left=q[0].toFixed(2)+'%';e.style.top=q[1].toFixed(2)+'%'}});
   const tp=document.getElementById('rptr');if(tp)tp.setAttribute('d',rpPts(R.tr[rpTk(R)],t,vb.width,vb.height));
-  document.querySelectorAll('.mapw [data-p]').forEach(e=>{const d=R.dead[e.dataset.p];e.classList.toggle('dd',d!=null&&d<=t)});
-  const cj=rpCur(R,t);R.pulls.forEach((p,j)=>{const e=document.getElementById('rpn-'+j);if(e){e.classList.toggle('on',j===cj);e.classList.toggle('dn',j!==cj&&p.t[1]<t);e.classList.toggle('nx',j===cj+1)}});
+  const cj=rpCur(R,t);const CS=new Set(cj>=0?R.pulls[cj].k.map(String):[]);
+  document.querySelectorAll('.mapw [data-p]').forEach(e=>{const d=R.dead[e.dataset.p];e.classList.toggle('dd',d!=null&&d<=t);e.classList.toggle('cur',CS.has(e.dataset.p))});
+  (R.mb||[]).forEach((m,k)=>{const e=document.getElementById('rpe-'+k);if(!e)return;const v=rpMobAt(m,t);if(v){e.style.display='';e.style.left=v[0].toFixed(2)+'%';e.style.top=v[1].toFixed(2)+'%'}else if(e.style.display!=='none')e.style.display='none'});
+  const gp=document.getElementById('rpgrp');if(gp&&gp.dataset.j!==String(cj)){gp.dataset.j=cj;gp.innerHTML=rpGroupSvg(R,cj,vb.width,vb.height)}R.pulls.forEach((p,j)=>{const e=document.getElementById('rpn-'+j);if(e){e.classList.toggle('on',j===cj);e.classList.toggle('dn',j!==cj&&p.t[1]<t);e.classList.toggle('nx',j===cj+1)}});
   const r=document.getElementById('rpr');if(r&&Date.now()-RP.dragAt>400)r.value=Math.round(t);const tt=document.getElementById('rpt');if(tt)tt.textContent=mmss(t)+' / '+mmss(R.dur);
   const key=cj+':'+(cj>=0&&t<=R.pulls[cj].t[1]);const cd=document.getElementById('rpcard');if(cd&&(RP.ck!==key||!cd.dataset.k)){RP.ck=key;cd.dataset.k=key;cd.innerHTML=rpCard(R,cj)}
   return true}
@@ -3471,7 +3487,7 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   if(g.floors&&g.floors.length){const fi=Math.min(ui.dfloor||0,g.floors.length-1);const f=g.floors[fi];if(PV&&G3&&g.floors===G3.f3){const P=dgPlan(c,d.slug,g.floors);P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));DGX={c,slug:d.slug,fl:g.floors,P,I:planIdx(P),pl:1,rp:g.rp||null}}else DGX={c,slug:d.slug,fl:g.floors,P:{p:[],k:0,auto:1},I:{}};
     h+='<div class="rmap2">'+(G3?'<div class="chips seg m3"><button class="chip'+(ui.d3!==0?' on':'')+'" data-a="d3" data-k="1">위에서 본 지도</button><button class="chip'+(ui.d3===0?' on':'')+'" data-a="d3" data-k="0">예전 지도</button></div>':'')+(g.floors.length>1?'<div class="chips seg fl">'+g.floors.map((x,i)=>'<button class="chip'+(i===fi?' on':'')+'" data-a="dfl" data-k="'+i+'">'+(i+1)+'층 '+esc(x.name)+'</button>').join('')+'</div>':'')
      +(PV&&f.mob?mobBar(f):'')
-     +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return '<div class="mapbox'+(PV&&ui.dfs?' fs':'')+'"><div class="mapv'+(Z>1?' zm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&(dpmOn()||ui.dmsel&&ui.dmob!==0)?' sel':'')+'"'+(Z>1?' style="width:'+(Z*100)+'%"':'')+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
+     +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return '<div class="mapbox'+(PV&&ui.dfs?' fs':'')+'"><div class="mapv'+(Z>1?' zm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&(dpmOn()||ui.dmsel&&ui.dmob!==0)?' sel':'')+(PV&&drpOn()?' rpsel':'')+'"'+(Z>1?' style="width:'+(Z*100)+'%"':'')+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
      +mobLayer(f,fi)
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
         if(num)return '<button class="pin n '+(x?'k-'+x.kind:'')+(p.w===2?' ap':'')+(/!/.test(p.t)?' q':'')+(x&&x.kind!=='obj'&&KL[x.st.nm]?' kd':'')+(ui.stopen[n]?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%" data-a="stp" data-k="'+n+'">'+n+'</button>';
