@@ -1270,7 +1270,7 @@ def _dg_acc():
         p.write_text(out, encoding='utf-8')
     return n
 print('dungeon access', _dg_acc())
-DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'm3': 'data/guides/dungeon-maps3d.json', 'rp': 'data/guides/dungeon-replays.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
+DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'm3': 'data/guides/dungeon-maps3d.json', 'rp': 'data/guides/dungeon-replays.json', 'fdt': 'data/guides/fdt-map.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
 # 길 따라 동선 격자(data/route/*.png, tools/route/build_grid.py): 파일 전체 지문 하나 + 있는 지역 번호
 _rg = sorted((ROOT / 'data' / 'route').glob('*.png'))
 DVER['rg'] = hashlib.md5(b''.join(p.read_bytes() for p in _rg)).hexdigest()[:10] if _rg else '0'

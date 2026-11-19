@@ -759,3 +759,36 @@ html:has(.pmw),html:has(.pmw) body{overflow-anchor:none}
 .mdt .mdrc{width:100%;box-sizing:border-box;border-radius:7px;border:1px solid var(--line);background:#120e09;color:#e9e1d0;font:12px/1.35 ui-monospace,monospace;padding:6px;resize:vertical;word-break:break-all}
 .mdt .mdl:has(.mdmenu){max-height:min(520px,70vh)}
 .pmw .mdt .mdl:has(.mdmenu),.mapbox.fs .mdt .mdl:has(.mdmenu){max-height:none}
+.mapv.pann{cursor:grabbing!important}
+/* ── 그리기 도구(MDT 도구 막대) ── */
+.mz .mzd.on{background:#f0c25a;color:#16130e;border-color:#f0c25a}
+.drbar{position:absolute;left:8px;top:48px;z-index:6;display:flex;flex-wrap:wrap;align-items:center;gap:4px;max-width:calc(100% - 64px);padding:5px;border-radius:10px;background:rgba(18,14,9,.92);border:1px solid var(--line)}
+.mapbox.fs .drbar{position:fixed;left:12px;top:52px}
+.drbar button{height:34px;min-width:34px;border-radius:8px;border:1px solid var(--line);background:#1d1811;color:var(--txt);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:3px;padding:0 6px;font:600 11.5px/1 system-ui,sans-serif}
+.drbar .drt svg{width:17px;height:17px;fill:currentColor}
+.drbar .drt.on{background:#f0c25a;color:#16130e;border-color:#f0c25a}
+.drbar .drc{min-width:26px;width:26px;height:26px;border-radius:50%;padding:0;background:var(--c);border:2px solid #000;box-shadow:0 0 0 1px #6a5d44}
+.drbar .drc.on{box-shadow:0 0 0 2px #fff}
+.drbar .drw{min-width:30px}.drbar .drw i{display:block;width:16px;border-radius:4px;background:currentColor}.drbar .drw.on{border-color:#fff}
+.drbar .drsep{width:1px;height:22px;background:var(--line);margin:0 2px}
+.drbar .drx{color:#ffb4a6}
+@media (max-width:520px){.drbar .drt span{display:none}}
+.mapw .drs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:9;overflow:visible}
+.mapw .drs path,.mapw .mobpat .dro{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.mapw .mobpat .dro{filter:drop-shadow(0 0 1.5px rgba(0,0,0,.9))}
+.mapw .mobpat .dro.dra{stroke:none}
+.mapw.drE .mobpat .dro{pointer-events:visibleStroke;cursor:not-allowed}.mapw.drE .mobpat .dro.dra{pointer-events:visibleFill}
+.mapw .mobpat .dro.dre{opacity:.25}
+.mapv.drm{touch-action:none;cursor:crosshair}
+.mapw .dnote{position:absolute;transform:translate(-50%,-50%);z-index:7;width:22px;height:22px;border-radius:50%;border:2px solid #16130e;background:#ffd84a;color:#16130e;font:800 12px/1 system-ui,sans-serif;display:grid;place-items:center;padding:0;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.6)}
+.mapw .dnote.dre{opacity:.3}
+.mapw .dnpop{position:absolute;transform:translate(-50%,16px);z-index:13;min-width:180px;max-width:240px;padding:8px;border-radius:9px;background:#15110cf5;border:1px solid var(--gold2);box-shadow:0 6px 18px rgba(0,0,0,.6);font-size:12.5px}
+.mapw .dnpop textarea{width:100%;box-sizing:border-box;border-radius:7px;border:1px solid var(--line);background:#0f0c08;color:var(--txt);font:13px/1.4 system-ui,sans-serif;padding:6px;resize:vertical}
+.mapw .dnpop div{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.mapw .dnpop p{margin:0 0 6px;white-space:pre-wrap;color:#efe7d6}
+.mapv.drm img{-webkit-user-drag:none;user-select:none}.mapv.drm{-webkit-user-select:none;user-select:none}
+/* 폰: 그리기 막대가 지도를 덮지 않게 지도 바로 밑에 */
+@media (max-width:699px){.drbar,.mapbox.fs .drbar{position:static;max-width:none;margin:6px 0 0;width:100%;box-sizing:border-box;justify-content:flex-start}}
+.mapw .dnpop.up{transform:translate(-50%,calc(-100% - 16px))}
+.mapw .dnpop.lf{transform:translate(-14px,16px)}.mapw .dnpop.rt{transform:translate(calc(-100% + 14px),16px)}
+.mapw .dnpop.up.lf{transform:translate(-14px,calc(-100% - 16px))}.mapw .dnpop.up.rt{transform:translate(calc(-100% + 14px),calc(-100% - 16px))}
