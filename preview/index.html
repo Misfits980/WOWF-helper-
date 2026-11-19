@@ -3003,7 +3003,7 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .mapw .pin.n.ap{outline:2px dashed rgba(255,255,255,.75);outline-offset:1px}
 /* 던전 지도(와우보초식): 길 · 풀 번호 · 종족 그림 · 순찰 · 확대 · 크게 보기 (미리보기) */
 .mobtg .mleg{display:inline-flex;align-items:center;gap:3px;font-size:calc(12px*var(--fs,1));color:var(--mute);flex-wrap:wrap}
-.mobtg .mleg .mi{position:static;transform:none;margin-left:8px;vertical-align:middle}
+.mobtg .mleg .mi{position:relative;transform:none;margin-left:8px;vertical-align:middle}
 .mobtg .mleg>:first-child{margin-left:0}
 .mobtg .mleg .mln{display:inline-block;width:16px;height:0;border-top:2px dashed #8fd3ff;margin:0 2px 0 8px}
 .mobtg .mleg .mrt{display:inline-block;width:16px;height:0;border-top:2px dashed #fff;margin:0 2px 0 0;box-shadow:0 0 0 1px rgba(0,0,0,.6)}
@@ -3018,7 +3018,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .mi.r{box-shadow:0 0 0 1.5px #d9b6ff}
 .mi.off{opacity:.8}
 .mi.lg{width:12px;height:12px}
-.mi.sm{position:static;transform:none;width:16px;height:16px;flex:0 0 16px}
+/* relative = 줄 안 자리는 그대로, 얼굴 그림(absolute)이 이 동그라미 안에만 — static이면 그림이 카드·화면 전체로 커졌음(용현 「잘못 눌렀더니 이런 게」) */
+.mi.sm{position:relative;transform:none;width:16px;height:16px;flex:0 0 16px}
 @media (min-width:900px){.mapw .mi{width:14px;height:14px}}
 .mapw .mpk{position:absolute;transform:translate(-50%,-50%);min-width:20px;aspect-ratio:1;padding:0;border-radius:50%;border:0;background:transparent;cursor:pointer;z-index:1}
 .mapw .mpk.on{border:2px solid var(--gold);background:rgba(232,192,106,.14);box-shadow:0 0 0 3px rgba(0,0,0,.45)}
