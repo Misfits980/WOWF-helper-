@@ -3238,7 +3238,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 @media (min-width:900px){.mapw .mi.ph{width:19px;height:19px}}
 .mapw .mi.ph.e{box-shadow:0 0 0 1.5px #f3cf6a}
 .mapw.rpx .mi.ph.mcu{box-shadow:0 0 0 2px #f0c25a,0 0 6px #f0c25a}
-.mapw.fx .mi.ph.off,.mapw.rpx .mi.ph.off{border-color:#9a927f}
+.mapw.rpx .mi.ph.off{border-color:#9a927f}
+.mapw.fx .mi.ph.off{border-color:#e9e2d2}
 .mapw .pin.n.pf{width:30px;height:30px;padding:0;background-size:cover;background-position:center;border:2px dashed #ff9f43;box-shadow:0 0 0 1.5px #0d0c0a}
 .mapw .pin.n.pf b{position:absolute;right:-8px;bottom:-7px;min-width:16px;height:16px;padding:0 2px;box-sizing:border-box;border-radius:8px;background:#1a1208;border:1.5px solid #e8c170;color:#f2d488;font-size:calc(10px*var(--fs,1));line-height:13px;text-align:center}
 .mapw .pin.n.pf.kd{filter:grayscale(.85);opacity:.75}
@@ -3366,14 +3367,78 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .mapbox.fs .mz.mzl{right:auto;left:12px}
 /* 풀 짜기: 다시 그릴 때마다 브라우저 스크롤 고정(scroll anchoring)이 화면을 35px씩 올려 지도가 아래로 밀렸음(안드로이드 크롬) — 이 화면에선 끔, 자리는 앱이 직접 지킴 */
 html:has(.pmw),html:has(.pmw) body{overflow-anchor:none}
+/* ── MDT 모양 손보기 ── */
+/* 몹: 안 묶음 = 하얀 테(얼굴 그대로), 로머 = 파란 테(MDT 순찰 몹), 묶음 = 풀 색 테 + 풀 색 빛, 지금 풀 = 바깥 흰 테 */
+.mapw.fx .mi.off{--c:transparent!important;border-color:#e9e2d2;opacity:.92;transform:translate(-50%,-50%)}
+.mapw.fx .mi.off svg{fill:#cfc6b2}
+.mapw.fx .mi.ph:not(.off){box-shadow:0 0 0 1px rgba(0,0,0,.6),0 0 7px var(--c)}
+.mapw.fx .mi.ph.fc:not(.off){box-shadow:0 0 0 1.5px #fff,0 0 9px var(--c)}
+.mapw .mi.rmr::after{display:none}
+.mapw.fx .mi.rmr,.mapw.fx .mi.rmr.off{border-color:#2f8fff!important;border-width:2.5px}
+.mobtg .mleg .mi.rmr::after{display:none}.mobtg .mleg .mi.off2.rmr{border:2.5px solid #2f8fff}
+/* 풀 도형: MDT처럼 채우지 않은 선, 지금 풀 진하게·나머지 반투명 */
+.mapw.fx .mobpat .kz{fill-opacity:0;stroke-opacity:.5;stroke-width:2}
+.mapw.fx .mobpat .kz.cu{fill-opacity:.1;stroke:var(--c);stroke-opacity:1;stroke-width:3}
+.mapw.fx .mobpat .kz.nx{stroke-opacity:.75}
+.mapw.fx .mobpat .kzl{stroke-opacity:.45}.mapw.fx .mobpat .kzl.cu{stroke:var(--c);stroke-opacity:1}
+.mapw .mobpat .kz.hv{stroke-opacity:1!important;stroke-width:3.4!important;fill-opacity:.14!important}
+.mapw .mobpat .kzl.hv{stroke-opacity:1!important}
+.mapw.fx .mpn.kz{opacity:.6}.mapw.fx .mpn.kz.on{opacity:1;color:#fff;font-size:calc(17px*var(--fs,1))}
+.mapw .mpn.kz.hv{opacity:1;transform:translate(-50%,-105%) scale(1.25)}
+/* 순찰 길: 마우스 올린 무리 것 진하게 */
+.mapw .mobpat .pl.hv{stroke:#2f8fff;stroke-opacity:1;stroke-width:2.6}
+/* 풀 목록 줄: MDT 버튼처럼 풀 색 배경 · 흰 글자 */
+.mdt .mdr{background:linear-gradient(90deg,var(--c) 0 30px,transparent 30px),color-mix(in srgb,var(--c) 42%,#120e09);color:#fff;text-shadow:0 1px 2px #000,0 0 2px #000}
+.mdt .mdr:hover{background:linear-gradient(90deg,var(--c) 0 30px,transparent 30px),color-mix(in srgb,var(--c) 55%,#120e09)}
+.mdt .mdl li.on .mdr{background:linear-gradient(90deg,var(--c) 0 30px,transparent 30px),color-mix(in srgb,var(--c) 62%,#120e09)}
+.mdt .mdn{color:#0d0a06;text-shadow:none;cursor:grab;touch-action:none;align-self:stretch;display:grid;place-items:center}
+.mdt .mdc small{color:#f3eee4;opacity:.85}
+.mdt .mdf .mdfc{border-color:rgba(255,255,255,.75)}
+.mdt .mdf .mdfc i{position:absolute;right:-6px;bottom:-5px;font:800 calc(10px*var(--fs,1))/1 system-ui,sans-serif;font-style:normal;color:#fff;text-shadow:0 0 2px #000,0 0 2px #000,0 1px 1px #000}
+.mdt .mdf .mdfc b{display:none}
+.mdt .mdf{gap:9px}
+.mdt .mdnm{color:#fff}
+.mdt .mdd{box-shadow:0 0 0 1.5px rgba(0,0,0,.55)}
+/* 끌어 옮기기 */
+.mdt.mdgo .mdl li{transition:box-shadow .1s}
+.mdt .mdl li.mdg{position:relative;z-index:5;opacity:.92;box-shadow:0 6px 18px rgba(0,0,0,.6),0 0 0 2px #fff}
+.mdt .mdl li.mdt1{box-shadow:0 -3px 0 0 #fff}
+/* 풀 메뉴 */
+.mdt .mdmb{min-width:34px;font-weight:800;letter-spacing:1px}
+.mdt .mdmenu{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:2px 6px 8px 34px}
+.mdt .mdmenu button{min-height:34px;padding:0 8px;border-radius:7px;border:1px solid var(--line);background:#1d1811;color:var(--txt);font:600 calc(12.5px*var(--fs,1))/1.2 system-ui,sans-serif;text-align:left;cursor:pointer}
+.mdt .mdmenu button:hover:not([disabled]){border-color:var(--gold)}
+.mdt .mdmenu button[disabled]{opacity:.35;cursor:default}
+.mdt .mdmenu button:last-child{grid-column:1/-1;text-align:center}
+/* PC 말풍선 */
+.mapbox .mtip{position:absolute;z-index:14;pointer-events:none;min-width:150px;max-width:260px;padding:7px 9px;border-radius:8px;background:#110d08f2;border:1px solid #5a4d35;box-shadow:0 4px 14px rgba(0,0,0,.6);font-size:calc(12px*var(--fs,1));color:#efe7d6}
+.mapbox .mtip ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.mapbox .mtip small{color:#b8ad97}
+.mapbox .mtip p{margin:5px 0 0;color:#d8cfbd}
+.mapbox .mtip .mtr{color:#6fb3ff;font-weight:700}
+.mapbox .mtip .mth{color:#a59a84;font-size:calc(11px*var(--fs,1))}
+@media (min-width:1000px){.mdt .mda{padding-left:8px;flex-wrap:nowrap}.mdt .mda .btn{padding:0 8px}.mdt .mdmenu{padding-left:8px}}
+/* 루트(MDT 프리셋) */
+.mdt .mdrt{display:flex;align-items:center;gap:6px;padding:6px 6px 0}
+.mdt .mdrl{font-size:calc(12px*var(--fs,1));color:var(--mute);flex:0 0 auto}
+.mdt .mdrs{flex:1;min-width:0;height:32px;border-radius:7px;border:1px solid var(--line);background:#1d1811;color:var(--txt);font:600 calc(13px*var(--fs,1))/1 system-ui,sans-serif;padding:0 6px}
+.mdt .mdrm{min-width:34px;font-weight:800;letter-spacing:1px}
+.mdt .mdrp{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px;border-bottom:1px solid var(--line)}
+.mdt .mdrp.mdmenu{display:grid;grid-template-columns:1fr 1fr;padding:6px}
+.mdt .mdrp p{margin:0;width:100%;font-size:calc(12px*var(--fs,1));color:#d8cfbd}
+.mdt .mdrp .warn{color:#ff9d8a}
+.mdt .mdri{flex:1;min-width:120px;height:32px;border-radius:7px;border:1px solid var(--gold2);background:#120e09;color:var(--txt);font:inherit;padding:0 8px}
+.mdt .mdrc{width:100%;box-sizing:border-box;border-radius:7px;border:1px solid var(--line);background:#120e09;color:#e9e1d0;font:calc(12px*var(--fs,1))/1.35 ui-monospace,monospace;padding:6px;resize:vertical;word-break:break-all}
+.mdt .mdl:has(.mdmenu){max-height:min(520px,70vh)}
+.pmw .mdt .mdl:has(.mdmenu),.mapbox.fs .mdt .mdl:has(.mdmenu){max-height:none}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=0c8c5d98"></script>
-<script>/* vea2e20 @11/19 12:39 */
+<script>/* v774e34 @11/19 13:58 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/19 12:39';
+const BUILD='11/19 13:58';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -6602,7 +6667,8 @@ function dgRcp(g){const R=g&&g.rcp;if(!R||!PV)return '';const c=me();const mine=
 function dgPrep(g){if(!g)return '';return (g.prep&&g.prep.length?'<details class="warn2"><summary><span class="ic" style="background-image:url('+ICO('inv_misc_book_09')+')"></span>들어가기 전에 알아 둘 것 '+g.prep.length+'개<i>⌄</i></summary><ul>'+g.prep.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></details>':'')+(g.src?'<p class="mute src">📝 '+esc(g.src)+'</p>':'')}
 /* 미리보기 던전 지도(와우보초식): 길(입구→보스) · 풀 번호(길 따라 묶은 추정) · 몹마다 종족 그림 · 순찰 움직임 · 확대·크게 보기 */
 const MTY={1:'짐승',2:'용족',3:'악마',4:'정령',5:'거인',6:'언데드',7:'인간형',9:'기계',10:'토템'};
-const PCOL=['#f2c94c','#7ed957','#4fd1a5','#56b8ff','#7b86ff','#d473f0','#ff6b81','#ff9f43','#c9e265','#3ec1d3'];
+/* 풀 색: MDT·FDT 기본 팔레트(High Contrast) 순서 그대로 — 1 자홍 · 2 민트 · 3 빨강 · 4 파랑 · 5 노랑 · 6 초록 · 7 분홍 · 8 하늘 · 9 주황 · 10 남색 · 11 연두 */
+const PCOL=['#ff3eff','#3eff9f','#ff3e3e','#3e9fff','#fffc3e','#3eff3e','#ff3e9f','#3effff','#ff9b3e','#6262ff','#a2ff3e'];
 const pCol=n=>n?PCOL[(n-1)%PCOL.length]:'#7a756b';
 const MGLY={7:'<path d="M12 3.2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM6.5 21v-5.2c0-3 2.4-5.3 5.5-5.3s5.5 2.3 5.5 5.3V21z"/>',
  5:'<path d="M12 2.5a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4zM3.5 21l1-6.5C5 11.5 8 9.8 12 9.8s7 1.7 7.5 4.7l1 6.5z"/>',
@@ -6651,7 +6717,7 @@ function selOf(m,fi,i){const n=planNo(fi,i);return n?'p:'+n:'k:'+fi+':'+i}
 function mobBar(f){const on=ui.dmob!==0;const PM=dpmOn(),RPm=drpOn();const np=RPm?DGX.rp.mp.length:DGX&&DGX.P?DGX.P.p.filter(x=>x.length).length:0;
   return '<div class="mobtg">'+(DGX&&DGX.pl?'<div class="chips seg dpm"><button class="chip'+(!PM&&!RPm?' on':'')+'" data-a="dpm" data-k="0">지도 보기</button><button class="chip'+(PM?' on':'')+'" data-a="dpm" data-k="1">탱 풀 짜기</button>'+(DGX.rp?'<button class="chip'+(RPm?' on':'')+'" data-a="dpm" data-k="2">실제 판 재생</button>':'')+'</div>':'')
   +(PM||RPm?'':'<button class="chip'+(on?' on':'')+'" data-a="dmob">쫄 '+(on?'보이기':'숨김')+'</button>')
-  +(RPm?'<span class="mleg"><i class="rtl"></i>풀 순서 길<i class="lgk cu"></i>지금 싸우는 풀<i class="rpe lg"></i>싸우는 몹<i class="mi lg dd"></i>끝낸 풀</span><button class="chip'+(ui.rpAll?' on':'')+'" data-a="rpall">안 잡은 무리도 '+(ui.rpAll?'보임':'숨김')+'</button>':PM?'<span class="mleg"><i class="mi lg off2"></i>가만히 있는 몹<i class="mi lg off2 rmr"></i>로머(순찰)<i class="lgk"></i>내가 묶은 풀<i class="lgk cu"></i>지금 풀<i class="rtl"></i>탱 동선</span>':on?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
+  +(RPm?'<span class="mleg"><i class="rtl"></i>풀 순서 길<i class="lgk cu"></i>지금 싸우는 풀<i class="rpe lg"></i>싸우는 몹<i class="mi lg dd"></i>끝낸 풀</span><button class="chip'+(ui.rpAll?' on':'')+'" data-a="rpall">안 잡은 무리도 '+(ui.rpAll?'보임':'숨김')+'</button>':PM?'<span class="mleg"><i class="mi lg off2"></i>가만히 있는 몹<i class="mi lg off2 rmr"></i>로머(파란 테)<i class="lgk"></i>묶은 풀<i class="lgk cu"></i>지금 풀<i class="rtl"></i>탱 동선</span>':on?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
   +'<span class="mute">'+(np?'풀 '+np+' · ':'')+'무리 '+f.mob.p.length+' · 순찰 '+f.mob.t.length+'</span></div>'}
 /* ── 탱 동선: 층 길찾기 칸 그림(data/dgmap/*-nav.png)을 받아 브라우저에서 풀 → 풀 길 찾기 ── */
 const NAVC={},SEGC={};
@@ -6699,8 +6765,8 @@ function kzGeo(f,ix,W,H){const M=f.mob,sx=(f.sc||300)/100,sy=sx*(f.h||100)/(f.w|
   cl.sort((a,b)=>b.n-a.n);const links=[];const inT=[0],out=cl.map((_,i)=>i).slice(1);
   while(out.length){let b=null;inT.forEach(a=>out.forEach(o=>{const d=dd(cl[a].c,cl[o].c);if(!b||d<b[0])b=[d,a,o]}));inT.push(b[2]);out.splice(out.indexOf(b[2]),1);links.push([cl[b[1]].c,cl[b[2]].c])}
   return {cl,links,lab:[cl[0].top[0]/W*100,cl[0].top[1]/H*100]}}
-function kzSvg(G,col,cls,W,H){if(!G)return '';let s='';G.links.forEach(([a,b])=>{s+='<line class="kzl '+cls+'" style="--c:'+col+'" x1="'+(a[0]*W/100).toFixed(1)+'" y1="'+(a[1]*H/100).toFixed(1)+'" x2="'+(b[0]*W/100).toFixed(1)+'" y2="'+(b[1]*H/100).toFixed(1)+'"/>'});
-  G.cl.forEach(c=>{s+='<path class="kz '+cls+'" style="--c:'+col+'" d="M'+c.hl.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join('L')+'Z"/>'});return s}
+function kzSvg(G,col,cls,W,H,n){if(!G)return '';let s='';const dn=n?' data-n="'+n+'"':'';G.links.forEach(([a,b])=>{s+='<line class="kzl '+cls+'"'+dn+' style="--c:'+col+'" x1="'+(a[0]*W/100).toFixed(1)+'" y1="'+(a[1]*H/100).toFixed(1)+'" x2="'+(b[0]*W/100).toFixed(1)+'" y2="'+(b[1]*H/100).toFixed(1)+'"/>'});
+  G.cl.forEach(c=>{s+='<path class="kz '+cls+'"'+dn+' style="--c:'+col+'" d="M'+c.hl.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join('L')+'Z"/>'});return s}
 function mobLayer(f,fi){const RQ=drpOn()&&DGX.rp.fl===fi?DGX.rp:null;if(!(PV&&f.mob&&(ui.dmob!==0||dpmOn()||RQ)))return '';const M=f.mob,W=f.w||100,H=f.h||100,sel=dpmOn()?'p:'+(DGX.P.k+1):RQ?null:ui.dmsel;const PM=dpmOn();const NO=RQ?rpNo:planNo;
   /* 풀 짜기·재생: 지금 풀(금색)·다음 풀(파란색)만 강조 */const FX=PM?planFocus(fi):null;const RS=RQ?rpState(RQ,RP.t):null;if(RQ)rpNo(fi,0);const FCs=new Set(FX?FX.c:[]),FNs=new Set(FX?FX.n:[]);const role=i=>FCs.has(i)?' fc':FNs.has(i)?' fn':'';
   const pt=new Set(M.t.map(t=>t[0]));const RM=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -6710,12 +6776,12 @@ function mobLayer(f,fi){const RQ=drpOn()&&DGX.rp.fl===fi?DGX.rp:null;if(!(PV&&f.
   const PG={};M.p.forEach((m,i)=>{const n=NO(fi,i);if(!n)return;(PG[n]=PG[n]||[]).push(...(m[9]&&m[9].length?m[9]:[[m[0],m[1]]]).map(q=>[q[0]*W/100,q[1]*H/100]))});
   const pad=Math.max(W,H)*.012;
   /* 풀마다 묶음 도형(지도 보기·풀 짜기) — 재생은 rpSvg가 지도 풀마다 그림 */const KZ={};if(!RQ){const IX={};M.p.forEach((m,i)=>{const n=NO(fi,i);if(n)(IX[n]=IX[n]||[]).push(i)});
-    if(PM)sv+='<defs>'+fArrow(W,H)+'</defs>';Object.entries(IX).forEach(([n,ix])=>{const G=kzGeo(f,ix,W,H);KZ[n]=G;sv+=kzSvg(G,pCol(+n),PM?(+n===FX.FC?'cu':+n===FX.FN?'nx':''):(sel==='p:'+n?'cu':''),W,H)})}
+    if(PM)sv+='<defs>'+fArrow(W,H)+'</defs>';Object.entries(IX).forEach(([n,ix])=>{const G=kzGeo(f,ix,W,H);KZ[n]=G;sv+=kzSvg(G,pCol(+n),PM?(+n===FX.FC?'cu':+n===FX.FN?'nx':''):(sel==='p:'+n?'cu':''),W,H,+n)})}
   /* 길: 보기 = 입구→보스 길(흰 점선) · 풀 짜기 = 탱 동선(풀 → 풀, 금색) */
   if(RQ)sv+=rpSvg(RQ,W,H);else if(PM){const T=tankRoute(f,fi);/* 전체 탱 동선은 흐리게, 지금 풀 → 다음 풀(또는 다음 곳)만 진하게 화살표 */if(T)T.forEach(sg=>{const d='M'+sg.pts.map(P2).join('L');const lg=sg.from.k==='p'&&sg.from.j===FX.FC-1;const col=sg.to&&sg.to.k==='p'?pCol(sg.to.j+1):'#e8c170';sv+=(lg?'<path class="tk0" d="'+d+'"/>':'')+'<path class="tkc'+(lg?' cu':'')+(sg.ok?'':' gap')+'" style="stroke:'+col+'"'+(lg?' marker-end="url(#farw)"':'')+' d="'+d+'"/>'});}
   else (f.route||[]).forEach(r=>{const d='M'+r.map(P2).join('L');sv+='<path class="rt0" d="'+d+'"/><path class="rt" d="'+d+'"/>'});
   M.t.forEach(t=>{/* 풀 짜기는 지금·다음 풀 무리의 순찰만, 재생은 실제 몹 점이 있어 순찰 안 그림 */if(RQ)return;const P=t[1].map(q=>[q[0]*W/100,q[1]*H/100]);const d='M'+P.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join('L');const m=M.p[t[0]];const on=m&&sel===selOf(m,fi,t[0]);
-    sv+='<path class="pl'+(on?' on':'')+'" d="'+d+'"/>';
+    sv+='<path class="pl'+(on?' on':'')+'" data-p="'+t[0]+'" d="'+d+'"/>';
     const r=Math.max(W,H)*.0085;let L=0;for(let i=1;i<P.length;i++)L+=Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]);
     const yd=f.sc?L/W*f.sc:L/W*300;const dur=Math.max(6,Math.min(120,yd/2.5*2));
     sv+='<circle class="rm'+(on?' on':'')+'" style="fill:'+pCol(NO(fi,t[0]))+'" r="'+r.toFixed(1)+'" cx="'+(RM?P[0][0].toFixed(1):0)+'" cy="'+(RM?P[0][1].toFixed(1):0)+'">'+(RM?'':'<animateMotion dur="'+dur.toFixed(0)+'s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear" path="'+d+'"/>')+'</circle>'});
@@ -6922,18 +6988,71 @@ function pullList(c,f,fi){if(!(PV&&f.mob))return '';if(dpmOn())return planPanel(
     +'<p class="mute">길: 지도 바닥 높이로 찾은 입구→보스 걷는 길 · 풀: 길에서 9야드 안 무리를 길 순서대로 묶은 추천(실제 공략 판 기록 아님) · 회색 = 안 잡는 무리 · 금색 테두리 = 정예 · 몹 그림 = 종족</p></div>'}
 /* ── MDT(Mythic Dungeon Tools)처럼 풀 목록: 지도 옆(PC)·지도 바로 밑(폰)에 풀마다 한 줄 — 풀 색 · 번호 · 몹 얼굴 ×수 · 마리 수 · 위험도 점.
    줄을 누르면 그 풀이 지금 풀, 고른 줄엔 위로·아래로·앞 풀과 합치기·지우기. 맨 위에 ◀ 풀 n ▶ · ＋ 새 풀(예전엔 지도 밑 번호 알약 줄이라 어느 풀에 뭐가 있는지 안 보였음, 용현 「mdt 이거야」) ── */
-function mdtFace(x){const rk=x.rk!=null?mobRk(x.rk):'n';return '<span class="rpfc'+(rk==='e'?' e':rk==='r'?' r':'')+'" title="'+esc(x.nm)+(x.c>1?' ×'+x.c:'')+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x.ty]?x.ty:0)+'"/></svg>'+(x.id?'<img src="'+npcThumb(x.id)+'" alt="" loading="lazy" onerror="this.remove()">':'')+(x.c>1?'<b>'+x.c+'</b>':'')+'</span>'}
+function mdtFace(x){const rk=x.rk!=null?mobRk(x.rk):'n';return '<span class="rpfc mdfc'+(rk==='e'?' e':rk==='r'?' r':'')+'" title="'+esc(x.nm)+(x.c>1?' ×'+x.c:'')+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x.ty]?x.ty:0)+'"/></svg>'+(x.id?'<img src="'+npcThumb(x.id)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'<i>x'+x.c+'</i></span>'}
+/* ── MDT 프리셋처럼 던전마다 루트 여러 개(이름 고르기·새 루트·복사·이름 바꾸기·지우기·내보내기 코드·가져오기). 지금 루트는 c.dgp[slug], 나머지는 c.dgrs[slug].L[j].p ── */
+function dpRoutes(c,slug){const R=c.dgrs&&c.dgrs[slug];if(R&&R.L&&R.L.length){R.i=Math.max(0,Math.min(R.i||0,R.L.length-1));return R}return {i:0,L:[{n:'내 루트'}],v:1}}
+function dpRoutesW(){const c=DGX.c,sl=DGX.slug;c.dgrs=c.dgrs||{};let R=c.dgrs[sl];if(!R||!R.L||!R.L.length)R=c.dgrs[sl]={i:0,L:[{n:'내 루트'}]};return R}
+function dpCurCopy(){const c=DGX.c,sl=DGX.slug;return c.dgp&&c.dgp[sl]?JSON.parse(JSON.stringify(c.dgp[sl])):null}
+function dpSwitch(j){const c=DGX.c,sl=DGX.slug;const R=dpRoutesW();if(j===R.i||!R.L[j])return;R.L[R.i].p=dpCurCopy();const nx=R.L[j].p;c.dgp=c.dgp||{};if(nx)c.dgp[sl]=nx;else delete c.dgp[sl];delete R.L[j].p;R.i=j;
+  ui.dpkI=0;ui.dpNew=null;if(ui.dpUndo)delete ui.dpUndo[sl];if(ui.dpRedo)delete ui.dpRedo[sl];save();dpFloor()}
+function mdtRoute(c){const R=dpRoutes(c,DGX.slug);const m=ui.dpRt||'';const cur=R.L[R.i]||{n:'내 루트'};
+  let h='<div class="mdrt"><span class="mdrl">루트</span><select class="mdrs" aria-label="루트 고르기">'+R.L.map((r,j)=>'<option value="'+j+'"'+(j===R.i?' selected':'')+'>'+esc(r.n||('루트 '+(j+1)))+'</option>').join('')+'</select><button class="btn sm ghost mdrm" data-a="dprt" data-k="m" aria-expanded="'+(m==='m')+'" aria-label="루트 메뉴">⋯</button></div>';
+  if(m==='m')h+='<div class="mdrp mdmenu">'+[['new','새 루트'],['dup','지금 루트 복사'],['ren','이름 바꾸기'],['del','이 루트 지우기',R.L.length<=1],['exp','내보내기(코드)'],['imp','가져오기'],['x','닫기']].map(([k,t,d])=>'<button data-a="dprt" data-k="'+k+'"'+(d?' disabled':'')+'>'+t+'</button>').join('')+'</div>';
+  else if(m==='ren')h+='<div class="mdrp"><input class="mdri" maxlength="24" value="'+esc(cur.n||'')+'" aria-label="루트 이름"><button class="btn sm" data-a="dprt" data-k="rensave">저장</button><button class="btn sm ghost" data-a="dprt" data-k="x">취소</button></div>';
+  else if(m==='del')h+='<div class="mdrp"><p>「'+esc(cur.n||'')+'」 루트를 지울까요? 묶은 풀도 같이 지워져요.</p><button class="btn sm" data-a="dprt" data-k="delok">지우기</button><button class="btn sm ghost" data-a="dprt" data-k="x">취소</button></div>';
+  else if(m==='exp')h+='<div class="mdrp"><p>이 코드를 친구에게 보내면 「가져오기」로 같은 루트를 받을 수 있어요.</p><textarea class="mdrc" readonly rows="3">'+esc(ui.dpExp||'만드는 중…')+'</textarea><button class="btn sm" data-a="dprt" data-k="copy">코드 복사</button><button class="btn sm ghost" data-a="dprt" data-k="x">닫기</button></div>';
+  else if(m==='imp')h+='<div class="mdrp"><p>받은 루트 코드를 붙여 넣으세요. 새 루트로 들어가요.</p><textarea class="mdrc mdrin" rows="3" placeholder="WF1…"></textarea>'+(ui.dpImpErr?'<p class="warn">'+esc(ui.dpImpErr)+'</p>':'')+'<button class="btn sm" data-a="dprt" data-k="impok">가져오기</button><button class="btn sm ghost" data-a="dprt" data-k="x">취소</button></div>';
+  return h}
+async function dpImport(code){const o=await bkDecode(code);if(!o||o.t!=='route'||!Array.isArray(o.p))throw new Error('루트 코드가 아니에요');
+  if(o.d!==DGX.slug){const g=DG[o.d];throw new Error('다른 던전 루트예요'+(g&&(g.ko||g.name)?' — '+(g.ko||g.name):''))}
+  const sig=dgSig(DGX.fl);if(o.s!==sig)throw new Error('몹 자료가 바뀌어 이 루트를 못 가져와요');
+  const ok=k=>{const [fi,i]=String(k).split(':').map(Number);const f=DGX.fl[fi];return !!(f&&f.mob&&f.mob.p[i])};const p=o.p.map(x=>Array.isArray(x)?x.filter(ok):[]).filter(x=>x.length);if(!p.length)throw new Error('묶은 풀이 없는 코드예요');
+  const R=dpRoutesW();R.L.push({n:String(o.n||'가져온 루트').slice(0,24),p:{s:sig,p,lv:2}});dpSwitch(R.L.length-1);return p.length}
+/* MDT 풀 오른쪽 클릭 메뉴(폰은 ⋯·꾹 누르기): 위로·아래로·앞에 새 풀·뒤에 새 풀·위 풀과 합치기·아래 풀과 합치기·비우기·지우기·닫기 */
+function mdtMenu(P,j,has){const B=(a,k,t,dis)=>'<button data-a="'+a+'"'+(k!=null?' data-k="'+k+'"':'')+(dis?' disabled':'')+'>'+t+'</button>';const last=j>=P.p.length-1;
+  return '<div class="mdmenu" role="menu">'+B('dpmv',-1,'▲ 위로',j<=0)+B('dpmv',1,'▼ 아래로',last)+B('dpins',-1,'앞에 새 풀 끼우기')+B('dpins',1,'뒤에 새 풀 끼우기')+B('dpmerge',null,'위 풀과 합치기',j<=0)+B('dpmergd',null,'아래 풀과 합치기',last)+B('dpclr',null,'이 풀 비우기',!has)+B('dpdel',null,'이 풀 지우기',!has&&P.p.length<=1)+B('dpmenu',-1,'닫기')+'</div>'}
 function mdtList(c){const P=DGX.P;const my=c.lv||1;const k=P.k;const tot=P.p.filter(x=>x.length).length;const L=planMs(P,k);
   let rows='',mob=0;P.p.forEach((ks,j)=>{const L2=planMs(P,j);if(!L2.length&&j!==k)return;const g2=pullAgg(L2);mob+=g2.n;const d2=L2.length?dangerOf(L2,my):null;const on=j===k;
-    const lab=(j+1)+'번 풀: '+(L2.length?g2.rows.map(x=>x.nm+(x.c>1?' '+x.c:'')).join(', ')+' · '+g2.n+'마리 · '+d2[0]:'빈 풀');
-    const F=g2.rows.slice(0,6).map(mdtFace).join('')+(g2.rows.length>6?'<span class="mdm">+'+(g2.rows.length-6)+'</span>':'')+(g2.rows.length&&g2.rows.length<=2?'<span class="mdnm">'+esc(g2.rows[0].nm)+(g2.rows.length>1?' 외':'')+'</span>':'');
-    rows+='<li class="'+(on?'on':'')+'" style="--c:'+pCol(j+1)+'"><button class="mdr" data-a="dpsel" data-k="'+j+'" aria-current="'+on+'" aria-label="'+esc(lab)+'"><span class="mdn">'+(j+1)+'</span><span class="mdf">'+(F||'<em>빈 풀 — 지도에서 몹을 둘러 그리거나 톡 눌러 넣기</em>')+'</span>'+(L2.length?'<span class="mdc">'+g2.n+'<small>마리</small></span><i class="mdd '+d2[1]+'" title="'+esc(d2[0])+'"></i>':'')+'</button>'
-      +(on?'<div class="mda"><button class="btn sm ghost" data-a="dpmv" data-k="-1"'+(j<=0?' disabled':'')+' aria-label="이 풀 위로">▲</button><button class="btn sm ghost" data-a="dpmv" data-k="1"'+(j>=P.p.length-1?' disabled':'')+' aria-label="이 풀 아래로">▼</button><button class="btn sm ghost" data-a="dpmerge"'+(k<=0?' disabled':'')+'>앞 풀과 합치기</button><button class="btn sm ghost" data-a="dpdel"'+(!L.length&&P.p.length<=1?' disabled':'')+'>지우기</button></div>':'')+'</li>'});
+    const lab=(j+1)+'번 풀: '+(L2.length?g2.rows.map(x=>x.nm+(x.c>1?' '+x.c:'')).join(', ')+' · '+g2.n+'마리 · '+d2[0]:'빈 풀');ui._dpRow=ui._dpRow||{};
+    /* MDT처럼 얼굴은 많은 몹부터 */const RW=g2.rows.slice().sort((a,b)=>b.c-a.c);const F=RW.slice(0,6).map(mdtFace).join('')+(RW.length>6?'<span class="mdm">+'+(RW.length-6)+'</span>':'')+(RW.length&&RW.length<=2?'<span class="mdnm">'+esc(RW[0].nm)+(RW.length>1?' 외':'')+'</span>':'');
+    rows+='<li class="'+(on?'on':'')+'" data-n="'+(j+1)+'" data-j="'+j+'" style="--c:'+pCol(j+1)+'"><button class="mdr" data-a="dpsel" data-k="'+j+'" aria-current="'+on+'" aria-label="'+esc(lab)+'"><span class="mdn">'+(j+1)+'</span><span class="mdf">'+(F||'<em>빈 풀 — 지도에서 몹을 둘러 그리거나 톡 눌러 넣기</em>')+'</span>'+(L2.length?'<span class="mdc">'+g2.n+'<small>마리</small></span><i class="mdd '+d2[1]+'" title="'+esc(d2[0])+'"></i>':'')+'</button>'
+      +(on?'<div class="mda"><button class="btn sm ghost" data-a="dpmv" data-k="-1"'+(j<=0?' disabled':'')+' aria-label="이 풀 위로">▲</button><button class="btn sm ghost" data-a="dpmv" data-k="1"'+(j>=P.p.length-1?' disabled':'')+' aria-label="이 풀 아래로">▼</button><button class="btn sm ghost" data-a="dpmerge"'+(k<=0?' disabled':'')+' title="앞 풀과 합치기">위와 합치기</button><button class="btn sm ghost" data-a="dpdel"'+(!L.length&&P.p.length<=1?' disabled':'')+'>지우기</button><button class="btn sm ghost mdmb" data-a="dpmenu" data-k="'+j+'" aria-label="풀 '+(j+1)+' 메뉴" aria-expanded="'+(ui.dpMenu===j)+'">⋯</button></div>'
+        +(ui.dpMenu===j?mdtMenu(P,j,L.length):''):'')+'</li>'});
   if(!rows)rows='<li class="mde">아직 묶은 풀이 없어요. 지도에서 몹을 빙 둘러 그리면 1풀이 돼요.</li>';
-  return '<div class="mdtw"><div class="mdt"><div class="mdh pbr"><button class="btn sm" data-a="dpn" data-k="-1"'+(k<=0?' disabled':'')+' aria-label="앞 풀">◀</button><span class="pcur"><span class="pnum" style="--c:'+pCol(k+1)+'">'+(k+1)+'</span><b>풀 '+(k+1)+'</b><small>/ '+Math.max(tot,k+1)+'</small></span><button class="btn sm" data-a="dpn" data-k="1"'+(k>=P.p.length-1?' disabled':'')+' aria-label="다음 풀">▶</button>'
+  return '<div class="mdtw"><div class="mdt">'+mdtRoute(c)+'<div class="mdh pbr"><button class="btn sm" data-a="dpn" data-k="-1"'+(k<=0?' disabled':'')+' aria-label="앞 풀">◀</button><span class="pcur"><span class="pnum" style="--c:'+pCol(k+1)+'">'+(k+1)+'</span><b>풀 '+(k+1)+'</b><small>/ '+Math.max(tot,k+1)+'</small></span><button class="btn sm" data-a="dpn" data-k="1"'+(k>=P.p.length-1?' disabled':'')+' aria-label="다음 풀">▶</button>'
     +'<button class="btn sm mdadd" data-a="dpadd">＋ 새 풀</button></div><ol class="mdl">'+rows+'</ol><p class="mdk"><span>풀 '+tot+'개 · 몹 '+mob+'마리</span><span>위험도 <i class="mdd c-grn"></i>쉬움<i class="mdd c-yel"></i>보통<i class="mdd c-org"></i>위험<i class="mdd c-red"></i>매우</span></p></div></div>'}
+/* ── MDT처럼 풀 목록 손잡이(번호 칸)를 끌어 순서 바꾸기 · PC 오른쪽 클릭/폰 꾹 누르기 = 풀 메뉴 · 줄에 마우스 올리면 지도에서 그 풀 진하게 ── */
+const MD={};
+const HOV=typeof matchMedia==='function'&&matchMedia('(hover:hover) and (pointer:fine)').matches;
+function mdRows(){return [...document.querySelectorAll('.mdt .mdl li[data-j]')]}
+document.addEventListener('pointerdown',e=>{if(!dpmOn())return;const h=e.target.closest&&e.target.closest('.mdt .mdl li[data-j] .mdn');const li=e.target.closest&&e.target.closest('.mdt .mdl li[data-j]');
+  if(li&&e.pointerType==='touch'&&!h){clearTimeout(MD.lp);const x0=e.clientX,y0=e.clientY,j=+li.dataset.j;MD.lpx=[x0,y0];MD.lp=setTimeout(()=>{MD.lp=0;ui._mdLpAt=Date.now();ui.dpMenu=j;if(j!==(ui.dpkI||0)){ui.dpkI=j;dpFloor()}rrMap()},520)}
+  if(!h||(e.button&&e.button>0))return;const L=mdRows();if(L.length<2)return;MD.on=1;MD.li=h.closest('li');MD.j=+MD.li.dataset.j;MD.y0=e.clientY;MD.id=e.pointerId;MD.drag=0;MD.rows=L.map(r=>{const b=r.getBoundingClientRect();return [+r.dataset.j,b.top,b.bottom]});if(e.pointerType==='touch'&&e.cancelable)e.preventDefault()},true);
+document.addEventListener('pointermove',e=>{if(MD.lp&&MD.lpx&&Math.hypot(e.clientX-MD.lpx[0],e.clientY-MD.lpx[1])>8){clearTimeout(MD.lp);MD.lp=0}
+  if(!MD.on||e.pointerId!==MD.id)return;const dy=e.clientY-MD.y0;if(!MD.drag){if(Math.abs(dy)<6)return;MD.drag=1;MD.li.classList.add('mdg');document.querySelector('.mdt').classList.add('mdgo')}
+  MD.li.style.transform='translateY('+dy+'px)';let t=MD.j;MD.rows.forEach(([j,a,b])=>{const m=(a+b)/2;if(j>MD.j&&e.clientY>m)t=Math.max(t,j);if(j<MD.j&&e.clientY<m)t=Math.min(t,j)});MD.t=t;
+  mdRows().forEach(r=>{const j=+r.dataset.j;r.classList.toggle('mdt1',j===t&&t!==MD.j)});const o=document.querySelector('.mdt .mdl');if(o){const R=o.getBoundingClientRect();if(e.clientY<R.top+24)o.scrollTop-=8;else if(e.clientY>R.bottom-24)o.scrollTop+=8}if(e.cancelable)e.preventDefault()},{passive:false});
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{clearTimeout(MD.lp);MD.lp=0;if(!MD.on||e.pointerId!==MD.id)return;MD.on=0;if(!MD.drag)return;ui._mdDragAt=Date.now();
+  const f=MD.j,t=MD.t==null?f:MD.t;MD.t=null;if(ev==='pointercancel'||t===f){rrMap();return}
+  dgPlanEdit(P=>{const x=P.p.splice(f,1)[0];P.p.splice(t,0,x);P.k=t;delete P.auto2;delete P.rp});toast('풀 '+(f+1)+' → '+(t+1)+'번으로 옮겼어요');dpFloor();rrMap(true)},true));
+/* 끌기·꾹 누르기 뒤 따라오는 클릭은 무시 */
+document.addEventListener('click',e=>{if(!e.target.closest)return;if(e.target.closest('.mdt .mdl li')&&(Date.now()-(ui._mdDragAt||0)<400||Date.now()-(ui._mdLpAt||0)<700)){e.stopPropagation();e.preventDefault()}},true);
+document.addEventListener('contextmenu',e=>{if(!dpmOn())return;const li=e.target.closest&&e.target.closest('.mdt .mdl li[data-j]');if(li){e.preventDefault();const j=+li.dataset.j;ui.dpMenu=j;if(j!==(ui.dpkI||0)){ui.dpkI=j;dpFloor()}rrMap();return}
+  if(e.target.closest&&e.target.closest('.mdt .mdl li[data-j]'))e.preventDefault()});
+/* 줄에 마우스: 지도에서 그 풀 도형·번호 진하게(MDT) */
+document.addEventListener('mouseover',e=>{if(!HOV||!dpmOn()||!e.target.closest)return;const li=e.target.closest('.mdt .mdl li[data-n]');const n=li?li.dataset.n:null;if(n===MD.hv)return;MD.hv=n;
+  document.querySelectorAll('.mobpat .hv,.mapw .mpn.hv').forEach(x=>x.classList.remove('hv'));if(!n)return;document.querySelectorAll('.mobpat [data-n="'+n+'"]').forEach(x=>x.classList.add('hv'));const lb=document.querySelector('.mapw .mpn.kz[data-k="'+(n-1)+'"]');if(lb)lb.classList.add('hv')});
+/* PC: 몹 무리에 마우스 — MDT 말풍선(몹·레벨·정예·로머·몇 번 풀) + 그 무리 순찰 길 진하게 */
+document.addEventListener('mouseover',e=>{if(!HOV||!dpmOn()||!e.target.closest)return;const b=e.target.closest('.mapw [data-a=dpk]');const k=b?b.dataset.k:null;if(k===MD.tk)return;MD.tk=k;
+  document.querySelectorAll('.mtip').forEach(x=>x.remove());document.querySelectorAll('.mobpat .pl.hv').forEach(x=>x.classList.remove('hv'));if(!k||LS.on||GS.on)return;
+  const [fi,i]=k.split(':').map(Number);const f=DGX.fl[fi];const m=f&&f.mob&&f.mob.p[i];if(!m)return;const n=DGX.I[k]!=null?DGX.I[k]+1:0;const pt=f.mob.t.some(t=>t[0]===i);
+  const rows=(m[7]||[]).map(x=>{const rk=mobRk(x[2]);const lo=x[3]!=null?x[3]:m[5],hi=x[4]!=null?x[4]:m[6];return '<li><b>'+esc(x[0])+'</b>'+(x[1]>1?' ×'+x[1]:'')+' <small>'+(lo===hi?lo:lo+'–'+hi)+'레벨'+(rk==='e'?' · 정예':rk==='r'?' · 희귀':'')+'</small></li>'}).join('');
+  const t=document.createElement('div');t.className='mtip';t.innerHTML='<ul>'+rows+'</ul><p>'+(n?'<i class="mdd" style="color:'+pCol(n)+'"></i>풀 '+n:'아직 안 묶음')+(pt?' · <span class="mtr">로머(순찰)</span>':'')+'</p><p class="mth">'+(n?'누르면 지금 풀에서 빼기/넣기':'누르면 지금 풀에 넣기 · Shift+누르면 새 풀')+'</p>';
+  const bx=b.closest('.mapbox');if(!bx)return;bx.appendChild(t);const r=b.getBoundingClientRect(),R=bx.getBoundingClientRect();let x=r.right-R.left+8,y=r.top-R.top;if(x+t.offsetWidth>R.width-4)x=r.left-R.left-t.offsetWidth-8;t.style.left=Math.max(4,x)+'px';t.style.top=Math.max(4,Math.min(y,R.height-t.offsetHeight-4))+'px';
+  document.querySelectorAll('.mobpat .pl[data-p="'+i+'"]').forEach(x=>x.classList.add('hv'))});
+document.addEventListener('change',e=>{const t=e.target;if(!t.matches||!t.matches('.mdt .mdrs')||!dpmOn())return;dpSwitch(+t.value);ui.dpRt='';rrMap(true)});
 /* 풀 목록 스크롤 자리 지키기 + 고른 줄이 보이게(다시 그릴 때마다 맨 위로 튀었음) */
-function mdtKeep(t){const o=document.querySelector('.mdt .mdl');if(!o)return;if(t!=null)o.scrollTop=t;const r=o.querySelector('li.on');if(!r)return;const a=r.offsetTop-o.offsetTop,b=a+r.offsetHeight;if(a<o.scrollTop)o.scrollTop=a-4;else if(b>o.scrollTop+o.clientHeight)o.scrollTop=b-o.clientHeight+4}
+function mdtKeep(t){const o=document.querySelector('.mdt .mdl');if(!o)return;if(t!=null)o.scrollTop=t;const r=o.querySelector('li.on');if(!r)return;const a=r.offsetTop-o.offsetTop,b=a+r.offsetHeight;/* 메뉴가 열려 줄이 목록보다 크면 줄 머리가 보이게 */if(a<o.scrollTop||r.offsetHeight>o.clientHeight)o.scrollTop=a-4;else if(b>o.scrollTop+o.clientHeight)o.scrollTop=b-o.clientHeight+4}
 /* 탱 풀 짜기: 지금 풀에 무리를 눌러 넣고 빼기(떨어진 무리도 묶으면 체인) · 앞 풀과 합치기 · 새 풀 · 자동 묶기 정도 */
 function planPanel(c,f,fi){const P=DGX.P;const my=c.lv||1;const k=P.k;const tot=P.p.filter(x=>x.length).length;
   const L=planMs(P,k);const g=pullAgg(L);const dg=L.length?dangerOf(L,my):null;const pn=L.length?patrolNear(L):[];
@@ -7487,7 +7606,7 @@ function setLv(c,v){v=Math.max(1,Math.min(60,parseInt(v,10)||c.lv));if(v!==c.lv)
 /* ===================== 이벤트 ===================== */
 function isrchUpd(){const box=document.getElementById('isres');const c=me();if(!box||!c||!ui.sheet||!ui.sheet.startsWith('slot:')){return}
   const tmp=document.createElement('div');tmp.innerHTML=slotSheet(c,ui.sheet.slice(5));const nb=tmp.querySelector('#isres');if(nb)box.innerHTML=nb.innerHTML}
-document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,k=b.dataset.k;const c=me();if(ui._shAt&&Date.now()-ui._shAt<450&&b.closest('.sheet,.sheet-bg'))return;/* 지도에서 손가락을 떼며 연 메모 창: 뒤따라 오는 click이 배경·✕에 맞아 바로 닫히던 것 */NAVW='누름 '+a+(k?':'+String(k).slice(0,20):'');
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,k=b.dataset.k;const c=me();if(a!=='dpmenu'&&/^dp/.test(a))ui.dpMenu=null;if(ui._shAt&&Date.now()-ui._shAt<450&&b.closest('.sheet,.sheet-bg'))return;/* 지도에서 손가락을 떼며 연 메모 창: 뒤따라 오는 click이 배경·✕에 맞아 바로 닫히던 것 */NAVW='누름 '+a+(k?':'+String(k).slice(0,20):'');
   /* 지도에서 손가락을 떼며 연 메모 창은 뒤따라 오는 터치 click이 배경에 맞아 바로 닫히고 빈 핀이 지워졌음 → 연 직후 잠깐은 배경 누름 무시 */
   if(a==='bg'){if(e.target===b&&!(ui._shAt&&Date.now()-ui._shAt<450)){noteClean(c);ui.sheet=null;ui.delAsk=0;rerender(true)}return}
   if(a==='close'){noteClean(c);ui.sheet=null;ui.delAsk=0;rerender(true);return}
@@ -7689,6 +7808,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     /* 이 층에 풀이 하나도 없으면 지금 풀이 있는 층으로 */
     if(ui.dpm&&DGX&&DGX.P){const fi=ui.dfloor||0;const has=DGX.P.p.some((x,j)=>planMs(DGX.P,j).some(y=>y[3]===fi));const L=planMs(DGX.P,Math.min(ui.dpkI||0,DGX.P.p.length-1));if(!has&&L.length)ui.dfloor=L[0][3]}if(ui.dpm&&innerWidth<700&&(ui.dz||1)<2.5)ui.dz=2.5;rrMap(true);setTimeout(()=>rrMap(true),400);return}
   if(a==='dpk'){if(Date.now()-(ui._lsoAt||0)<450)return;/* 올가미를 끝낸 손가락이 몹 위에서 떨어지며 생기는 클릭 */const fi=+k.split(':')[0];const P0=DGX&&DGX.pl?DGX.P:null;const c0=P0&&P0.p[P0.k]||[];
+    /* MDT처럼 Shift+누르기 = 이 무리로 다음 새 풀(안 묶인 무리만) */if(e&&e.shiftKey&&DGX.I[k]==null){dgPlanEdit(P=>{const cur=P.p[P.k];if(cur&&!cur.length)cur.push(k);else{P.p.splice(P.k+1,0,[k]);P.k=P.k+1}delete P.auto2;delete P.rp});rrMap();return}
     /* 지금 풀이 다른 층에만 있으면: 이미 풀에 든 무리는 그 풀을 고르고, 아니면 이 층에 새 풀을 만들어 넣음 — 예전엔 풀 없는 층(놈리건 1층 등)에서 누른 무리가 다른 층의 지금 풀에 말없이 붙어 층을 넘는 풀이 됐음 */
     if(c0.length&&!c0.some(x=>+x.split(':')[0]===fi)){const own=DGX.I[k];if(own!=null){ui.dpkI=own;rrMap();return}
       dgPlanEdit(P=>{const fl0=ks=>ks.length?Math.min(...ks.map(x=>+x.split(':')[0])):1e9;let ins=-1;P.p.forEach((ks,j)=>{if(ks.some(x=>+x.split(':')[0]===fi))ins=j+1});if(ins<0){ins=P.p.findIndex(ks=>fl0(ks)>fi&&fl0(ks)<1e9);if(ins<0)ins=P.p.length}P.p.splice(ins,0,[k]);P.k=ins;delete P.auto2;delete P.rp});rrMap();return}
@@ -7709,6 +7829,22 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='rps'){RP.sp=+k||30;document.querySelectorAll('[data-a=rps]').forEach(b=>b.classList.toggle('on',b.dataset.k===k));return}
   if(a==='dpadd'){dgPlanEdit(P=>{P.p.splice(P.k+1,0,[]);P.k=P.k+1;delete P.auto2;delete P.rp});rrMap();return}
   if(a==='dpmerge'){dgPlanEdit(P=>{if(P.k>0){P.p[P.k-1]=P.p[P.k-1].concat(P.p[P.k]);P.p.splice(P.k,1);P.k--}delete P.auto2;delete P.rp});dpFloor();rrMap(true);return}
+  if(a==='dprt'){const R=dpRoutesW();ui.dpImpErr=null;
+    if(k==='m'){ui.dpRt=ui.dpRt==='m'?'':'m';rrMap();return}if(k==='x'){ui.dpRt='';rrMap();return}
+    if(k==='new'){R.L.push({n:'루트 '+(R.L.length+1)});dpSwitch(R.L.length-1);ui.dpRt='';toast('새 루트를 만들었어요 — 지도에서 몹을 둘러 그려 묶으세요');rrMap();return}
+    if(k==='dup'){const cp=dpCurCopy();R.L.push({n:((R.L[R.i]||{}).n||'루트')+' 복사',p:cp});dpSwitch(R.L.length-1);ui.dpRt='';toast('지금 루트를 복사했어요');rrMap();return}
+    if(k==='ren'||k==='del'||k==='imp'){ui.dpRt=k;rrMap();if(k!=='del'){const t=document.querySelector(k==='ren'?'.mdri':'.mdrin');if(t){t.focus();if(k==='ren')t.select()}}return}
+    if(k==='rensave'){const t=document.querySelector('.mdri');const v=(t&&t.value||'').trim().slice(0,24);if(v){R.L[R.i].n=v;save()}ui.dpRt='';rrMap();return}
+    if(k==='delok'){if(R.L.length>1){const nm=R.L[R.i].n;R.L.splice(R.i,1);const j=Math.max(0,R.i-1);const nx=R.L[j].p;if(nx)DGX.c.dgp[DGX.slug]=nx;else if(DGX.c.dgp)delete DGX.c.dgp[DGX.slug];delete R.L[j].p;R.i=j;ui.dpkI=0;if(ui.dpUndo)delete ui.dpUndo[DGX.slug];if(ui.dpRedo)delete ui.dpRedo[DGX.slug];save();dpFloor();toast('「'+nm+'」 루트를 지웠어요')}ui.dpRt='';rrMap();return}
+    if(k==='exp'){ui.dpRt='exp';ui.dpExp=null;rrMap();const P=dgPlan(DGX.c,DGX.slug,DGX.fl);bkEncode({t:'route',v:1,d:DGX.slug,s:dgSig(DGX.fl),n:(R.L[R.i]||{}).n||'루트',p:P.p.filter(x=>x.length)}).then(code=>{ui.dpExp=code;const t=document.querySelector('.mdrc');if(t)t.value=code});return}
+    if(k==='copy'){const t=document.querySelector('.mdrc');const v=t&&t.value;if(!v||!/^WF1/.test(v))return;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>toast('루트 코드를 복사했어요'),()=>{t.select();toast('코드를 길게 눌러 복사하세요')});return}
+    if(k==='impok'){const t=document.querySelector('.mdrin');const v=(t&&t.value||'').trim();if(!v){ui.dpImpErr='코드를 붙여 넣어 주세요';rrMap();return}
+      dpImport(v).then(n=>{ui.dpRt='';toast('루트를 가져왔어요 · 풀 '+n+'개');rrMap()},er=>{ui.dpRt='imp';ui.dpImpErr=er&&er.message&&!/bad|JSON|atob|Unexpected|token/i.test(er.message)?er.message:'코드를 읽지 못했어요 — 앞뒤 빠진 글자가 없는지 봐 주세요';rrMap();const t2=document.querySelector('.mdrin');if(t2)t2.value=v});return}
+    return}
+  if(a==='dpmenu'){ui.dpMenu=+k<0||ui.dpMenu===+k?null:+k;if(ui.dpMenu!=null&&ui.dpMenu!==(ui.dpkI||0)){ui.dpkI=ui.dpMenu;dpFloor()}rrMap();return}
+  if(a==='dpins'){dgPlanEdit(P=>{const at=+k<0?P.k:P.k+1;P.p.splice(at,0,[]);P.k=at;delete P.auto2;delete P.rp});rrMap();return}
+  if(a==='dpmergd'){dgPlanEdit(P=>{if(P.k<P.p.length-1){P.p[P.k]=P.p[P.k].concat(P.p[P.k+1]);P.p.splice(P.k+1,1)}delete P.auto2;delete P.rp});rrMap(true);return}
+  if(a==='dpclr'){dgPlanEdit(P=>{P.p[P.k]=[];delete P.auto2;delete P.rp});toast('풀을 비웠어요 — 지도에서 몹을 둘러 그리거나 눌러 다시 채우세요');rrMap();return}
   if(a==='dpmv'){dgPlanEdit(P=>{const j=P.k+(+k);if(j<0||j>=P.p.length)return;const t=P.p[j];P.p[j]=P.p[P.k];P.p[P.k]=t;P.k=j;delete P.auto2;delete P.rp});dpFloor();rrMap(true);return}
   if(a==='dpdel'){dgPlanEdit(P=>{P.p.splice(P.k,1);P.k=Math.max(0,P.k-1);delete P.auto2;delete P.rp});dpFloor();rrMap(true);return}
   if(a==='dpauto'){const v=+k;dgPlanEdit(P=>{P.p=dgAuto(DGX.fl,v);P.lv=v;P.auto2=1;delete P.rp;P.k=0});/* 1풀이 있는 층으로 */dpFloor();toast('자동 묶기: '+DPS[v].t+' — 지도에서 눌러 더 고칠 수 있어요');rrMap();return}
