@@ -834,3 +834,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 .mapw .pin.n .bmk{position:absolute;left:50%;top:-14px;transform:translateX(-50%);width:15px;height:15px;pointer-events:none;filter:drop-shadow(0 0 1px #000) drop-shadow(0 1px 1px #000)}
 .mapw .pin.n .bmk svg{width:100%;height:100%;display:block}
 .pcard .pbs{margin:0 0 6px;font-size:12.5px;color:#f0c25a}.pcard .pbs b{color:#ff9f43;margin-right:4px}
+
+/* 위에서 본 지도 그림을 못 받았을 때: 칸은 그대로 두고 몹 자리만 보이게 + 알림 */
+.mapw.noimg3>img{visibility:hidden}
+.mapw.noimg3::before{content:'지도 그림을 못 받았어요 · 몹 자리는 그대로예요';position:absolute;left:50%;bottom:8px;transform:translateX(-50%);max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:4;padding:4px 8px;border-radius:6px;background:rgba(0,0,0,.65);color:#cfc6b3;font-size:12px;pointer-events:none}
+.dgerr{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.dgerr p{margin:0;flex:1 1 220px}

@@ -3506,11 +3506,16 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 .mapw .pin.n .bmk{position:absolute;left:50%;top:-14px;transform:translateX(-50%);width:15px;height:15px;pointer-events:none;filter:drop-shadow(0 0 1px #000) drop-shadow(0 1px 1px #000)}
 .mapw .pin.n .bmk svg{width:100%;height:100%;display:block}
 .pcard .pbs{margin:0 0 6px;font-size:calc(12.5px*var(--fs,1));color:#f0c25a}.pcard .pbs b{color:#ff9f43;margin-right:4px}
+
+/* 위에서 본 지도 그림을 못 받았을 때: 칸은 그대로 두고 몹 자리만 보이게 + 알림 */
+.mapw.noimg3>img{visibility:hidden}
+.mapw.noimg3::before{content:'지도 그림을 못 받았어요 · 몹 자리는 그대로예요';position:absolute;left:50%;bottom:8px;transform:translateX(-50%);max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:4;padding:4px 8px;border-radius:6px;background:rgba(0,0,0,.65);color:#cfc6b3;font-size:calc(12px*var(--fs,1));pointer-events:none}
+.dgerr{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.dgerr p{margin:0;flex:1 1 220px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=ff523dbe"></script>
-<script>/* v65a51b @11/19 22:28 */
+<script>/* v79056e @11/19 23:02 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3518,7 +3523,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/19 22:28';
+const BUILD='11/19 23:02';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -6624,13 +6629,15 @@ function wyBoss(d,nm){const W=wyOf(d);if(!W)return null;const n=wnz(nm);if(!n)re
   return all.find(b=>wnz(b.npc)===n)||all.find(b=>{const m=wnz(b.npc);return m.length>1&&(m.includes(n)||n.includes(m))})||null}
 const NOTHUMB=new Set([10997]);/* 와우헤드에 썸네일이 없는 NPC(404 확인) */
 const npcThumb=id=>id&&id<200000&&!NOTHUMB.has(id)?'https://wow.zamimg.com/modelviewer/classic/webthumbs/npc/'+(id&255)+'/'+id+'.webp':'';
-let DGG=null,DGG_LOAD=false;
-function dggLoad(){wyLoad();if(DGG_LOAD)return;DGG_LOAD=true;const gj=fetch('data/forg/dungeon-guide.json?v='+D_VER.dgg).then(r=>r.ok?r.json():{});
+let DGG=null,DGG_LOAD=false,DGG_ERR=0;
+/* 못 받으면(인터넷 끊김) 빈 자료로 굳히지 않고 다시 받을 수 있게 — 예전엔 한 번 실패하면 새로고침 전까지 지도·풀 짜기가 안 나오고 알림도 없었음 */
+function dggLoad(force){wyLoad();if(DGG_LOAD||(DGG_ERR&&!force))return;DGG_LOAD=true;DGG_ERR=0;const gj=fetch('data/forg/dungeon-guide.json?v='+D_VER.dgg).then(r=>r.ok?r.json():{});
   /* 미리보기: 위에서 본 지도(층·핀·쫄·길·풀)는 따로 받아 붙임 */
-  const m3=PV?fetch('data/guides/dungeon-maps3d.json?v='+(D_VER.m3||'')).then(r=>r.ok?r.json():{}).catch(()=>({})):Promise.resolve({});
+  const m3=PV?fetch('data/guides/dungeon-maps3d.json?v='+(D_VER.m3||'')).then(r=>r.ok?r.json():{}):Promise.resolve({});
   /* 미리보기: 대표 판 재생(워크래프트로그 실제 판, 위에서 본 지도 좌표) */const rp=PV?fetch('data/guides/dungeon-replays.json?v='+(D_VER.rp||'')).then(r=>r.ok?r.json():{}).catch(()=>({})):Promise.resolve({});
   /* 미리보기: FDT(Forever Dungeon Tools) 몹 번호표 — 루트를 FDT 코드로 주고받기 */if(PV&&!FDTM)fetch('data/guides/fdt-map.json?v='+(D_VER.fdt||'')).then(r=>r.ok?r.json():null).then(j=>{FDTM=j||{}}).catch(()=>{FDTM={}});
-  Promise.all([gj,m3,rp]).then(([j,m,r])=>{DGG=j||{};Object.keys(m||{}).forEach(k=>{if(k!=='_'&&DGG[k]&&m[k]&&m[k].floors)DGG[k].f3=m[k].floors});Object.keys(r||{}).forEach(k=>{const R=r[k];if(DGG[k]&&DGG[k].f3&&R&&R.tr&&R.pulls&&DGG[k].f3[R.fl])DGG[k].rp=R});if(ui.tab==='dungeon')rerender(true)}).catch(()=>{DGG={};})}
+  Promise.all([gj,m3,rp]).then(([j,m,r])=>{DGG=j||{};Object.keys(m||{}).forEach(k=>{if(k!=='_'&&DGG[k]&&m[k]&&m[k].floors)DGG[k].f3=m[k].floors});Object.keys(r||{}).forEach(k=>{const R=r[k];if(DGG[k]&&DGG[k].f3&&R&&R.tr&&R.pulls&&DGG[k].f3[R.fl])DGG[k].rp=R});if(ui.tab==='dungeon')rerender(true)}).catch(()=>{if(!DGG)DGG={};DGG_LOAD=false;DGG_ERR=1;if(ui.tab==='dungeon')rerender(true)})}
+addEventListener('online',()=>{if(DGG_ERR)dggLoad(true)});
 const TAGKO={interrupt:'끊기','dispel-magic':'마법 해제','dispel-curse':'저주 해제','dispel-poison':'독 해제','dispel-disease':'질병 치료','no-dispel':'해제 안 됨',avoid:'피하기',spread:'흩어지기',away:'떨어져 서기',wall:'벽 등지기',front:'정면 공격'};
 /* 역할 아이콘: 게임 파티 찾기 둥근 배지처럼 (탱커 파랑 방패 · 딜러 빨강 칼 · 힐러 초록 십자) */
 const RIP={tk:'M12 2.5 19.5 5.2V11c0 5-3.2 8.6-7.5 10.3C7.7 19.6 4.5 16 4.5 11V5.2Z',dp:'M18.6 3H21v2.4L11.2 15.2 8.8 12.8ZM5.4 12.6l6 6-1.3 1.3-1.6-1.6-3 3-1.8-1.8 3-3-1.6-1.6Z',hl:'M9.6 3.5h4.8v6.1h6.1v4.8h-6.1v6.1H9.6v-6.1H3.5V9.6h6.1Z',al:'M12 4.5c4.6 0 8 4.4 9 7.5-1 3.1-4.4 7.5-9 7.5S4 15.1 3 12c1-3.1 4.4-7.5 9-7.5Zm0 3.6a3.9 3.9 0 1 0 0 7.8 3.9 3.9 0 0 0 0-7.8Z'};
@@ -7246,7 +7253,7 @@ document.addEventListener('pointermove',e=>{if(MD.lp&&MD.lpx&&Math.hypot(e.clien
 ['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{clearTimeout(MD.lp);MD.lp=0;if(!MD.on||e.pointerId!==MD.id)return;MD.on=0;if(!MD.drag)return;ui._mdDragAt=Date.now();
   const f=MD.j,t=MD.t==null?f:MD.t;MD.t=null;if(ev==='pointercancel'||t===f){rrMap();return}
   dgPlanEdit(P=>{const x=P.p.splice(f,1)[0];P.p.splice(t,0,x);P.k=t;delete P.auto2;delete P.rp});toast('풀 '+(f+1)+' → '+(t+1)+'번으로 옮겼어요');dpFloor();rrMap(true)},true));
-document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!dpmOn())return;if(ui.mbm){ui.mbm=null;rrMap();return}if(ui.mdSel){ui.mdSel=null;rrMap()}});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!dpmOn())return;if(ui.mbm){e.preventDefault();ui.mbm=null;rrMap();return}if(ui.mdSel){e.preventDefault();ui.mdSel=null;rrMap()}});
 /* 끌기·꾹 누르기 뒤 따라오는 클릭은 무시 */
 document.addEventListener('click',e=>{if(!e.target.closest)return;if(e.target.closest('.mdt .mdl li')&&(Date.now()-(ui._mdDragAt||0)<400||Date.now()-(ui._mdLpAt||0)<700)){e.stopPropagation();e.preventDefault()}},true);
 document.addEventListener('contextmenu',e=>{if(!dpmOn())return;const li=e.target.closest&&e.target.closest('.mdt .mdl li[data-j]');if(li){e.preventDefault();const j=+li.dataset.j;ui.dpMenu=j;if(j!==(ui.dpkI||0)){ui.dpkI=j;dpFloor()}rrMap();return}
@@ -7280,7 +7287,7 @@ function planPanel(c,f,fi){const P=DGX.P;const my=c.lv||1;const k=P.k;const tot=
   let h='<div class="pplan">'
     +'<p class="mute ptip">'+(ui.dpTool!=='pan'?'<b>올가미</b>: 한 손가락으로 몹을 빙 둘러 그리면 <b>다음 풀</b>(지금 풀 몹까지 두르면 <b>지금 풀에 더하기</b>). 그리는 동안 잡힐 몹이 하얗게 보여요. 몹 톡 = 지금 풀(<b style="color:#f0c25a">'+(k+1)+'</b>)에 넣고 빼기. <b>두 손가락</b>으로 지도 밀기·벌려서 확대 · 마우스: <b>오른쪽 버튼 끌기</b> = 지도 이동, <b>Ctrl+휠</b>(크게 보기에선 휠) = 확대.':'<b>이동</b>: 지도를 밀어 움직여요. 몹을 톡 누르면 지금 풀에 넣고 빼기. 묶으려면 오른쪽 위 「이동」을 눌러 「올가미」로.')+'</p>'
     +'<div class="pcard">'+(BK.length?'<p class="pbs"><b>보스</b> '+BK.map(x=>esc(x.nm)).join(', ')+(L.length?'':' — 이 풀은 보스만')+'</p>':'')+(L.length?'<div class="mch"><b>'+g.n+'마리</b><span>'+(g.lo===g.hi?g.lo:g.lo+'–'+g.hi)+'레벨'+(g.el?' · 정예 '+g.el:'')+'</span><em class="dgr '+dg[1]+'">'+dg[0]+'</em>'+(g.pt?'<em class="ptb">순찰 있음</em>':'')+'</div><ul>'+mobRows(g,k+1,my)+'</ul>'
-      +(pn.length?'<p class="warn">순찰 몹이 가까이 지나가요('+pn.join(', ')+') — 지나간 뒤 잡거나 같이 묶기</p>':''):BK.length?'':'<p class="mute">'+(tot?'빈 풀이에요. 지도에서 몹을 올가미로 둘러 그리거나 톡 눌러 넣어 주세요.':'아직 묶은 풀이 없어요. 지도에서 처음 끌 몹들을 손가락으로 빙 둘러 그려 보세요 → 1풀')+'</p>')
+      +(pn.length?'<p class="warn">순찰 몹이 가까이 지나가요('+pn.join(', ')+') — 지나간 뒤 잡거나 같이 묶기</p>':''):BK.length?'':'<p class="mute">'+(tot?'빈 풀이에요. 지도에서 몹을 올가미로 둘러 그리거나 톡 눌러 넣어 주세요.':'아직 묶은 풀이 없어요. 지도에서 처음 끌 몹들을 '+(HOV?'마우스로':'손가락으로')+' 빙 둘러 그려 보세요 → 1풀')+'</p>')
     +(nx?'<p class="mute pnx">'+nx+'</p>':'')+'</div>'
     +'<div class="pauto"><span>자동으로 묶기</span>'+[1,2,3].map(v=>'<button class="chip'+((P.auto||P.auto2)&&!P.rp&&P.lv===v?' on':'')+'" data-a="dpauto" data-k="'+v+'">'+DPS[v].t+'</button>').join('')+(DGX.rp&&DGX.rp.mp?'<button class="chip'+(P.rp?' on':'')+'" data-a="dprp" title="워크래프트로그 실제 판의 지도 풀 순서 그대로">실제 판처럼</button>':'')+(P.empty?'':'<button class="chip ghost" data-a="dpreset">모두 지우기</button>')+'</div>'
     +'<p class="mute psum">풀 '+tot+'개 · 잡는 몹 '+mobs+'마리(정예 '+el+') · 안 잡는 무리 '+skip+' / '+all+(P.empty?' · 아직 묶은 풀 없음':P.auto?' · 자동 추천(보통) 그대로':P.rp?' · 실제 판처럼 묶음 저장됨':P.auto2?' · 자동 묶기('+DPS[P.lv].t+') 저장됨':' · 내가 고친 계획 저장됨')+'</p>';
@@ -7447,7 +7454,9 @@ function dpUndoPush(){if(!DGX||!DGX.c)return;const L=dpStk('dpUndo');L.push(dpSn
 function dpTidy(P,k){if(!P||!Array.isArray(P.p))return 0;const keep=[];let nk=k;P.p.forEach((x,j)=>{if(x.length||j===k)keep.push(x);else if(j<k)nk--});P.p=keep.length?keep:[[]];return Math.max(0,Math.min(nk,P.p.length-1))}
 function dpApply(u){const c=DGX.c;let k=u.k;if(u.p){const P=JSON.parse(u.p);k=dpTidy(P,u.k);c.dgp=Object.assign(c.dgp||{},{[DGX.slug]:P});ui.dpNew=P.p[k]&&!P.p[k].length?DGX.slug:null}else{if(c.dgp)delete c.dgp[DGX.slug];ui.dpNew=null;k=0}save();ui.dpkI=k}
 function mapZoomBtns(f){if(!(PV&&f.w&&f.h))return '';const z=ui.dz||1;const LT=dpmOn()?'<button class="lsob'+(ui.dpTool!=='pan'?' on':'')+'" data-a="dptool" aria-pressed="'+(ui.dpTool!=='pan')+'" aria-label="'+(ui.dpTool!=='pan'?'올가미로 묶는 중 — 누르면 지도 이동':'지도 이동 중 — 누르면 올가미')+'">'+(ui.dpTool!=='pan'?'<svg viewBox="0 0 24 24"><path d="M12 4c-4.6 0-8 2.2-8 5s3.4 5 8 5 8-2.2 8-5-3.4-5-8-5Zm0 2c3.6 0 6 1.6 6 3s-2.4 3-6 3-6-1.6-6-3 2.4-3 6-3Zm-5.3 7.6-1.4 1.1c.7.9.6 2.2-.3 3l-1 .8 1.2 1.6 1-.8c1.7-1.4 2-3.9.5-5.7Z"/></svg><span>올가미</span>':'<svg viewBox="0 0 24 24"><path d="M12 2l3 3h-2v4h4V7l3 3-3 3v-2h-4v4h2l-3 3-3-3h2v-4H7v2l-3-3 3-3v2h4V5H9l3-3Z"/></svg><span>이동</span>')+'</button>':'';const nU=dpmOn()?dpStk('dpUndo').length:0,nR=dpmOn()?dpStk('dpRedo').length:0;const UR=dpmOn()?'<button class="mzu" data-a="dpundo" aria-label="되돌리기" title="되돌리기"'+(nU?'':' disabled')+'><svg viewBox="0 0 24 24"><path d="M9 5 3 10.5 9 16v-3.6c4.6 0 7.7 1.3 10 4.6-.8-4.8-3.6-8.6-10-9.4V5Z"/></svg></button><button class="mzu" data-a="dpredo" aria-label="다시 하기" title="다시 하기"'+(nR?'':' disabled')+'><svg viewBox="0 0 24 24"><path d="M15 5l6 5.5-6 5.5v-3.6c-4.6 0-7.7 1.3-10 4.6.8-4.8 3.6-8.6 10-9.4V5Z"/></svg></button><button class="mzu mzd'+(ui.drOpen?' on':'')+'" data-a="drt" data-k="bar" aria-pressed="'+!!ui.drOpen+'" aria-label="그리기 도구" title="그리기 도구"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25Zm17.7-10.2a1 1 0 0 0 0-1.42l-2.33-2.33a1 1 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/></svg></button>':'';return (UR?'<div class="mz mzl">'+UR+'</div>'+(ui.drOpen?drBar():''):'')+'<div class="mz">'+LT+'<button data-a="dfs" aria-label="'+(ui.dfs?'크게 보기 닫기':'크게 보기')+'">'+(ui.dfs?'✕':'⛶')+'</button><button data-a="dzm" data-k="1" aria-label="확대"'+(z>=4?' disabled':'')+'>+</button><button data-a="dzm" data-k="-1" aria-label="축소"'+(z<=1?' disabled':'')+'>−</button></div>'}
-function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
+/* 자료를 못 받았으면 위에 알림 + 다시 받기(아래는 받은 만큼 — wythic 공략 등) */
+function dgRoute(c,d,tg){const r=dgRoute0(c,d,tg);return DGG_ERR?'<div class="note dgerr"><p>던전 공략·지도 자료를 못 받았어요. 인터넷이 다시 되면 저절로 받아요.</p><button class="btn sm" data-a="dggretry">다시 받기</button></div>'+r:r}
+function dgRoute0(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
   let g=DGG[d.slug];if(ui.dmD!==d.slug){ui.dmD=d.slug;ui.dmsel=null;ui.dz=1;ui.dfs=false;ui.dpall=false;ui.dpkI=0;ui.dpNew=null;ui.drp=0;RP.on=0;RP.t=0;RP.ck=null;ui.drg=null}
   /* 미리보기: 게임 모델로 그린 위에서 본 지도(f3 — 핀·쫄 자리가 게임 좌표 그대로) */const G3=PV&&g&&g.f3&&g.f3.length?g:null;if(G3&&ui.d3!==0)g=Object.assign({},g,{floors:g.f3});if(!g||!(g.steps&&g.steps.length)){
     const W2=wyOf(d);if(!(g&&g.boss)&&W2&&W2.bosses&&W2.bosses.length){/* 신규 던전: wythic.com 공략(입구·보스 순서·기술 한 줄) */const its=dgItems(c,d);
@@ -7479,7 +7488,7 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
     h+='<div class="rmap2">'+(G3?'<div class="chips seg m3"><button class="chip'+(ui.d3!==0?' on':'')+'" data-a="d3" data-k="1">위에서 본 지도</button><button class="chip'+(ui.d3===0?' on':'')+'" data-a="d3" data-k="0">예전 지도</button></div>':'')+(g.floors.length>1?'<div class="chips seg fl">'+g.floors.map((x,i)=>'<button class="chip'+(i===fi?' on':'')+'" data-a="dfl" data-k="'+i+'">'+(i+1)+'층 '+esc(x.name)+'</button>').join('')+'</div>':'')
      +(PV&&f.mob?mobBar(f)+regionChips(f):'')
      +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return (PV&&dpmOn()?'<div class="pmw">':'')+'<div class="mapbox'+(PV&&ui.dfs?' fs':'')+(PV&&dpmOn()?' pm':'')+'"><div class="mapv'+(Z>1?' zm':'')+(PV&&lsoOn()?' lsom':'')+(PV&&drOn()?' drm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&!dpmOn()&&ui.dmsel&&ui.dmob!==0?' sel':'')+(PV&&dpmOn()?' fx':'')+(PV&&drOn()&&ui.drT==='erase'?' drE':'')+(PV&&drpOn()?' rpx':'')+'"'+(()=>{/* 지도 높이를 그림이 아니라 지도 크기(가로:세로)로 정함 — 폰에서 다시 그릴 때 그림이 늦게 풀리면 높이가 잠깐 0이 되어, 밀어 둔 자리가 맨 위로 튀었음(이동·올가미 뒤 「순간이동」) */
-       const st=(Z>1?'width:'+(Z*100)+'%;':'')+(PV&&f.w&&f.h?'aspect-ratio:'+f.w+'/'+f.h:'');return st?' style="'+st+'"':''})()+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
+       const st=(Z>1?'width:'+(Z*100)+'%;':'')+(PV&&f.w&&f.h?'aspect-ratio:'+f.w+'/'+f.h:'');return st?' style="'+st+'"':''})()+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\''+(PV&&f.w&&f.h?'noimg3':'noimg')+'\')">'})()
      +mobLayer(f,fi)
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
         if(num){const pf=PV&&f.pid&&f.pid[String(n)]?npcThumb(f.pid[String(n)]):'';
@@ -8124,7 +8133,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
       /* 확대 중이면 고른 풀·무리가 지도 가운데 오게 */
       const t=ui.dmsel&&v2.classList.contains('zm')&&v2.querySelector('.mpn.on,.mpk.on');if(t){const r=t.getBoundingClientRect(),rv=v2.getBoundingClientRect();v2.scrollLeft+=r.left+r.width/2-(rv.left+rv.width/2);v2.scrollTop+=r.top+r.height/2-(rv.top+rv.height/2)}}if(ui.dmsel){const e=document.querySelector('.mobcard');if(e&&e.getBoundingClientRect().bottom>innerHeight)e.scrollIntoView({block:'nearest',behavior:'smooth'})}return}
   if(a==='mobx'){ui.dmsel=null;const v=document.querySelector('.mapv');const sx=v?v.scrollLeft:0,sy=v?v.scrollTop:0;rerender(true);const v2=document.querySelector('.mapv');if(v2){v2.scrollLeft=sx;v2.scrollTop=sy}return}
-  if(a==='dfs'){ui.dfs=!ui.dfs;rerender(true);return}
+  if(a==='dggretry'){dggLoad(true);rerender(true);return}
+  /* 크게 보기: 폰 뒤로 가기·Esc로 닫힘(퀘스트 지도 「크게 보기」와 같게) — 예전엔 뒤로 가기를 누르면 앱을 나가 버렸음 */
+  if(a==='dfs'){ui.dfs=!ui.dfs;if(ui.dfs){try{history.pushState({dfs:1},'')}catch(e){}}else if(history.state&&history.state.dfs){try{history.back()}catch(e){}}rerender(true);return}
   if(a==='dpall'){ui.dpall=!ui.dpall;rerender(true);return}
   if(a==='dpm'){ui.dpm=k==='1';ui.drp=k==='2'?1:0;if(!ui.drp)rpPlay(0);ui.dmsel=null;
     if(ui.drp){if(DGX&&DGX.rp){ui.dfloor=DGX.rp.fl;if(innerWidth<700&&(ui.dz||1)<2.5)ui.dz=2.5}RP.ck=null;rrMap();setTimeout(()=>rpFollow(true),60);return}
@@ -8312,6 +8323,8 @@ window.addEventListener('popstate',()=>{if(ui.side)sideOn(false)});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ui.side){sideLock(true);if(syOn())syPull(true)}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.side){if(history.state&&history.state.side){try{history.back()}catch(x){sideOn(false)}}else sideOn(false)}});
 window.addEventListener('popstate',()=>{if(ui.amfull){ui.amfull=false;document.body.classList.remove('amfull');rerender(true)}});
+window.addEventListener('popstate',()=>{if(ui.dfs){ui.dfs=false;rerender(true)}});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!ui.dfs||e.defaultPrevented)return;const t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;ui.dfs=false;if(history.state&&history.state.dfs){try{history.back()}catch(x){}}rerender(true)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.amfull){ui.amfull=false;document.body.classList.remove('amfull');if(history.state&&history.state.amfull){try{history.back()}catch(x){}}rerender(true)}});
 
 /* 퀘스트 창 → 「지도에서 크게」 → 다시 보던 퀘스트 창으로 (버튼·뒤로 가기) */
