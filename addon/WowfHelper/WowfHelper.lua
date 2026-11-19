@@ -1,4 +1,4 @@
--- 와포 도우미 (WowfHelper) v3.9
+-- 와포 도우미 (WowfHelper) v4.0
 -- 이 캐릭터 정보를 글자 코드로 만들어 줘요:
 --   끝낸 퀘스트 · 지금 퀘스트 목록(+ 목표 진행도) · 끼고 있는 장비 · 전문기술 숙련도 · 특성 포인트 · 경험치
 --   사냥 기록(시간당 경험치) · 가방·은행 아이템 · 골드 · 평판 · 이 컴퓨터의 부캐
@@ -18,6 +18,8 @@
 -- /wfh 입구   기억한 동굴·광산 입구 보기
 -- /wfh 길     게임 안 길 안내 창 켜기/끄기 (/wfh 길 다음 · 이전 · 처음)
 -- /wfh 아이템 앱 장비 목록을 게임에서 천천히 읽어 두기 (ItemScan.lua)
+-- /wfh 풀     던전 풀 따라가기 창 (Pull.lua · 앱 풀 짜기 루트를 WFP1 코드로)
+-- v4.0: 던전 풀 따라가기(Pull.lua) — 앱에서 짠 풀을 화면에 띄우고, 몹이 다 죽으면 다음 풀로 · 정한 표식 달기.
 -- v3.4: 게임이 알려 주는 퀘스트 위치(목표·반납·길안내 다음 지점), 동굴 입구, 퀘스트 받은/반납한 자리도 코드에 담아요.
 -- v3.5: 끼고 있는 장비의 실제 능력치(게임이 읽은 값)와 무작위 옵션 이름(「산적의 ○○」)도 담아요.
 -- v3.7: 게임 안 길 안내(Nav.lua) — 앱 레벨업 단계를 화면에 화살표로, 퀘스트를 받거나 반납하면 다음 단계로.
@@ -782,8 +784,12 @@ SlashCmdList["WOWFHELPER"] = function(msg)
     say("|cffffd100/wfh 점검|r 담긴 개수 · |cffffd100/wfh 설정|r 켜고 끈 상태 · |cffffd100/wfh 공략|r 보스 창 · |cffffd100/wfh 알림|r 알림 · |cffffd100/wfh 입구|r 기억한 동굴 입구 · |cffffd100/wfh 추천 지우기|r")
     say("|cffffd100/wfh 길|r 게임 안 길 안내 창 (|cffffd100/wfh 길 다음|r · 이전 · 처음)")
     say("|cffffd100/wfh 아이템|r 앱 장비 목록을 게임에서 읽어 두기 (멈춤 · 처음 · 다시 · 지우기)")
+    say("|cffffd100/wfh 풀|r 던전 풀 따라가기 창 (|cffffd100/wfh 풀 넣기|r · 다음 · 이전 · 처음 · 표식 · 지우기)")
   elseif msg == "길" or msg == "nav" or msg:find("^길 ") or msg:find("^nav ") then
     if WowfHelper_NavCmd then WowfHelper_NavCmd((msg:gsub("^길", ""):gsub("^nav", ""))) end
+  elseif msg == "풀" or msg == "pull" or msg:find("^풀 ") or msg:find("^pull ") then
+    if WowfHelper_PullCmd then WowfHelper_PullCmd((msg:gsub("^풀", ""):gsub("^pull", "")))
+    else say("풀 따라가기 파일(Pull.lua)이 없어요. 애드온을 새로 받아 주세요.") end
   elseif msg == "다음" or msg == "next" then
     local L = D.rec and D.rec.n
     if not L or #L == 0 then say("앱 동선이 없어요. 앱 「장비 → 게임 툴팁에 추천 넣기」 코드를 /wfh 추천 으로 넣어 주세요.")
@@ -1019,6 +1025,11 @@ function WowfHelper_RecBox()
     recBox.info = info
     local ok = CreateFrame("Button", nil, recBox, "UIPanelButtonTemplate"); ok:SetSize(100, 24); ok:SetPoint("BOTTOMRIGHT", -14, 12); ok:SetText("확인")
     local function apply()
+      -- 던전 풀 코드(WFP1)를 이 창에 넣어도 받아 줌
+      if (eb:GetText() or ""):find("WFP1;", 1, true) and WowfHelper_PullLoad then
+        if WowfHelper_PullLoad(eb:GetText()) then recBox:Hide() else info:SetText("|cffff6060풀 코드를 읽지 못했어요.|r 앱에서 다시 복사해 주세요.") end
+        return
+      end
       local rec, n = parseRec(eb:GetText() or "")
       if not rec then info:SetText("|cffff6060WFR1; 로 시작하는 코드가 아니에요.|r 앱 장비 탭 → 「게임 툴팁에 추천 넣기」에서 복사해 주세요."); return end
       WowfHelperDB = WowfHelperDB or {}

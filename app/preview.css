@@ -792,3 +792,39 @@ html:has(.pmw),html:has(.pmw) body{overflow-anchor:none}
 .mapw .dnpop.up{transform:translate(-50%,calc(-100% - 16px))}
 .mapw .dnpop.lf{transform:translate(-14px,16px)}.mapw .dnpop.rt{transform:translate(calc(-100% + 14px),16px)}
 .mapw .dnpop.up.lf{transform:translate(-14px,calc(-100% - 16px))}.mapw .dnpop.up.rt{transform:translate(calc(-100% + 14px),calc(-100% - 16px))}
+/* 몹 메뉴(MDT 오른쪽 클릭) · 표식 */
+.mapw .mmk{position:absolute;transform:translate(-50%,-135%);z-index:4;width:15px;height:15px;pointer-events:none;filter:drop-shadow(0 0 1px #000) drop-shadow(0 1px 1px #000)}
+.mapw .mmk svg{width:100%;height:100%;display:block}
+@media (min-width:900px){.mapw .mmk{width:17px;height:17px}}
+.mapw .mbm{position:absolute;transform:translate(-50%,18px);z-index:14;min-width:220px;max-width:280px;padding:9px;border-radius:10px;background:#15110cf7;border:1px solid var(--gold2);box-shadow:0 8px 22px rgba(0,0,0,.65);font-size:12.5px;color:#efe7d6}
+.mapw .mbm.up{transform:translate(-50%,calc(-100% - 18px))}.mapw .mbm.lf{transform:translate(-16px,18px)}.mapw .mbm.rt{transform:translate(calc(-100% + 16px),18px)}
+.mapw .mbm.up.lf{transform:translate(-16px,calc(-100% - 18px))}.mapw .mbm.up.rt{transform:translate(calc(-100% + 16px),calc(-100% - 18px))}
+.mbm .mbh{margin:0 0 7px;display:grid;gap:2px}.mbm .mbh b{font-size:13.5px;color:#fff}.mbm .mbh small{color:#c9bfa9;font-size:11.5px}
+.mbm .mbsc{display:flex;gap:4px;margin-bottom:6px}.mbm .mbsc button{flex:1;height:30px;border-radius:7px;border:1px solid var(--line);background:#1d1811;color:var(--txt);font:600 12px/1 system-ui,sans-serif;cursor:pointer}
+.mbm .mbsc button.on{background:#f0c25a;color:#16130e;border-color:#f0c25a}
+.mbm .mbr{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}.mbm .mbr .btn{min-height:32px}
+.mbm .mbch,.mbm .mbmk{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-bottom:6px}
+.mbm .mbch span,.mbm .mbmk span{font-size:11px;color:#a59a84;margin-right:2px}
+.mbm .mbch button{min-width:28px;height:28px;border-radius:6px;border:0;background:var(--c,#3a3226);color:#0d0a06;font:800 12px/1 system-ui,sans-serif;cursor:pointer;padding:0 5px}
+.mbm .mbch button:last-child{background:#2a2318;color:#f0c25a;border:1px solid #5a4d35}
+.mbm .mbch button.on{outline:2px solid #fff;outline-offset:1px;opacity:1}
+.mbm .mbmk button{width:30px;height:30px;border-radius:7px;border:1px solid var(--line);background:#1d1811;color:#d8cfbd;padding:4px;cursor:pointer}
+.mbm .mbmk button svg{width:100%;height:100%;display:block}.mbm .mbmk button.on{border-color:#fff;background:#2c2418}
+.mbm .mbinfo{border-top:1px solid var(--line);padding-top:6px;margin-bottom:6px}.mbm .mbinfo p{margin:0 0 3px}
+.mbm .mbf{margin:0;justify-content:flex-end}
+.mdt .mdf .mdfc.bs{border:2px dashed #ff9f43;width:28px;height:28px}
+/* 여러 풀 고르기 · Alt+끌기 */
+.mdt .mdl li.sel{box-shadow:0 0 0 2px #f0c25a;background:#2a2212}
+.mdt .mdl li.sel.on{box-shadow:0 0 0 2px #f0c25a,0 0 0 4px #fff}
+.mdt .mdl li.sel .mdn::after{content:'✓';position:absolute;right:2px;bottom:1px;font-size:10px;color:#111}
+.mdt .mdl li .mdn{position:relative}
+.mdt .mdsb{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:6px;border-bottom:1px solid var(--line);background:#2a2212}
+.mdt .mdsb p{grid-column:1/-1;margin:0 2px;font-size:11px;color:var(--mute);line-height:1.4}
+.mdt .mdsb p b{font-size:12px;color:#f0c25a;margin-right:4px}
+.mdt .mdsb .btn{padding:0 4px;min-width:0}
+.mdt .mdl li.pdt,.mdt .mdadd.pdt{box-shadow:0 0 0 2px #f0c25a,0 0 12px #f0c25a88}
+.pdg{position:fixed;z-index:999;pointer-events:none;transform:translate(10px,10px);background:#1c1710;border:1px solid #f0c25a;color:#f5ecd8;border-radius:6px;padding:2px 7px;font-size:12px;white-space:nowrap}
+.pdg[data-t]:not([data-t=""])::after{content:' → ' attr(data-t);color:#f0c25a}
+html.pdgo,html.pdgo *{cursor:grabbing!important}
+.mapw .mbm{overflow:auto;overscroll-behavior:contain}
+.mapw .mbm.sheet{position:fixed;left:8px!important;right:8px;width:auto;box-sizing:border-box;background:#15110c;top:auto!important;transform:none!important;min-width:0;max-width:none;z-index:40;box-shadow:0 -6px 24px rgba(0,0,0,.7)}
