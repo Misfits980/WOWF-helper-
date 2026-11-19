@@ -564,3 +564,38 @@
 .rpdi{width:18px;height:18px;border-radius:50%;background:var(--c);border:1.5px solid #0d0c0a;display:grid;place-items:center;box-sizing:border-box}
 .rpdi svg{width:11px;height:11px;fill:#16130e}
 .rpdi.tk{box-shadow:0 0 0 1.5px #8fd3ff}
+/* 쫄 얼굴 동그라미(keystone.guru처럼): 테두리 = 풀 색, 그림 없으면 종족 그림 */
+.mapw .mi.ph,.mi.sm.ph{background:#1b1712;border:2px solid var(--c);overflow:hidden}
+.mapw .mi.ph svg,.mi.sm.ph svg{fill:#cfc6b2}
+.mapw .mi img,.mi.sm img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.mapw .mi.ph{width:15px;height:15px}
+.mapv.zm .mapw .mi.ph{width:19px;height:19px}
+@media (min-width:900px){.mapw .mi.ph{width:19px;height:19px}}
+.mapw .mi.ph.e{box-shadow:0 0 0 1.5px #f3cf6a}
+.mapw.rpx .mi.ph.mcu{box-shadow:0 0 0 2px #f0c25a,0 0 6px #f0c25a}
+.mapw.fx .mi.ph.off,.mapw.rpx .mi.ph.off{border-color:#9a927f}
+.mapw .pin.n.pf{width:30px;height:30px;padding:0;background-size:cover;background-position:center;border:2px dashed #ff9f43;box-shadow:0 0 0 1.5px #0d0c0a}
+.mapw .pin.n.pf b{position:absolute;right:-8px;bottom:-7px;min-width:16px;height:16px;padding:0 2px;box-sizing:border-box;border-radius:8px;background:#1a1208;border:1.5px solid #e8c170;color:#f2d488;font-size:10px;line-height:13px;text-align:center}
+.mapw .pin.n.pf.kd{filter:grayscale(.85);opacity:.75}
+.mapw .mobpat .rleg{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.9;filter:drop-shadow(0 0 1px #000)}
+.mapw .mobpat .rleg.dn{opacity:.28}
+.mapw .mobpat .rleg.st{stroke-dasharray:5 4}
+/* 풀 목록(keystone.guru 오른쪽 칸처럼) */
+.rpsl.lst{max-height:300px;overflow:auto;gap:3px;overscroll-behavior:contain}
+.rpsl.lst li{display:block}
+.rpsl.lst li button{display:flex;align-items:center;gap:7px;width:100%;padding:4px 6px;border-radius:8px;border:1px solid transparent;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.rpsl.lst li button:hover{background:#221c14}
+.rpsl.lst li.on button{border-color:#f0c25a;background:#2a2110}
+.rpsl.lst li.nx button{border-color:#6fb7ff}
+.rpsl.lst li.dn{opacity:.45}
+.rpsl.lst li .pnum{flex:0 0 auto}
+.rpsl.lst li .v{margin-left:auto}
+.rpfs{display:flex;flex-wrap:wrap;gap:4px}
+.rpfc{position:relative;width:24px;height:24px;border-radius:50%;background:#1b1712;border:1.5px solid #5a5141;display:inline-grid;place-items:center;flex:0 0 auto}
+.rpfc svg{width:15px;height:15px;fill:#cfc6b2}
+.rpfc img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.rpfc b{position:absolute;right:-5px;bottom:-4px;min-width:13px;height:13px;padding:0 2px;box-sizing:border-box;border-radius:7px;background:#e23b2e;color:#fff;font:700 9px/13px system-ui,sans-serif;text-align:center}
+.rpfc.bs{width:28px;height:28px;border:2px dashed #ff9f43}
+.rpsl.lst li.lb .lbn{font:700 10.5px/16px system-ui,sans-serif;padding:0 5px;border-radius:5px;border:1px solid #f3cf6a;color:#f3cf6a;background:#2a2110}
+.rpsl.lst li.lb b{color:#f3cf6a}
+.mobtg .mleg .rtl{border-top:3px solid #f0c25a;border-image:linear-gradient(90deg,#f0c25a,#6fb7ff 50%,#ef6f9a) 1;box-shadow:none}

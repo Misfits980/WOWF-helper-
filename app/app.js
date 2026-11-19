@@ -3277,14 +3277,14 @@ function selOf(m,fi,i){const n=planNo(fi,i);return n?'p:'+n:'k:'+fi+':'+i}
 function mobBar(f){const on=ui.dmob!==0;const PM=dpmOn(),RPm=drpOn();const np=RPm?DGX.rp.mp.length:DGX&&DGX.P?DGX.P.p.filter(x=>x.length).length:0;
   return '<div class="mobtg">'+(DGX&&DGX.pl?'<div class="chips seg dpm"><button class="chip'+(!PM&&!RPm?' on':'')+'" data-a="dpm" data-k="0">지도 보기</button><button class="chip'+(PM?' on':'')+'" data-a="dpm" data-k="1">탱 풀 짜기</button>'+(DGX.rp?'<button class="chip'+(RPm?' on':'')+'" data-a="dpm" data-k="2">실제 판 재생</button>':'')+'</div>':'')
   +(PM||RPm?'':'<button class="chip'+(on?' on':'')+'" data-a="dmob">쫄 '+(on?'보이기':'숨김')+'</button>')
-  +(RPm?'<span class="mleg"><i class="rtl"></i>탱이 걸은 길<i class="lgf fc"></i>지금 싸우는 풀<i class="rpe lg"></i>싸우는 몹<i class="mi lg dd"></i>끝낸 풀</span><button class="chip'+(ui.rpAll?' on':'')+'" data-a="rpall">안 잡은 무리도 '+(ui.rpAll?'보임':'숨김')+'</button>':PM?'<span class="mleg"><i class="lgf fc"></i>지금 풀<i class="lgf fn"></i>다음 풀<i class="mi lg" style="--c:#a59c8a"></i>다른 풀<i class="mi lg off2"></i>안 잡음<i class="mrt tk"></i>탱 동선</span>':on?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
+  +(RPm?'<span class="mleg"><i class="rtl"></i>풀 순서 길<i class="lgf fc"></i>지금 싸우는 풀<i class="rpe lg"></i>싸우는 몹<i class="mi lg dd"></i>끝낸 풀</span><button class="chip'+(ui.rpAll?' on':'')+'" data-a="rpall">안 잡은 무리도 '+(ui.rpAll?'보임':'숨김')+'</button>':PM?'<span class="mleg"><i class="lgf fc"></i>지금 풀<i class="lgf fn"></i>다음 풀<i class="mi lg" style="--c:#a59c8a"></i>다른 풀<i class="mi lg off2"></i>안 잡음<i class="mrt tk"></i>탱 동선</span>':on?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
   +'<span class="mute">'+(np?'풀 '+np+' · ':'')+'무리 '+f.mob.p.length+' · 순찰 '+f.mob.t.length+'</span></div>'}
 /* ── 탱 동선: 층 길찾기 칸 그림(data/dgmap/*-nav.png)을 받아 브라우저에서 풀 → 풀 길 찾기 ── */
 const NAVC={},SEGC={};
 function navLoad(f){const n=f.nav;if(!n)return null;if(NAVC[n.img])return NAVC[n.img]&&NAVC[n.img].ok?NAVC[n.img]:null;NAVC[n.img]={};const im=new Image();
   im.onload=()=>{try{const cv=document.createElement('canvas');cv.width=n.gw;cv.height=n.gh;const x=cv.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0);const d=x.getImageData(0,0,n.gw,n.gh).data;
     const N=n.gw*n.gh,R=new Uint8Array(N),G=new Uint8Array(N),A=new Uint8Array(N);for(let i=0;i<N;i++){R[i]=d[i*4];G[i]=d[i*4+1];A[i]=d[i*4+3]}
-    NAVC[n.img]={ok:1,R,G,A,n};if(ui.dpm&&ui.tab==='dungeon')rrMap(true)/* 예전엔 rerender라 지도 스크롤이 0,0으로 돌아가 지금 풀이 가장자리에 놓였음 */}catch(e){NAVC[n.img]={bad:1}}};
+    NAVC[n.img]={ok:1,R,G,A,n};if((ui.dpm||ui.drp)&&ui.tab==='dungeon')rrMap(!!ui.dpm)/* 예전엔 rerender라 지도 스크롤이 0,0으로 돌아가 지금 풀이 가장자리에 놓였음 */}catch(e){NAVC[n.img]={bad:1}}};
   im.onerror=()=>{NAVC[n.img]={bad:1}};im.src=n.img;return null}
 function navSnap(V,x,y){const n=V.n;const cx=Math.floor(x/n.kx),cy=Math.floor(y/n.ky);let best=-1,bd=1e9;for(let r=0;r<=12&&best<0;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){const X=cx+dx,Y=cy+dy;if(X<0||Y<0||X>=n.gw||Y>=n.gh)continue;const i=Y*n.gw+X;if(V.A[i]===255){const dd=dx*dx+dy*dy;if(dd<bd){bd=dd;best=i}}}return best}
 function navPath(V,s,t){const n=V.n,W=n.gw,H=n.gh,N=W*H;const key=n.img+':'+s+':'+t;if(SEGC[key])return SEGC[key];
@@ -3339,7 +3339,7 @@ function mobLayer(f,fi){const RQ=drpOn()&&DGX.rp.fl===fi?DGX.rp:null;if(!(PV&&f.
     if(!(m[9]&&m[9].length)){h+='<button class="mob'+(m[8]?' rr':m[4]?' el':'')+(pt.has(i)?' pt':'')+(on?' on':'')+DP+'" style="left:'+m[0]+'%;top:'+m[1]+'%;--n:'+Math.min(m[2],6)+'"'+act+' aria-label="'+lab+'"></button>';return}
     let R=0;m[9].forEach(q=>{R=Math.max(R,Math.hypot(q[0]-m[0],(q[1]-m[1])*H/W))});
     h+='<button class="mpk'+(on?' on':'')+(PM?' pm':'')+'" style="left:'+m[0]+'%;top:'+m[1]+'%;width:'+(2*R+1.6).toFixed(2)+'%"'+act+' aria-label="'+lab+(PM?(n?' · 누르면 빼기':' · 누르면 지금 풀에 넣기'):'')+'"></button>';
-    h+=m[9].map(q=>{const x=m[7][q[2]]||[];return '<i class="mi '+mobRk(x[2])+(on?' on':'')+(n?'':' off')+DP+'" style="left:'+q[0]+'%;top:'+q[1]+'%;--c:'+pCol(n)+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x[5]]?x[5]:0)+'"/></svg></i>'}).join('');
+    h+=m[9].map(q=>{const x=m[7][q[2]]||[];return '<i class="mi '+mobRk(x[2])+(M.id&&M.id[x[0]]?' ph':'')+(on?' on':'')+(n?'':' off')+DP+'" style="left:'+q[0]+'%;top:'+q[1]+'%;--c:'+pCol(n)+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x[5]]?x[5]:0)+'"/></svg>'+(M.id&&M.id[x[0]]?'<img src="'+npcThumb(M.id[x[0]])+'" alt="" loading="lazy" onerror="this.remove()">':'')+'</i>'}).join('');
     if(n&&!RQ){const u=PU[n]||(PU[n]={x:0,y:0,c:0});m[9].forEach(q=>{u.x+=q[0];u.y+=q[1];u.c++})}});
   Object.entries(PU).forEach(([n,u])=>{const k='p:'+n;h+='<button class="mpn'+(sel===k?' on':'')+(FX?(+n===FX.FC?' fc':+n===FX.FN?' fn':' mini'):'')+'" style="left:'+(u.x/u.c).toFixed(1)+'%;top:'+(u.y/u.c).toFixed(1)+'%;--c:'+pCol(+n)+'" data-a="'+(PM?'dpsel':'mobi')+'" data-k="'+(PM?(+n-1):k)+'" aria-label="풀 '+n+'">'+n+'</button>'});
   if(RQ)h+=rpMarks(RQ);
@@ -3389,9 +3389,14 @@ function rpState(R,t){if(!R._mp)rpNo(R.fl,0);const cs=new Set();let t0=1e9;(R.mb
   const cur=[...cs].sort((a,b)=>a-b),done=new Set();let nx=-1;R.mp.forEach((p,j)=>{if(cs.has(j))return;if(p.k.every(i=>R.dead[i]!=null&&R.dead[i]<=t))done.add(j);else if(nx<0&&t<p.t[0])nx=j});return {cur,done,nx,t0}}
 const rpLab=js=>{if(!js.length)return '';const a=js.map(j=>j+1);let s=[],i=0;while(i<a.length){let k=i;while(k+1<a.length&&a[k+1]===a[k]+1)k++;s.push(k>i?a[i]+'–'+a[k]:''+a[i]);i=k+1}return s.join(', ')+'풀'};
 function rpBands(R,f,st,W,H){let s='';R.mp.forEach((p,j)=>{if(st.done.has(j))return;s+=fBand(f,p.k,'rpb'+(st.cur.includes(j)?' cu':j===st.nx?' nx':''),W,H,pCol(j+1))});return s}
-function rpSvg(R,W,H){const f=DGX.fl[R.fl],st=rpState(R,RP.t),tr=R.tr[rpTk(R)];const rt=R.rt||[];let d='';for(let i=0;i<rt.length;i+=2)d+=(d?'L':'M')+(rt[i]*W/100).toFixed(1)+','+(rt[i+1]*H/100).toFixed(1);
+/* 풀 → 다음 풀 길(keystone.guru처럼 다음 풀 색): 층 길찾기 칸 그림으로, 아직 안 받았거나 못 찾으면 곧은 선 */
+function rpLegs(R,f){if(R._legs)return R._legs;const V=navLoad(f);const L=[];for(let j=1;j<R.mp.length;j++){const a=R.mp[j-1],b=R.mp[j];let pts=[[a.x,a.y],[b.x,b.y]],ok=0;
+    if(V){const s=navSnap(V,a.x,a.y),t=navSnap(V,b.x,b.y);const r=s>=0&&t>=0?navPath(V,s,t):null;if(r&&r.pts&&r.pts.length){pts=[[a.x,a.y]].concat(r.pts,[[b.x,b.y]]);ok=1}}L.push({j,pts,ok})}
+  if(V)R._legs=L;return L}
+function rpLegSvg(R,f,st,W,H){return rpLegs(R,f).map(g=>'<path class="rleg'+(st.done.has(g.j)&&st.done.has(g.j-1)?' dn':'')+(g.ok?'':' st')+'" style="stroke:'+pCol(g.j+1)+'" d="M'+g.pts.map(q=>(q[0]*W/100).toFixed(1)+','+(q[1]*H/100).toFixed(1)).join('L')+'"/>').join('')}
+function rpSvg(R,W,H){const f=DGX.fl[R.fl],st=rpState(R,RP.t),tr=R.tr[rpTk(R)];
   const nx=st.nx>=0&&!st.cur.length?R.mp[st.nx].t[0]:0;
-  return '<defs>'+fArrow(W,H)+'</defs><g id="rpgrp" data-k="'+st.cur.join('.')+'|'+st.nx+'|'+st.done.size+'">'+rpBands(R,f,st,W,H)+'</g><path class="rtw0" d="'+d+'"/><path class="rtw" d="'+d+'"/><path class="rpnx" id="rpnx" marker-end="url(#farw)" d="'+(nx?rpSeg(tr,RP.t,nx,W,H):'')+'"/>'}
+  return '<defs>'+fArrow(W,H)+'</defs><g id="rpgrp" data-k="'+st.cur.join('.')+'|'+st.nx+'|'+st.done.size+'">'+rpBands(R,f,st,W,H)+'</g><g id="rplegs">'+rpLegSvg(R,f,st,W,H)+'</g><path class="rpnx" id="rpnx" marker-end="url(#farw)" d="'+(nx?rpSeg(tr,RP.t,nx,W,H):'')+'"/>'}
 const rpPk=(R,st,i)=>{const j=R._mp[i];return j==null?' off':st.done.has(j)?' mdn':st.cur.includes(j)?' mcu':''};
 function rpThumb(gid){const u=npcThumb(gid);return u?'<img src="'+u+'" alt="" loading="lazy" onerror="this.remove()">':''}
 function rpMarks(R){const st=rpState(R,RP.t);let h='';const TY={};DGX.fl[R.fl].mob.p.forEach(m=>m[7].forEach(x=>{if(TY[x[0]]==null)TY[x[0]]=x[5]}));
@@ -3422,21 +3427,27 @@ function rpPanel(c,f,fi){const R=DGX.rp;const st=rpState(R,RP.t);const nk=R.mp.r
     +'<span class="rpt" id="rpt">'+mmss(RP.t)+' / '+mmss(R.dur)+'</span><span class="rpsp" role="group" aria-label="빠르기">'+[10,30,60].map(v=>'<button class="chip'+(RP.sp===v?' on':'')+'" data-a="rps" data-k="'+v+'">×'+v+'</button>').join('')+'</span></div>'
     +'<div class="rprw"><input type="range" class="rpr" id="rpr" data-c="rpt" min="0" max="'+R.dur+'" step="1" value="'+Math.round(RP.t)+'" aria-label="재생 위치">'+rpTicks(R)+'</div>'
     +'<div class="pcard rpcard" id="rpcard">'+rpCard(R,st,RP.t,0)+'</div>'
-    +'<div class="pcard rpsd"><div class="chips rpsh" id="rpsh">'+rpSideHead(R,RP.t)+'</div><ul class="rpsl" id="rpsl">'+rpSide(R,RP.t)+'</ul></div>'
+    +'<div class="pcard rpsd"><div class="chips rpsh" id="rpsh">'+rpSideHead(R,RP.t)+'</div><ul class="rpsl'+((ui.rpTab||'l')==='l'?' lst':'')+'" id="rpsl" data-tab="'+(ui.rpTab||'l')+'">'+rpSide(R,RP.t)+'</ul></div>'
     +'<div class="rpparty">'+R.party.map(p=>'<span><i'+(p.r==='T'?' class="tk"':'')+' style="--c:'+(RPC[p.c]||'#ccc')+'"></i>'+esc(RPK[p.c]||p.c||'?')+(p.r==='T'?' · 탱':'')+'</span>').join('')+'</div>'
-    +'<p class="mute rpsrc">워크래프트로그에 올라온 실제 판 한 개 · '+R.party.length+'명 · '+mmss(R.dur)+(R.kill?' · 끝까지 깸':'')+' · 죽음 '+R.pd.length+' · 지도 무리 '+np+'개 중 '+nk+'개를 '+R.mp.length+'풀로 잡음(가까운 무리끼리 묶어 번호 = 잡은 순서). 안 잡은 무리는 숨겼어요. 흰 점선 = 탱이 실제로 걸은 길. 플레이어 이름은 빼고 직업만 보여 줘요.</p></div>'}
+    +'<p class="mute rpsrc">워크래프트로그에 올라온 실제 판 한 개 · '+R.party.length+'명 · '+mmss(R.dur)+(R.kill?' · 끝까지 깸':'')+' · 죽음 '+R.pd.length+' · 지도 무리 '+np+'개 중 '+nk+'개를 '+R.mp.length+'풀로 잡음(가까운 무리끼리 묶어 번호 = 잡은 순서). 안 잡은 무리는 숨겼어요. 풀 사이 색 선 = 다음 풀로 가는 길(지도 바닥으로 찾은 길, 점선은 못 찾아 곧게 이은 것). 몹 얼굴이 없는 몹은 종족 그림. 플레이어 이름은 빼고 직업만 보여 줘요.</p></div>'}
 function rpDraw(){const R=DGX&&DGX.rp;if(!R||!drpOn())return false;const sv=document.querySelector('.mapw .mobpat');if(!sv||!document.getElementById('rpd-0'))return false;const t=RP.t,vb=sv.viewBox.baseVal,W=vb.width,H=vb.height;
   R.party.forEach((p,k)=>{const e=document.getElementById('rpd-'+k);const q=rpAt(R.tr[k],t);if(e&&q){e.style.left=q[0].toFixed(2)+'%';e.style.top=q[1].toFixed(2)+'%'}});
   const st=rpState(R,t),tr=R.tr[rpTk(R)];const nxp=document.getElementById('rpnx');if(nxp)nxp.setAttribute('d',st.nx>=0&&!st.cur.length?rpSeg(tr,t,R.mp[st.nx].t[0],W,H):'');
   const nf=rpMobsDraw(R,t);
   const fk=st.cur.join('.')+'|'+st.nx+'|'+st.done.size;const gp=document.getElementById('rpgrp');
-  if(gp&&gp.dataset.k!==fk){gp.dataset.k=fk;gp.innerHTML=rpBands(R,DGX.fl[R.fl],st,W,H);
+  if(gp&&gp.dataset.k!==fk){gp.dataset.k=fk;gp.innerHTML=rpBands(R,DGX.fl[R.fl],st,W,H);const lg=document.getElementById('rplegs');if(lg)lg.innerHTML=rpLegSvg(R,DGX.fl[R.fl],st,W,H);
     document.querySelectorAll('.mapw [data-p]').forEach(e=>{const c=rpPk(R,st,+e.dataset.p);e.classList.toggle('mdn',c===' mdn');e.classList.toggle('mcu',c===' mcu')});
     R.mp.forEach((p,j)=>{const e=document.getElementById('rpn-'+j);if(e){e.classList.toggle('dn',st.done.has(j));e.classList.toggle('on',st.cur.includes(j));e.classList.toggle('nx',j===st.nx&&!st.cur.includes(j))}})}
   const r=document.getElementById('rpr');if(r&&Date.now()-RP.dragAt>400)r.value=Math.round(t);const tt=document.getElementById('rpt');if(tt)tt.textContent=mmss(t)+' / '+mmss(R.dur);
   const cd=document.getElementById('rpcard');if(cd&&(RP.ck!==fk||!cd.dataset.k)){RP.ck=fk;cd.dataset.k=fk;cd.innerHTML=rpCard(R,st,t,nf)}
   const set=(id,v)=>{const e=document.getElementById(id);if(e&&e.textContent!==String(v))e.textContent=v};
-  if(!RP.on||Date.now()-(RP.sideAt||0)>250){RP.sideAt=Date.now();const sl=document.getElementById('rpsl'),sh=document.getElementById('rpsh');if(sl){const x=rpSide(R,t);if(sl.innerHTML!==x)sl.innerHTML=x}if(sh){const x=rpSideHead(R,t);if(sh.innerHTML!==x)sh.innerHTML=x}}
+  if(!RP.on||Date.now()-(RP.sideAt||0)>250){RP.sideAt=Date.now();const sl=document.getElementById('rpsl'),sh=document.getElementById('rpsh');const tab=ui.rpTab||'l';
+    /* 풀 목록은 한 번 그리고 상태만 바꿈(얼굴 그림 다시 안 받고 스크롤 그대로), 지금·다음 풀이 목록 안에서 보이게 */
+    if(sl){sl.classList.toggle('lst',tab==='l');if(tab==='l'){if(sl.dataset.tab!=='l'){sl.innerHTML=rpSide(R,t);sl.dataset.tab='l';sl.dataset.fk=''}
+        if(sl.dataset.fk!==fk){sl.dataset.fk=fk;R.mp.forEach((p,j)=>{const e=document.getElementById('rpl-'+j);if(e){e.classList.toggle('dn',st.done.has(j));e.classList.toggle('on',st.cur.includes(j));e.classList.toggle('nx',j===st.nx&&!st.cur.includes(j))}});
+          const fo=document.getElementById('rpl-'+(st.cur.length?st.cur[0]:st.nx));if(fo){const top=fo.offsetTop-sl.offsetTop;if(top<sl.scrollTop||top>sl.scrollTop+sl.clientHeight-fo.offsetHeight)sl.scrollTop=Math.max(0,top-sl.clientHeight/3)}}}
+      else{sl.dataset.tab=tab;const x=rpSide(R,t);if(sl.innerHTML!==x)sl.innerHTML=x}}
+    if(sh){const x=rpSideHead(R,t);if(sh.innerHTML!==x)sh.innerHTML=x}}
   if(st.cur.length){set('rpel',Math.max(0,Math.round(t-st.t0)));set('rpnf',nf)}else if(st.nx>=0)set('rpcd',Math.max(0,Math.round(R.mp[st.nx].t[0]-t)));
   return true}
 function rpFollow(force){const v=document.querySelector('.mapv.zm');const R=DGX&&DGX.rp;const e=R&&document.getElementById('rpd-'+rpTk(R));if(!v||!e)return;const r=e.getBoundingClientRect(),rv=v.getBoundingClientRect();const mx=rv.width*.22,my=rv.height*.22;
@@ -3447,7 +3458,14 @@ function rpHp(S,t){if(!S||!S.length)return null;if(t<=S[0])return S[1];const n=S
 const rpNum=v=>v>=10000?(v/10000).toFixed(v>=100000?0:1)+'만':Math.round(v).toLocaleString('ko-KR');
 function rpMeter(L,t,st){if(!L||!L.length)return 0;const x=t/st;const i=Math.floor(x);if(i>=L.length-1)return L[L.length-1];return L[i]+(L[i+1]-L[i])*(x-i)}
 const rpBar=(p,c)=>'<span class="rpbar"><i style="width:'+Math.max(0,Math.min(100,p)).toFixed(0)+'%;background:'+c+'"></i></span>';
-function rpSide(R,t){const tab=ui.rpTab||'m';let h='';
+/* 풀 목록(keystone.guru 오른쪽 칸처럼): 지도 풀마다 번호·몹 얼굴 ×수, 보스는 잡은 때 자리에 한 줄 — 누르면 그 풀로 */
+function rpFace(f,R,nm,c){const id=(f.mob.id||{})[nm]||0;const ty=(()=>{for(const m of f.mob.p)for(const x of m[7])if(x[0]===nm)return x[5];return 0})();
+  return '<span class="rpfc" title="'+esc(nm)+(c>1?' ×'+c:'')+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[ty]?ty:0)+'"/></svg>'+(id?'<img src="'+npcThumb(id)+'" alt="" loading="lazy" onerror="this.remove()">':'')+(c>1?'<b>'+c+'</b>':'')+'</span>'}
+function rpList(R,st){const f=DGX.fl[R.fl];const S=(DGG&&DGG[DGX.slug]&&DGG[DGX.slug].steps)||[];const rows=R.mp.map((p,j)=>({t:p.t[0],j}));(R.bk||[]).forEach(([t,nm])=>rows.push({t:t-1,b:nm,bt:t}));rows.sort((a,b)=>a.t-b.t);
+  return rows.map(r=>{if(r.b){const s=S.find(x=>x.nm===r.b);const pid=s&&f.pid?f.pid[String(s.n)]:0;
+      return '<li class="lb"><button data-a="rpts" data-k="'+Math.max(0,r.bt-25).toFixed(0)+'"><span class="lbn">'+(s?'B'+s.n:'B')+'</span><span class="rpfc bs">'+(pid?'<img src="'+npcThumb(pid)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'</span><b>'+esc(r.b)+'</b><span class="v">'+mmss(r.bt)+'</span></button></li>'}
+    const p=R.mp[r.j];return '<li class="lp'+(st.done.has(r.j)?' dn':st.cur.includes(r.j)?' on':r.j===st.nx?' nx':'')+'" id="rpl-'+r.j+'"><button data-a="rpj" data-k="'+r.j+'" aria-label="'+(r.j+1)+'풀: '+esc(p.m.map(x=>x[0]+(x[1]>1?' '+x[1]:'')).join(', '))+'"><span class="pnum" style="--c:'+pCol(r.j+1)+'">'+(r.j+1)+'</span><span class="rpfs">'+p.m.map(([nm,c])=>rpFace(f,R,nm,c)).join('')+'</span><span class="v">'+mmss(p.t[0])+'</span></button></li>'}).join('')}
+function rpSide(R,t){const tab=ui.rpTab||'l';if(tab==='l')return rpList(R,rpState(R,t));let h='';
   if(tab==='m'){const L=[];(R.mb||[]).forEach(m=>{if(rpMobAt(m,t))L.push({nm:R.mn[m[0]],rk:m[1],hp:rpHp(m[7],t)})});
     L.sort((a,b)=>b.rk-a.rk||(a.hp==null?101:a.hp)-(b.hp==null?101:b.hp));
     h=L.length?L.slice(0,8).map(x=>'<li class="'+(x.rk===2?'bs':'')+'"><b>'+esc(x.nm)+'</b>'+rpBar(x.hp==null?100:x.hp,x.rk===2?'#f3cf6a':'#e2574a')+'<span class="v">'+(x.hp==null?'':Math.round(x.hp)+'%')+'</span></li>').join('')+(L.length>8?'<li class="mute">외 '+(L.length-8)+'마리</li>':''):'<li class="mute">지금 싸우는 몹 없음</li>'}
@@ -3457,7 +3475,7 @@ function rpSide(R,t){const tab=ui.rpTab||'m';let h='';
       +V.map(x=>'<li><i class="rpdi'+(x.p.r==='T'?' tk':'')+'" style="--c:'+(RPC[x.p.c]||'#ccc')+'"><svg viewBox="0 0 24 24"><path d="'+RIP[x.p.r==='T'?'tk':x.p.r==='H'?'hl':'dp']+'"/></svg></i><b>'+esc(RPK[x.p.c]||x.p.c||'?')+'</b>'+rpBar(x.v/mx*100,RPC[x.p.c]||'#ccc')+'<span class="v">'+rpNum(x.v)+' · '+Math.round(x.v/tot*100)+'%</span></li>').join('')}
   return h}
 function rpSideHead(R,t){const nf=(R.mb||[]).filter(m=>rpMobAt(m,t)).length;const al=R.party.filter((p,k)=>{const h=rpHp((R.ph||[])[k],t);return h==null||h>0}).length;
-  return [['m','싸우는 몹 '+nf],['p','파티 '+al+'/'+R.party.length],['d','미터']].map(([k,l])=>'<button class="chip'+((ui.rpTab||'m')===k?' on':'')+'" data-a="rptab" data-k="'+k+'" id="rptab-'+k+'">'+l+'</button>').join('')}
+  return [['l','풀 목록 '+R.mp.length],['m','싸우는 몹 '+nf],['p','파티 '+al+'/'+R.party.length],['d','미터']].map(([k,l])=>'<button class="chip'+((ui.rpTab||'l')===k?' on':'')+'" data-a="rptab" data-k="'+k+'" id="rptab-'+k+'">'+l+'</button>').join('')}
 /* 구역: 층마다 무리·보스를 자리로 나눔(k-평균, 넓이 300야드마다 하나, 최대 4) — 누르면 그 구역만 크게 */
 function fRegions(f){if(f._rg)return f._rg;const sx=(f.sc||300)/100,sy=sx*(f.h||100)/(f.w||100);const pins=(f.pins||[]).filter(p=>/^\d+!?$/.test(p.t));
   const P=((f.mob&&f.mob.p)||[]).map(m=>({x:m[0],y:m[1],w:1})).concat(pins.map(p=>({x:p.x,y:p.y,w:4,n:parseInt(p.t)})));if(P.length<6)return f._rg=[];
@@ -3486,9 +3504,9 @@ function hull(P){if(P.length<3)return P.slice();const p=P.slice().sort((a,b)=>a[
 function pullAgg(L){const A={};let n=0,el=0,lo=99,hi=0,pt=0;L.forEach(([m,i,f])=>{n+=m[2];
   /* 정예 수·레벨은 목록에 나오는 몹으로 셈 — 무리 자료의 정예·레벨엔 핀으로 따로 보이는 보스·이름 NPC가 섞여 카드 머리글과 목록이 어긋났음(77·55곳) */
   if(m[7].length)m[7].forEach(x=>{if(x[2]>=1&&x[2]!==4)el+=x[1];lo=Math.min(lo,x[3]!=null?x[3]:m[5]);hi=Math.max(hi,x[4]!=null?x[4]:m[6])});else{el+=m[4]||0;lo=Math.min(lo,m[5]);hi=Math.max(hi,m[6])}if(f.mob.t.some(t=>t[0]===i))pt=1;
-  m[7].forEach(x=>{const a=A[x[0]]||(A[x[0]]={nm:x[0],c:0,rk:x[2],lo:x[3]!=null?x[3]:m[5],hi:x[4]!=null?x[4]:m[6],ty:x[5]});a.c+=x[1];if(x[2]!=null&&x[2]>(a.rk||0))a.rk=x[2]})});
+  m[7].forEach(x=>{const a=A[x[0]]||(A[x[0]]={nm:x[0],c:0,rk:x[2],lo:x[3]!=null?x[3]:m[5],hi:x[4]!=null?x[4]:m[6],ty:x[5],id:f&&f.mob&&f.mob.id?f.mob.id[x[0]]:0});a.c+=x[1];if(x[2]!=null&&x[2]>(a.rk||0))a.rk=x[2]})});
   return {rows:Object.values(A).sort((a,b)=>b.c-a.c),n,el,lo,hi,pt}}
-function mobRows(g,n,my){return g.rows.map(x=>{const rk=x.rk!=null?mobRk(x.rk):'n';return '<li><i class="mi sm '+rk+'" style="--c:'+pCol(n)+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x.ty]?x.ty:0)+'"/></svg></i><b>'+esc(x.nm)+'</b>'+(x.c>1?'<span class="cnt">×'+x.c+'</span>':'')+(rk==='e'?'<em class="rk e">정예</em>':rk==='r'?'<em class="rk r">희귀</em>':'')
+function mobRows(g,n,my){return g.rows.map(x=>{const rk=x.rk!=null?mobRk(x.rk):'n';return '<li><i class="mi sm '+rk+(x.id?' ph':'')+'" style="--c:'+pCol(n)+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x.ty]?x.ty:0)+'"/></svg>'+(x.id?'<img src="'+npcThumb(x.id)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'</i><b>'+esc(x.nm)+'</b>'+(x.c>1?'<span class="cnt">×'+x.c+'</span>':'')+(rk==='e'?'<em class="rk e">정예</em>':rk==='r'?'<em class="rk r">희귀</em>':'')
     +'<span class="lv '+conCol(my,x.hi)+'">'+(x.lo===x.hi?x.lo:x.lo+'–'+x.hi)+'</span>'+(MTY[x.ty]?'<small>'+MTY[x.ty]+'</small>':'')+'</li>'}).join('')}
 /* 이 풀 몹 가까이(12야드) 지나가는 다른 순찰 */
 function patrolNear(L,P){const out=new Set();L.forEach(([m,i,f,fi])=>{const sx=(f.sc||300)/100,sy=(f.sc||300)*(f.h/f.w)/100;const pts=m[9]&&m[9].length?m[9]:[[m[0],m[1]]];
@@ -3566,7 +3584,7 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
      +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return '<div class="mapbox'+(PV&&ui.dfs?' fs':'')+'"><div class="mapv'+(Z>1?' zm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&(dpmOn()||ui.dmsel&&ui.dmob!==0)?' sel':'')+(PV&&dpmOn()?' fx':'')+(PV&&drpOn()?' rpx':'')+'"'+(Z>1?' style="width:'+(Z*100)+'%"':'')+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
      +mobLayer(f,fi)
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
-        if(num)return '<button class="pin n '+(x?'k-'+x.kind:'')+(p.w===2?' ap':'')+(/!/.test(p.t)?' q':'')+(x&&x.kind!=='obj'&&KL[x.st.nm]?' kd':'')+(ui.stopen[n]?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%" data-a="stp" data-k="'+n+'">'+n+'</button>';
+        if(num){const pf=PV&&f.pid&&f.pid[String(n)]?npcThumb(f.pid[String(n)]):'';return '<button class="pin n '+(pf?'pf ':'')+(x?'k-'+x.kind:'')+(p.w===2?' ap':'')+(/!/.test(p.t)?' q':'')+(x&&x.kind!=='obj'&&KL[x.st.nm]?' kd':'')+(ui.stopen[n]?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%'+(pf?';background-image:url('+pf+')':'')+'" data-a="stp" data-k="'+n+'">'+(pf?'<b>'+n+'</b>':n)+'</button>'}
         const t=(p.t||'').replace(/\d+$/,'');const to=t.match(/→\s*(.+)$/);return '<span class="pin l" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(to?'↗ '+to[1]:t.replace(/←.*$/,'↙ 들어옴'))+'</span>'}).join('')+'</div></div>'+mapZoomBtns(f)+(PV&&ui.dfs?mobCard(c,f,fi)+(drpOn()&&DGX.rp.fl===fi?rpPanel(c,f,fi):''):'')+'</div>'+(PV&&ui.dfs?'':mobCard(c,f,fi))+pullList(c,f,fi)+'<p class="mute src">번호를 누르면 아래 그 단계가 펼쳐져요 · 지도: '+(G3&&g.floors===G3.f3?'포에버 게임 모델로 그림 · 점선 번호는 예전 지도에서 옮긴 대략 자리':'wowf.io')+(PV&&f.mob?' · 몹 자리 CMaNGOS 클래식 자료(GPL)':'')+'</p></div>'}
   h+='</div><div class="dgR">';
   /* 진행 순서: 한 줄씩, 누르면 펼침 */
