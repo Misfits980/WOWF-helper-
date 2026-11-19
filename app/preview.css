@@ -546,3 +546,21 @@
 .mapw .rpd{z-index:6}
 .mapw .rpe,.mapw .rpe.r2{z-index:7}
 .mapw .rpd.tk{z-index:8}
+/* 구역 칩 · 재생 옆 칸(싸우는 몹·파티·미터) · ±10초 */
+.rgc{margin:0 0 6px;flex-wrap:wrap}
+.rpc .rps10{width:auto;padding:0 8px;font-size:12px}
+.rpsd{padding:8px 10px}
+.rpsh{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 6px}
+.rpsl{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.rpsl li{display:grid;grid-template-columns:auto minmax(70px,1fr) minmax(60px,1.2fr) auto;align-items:center;gap:7px;font-size:12.5px}
+.rpsl li:not(:has(.rpdi)){grid-template-columns:minmax(80px,1.2fr) minmax(60px,1.2fr) auto}
+.rpsl li.mute{display:block;color:var(--mute)}
+.rpsl li.rpmt{display:flex;gap:6px;grid-template-columns:none}
+.rpsl li b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rpsl li.bs b{color:#f3cf6a}
+.rpsl .v{font-variant-numeric:tabular-nums;color:var(--mute);font-size:12px;white-space:nowrap}
+.rpbar{display:block;height:7px;border-radius:4px;background:#2a241b;overflow:hidden}
+.rpbar i{display:block;height:100%;border-radius:4px}
+.rpdi{width:18px;height:18px;border-radius:50%;background:var(--c);border:1.5px solid #0d0c0a;display:grid;place-items:center;box-sizing:border-box}
+.rpdi svg{width:11px;height:11px;fill:#16130e}
+.rpdi.tk{box-shadow:0 0 0 1.5px #8fd3ff}

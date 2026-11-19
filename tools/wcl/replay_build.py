@@ -246,6 +246,26 @@ for e in D['events']:
     k = (e.get('targetID'), e.get('targetInstance', 1)) if e.get('resourceActor') == 2 else (e.get('sourceID'), e.get('sourceInstance', 1))
     if A.get(k[0], {}).get('type') == 'NPC':
         erw.setdefault(k, []).append(((e['timestamp'] - T0) / 1000.0, e['x'], e['y']))
+# ── 피(%) 시계열: 자리 사건의 hitPoints/maxHitPoints. 1초에 하나, 3% 넘게 바뀌거나 15초 지나면 남김 ──
+hpraw = {}
+for e in D['events']:
+    if 'x' not in e or not e.get('maxHitPoints'):
+        continue
+    k = (e.get('targetID'), e.get('targetInstance', 1)) if e.get('resourceActor') == 2 else (e.get('sourceID'), e.get('sourceInstance', 1))
+    hpraw.setdefault(k, []).append(((e['timestamp'] - T0) / 1000.0, 100.0 * e['hitPoints'] / e['maxHitPoints']))
+def hpser(k, td=None):
+    sec = {}
+    for t, h in sorted(hpraw.get(k, [])):
+        sec.setdefault(int(t), []).append(h)
+    out, last = [], None
+    for t, v in sorted(sec.items()):
+        h = int(round(float(np.median(v))))
+        if last is None or abs(h - last[1]) >= 3 or t - last[0] >= 15:
+            out += [t, h]; last = (t, h)
+    if td is not None:
+        out += [round(td, 1), 0]
+    return out
+
 rank_by = {}
 for p in PK:
     for nm in p[7]:
@@ -271,7 +291,8 @@ for k, pts in sorted(erw.items(), key=lambda kv: min(p[0] for p in kv[1])):
     for t, x, y in S:
         flat += [round(t, 1), round(x, 1), round(y, 1)]
     # [이름 번호, 0 일반·1 정예·2 보스, 풀 번호, 죽은 때(-1 = 안 죽음), 지도 무리 번호(-1 = 없음), [t,x,y,…], (숨길 구간 [[a,b],…])]
-    mobs.append([MN.index(n), rk, inst_pull.get(k, 0), round(td, 1) if td is not None else -1, inst_pack.get(k, -1), flat] + ([gaps] if gaps else []))
+    # [이름 번호, 0 일반·1 정예·2 보스, 풀, 죽은 때(-1 = 안 죽음), 지도 무리(-1 = 없음), 자리 [t,x,y…], 숨길 구간 [[a,b]…], 피 [t,%…]]
+    mobs.append([MN.index(n), rk, inst_pull.get(k, 0), round(td, 1) if td is not None else -1, inst_pack.get(k, -1), flat, gaps, hpser(k, td)])
 
 # ── 지도 풀(와우보초처럼): 이 판에서 잡힌 무리만, 같은 싸움·바로 이어진 싸움에서 35야드 안 무리끼리 한 풀, 잡은 순서로 번호 ──
 # 기록 풀(61개)은 싸움이 끊긴 단위라 몹 1마리짜리가 많고, 걸으며 이어 잡은 넓은 싸움은 한 풀로 뭉쳐 있어 지도 번호로 쓰기 어려웠음
@@ -355,9 +376,34 @@ for n in MN:
     gid = next((A[k[0]].get('gameID') for k in first if ko(k[0]) == n), 0)
     MG.append(gid or 0)
 
+# ── 파티 피·미터: 펫 딜·치유는 주인 몫. 딜량 = 몹에게 준 amount + absorbed, 치유량 = heal amount(넘친 치유 빼고) ──
+owner = {a['id']: a.get('owner') for a in D['actors'] if a['type'] == 'Pet'}
+who = lambda i: i if i in order else owner.get(i) if owner.get(i) in order else None
+STEP = 5
+NB = DUR // STEP + 2
+dmg = [[0] * NB for _ in order]; heal = [[0] * NB for _ in order]
+for e in D['events']:
+    ty = e.get('type'); w = who(e.get('sourceID'))
+    if w is None or ty not in ('damage', 'heal'):
+        continue
+    b = max(0, min(NB - 1, int(((e['timestamp'] - T0) / 1000.0) // STEP) + 1))
+    if ty == 'damage' and A.get(e.get('targetID'), {}).get('type') == 'NPC':
+        dmg[order.index(w)][b] += (e.get('amount') or 0) + (e.get('absorbed') or 0)
+    elif ty == 'heal':
+        heal[order.index(w)][b] += e.get('amount') or 0
+for L in dmg + heal:
+    for i in range(1, NB):
+        L[i] += L[i - 1]
+PH = [hpser((i, 1)) for i in order]
+# 역할 다시: 워크래프트로그가 딜러로 적어도 파티 치유의 절반 넘게 하고 자기 딜량의 절반 넘게 치유했으면 힐러(검은심연 사제 = 치유 80%)
+_ht = sum(L[-1] for L in heal) or 1
+for j, t in enumerate(tracks):
+    if t['r'] != 'T' and heal[j][-1] >= .5 * _ht and heal[j][-1] >= .5 * dmg[j][-1]:
+        t['r'] = 'H'
+
 out = {'fl': FI, 'dur': DUR, 'kill': bool(D['fight'].get('kill')), 'src': 'wcl',
        'party': [{'c': t['c'], 'r': t['r']} for t in tracks], 'tr': [t['p'] for t in tracks],
-       'pulls': pulls, 'mp': MP, 'bk': BK, 'rt': RTF, 'mn': MN, 'mg': MG, 'mb': mobs, 'dead': {str(k): round(v, 1) for k, v in sorted(pdead.items())}, 'pd': deaths}
+       'pulls': pulls, 'mp': MP, 'bk': BK, 'rt': RTF, 'mn': MN, 'mg': MG, 'mb': mobs, 'ph': PH, 'ms': STEP, 'md': dmg, 'mh': heal, 'dead': {str(k): round(v, 1) for k, v in sorted(pdead.items())}, 'pd': deaths}
 OUT = os.path.join(ROOT, 'data/guides/dungeon-replays.json')
 allr = json.load(open(OUT, encoding='utf-8')) if os.path.exists(OUT) else {}
 allr[slug] = out
