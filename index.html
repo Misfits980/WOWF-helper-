@@ -2671,10 +2671,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=ff523dbe"></script>
-<script>/* vf6758b @11/19 17:45 */
+<script>/* vabfc10 @11/19 19:21 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/19 17:45';
+const BUILD='11/19 19:21';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -6626,7 +6626,8 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   if(g.floors&&g.floors.length){const fi=Math.min(ui.dfloor||0,g.floors.length-1);const f=g.floors[fi];if(PV&&G3&&g.floors===G3.f3){const P=dgPlan(c,d.slug,g.floors);P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));DGX={c,slug:d.slug,fl:g.floors,P,I:planIdx(P),pl:1,rp:g.rp||null};dgxSet(P)}else DGX={c,slug:d.slug,fl:g.floors,P:{p:[],k:0,auto:1},I:{}};
     h+='<div class="rmap2">'+(G3?'<div class="chips seg m3"><button class="chip'+(ui.d3!==0?' on':'')+'" data-a="d3" data-k="1">위에서 본 지도</button><button class="chip'+(ui.d3===0?' on':'')+'" data-a="d3" data-k="0">예전 지도</button></div>':'')+(g.floors.length>1?'<div class="chips seg fl">'+g.floors.map((x,i)=>'<button class="chip'+(i===fi?' on':'')+'" data-a="dfl" data-k="'+i+'">'+(i+1)+'층 '+esc(x.name)+'</button>').join('')+'</div>':'')
      +(PV&&f.mob?mobBar(f)+regionChips(f):'')
-     +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return (PV&&dpmOn()?'<div class="pmw">':'')+'<div class="mapbox'+(PV&&ui.dfs?' fs':'')+(PV&&dpmOn()?' pm':'')+'"><div class="mapv'+(Z>1?' zm':'')+(PV&&lsoOn()?' lsom':'')+(PV&&drOn()?' drm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&!dpmOn()&&ui.dmsel&&ui.dmob!==0?' sel':'')+(PV&&dpmOn()?' fx':'')+(PV&&drOn()&&ui.drT==='erase'?' drE':'')+(PV&&drpOn()?' rpx':'')+'"'+(Z>1?' style="width:'+(Z*100)+'%"':'')+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
+     +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return (PV&&dpmOn()?'<div class="pmw">':'')+'<div class="mapbox'+(PV&&ui.dfs?' fs':'')+(PV&&dpmOn()?' pm':'')+'"><div class="mapv'+(Z>1?' zm':'')+(PV&&lsoOn()?' lsom':'')+(PV&&drOn()?' drm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&!dpmOn()&&ui.dmsel&&ui.dmob!==0?' sel':'')+(PV&&dpmOn()?' fx':'')+(PV&&drOn()&&ui.drT==='erase'?' drE':'')+(PV&&drpOn()?' rpx':'')+'"'+(()=>{/* 지도 높이를 그림이 아니라 지도 크기(가로:세로)로 정함 — 폰에서 다시 그릴 때 그림이 늦게 풀리면 높이가 잠깐 0이 되어, 밀어 둔 자리가 맨 위로 튀었음(이동·올가미 뒤 「순간이동」) */
+       const st=(Z>1?'width:'+(Z*100)+'%;':'')+(PV&&f.w&&f.h?'aspect-ratio:'+f.w+'/'+f.h:'');return st?' style="'+st+'"':''})()+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
      +mobLayer(f,fi)
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
         if(num){const pf=PV&&f.pid&&f.pid[String(n)]?npcThumb(f.pid[String(n)]):'';
