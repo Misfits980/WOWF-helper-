@@ -3196,7 +3196,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .mapw .rpn.nx{box-shadow:0 0 0 2px #6fb7ff,0 1px 2px rgba(0,0,0,.6)}
 .mapw.rpx .pin.n{transform:translate(-50%,-50%) scale(.8)}
 .mapw .rpe{position:absolute;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:6px;background:#3a1512;border:2px solid #ff5a4a;box-sizing:border-box;pointer-events:none;z-index:5;box-shadow:0 1px 3px rgba(0,0,0,.7)}
-.mapw .rpe img{width:100%;height:100%;border-radius:4px;object-fit:cover;display:block}
+.mapw .rpe svg{position:absolute;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);fill:#ffb3a8}
+.mapw .rpe img{position:absolute;inset:0;width:100%;height:100%;border-radius:4px;object-fit:cover;display:block;background:#3a1512}
 .mapw .rpe b{position:absolute;right:-9px;top:-9px;min-width:15px;padding:0 3px;border-radius:8px;background:#e23b2e;color:#fff;font:700 calc(10px*var(--fs,1))/15px system-ui,sans-serif;text-align:center;box-sizing:border-box}
 .mapw .rpe b:empty{display:none}
 .mapw .rpe.r1{border-color:#ff7a4a}
@@ -3214,14 +3215,17 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .rpcard .mch small{color:var(--mute)}
 .rpcard .mch span.fcb{color:#16130e}
 .rpcard .mch span.fnb{color:#0b1a26}
+.mapw .rpd{z-index:6}
+.mapw .rpe,.mapw .rpe.r2{z-index:7}
+.mapw .rpd.tk{z-index:8}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=1039a880"></script>
-<script>/* va1026f @11/19 10:07 */
+<script>/* v11ed64 @11/19 10:18 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/19 10:07';
+const BUILD='11/19 10:18';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -6615,9 +6619,9 @@ function rpSvg(R,W,H){const f=DGX.fl[R.fl],st=rpState(R,RP.t),tr=R.tr[rpTk(R)];c
   return '<defs>'+fArrow(W,H)+'</defs><g id="rpgrp" data-k="'+st.cur.join('.')+'|'+st.nx+'|'+st.done.size+'">'+rpBands(R,f,st,W,H)+'</g><path class="rtw0" d="'+d+'"/><path class="rtw" d="'+d+'"/><path class="rpnx" id="rpnx" marker-end="url(#farw)" d="'+(nx?rpSeg(tr,RP.t,nx,W,H):'')+'"/>'}
 const rpPk=(R,st,i)=>{const j=R._mp[i];return j==null?' off':st.done.has(j)?' mdn':st.cur.includes(j)?' mcu':''};
 function rpThumb(gid){const u=npcThumb(gid);return u?'<img src="'+u+'" alt="" loading="lazy" onerror="this.remove()">':''}
-function rpMarks(R){const st=rpState(R,RP.t);let h='';
+function rpMarks(R){const st=rpState(R,RP.t);let h='';const TY={};DGX.fl[R.fl].mob.p.forEach(m=>m[7].forEach(x=>{if(TY[x[0]]==null)TY[x[0]]=x[5]}));
   R.mp.forEach((p,j)=>{h+='<button class="mpn rpn'+(st.done.has(j)?' dn':st.cur.includes(j)?' on':j===st.nx?' nx':'')+'" id="rpn-'+j+'" style="left:'+p.x+'%;top:'+p.y+'%;--c:'+pCol(j+1)+'" data-a="rpj" data-k="'+j+'" aria-label="'+(j+1)+'풀: '+esc(p.m.map(x=>x[0]+(x[1]>1?' '+x[1]:'')).join(', '))+'">'+(j+1)+'</button>'});
-  (R.mb||[]).forEach((m,k)=>{h+='<span class="rpe r'+m[1]+'" id="rpe-'+k+'" style="display:none">'+rpThumb((R.mg||[])[m[0]])+'<b></b></span>'});
+  (R.mb||[]).forEach((m,k)=>{const ty=TY[R.mn[m[0]]];/* 얼굴 그림이 없는 몹(검은심연 18종 중 10종)은 지도 무리와 같은 종족 그림이 보임 */h+='<span class="rpe r'+m[1]+'" id="rpe-'+k+'" style="display:none"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[ty]?ty:0)+'"/></svg>'+rpThumb((R.mg||[])[m[0]])+'<b></b></span>'});
   R.party.forEach((p,k)=>{const q=rpAt(R.tr[k],RP.t)||[0,0];h+='<i class="rpd'+(p.r==='T'?' tk':'')+'" id="rpd-'+k+'" style="left:'+q[0].toFixed(2)+'%;top:'+q[1].toFixed(2)+'%;--c:'+(RPC[p.c]||'#ccc')+'"><svg viewBox="0 0 24 24"><path d="'+RIP[p.r==='T'?'tk':p.r==='H'?'hl':'dp']+'"/></svg></i>'});return h}
 /* 싸우는 몹: 4야드 안에 겹치면 한 얼굴에 ×숫자 */
 function rpMobsDraw(R,t){const f=DGX.fl[R.fl],sx=(f.sc||300)/100,sy=sx*(f.h||100)/(f.w||100);const L=[];let n=0;

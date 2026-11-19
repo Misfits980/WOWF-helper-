@@ -524,7 +524,8 @@
 .mapw .rpn.nx{box-shadow:0 0 0 2px #6fb7ff,0 1px 2px rgba(0,0,0,.6)}
 .mapw.rpx .pin.n{transform:translate(-50%,-50%) scale(.8)}
 .mapw .rpe{position:absolute;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:6px;background:#3a1512;border:2px solid #ff5a4a;box-sizing:border-box;pointer-events:none;z-index:5;box-shadow:0 1px 3px rgba(0,0,0,.7)}
-.mapw .rpe img{width:100%;height:100%;border-radius:4px;object-fit:cover;display:block}
+.mapw .rpe svg{position:absolute;inset:2px;width:calc(100% - 4px);height:calc(100% - 4px);fill:#ffb3a8}
+.mapw .rpe img{position:absolute;inset:0;width:100%;height:100%;border-radius:4px;object-fit:cover;display:block;background:#3a1512}
 .mapw .rpe b{position:absolute;right:-9px;top:-9px;min-width:15px;padding:0 3px;border-radius:8px;background:#e23b2e;color:#fff;font:700 10px/15px system-ui,sans-serif;text-align:center;box-sizing:border-box}
 .mapw .rpe b:empty{display:none}
 .mapw .rpe.r1{border-color:#ff7a4a}
@@ -542,3 +543,6 @@
 .rpcard .mch small{color:var(--mute)}
 .rpcard .mch span.fcb{color:#16130e}
 .rpcard .mch span.fnb{color:#0b1a26}
+.mapw .rpd{z-index:6}
+.mapw .rpe,.mapw .rpe.r2{z-index:7}
+.mapw .rpd.tk{z-index:8}

@@ -3394,9 +3394,9 @@ function rpSvg(R,W,H){const f=DGX.fl[R.fl],st=rpState(R,RP.t),tr=R.tr[rpTk(R)];c
   return '<defs>'+fArrow(W,H)+'</defs><g id="rpgrp" data-k="'+st.cur.join('.')+'|'+st.nx+'|'+st.done.size+'">'+rpBands(R,f,st,W,H)+'</g><path class="rtw0" d="'+d+'"/><path class="rtw" d="'+d+'"/><path class="rpnx" id="rpnx" marker-end="url(#farw)" d="'+(nx?rpSeg(tr,RP.t,nx,W,H):'')+'"/>'}
 const rpPk=(R,st,i)=>{const j=R._mp[i];return j==null?' off':st.done.has(j)?' mdn':st.cur.includes(j)?' mcu':''};
 function rpThumb(gid){const u=npcThumb(gid);return u?'<img src="'+u+'" alt="" loading="lazy" onerror="this.remove()">':''}
-function rpMarks(R){const st=rpState(R,RP.t);let h='';
+function rpMarks(R){const st=rpState(R,RP.t);let h='';const TY={};DGX.fl[R.fl].mob.p.forEach(m=>m[7].forEach(x=>{if(TY[x[0]]==null)TY[x[0]]=x[5]}));
   R.mp.forEach((p,j)=>{h+='<button class="mpn rpn'+(st.done.has(j)?' dn':st.cur.includes(j)?' on':j===st.nx?' nx':'')+'" id="rpn-'+j+'" style="left:'+p.x+'%;top:'+p.y+'%;--c:'+pCol(j+1)+'" data-a="rpj" data-k="'+j+'" aria-label="'+(j+1)+'풀: '+esc(p.m.map(x=>x[0]+(x[1]>1?' '+x[1]:'')).join(', '))+'">'+(j+1)+'</button>'});
-  (R.mb||[]).forEach((m,k)=>{h+='<span class="rpe r'+m[1]+'" id="rpe-'+k+'" style="display:none">'+rpThumb((R.mg||[])[m[0]])+'<b></b></span>'});
+  (R.mb||[]).forEach((m,k)=>{const ty=TY[R.mn[m[0]]];/* 얼굴 그림이 없는 몹(검은심연 18종 중 10종)은 지도 무리와 같은 종족 그림이 보임 */h+='<span class="rpe r'+m[1]+'" id="rpe-'+k+'" style="display:none"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[ty]?ty:0)+'"/></svg>'+rpThumb((R.mg||[])[m[0]])+'<b></b></span>'});
   R.party.forEach((p,k)=>{const q=rpAt(R.tr[k],RP.t)||[0,0];h+='<i class="rpd'+(p.r==='T'?' tk':'')+'" id="rpd-'+k+'" style="left:'+q[0].toFixed(2)+'%;top:'+q[1].toFixed(2)+'%;--c:'+(RPC[p.c]||'#ccc')+'"><svg viewBox="0 0 24 24"><path d="'+RIP[p.r==='T'?'tk':p.r==='H'?'hl':'dp']+'"/></svg></i>'});return h}
 /* 싸우는 몹: 4야드 안에 겹치면 한 얼굴에 ×숫자 */
 function rpMobsDraw(R,t){const f=DGX.fl[R.fl],sx=(f.sc||300)/100,sy=sx*(f.h||100)/(f.w||100);const L=[];let n=0;
