@@ -450,8 +450,6 @@
 /* 대표 판 재생 */
 .mapw .mobpat .rptr{fill:none;stroke:#8fd3ff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 1px #000)}
 .mapw .mi.dd,.mapw .mob.dd,.mobtg .mleg .mi.dd{opacity:.3;filter:grayscale(1)}
-.mapw .rpd{position:absolute;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:var(--c);border:1.5px solid #0d0c0a;box-sizing:content-box;pointer-events:none;z-index:6}
-.mapw .rpd.tk{width:13px;height:13px;border:2.5px solid #8fd3ff;box-shadow:0 0 0 1.5px #0d0c0a,0 0 8px rgba(143,211,255,.7);z-index:7}
 .mobtg .mleg .rpl{display:inline-block;width:16px;height:0;border-top:3px solid #8fd3ff;margin:0 2px 0 0;box-shadow:0 0 0 1px rgba(0,0,0,.6)}
 .rpp{margin-top:8px;display:grid;gap:8px}
 .rpc{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -476,9 +474,6 @@
 .mapbox.fs .rpp .rpcard,.mapbox.fs .rpp .rpparty,.mapbox.fs .rpp .rpsrc{display:none}
 @media (prefers-reduced-motion:reduce){.mapw .rpd{transition:none}}
 /* 재생: 싸우는 몹 · 지금 풀 묶음 */
-.mapw .rpe{position:absolute;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;background:#ff5a4a;border:1.5px solid #1a0b08;pointer-events:none;z-index:5}
-.mapw .rpe.r1{box-shadow:0 0 0 1px #f3cf6a}
-.mapw .rpe.r2{width:12px;height:12px;background:#ff2d2d;box-shadow:0 0 0 2px #f3cf6a;z-index:6}
 .mobtg .mleg .rpe.lg{display:inline-block;position:static;width:8px;height:8px;border-radius:50%;background:#ff5a4a;border:1.5px solid #1a0b08;margin:0 2px 0 8px;vertical-align:middle}
 .rpcard .rpg{margin:4px 0 0;font-size:12.5px;color:var(--mute)}
 .rpcard .rpg b{color:var(--gold);font-weight:600}
@@ -492,7 +487,6 @@
 .mapw .mobpat .tk.dim{stroke-opacity:.35;stroke-width:2}
 .mapw .mobpat .tkl{fill:none;stroke:#6fb7ff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .mapw .mobpat .rpnx{fill:none;stroke:#6fb7ff;stroke-width:3;stroke-dasharray:6 4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
-.mapw .mobpat .rptr{stroke-opacity:.45;stroke-width:2}
 .mapw.fx .mi{--c:#a59c8a!important;opacity:.6}
 .mapw.fx .mi.off{--c:transparent!important;border-color:#9a927f;opacity:.42;transform:translate(-50%,-50%) scale(.8)}
 .mapw.fx .mi.off svg{fill:#9a927f}
@@ -504,7 +498,6 @@
 .mapw.fx .mpn.mini{--c:#6d6658!important;min-width:14px;height:14px;padding:0 2px;font-size:9px;line-height:11px;color:#bdb4a2;opacity:.75;transform:translate(calc(-50% + 9px),calc(-50% - 9px))}
 .mapw.fx .mpn.fc{--c:#f0c25a!important;background:#f0c25a;color:#16130e;opacity:1;min-width:22px;height:22px;font-size:13px;line-height:19px;z-index:6}
 .mapw.fx .mpn.fn{--c:#6fb7ff!important;background:#0f2233;color:#cfe6ff;opacity:1;z-index:5}
-.mapw .rpn:not(.fc):not(.fn){display:none}
 .mapw.fx .pin.n{transform:translate(-50%,-50%) scale(.72);opacity:.75}
 .mapw.fx .pin.n.on{transform:translate(-50%,-50%) scale(1);opacity:1}
 .mobtg .mleg .lgf{display:inline-block;width:14px;height:10px;border-radius:5px;margin:0 3px 0 8px;vertical-align:middle;box-shadow:0 0 0 1px rgba(0,0,0,.6)}
@@ -515,3 +508,37 @@
 .fcb,.rpcard .mch .fcb{background:#f0c25a;color:#16130e;font-size:11.5px}
 .fnb,.rpcard .mch .fnb{background:#6fb7ff;color:#0b1a26;font-size:11.5px}
 .rpnext{margin:6px 0 0;font-size:12.5px}
+/* 실제 판 재생(와우보초처럼): 잡은 무리만 · 지도 풀 색·번호 · 흰 점선 길 · 파티 직업 아이콘 · 싸우는 몹 얼굴 */
+.mapw .mobpat .rtw0{fill:none;stroke:rgba(0,0,0,.55);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.mapw .mobpat .rtw{fill:none;stroke:#fff;stroke-width:2.2;stroke-dasharray:7 5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.92}
+.mapw .mobpat .fb.rpb{fill:var(--c);fill-opacity:.13;stroke:var(--c);stroke-opacity:.2}
+.mapw .mobpat .fbl.rpb{stroke:var(--c);stroke-opacity:.2}
+.mapw .mobpat .fb.rpb.cu{fill-opacity:.32;stroke-opacity:.5}
+.mapw .mobpat .fbl.rpb.cu{stroke-opacity:.5}
+.mapw.rpx .mi.mdn,.mapw.rpx .mob.mdn{opacity:.22;filter:grayscale(1)}
+.mapw.rpx .mi.mcu{width:15px;height:15px;z-index:3;box-shadow:0 0 0 2px #f0c25a}
+.mapw.rpx .mi.off{--c:transparent!important;border-color:#9a927f;opacity:.4;transform:translate(-50%,-50%) scale(.8)}
+.mapw.rpx .mi.off svg{fill:#9a927f}
+.mapw .rpn.dn{opacity:.32}
+.mapw .rpn.on{--c:#f0c25a;background:#f0c25a;color:#16130e;z-index:6;min-width:20px;height:20px;line-height:17px;font-size:12px}
+.mapw .rpn.nx{box-shadow:0 0 0 2px #6fb7ff,0 1px 2px rgba(0,0,0,.6)}
+.mapw.rpx .pin.n{transform:translate(-50%,-50%) scale(.8)}
+.mapw .rpe{position:absolute;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:6px;background:#3a1512;border:2px solid #ff5a4a;box-sizing:border-box;pointer-events:none;z-index:5;box-shadow:0 1px 3px rgba(0,0,0,.7)}
+.mapw .rpe img{width:100%;height:100%;border-radius:4px;object-fit:cover;display:block}
+.mapw .rpe b{position:absolute;right:-9px;top:-9px;min-width:15px;padding:0 3px;border-radius:8px;background:#e23b2e;color:#fff;font:700 10px/15px system-ui,sans-serif;text-align:center;box-sizing:border-box}
+.mapw .rpe b:empty{display:none}
+.mapw .rpe.r1{border-color:#ff7a4a}
+.mapw .rpe.r2{width:30px;height:30px;border-color:#f3cf6a;z-index:6}
+.mapw .rpd{position:absolute;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:var(--c);border:1.5px solid #0d0c0a;box-sizing:border-box;pointer-events:none;z-index:7;display:grid;place-items:center}
+.mapw .rpd svg{width:11px;height:11px;fill:#16130e}
+.mapw .rpd.tk{width:21px;height:21px;border:2.5px solid #8fd3ff;box-shadow:0 0 0 1.5px #0d0c0a,0 0 8px rgba(143,211,255,.7);z-index:8}
+.mapw .rpd.tk svg{width:13px;height:13px}
+@media (min-width:900px){.mapw .rpe{width:26px;height:26px}.mapw .rpe.r2{width:34px;height:34px}}
+.mobtg .mleg .rtl{display:inline-block;width:16px;height:0;border-top:2px dashed #fff;margin:0 3px 0 0;box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.rprw{position:relative;padding-bottom:16px}
+.rptl{position:absolute;left:8px;right:8px;bottom:0;height:14px;pointer-events:none}
+.rptl i{position:absolute;top:2px;width:2px;height:8px;margin-left:-1px;background:var(--c);opacity:.75;border-radius:1px}
+.rptl .rptb{position:absolute;top:-1px;transform:translateX(-50%);pointer-events:auto;font:700 9.5px/12px system-ui,sans-serif;padding:0 3px;border-radius:4px;border:1px solid #f3cf6a;background:#2a2110;color:#f3cf6a;cursor:pointer}
+.rpcard .mch small{color:var(--mute)}
+.rpcard .mch span.fcb{color:#16130e}
+.rpcard .mch span.fnb{color:#0b1a26}

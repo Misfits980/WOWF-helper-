@@ -273,9 +273,91 @@ for k, pts in sorted(erw.items(), key=lambda kv: min(p[0] for p in kv[1])):
     # [이름 번호, 0 일반·1 정예·2 보스, 풀 번호, 죽은 때(-1 = 안 죽음), 지도 무리 번호(-1 = 없음), [t,x,y,…], (숨길 구간 [[a,b],…])]
     mobs.append([MN.index(n), rk, inst_pull.get(k, 0), round(td, 1) if td is not None else -1, inst_pack.get(k, -1), flat] + ([gaps] if gaps else []))
 
+# ── 지도 풀(와우보초처럼): 이 판에서 잡힌 무리만, 같은 싸움·바로 이어진 싸움에서 35야드 안 무리끼리 한 풀, 잡은 순서로 번호 ──
+# 기록 풀(61개)은 싸움이 끊긴 단위라 몹 1마리짜리가 많고, 걸으며 이어 잡은 넓은 싸움은 한 풀로 뭉쳐 있어 지도 번호로 쓰기 어려웠음
+pk_c = {}
+for pi, p in enumerate(PK):
+    q = p[9] if p[9] else [[p[0], p[1], 0]]
+    pk_c[pi] = (sum(v[0] for v in q) / len(q), sum(v[1] for v in q) / len(q))
+pk_inst = {}
+for k, pi in inst_pack.items():
+    pk_inst.setdefault(pi, []).append(k)
+kp = []
+for pi, ks in pk_inst.items():
+    dk = [death[k] for k in ks if k in death]
+    if not dk:
+        continue
+    te = min(first[k][0] for k in ks)
+    kp.append({'pi': pi, 'te': te, 'td': max(dk), 'wp': inst_pull.get(min(ks, key=lambda k: first[k][0]), 0), 'c': pk_c[pi], 'ks': ks})
+kp.sort(key=lambda r: r['te'])
+# 자리로 묶음(와우보초 「지도 풀」처럼): 무리 가운데끼리 30야드 안이면 이어 붙이되, 한 풀이 60야드 넘게 퍼지면 안 붙임(검은심연 22야드 57풀 · 30야드 42풀 · 35야드 35풀). 번호는 처음 잡은 순서
+groups = []
+for r in kp:
+    best = None
+    for g in groups:
+        dmin = min(yd(r['c'], x['c']) for x in g)
+        spread = max([yd(r['c'], x['c']) for x in g])
+        if dmin <= 30 and spread <= 60 and (best is None or dmin < best[0]):
+            best = (dmin, g)
+    if best:
+        best[1].append(r)
+    else:
+        groups.append([r])
+groups.sort(key=lambda g: min(x['te'] for x in g))
+MP = []
+for g in groups:
+    cnt = {}
+    for r in g:
+        for k in r['ks']:
+            n = ko(k[0]); cnt[n] = cnt.get(n, 0) + 1
+    cx = sum(r['c'][0] for r in g) / len(g); cy = sum(r['c'][1] for r in g) / len(g)
+    MP.append({'k': sorted(r['pi'] for r in g), 't': [round(min(r['te'] for r in g), 1), round(max(r['td'] for r in g), 1)],
+               'x': round(cx, 1), 'y': round(cy, 1), 'm': sorted(([a, b] for a, b in cnt.items()), key=lambda v: -v[1])})
+# 보스 잡은 때(재생 시간 막대 눈금)
+BK = sorted([[round(death[k], 1), ko(k[0])] for k in first if A.get(k[0], {}).get('sub') == 'Boss' and k in death])
+# 지도 길: 탱이 실제로 걸은 길을 공간으로만 다듬음(흰 점선 하나)
+def rdp2(P, eps):
+    if len(P) < 3:
+        return P
+    a, b = np.array(P[0]), np.array(P[-1]); ab = b - a; n = np.linalg.norm(ab)
+    ds = [np.linalg.norm(np.array(q) - a) if n == 0 else abs(ab[0] * (q[1] - a[1]) - ab[1] * (q[0] - a[0])) / n for q in P[1:-1]]
+    i = int(np.argmax(ds)) + 1
+    if ds[i - 1] <= eps:
+        return [P[0], P[-1]]
+    return rdp2(P[:i + 1], eps)[:-1] + rdp2(P[i:], eps)
+# 싸우는 동안(기록 풀 시작~끝) 움직임은 그 싸움의 가운데 한 점으로 줄임 — 그대로 두면 방 안에서 지그재그가 됨
+_tk = tracks[0]['p'] if tracks else []
+_pts, _cur = [], None
+for i in range(0, len(_tk), 3):
+    t, x, y = _tk[i], _tk[i + 1], _tk[i + 2]
+    w = next((j for j, (a, b) in enumerate(PW) if a <= t <= b), None)
+    if w is None:
+        if _cur is not None:
+            xs = [q[0] for q in _cur[1]]; ys = [q[1] for q in _cur[1]]
+            _pts.append((float(np.median(xs)), float(np.median(ys)))); _cur = None
+        _pts.append((x, y))
+    else:
+        if _cur is None or _cur[0] != w:
+            if _cur is not None:
+                xs = [q[0] for q in _cur[1]]; ys = [q[1] for q in _cur[1]]
+                _pts.append((float(np.median(xs)), float(np.median(ys))))
+            _cur = (w, [])
+        _cur[1].append((x, y))
+if _cur is not None:
+    _pts.append((float(np.median([q[0] for q in _cur[1]])), float(np.median([q[1] for q in _cur[1]]))))
+RT = rdp2(_pts, 0.6)
+RTF = []
+for x, y in RT:
+    RTF += [round(x, 1), round(y, 1)]
+# 몹 이름 → 게임 번호(얼굴 그림)
+MG = []
+for n in MN:
+    gid = next((A[k[0]].get('gameID') for k in first if ko(k[0]) == n), 0)
+    MG.append(gid or 0)
+
 out = {'fl': FI, 'dur': DUR, 'kill': bool(D['fight'].get('kill')), 'src': 'wcl',
        'party': [{'c': t['c'], 'r': t['r']} for t in tracks], 'tr': [t['p'] for t in tracks],
-       'pulls': pulls, 'mn': MN, 'mb': mobs, 'dead': {str(k): round(v, 1) for k, v in sorted(pdead.items())}, 'pd': deaths}
+       'pulls': pulls, 'mp': MP, 'bk': BK, 'rt': RTF, 'mn': MN, 'mg': MG, 'mb': mobs, 'dead': {str(k): round(v, 1) for k, v in sorted(pdead.items())}, 'pd': deaths}
 OUT = os.path.join(ROOT, 'data/guides/dungeon-replays.json')
 allr = json.load(open(OUT, encoding='utf-8')) if os.path.exists(OUT) else {}
 allr[slug] = out
