@@ -60,11 +60,13 @@ end
 -- D.pull = { n = 던전, p = 풀들, i = 지금 풀, k = { [풀] = { [몹 칸] = 죽은 수 } }, g = { [GUID] = 1 }, mk = { [GUID] = 표식 }, off = 표식 끔 }
 local function PL() local d = DB().pull; if d and d.p and #d.p > 0 then return d end end
 local frame, lines, render
+-- GUID: Creature-0-서버-지도-인스턴스-NPC-스폰 → NPC 번호, 인스턴스 번호(던전 한 판마다 다름)
 local function npcOf(guid)
   if not guid then return end
-  local kind, id = guid:match("^(%a+)%-%d+%-%d+%-%d+%-%d+%-(%d+)%-")
-  if kind == "Creature" or kind == "Vehicle" then return tonumber(id) end
+  local kind, z, id = guid:match("^(%a+)%-%d+%-%d+%-%d+%-(%d+)%-(%d+)%-")
+  if kind == "Creature" or kind == "Vehicle" then return tonumber(id), z end
 end
+local fresh = true -- 접속·지역 이동 뒤 처음 센 몹이면 새 판인지 봄
 local function left(d, pi)
   local pull, K = d.p[pi], d.k[pi] or {}
   local n = 0
@@ -76,11 +78,11 @@ local function cut(s, n)
   if #s <= n then return s end
   local i = n
   while i > 0 do local c = s:byte(i + 1); if not c or c < 128 or c >= 192 then break end; i = i - 1 end
-  return s:sub(1, i) .. "…"
+  return s:sub(1, i) .. "..."
 end
 local function pullText(pull, short)
   local o = {}
-  for _, x in ipairs(pull) do o[#o + 1] = (x.b and "|cffff8040" or "") .. x.nm .. (x.c > 1 and (" ×" .. x.c) or "") .. (x.b and "|r" or "") end
+  for _, x in ipairs(pull) do o[#o + 1] = (x.b and "|cffff8040" or "") .. x.nm .. (x.c > 1 and (" x" .. x.c) or "") .. (x.b and "|r" or "") end
   local s = table.concat(o, ", ")
   if short then s = cut(s, 60) end
   return s
@@ -89,7 +91,7 @@ end
 local function setPull(i, quiet)
   local d = PL(); if not d then return end
   i = math.max(1, math.min(i, #d.p))
-  d.i = i; d.mk = {}
+  d.i = i; d.mk = {}; d.fin = nil
   if not quiet then say(("풀 |cffffd100%d|r / %d · %s"):format(i, #d.p, pullText(d.p[i]))) end
   if render then render() end
 end
@@ -99,9 +101,22 @@ local function onDeath(guid, name)
   local d = PL(); if not d then return end
   d.g = d.g or {}; d.k = d.k or {}
   if not guid or d.g[guid] then return end
-  local id = npcOf(guid)
+  local id, z = npcOf(guid)
   if not id and not name then return end
   local nn = norm(name)
+  -- 같은 던전 새 판(인스턴스 번호가 바뀜): 지난 판 센 수를 비우고 1풀부터 — 예전엔 지난 판 수가 남아 풀이 엉뚱하게 넘어갔음
+  if fresh and z then
+    local inPlan = false
+    for _, pull in ipairs(d.p) do for _, x in ipairs(pull) do if (x.id and x.id == id) or (not x.id and norm(x.nm) == nn) then inPlan = true end end end
+    if inPlan then
+      fresh = false
+      if d.z and d.z ~= z and (next(d.k) or d.fin) then
+        d.k = {}; d.g = {}; d.mk = {}; d.i = 1; d.fin = nil
+        say("새 판이라 |cffffd1001풀|r부터 다시 셀게요. (/wfh 풀 다음 · 이전 으로 옮기기)")
+      end
+      d.z = z
+    end
+  end
   for pi = d.i or 1, math.min(#d.p, (d.i or 1) + 2) do
     local K = d.k[pi] or {}
     for j, x in ipairs(d.p[pi]) do
@@ -174,7 +189,7 @@ local function build()
   local function btn(txt, x, fn)
     local b = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate"); b:SetSize(22, 18); b:SetPoint("TOPRIGHT", x, -4); b:SetText(txt); b:SetScript("OnClick", fn); return b
   end
-  frame.close = btn("x", -4, function() frame:Hide(); DB().pullHide = true end)
+  frame.close = btn("x", -4, function() frame:Hide(); DB().pullHide = true; DB().pullOpen = nil end)
   frame.nx = btn(">", -28, function() local d = PL(); if d then setPull((d.i or 1) + 1) end end)
   frame.pv = btn("<", -52, function() local d = PL(); if d then setPull((d.i or 1) - 1) end end)
   lines = {}
@@ -217,7 +232,7 @@ end
 
 local function show(on)
   if not frame then build() end
-  if on then frame:Show(); DB().pullHide = nil; render() else frame:Hide() end
+  if on then frame:Show(); DB().pullHide = nil; DB().pullOpen = true; render() else frame:Hide(); DB().pullOpen = nil end
 end
 function WowfHelper_PullShow(on) show(on) end
 
@@ -270,7 +285,7 @@ function WowfHelper_PullCmd(arg)
   if not d then say("넣은 풀이 없어요. 앱 「던전 → 풀 짜기」 루트 메뉴 → 「와포 도우미 애드온으로」 코드를 넣어 주세요."); pasteBox(); return end
   if arg == "다음" or arg == "next" then setPull((d.i or 1) + 1); show(true)
   elseif arg == "이전" or arg == "prev" then setPull((d.i or 1) - 1); show(true)
-  elseif arg == "처음" or arg == "reset" then d.k = {}; d.g = {}; d.fin = nil; setPull(1); show(true)
+  elseif arg == "처음" or arg == "reset" then d.k = {}; d.g = {}; setPull(1); show(true)
   elseif arg == "표식" or arg == "mark" then
     d.off = not d.off
     say(d.off and "표식 달기를 껐어요." or "표식 달기를 켰어요. 몹에 마우스를 올리면 앱에서 정한 표식을 달아요(공격대에선 공격대장·부공대장만).")
@@ -291,7 +306,10 @@ ev:SetScript("OnEvent", function(_, e)
   elseif e == "UPDATE_MOUSEOVER_UNIT" then tryMark("mouseover")
   elseif e == "PLAYER_TARGET_CHANGED" then tryMark("target")
   elseif e == "PLAYER_ENTERING_WORLD" then
+    fresh = true
     local d = PL(); if not d or DB().pullHide then return end
+    -- /reload 전에 켜 두었으면 그대로 다시 켬
+    if DB().pullOpen then show(true); return end
     -- 넣은 루트의 던전에 들어오면 창을 저절로 띄움
     if GetInstanceInfo and IsInInstance and IsInInstance() then
       local name = GetInstanceInfo()

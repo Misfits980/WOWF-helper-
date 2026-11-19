@@ -778,6 +778,7 @@ SlashCmdList["WOWFHELPER"] = function(msg)
     for _ in pairs((D.rec and D.rec.p) or {}) do np = np + 1 end
     for _ in pairs(D.taxi or {}) do nt = nt + 1 end
     say(("담긴 것 · 보상 고르기 %d개 · 다음 갈 곳 %d곳 · 기억한 비행 경로 %d곳"):format(np, (D.rec and D.rec.n) and #D.rec.n or 0, nt))
+    if D.pull and D.pull.p then say(("던전 풀 · %s %d / %d풀 · 표식 달기 %s (/wfh 풀)"):format(D.pull.n or "", D.pull.i or 1, #D.pull.p, D.pull.off and "|cffff6060꺼짐|r" or "|cff40ff40켜짐|r")) end
     say("끄고 켜기: /wfh 공략 · /wfh 알림 · /wfh 추천 지우기 · 애드온 전체는 캐릭터 고르는 화면의 「애드온」에서")
   elseif msg == "도움" or msg == "help" or msg == "?" then
     say("명령어 · |cffffd100/wfh|r 앱으로 옮길 코드 · |cffffd100/wfh 다음|r 다음 갈 곳 · |cffffd100/wfh 추천|r 앱 추천 코드 넣기")
