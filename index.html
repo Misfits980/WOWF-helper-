@@ -2671,10 +2671,10 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=0c8c5d98"></script>
-<script>/* v0cf7fa @11/19 11:12 */
+<script>/* v401490 @11/19 12:02 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 const FS_KEY='wowf_fs',FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/19 11:12';
+const BUILD='11/19 12:02';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -5935,8 +5935,9 @@ function dgPlan(c,slug,fl){const sig=dgSig(fl);const P=c&&c.dgp&&c.dgp[slug];if(
   /* 빈 풀은 탱 풀 짜기에서 지금 고른 빈 풀(＋ 새 풀 등)만 남김 — 예전엔 비워 둔 채 떠난 풀이 저장에 남아 풀 번호가 1,3,4…로 건너뛰고 새로고침 뒤에도 그대로였음.
      복사본을 돌려줌(그릴 때 정하는 지금 풀 k가 저장된 계획에 섞이지 않게) */
   const nw=ui.dpm&&ui.dpNew===slug?(ui.dpkI||0):-1;return Object.assign({},P,{p:P.p.filter((x,j)=>x.length||j===nw)})}
-  return {s:sig,p:dgAuto(fl,2),k:0,lv:2,auto:1}}
-function dgPlanEdit(fn){if(!DGX||!DGX.pl)return;const c=DGX.c;const P=JSON.parse(JSON.stringify(dgPlan(c,DGX.slug,DGX.fl)));delete P.auto;P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));fn(P);
+  /* 저장된 계획이 없으면 빈 계획 — 예전엔 자동 추천 번호(1, 2, 3…)가 먼저 붙어 있어 탱이 직접 묶을 수 없었음(용현 「올가미로 자유롭게」). 자동 묶기는 버튼으로만 */
+  return {s:sig,p:[],k:0,lv:2,empty:1}}
+function dgPlanEdit(fn){if(!DGX||!DGX.pl)return;const c=DGX.c;dpUndoPush();const P=JSON.parse(JSON.stringify(dgPlan(c,DGX.slug,DGX.fl)));delete P.auto;/* 빈 계획 표시는 고치는 순간 없앰(남으면 「모두 지우기」가 안 보였음) */delete P.empty;P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));fn(P);
   /* 빈 풀은 지금 풀만 남김 · 지금 풀 번호 맞춤 */
   const keep=[];let nk=P.k;P.p.forEach((x,j)=>{if(x.length||j===P.k)keep.push(x);else if(j<P.k)nk--});P.p=keep;if(!P.p.length)P.p=[[]];P.k=Math.max(0,Math.min(nk,P.p.length-1));ui.dpkI=P.k;ui.dpNew=P.p[P.k].length?null:DGX.slug;delete P.k;
   c.dgp=c.dgp||{};c.dgp[DGX.slug]=P;save()}
@@ -5951,7 +5952,7 @@ function selOf(m,fi,i){const n=planNo(fi,i);return n?'p:'+n:'k:'+fi+':'+i}
 function mobBar(f){const on=ui.dmob!==0;const PM=dpmOn(),RPm=drpOn();const np=RPm?DGX.rp.mp.length:DGX&&DGX.P?DGX.P.p.filter(x=>x.length).length:0;
   return '<div class="mobtg">'+(DGX&&DGX.pl?'<div class="chips seg dpm"><button class="chip'+(!PM&&!RPm?' on':'')+'" data-a="dpm" data-k="0">지도 보기</button><button class="chip'+(PM?' on':'')+'" data-a="dpm" data-k="1">탱 풀 짜기</button>'+(DGX.rp?'<button class="chip'+(RPm?' on':'')+'" data-a="dpm" data-k="2">실제 판 재생</button>':'')+'</div>':'')
   +(PM||RPm?'':'<button class="chip'+(on?' on':'')+'" data-a="dmob">쫄 '+(on?'보이기':'숨김')+'</button>')
-  +(RPm?'<span class="mleg"><i class="rtl"></i>풀 순서 길<i class="lgf fc"></i>지금 싸우는 풀<i class="rpe lg"></i>싸우는 몹<i class="mi lg dd"></i>끝낸 풀</span><button class="chip'+(ui.rpAll?' on':'')+'" data-a="rpall">안 잡은 무리도 '+(ui.rpAll?'보임':'숨김')+'</button>':PM?'<span class="mleg"><i class="lgf fc"></i>지금 풀<i class="lgf fn"></i>다음 풀<i class="mi lg" style="--c:#a59c8a"></i>다른 풀<i class="mi lg off2"></i>안 잡음<i class="mrt tk"></i>탱 동선</span>':on?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
+  +(RPm?'<span class="mleg"><i class="rtl"></i>풀 순서 길<i class="lgk cu"></i>지금 싸우는 풀<i class="rpe lg"></i>싸우는 몹<i class="mi lg dd"></i>끝낸 풀</span><button class="chip'+(ui.rpAll?' on':'')+'" data-a="rpall">안 잡은 무리도 '+(ui.rpAll?'보임':'숨김')+'</button>':PM?'<span class="mleg"><i class="mi lg off2"></i>가만히 있는 몹<i class="mi lg off2 rmr"></i>로머(순찰)<i class="lgk"></i>내가 묶은 풀<i class="lgk cu"></i>지금 풀<i class="rtl"></i>탱 동선</span>':on?'<span class="mleg">'+(PM?'<i class="mrt tk"></i>탱 동선':(f.route?'<i class="mrt"></i>길':''))+'<i class="mi lg" style="--c:'+PCOL[0]+'"></i>풀<i class="mi lg" style="--c:#7a756b"></i>안 잡음<i class="mi lg e" style="--c:#cfc6b2"></i>정예'+(f.mob.t.length?'<i class="mln"></i>순찰':'')+'</span>':'')
   +'<span class="mute">'+(np?'풀 '+np+' · ':'')+'무리 '+f.mob.p.length+' · 순찰 '+f.mob.t.length+'</span></div>'}
 /* ── 탱 동선: 층 길찾기 칸 그림(data/dgmap/*-nav.png)을 받아 브라우저에서 풀 → 풀 길 찾기 ── */
 const NAVC={},SEGC={};
@@ -5986,6 +5987,21 @@ function tankStops(f,fi){const P=DGX.P;const st=[];const ent=f.pins.find(p=>p.t=
 function tankRoute(f,fi){const V=navLoad(f);if(!V)return null;const st=tankStops(f,fi);const segs=[];for(let i=1;i<st.length;i++){const a=navSnap(V,st[i-1].x,st[i-1].y),b=navSnap(V,st[i].x,st[i].y);
     const r=a>=0&&b>=0?navPath(V,a,b):null;const sx=(f.sc||300)/100,sy=sx*(f.h/f.w),stub=(p,q)=>Math.hypot((p.x-q[0])*sx,(p.y-q[1])*sy);/* 정류장 ↔ 가까운 길 칸 토막도 셈(짧은 구간이 직선보다 짧게 나오던 것) */
     segs.push({from:st[i-1],to:st[i],pts:r?[[st[i-1].x,st[i-1].y]].concat(r.pts,[[st[i].x,st[i].y]]):[[st[i-1].x,st[i-1].y],[st[i].x,st[i].y]],yd:r?r.yd+stub(st[i-1],r.pts[0])+stub(st[i],r.pts[r.pts.length-1]):null,ok:!!r})}return segs}
+/* ── 풀 묶음 도형(raider.io · keystone.guru처럼): 풀마다 몹 얼굴을 감싸는 또렷한 테두리(풀 색)·옅은 채움, 큰 흰 번호.
+   30야드 넘게 떨어진 무리는 도형을 따로 그리고 도형끼리 점선으로 이음(체인). 예전 띠는 굵고 흐릿해 「묶인 느낌」이 없었음(용현) ── */
+function kzR(W){const v=document.querySelector('.mapv');const z=ui.dz||1;const dw=(v&&v.clientWidth?v.clientWidth:Math.min(innerWidth,1000))*z;const px=((innerWidth>=900||z>1)?19:15)/2+5;return px*W/Math.max(200,dw)}
+function kzGeo(f,ix,W,H){const M=f.mob,sx=(f.sc||300)/100,sy=sx*(f.h||100)/(f.w||100),r=kzR(W);
+  const P=ix.map(i=>{const m=M.p[i];const q=m?(m[9]&&m[9].length?m[9]:[[m[0],m[1]]]):[];return {q,c:q.length?[q.reduce((a,v)=>a+v[0],0)/q.length,q.reduce((a,v)=>a+v[1],0)/q.length]:null}}).filter(p=>p.c);
+  if(!P.length)return null;const dd=(a,b)=>Math.hypot((a[0]-b[0])*sx,(a[1]-b[1])*sy);
+  const g=P.map((_,i)=>i),fd=i=>g[i]===i?i:(g[i]=fd(g[i]));for(let a=0;a<P.length;a++)for(let b=a+1;b<P.length;b++)if(dd(P[a].c,P[b].c)<=30)g[fd(a)]=fd(b);
+  const C={};P.forEach((p,i)=>{(C[fd(i)]=C[fd(i)]||[]).push(p)});
+  const cl=Object.values(C).map(L=>{const pts=[];L.forEach(p=>p.q.forEach(v=>{const x=v[0]*W/100,y=v[1]*H/100;for(let k=0;k<12;k++){const a=k*Math.PI/6;pts.push([x+r*Math.cos(a),y+r*Math.sin(a)])}}));const hl=hull(pts);
+    let top=hl[0];hl.forEach(q=>{if(q[1]<top[1])top=q});const cx=L.reduce((a,p)=>a+p.c[0],0)/L.length,cy=L.reduce((a,p)=>a+p.c[1],0)/L.length;return {hl,top,c:[cx,cy],n:L.length}});
+  cl.sort((a,b)=>b.n-a.n);const links=[];const inT=[0],out=cl.map((_,i)=>i).slice(1);
+  while(out.length){let b=null;inT.forEach(a=>out.forEach(o=>{const d=dd(cl[a].c,cl[o].c);if(!b||d<b[0])b=[d,a,o]}));inT.push(b[2]);out.splice(out.indexOf(b[2]),1);links.push([cl[b[1]].c,cl[b[2]].c])}
+  return {cl,links,lab:[cl[0].top[0]/W*100,cl[0].top[1]/H*100]}}
+function kzSvg(G,col,cls,W,H){if(!G)return '';let s='';G.links.forEach(([a,b])=>{s+='<line class="kzl '+cls+'" style="--c:'+col+'" x1="'+(a[0]*W/100).toFixed(1)+'" y1="'+(a[1]*H/100).toFixed(1)+'" x2="'+(b[0]*W/100).toFixed(1)+'" y2="'+(b[1]*H/100).toFixed(1)+'"/>'});
+  G.cl.forEach(c=>{s+='<path class="kz '+cls+'" style="--c:'+col+'" d="M'+c.hl.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join('L')+'Z"/>'});return s}
 function mobLayer(f,fi){const RQ=drpOn()&&DGX.rp.fl===fi?DGX.rp:null;if(!(PV&&f.mob&&(ui.dmob!==0||dpmOn()||RQ)))return '';const M=f.mob,W=f.w||100,H=f.h||100,sel=dpmOn()?'p:'+(DGX.P.k+1):RQ?null:ui.dmsel;const PM=dpmOn();const NO=RQ?rpNo:planNo;
   /* 풀 짜기·재생: 지금 풀(금색)·다음 풀(파란색)만 강조 */const FX=PM?planFocus(fi):null;const RS=RQ?rpState(RQ,RP.t):null;if(RQ)rpNo(fi,0);const FCs=new Set(FX?FX.c:[]),FNs=new Set(FX?FX.n:[]);const role=i=>FCs.has(i)?' fc':FNs.has(i)?' fn':'';
   const pt=new Set(M.t.map(t=>t[0]));const RM=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -5994,12 +6010,12 @@ function mobLayer(f,fi){const RQ=drpOn()&&DGX.rp.fl===fi?DGX.rp:null;if(!(PV&&f.
   /* 풀 묶음 테두리: 같은 풀 몹을 감싸는 둥근 띠(떨어진 무리를 묶으면 사이까지 이어져 체인으로 보임) */
   const PG={};M.p.forEach((m,i)=>{const n=NO(fi,i);if(!n)return;(PG[n]=PG[n]||[]).push(...(m[9]&&m[9].length?m[9]:[[m[0],m[1]]]).map(q=>[q[0]*W/100,q[1]*H/100]))});
   const pad=Math.max(W,H)*.012;
-  /* 재생에선 띠 없음: 기록 몹을 무리에 붙인 게 대략이라 떨어진 무리까지 띠가 이어져 지도를 가렸음 */if(PM)sv+='<defs>'+fArrow(W,H)+'</defs>'+fBand(f,FX.c,'fc',W,H)+fBand(f,FX.n,'fn',W,H);else if(!RQ)Object.entries(PG).forEach(([n,pts])=>{const hl=hull(pts);const d=hl.length>1?'M'+hl.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join('L')+'Z':'M'+hl[0][0].toFixed(1)+','+hl[0][1].toFixed(1)+'h.1';
-    sv+='<path class="hul'+(sel==='p:'+n?' on':'')+'" style="--c:'+pCol(+n)+';stroke-width:'+(pad*2).toFixed(1)+'" d="'+d+'"/>'});
+  /* 풀마다 묶음 도형(지도 보기·풀 짜기) — 재생은 rpSvg가 지도 풀마다 그림 */const KZ={};if(!RQ){const IX={};M.p.forEach((m,i)=>{const n=NO(fi,i);if(n)(IX[n]=IX[n]||[]).push(i)});
+    if(PM)sv+='<defs>'+fArrow(W,H)+'</defs>';Object.entries(IX).forEach(([n,ix])=>{const G=kzGeo(f,ix,W,H);KZ[n]=G;sv+=kzSvg(G,pCol(+n),PM?(+n===FX.FC?'cu':+n===FX.FN?'nx':''):(sel==='p:'+n?'cu':''),W,H)})}
   /* 길: 보기 = 입구→보스 길(흰 점선) · 풀 짜기 = 탱 동선(풀 → 풀, 금색) */
-  if(RQ)sv+=rpSvg(RQ,W,H);else if(PM){const T=tankRoute(f,fi);/* 전체 탱 동선은 흐리게, 지금 풀 → 다음 풀(또는 다음 곳)만 진하게 화살표 */if(T)T.forEach(sg=>{const d='M'+sg.pts.map(P2).join('L');const lg=sg.from.k==='p'&&sg.from.j===FX.FC-1;sv+=lg?'<path class="tk0" d="'+d+'"/><path class="tkl" marker-end="url(#farw)" d="'+d+'"/>':'<path class="tk dim'+(sg.ok?'':' gap')+'" d="'+d+'"/>'});}
+  if(RQ)sv+=rpSvg(RQ,W,H);else if(PM){const T=tankRoute(f,fi);/* 전체 탱 동선은 흐리게, 지금 풀 → 다음 풀(또는 다음 곳)만 진하게 화살표 */if(T)T.forEach(sg=>{const d='M'+sg.pts.map(P2).join('L');const lg=sg.from.k==='p'&&sg.from.j===FX.FC-1;const col=sg.to&&sg.to.k==='p'?pCol(sg.to.j+1):'#e8c170';sv+=(lg?'<path class="tk0" d="'+d+'"/>':'')+'<path class="tkc'+(lg?' cu':'')+(sg.ok?'':' gap')+'" style="stroke:'+col+'"'+(lg?' marker-end="url(#farw)"':'')+' d="'+d+'"/>'});}
   else (f.route||[]).forEach(r=>{const d='M'+r.map(P2).join('L');sv+='<path class="rt0" d="'+d+'"/><path class="rt" d="'+d+'"/>'});
-  M.t.forEach(t=>{/* 풀 짜기는 지금·다음 풀 무리의 순찰만, 재생은 실제 몹 점이 있어 순찰 안 그림 */if(RQ||(PM&&!FCs.has(t[0])&&!FNs.has(t[0])))return;const P=t[1].map(q=>[q[0]*W/100,q[1]*H/100]);const d='M'+P.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join('L');const m=M.p[t[0]];const on=m&&sel===selOf(m,fi,t[0]);
+  M.t.forEach(t=>{/* 풀 짜기는 지금·다음 풀 무리의 순찰만, 재생은 실제 몹 점이 있어 순찰 안 그림 */if(RQ)return;const P=t[1].map(q=>[q[0]*W/100,q[1]*H/100]);const d='M'+P.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join('L');const m=M.p[t[0]];const on=m&&sel===selOf(m,fi,t[0]);
     sv+='<path class="pl'+(on?' on':'')+'" d="'+d+'"/>';
     const r=Math.max(W,H)*.0085;let L=0;for(let i=1;i<P.length;i++)L+=Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]);
     const yd=f.sc?L/W*f.sc:L/W*300;const dur=Math.max(6,Math.min(120,yd/2.5*2));
@@ -6013,10 +6029,10 @@ function mobLayer(f,fi){const RQ=drpOn()&&DGX.rp.fl===fi?DGX.rp:null;if(!(PV&&f.
     if(!(m[9]&&m[9].length)){h+='<button class="mob'+(m[8]?' rr':m[4]?' el':'')+(pt.has(i)?' pt':'')+(on?' on':'')+DP+'" style="left:'+m[0]+'%;top:'+m[1]+'%;--n:'+Math.min(m[2],6)+'"'+act+' aria-label="'+lab+'"></button>';return}
     let R=0;m[9].forEach(q=>{R=Math.max(R,Math.hypot(q[0]-m[0],(q[1]-m[1])*H/W))});
     h+='<button class="mpk'+(on?' on':'')+(PM?' pm':'')+'" style="left:'+m[0]+'%;top:'+m[1]+'%;width:'+(2*R+1.6).toFixed(2)+'%"'+act+' aria-label="'+lab+(PM?(n?' · 누르면 빼기':' · 누르면 지금 풀에 넣기'):'')+'"></button>';
-    h+=m[9].map(q=>{const x=m[7][q[2]]||[];return '<i class="mi '+mobRk(x[2])+(M.id&&M.id[x[0]]?' ph':'')+(on?' on':'')+(n?'':' off')+DP+'" style="left:'+q[0]+'%;top:'+q[1]+'%;--c:'+pCol(n)+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x[5]]?x[5]:0)+'"/></svg>'+(M.id&&M.id[x[0]]?'<img src="'+npcThumb(M.id[x[0]])+'" alt="" loading="lazy" onerror="this.remove()">':'')+'</i>'}).join('');
-    if(n&&!RQ){const u=PU[n]||(PU[n]={x:0,y:0,c:0});m[9].forEach(q=>{u.x+=q[0];u.y+=q[1];u.c++})}});
-  Object.entries(PU).forEach(([n,u])=>{const k='p:'+n;h+='<button class="mpn'+(sel===k?' on':'')+(FX?(+n===FX.FC?' fc':+n===FX.FN?' fn':' mini'):'')+'" style="left:'+(u.x/u.c).toFixed(1)+'%;top:'+(u.y/u.c).toFixed(1)+'%;--c:'+pCol(+n)+'" data-a="'+(PM?'dpsel':'mobi')+'" data-k="'+(PM?(+n-1):k)+'" aria-label="풀 '+n+'">'+n+'</button>'});
-  if(RQ)h+=rpMarks(RQ);
+    h+=m[9].map(q=>{const x=m[7][q[2]]||[];return '<i class="mi '+mobRk(x[2])+(M.id&&M.id[x[0]]?' ph':'')+(pt.has(i)?' rmr':'')+(on?' on':'')+(n?'':' off')+DP+'" style="left:'+q[0]+'%;top:'+q[1]+'%;--c:'+pCol(n)+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x[5]]?x[5]:0)+'"/></svg>'+(M.id&&M.id[x[0]]?'<img src="'+npcThumb(M.id[x[0]])+'" alt="" loading="lazy" onerror="this.remove()">':'')+'</i>'}).join('');
+  });
+  Object.entries(KZ).forEach(([n,G])=>{if(!G)return;const k='p:'+n;const st=PM?(+n===FX.FC?' on':+n===FX.FN?' nx':''):(sel===k?' on':'');h+='<button class="mpn kz'+st+'" style="left:'+G.lab[0].toFixed(2)+'%;top:'+G.lab[1].toFixed(2)+'%;--c:'+pCol(+n)+'" data-a="'+(PM?'dpsel':'mobi')+'" data-k="'+(PM?(+n-1):k)+'" aria-label="풀 '+n+'">'+n+'</button>'});
+  if(RQ)h+=rpMarks(RQ,f,W,H);
   return h}
 /* ── 대표 판 재생(미리보기): 워크래프트로그 실제 기록 한 판(플레이어 이름 없이 직업만) — 파티 위치·실제 풀 번호·잡힌 무리 ── */
 const drpOn=()=>!!(ui.drp&&!ui.dpm&&DGX&&DGX.rp&&DGX.pl);
@@ -6062,7 +6078,8 @@ function rpMobAt(m,t){const tr=m[5];if(!tr||!tr.length)return null;const t1=m[3]
 function rpState(R,t){if(!R._mp)rpNo(R.fl,0);const cs=new Set();let t0=1e9;(R.mb||[]).forEach(m=>{if(m[4]<0)return;const j=R._mp[m[4]];if(j==null||!rpMobAt(m,t))return;cs.add(j);t0=Math.min(t0,m[5][0])});
   const cur=[...cs].sort((a,b)=>a-b),done=new Set();let nx=-1;R.mp.forEach((p,j)=>{if(cs.has(j))return;if(p.k.every(i=>R.dead[i]!=null&&R.dead[i]<=t))done.add(j);else if(nx<0&&t<p.t[0])nx=j});return {cur,done,nx,t0}}
 const rpLab=js=>{if(!js.length)return '';const a=js.map(j=>j+1);let s=[],i=0;while(i<a.length){let k=i;while(k+1<a.length&&a[k+1]===a[k]+1)k++;s.push(k>i?a[i]+'–'+a[k]:''+a[i]);i=k+1}return s.join(', ')+'풀'};
-function rpBands(R,f,st,W,H){let s='';R.mp.forEach((p,j)=>{if(st.done.has(j))return;s+=fBand(f,p.k,'rpb'+(st.cur.includes(j)?' cu':j===st.nx?' nx':''),W,H,pCol(j+1))});return s}
+function rpKz(R,f,W,H){const key=(ui.dz||1)+':'+W;if(R._kz&&R._kz.key===key)return R._kz.g;const g=R.mp.map(p=>kzGeo(f,p.k,W,H));R._kz={key,g};return g}
+function rpBands(R,f,st,W,H){const G=rpKz(R,f,W,H);let s='';R.mp.forEach((p,j)=>{s+=kzSvg(G[j],pCol(j+1),st.done.has(j)?'dn':st.cur.includes(j)?'cu':j===st.nx?'nx':'',W,H)});return s}
 /* 풀 → 다음 풀 길(keystone.guru처럼 다음 풀 색): 층 길찾기 칸 그림으로, 아직 안 받았거나 못 찾으면 곧은 선 */
 function rpLegs(R,f){if(R._legs)return R._legs;const V=navLoad(f);const L=[];for(let j=1;j<R.mp.length;j++){const a=R.mp[j-1],b=R.mp[j];let pts=[[a.x,a.y],[b.x,b.y]],ok=0;
     if(V){const s=navSnap(V,a.x,a.y),t=navSnap(V,b.x,b.y);const r=s>=0&&t>=0?navPath(V,s,t):null;if(r&&r.pts&&r.pts.length){pts=[[a.x,a.y]].concat(r.pts,[[b.x,b.y]]);ok=1}}L.push({j,pts,ok})}
@@ -6073,8 +6090,8 @@ function rpSvg(R,W,H){const f=DGX.fl[R.fl],st=rpState(R,RP.t),tr=R.tr[rpTk(R)];
   return '<defs>'+fArrow(W,H)+'</defs><g id="rpgrp" data-k="'+st.cur.join('.')+'|'+st.nx+'|'+st.done.size+'">'+rpBands(R,f,st,W,H)+'</g><g id="rplegs">'+rpLegSvg(R,f,st,W,H)+'</g><path class="rpnx" id="rpnx" marker-end="url(#farw)" d="'+(nx?rpSeg(tr,RP.t,nx,W,H):'')+'"/>'}
 const rpPk=(R,st,i)=>{const j=R._mp[i];return j==null?' off':st.done.has(j)?' mdn':st.cur.includes(j)?' mcu':''};
 function rpThumb(gid){const u=npcThumb(gid);return u?'<img src="'+u+'" alt="" loading="lazy" onerror="this.remove()">':''}
-function rpMarks(R){const st=rpState(R,RP.t);let h='';const TY={};DGX.fl[R.fl].mob.p.forEach(m=>m[7].forEach(x=>{if(TY[x[0]]==null)TY[x[0]]=x[5]}));
-  R.mp.forEach((p,j)=>{h+='<button class="mpn rpn'+(st.done.has(j)?' dn':st.cur.includes(j)?' on':j===st.nx?' nx':'')+'" id="rpn-'+j+'" style="left:'+p.x+'%;top:'+p.y+'%;--c:'+pCol(j+1)+'" data-a="rpj" data-k="'+j+'" aria-label="'+(j+1)+'풀: '+esc(p.m.map(x=>x[0]+(x[1]>1?' '+x[1]:'')).join(', '))+'">'+(j+1)+'</button>'});
+function rpMarks(R,f,W,H){const st=rpState(R,RP.t);let h='';const KG=f?rpKz(R,f,W,H):[];const TY={};DGX.fl[R.fl].mob.p.forEach(m=>m[7].forEach(x=>{if(TY[x[0]]==null)TY[x[0]]=x[5]}));
+  R.mp.forEach((p,j)=>{const L=KG[j]?KG[j].lab:[p.x,p.y];h+='<button class="mpn kz rpn'+(st.done.has(j)?' dn':st.cur.includes(j)?' on':j===st.nx?' nx':'')+'" id="rpn-'+j+'" style="left:'+L[0].toFixed(2)+'%;top:'+L[1].toFixed(2)+'%;--c:'+pCol(j+1)+'" data-a="rpj" data-k="'+j+'" aria-label="'+(j+1)+'풀: '+esc(p.m.map(x=>x[0]+(x[1]>1?' '+x[1]:'')).join(', '))+'">'+(j+1)+'</button>'});
   (R.mb||[]).forEach((m,k)=>{const ty=TY[R.mn[m[0]]];/* 얼굴 그림이 없는 몹(검은심연 18종 중 10종)은 지도 무리와 같은 종족 그림이 보임 */h+='<span class="rpe r'+m[1]+'" id="rpe-'+k+'" style="display:none"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[ty]?ty:0)+'"/></svg>'+rpThumb((R.mg||[])[m[0]])+'<b></b></span>'});
   R.party.forEach((p,k)=>{const q=rpAt(R.tr[k],RP.t)||[0,0];h+='<i class="rpd'+(p.r==='T'?' tk':'')+'" id="rpd-'+k+'" style="left:'+q[0].toFixed(2)+'%;top:'+q[1].toFixed(2)+'%;--c:'+(RPC[p.c]||'#ccc')+'"><svg viewBox="0 0 24 24"><path d="'+RIP[p.r==='T'?'tk':p.r==='H'?'hl':'dp']+'"/></svg></i>'});return h}
 /* 싸우는 몹: 4야드 안에 겹치면 한 얼굴에 ×숫자 */
@@ -6198,6 +6215,20 @@ function pullList(c,f,fi){if(!(PV&&f.mob))return '';if(dpmOn())return planPanel(
     return '<li><button class="'+(ui.dmsel==='p:'+n?'on':'')+'" data-a="mobi" data-k="p:'+n+'"><span class="pnum" style="--c:'+pCol(n)+'">'+n+'</span><span class="pt">'+t+'</span><small>'+g.n+'마리 · <span class="'+dg[1]+'">'+dg[0]+'</span></small></button></li>'}).join('')+'</ol>'
     +(ns.length>6?'<button class="btn sm ghost plm" data-a="dpall">'+(all?'접기':'풀 '+ns.length+'개 모두 보기')+'</button>':'')
     +'<p class="mute">길: 지도 바닥 높이로 찾은 입구→보스 걷는 길 · 풀: 길에서 9야드 안 무리를 길 순서대로 묶은 추천(실제 공략 판 기록 아님) · 회색 = 안 잡는 무리 · 금색 테두리 = 정예 · 몹 그림 = 종족</p></div>'}
+/* ── MDT(Mythic Dungeon Tools)처럼 풀 목록: 지도 옆(PC)·지도 바로 밑(폰)에 풀마다 한 줄 — 풀 색 · 번호 · 몹 얼굴 ×수 · 마리 수 · 위험도 점.
+   줄을 누르면 그 풀이 지금 풀, 고른 줄엔 위로·아래로·앞 풀과 합치기·지우기. 맨 위에 ◀ 풀 n ▶ · ＋ 새 풀(예전엔 지도 밑 번호 알약 줄이라 어느 풀에 뭐가 있는지 안 보였음, 용현 「mdt 이거야」) ── */
+function mdtFace(x){const rk=x.rk!=null?mobRk(x.rk):'n';return '<span class="rpfc'+(rk==='e'?' e':rk==='r'?' r':'')+'" title="'+esc(x.nm)+(x.c>1?' ×'+x.c:'')+'"><svg viewBox="0 0 24 24"><use href="#mg'+(MGLY[x.ty]?x.ty:0)+'"/></svg>'+(x.id?'<img src="'+npcThumb(x.id)+'" alt="" loading="lazy" onerror="this.remove()">':'')+(x.c>1?'<b>'+x.c+'</b>':'')+'</span>'}
+function mdtList(c){const P=DGX.P;const my=c.lv||1;const k=P.k;const tot=P.p.filter(x=>x.length).length;const L=planMs(P,k);
+  let rows='',mob=0;P.p.forEach((ks,j)=>{const L2=planMs(P,j);if(!L2.length&&j!==k)return;const g2=pullAgg(L2);mob+=g2.n;const d2=L2.length?dangerOf(L2,my):null;const on=j===k;
+    const lab=(j+1)+'번 풀: '+(L2.length?g2.rows.map(x=>x.nm+(x.c>1?' '+x.c:'')).join(', ')+' · '+g2.n+'마리 · '+d2[0]:'빈 풀');
+    const F=g2.rows.slice(0,6).map(mdtFace).join('')+(g2.rows.length>6?'<span class="mdm">+'+(g2.rows.length-6)+'</span>':'');
+    rows+='<li class="'+(on?'on':'')+'" style="--c:'+pCol(j+1)+'"><button class="mdr" data-a="dpsel" data-k="'+j+'" aria-current="'+on+'" aria-label="'+esc(lab)+'"><span class="mdn">'+(j+1)+'</span><span class="mdf">'+(F||'<em>빈 풀 — 지도에서 몹을 둘러 그리거나 톡 눌러 넣기</em>')+'</span>'+(L2.length?'<span class="mdc">'+g2.n+'<small>마리</small></span><i class="mdd '+d2[1]+'" title="'+esc(d2[0])+'"></i>':'')+'</button>'
+      +(on?'<div class="mda"><button class="btn sm ghost" data-a="dpmv" data-k="-1"'+(j<=0?' disabled':'')+' aria-label="이 풀 위로">▲</button><button class="btn sm ghost" data-a="dpmv" data-k="1"'+(j>=P.p.length-1?' disabled':'')+' aria-label="이 풀 아래로">▼</button><button class="btn sm ghost" data-a="dpmerge"'+(k<=0?' disabled':'')+'>앞 풀과 합치기</button><button class="btn sm ghost" data-a="dpdel"'+(!L.length&&P.p.length<=1?' disabled':'')+'>지우기</button></div>':'')+'</li>'});
+  if(!rows)rows='<li class="mde">아직 묶은 풀이 없어요. 지도에서 몹을 빙 둘러 그리면 1풀이 돼요.</li>';
+  return '<div class="mdtw"><div class="mdt"><div class="mdh pbr"><button class="btn sm" data-a="dpn" data-k="-1"'+(k<=0?' disabled':'')+' aria-label="앞 풀">◀</button><span class="pcur"><span class="pnum" style="--c:'+pCol(k+1)+'">'+(k+1)+'</span><b>풀 '+(k+1)+'</b><small>/ '+Math.max(tot,k+1)+'</small></span><button class="btn sm" data-a="dpn" data-k="1"'+(k>=P.p.length-1?' disabled':'')+' aria-label="다음 풀">▶</button>'
+    +'<button class="btn sm mdadd" data-a="dpadd">＋ 새 풀</button></div><ol class="mdl">'+rows+'</ol><p class="mdk"><span>풀 '+tot+'개 · 몹 '+mob+'마리</span><span>위험도 <i class="mdd c-grn"></i>쉬움<i class="mdd c-yel"></i>보통<i class="mdd c-org"></i>위험<i class="mdd c-red"></i>매우</span></p></div></div>'}
+/* 풀 목록 스크롤 자리 지키기 + 고른 줄이 보이게(다시 그릴 때마다 맨 위로 튀었음) */
+function mdtKeep(t){const o=document.querySelector('.mdt .mdl');if(!o)return;if(t!=null)o.scrollTop=t;const r=o.querySelector('li.on');if(!r)return;const a=r.offsetTop-o.offsetTop,b=a+r.offsetHeight;if(a<o.scrollTop)o.scrollTop=a-4;else if(b>o.scrollTop+o.clientHeight)o.scrollTop=b-o.clientHeight+4}
 /* 탱 풀 짜기: 지금 풀에 무리를 눌러 넣고 빼기(떨어진 무리도 묶으면 체인) · 앞 풀과 합치기 · 새 풀 · 자동 묶기 정도 */
 function planPanel(c,f,fi){const P=DGX.P;const my=c.lv||1;const k=P.k;const tot=P.p.filter(x=>x.length).length;
   const L=planMs(P,k);const g=pullAgg(L);const dg=L.length?dangerOf(L,my):null;const pn=L.length?patrolNear(L):[];
@@ -6207,23 +6238,41 @@ function planPanel(c,f,fi){const P=DGX.P;const my=c.lv||1;const k=P.k;const tot=
   /* 다음 풀까지 거리(이 층 탱 동선에서) */
   let nx='';const T=navLoad(f)?tankRoute(f,fi):null;if(T){const sg=T.find(s=>s.from.k==='p'&&s.from.j===k&&s.to);if(sg){const yd=sg.yd!=null?sg.yd:null;nx='다음 '+(sg.to.k==='p'?'풀 '+(sg.to.j+1):sg.to.k==='b'?'보스 '+sg.to.t.replace('!',''):'곳')+'까지 '+(yd!=null?'약 '+Math.round(yd)+'야드':'길 못 찾음')}}
   else if(f.nav)nx='탱 동선 계산 중…';
-  let h='<div class="pplan"><div class="pbr"><button class="btn sm" data-a="dpn" data-k="-1"'+(k<=0?' disabled':'')+' aria-label="앞 풀">◀</button><span class="pcur"><span class="pnum" style="--c:#f0c25a">'+(k+1)+'</span><b>풀 '+(k+1)+'</b><small>/ '+Math.max(tot,k+1)+'</small></span><button class="btn sm" data-a="dpn" data-k="1"'+(k>=P.p.length-1?' disabled':'')+' aria-label="다음 풀">▶</button>'
-    +'<button class="btn sm" data-a="dpadd">＋ 새 풀</button><button class="btn sm ghost" data-a="dpmerge"'+(k<=0?' disabled':'')+'>앞 풀과 합치기</button><button class="btn sm ghost" data-a="dpdel"'+(!L.length&&P.p.length<=1?' disabled':'')+'>이 풀 지우기</button></div>'
-    +'<p class="mute ptip">지도에서 무리를 누르면 지금 풀(<b style="color:#f0c25a">'+(k+1)+'</b>)에 넣고, 다시 누르면 빼요. 떨어진 무리도 넣으면 한 번에 끌어오는 체인 풀이 돼요.</p>'
+  let h='<div class="pplan">'
+    +'<p class="mute ptip">'+(ui.dpTool!=='pan'?'<b>올가미</b>: 지도에서 몹을 손가락으로 빙 둘러 그리면 그 몹들이 <b>다음 풀</b>이 돼요. 또 그리면 그다음 풀. 몹을 톡 누르면 지금 풀(<b style="color:#f0c25a">'+(k+1)+'</b>)에 넣고 빼기. 지도를 밀어 움직이려면 오른쪽 위 「올가미」를 눌러 「이동」으로.':'<b>이동</b>: 지도를 밀어 움직여요. 몹을 톡 누르면 지금 풀에 넣고 빼기. 묶으려면 오른쪽 위 「이동」을 눌러 「올가미」로.')+'</p>'
     +'<div class="pcard">'+(L.length?'<div class="mch"><b>'+g.n+'마리</b><span>'+(g.lo===g.hi?g.lo:g.lo+'–'+g.hi)+'레벨'+(g.el?' · 정예 '+g.el:'')+'</span><em class="dgr '+dg[1]+'">'+dg[0]+'</em>'+(g.pt?'<em class="ptb">순찰 있음</em>':'')+'</div><ul>'+mobRows(g,k+1,my)+'</ul>'
-      +(pn.length?'<p class="warn">순찰 몹이 가까이 지나가요('+pn.join(', ')+') — 지나간 뒤 잡거나 같이 묶기</p>':''):'<p class="mute">빈 풀이에요. 지도에서 무리를 눌러 넣어 주세요.</p>')
+      +(pn.length?'<p class="warn">순찰 몹이 가까이 지나가요('+pn.join(', ')+') — 지나간 뒤 잡거나 같이 묶기</p>':''):'<p class="mute">'+(tot?'빈 풀이에요. 지도에서 몹을 올가미로 둘러 그리거나 톡 눌러 넣어 주세요.':'아직 묶은 풀이 없어요. 지도에서 처음 끌 몹들을 손가락으로 빙 둘러 그려 보세요 → 1풀')+'</p>')
     +(nx?'<p class="mute pnx">'+nx+'</p>':'')+'</div>'
-    +'<div class="pauto"><span>자동으로 묶기</span>'+[1,2,3].map(v=>'<button class="chip'+((P.auto||P.auto2)&&!P.rp&&P.lv===v?' on':'')+'" data-a="dpauto" data-k="'+v+'">'+DPS[v].t+'</button>').join('')+(DGX.rp&&DGX.rp.mp?'<button class="chip'+(P.rp?' on':'')+'" data-a="dprp" title="워크래프트로그 실제 판의 지도 풀 순서 그대로">실제 판처럼</button>':'')+(P.auto?'':'<button class="chip ghost" data-a="dpreset">처음 추천으로</button>')+'</div>'
-    +'<p class="mute psum">풀 '+tot+'개 · 잡는 몹 '+mobs+'마리(정예 '+el+') · 안 잡는 무리 '+skip+' / '+all+(P.auto?' · 자동 추천(보통) 그대로':P.rp?' · 실제 판처럼 묶음 저장됨':P.auto2?' · 자동 묶기('+DPS[P.lv].t+') 저장됨':' · 내가 고친 계획 저장됨')+'</p>';
-  /* 풀 목록: 번호 알약(색 = 풀 색, 밑줄 = 위험도) — 누르면 그 풀로 */
-  h+='<p class="mute plegend">풀 순서 · 밑줄 색 = 위험도(초록 쉬움 · 노랑 보통 · 주황 위험 · 빨강 매우 위험, 5인 기준 대략)</p><div class="ppl" role="list">'+P.p.map((ks,j)=>{const L2=planMs(P,j);if(!L2.length&&j!==k)return '';const g2=pullAgg(L2);const d2=L2.length?dangerOf(L2,my):['','',0];
-    const lab=(j+1)+'번 풀: '+(L2.length?g2.rows.map(x=>x.nm+(x.c>1?' '+x.c:'')).join(', ')+' · '+g2.n+'마리 · '+d2[0]:'빈 풀');
-    return '<button role="listitem" class="pp'+(j===k?' on':'')+' '+(d2[1]||'')+'" style="--c:'+(j===k?'#f0c25a':j===k+1?'#6fb7ff':'#6d6658')+'" data-a="dpsel" data-k="'+j+'" aria-label="'+esc(lab)+'" title="'+esc(lab)+'">'+(j+1)+'</button>'}).join('')+'</div></div>';
+    +'<div class="pauto"><span>자동으로 묶기</span>'+[1,2,3].map(v=>'<button class="chip'+((P.auto||P.auto2)&&!P.rp&&P.lv===v?' on':'')+'" data-a="dpauto" data-k="'+v+'">'+DPS[v].t+'</button>').join('')+(DGX.rp&&DGX.rp.mp?'<button class="chip'+(P.rp?' on':'')+'" data-a="dprp" title="워크래프트로그 실제 판의 지도 풀 순서 그대로">실제 판처럼</button>':'')+'<button class="chip ghost" data-a="dpundo"'+((ui.dpUndo&&ui.dpUndo[DGX.slug]||[]).length?'':' disabled')+'>되돌리기</button>'+(P.empty?'':'<button class="chip ghost" data-a="dpreset">모두 지우기</button>')+'</div>'
+    +'<p class="mute psum">풀 '+tot+'개 · 잡는 몹 '+mobs+'마리(정예 '+el+') · 안 잡는 무리 '+skip+' / '+all+(P.empty?' · 아직 묶은 풀 없음':P.auto?' · 자동 추천(보통) 그대로':P.rp?' · 실제 판처럼 묶음 저장됨':P.auto2?' · 자동 묶기('+DPS[P.lv].t+') 저장됨':' · 내가 고친 계획 저장됨')+'</p>';
+  h+='</div>';
   return h}
-function rrMap(center){const v=document.querySelector('.mapv');const sx=v?v.scrollLeft:0,sy=v?v.scrollTop:0;rerender(true);const v2=document.querySelector('.mapv');if(!v2)return;v2.scrollLeft=sx;v2.scrollTop=sy;
+function rrMap(center){const v=document.querySelector('.mapv');const sx=v?v.scrollLeft:0,sy=v?v.scrollTop:0;const ml=document.querySelector('.mdt .mdl');const mt=ml?ml.scrollTop:null;rerender(true);mdtKeep(mt);const v2=document.querySelector('.mapv');if(!v2)return;v2.scrollLeft=sx;v2.scrollTop=sy;
   if(center&&v2.classList.contains('zm')){const cen=()=>{const t=v2.querySelector('.mpn.on');if(t){const r=t.getBoundingClientRect(),rv=v2.getBoundingClientRect();v2.scrollLeft+=r.left+r.width/2-(rv.left+rv.width/2);v2.scrollTop+=r.top+r.height/2-(rv.top+rv.height/2)}};cen();
     /* 처음 보는 층은 그림이 아직 안 받아져 자리가 틀림 → 받으면 다시 가운데로 */const im=v2.querySelector('.mapw>img');if(im&&!im.complete)im.addEventListener('load',cen,{once:true})}}
-function mapZoomBtns(f){if(!(PV&&f.w&&f.h))return '';const z=ui.dz||1;return '<div class="mz"><button data-a="dfs" aria-label="'+(ui.dfs?'크게 보기 닫기':'크게 보기')+'">'+(ui.dfs?'✕':'⛶')+'</button><button data-a="dzm" data-k="1" aria-label="확대"'+(z>=4?' disabled':'')+'>+</button><button data-a="dzm" data-k="-1" aria-label="축소"'+(z<=1?' disabled':'')+'>−</button></div>'}
+/* ── 탱 풀 짜기 올가미: 지도에서 손가락·마우스로 몹을 빙 둘러 그리면 안에 든 무리가 다음 번호 풀이 됨(다른 풀에 있던 무리는 옮겨 옴).
+   올가미를 그릴 때마다 1풀 → 2풀 → 3풀. 「이동」으로 바꾸면 지도를 밀어 움직임. 예전엔 무리를 하나씩 눌러야만 묶을 수 있었음(용현) ── */
+const LS={on:0};
+const lsoOn=()=>dpmOn()&&ui.dpTool!=='pan';
+function lsoInside(P,x,y){let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const a=P[i],b=P[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])c=!c}return c}
+function lsoDraw(){if(!LS.svg)return;LS.svg.firstChild.setAttribute('d','M'+LS.pts.map(q=>q[0].toFixed(2)+','+q[1].toFixed(2)).join('L')+'Z')}
+function lsoEnd(){const P=LS.pts;if(LS.svg)LS.svg.remove();LS.svg=null;if(P.length<3)return;const fi=ui.dfloor||0;const f=DGX.fl[fi];if(!f||!f.mob)return;
+  const ks=[];f.mob.p.forEach((m,i)=>{const q=m[9]&&m[9].length?m[9]:[[m[0],m[1]]];if(q.some(v=>lsoInside(P,v[0],v[1])))ks.push(fi+':'+i)});
+  if(!ks.length){toast('올가미 안에 몹이 없어요 — 몹을 빙 둘러 그려 주세요');return}
+  let no=0;dgPlanEdit(Q=>{Q.p.forEach(x=>{for(let j=x.length-1;j>=0;j--)if(ks.includes(x[j]))x.splice(j,1)});const cur=Q.p[Q.k];
+    if(cur&&!cur.length){cur.push(...ks)}else{Q.p.splice(Q.k+1,0,ks.slice());Q.k=Q.k+1}delete Q.auto2;delete Q.rp;no=Q.k+1});
+  const P2=dgPlan(DGX.c,DGX.slug,DGX.fl);const n=(P2.p[ui.dpkI||0]||[]).length;toast((ui.dpkI||0)+1+'풀: 무리 '+n+'개 묶음 — 또 그리면 다음 풀');rrMap()}
+document.addEventListener('pointerdown',e=>{if(!lsoOn()||(e.button&&e.button>0))return;const v=e.target.closest&&e.target.closest('.mapv');if(!v||e.target.closest('.mz'))return;
+  const w=v.querySelector('.mapw');if(!w)return;LS.on=1;LS.v=v;LS.w=w;LS.pts=[];LS.id=e.pointerId;LS.x0=e.clientX;LS.y0=e.clientY;LS.drag=0},true);
+document.addEventListener('pointermove',e=>{if(!LS.on||e.pointerId!==LS.id)return;if(!LS.drag){if(Math.hypot(e.clientX-LS.x0,e.clientY-LS.y0)<8)return;LS.drag=1;try{LS.v.setPointerCapture(e.pointerId)}catch(_){}
+    const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('class','lso');s.setAttribute('viewBox','0 0 100 100');s.setAttribute('preserveAspectRatio','none');s.innerHTML='<path/>';LS.w.appendChild(s);LS.svg=s;
+    const r0=LS.w.getBoundingClientRect();LS.pts.push([(LS.x0-r0.left)/r0.width*100,(LS.y0-r0.top)/r0.height*100])}
+  const r=LS.w.getBoundingClientRect();LS.pts.push([(e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100]);lsoDraw();if(e.cancelable)e.preventDefault()},{passive:false});
+/* PC: 지도 그림을 마우스로 끌면 브라우저가 그림 끌어 옮기기를 시작해 올가미가 끊김 → 막음 */document.addEventListener('dragstart',e=>{if(lsoOn()&&e.target.closest&&e.target.closest('.mapv'))e.preventDefault()},true);
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,e=>{if(!LS.on||e.pointerId!==LS.id)return;LS.on=0;if(LS.drag){ui._lsoAt=Date.now();if(ev==='pointerup')lsoEnd();else{if(LS.svg)LS.svg.remove();LS.svg=null}}},true));
+/* 되돌리기: 풀 짜기 바꾼 것을 한 단계씩(이 던전, 이 화면에서만 기억) */
+function dpUndoPush(){if(!DGX||!DGX.c)return;const c=DGX.c;ui.dpUndo=ui.dpUndo||{};const L=ui.dpUndo[DGX.slug]=ui.dpUndo[DGX.slug]||[];L.push({p:c.dgp&&c.dgp[DGX.slug]?JSON.stringify(c.dgp[DGX.slug]):null,k:ui.dpkI||0});if(L.length>40)L.shift()}
+function mapZoomBtns(f){if(!(PV&&f.w&&f.h))return '';const z=ui.dz||1;const LT=dpmOn()?'<button class="lsob'+(ui.dpTool!=='pan'?' on':'')+'" data-a="dptool" aria-pressed="'+(ui.dpTool!=='pan')+'" aria-label="'+(ui.dpTool!=='pan'?'올가미로 묶는 중 — 누르면 지도 이동':'지도 이동 중 — 누르면 올가미')+'">'+(ui.dpTool!=='pan'?'<svg viewBox="0 0 24 24"><path d="M12 4c-4.6 0-8 2.2-8 5s3.4 5 8 5 8-2.2 8-5-3.4-5-8-5Zm0 2c3.6 0 6 1.6 6 3s-2.4 3-6 3-6-1.6-6-3 2.4-3 6-3Zm-5.3 7.6-1.4 1.1c.7.9.6 2.2-.3 3l-1 .8 1.2 1.6 1-.8c1.7-1.4 2-3.9.5-5.7Z"/></svg><span>올가미</span>':'<svg viewBox="0 0 24 24"><path d="M12 2l3 3h-2v4h4V7l3 3-3 3v-2h-4v4h2l-3 3-3-3h2v-4H7v2l-3-3 3-3v2h4V5H9l3-3Z"/></svg><span>이동</span>')+'</button>':'';return '<div class="mz">'+LT+'<button data-a="dfs" aria-label="'+(ui.dfs?'크게 보기 닫기':'크게 보기')+'">'+(ui.dfs?'✕':'⛶')+'</button><button data-a="dzm" data-k="1" aria-label="확대"'+(z>=4?' disabled':'')+'>+</button><button data-a="dzm" data-k="-1" aria-label="축소"'+(z<=1?' disabled':'')+'>−</button></div>'}
 function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자료를 불러오는 중…</p>'}
   let g=DGG[d.slug];if(ui.dmD!==d.slug){ui.dmD=d.slug;ui.dmsel=null;ui.dz=1;ui.dfs=false;ui.dpall=false;ui.dpkI=0;ui.dpNew=null;ui.drp=0;RP.on=0;RP.t=0;RP.ck=null;ui.drg=null}
   /* 미리보기: 게임 모델로 그린 위에서 본 지도(f3 — 핀·쫄 자리가 게임 좌표 그대로) */const G3=PV&&g&&g.f3&&g.f3.length?g:null;if(G3&&ui.d3!==0)g=Object.assign({},g,{floors:g.f3});if(!g||!(g.steps&&g.steps.length)){
@@ -6255,11 +6304,11 @@ function dgRoute(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   if(g.floors&&g.floors.length){const fi=Math.min(ui.dfloor||0,g.floors.length-1);const f=g.floors[fi];if(PV&&G3&&g.floors===G3.f3){const P=dgPlan(c,d.slug,g.floors);P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));DGX={c,slug:d.slug,fl:g.floors,P,I:planIdx(P),pl:1,rp:g.rp||null}}else DGX={c,slug:d.slug,fl:g.floors,P:{p:[],k:0,auto:1},I:{}};
     h+='<div class="rmap2">'+(G3?'<div class="chips seg m3"><button class="chip'+(ui.d3!==0?' on':'')+'" data-a="d3" data-k="1">위에서 본 지도</button><button class="chip'+(ui.d3===0?' on':'')+'" data-a="d3" data-k="0">예전 지도</button></div>':'')+(g.floors.length>1?'<div class="chips seg fl">'+g.floors.map((x,i)=>'<button class="chip'+(i===fi?' on':'')+'" data-a="dfl" data-k="'+i+'">'+(i+1)+'층 '+esc(x.name)+'</button>').join('')+'</div>':'')
      +(PV&&f.mob?mobBar(f)+regionChips(f):'')
-     +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return '<div class="mapbox'+(PV&&ui.dfs?' fs':'')+'"><div class="mapv'+(Z>1?' zm':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&(dpmOn()||ui.dmsel&&ui.dmob!==0)?' sel':'')+(PV&&dpmOn()?' fx':'')+(PV&&drpOn()?' rpx':'')+'"'+(Z>1?' style="width:'+(Z*100)+'%"':'')+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
+     +(()=>{const Z=PV&&f.w&&f.h?(ui.dz||1):1;return (PV&&dpmOn()?'<div class="pmw">':'')+'<div class="mapbox'+(PV&&ui.dfs?' fs':'')+'"><div class="mapv'+(Z>1?' zm':'')+(PV&&lsoOn()?' lsom':'')+'"'+(PV&&f.w&&f.h?' style="aspect-ratio:'+f.w+'/'+f.h+';--ar:'+(f.w/f.h).toFixed(4)+'"':'')+'><div class="mapw'+(PV&&!dpmOn()&&ui.dmsel&&ui.dmob!==0?' sel':'')+(PV&&dpmOn()?' fx':'')+(PV&&drpOn()?' rpx':'')+'"'+(Z>1?' style="width:'+(Z*100)+'%"':'')+'><img src="'+esc(f.img)+'" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'noimg\')">'})()
      +mobLayer(f,fi)
      +f.pins.map(p=>{const num=/^\d+!?$/.test(p.t||'');const n=parseInt(p.t);const x=num?S.find(y=>y.st.n===n):null;
         if(num){const pf=PV&&f.pid&&f.pid[String(n)]?npcThumb(f.pid[String(n)]):'';return '<button class="pin n '+(pf?'pf ':'')+(x?'k-'+x.kind:'')+(p.w===2?' ap':'')+(/!/.test(p.t)?' q':'')+(x&&x.kind!=='obj'&&KL[x.st.nm]?' kd':'')+(ui.stopen[n]?' on':'')+'" style="left:'+p.x+'%;top:'+p.y+'%'+(pf?';background-image:url('+pf+')':'')+'" data-a="stp" data-k="'+n+'">'+(pf?'<b>'+n+'</b>':n)+'</button>'}
-        const t=(p.t||'').replace(/\d+$/,'');const to=t.match(/→\s*(.+)$/);return '<span class="pin l" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(to?'↗ '+to[1]:t.replace(/←.*$/,'↙ 들어옴'))+'</span>'}).join('')+'</div></div>'+mapZoomBtns(f)+(PV&&ui.dfs?mobCard(c,f,fi)+(drpOn()&&DGX.rp.fl===fi?rpPanel(c,f,fi):''):'')+'</div>'+(PV&&ui.dfs?'':mobCard(c,f,fi))+pullList(c,f,fi)+'<p class="mute src">번호를 누르면 아래 그 단계가 펼쳐져요 · 지도: '+(G3&&g.floors===G3.f3?'포에버 게임 모델로 그림 · 점선 번호는 예전 지도에서 옮긴 대략 자리':'wowf.io')+(PV&&f.mob?' · 몹 자리 CMaNGOS 클래식 자료(GPL)':'')+'</p></div>'}
+        const t=(p.t||'').replace(/\d+$/,'');const to=t.match(/→\s*(.+)$/);return '<span class="pin l" style="left:'+p.x+'%;top:'+p.y+'%">'+esc(to?'↗ '+to[1]:t.replace(/←.*$/,'↙ 들어옴'))+'</span>'}).join('')+'</div></div>'+mapZoomBtns(f)+(PV&&ui.dfs?mobCard(c,f,fi)+(drpOn()&&DGX.rp.fl===fi?rpPanel(c,f,fi):''):'')+'</div>'+(PV&&dpmOn()?mdtList(c)+'</div>':'')+(PV&&ui.dfs?'':mobCard(c,f,fi))+pullList(c,f,fi)+'<p class="mute src">번호를 누르면 아래 그 단계가 펼쳐져요 · 지도: '+(G3&&g.floors===G3.f3?'포에버 게임 모델로 그림 · 점선 번호는 예전 지도에서 옮긴 대략 자리':'wowf.io')+(PV&&f.mob?' · 몹 자리 CMaNGOS 클래식 자료(GPL)':'')+'</p></div>'}
   h+='</div><div class="dgR">';
   /* 진행 순서: 한 줄씩, 누르면 펼침 */
   let lastF=null;
@@ -6903,7 +6952,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
     if(ui.drp){if(DGX&&DGX.rp){ui.dfloor=DGX.rp.fl;if(innerWidth<700&&(ui.dz||1)<2.5)ui.dz=2.5}RP.ck=null;rrMap();setTimeout(()=>rpFollow(true),60);return}
     /* 이 층에 풀이 하나도 없으면 지금 풀이 있는 층으로 */
     if(ui.dpm&&DGX&&DGX.P){const fi=ui.dfloor||0;const has=DGX.P.p.some((x,j)=>planMs(DGX.P,j).some(y=>y[3]===fi));const L=planMs(DGX.P,Math.min(ui.dpkI||0,DGX.P.p.length-1));if(!has&&L.length)ui.dfloor=L[0][3]}if(ui.dpm&&innerWidth<700&&(ui.dz||1)<2.5)ui.dz=2.5;rrMap(true);setTimeout(()=>rrMap(true),400);return}
-  if(a==='dpk'){const fi=+k.split(':')[0];const P0=DGX&&DGX.pl?DGX.P:null;const c0=P0&&P0.p[P0.k]||[];
+  if(a==='dpk'){if(Date.now()-(ui._lsoAt||0)<450)return;/* 올가미를 끝낸 손가락이 몹 위에서 떨어지며 생기는 클릭 */const fi=+k.split(':')[0];const P0=DGX&&DGX.pl?DGX.P:null;const c0=P0&&P0.p[P0.k]||[];
     /* 지금 풀이 다른 층에만 있으면: 이미 풀에 든 무리는 그 풀을 고르고, 아니면 이 층에 새 풀을 만들어 넣음 — 예전엔 풀 없는 층(놈리건 1층 등)에서 누른 무리가 다른 층의 지금 풀에 말없이 붙어 층을 넘는 풀이 됐음 */
     if(c0.length&&!c0.some(x=>+x.split(':')[0]===fi)){const own=DGX.I[k];if(own!=null){ui.dpkI=own;rrMap();return}
       dgPlanEdit(P=>{const fl0=ks=>ks.length?Math.min(...ks.map(x=>+x.split(':')[0])):1e9;let ins=-1;P.p.forEach((ks,j)=>{if(ks.some(x=>+x.split(':')[0]===fi))ins=j+1});if(ins<0){ins=P.p.findIndex(ks=>fl0(ks)>fi&&fl0(ks)<1e9);if(ins<0)ins=P.p.length}P.p.splice(ins,0,[k]);P.k=ins;delete P.auto2;delete P.rp});rrMap();return}
@@ -6924,10 +6973,13 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='rps'){RP.sp=+k||30;document.querySelectorAll('[data-a=rps]').forEach(b=>b.classList.toggle('on',b.dataset.k===k));return}
   if(a==='dpadd'){dgPlanEdit(P=>{P.p.splice(P.k+1,0,[]);P.k=P.k+1;delete P.auto2;delete P.rp});rrMap();return}
   if(a==='dpmerge'){dgPlanEdit(P=>{if(P.k>0){P.p[P.k-1]=P.p[P.k-1].concat(P.p[P.k]);P.p.splice(P.k,1);P.k--}delete P.auto2;delete P.rp});dpFloor();rrMap(true);return}
+  if(a==='dpmv'){dgPlanEdit(P=>{const j=P.k+(+k);if(j<0||j>=P.p.length)return;const t=P.p[j];P.p[j]=P.p[P.k];P.p[P.k]=t;P.k=j;delete P.auto2;delete P.rp});dpFloor();rrMap(true);return}
   if(a==='dpdel'){dgPlanEdit(P=>{P.p.splice(P.k,1);P.k=Math.max(0,P.k-1);delete P.auto2;delete P.rp});dpFloor();rrMap(true);return}
   if(a==='dpauto'){const v=+k;dgPlanEdit(P=>{P.p=dgAuto(DGX.fl,v);P.lv=v;P.auto2=1;delete P.rp;P.k=0});toast('자동 묶기: '+DPS[v].t+' — 지도에서 눌러 더 고칠 수 있어요');rrMap();return}
   if(a==='dprp'){const R=DGX&&DGX.rp;if(!R||!R.mp)return;dgPlanEdit(P=>{P.p=R.mp.map(mp=>mp.k.map(i=>R.fl+':'+i));P.rp=1;delete P.auto2;P.k=0});ui.dfloor=R.fl;toast('실제 판처럼: 지도 풀 '+R.mp.length+'개를 잡은 순서대로 넣었어요 — 지도에서 눌러 더 고칠 수 있어요');rrMap(true);return}
-  if(a==='dpreset'){if(DGX&&c.dgp){delete c.dgp[DGX.slug];save()}ui.dpkI=0;toast('처음 추천으로 돌렸어요');rrMap();return}
+  if(a==='dpreset'){if(DGX&&c.dgp&&c.dgp[DGX.slug]){dpUndoPush();delete c.dgp[DGX.slug];save()}ui.dpkI=0;toast('풀을 모두 지웠어요 — 「되돌리기」로 되살릴 수 있어요');rrMap();return}
+  if(a==='dpundo'){const L=ui.dpUndo&&ui.dpUndo[DGX&&DGX.slug];const u=L&&L.pop();if(!u)return;if(u.p)c.dgp=Object.assign(c.dgp||{},{[DGX.slug]:JSON.parse(u.p)});else if(c.dgp)delete c.dgp[DGX.slug];save();ui.dpkI=u.k;ui.dpNew=null;rrMap();return}
+  if(a==='dptool'){ui.dpTool=ui.dpTool==='pan'?'lasso':'pan';rrMap();return}
   if(a==='dzm'){const v=document.querySelector('.mapv');const fx=v&&v.scrollWidth>v.clientWidth?(v.scrollLeft+v.clientWidth/2)/v.scrollWidth:.5,fy=v&&v.scrollHeight>v.clientHeight?(v.scrollTop+v.clientHeight/2)/v.scrollHeight:.5;
     /* 구역 칩이 정한 확대(예: 2.37배)에서도 ＋는 더 크게, −는 더 작게 */const L=[1,1.6,2.5,4];const z=ui.dz||1;let j;if(+k>0){j=L.findIndex(x=>x>z+.01);if(j<0)j=L.length-1}else{j=-1;L.forEach((x,i)=>{if(x<z-.01)j=i});if(j<0)j=0}ui.dz=L[j];ui.drg=null;rerender(true);
     const v2=document.querySelector('.mapv');if(v2){v2.scrollLeft=fx*v2.scrollWidth-v2.clientWidth/2;v2.scrollTop=fy*v2.scrollHeight-v2.clientHeight/2}return}
@@ -7017,7 +7069,7 @@ const hsOf=t=>{for(let el=t&&t.nodeType===1?t:t&&t.parentElement;el&&el.id!=='ap
 document.addEventListener('wheel',e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(e.deltaY))return;if(e.target.closest&&e.target.closest('#amap'))return;const dc=hsOf(e.target);if(!dc)return;
   const max=dc.scrollWidth-dc.clientWidth;/* 끝까지 갔으면 원래대로 화면이 위아래로 */if((e.deltaY>0&&dc.scrollLeft>=max-1)||(e.deltaY<0&&dc.scrollLeft<=0))return;
   e.preventDefault();dc.scrollLeft+=e.deltaMode===1?e.deltaY*32:e.deltaY},{passive:false});
-{let dd=null;document.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;if(e.target.closest&&e.target.closest('#amap,input,textarea,select'))return;const dc=hsOf(e.target);if(dc)dd={dc,x:e.clientX,sl:dc.scrollLeft,moved:false}});
+{let dd=null;document.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;if(e.target.closest&&e.target.closest('#amap,input,textarea,select'))return;/* 풀 짜기 올가미 중엔 지도를 끌어도 옆으로 밀리지 않게 */if(lsoOn()&&e.target.closest('.mapv'))return;const dc=hsOf(e.target);if(dc)dd={dc,x:e.clientX,sl:dc.scrollLeft,moved:false}});
  document.addEventListener('pointermove',e=>{if(!dd)return;const dx=e.clientX-dd.x;if(!dd.moved&&Math.abs(dx)>5){dd.moved=true;dd.dc.classList.add('drag')}if(dd.moved)dd.dc.scrollLeft=dd.sl-dx});
  document.addEventListener('pointerup',()=>{if(dd&&dd.moved){const dc=dd.dc;setTimeout(()=>dc.classList.remove('drag'),0);const stop=ev=>{ev.stopPropagation();ev.preventDefault()};dc.addEventListener('click',stop,{capture:true,once:true});setTimeout(()=>dc.removeEventListener('click',stop,{capture:true}),50)}dd=null})}
 
