@@ -3267,6 +3267,8 @@ function dgPlan(c,slug,fl){const sig=dgSig(fl);const P=c&&c.dgp&&c.dgp[slug];if(
   return {s:sig,p:[],k:0,lv:2,empty:1}}
 function dgPlanEdit(fn){if(!DGX||!DGX.pl)return;const c=DGX.c;dpUndoPush();const P=JSON.parse(JSON.stringify(dgPlan(c,DGX.slug,DGX.fl)));delete P.auto;/* 빈 계획 표시는 고치는 순간 없앰(남으면 「모두 지우기」가 안 보였음) */delete P.empty;P.k=Math.max(0,Math.min(ui.dpkI||0,P.p.length-1));fn(P);
   /* 빈 풀은 지금 풀만 남김 · 지금 풀 번호 맞춤 */
+  /* 몹이 다 빠진 무리 키(몹마다 다른 풀로 옮기거나 다 뺀 무리)는 지움 — 남으면 몹 없는 풀이 목록엔 안 보이면서 번호만 차지했음(1풀 없이 2풀부터) */
+  {const I0=planIdx(P);const X0=new Set(P.x||[]);P.p.forEach(ks=>{for(let a=ks.length-1;a>=0;a--){const q=ks[a].split(':');if(q.length!==2||q[0]==='b')continue;const f=DGX.fl[+q[0]];const m=f&&f.mob&&f.mob.p[+q[1]];if(!m)continue;const n=(m[9]&&m[9].length)||1;let left=0;for(let j=0;j<n;j++){const mk=ks[a]+':'+j;if(I0[mk]==null&&!X0.has(mk))left++}if(!left)ks.splice(a,1)}})}
   if(P.x){const I0=planIdx(P);P.x=P.x.filter(k=>I0[k]==null&&I0[mkPack(k)]!=null);if(!P.x.length)delete P.x}if(P.mk&&!Object.keys(P.mk).length)delete P.mk;
   const keep=[];let nk=P.k;P.p.forEach((x,j)=>{if(x.length||j===P.k)keep.push(x);else if(j<P.k)nk--});P.p=keep;if(!P.p.length)P.p=[[]];P.k=Math.max(0,Math.min(nk,P.p.length-1));ui.dpkI=P.k;ui.dpNew=P.p[P.k].length?null:DGX.slug;delete P.k;
   c.dgp=c.dgp||{};c.dgp[DGX.slug]=P;save()}
