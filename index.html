@@ -3519,8 +3519,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 .dgerr{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.dgerr p{margin:0;flex:1 1 220px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=8b7e7481"></script>
-<script>/* v3c0095 @11/20 10:30 */
+<script src="app-data.js?v=990b51e9"></script>
+<script>/* v1ae27d @11/20 11:00 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3528,7 +3528,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/20 10:30';
+const BUILD='11/20 11:00';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3642,7 +3642,7 @@ const DG=Object.fromEntries(DGS.map(d=>[d.slug,d]));
 D_DQ.split('\n').filter(Boolean).forEach(l=>{const f=l.split('|');const d=DG[f[1]];if(!d)return;
   if(f[0]==='B'){d.bosses=(f[2]||'').split(';').filter(Boolean).map(x=>{const i=x.indexOf('=');return {slug:x.slice(0,i),nm:x.slice(i+1)}});return}
   if(f[3]==='horde')return;
-  d.q.push({id:+f[2],side:f[3],lv:+f[4],min:+f[5],nm:f[6],obj:f[7],start:f[8],pre:+f[9]||0,rw:(f[10]||'').split(',').filter(Boolean).map(Number),boss:(f[11]||'').split(';').filter(Boolean),choose:f[12]==='1',kind:f[13],cls:+f[14]||0,ind:f[15]==='1'})});
+  d.q.push({id:+f[2],side:f[3],lv:+f[4],min:+f[5],nm:f[6],obj:f[7],start:f[8],pre:+f[9]||0,rw:(f[10]||'').split(',').filter(Boolean).map(Number),boss:(f[11]||'').split(';').filter(Boolean),choose:f[12]==='1',kind:f[13],cls:+f[14]||0,ind:f[15]==='1',sin:f[16]||''})});
 DGS.forEach(d=>d.q.sort((a,b)=>a.lv-b.lv));
 
 /* ----- 레벨링 경로 ----- */
@@ -6530,8 +6530,12 @@ function preChainBox(c,id){const P=preChain(id);if(!P.length)return '';const lef
 /* 던전 끝나고 이어서: 밖에서 받는데 앞 단계가 이 던전 안에서 하는 퀘스트(q.ind, build.py _dq_inside)면 첫 판 전엔 못 받음
    (가라앉은 도시 「그물처럼 엉킨 마법」 ← 「가라앉은 도시의 마법」 반납 뒤 · 놈리건 「유일한 치료법」 ← 「폐기물 수집」 반납 뒤). 돌려주는 값 = 가장 가까운 던전 안 앞 단계 */
 /* 던전 안에서 시작: 「던전 안」만이 아니라 던전 안에서 줍는 물건(「· 2층」「· 3·4층 일부 구역」「· 던전 곳곳」)도 — 예전엔 이것들이 「던전 가기 전에 받기」에 섞였음 */
-function dqIn(q){return /던전 안|던전 곳곳|\d층/.test(q.start||'')}
-function dqAfter(d,q){if(!q.start||dqIn(q))return null;const by=new Map(d.q.map(z=>[+z.id,z]));const P=preChain(+q.id).map(i=>by.get(+i)).filter(z=>z&&z.ind&&+z.id!==+q.id);return P.length?P[P.length-1]:null}
+function dqIn(q){return q.sin==='i'||/던전 안|던전 곳곳|\d층/.test(q.start||'')}
+/* 앞 단계 전부(가까운 것부터): 연계 줄(preChain) + 퀘스트 자료 pre·pre1(「이 중 하나」 갈래 — 발타라크 아뮬렛처럼 연계 줄이 안 잡히는 것) */
+function dqAnc(id){const seen=new Set([id]),out=[];const pc=preChain(id).slice().reverse();let Qd=[];const X=QDB&&QDB.get(id);if(X)Qd=[...(X.pre||[]),...(X.pre1||[])];
+  const push=i=>{i=+i;if(!seen.has(i)){seen.add(i);out.push(i);return true}return false};pc.forEach(push);let fr=Qd.filter(push);
+  for(let k=0;k<10&&fr.length;k++){const nx=[];fr.forEach(i=>{const Y=QDB&&QDB.get(i);if(Y)[...(Y.pre||[]),...(Y.pre1||[])].forEach(j=>{if(push(j))nx.push(+j)})});fr=nx}return out}
+function dqAfter(d,q){if(!q.start||dqIn(q))return null;const by=new Map(d.q.map(z=>[+z.id,z]));return dqAnc(+q.id).map(i=>by.get(i)).find(z=>z&&z.ind&&+z.id!==+q.id)||null}
 /* 반납하는 곳이 이 던전 안인 퀘스트(퀘스트 자료 r[1] = 던전 이름) — 나오기 전에 끝내야 함 */
 function dqRetIn(q,d){const o=QDB&&QDB.get(+q.id);return !!(o&&o.r&&d&&o.r[1]===d.ko)}
 function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
