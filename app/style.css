@@ -2177,12 +2177,12 @@ body.sidem{overflow:hidden}
 .nlist .nrow:first-of-type{border-top:0}
 .nlist .nrow b{display:block;font-size:13px;color:#f3e2b5}.nlist .nrow span{font-size:12.5px;color:var(--mute)}
 /* 🧹 가방 정리 */
-.bgs{--bq:#8fc7ff;--bs:#ffd65a;--bm:#9ff09f;--bb:#c9bfa9}
+.bgs{--bq:#8fc7ff;--bs:#ffd65a;--bm:#9ff09f;--bb:#c9bfa9;--bd:#e8a08f}
 .bgs .bgh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.bgs .bgh h3{margin:0}.bgs .bgh small{color:var(--mute);font-size:12px}
 .bgs .bgt{display:grid;grid-template-columns:repeat(auto-fit,minmax(56px,1fr));gap:5px;margin:10px 0 2px}
 .bgs .bgt .t{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 4px 6px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);border-top:2px solid var(--c)}
 .bgs .bgt .t i{font-style:normal;font-size:15px;line-height:1}.bgs .bgt .t b{font-size:18px;line-height:1.15;color:var(--c)}.bgs .bgt .t small{font-size:11px;color:var(--mute);text-align:center;line-height:1.2;word-break:keep-all}
-.bgs .g-q{--c:var(--bq)}.bgs .g-sell{--c:var(--bs)}.bgs .g-mat{--c:var(--bm)}.bgs .g-bank{--c:var(--bb)}.bgs .g-keep{--c:#b9a3e3}
+.bgs .g-q{--c:var(--bq)}.bgs .g-done{--c:var(--bd)}.bgs .g-sell{--c:var(--bs)}.bgs .g-mat{--c:var(--bm)}.bgs .g-bank{--c:var(--bb)}.bgs .g-keep{--c:#b9a3e3}
 .bgs .bgsg{margin-top:9px;border:1px solid var(--line);border-left:3px solid var(--c);border-radius:10px;background:rgba(0,0,0,.18);overflow:hidden}
 .bgs .bgsg>summary{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:9px 12px;cursor:pointer;list-style:none}
 .bgs .bgsg>summary::-webkit-details-marker{display:none}

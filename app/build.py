@@ -650,7 +650,7 @@ if (Q / 'items-addon.jsonl').exists():
             _AD[o_['id']] = o_
     _WR = globals().get('WREC', {})
     _GSK = {'STRENGTH': 'str', 'AGILITY': 'agi', 'STAMINA': 'sta', 'INTELLECT': 'int', 'SPIRIT': 'spi'}
-    _an = _aq = _as = _al = _ar = 0
+    _an = _aq = _as = _al = _ar = _anr = 0
     _ne = set()
     _LOC = {'INVTYPE_HEAD': 'he', 'INVTYPE_NECK': 'ne', 'INVTYPE_SHOULDER': 'sh', 'INVTYPE_CLOAK': 'ba', 'INVTYPE_CHEST': 'ch', 'INVTYPE_ROBE': 'ch', 'INVTYPE_WRIST': 'wr',
             'INVTYPE_HAND': 'ha', 'INVTYPE_WAIST': 'wa', 'INVTYPE_LEGS': 'le', 'INVTYPE_FEET': 'fe', 'INVTYPE_FINGER': 'fi', 'INVTYPE_TRINKET': 'tr', 'INVTYPE_2HWEAPON': '2h',
@@ -670,6 +670,10 @@ if (Q / 'items-addon.jsonl').exists():
         if isinstance(o_.get('req'), int) and o_['req'] > 0 and f[1] != str(o_['req']):
             f[1] = str(o_['req']); _ar += 1
         L_ = o_.get('lines') or []
+        # 게임 툴팁에 「최소 요구 레벨」 줄이 없음(req 0) = 착용 레벨 제한 없음 → 숫자 뒤에 「!」 (숫자는 얻는 레벨 어림에 그대로 씀)
+        #   예전엔 퀘스트 보상 1,474개가 툴팁에 「최소 레벨 30」처럼 나왔는데 게임에선 아무 레벨에나 낌
+        if o_.get('req') == 0 and L_ and '!' not in f[1]:
+            f[1] += '!'; _anr += 1
         _cur = {k: float(v) for k, v in re.findall(r'(?:^|\s)(mp5|[a-z]+)(-?[\d.]+)(?=\s|$)', f[5])}
         _new = _ms(_cur, _ps(L_))
         # 보조 능력치(전투력·주문력·치유량·학파 공격력·마나·방어·적중·치명타·회피 등)도 게임 값이 정답:
@@ -719,7 +723,7 @@ if (Q / 'items-addon.jsonl').exists():
         if L_ and _ng >= _nw:
             f[6] = '1' if _hs(L_) else ''
         items[ix] = '|'.join(f)
-    print('애드온이 게임에서 읽은 값으로 고침 · 이름', _an, '· 등급', _aq, '· 능력치', _as, '· 장착 자리', _al, '· 요구 레벨', _ar, '/', len(_AD))
+    print('애드온이 게임에서 읽은 값으로 고침 · 이름', _an, '· 등급', _aq, '· 능력치', _as, '· 장착 자리', _al, '· 요구 레벨', _ar, '· 착용 레벨 제한 없음', _anr, '/', len(_AD))
     if _ne:
         items = [l_ for l_ in items if int(l_.split('|')[0]) not in _ne]
         print('게임에서 장착 못 하는 물건 뺌', len(_ne))
@@ -1182,6 +1186,33 @@ def _rflag(l):
         f.append('')
     return '~'.join(f[:3] + [fl])
 srcs = '\n'.join(_rflag(l) for l in srcs.split('\n'))
+# 영어로 남은 퀘스트 출처 이름 → 한글 (화면에 「퀘스트 「Stormcaller's Diadem」」처럼 나오던 것). 레이드·PvP 표시(_rflag)를 단 뒤에 바꿈
+#  1) 손 번역표(data/qdb/src-ko-fix.txt)  2) 「N Tickets - 템」 = 다크문 축제 상품권 교환  3) 보상 템과 이름이 같은 퀘스트 = 아이템 한글 이름
+_SKF = {}
+if (Q / 'src-ko-fix.txt').exists():
+    for _l in rd(Q / 'src-ko-fix.txt').splitlines():
+        if _l and not _l.startswith('#') and _l.count('|') >= 1:
+            _p = _l.split('|'); _SKF[_p[0].strip()] = _p[1].strip()
+def _qenko(l):
+    f = l.split('~')
+    if len(f) < 2 or f[0] != '1' or not f[1].startswith('퀘스트 · '):
+        return l
+    nm = f[1][6:]
+    if re.search('[가-힣]', nm) or not re.search('[A-Za-z]{3}', nm):
+        return l
+    ko_ = _SKF.get(nm)
+    mt = re.match(r'^(\d+) Tickets - (.+)$', nm)
+    if not ko_ and mt and _IENKO.get(mt.group(2)):
+        ko_ = '다크문 축제 상품권 %s장 - %s' % (mt.group(1), _IENKO[mt.group(2)])
+    if not ko_:
+        ko_ = _IENKO.get(nm) or _IENKO.get(re.sub(r'^The ', '', nm))
+    if not ko_ or not re.search('[가-힣]', ko_):
+        return l
+    f[1] = '퀘스트 · ' + ko_
+    return '~'.join(f)
+_sb = srcs
+srcs = '\n'.join(_qenko(l) for l in srcs.split('\n'))
+print('영어 퀘스트 출처 이름 한글로', sum(1 for a_, b_ in zip(_sb.split('\n'), srcs.split('\n')) if a_ != b_))
 print('레이드 출처', sum(1 for l in srcs.split('\n') if l.endswith('~r')), '· PvP(명예·전장)', sum(1 for l in srcs.split('\n') if l.endswith('~p')), '· 레이드 퀘스트', len(_RQ))
 SRC_TXT = srcs + '\n'
 # 템의 다른 출처가 있으면 얼라이언스가 못 하는 퀘스트 출처는 뺌 (호드 퀘스트 · 포에버 퀘스트 자료에 없는 영어 이름 퀘스트)

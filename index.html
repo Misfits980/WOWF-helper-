@@ -2186,12 +2186,12 @@ body.sidem{overflow:hidden}
 .nlist .nrow:first-of-type{border-top:0}
 .nlist .nrow b{display:block;font-size:calc(13px*var(--fs,1));color:#f3e2b5}.nlist .nrow span{font-size:calc(12.5px*var(--fs,1));color:var(--mute)}
 /* 🧹 가방 정리 */
-.bgs{--bq:#8fc7ff;--bs:#ffd65a;--bm:#9ff09f;--bb:#c9bfa9}
+.bgs{--bq:#8fc7ff;--bs:#ffd65a;--bm:#9ff09f;--bb:#c9bfa9;--bd:#e8a08f}
 .bgs .bgh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.bgs .bgh h3{margin:0}.bgs .bgh small{color:var(--mute);font-size:calc(12px*var(--fs,1))}
 .bgs .bgt{display:grid;grid-template-columns:repeat(auto-fit,minmax(56px,1fr));gap:5px;margin:10px 0 2px}
 .bgs .bgt .t{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 4px 6px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);border-top:2px solid var(--c)}
 .bgs .bgt .t i{font-style:normal;font-size:calc(15px*var(--fs,1));line-height:1}.bgs .bgt .t b{font-size:calc(18px*var(--fs,1));line-height:1.15;color:var(--c)}.bgs .bgt .t small{font-size:calc(11px*var(--fs,1));color:var(--mute);text-align:center;line-height:1.2;word-break:keep-all}
-.bgs .g-q{--c:var(--bq)}.bgs .g-sell{--c:var(--bs)}.bgs .g-mat{--c:var(--bm)}.bgs .g-bank{--c:var(--bb)}.bgs .g-keep{--c:#b9a3e3}
+.bgs .g-q{--c:var(--bq)}.bgs .g-done{--c:var(--bd)}.bgs .g-sell{--c:var(--bs)}.bgs .g-mat{--c:var(--bm)}.bgs .g-bank{--c:var(--bb)}.bgs .g-keep{--c:#b9a3e3}
 .bgs .bgsg{margin-top:9px;border:1px solid var(--line);border-left:3px solid var(--c);border-radius:10px;background:rgba(0,0,0,.18);overflow:hidden}
 .bgs .bgsg>summary{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:9px 12px;cursor:pointer;list-style:none}
 .bgs .bgsg>summary::-webkit-details-marker{display:none}
@@ -3539,8 +3539,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 .dgerr{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.dgerr p{margin:0;flex:1 1 220px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=cf573df4" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* v077cb4 @11/21 07:39 */
+<script src="app-data.js?v=b9793632" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* v06c3f0 @11/21 08:05 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3548,7 +3548,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/21 07:39';
+const BUILD='11/21 08:05';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3646,7 +3646,7 @@ const SRC=D_SRC.split('\n').filter(Boolean).map(l=>{const [k,label,href,fl]=l.sp
 /* 포에버: 적중·치명타는 근접·원거리·주문이 하나 → 두 칸에 같은 값 (직업마다 보는 칸이 달라서) */
 function normST(st){const h=Math.max(st.hit||0,st.shit||0),c=Math.max(st.crit||0,st.scrit||0);if(h){st.hit=st.shit=h}if(c){st.crit=st.scrit=c}return st}
 const ITEMS=D_ITEMS.split('\n').filter(Boolean).map(l=>{const f=l.split('|');const st={};for(const tok of (f[5]||'').split(' ')){const m=tok.match(/^(mp5|[a-z]+)(-?[\d.]+)$/);if(m)st[m[1]]=+m[2]}normST(st);
-  return {id:+f[0],lv:parseInt(f[1])||1,est:f[1].endsWith('?'),sl:f[2],cs:f[3],q:f[4]||'c',st,eff:f[6]==='1',src:f[7]?f[7].split(';').map(Number):[],mask:+f[8],ph:f[9]||'',allow:f[10]?f[10].split(','):null,prof:f[11]||'',nm:f[12],ic:f[13]||''}}).filter(i=>i.lv<=60);/* 착용 레벨 60 넘는 템(다른 확장팩 자료)은 뺌 */
+  return {id:+f[0],lv:parseInt(f[1])||1,est:/\?/.test(f[1]),nr:/!/.test(f[1])/* 게임에 착용 레벨 제한 없음(build.py 「!」) — 숫자는 얻는 레벨 어림 */,sl:f[2],cs:f[3],q:f[4]||'c',st,eff:f[6]==='1',src:f[7]?f[7].split(';').map(Number):[],mask:+f[8],ph:f[9]||'',allow:f[10]?f[10].split(','):null,prof:f[11]||'',nm:f[12],ic:f[13]||''}}).filter(i=>i.lv<=60);/* 착용 레벨 60 넘는 템(다른 확장팩 자료)은 뺌 */
 const IT=new Map(ITEMS.map(i=>[i.id,i]));
 const ICO=n=>n?'https://wow.zamimg.com/images/wow/icons/medium/'+String(n).toLowerCase()+'.jpg':'';
 /* 카드 제목 앞 이모지 → 게임 아이콘 (제목 글자는 그대로) */
@@ -4551,7 +4551,7 @@ function diffHtml(a,b,c){const w=wOf(c);const ks=new Set([...Object.keys(a?a.st:
   arr.sort((x,y)=>y[2]-x[2]);if(!arr.length)return '';
   return '<span class="dif">'+arr.slice(0,4).map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+(k==='dps'||(PCTK[k]&&Math.abs(d)%1)?Math.abs(d).toFixed(1):Math.round(Math.abs(d)))+'</span>').join(' · ')+'</span>'}
 function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.src.slice(0,n||2).map(i=>{const s=SRC[i];if(!s)return '';
-  if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+(s.boss?' · '+s.boss:'');if(s.k===1)return / · 퀘스트 보상$/.test(s.qn)?s.qn:'퀘스트 「'+s.qn+'」';if(s.k===2)return '월드 드랍 (경매장)';if(s.pvp)return (s.k===1?'퀘스트 「'+s.qn+'」':s.label.replace(/^PvP · /,'').replace(/^상인 · /,'상인 '))+' (PvP)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':/^드랍 · 숨은 물건: /.test(s.label)?s.label.replace('드랍 · 숨은 물건: ','숨은 물건 「')+'」에서 얻기':s.label.replace('드랍 · ','')+' 처치';if(s.k===4)return s.label.replace(/ · 경매장 거래$/,'')+' (경매장)';if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
+  if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+(s.boss?' · '+s.boss:'');if(s.k===1)return / · 퀘스트 보상$/.test(s.qn)?s.qn:'퀘스트 「'+s.qn+'」'+(hordeQ(srcQid(s))?' (호드)':'');if(s.k===2)return '월드 드랍 (경매장)';if(s.pvp)return (s.k===1?'퀘스트 「'+s.qn+'」':s.label.replace(/^PvP · /,'').replace(/^상인 · /,'상인 '))+' (PvP)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':/^드랍 · 숨은 물건: /.test(s.label)?s.label.replace('드랍 · 숨은 물건: ','숨은 물건 「')+'」에서 얻기':s.label.replace('드랍 · ','')+' 처치';if(s.k===4)return s.label.replace(/ · 경매장 거래$/,'')+' (경매장)';if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
 function srcList(it){if(!it.src.length)return '<p class="note">어디서 나오는지 아직 몰라요.</p>';
   return '<div class="srcl">'+it.src.slice(0,6).map(i=>{const s=SRC[i];if(!s)return '';const d=s.k===0&&DG[s.dg];
     const ico={0:'🏰',1:'📜',2:'🌍',3:'⚔️',4:'🧪',5:'🛒'}[s.k]||'•';const bn=d&&d.bosses?bossNo(d,s.boss):null;
@@ -4567,7 +4567,7 @@ function itemTipHtml(c,it,slot){const st=it.st||{};const QC={p:'qp',c:'qc',u:'qu
   TIP_BASE.forEach(k=>{if(st[k])h+='<div class="tt-l">'+(st[k]>0?'+':'')+Math.round(st[k])+' '+STAT_KO[k]+'</div>'});
   Object.keys(st).filter(k=>!TIP_BASE.includes(k)&&k!=='dps'&&k!=='armor'&&STAT_KO[k]&&!SHDUP(k,st)).forEach(k=>{h+='<div class="tt-g">착용 효과: '+STAT_KO[k].replace(/ %$/,'')+' '+(/%$/.test(STAT_KO[k])?st[k]+'%':'+'+Math.round(st[k]))+'</div>'});
   if(it.eff)h+='<div class="tt-g">착용 효과: 특수 효과 있음 (게임 툴팁 확인)</div>';
-  h+='<div class="tt-lv">'+(it.lv>1?'최소 레벨 '+it.lv+(it.est?'?':''):'')+'</div>';
+  h+='<div class="tt-lv">'+(it.nr?'착용 레벨 제한 없음'+(it.ob>1?' · '+it.ob+'레벨쯤 얻음':''):it.lv>1?'최소 레벨 '+it.lv+(it.est?'?':''):'')+'</div>';
   if(cur){const d=diffHtml(it,cur,c);h+='<div class="tt-cmp"><div class="tt-ch">지금 낀 것과 비교 <small>'+esc(cur.nm)+'</small></div>'+(d||'<span class="dif">달라지는 능력치 없음</span>')+'</div>'}
   else if(slot&&!c.eq?.[slot])h+='<div class="tt-cmp"><div class="tt-ch">이 칸은 비어 있어요</div></div>';
   if(eqd){const b=bestFor(c,slot,c.lv,ui.ifil||'ok')[0];if(b&&b.it&&b.it.id!==it.id)h+='<div class="tt-cmp"><div class="tt-ch">추천으로 바꾸면 <small>'+esc(b.it.nm)+'</small></div>'+(diffHtml(b.it,it,c)||'')+'</div>'}
@@ -4595,7 +4595,7 @@ function questTipHtml(c,id){const q=QDB&&QDB.get(id);const d=QD.get(id)||{};if(!
   document.addEventListener('scroll',hide,true);document.addEventListener('click',hide,true)})();
 function itIcon(it,cls){return it&&(it.ic||it.icUrl)?'<span class="ic '+(cls||'')+' q-'+it.q+'" data-tip="'+it.id+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic empty '+(cls||'')+'">–</span>'}
 function itName(it){return '<span class="q'+it.q+'">'+esc(it.nm)+'</span>'}
-function itMeta(it){return esc([(SL_KO[it.sl]||it.sl),(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?CS_KO[it.cs]:''),(it.lv<=1&&it.ob>1?'착용 레벨 제한 없음 · '+it.ob+'레벨쯤 얻음':(it.lv>0?'Lv '+it.lv+(it.est?'?':''):''))].filter(Boolean).join(' · '))+(it.ph==='extra'?' <span class="tag sm" title="클래식 자료로 더한 장비라 능력치가 조금 다를 수 있어요">능력치 대략</span>':'')}
+function itMeta(it){return esc([(SL_KO[it.sl]||it.sl),(CS_KO[it.cs]&&!['4.0',''].includes(it.cs)?CS_KO[it.cs]:''),((it.lv<=1||it.nr)&&it.ob>1?'착용 레벨 제한 없음 · '+it.ob+'레벨쯤 얻음':it.nr?'착용 레벨 제한 없음':(it.lv>0?'Lv '+it.lv+(it.est?'?':''):''))].filter(Boolean).join(' · '))+(it.ph==='extra'?' <span class="tag sm" title="클래식 자료로 더한 장비라 능력치가 조금 다를 수 있어요">능력치 대략</span>':'')}
 
 function bossNo(d,boss){const i=d.bosses.findIndex(b=>b.nm===boss);return i>=0?i+1:null}
 function findZoneQuest(name){for(const k of [RACE_START[(me()||{}).race]||'dwarf-gnome',...Object.keys(ROUTE)])for(const S of ROUTE[k]||[])for(const q of S.q)if(q.nm===name)return {q,S};return null}
@@ -4725,7 +4725,7 @@ function srcParts(c,it){let h='';
       /* 이 캐릭터가 이미 했거나 못 받는 퀘스트면 표시 (추천에서 빠지는 이유) */const qSt=id=>{if(!id)return '';const X=QDB&&QDB.get(id);if(X&&mqDone(c,X)||(c.mq||{})[id]||(c.dq||{})[id])return ' · ✅ 했어요';return qGone(c,id)?' · 🚫 이 캐릭터는 못 받아요':''};
       if(f){const q=f.q;const z=q.gz||q.sz;parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div>'+(q.obj?'<div class="obj">'+esc(q.obj)+'</div>':'')+'<div class="sub">'+esc(z)+' '+contTag(z)+'</div><div class="sub">'+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 '+q.pre+'개 먼저':'')+(q.ch?' · 연계 '+q.ch+'개 이어짐':'')+qSt(q.id)+'</div><div class="bkb">'+(q.id?'<button class="btn sm" data-a="qopen" data-k="'+q.id+'">퀘스트·위치 보기</button>':'')+'<button class="btn sm ghost" data-a="goz" data-k="'+esc(z)+'">이 지역 퀘스트</button></div></div>')}
       else if(QDB&&QDB.get(srcQid(s))){const X=QDB.get(srcQid(s));parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(X.n)+'」 <span class="lvb '+lvCls(X.lv,c.lv)+'">'+(X.lv||'?')+'</span></div><div class="sub">'+(X.g&&X.g[0]?'받는 곳 '+esc(X.g[0])+(X.g[1]?' ('+esc(ZKO[X.g[1]]||X.g[1])+')':'')+(X.z&&X.g[1]&&(ZKO[X.g[1]]||X.g[1])!==X.z?' · 하는 곳 '+esc(X.z):''):esc(X.z||''))+' · '+mTxt(X)+qSt(X.id)+'</div><div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+X.id+'">퀘스트·위치 보기</button>'+(X.z?'<button class="btn sm ghost" data-a="goz" data-k="'+esc(X.z)+'">이 지역 퀘스트</button>':'')+'</div></div>')}
-      else parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(s.qn)+'」</div>'+(QDB?'':'<div class="sub">퀘스트 자료를 불러오는 중…</div>')+'<div class="sub">앱 자료에 없는 퀘스트예요. <a href="https://www.wowhead.com/forever/ko/'+(srcQid(s)?'quest='+srcQid(s):esc(s.href.replace('wh:','')))+'" target="_blank" rel="noopener">와우헤드에서 보기 ↗</a></div></div>')}
+      else parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(s.qn)+'」</div>'+(QDB?'':'<div class="sub">퀘스트 자료를 불러오는 중…</div>')+'<div class="sub">'+(()=>{const qi=srcQid(s);/* 이름이 영어로만 남은 출처는 대부분 호드 퀘스트이거나 포에버에 없는 퀘스트(다른 확장팩 번호) — 추천에서 빠지는 이유를 적음 */return qi&&hordeQ(qi)?'🚫 호드 퀘스트예요 — 얼라이언스는 못 받아요.':qi&&QDB?'포에버 퀘스트 자료에 없는 퀘스트예요 (지금은 못 받을 수 있어요).':'앱 자료에 없는 퀘스트예요.'})()+' <a href="https://www.wowhead.com/forever/ko/'+(srcQid(s)?'quest='+srcQid(s):esc(s.href.replace('wh:','')))+'" target="_blank" rel="noopener">와우헤드에서 보기 ↗</a></div></div>')}
     else if(s.k===3)parts.push('<div class="src"><b>⚔️ 몹 드랍</b><div class="nm">'+esc(s.label.replace('드랍 · ',''))+'</div><div class="sub">이 몹을 잡으면 낮은 확률로 나와요.</div></div>');
     else if(s.k===2)parts.push('<div class="src"><b>🎲 월드 드랍</b><div class="sub">레벨 맞는 필드 몹에게서 무작위로 나와요. 경매장에서 사는 게 빨라요.</div></div>');
     else if(s.k===4)parts.push('<div class="src"><b>🔨 제작</b><div class="nm">'+esc(s.label.replace(/^제작 · /,''))+'</div><div class="sub">전문기술로 만들거나 경매장에서 사요.</div></div>');
@@ -5086,7 +5086,7 @@ const ownTag=(c,id)=>{const o=ownedOf(c,id);return o?'<span class="owt">'+(o==='
 /* 내 가방·은행의 낄 수 있는 템 전부: 칸마다 지금 것과 비교 */
 function bagAll(c){const w=wOf(c);const out=[];
   [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.keys(B).forEach(k=>{const id=+k;const it=IT.get(id);if(!it||out.some(x=>x.it.id===id)||Object.values(c.eq||{}).includes(id))return;
-    const ok=usable(it,c)&&!(it.lv>c.lv&&!it.est);const lvUp=usable(it,c)&&it.lv>c.lv&&!it.est;let best=null;SLOTS.forEach(([sl])=>{if(!fits(it,sl,c))return;const cur=eqIt(c,sl);const g=sc(it,sl,w)-sc(cur,sl,w);if(!best||g>best.g)best={slot:sl,g,cur}});
+    const ok=usable(it,c)&&!(it.lv>c.lv&&!it.est&&!it.nr);const lvUp=usable(it,c)&&it.lv>c.lv&&!it.est&&!it.nr;/* 착용 레벨 제한 없는 템(nr)은 지금 낄 수 있음 */let best=null;SLOTS.forEach(([sl])=>{if(!fits(it,sl,c))return;const cur=eqIt(c,sl);const g=sc(it,sl,w)-sc(cur,sl,w);if(!best||g>best.g)best={slot:sl,g,cur}});
     if(!best)return;out.push({it,slot:best.slot,g:best.g,cur:best.cur,where,ok,lvUp,n:B[k]})}));
   return out}
 /* 🏘️ 마을 들를 때 할 일: 마을(거점)별로 기술 배우기 · 반납 · 받을 퀘스트 · 팔 것 · 은행 · 전문기술 승급을 한 장에 */
@@ -5103,7 +5103,7 @@ function townCard(c){if(!QDB){qdbLoad();return ''}if(!WLD)wldLoad();const L=c.lv
   /* 전문기술 승급: 숙련도가 등급 끝에 닿음 → 수도 */
   {const up=Object.entries(c.profLv||{}).filter(([,v])=>v&&v[1]<300&&v[0]>=v[1]-5);if(up.length)TOWN_CAP.forEach(z=>up.forEach(([nm,v])=>add(z,'prof',{nm,cur:v[0],max:v[1]})))}
   /* 가방: 팔 것은 어느 마을 상인이든 · 은행은 수도 */
-  {const R=c.bag&&BAGDB?bagSort(c):null;if(c.bag&&!BAGDB)bagDbLoad();if(R){const sb=R.G.sell.filter(x=>x.where==='bag');const bk=R.G.bank.filter(x=>x.where==='bag');
+  {const R=c.bag&&BAGDB?bagSort(c):null;if(c.bag&&!BAGDB)bagDbLoad();if(R){const sb=R.G.sell.concat(R.G.done.filter(x=>x.I.sell>0)).filter(x=>x.where==='bag');const bk=R.G.bank.filter(x=>x.where==='bag');
     if(bk.length)TOWN_CAP.forEach(z=>add(z,'bank',{n:bk.length}));ui._townSell=sb.length?{n:sb.length,sum:sb.reduce((n,x)=>n+x.I.sell*x.n,0)}:null}}
   const W={turn:3,get:2,learn:3,prof:2,bank:1,sell:0};
   let L2=[...T.values()].map(t=>{let sc=0;for(const k in t.e)sc+=W[k]*(k==='learn'||k==='bank'?1:t.e[k].length);if(t.e.learn)t.e.learn=[t.e.learn[0]];const zn=t.town.split(' · ').pop();return Object.assign(t,{sc,near:here.has(zn)})}).filter(t=>t.sc>0);
@@ -5166,10 +5166,10 @@ function itemQuests(c,nm){const M=qItemIdx();if(!M)return [];const ql=c.ql||{},m
   return (M.get(nm)||[]).map(y=>({...y,X:QDB.get(y.id),s:st(y.id)})).filter(y=>y.X&&(y.s===1||y.s===2||(qdbOk(c,y.X)&&!exOut(c,y.X)))).sort(iqCmp)}
 const iqCmp=(a,b)=>{const rk=s=>s===1||s===2?0:s===0?1:2;return rk(a.s)-rk(b.s)||(a.X.lv||0)-(b.X.lv||0)||String(a.X.n).localeCompare(String(b.X.n),'ko',{numeric:true})};
 function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||{}).map(Number));const E=new Map(bagAll(c).map(x=>[x.it.id,x]));const QN=questItemNames(c);const MM=myMatIds(c);const W=new Set((c.wish||[]).map(Number));
-  const G={q:[],sell:[],mat:[],bank:[],other:[]};let sellSum=0;
+  const G={q:[],done:[],sell:[],mat:[],bank:[],other:[]};let sellSum=0,doneSum=0;
   [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.entries(B).forEach(([k,n])=>{const id=+k;if(eqd.has(id))return;const T0=IT.get(id)||{};const I=BAGDB.get(id)||{nm:T0.nm||('아이템 #'+id),q:{p:0,c:1,u:2,r:3,e:4,l:5}[T0.q]??1,cls:T0.sl?(T0.cs&&T0.cs[0]==='2'?2:4):-1,sell:0,ic:T0.ic||''};const x={id,n,where,I};
     /* 퀘스트 템인데 쓰는 퀘스트를 다 끝냈으면 「이제 필요 없어요」(팔거나 버려도 됨) — 예전엔 끝낸 뒤에도 「퀘스트에 써요」에 남았음 */
-    if(I.cls===12||QN.has(I.nm)){const Q=QN.has(I.nm)?null:itemQuests(c,I.nm);if(Q&&Q.length&&Q.every(y=>y.s===3)){G.sell.push(x);if(I.sell>0)sellSum+=I.sell*n;x.why='끝낸 퀘스트 템 · 이제 필요 없어요';return}G.q.push(x);return}
+    if(I.cls===12||QN.has(I.nm)){const Q=QN.has(I.nm)?null:itemQuests(c,I.nm);if(Q&&Q.length&&Q.every(y=>y.s===3)){G.done.push(x);if(I.sell>0)doneSum+=I.sell*n;x.qs=Q;return}G.q.push(x);return}
     /* 아직 할 수 있는 퀘스트에 내는 템(반납용 장비·회색 재료 등)은 퀘스트창에 없어도 팔 것에 넣지 않음 — 예전엔 산악인의 망토(퀘스트 565 반납)·해골 조각이 「팔아도 돼요」로 나왔음 */
     const qNeed=()=>itemQuests(c,I.nm).some(y=>y.s!==3&&!hordeQ(y.id));
     const e=E.get(id);
@@ -5177,11 +5177,11 @@ function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||
     if(I.q===0&&I.sell>0){if(qNeed()){G.q.push(x);return}G.sell.push(x);sellSum+=I.sell*n;x.why='잡동사니';return}
     if(I.cls===7||I.cls===5){if(MM.has(id))G.mat.push(x);else G.bank.push(x);return}
     G.other.push(x)}));
-  return {G,sellSum}}
+  return {G,sellSum,doneSum}}
 /* 아이콘 그림이 안 열릴 때 밑에 깔리는 물음표 그림 */
 const IC_Q='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#2a241b"/><text x="16" y="23" font-size="20" font-family="sans-serif" font-weight="700" text-anchor="middle" fill="#8a7a5a">?</text></svg>');
 function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLoad();return '<div class="card bgs"><h3>🧹 가방 정리</h3>'+ldNote('bag','아이템 자료를 불러오는 중…')+'</div>'}
-  const R=bagSort(c);if(!R)return '';const {G,sellSum}=R;
+  const R=bagSort(c);if(!R)return '';const {G,sellSum,doneSum}=R;
   const ql=q=>['p','c','u','r','e','l'][q]||'c';
   /* 아이콘: 게임 아이콘(자료에 있으면) · 없으면 종류별 기본 그림 */
   const DEF={0:'inv_potion_51',1:'inv_misc_bag_07',2:'inv_sword_04',4:'inv_chest_cloth_21',5:'inv_misc_dust_02',7:'inv_fabric_linen_01',9:'inv_scroll_03',12:'inv_misc_note_01',15:'inv_misc_gear_01'};
@@ -5193,7 +5193,8 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
     if(x.pages)sub.push(x.pages.length+'장 · '+x.pages.join('·')+'쪽');
     if(x.where==='bank')sub.push('<i class="bk">은행</i>');
     if(x.why)sub.push('<i class="why">'+esc(x.why)+'</i>');
-    const pr=k==='sell'&&x.I.sell?'<span class="pr">'+goldTxt(x.I.sell*x.n)+'</span>':'';
+    const pr=(k==='sell'||k==='done')&&x.I.sell?'<span class="pr">'+goldTxt(x.I.sell*x.n)+'</span>':'';
+    /* 끝낸 퀘스트 템: 어느 퀘스트에 썼는지 */if(k==='done'&&x.qs&&x.qs.length)sub.unshift('<span class="qln">「'+esc(x.qs[0].X.n)+'」'+(x.qs.length>1?' 외 '+(x.qs.length-1)+'개':'')+' 끝냄</span>');
     const Q=k==='q'&&x.qs&&x.qs.length?x.qs:null;
     if(PV&&k==='q'&&!Q)sub.unshift('<span class="qln none">어느 퀘스트인지 자료에 없어요</span>');
     if(Q){const t=Q[0],allDone=Q.every(y=>y.s===3);const pill=t.s===1||t.s===2?'<i class="qst s'+t.s+'">'+QST[t.s]+'</i>':allDone?'<i class="qst s3">끝낸 퀘스트</i>':'';
@@ -5206,13 +5207,13 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
   G.q.forEach(x=>{x.qs=itemQuests(c,x.I.nm)});
   const KIND={0:'물약·음식',1:'가방',2:'장비',4:'장비',9:'도안·조리법',13:'열쇠',15:'기타'};
   G.other.forEach(x=>{if(!x.why)x.why=KIND[x.I.cls]||'기타'});
-  const SEC=[['q','inv_misc_note_06','퀘스트에 써요','누르면 어느 퀘스트에 쓰는지 · 몇 레벨인지 나와요',G.q,true],['sell','inv_misc_coin_01','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
+  const SEC=[['q','inv_misc_note_06','퀘스트에 써요','누르면 어느 퀘스트에 쓰는지 · 몇 레벨인지 나와요',G.q,true],['done','inv_misc_note_02','이제 필요 없어요','끝낸 퀘스트 템 · 팔거나 버려도 돼요'+(doneSum?' · 상점에 팔면 약 '+goldTxt(doneSum):''),G.done,true],['sell','inv_misc_coin_01','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
     ['mat','inv_fabric_linen_01','내 전문기술 재료',(c.profs||[]).join('·'),G.mat,false],['bank','inv_box_01','은행·경매장으로',(c.profs||[]).length?'내 전문기술에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false],['keep','inv_misc_bag_10','가방에 두기','물약·음식·도안·열쇠·장비 등 — 장비는 아래 「내 가방·은행 장비」에서 비교',G.other,false]];
   const sec=([k,e,t,sub,L,open])=>{if(!L.length)return '';const R2=grp(L.slice().sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko')));
     return '<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary>'+gic(e,'e')+'<b>'+t+'</b><span class="n">'+L.length+'</span>'+(sub?'<small>'+sub+'</small>':'')+'<i class="cv"></i></summary><div class="bgl">'+R2.map(x=>row(x,k)).join('')+'</div></details>'};
   let h='<div class="card bgs"><div class="bgh"><h3>🧹 가방 정리</h3>'+(c.imported?'<small>'+armAgo(c.imported.t)+' 가져온 가방·은행</small>':'')+'</div>';
   const tiles=SEC.filter(x=>x[4].length);
-  const TL={q:'퀘스트',sell:'팔 것',mat:'내 재료',bank:'은행·경매',keep:'가방에 두기'};
+  const TL={q:'퀘스트',done:'필요 없음',sell:'팔 것',mat:'내 재료',bank:'은행·경매',keep:'가방에 두기'};
   /* 미리보기: 위 칸이 곧 탭 — 누른 칸의 목록만 아래에 (같은 제목이 두 번 나오지 않게) */
   if(PV&&tiles.length){const on=tiles.find(x=>x[0]===ui.bagk)||tiles[0];const [k0,,t0,sub0,L0]=on;
     h+='<div class="bgt pv" role="tablist">'+tiles.map(([k,e,t,,L])=>'<button role="tab" class="t g-'+k+(k===k0?' on':'')+'" data-a="bagk" data-k="'+k+'" aria-selected="'+(k===k0)+'">'+gic(e,'lg')+'<b>'+L.length+'</b><small>'+TL[k]+'</small></button>').join('')+'</div>';
@@ -5326,9 +5327,9 @@ function uRow(c,x,soon){const cur=eqIt(c,x.slot);const it=x.it;const st=it.st||{
     .map(k=>{const pct=/ %$/.test(STAT_KO[k]);return (k==='dps'?'초당':pct?STAT_KO[k].slice(0,-2):STAT_KO[k].replace(' 주문력',''))+' '+(k==='dps'||(pct&&st[k]%1)?st[k].toFixed(1):Math.round(st[k]))+(pct?'%':'')}).join(' · ');
   const r=x.g/Math.max(x.base,4);const cls=x.empty?'new':r>=.5?'big':r>=.2?'mid':'sm';
   return '<details class="ur"><summary>'+itIcon(it)+'<span class="m"><span class="t"><em>'+esc(SLOT_KO[x.slot])+'</em>'+itName(it)+'</span><span class="s">'+(top?esc(top):'')+(guideHas(c,it.id)?' <i class="gd">📘</i>':'')+(soon?' · '+(it.ob||it.lv)+'레벨':'')+'</span>'+(x.bag?'<span class="s bagt">'+(x.where==='bank'?'🏦 은행에 있어요':'🎒 가방에 있어요')+' · 바로 끼세요</span>':'')+(x.nx?'<span class="s nxl">🔜 '+(x.nx.it.ob||x.nx.it.lv)+'레벨 '+esc(x.nx.it.nm)+' <b>+'+(x.nx.g>=10?Math.round(x.nx.g):x.nx.g.toFixed(1))+'</b></span>':'')+'</span><span class="ug '+cls+'">'+(x.empty?'빈 칸':'+'+(x.g>=10?Math.round(x.g):x.g.toFixed(1)))+'</span></summary>'
-    +'<div class="urb">'+itStats(it,c)+dif2(it,cur,c)+'<p class="sub">'+(cur?'지금: '+esc(cur.nm)+' · ':'')+esc(srcTxt(it,1))+' · '+(it.ob>it.lv?it.ob+'레벨쯤 얻음':'Lv '+it.lv)+luckTag(it,c)+guideTag(it,c)+skTag(it,c)+bothTag(it)+'</p>'
+    +'<div class="urb">'+itStats(it,c)+dif2(it,cur,c)+'<p class="sub">'+(cur?'지금: '+esc(cur.nm)+' · ':'')+esc(srcTxt(it,1))+' · '+(it.ob>it.lv||it.nr&&it.ob>1?it.ob+'레벨쯤 얻음':it.nr?'착용 레벨 제한 없음':'Lv '+it.lv)+luckTag(it,c)+guideTag(it,c)+skTag(it,c)+bothTag(it)+'</p>'
     +(x.nx?'<p class="sub">🔜 '+(x.nx.it.ob||x.nx.it.lv)+'레벨쯤: <b>'+esc(x.nx.it.nm)+'</b> · '+esc(srcTxt(x.nx.it,1))+' <button class="lnk" data-a="cmpq" data-k="'+x.slot+':'+x.nx.it.id+'">보기</button></p>':'')+'<div class="ura"><button class="btn sm" data-a="cmpq" data-k="'+x.slot+':'+it.id+'">비교·자세히</button><button class="btn sm ghost" data-a="wish" data-k="'+it.id+'">'+(isWish(c,it.id)?'⭐ 찜함':'☆ 찜')+'</button>'+(x.bag?'':'<button class="btn sm ghost" data-a="nogo" data-k="'+it.id+'">🚫 못 얻어요</button>')+'</div></div></details>'}
-function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+guideTag(x.it,c)+skTag(x.it,c)+bothTag(x.it)+(x.it.id>=200000?' <span class="tag fv" title="와우 포에버에서 새로 생긴 템">포에버 신규</span>':'')+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv?x.it.ob+'레벨쯤 얻음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
+function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a="cmpq" data-k="'+x.slot+':'+x.it.id+'">'+itIcon(x.it)+'<span class="m"><span class="sub">'+SLOT_KO[x.slot]+(cur?' · 지금: '+esc(cur.nm):'')+'</span><span class="nm">'+wishMark(c,x.it.id)+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+guideTag(x.it,c)+skTag(x.it,c)+bothTag(x.it)+(x.it.id>=200000?' <span class="tag fv" title="와우 포에버에서 새로 생긴 템">포에버 신규</span>':'')+((x.it.ob||x.it.lv)>=c.lv-1&&(x.it.ob||x.it.lv)<=c.lv?' <span class="tag new">🆕</span>':'')+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'<span class="sub">'+esc(srcTxt(x.it,1))+' · '+(x.it.ob>x.it.lv||x.it.nr&&x.it.ob>1?x.it.ob+'레벨쯤 얻음':x.it.nr?'착용 레벨 제한 없음':'Lv '+x.it.lv)+'</span></span><span class="r">'+gainTag(x.g,x.base,x.empty)+'<br>'+infoBtn(x.it)+'</span></div>'}
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
 /* 추천 기준 칸 (장비 탭) */
