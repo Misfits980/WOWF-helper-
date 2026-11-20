@@ -310,6 +310,15 @@ def _dq():
     return _dq_inside('\n'.join(out))
 
 
+def _dq_names(ko):
+    """설명에서 찾을 던전 이름: 「발굴 현장: 저습지」→ 발굴 현장, 「스트라솔름 (정문)」→ 스트라솔름 (두 글자 이하는 안 씀)"""
+    out = {ko} if ko else set()
+    if ko:
+        out.add(ko.split(':')[0].strip())
+        out.add(re.sub(r'\s*\(.*?\)', '', ko).strip())
+    return [x for x in out if len(x) > 2]
+
+
 def _dq_inside(base):
     """던전 퀘스트 나누기 자료 — f[15] 「던전 안에서 해야 함」('1'), f[16] 「어디서 받나」('i' = 이 던전 안 · '' = 밖)
     앱 dqList: 밖에서 받는데 앞 단계에 f[15]인 퀘스트가 있으면 「던전 끝나고 이어서」(첫 판 전엔 못 받음).
@@ -372,13 +381,14 @@ def _dq_inside(base):
             names |= {t[1] for t in tg if isinstance(t[1], str) and t[0] in ('수집', '사용', '처치')}
             # 목표에 바깥 좌표가 없음: QuestieDB는 인스턴스 안 몹·물건엔 바깥 좌표가 없음(첨탑 하층 「파멸의 궤」, 상층 「부화장 알」 등)
             noloc = bool([t for t in (X.get('t') or []) if isinstance(t, list) and len(t) > 1]) and all(len(t) < 4 or not t[3] for t in (X.get('t') or []) if isinstance(t, list) and len(t) > 1)
-            ins = sin == 'i' or bool(len(f) > 11 and f[11].strip()) or bool(ko_ and ko_ in (f[7] or X.get('o', ''))) \
+            ins = sin == 'i' or bool(len(f) > 11 and f[11].strip()) or any(nm_ in (f[7] or X.get('o', '')) for nm_ in _dq_names(ko_)) \
                 or bool(names & MOB.get(sl, set())) or noloc
             if qid in DQ_FIX.get('ind', {}):
                 ins = DQ_FIX['ind'][qid]
-            while len(f) < 17: f.append('')
+            while len(f) < 18: f.append('')
             f[15] = '1' if ins else ''
             f[16] = sin
+            f[17] = DQ_FIX['pre'].get(qid, '')
             l = '|'.join(f)
         out.append(l)
     return '\n'.join(out)
@@ -386,6 +396,10 @@ def _dq_inside(base):
 
 # 자료로 못 맞추는 던전 퀘스트 손보기 — 이유를 꼭 적기
 DQ_FIX = {
+    # f[17] 자료에 빠진 앞 단계(쉼표로 여러 개)
+    'pre': {
+        '95264': '95262',  # 쇼가 알아야 할 일: 앞 단계 95263이 퀘스트 자료에 없음 — 「비밀 감옥」(알카즈 감옥 안에서 알아내기) 다음, 같은 설리가 줌
+    },
     'sin': {},
     'ind': {
         '1139': True,  # 잃어버린 결의의 서판: 결의의 서판은 울다만 안 물건(자료엔 좌표·몹 없음)

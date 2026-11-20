@@ -3519,8 +3519,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 .dgerr{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.dgerr p{margin:0;flex:1 1 220px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=990b51e9"></script>
-<script>/* v1ae27d @11/20 11:00 */
+<script src="app-data.js?v=475e855e"></script>
+<script>/* v764011 @11/20 21:17 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3528,7 +3528,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/20 11:00';
+const BUILD='11/20 21:17';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3642,7 +3642,7 @@ const DG=Object.fromEntries(DGS.map(d=>[d.slug,d]));
 D_DQ.split('\n').filter(Boolean).forEach(l=>{const f=l.split('|');const d=DG[f[1]];if(!d)return;
   if(f[0]==='B'){d.bosses=(f[2]||'').split(';').filter(Boolean).map(x=>{const i=x.indexOf('=');return {slug:x.slice(0,i),nm:x.slice(i+1)}});return}
   if(f[3]==='horde')return;
-  d.q.push({id:+f[2],side:f[3],lv:+f[4],min:+f[5],nm:f[6],obj:f[7],start:f[8],pre:+f[9]||0,rw:(f[10]||'').split(',').filter(Boolean).map(Number),boss:(f[11]||'').split(';').filter(Boolean),choose:f[12]==='1',kind:f[13],cls:+f[14]||0,ind:f[15]==='1',sin:f[16]||''})});
+  d.q.push({id:+f[2],side:f[3],lv:+f[4],min:+f[5],nm:f[6],obj:f[7],start:f[8],pre:+f[9]||0,rw:(f[10]||'').split(',').filter(Boolean).map(Number),boss:(f[11]||'').split(';').filter(Boolean),choose:f[12]==='1',kind:f[13],cls:+f[14]||0,ind:f[15]==='1',sin:f[16]||'',xpre:f[17]?f[17].split(',').map(Number):[]})});
 DGS.forEach(d=>d.q.sort((a,b)=>a.lv-b.lv));
 
 /* ----- 레벨링 경로 ----- */
@@ -5990,8 +5990,9 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
     else if(nxL)rows.push(['trn','<img class="hic" src="img/ui-book.png" alt="">','교관','<p class="mute">다음 기술은 <b>'+nxL+'레벨</b>에 배워요 ('+nx.filter(l=>l[0]===nxL).map(l=>esc(l[1])).join(' · ')+')</p>'])}
   /* 3) 던전 */
   const dq=c.dq||{};const D=DGS.filter(d=>d.lo&&d.lo<=L&&d.hi>=L&&d.lo>=10).sort((a,b)=>a.lo-b.lo).slice(0,3);
-  if(D.length)rows.push(['dg','<img class="hic" src="img/eye.png" alt="">','지금 갈 만한 던전',D.map(d=>{const n=dqOf(c,d).filter(q=>{const X=QDB&&QDB.get(+q.id);/* 던전 탭과 같은 기준: 앱 자료·퀘스트 자료 최소 레벨 중 높은 쪽 (예: 마라우돈 「생명의 씨앗」 39 → 45) */return Math.max(q.min||0,X&&!X.mEst?X.m||0:0)<=L&&!dqIsDone(c,q)}).length;
-    return '<button class="lhq" data-a="dgo" data-k="'+d.slug+'"><span class="qlv">'+d.lo+'–'+d.hi+'</span><span class="t"><b>'+esc(d.ko)+'</b><span>'+(n?'던전 퀘스트 '+n+'개 · 들어가기 전에 받아 두세요':'던전 퀘스트 없음')+'</span></span></button>'}).join('')]);
+  if(D.length)rows.push(['dg','<img class="hic" src="img/eye.png" alt="">','지금 갈 만한 던전',D.map(d=>{const n=dqOf(c,d).filter(q=>{const X=QDB&&QDB.get(+q.id);/* 던전 탭과 같은 기준: 앱 자료·퀘스트 자료 최소 레벨 중 높은 쪽 (예: 마라우돈 「생명의 씨앗」 39 → 45) */return Math.max(q.min||0,X&&!X.mEst?X.m||0:0)<=L&&!dqIsDone(c,q)});
+    /* 「들어가기 전에 받아 두세요」는 밖에서 미리 받을 수 있는 것만 셈(던전 안에서 받는 것·던전 끝나고 받는 것 빼고) */const nP=n.filter(q=>q.start&&!dqIn(q)&&!dqAfter(d,q)).length;
+    return '<button class="lhq" data-a="dgo" data-k="'+d.slug+'"><span class="qlv">'+d.lo+'–'+d.hi+'</span><span class="t"><b>'+esc(d.ko)+'</b><span>'+(nP?'던전 퀘스트 '+nP+'개 · 들어가기 전에 받아 두세요':n.length?'던전 퀘스트 '+n.length+'개 · 던전 안에서·끝나고 받아요':'던전 퀘스트 없음')+'</span></span></button>'}).join('')]);
   /* 4) 이동: 이 구간 비행 조련사·여관, 구간 끝나면 다음 구간 */
   if(WLD&&zs.length){const fpIn=z=>WLD.fp.find(x=>x[1]===z),innIn=z=>WLD.inn.find(x=>x[1]===z);
     const near=S&&L>=S.b-1&&NX;const tz=near?NX.z.split(' · '):zs;
@@ -6490,14 +6491,14 @@ function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     {const G={};D.forEach(q=>{const d=DQ[q.id];(G[d.slug]=G[d.slug]||{d,L:[]}).L.push(q)});
       /* 같은 던전의 앞 퀘스트를 먼저 해야 하는 연계 다음 단계는 숨김(앞 단계를 끝내면 나옴) · 5레벨 넘게 높은 건 숨김 */
       const todo=d=>{const ids=new Set(dqOf(c,d).map(q=>+q.id));return dqOf(c,d).filter(q=>!dqIsDone(c,q)&&!ql[q.id]&&!qGone(c,q.id)).map(q=>{const X=QDB.get(q.id);const m2=X&&!X.mEst?X.m||0:0;const inside=dqIn(q)||/아이템/.test(q.start||'')||!q.start;
-        return {q,X,inside,mEff:Math.max(q.min||0,m2),pf:preFirst(c,q.id)}}).filter(o=>!(o.pf&&ids.has(+o.pf.id))&&o.mEff<=L+5).sort((a,b)=>(a.inside-b.inside)||((a.mEff>L||!!a.pf)-(b.mEff>L||!!b.pf))||(a.q.lv-b.q.lv))};
+        const af=dqAfter(d,q);return {q,X,inside:inside||!!af,af,mEff:Math.max(q.min||0,m2),pf:preFirst(c,q.id)}}).filter(o=>!(o.pf&&ids.has(+o.pf.id))&&o.mEff<=L+5).sort((a,b)=>(a.inside-b.inside)||((a.mEff>L||!!a.pf)-(b.mEff>L||!!b.pf))||(a.q.lv-b.q.lv))};
       /* 퀘스트창에 없는 던전은 지금 레벨에 가장 맞는 2곳만 */
       dgNow(L).filter(d=>!G[d.slug]&&todo(d).length).sort((a,b)=>Math.abs((a.fit||a.lo)-L)-Math.abs((b.fit||b.lo)-L)).slice(0,2).forEach(d=>{G[d.slug]={d,L:[],more:1}});
       const stTxt=q=>{let t=startTxt(q.start);const o=QD.get(q.id);if(o&&o.g&&latin(o.g[0])){const k=npcKo(o,'g');if(k&&!latin(k))t=t.split(o.g[0]).join(k)}return t};
-      const trow=({q,X,inside,mEff,pf})=>{const lock=mEff>L;const good=q.rw.some(id=>{const it=IT.get(id);return it&&usable(it,c)&&((bestSlot(it,c)||{}).g||0)>.01});
-        return '<div class="lg3r lgtodo'+(lock||pf?' lock':'')+'"><button class="lg3m" data-a="'+(X?'qopen':'dgo')+'" data-k="'+(X?q.id:DQ[q.id].slug)+'"><span class="lvq2 '+lvCls(q.lv||L,L)+'">'+(q.lv||'?')+'</span><span class="m"><b class="qnb"><span class="qn">'+esc(q.nm)+'</span>'+(X?chTag(q.id):'')+'</b><small>'+esc(stTxt(q))+'</small>'+(pf?'<small class="lgpre">먼저 「'+esc(pf.n)+'」 끝내야 받아요</small>':lock?'<small class="lgpre hard">'+mEff+'레벨부터 받아요</small>':'')+'</span>'
+      const trow=({q,X,inside,af,mEff,pf})=>{const lock=mEff>L;const good=q.rw.some(id=>{const it=IT.get(id);return it&&usable(it,c)&&((bestSlot(it,c)||{}).g||0)>.01});
+        return '<div class="lg3r lgtodo'+(lock||pf?' lock':'')+'"><button class="lg3m" data-a="'+(X?'qopen':'dgo')+'" data-k="'+(X?q.id:DQ[q.id].slug)+'"><span class="lvq2 '+lvCls(q.lv||L,L)+'">'+(q.lv||'?')+'</span><span class="m"><b class="qnb"><span class="qn">'+esc(q.nm)+'</span>'+(X?chTag(q.id):'')+'</b><small>'+esc(stTxt(q))+'</small>'+(af&&!dqIsDone(c,af)?'<small class="lgpre">「'+esc(af.nm)+'」 퀘스트를 던전에서 끝내고 반납한 뒤 받아요</small>':pf?'<small class="lgpre">먼저 「'+esc(pf.n)+'」 끝내야 받아요</small>':lock?'<small class="lgpre hard">'+mEff+'레벨부터 받아요</small>':'')+'</span>'
           +(good?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+'</button>'
-          +'<span class="lg3a">'+(!inside&&X?'<button class="ib" data-a="mmgo" data-k="'+q.id+'" title="받는 곳 지도">📍</button>':'')+'</span></div>'};
+          +'<span class="lg3a">'+((!inside||af)&&X?'<button class="ib" data-a="mmgo" data-k="'+q.id+'" title="받는 곳 지도">📍</button>':'')+'</span></div>'};
       const V=Object.values(G).map(o=>Object.assign(o,{T:todo(o.d)})).filter(o=>o.L.length||o.T.length);const nT=V.reduce((a,o)=>a+o.T.length,0);
       if(V.length)h+='<div class="lg3s"><h4>🏰 던전 퀘스트 <small>'+(D.length?'받은 것 '+D.length+'개 · ':'')+(nT?'안 받은 것 '+nT+'개 · ':'')+'던전 갈 때 한꺼번에</small></h4><div class="lg3gs">'+V.map(({d,L:L2,T,more})=>'<div class="lg3g"><div class="lg3gh"><b>'+esc(d.ko)+'</b><small>'+d.lo+'–'+d.hi+'</small>'+(more?'<i class="here">지금 레벨</i>':'')+'<button class="btn sm ghost" data-a="dgo" data-k="'+d.slug+'">던전 공략 ›</button></div><div class="lg3l">'+chRows(L2,q=>row(q))
         +(T.length?'<p class="lgtodoh">📥 아직 안 받은 퀘스트 '+T.length+'개'+(T.some(x=>!x.inside)?' · 던전 가기 전에 받아 두세요':'')+'</p>'+T.slice(0,4).map(trow).join('')+(T.length>4?'<details class="lgmore"><summary>나머지 '+(T.length-4)+'개 더 보기</summary><div class="lg3l">'+T.slice(4).map(trow).join('')+'</div></details>':''):'')+'</div></div>').join('')+'</div></div>'}
@@ -6535,7 +6536,9 @@ function dqIn(q){return q.sin==='i'||/던전 안|던전 곳곳|\d층/.test(q.sta
 function dqAnc(id){const seen=new Set([id]),out=[];const pc=preChain(id).slice().reverse();let Qd=[];const X=QDB&&QDB.get(id);if(X)Qd=[...(X.pre||[]),...(X.pre1||[])];
   const push=i=>{i=+i;if(!seen.has(i)){seen.add(i);out.push(i);return true}return false};pc.forEach(push);let fr=Qd.filter(push);
   for(let k=0;k<10&&fr.length;k++){const nx=[];fr.forEach(i=>{const Y=QDB&&QDB.get(i);if(Y)[...(Y.pre||[]),...(Y.pre1||[])].forEach(j=>{if(push(j))nx.push(+j)})});fr=nx}return out}
-function dqAfter(d,q){if(!q.start||dqIn(q))return null;const by=new Map(d.q.map(z=>[+z.id,z]));return dqAnc(+q.id).map(i=>by.get(i)).find(z=>z&&z.ind&&+z.id!==+q.id)||null}
+function dqAfter(d,q){if(!q.start||dqIn(q))return null;const by=new Map(d.q.map(z=>[+z.id,z]));return [...(q.xpre||[]),...dqAnc(+q.id)].map(i=>by.get(i)).find(z=>z&&z.ind&&+z.id!==+q.id)||null}
+/* 「이 중 하나만」(퀘스트 자료 ex) 다른 던전에 있는 것 — 발타라크 아뮬렛 왼쪽·오른쪽 조각은 네 던전 중 한 곳만 */
+function dqExOther(d,q){const X=QDB&&QDB.get(+q.id);if(!X||!X.ex||!X.ex.length)return [];const M={};DGS.forEach(z=>z.q.forEach(y=>{M[+y.id]=z}));return [...new Set(X.ex.map(i=>M[+i]).filter(z=>z&&z.slug!==d.slug).map(z=>z.ko))]}
 /* 반납하는 곳이 이 던전 안인 퀘스트(퀘스트 자료 r[1] = 던전 이름) — 나오기 전에 끝내야 함 */
 function dqRetIn(q,d){const o=QDB&&QDB.get(+q.id);return !!(o&&o.r&&d&&o.r[1]===d.ko)}
 function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
@@ -6545,7 +6548,8 @@ function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
   const row=q=>{const dn=dqIsDone(c,q);const QX=QDB&&QDB.get(+q.id);const m2=QX&&!QX.mEst?QX.m||0:0;const mEff=Math.max(q.min||0,m2);const mDif=m2&&q.min&&m2!==q.min;const lock=mEff>L;const pf=dn?null:preFirst(c,+q.id);const lg=dn?0:((c.ql||{})[q.id]||0);const rw=q.rw.map(id=>IT.get(id)).filter(Boolean);
     const pc=preChain(q.id),pcl=pc.filter(i=>!mqDone(c,QDB.get(i))).length;
     const af=AFT.get(q),nx=dn?[]:nxtOf(q);
-    const tags=(af&&!dn?'<span class="tag aft">「'+esc(af.nm)+'」 퀘스트를 던전에서 끝내고 반납한 뒤 받아요'+(q.ind?' · 다시 들어가야 해요':'')+'</span>':'')+(nx.length?'<span class="tag aft">끝내면 이어서 「'+nx.map(f=>esc(f.nm)).join('」·「')+'」</span>':'')+(PV&&!dn&&dqRetIn(q,d)?'<span class="tag rin">던전 안에서 반납 · 나오기 전에</span>':'')+(pf&&!af?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+mEff+'레벨부터'+(mDif?' (자료마다 '+Math.min(q.min,m2)+'·'+Math.max(q.min,m2)+')':'')+'</span>':'');
+    const exo=dqExOther(d,q);
+    const tags=(exo.length?'<span class="tag aft">'+(exo.length+1)+'곳 중 한 곳만 해요 · 다른 곳: '+exo.map(esc).join(', ')+'</span>':'')+(af&&!dn?'<span class="tag aft">「'+esc(af.nm)+'」 퀘스트를 던전에서 끝내고 반납한 뒤 받아요'+(q.ind?' · 다시 들어가야 해요':'')+'</span>':'')+(nx.length?'<span class="tag aft">끝내면 이어서 「'+nx.map(f=>esc(f.nm)).join('」·「')+'」</span>':'')+(PV&&!dn&&dqRetIn(q,d)?'<span class="tag rin">던전 안에서 반납 · 나오기 전에</span>':'')+(pf&&!af?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+mEff+'레벨부터'+(mDif?' (자료마다 '+Math.min(q.min,m2)+'·'+Math.max(q.min,m2)+')':'')+'</span>':'');
     const inside=dqIn(q)||/아이템/.test(q.start||'')||!q.start;
     const extra=(q.boss.length?'<p class="npc">🎯 던전 안 목표: <b>'+q.boss.map(b=>esc(b.replace(/^(\d+) /,'$1번 '))).join(', ')+'</b></p>':'')+((QD.get(q.id)||{}).g&&(QD.get(q.id)||{}).g[0]&&!inside?'':'<p class="npc">'+esc((()=>{let t=startTxt(q.start);const o=QD.get(q.id);if(o&&o.g&&latin(o.g[0])){const k=npcKo(o,'g');if(k&&!latin(k))t=t.split(o.g[0]).join(k)}return t})())+'</p>');
     const rwHtml=rw.length?'<div class="rgrid">'+rw.map(it=>'<button class="rt2" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="rn q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</div>':'';
@@ -7536,9 +7540,10 @@ function dgRoute0(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
   return h}
 function bossTacOnly(g){return '<ol class="route">'+Object.entries(g.boss).map(([nm,b],i)=>'<li class="rs boss"><span class="no">'+(i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(nm)+'</b></div>'+(b.tac?'<ul class="roles">'+roleLines(b.tac)+'</ul>':'')+'</div></li>').join('')+'</ol>'}
 /* 포에버 던전 경험치: 10/1 던전 퀘스트의 추가 경험치 절반으로 · 10/8 몹 +20% · 11/8 핫픽스 몹 +50% (블리자드) → 그래도 퀘스트 먼저 받고 가기 */
-function dgQBanner(c,d){const S=dgState(c,d);if(!S.Q.length)return '';const notTaken=S.left.length-S.inLog.length;
+/* 「먼저 받고 가세요」의 수 = 지금 밖에서 받아 갈 수 있는 것만(안에서 받는 것·던전 끝나고 받는 것 빼고) — 예전엔 다 세서 「안 받은 퀘스트 7개」인데 받을 건 5개였음 */
+function dgQBanner(c,d){const S=dgState(c,d);if(!S.Q.length)return '';const notTaken=S.left.filter(q=>!(c.ql||{})[q.id]&&q.start&&!dqIn(q)&&!dqAfter(d,q)).length;
   if(S.all)return '<div class="dqb done"><b>✅ 던전 퀘스트 '+S.Q.length+'개를 다 했어요</b><small>11월 9일 핫픽스로 던전 몹 경험치가 50% 올라서 다시 돌아도 경험치를 꽤 받아요. 다만 파티원 한 명에게라도 회색인 몹은 경험치가 0이에요(11/13).</small></div>';
-  return '<div class="dqb"><b>📜 퀘스트 먼저 받고 가세요</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>안 받은 퀘스트 '+notTaken+'개</em>':'')+'</span><small>던전 퀘스트 경험치가 커서 받고 가는 게 좋아요 · 11월 9일부터 던전 몹 경험치 +50% · 파티원 한 명에게라도 회색인 몹은 모두 경험치 0(11/13).</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">안 받은 퀘스트 보기 ›</button>':'')+'</div>'}
+  return '<div class="dqb"><b>'+(notTaken>0?'📜 퀘스트 먼저 받고 가세요':'📜 던전 퀘스트')+'</b><span>던전 퀘스트 '+S.done.length+'/'+S.Q.length+' 했어요'+(S.inLog.length?' · 퀘스트창에 '+S.inLog.length+'개':'')+(notTaken>0?' · <em>미리 받아 갈 퀘스트 '+notTaken+'개 남음</em>':'')+'</span><small>던전 퀘스트 경험치가 커서 받고 가는 게 좋아요 · 11월 9일부터 던전 몹 경험치 +50% · 파티원 한 명에게라도 회색인 몹은 모두 경험치 0(11/13).</small>'+(notTaken>0&&ui.dtab!=='quest'?'<button class="btn sm" data-a="dtab" data-k="quest">받아 갈 퀘스트 보기 ›</button>':'')+'</div>'}
 /* 유산(Legacy) 던전 도전: 목록의 던전마다 마지막 보스를 잡으면 인정, 도전마다 1점 (allthings.how 던전별 정리, 게임 문구 「Complete the following dungeons」) */
 const SPELUNK=[['Novice Spelunker','초급',['hall-of-thanes','ruins-of-lordaeron','deadmines','wailing-caverns','shadowfang-keep','whelgar-excavation']],
  ['Experienced Spelunker','중급',['blackfathom-deeps','razorfen-kraul','gnomeregan','city-of-dalaran','sm-graveyard','sm-library','sm-armory','sm-cathedral','drowned-city','kroldok-stronghold']],
