@@ -238,6 +238,28 @@ def _dq():
     if ex.exists():
         seen = set(l.split('|')[2] for l in base.splitlines() if l.startswith('Q|'))
         base += '\n' + '\n'.join(l for l in rd(ex).splitlines() if l.startswith('Q|') and l.split('|')[2] not in seen)
+    # 신규 던전 퀘스트도 퀘스트 하나씩 「아직 없으면 더하기」 — 예전엔 던전 통째로만 더해서, forg 목록에 그 던전 보스 줄(B|)이 생기자
+    # dungeons-new.txt의 퀘스트가 모두 버려졌음(검은아귀 요새 「Blackmaw Reclamation」·「A Lost Memento」·「검은아귀 주머니」가 화면에 없었음)
+    seen = set(l.split('|')[2] for l in base.splitlines() if l.startswith('Q|'))
+    KX = {}  # 퀘스트 목표 한글 글(data/qdb/ko-extra.jsonl) — 퀘스트 자료에 없는 새 던전 퀘스트의 「퀘스트 임무」가 비지 않게
+    kx = ROOT / 'data' / 'qdb' / 'ko-extra.jsonl'
+    if kx.exists():
+        for line in rd(kx).splitlines():
+            try:
+                o = json.loads(line)
+            except Exception:
+                continue
+            if o.get('o'):
+                KX[str(o.get('id'))] = o['o']
+    add = []
+    for l in _dnew():
+        f = l.split('|')
+        if f[0] != 'Q' or len(f) < 8 or f[2] in seen or f[3] == 'horde' or f[2] in DQ_FIX['skip']:
+            continue
+        if not f[7] and KX.get(f[2]):
+            f[7] = KX[f[2]].replace('|', ' ')
+        add.append('|'.join(f))
+    base += '\n' + '\n'.join(add)
     # 보상이 빠진 퀘스트에 보상 채우기 (data/qdb/dungeon-quest-rewards.txt)
     rf = ROOT / 'data' / 'qdb' / 'dungeon-quest-rewards.txt'
     if rf.exists():
@@ -289,6 +311,10 @@ def _dq():
     out = []
     for l in base.split('\n'):
         f = l.split('|')
+        if f[0] == 'Q' and len(f) > 12 and f[2] in DQ_FIX['choose']:
+            f[12] = '1'; l = '|'.join(f)
+        if f[0] == 'Q' and len(f) > 8 and f[2] in DQ_FIX['start']:
+            f[8] = DQ_FIX['start'][f[2]]; l = '|'.join(f)
         if f[0] == 'Q' and len(f) > 8 and f[3] != 'horde' and f[2] in QG and not re.search('던전 안|입구 앞', f[8]):
             n_, z_, x_, y_ = QG[f[2]]
             m_ = re.match(r'^(.+?) · (.+?) ([\d.]+), ([\d.]+)$', f[8])
@@ -386,6 +412,8 @@ def _dq_inside(base):
             if qid in DQ_FIX.get('ind', {}):
                 ins = DQ_FIX['ind'][qid]
             while len(f) < 18: f.append('')
+            if qid in DQ_FIX['cls'] and f[14] in ('', '0'):
+                f[14] = str(DQ_FIX['cls'][qid])
             f[15] = '1' if ins else ''
             f[16] = sin
             f[17] = DQ_FIX['pre'].get(qid, '')
@@ -401,6 +429,24 @@ DQ_FIX = {
         '95264': '95262',  # 쇼가 알아야 할 일: 앞 단계 95263이 퀘스트 자료에 없음 — 「비밀 감옥」(알카즈 감옥 안에서 알아내기) 다음, 같은 설리가 줌
     },
     'sin': {},
+    # 직업마다 다른 퀘스트(f[14] 직업 비트 = 앱 CLS_BIT: 전사1 성기사2 사냥꾼4 도적8 사제16 주술사64 마법사128 흑마법사256 드루이드1024).
+    # 군주 발타라크의 아뮬렛: 「중요한 요소」(8962~8965)·왼쪽 조각(8966~8969)·「또 다른 중요한 요소」(8985~8988)·오른쪽 조각(8989~8992)은
+    # 직업에 따라 한 갈래만 받음 — QuestieDB·forg 자료엔 직업 제한이 없어 모든 직업에게 네 던전이 다 보였음.
+    # 근거: AzerothCore quest_template_addon.AllowableClasses (중요한 요소의 직업 = 다음 조각의 직업, 넷을 합치면 아홉 직업이 한 번씩)
+    'cls': {'8962': 129, '8966': 129, '8963': 1280, '8967': 1280, '8964': 12, '8968': 12, '8965': 82, '8969': 82,
+            '8985': 9, '8990': 9, '8986': 1090, '8989': 1090, '8987': 144, '8991': 144, '8988': 260, '8992': 260},
+    # 받는 곳이 자료에 없는 퀘스트(f[8]) — 근거 적기
+    # 「하나 고르기」 보상인데 forg 줄에 표시가 빠진 것(f[12])
+    'choose': {'1486': 1},  # 돌연변이 통가죽: 배낭·다리보호구 중 하나(AzerothCore quest_template RewardChoiceItemID 6480·918, 고정 보상 없음)
+    'start': {
+        '92065': '문지기 레이지로어 · 아즈샤라 42.4, 20.2',
+        '9015': '팔린 트리셰이퍼 · 혈투의 전장: 서쪽 안',  # 도전(발타라크 연계): forg는 「시작 · 던전 안」이라 검은바위 나락 「던전 안에서 시작」으로 보였음 — QuestieDB g = 팔린 트리셰이퍼(혈투의 전장, 인스턴스 안) · 앞 단계 8950  # Blackmaw Reclamation: QuestieDB Forever foreverBaseQuest startedBy 236573(Gatekeeper Rageroar, 아즈샤라 42.4, 20.2) · 한글 이름은 ko-extra 목표 글
+    },
+    # 신규 던전 목록(dungeons-new.txt)에 있지만 받는 곳·종류를 몰라 칸을 정할 수 없어 아직 안 넣는 퀘스트
+    'skip': {
+        '92067': 1,  # Feeding Time!(검은아귀 요새): 받는 NPC·물건 자료가 어디에도 없음 — 넣으면 「던전 안에서 시작」으로 잘못 보임
+        '95263': 1,  # Somber News(알카즈 감옥): 퀘스트 자료 없음 · 다음 단계 95264는 'pre'로 이미 이어 둠
+    },
     'ind': {
         '1139': True,  # 잃어버린 결의의 서판: 결의의 서판은 울다만 안 물건(자료엔 좌표·몹 없음)
     },
@@ -1025,6 +1071,9 @@ def _qcr():
     """퀘스트 자료(2MB)가 오기 전에 쓰는 표: 직업·종족 제한 [cls, rc] · 아이템 출처에 있지만 퀘스트 자료에 없는 퀘스트는 [-1, -1](자료 뒤엔 qGone이 「얻을 수 없음」으로 봄)"""
     qa = _qa if (Q / 'quests.jsonl').exists() else []
     out = {str(o['id']): [o.get('cls') or 0, o.get('rc') or 0] for o in qa if o.get('cls') or o.get('rc')}
+    # 퀘스트 자료에 없는 직업 제한(DQ_FIX cls — 발타라크 아뮬렛 갈래). 앱 qdbLoad가 이 표로 퀘스트 자료에도 채움
+    for k, v in DQ_FIX['cls'].items():
+        out[k] = [v, (out.get(k) or [0, 0])[1]]
     have = set(o['id'] for o in qa)
     if have:
         for m in set(int(x) for x in re.findall(r'(?:quest=|/quest/)(\d+)', srcs)):
@@ -1430,7 +1479,7 @@ html = f'''<!DOCTYPE html>
 <meta name="description" content="와우 포에버 얼라이언스 레벨업·장비·퀘스트·던전 도우미">
 <style>{css}</style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v={ver}"></script>
+<script src="app-data.js?v={ver}" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
 <script>/* v{aver} @{stamp} */
 {app}</script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{{}}))</script>

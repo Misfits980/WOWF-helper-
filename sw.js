@@ -10,8 +10,10 @@ self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;c
   if(u.origin===location.origin){
     /* 새 화면 미리보기(preview/)는 건드리지 않음: 실제 앱 첫 화면 저장본이 미리보기로 바뀌지 않게 */
     if(u.pathname.includes('/preview/'))return;
-    if(r.mode==='navigate'||u.pathname.endsWith('/')||u.pathname.endsWith('index.html')){
-      e.respondWith((async()=>{const c=await caches.open(APP);try{const res=await fetch(r.url,{cache:'no-cache',credentials:'same-origin'});if(res.ok)c.put('./',res.clone());return res}catch(_){return (await c.match('./'))||Response.error()}})());return}
+    /* 앱 첫 화면(/·index.html)만 저장본으로 — 예전엔 다른 페이지(icons.html 등)를 열면 그 페이지가 앱 저장본을 덮어써 인터넷이 끊기면 앱이 안 나왔음 */
+    const shell=u.pathname.endsWith('/')||u.pathname.endsWith('/index.html');if(r.mode==='navigate'&&!shell)return;
+    if(shell){
+      e.respondWith((async()=>{const c=await caches.open(APP);try{const res=await fetch(r.url,{cache:'no-cache',credentials:'same-origin'});if(res.ok){c.put('./',res.clone());return res}/* 서버 오류 화면(503 등)보다 저장해 둔 앱 */const hit=await c.match('./');return hit||res}catch(_){return (await c.match('./'))||Response.error()}})());return}
     if(u.searchParams.has('v')&&!u.pathname.includes('/armory/')){
       e.respondWith((async()=>{const c=await caches.open(APP);const hit=await c.match(r);if(hit)return hit;const res=await fetch(r);
         if(res.ok){/* 같은 파일의 예전 버전은 지움 */for(const k of await c.keys()){const ku=new URL(k.url);if(ku.pathname===u.pathname&&ku.search!==u.search)await c.delete(k)}await c.put(r,res.clone())}return res})());return}
