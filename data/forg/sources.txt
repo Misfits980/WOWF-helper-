@@ -10,6 +10,7 @@
 1~검은아귀 요새 · 퀘스트 보상~dg:blackmaw-hold
 1~영주의 전당 · 퀘스트 보상~dg:hall-of-thanes
 1~구체자의 정원 · 퀘스트 보상~dg:shapers-terrace
+1~퀘스트 · 폭풍우의 병기~/forever/quest/79442
 1~퀘스트 · 폭풍우의 병기~/forever/quest/96016
 1~웰가르 발굴 현장 · 퀘스트 보상~dg:whelgar-excavation
 1~퀘스트 · 뒤틀린 증오~/forever/quest/98403
@@ -287,6 +288,7 @@
 1~퀘스트 · 오머의 복수~/forever/quest/296
 3~드랍 · 검은무쇠단 소총병~
 0~로데론의 폐허 · 로데론 부대장~dg:ruins-of-lordaeron
+1~가시덩굴 우리 · 퀘스트 보상~dg:razorfen-kraul
 0~검은심연 나락 · 늙은 세라키스~dg:blackfathom-deeps
 0~검은심연 나락 · 겔리하스트~dg:blackfathom-deeps
 0~검은심연 나락 · 가무라~dg:blackfathom-deeps
@@ -337,7 +339,6 @@
 0~웰가르 발굴 현장 · 그늘이빨~dg:whelgar-excavation
 0~스톰윈드 지하감옥 · 바질 스레드~dg:stockade
 0~가시덩굴 우리 · 저주의가시 아겜~dg:razorfen-kraul
-1~가시덩굴 우리 · 퀘스트 보상~dg:razorfen-kraul
 0~놈리건 · 방사성 폐기물~dg:gnomeregan
 1~놈리건 · 퀘스트 보상~dg:gnomeregan
 0~달라란 · 비전 변형물~dg:city-of-dalaran
@@ -383,6 +384,7 @@
 1~퀘스트 · 마우리의 의족 열기~/forever/quest/613
 1~퀘스트 · 공주 소환~/forever/quest/656
 1~퀘스트 · 현상 수배: 마레즈 코울~/forever/quest/684
+1~울다만 · 퀘스트 보상~dg:uldaman
 1~퀘스트 · 멀달록~/forever/quest/739
 0~가시덩굴 우리 · 서슬깃 차를가~dg:razorfen-kraul
 1~퀘스트 · 회수전문회사를 위한 재료~/forever/quest/1467
@@ -419,7 +421,6 @@
 3~드랍 · 비밀결사대 암살자~
 3~드랍 · 코보르크~
 3~드랍 · 스카울~
-1~울다만 · 퀘스트 보상~dg:uldaman
 3~드랍 · 붉은십자군 백인대장~
 1~퀘스트 · 기젤톤 대상단~/forever/quest/5943
 3~드랍 · 산사태일족 전사~
@@ -535,6 +536,7 @@
 0~검은바위 나락 · 불의군주 록코르~dg:blackrock-depths
 1~퀘스트 · 혼자서 가기 무서운 곳~/forever/quest/3962
 0~마라우돈 · 저주받은 셀레브라스~dg:maraudon
+0~알카즈 감옥 · 감독관 렉스~dg:alcaz-prison
 0~알카즈 감옥 · 해일여제 카자스~dg:alcaz-prison
 1~퀘스트 · 뾰족부리 구출~/forever/quest/2994
 1~퀘스트 · 일어나라, 흑요암이여!~/forever/quest/3566
@@ -634,6 +636,7 @@
 0~스칼로맨스 · 마르두크 블랙풀~dg:scholomance
 1~퀘스트 · 예킨야와의 대면~/forever/quest/8181
 1~퀘스트 · 현상 수배: 사막의 난폭자 죽음의 갈고리~/forever/quest/8283
+0~검은아귀 요새 · 간수 임판~dg:blackmaw-hold
 1~퀘스트 · 마력이 깃든 아즈샤리트 퇴마 무기~/forever/quest/3625
 0~검은바위 첨탑 하층 · 반노크 그림액스~dg:lower-blackrock-spire
 0~검은바위 첨탑 상층 · 기스~dg:upper-blackrock-spire
@@ -669,6 +672,8 @@
 1~퀘스트 · Anthion's Parting Words~
 1~퀘스트 · Saving the Best for Last~
 3~드랍 · 발자폰~
+0~검은아귀 요새 · 꺾이지 않는 해골주둥이~dg:blackmaw-hold
+0~검은아귀 요새 · 마른아귀~dg:blackmaw-hold
 0~검은바위 첨탑 하층 · 수정 맹독거미~dg:lower-blackrock-spire
 0~스트라솔름: 이승 · 우체국장 말로운~dg:stratholme-live
 0~스칼로맨스~dg:scholomance
@@ -694,6 +699,9 @@
 0~혈투의 전장: 동쪽 · 이살리엔~dg:dire-maul-east
 0~검은바위 나락 · 텔드렌~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 모르 그레이후프~dg:lower-blackrock-spire
+0~검은아귀 요새 · 검은아귀 거수~dg:blackmaw-hold
+0~검은아귀 요새 · 장로 주술사 핏빛갈기~dg:blackmaw-hold
+0~검은아귀 요새 · 속박 풀린 영혼~dg:blackmaw-hold
 0~스트라솔름: 저승 · 뾰족바위~dg:stratholme-dead
 0~스트라솔름: 저승 · 냉혈한 말레키~dg:stratholme-dead
 0~스칼로맨스 · 암흑스승 간들링~dg:scholomance
@@ -706,6 +714,7 @@
 0~스칼로맨스 · 죽음의 기사 다크리버~dg:scholomance
 1~퀘스트 · 신념의 전투장비~/forever/quest/8574
 0~스칼로맨스 · 코르모크~dg:scholomance
+0~검은아귀 요새 · 바록스 블릭후프~dg:blackmaw-hold
 0~스트라솔름: 이승 · 발나자르~dg:stratholme-live
 0~검은바위 첨탑 상층 · 사령관 드라키사스~dg:upper-blackrock-spire
 1~검은바위 첨탑 상층 · 퀘스트 보상~dg:upper-blackrock-spire
@@ -713,6 +722,13 @@
 0~혈투의 전장: 북쪽 · 왕 고르독~dg:dire-maul-north
 1~퀘스트 · Armaments of War~
 0~검은바위 첨탑 상층 · 군주 발타라크~dg:upper-blackrock-spire
+0~구체자의 정원 · 티타노사우루스~dg:shapers-terrace
+0~구체자의 정원 · 갈퀴발톱 라바사우루스~dg:shapers-terrace
+0~구체자의 정원 · 맹독마루~dg:shapers-terrace
+0~구체자의 정원 · 천둥발굽~dg:shapers-terrace
+0~구체자의 정원 · 암컷 공포뿔~dg:shapers-terrace
+0~구체자의 정원 · 나나야~dg:shapers-terrace
+0~구체자의 정원~dg:shapers-terrace
 3~드랍 · Ragnaros~
 3~드랍 · Nefarian~
 3~드랍 · Chromaggus~

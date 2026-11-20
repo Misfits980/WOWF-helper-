@@ -199,7 +199,17 @@ Q|maraudon|7046|both|49|41|셀레브라스의 홀||시작 · 던전 안|1|17191|
 Q|maraudon|7064|horde|51|45|대지와 씨앗의 오염||셀렌드라 · 잊혀진 땅 26.9, 77.7|0|17705,17743,17753||1|
 Q|maraudon|7065|alliance|51|45|대지와 씨앗의 오염||수호자 마란디스 · 잊혀진 땅 63.8, 10.7|0|17705,17743,17753||1|
 Q|maraudon|7066|both|51|39|생명의 씨앗||시작 · 던전 안|0||||
-B|alcaz-prison|overseer-wrex=감독관 렉스;tidemistress-cazass=해일여제 카자스;katerina-the-cleaner=청소부 카테리나;the-questioner=심문관;blazeroar=불길포효
+B|alcaz-prison|tidemistress-cazass=해일여제 카자스;overseer-wrex=감독관 렉스;katerina-the-cleaner=청소부 카테리나;blazeroar=불길포효;the-questioner=심문관
+Q|alcaz-prison|95262|alliance|53|48|비밀 감옥|알카즈 감옥에 진입해 스톰윈드 국왕이 어떻게 됐는지 알아내야 합니다.|설리 맥클리어리 · 먼지진흙 습지대 63.4, 42.4|1||||
+Q|alcaz-prison|96381|alliance|53|48|약간의 지저분한 일|알카즈 감옥에 진입해 스트라샤즈 병사 15명과 스트라샤즈 요술사 8명을 처치하고 해일여제 카자스의 머리카락을 설리 맥클리어리에게 가져가야 합니다.|설리 맥클리어리 · 먼지진흙 습지대 63.4, 42.4|1|279826,279829,279825||1|
+Q|alcaz-prison|95264|alliance|53|48|쇼가 알아야 할 일|스톰윈드에 있는 마티아스 쇼에게 소식을 전해야 합니다.|설리 맥클리어리 · 먼지진흙 습지대 63.4, 42.4|1|279833,279831,279474||1|
+Q|alcaz-prison|96772|alliance|53|46|용의 일지|알카즈 감옥 심층부에서 자를라의 일지를 회수해야 합니다.|시작 · 알터랙 산맥|0||||
+Q|alcaz-prison|96377|alliance|53|48|국가 기밀|스톰윈드에 있는 두소리안 랄과 대화해야 합니다.|칼잡이 렌직 · 스톰윈드 78.4, 71.0|1|279450|||
+Q|alcaz-prison|96335|both|53|48|쇠사슬에 묶인 남자|알카즈 감옥의 심문관에게서 알카즈 족쇄 열쇠를 회수해야 합니다.|시작 · 던전 안|0||||
+Q|alcaz-prison|96337|both|53|48|금보다 귀한 것|메이슨 코너리에게 받은 쪽지를 사용해 숨겨진 보물을 찾아내야 합니다.|아이템에서 시작|1||||
+Q|alcaz-prison|96332|horde|53|48|작은 복수|알카즈 감옥에 진입해 스트라샤즈 병사 15명과 스트라샤즈 요술사 8명을 처치하고 해일여제 카자스의 머리카락을 하사관 울카에게 가져가야 합니다.|하사관 울카 · 먼지진흙 습지대 70.3, 19.1|0|279824,279826,279829||1|
+Q|alcaz-prison|96334|horde|53|48|핏빛 붉은 복면|알카즈 감옥에 진입해 인간 경비병에게서 핏빛 붉은 복면 8개를 입수해야 합니다.|하사관 울카 · 먼지진흙 습지대 70.3, 19.1|0|279448,279473||1|
+Q|alcaz-prison|96376|horde|53|48|국가 기밀|스톰윈드에 있는 두소리안 랄과 대화해야 합니다.|나즈그렐 · 오그리마 32.4, 36.0|1||||
 B|temple-of-atal-hakkar|atal-alarion=아탈알라리온;spawn-of-hakkar=학카르의 피조물;gasher=게이셔;loro=로로;hukku=후쿠;zolo=졸로;mijan=마이잔;zul-lor=줄로;jammal-an-the-prophet=예언자 잠말란;ogom-the-wretched=비운의 오그옴;avatar-of-hakkar=학카르의 화신;dreamscythe=드림사이드;weaver=위버;morphaz=몰파즈;hazzas=하자스;shade-of-eranikus=에라니쿠스의 사령
 Q|temple-of-atal-hakkar|1445|horde|50|38|아탈학카르 신전||펠제룰 · 슬픔의 늪 47.9, 54.8|1|1490|||
 Q|temple-of-atal-hakkar|1475|alliance|50|38|아탈학카르 신전으로||브로한 캐스크벨리 · 스톰윈드 69.5, 40.4|1|1490|||
@@ -257,7 +267,14 @@ Q|dire-maul-east|7488|alliance|57|54|레스텐드리스의 그물||라트로니�
 Q|dire-maul-east|7441|both|58|54|푸실린과 노쇠한 아즈토르딘||아즈토르딘 · 페랄라스 76.9, 37.4|0|18411,18410||1|
 Q|dire-maul-east|8967|both|60|58|군주 발타라크의 아뮬렛 왼쪽 조각||시작 · 검은바위 산|1||||
 Q|dire-maul-east|8990|both|60|58|군주 발타라크의 아뮬렛 오른쪽 조각||시작 · 검은바위 산|1||||
-B|blackmaw-hold|withermaw=마른아귀;impaan-the-imprisoner=간수 임판;elder-shaman-bloodmane=장로 주술사 핏빛갈기;bonesnout-the-unbroken=꺾이지 않는 해골주둥이;varrox-bleakhoof=바록스 블릭후프;blackmaw-behemoth=검은아귀 거수;unbound-spirit=속박 풀린 영혼
+B|blackmaw-hold|withermaw=마른아귀;impaan-the-imprisoner=간수 임판;bonesnout-the-unbroken=꺾이지 않는 해골주둥이;unbound-spirit=속박 풀린 영혼;elder-shaman-bloodmane=장로 주술사 핏빛갈기;blackmaw-behemoth=검은아귀 거수;varrox-bleakhoof=바록스 블릭후프
+Q|blackmaw-hold|92345|alliance|55|45|놀드랏실 아래|다르나서스의 세나리온 자치령에 있는 마스렌길 베어워커와 대화해야 합니다.|시작 · 아즈샤라|0||||
+Q|blackmaw-hold|92344|alliance|55|45|뿌리를 찾아서|검은아귀 요새에서 놀드랏실 뿌리 버섯 10개를 채집해 다르나서스에 있는 마스렌길 베어워커에게 전달해야 합니다.|마스렌길 베어워커 · 다르나서스 35.2, 8.0|1||||
+Q|blackmaw-hold|97173|alliance|59|52|검은아귀 마법|검은아귀 요새에서 검은아귀 의식 토템을 회수해야 합니다.|시작 · 알터랙 산맥|0||||
+Q|blackmaw-hold|92066|both|55|47|쌍둥이 곰|검은아귀 요새에서 우르속의 토템과 우르솔의 토템을 찾아야 합니다. 그런 다음 우르솔란에 있는 현자 노크에게 반환해야 합니다.|시작 · 아즈샤라|0|279891,279892||1|
+Q|blackmaw-hold|92069|both|58|45|찢는 발톱, 꿰뚫는 엄니|위대한 곰의 발톱과 굽히지 않는 자의 엄니를 아즈샤라에 있는 오그틴크에게 가져가야 합니다.|시작 · 아즈샤라|0|260213,260214,260215||1|
+Q|blackmaw-hold|97327|both|60|55|검은아귀 주머니|아즈샤라 엘다라스 폐허에 있는 에칼을 위해 검은아귀 요새에 진입해 검은아귀 주머니 5개를 회수해야 합니다.|시작 · 아즈샤라|0||||
+Q|blackmaw-hold|92346|horde|55|45|놀드랏실 아래|썬더 블러프 장로의 봉우리에서 나라 와일드메인과 대화해야 합니다.|시작 · 아즈샤라|0||||
 B|lower-blackrock-spire|highlord-omokk=대군주 오모크;spirestone-butcher=뾰족바위일족 학살자;spirestone-battle-lord=뾰족바위일족 전투대장;spirestone-lord-magus=뾰족바위일족 마법사장;burning-felguard=불타는 지옥군단병;shadow-hunter-vosh-gajin=어둠사냥꾼 보쉬가진;crystal-fang=수정 맹독거미;war-master-voone=대장군 부네;mor-grayhoof=모르 그레이후프;bannok-grimaxe=반노크 그림액스;mother-smolderweb=여왕 불그물거미;urok-doomhowl=우로크 둠하울;quartermaster-zigris=병참장교 지그리스;halycon=할리콘;gizrul-the-slavener=흉포한 기즈룰;ghok-bashguud=고크 배시구드;overlord-wyrmthalak=대군주 웜타라크
 Q|lower-blackrock-spire|4788|both|58|40|마지막 서판||발굴조사단장 아이언부트 · 타나리스 66.9, 24.0|1||||
 Q|lower-blackrock-spire|4701|alliance|59|55|검은늑대 위협의 근원 파괴||헬렌디스 리버혼 · 불타는 평원 85.8, 69.0|0|15824,15825,15827||1|
@@ -313,7 +330,12 @@ Q|scholomance|5531|both|60|57|베티나 비글징크||존경받는 리어니드 
 Q|scholomance|4771|both|60|57|여명의 계략||베티나 비글징크 · 동부 역병지대 71.7, 49.9|1|15853,15854||1|
 Q|scholomance|8969|both|60|58|군주 발타라크의 아뮬렛 왼쪽 조각||시작 · 검은바위 산|1||||
 Q|scholomance|8992|both|60|58|군주 발타라크의 아뮬렛 오른쪽 조각||시작 · 검은바위 산|1||||
-B|shapers-terrace|titanosaur=티타노사우루스;ravasaur-hunters=갈퀴발톱 라바사우루스;thunderhoof=천둥발굽;venomridge=맹독마루;direhorn-matriarch=암컷 공포뿔;cinder=잉걸불;king-op=왕 오프;snowtalon=눈갈퀴;bolt=쏜살;vitrix=비트릭스;nanaya=나나야
+B|shapers-terrace|titanosaur=티타노사우루스;cinder=잉걸불;ravasaur-hunters=갈퀴발톱 라바사우루스;direhorn-matriarch=암컷 공포뿔;thunderhoof=천둥발굽;venomridge=맹독마루;bolt=쏜살;snowtalon=눈갈퀴;vitrix=비트릭스;nanaya=나나야;king-op=왕 오프
+Q|shapers-terrace|95924|alliance|60|55|혼란의 발굴현장|구체자의 정원에서 우두머리 라바사우루스 6마리와 무쇠가죽 라바사우루스 9마리, 맹독마루를 처치해야 합니다.|도서관장 소리우스 · 아이언포지 71.4, 16.2|0|279903,279905||1|
+Q|shapers-terrace|95925|alliance|60|55|나아갈 길을 그리다|구체자의 정원에서 흥미로운 장소를 찾아 각 지점에서 탐험가 지도를 채워야 합니다.|도서관장 소리우스 · 아이언포지 71.4, 16.2|0|279908,279910,279912||1|
+Q|shapers-terrace|95926|horde|60|55|암흑 수정|구체자의 정원에 있는 무색 수정 근처에서 무채색의 고갈된 수정 조각을 모아야 합니다.|수석 연금술사 파라넬 · 언더시티 49.0, 69.8|0|279908,279910,279912||1|
+Q|shapers-terrace|95928|horde|60|55|수정 정령|구체자의 정원에서 축축한 수정과 충전된 수정, 유독한 수정, 불타는 수정을 입수해 마예나 어스시커에게 가져가야 합니다.|시작 · 멀고어|0|279904,279906||1|
+Q|shapers-terrace|97049|horde|60|55|스며 나오는 수액괴물의 정수|구체자의 정원에서 스며 나오는 수액괴물 정수 8개를 모아야 합니다.|연금술사 퓰리 · 언더시티 47.6, 73.0|0|279932,279902||1|
 B|stratholme-dead|magistrate-barthilas=집정관 발실라스;stonespine=뾰족바위;baroness-anastari=남작부인 아나스타리;black-guard-swordsmith=검은호위대 검제작자;nerub-enkan=네룹엔칸;maleki-the-pallid=냉혈한 말레키;ramstein-the-gorger=먹보 람스타인;baron-rivendare=남작 리븐데어
 Q|stratholme-dead|5125|both|60|55|아우리우스의 복수||아우리우스 · 던전 안|1|17044,17045||1|
 Q|stratholme-dead|5213|both|60|55|활성 역병 인자||베티나 비글징크 · 동부 역병지대 71.7, 49.9|1|13209,19812||1|
