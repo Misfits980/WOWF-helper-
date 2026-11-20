@@ -119,7 +119,7 @@ const DG=Object.fromEntries(DGS.map(d=>[d.slug,d]));
 D_DQ.split('\n').filter(Boolean).forEach(l=>{const f=l.split('|');const d=DG[f[1]];if(!d)return;
   if(f[0]==='B'){d.bosses=(f[2]||'').split(';').filter(Boolean).map(x=>{const i=x.indexOf('=');return {slug:x.slice(0,i),nm:x.slice(i+1)}});return}
   if(f[3]==='horde')return;
-  d.q.push({id:+f[2],side:f[3],lv:+f[4],min:+f[5],nm:f[6],obj:f[7],start:f[8],pre:+f[9]||0,rw:(f[10]||'').split(',').filter(Boolean).map(Number),boss:(f[11]||'').split(';').filter(Boolean),choose:f[12]==='1',kind:f[13],cls:+f[14]||0})});
+  d.q.push({id:+f[2],side:f[3],lv:+f[4],min:+f[5],nm:f[6],obj:f[7],start:f[8],pre:+f[9]||0,rw:(f[10]||'').split(',').filter(Boolean).map(Number),boss:(f[11]||'').split(';').filter(Boolean),choose:f[12]==='1',kind:f[13],cls:+f[14]||0,ind:f[15]==='1'})});
 DGS.forEach(d=>d.q.sort((a,b)=>a.lv-b.lv));
 
 /* ----- 레벨링 경로 ----- */
@@ -2966,7 +2966,7 @@ function logView(c){const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     /* 던전마다 아직 안 받은 퀘스트도 아래에: 퀘스트창에 있는 던전 + 지금 레벨 던전(받을 게 남은 곳). 받으러 갈 곳 먼저, 던전 안에서 받는 건 뒤로 */
     {const G={};D.forEach(q=>{const d=DQ[q.id];(G[d.slug]=G[d.slug]||{d,L:[]}).L.push(q)});
       /* 같은 던전의 앞 퀘스트를 먼저 해야 하는 연계 다음 단계는 숨김(앞 단계를 끝내면 나옴) · 5레벨 넘게 높은 건 숨김 */
-      const todo=d=>{const ids=new Set(dqOf(c,d).map(q=>+q.id));return dqOf(c,d).filter(q=>!dqIsDone(c,q)&&!ql[q.id]&&!qGone(c,q.id)).map(q=>{const X=QDB.get(q.id);const m2=X&&!X.mEst?X.m||0:0;const inside=/던전 안|아이템/.test(q.start||'')||!q.start;
+      const todo=d=>{const ids=new Set(dqOf(c,d).map(q=>+q.id));return dqOf(c,d).filter(q=>!dqIsDone(c,q)&&!ql[q.id]&&!qGone(c,q.id)).map(q=>{const X=QDB.get(q.id);const m2=X&&!X.mEst?X.m||0:0;const inside=dqIn(q)||/아이템/.test(q.start||'')||!q.start;
         return {q,X,inside,mEff:Math.max(q.min||0,m2),pf:preFirst(c,q.id)}}).filter(o=>!(o.pf&&ids.has(+o.pf.id))&&o.mEff<=L+5).sort((a,b)=>(a.inside-b.inside)||((a.mEff>L||!!a.pf)-(b.mEff>L||!!b.pf))||(a.q.lv-b.q.lv))};
       /* 퀘스트창에 없는 던전은 지금 레벨에 가장 맞는 2곳만 */
       dgNow(L).filter(d=>!G[d.slug]&&todo(d).length).sort((a,b)=>Math.abs((a.fit||a.lo)-L)-Math.abs((b.fit||b.lo)-L)).slice(0,2).forEach(d=>{G[d.slug]={d,L:[],more:1}});
@@ -3004,20 +3004,29 @@ function preChain(id){const ch=chainOf(id);if(ch){const i=ch.findIndex(r=>r[6]==
 function preChainBox(c,id){const P=preChain(id);if(!P.length)return '';const left=P.filter(i=>!mqDone(c,QDB.get(i)));
   return '<div class="pchainbox'+(left.length?'':' ok')+'"><b>'+(left.length?'⚠️ 앞 연계 '+P.length+'개를 먼저 끝내야 받을 수 있어요':'✓ 앞 연계 다 끝냈어요')+'</b>'
    +P.map((i,n)=>{const x=QDB.get(i);const dn=mqDone(c,x);return '<button class="pcb'+(dn?' done':'')+'" data-a="qopen" data-k="'+i+'"><span class="n">'+(dn?'✓':n+1)+'</span><span class="t"><b>['+(x.lv||'?')+'] '+esc(x.n)+'</b><span>'+esc(x.z||'')+(x.g&&x.g[0]?' · '+esc(x.g[0]):'')+'</span></span><span class="cv">›</span></button>'}).join('')+'</div>'}
+/* 던전 끝나고 이어서: 밖에서 받는데 앞 단계가 이 던전 안에서 하는 퀘스트(q.ind, build.py _dq_inside)면 첫 판 전엔 못 받음
+   (가라앉은 도시 「그물처럼 엉킨 마법」 ← 「가라앉은 도시의 마법」 반납 뒤 · 놈리건 「유일한 치료법」 ← 「폐기물 수집」 반납 뒤). 돌려주는 값 = 가장 가까운 던전 안 앞 단계 */
+/* 던전 안에서 시작: 「던전 안」만이 아니라 던전 안에서 줍는 물건(「· 2층」「· 3·4층 일부 구역」「· 던전 곳곳」)도 — 예전엔 이것들이 「던전 가기 전에 받기」에 섞였음 */
+function dqIn(q){return /던전 안|던전 곳곳|\d층/.test(q.start||'')}
+function dqAfter(d,q){if(!q.start||dqIn(q))return null;const by=new Map(d.q.map(z=>[+z.id,z]));const P=preChain(+q.id).map(i=>by.get(+i)).filter(z=>z&&z.ind&&+z.id!==+q.id);return P.length?P[P.length-1]:null}
 /* 반납하는 곳이 이 던전 안인 퀘스트(퀘스트 자료 r[1] = 던전 이름) — 나오기 전에 끝내야 함 */
 function dqRetIn(q,d){const o=QDB&&QDB.get(+q.id);return !!(o&&o.r&&d&&o.r[1]===d.ko)}
 function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
-  const outQ=dqOf(c,d).filter(q=>!/던전 안/.test(q.start)&&q.start),inQ=dqOf(c,d).filter(q=>/던전 안/.test(q.start)||!q.start);
+  const outQ0=dqOf(c,d).filter(q=>!dqIn(q)&&q.start),inQ=dqOf(c,d).filter(q=>dqIn(q)||!q.start);
+  const AFT=new Map(outQ0.map(q=>[q,dqAfter(d,q)]).filter(x=>x[1]));const outQ=outQ0.filter(q=>!AFT.has(q)),aftQ=outQ0.filter(q=>AFT.has(q));
+  const nxtOf=q=>aftQ.filter(f=>+AFT.get(f).id===+q.id);
   const row=q=>{const dn=dqIsDone(c,q);const QX=QDB&&QDB.get(+q.id);const m2=QX&&!QX.mEst?QX.m||0:0;const mEff=Math.max(q.min||0,m2);const mDif=m2&&q.min&&m2!==q.min;const lock=mEff>L;const pf=dn?null:preFirst(c,+q.id);const lg=dn?0:((c.ql||{})[q.id]||0);const rw=q.rw.map(id=>IT.get(id)).filter(Boolean);
     const pc=preChain(q.id),pcl=pc.filter(i=>!mqDone(c,QDB.get(i))).length;
-    const tags=(PV&&!dn&&dqRetIn(q,d)?'<span class="tag rin">던전 안에서 반납 · 나오기 전에</span>':'')+(pf?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+mEff+'레벨부터'+(mDif?' (자료마다 '+Math.min(q.min,m2)+'·'+Math.max(q.min,m2)+')':'')+'</span>':'');
-    const inside=/던전 안/.test(q.start||'')||/아이템/.test(q.start||'')||!q.start;
+    const af=AFT.get(q),nx=dn?[]:nxtOf(q);
+    const tags=(af&&!dn?'<span class="tag aft">「'+esc(af.nm)+'」 퀘스트를 던전에서 끝내고 반납한 뒤 받아요'+(q.ind?' · 다시 들어가야 해요':'')+'</span>':'')+(nx.length?'<span class="tag aft">끝내면 이어서 「'+nx.map(f=>esc(f.nm)).join('」·「')+'」</span>':'')+(PV&&!dn&&dqRetIn(q,d)?'<span class="tag rin">던전 안에서 반납 · 나오기 전에</span>':'')+(pf&&!af?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+mEff+'레벨부터'+(mDif?' (자료마다 '+Math.min(q.min,m2)+'·'+Math.max(q.min,m2)+')':'')+'</span>':'');
+    const inside=dqIn(q)||/아이템/.test(q.start||'')||!q.start;
     const extra=(q.boss.length?'<p class="npc">🎯 던전 안 목표: <b>'+q.boss.map(b=>esc(b.replace(/^(\d+) /,'$1번 '))).join(', ')+'</b></p>':'')+((QD.get(q.id)||{}).g&&(QD.get(q.id)||{}).g[0]&&!inside?'':'<p class="npc">'+esc((()=>{let t=startTxt(q.start);const o=QD.get(q.id);if(o&&o.g&&latin(o.g[0])){const k=npcKo(o,'g');if(k&&!latin(k))t=t.split(o.g[0]).join(k)}return t})())+'</p>');
     const rwHtml=rw.length?'<div class="rgrid">'+rw.map(it=>'<button class="rt2" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="rn q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</div>':'';
     const body=(chainOf(q.id)||((QD.get(q.id)||{}).ch||[]).length>1?'':preChainBox(c,q.id))+parch(c,q.id,{nm:q.nm,obj:q.obj,place:inside?'던전 안에서 시작':'던전 외부 시작',tags,extra,rwHtml,done:dn,kind:'dq',ck:String(q.id),pre:q.pre});
     return qFold({key:'d'+q.id,done:dn,lock,lv:q.lv,nm:q.nm,body,side:(rw.some(it=>usable(it,c)&&((bestSlot(it,c)||{}).g||0)>.01)?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+(lg?'<span class="dqlg'+(lg===2?' rdy':'')+'">'+(lg===2?'🔔 반납 가능':'🎒 받음')+'</span>':'')+(dn&&(c.mq||{})[q.id]&&!(c.dq||{})[q.id]?'<span class="dqlg gm">🎮 게임에서 끝냄</span>':'')+(pc.length&&!dn&&!lg?'<span class="pcw'+(pcl?'':' ok')+'">'+(pcl?'⚠️ 앞 연계 '+pcl+'개':'✓ 연계 끝')+'</span>':'')+(q.cls?esc((CINFO[c.cls]||[''])[0])+' 직업':'')})};/* 앱은 얼라이언스 전용이라 「얼라이언스」 표시는 뺌 */
   if(flat)return dqOf(c,d).map(row).join('');
-  return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+outQ.map(row).join(''):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')}
+  return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+outQ.map(row).join(''):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')
+   +(aftQ.length?'<h3>던전 끝나고 이어서</h3><p class="note dqaft">앞 퀘스트를 던전 안에서 끝내고 반납해야 받을 수 있어요. 첫 판 전에는 못 받아요.</p>'+aftQ.map(row).join(''):'')}
 function startTxt(s){if(!s)return '아이템을 주워서 시작';if(/^시작 · 던전 안/.test(s))return '던전 안에서 받아요';const m=s.match(/^시작 (.+) · 던전 안$/);if(m)return '던전 안 '+m[1]+'에게 받아요';if(/^시작 · /.test(s))return s.replace(/^시작 · /,'')+'에서 시작';return '받는 곳: '+s}
 
 /* ===================== 던전 ===================== */
@@ -4018,13 +4027,13 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const byBoss={};items.forEach(it=>{const s=it.src.map(i=>SRC[i]).find(s=>s&&s.k===0&&s.dg===d.slug);const b=s?s.boss:'기타';(byBoss[b]=byBoss[b]||[]).push(it)});
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
   const myUps=items.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01);
-  const pcN=dqOf(c,d).filter(q=>preChain(q.id).some(i=>!mqDone(c,QDB.get(i)))).length;
+  const pcN=dqOf(c,d).filter(q=>!dqAfter(d,q)&&preChain(q.id).some(i=>!mqDone(c,QDB.get(i)))).length;
   let h='<div class="wrap"><div class="dhero2"><img src="'+DG_IMG(d.slug)+'" alt="" onerror="this.remove()"><div class="dt"><h2>'+esc(d.ko)+'</h2><small>'+esc(d.en)+'</small><div class="meta"><span class="pill lvp">Lv '+d.lo+'–'+d.hi+'</span>'+(d.soon?'<span class="pill soonp">🚧 개방 예정</span>':'')+(d.loc?'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_map_01')+')"></span>'+esc(d.loc)+'</span>':'')+'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_bone_humanskull_01')+')"></span>보스 '+order.length+'</span></div></div></div>';
   const dt=ui.dtab||'route';h+=dgQBanner(c,d)+spCard(c,d);
   h+='<div class="tabs3">'+[['route','inv_misc_map02','공략',''],['loot','inv_misc_bag_10','템',myUps.length?'⭐'+myUps.length:''],['quest','inv_misc_note_01','퀘스트',(()=>{const Q=dqOf(c,d),lf=Q.filter(q=>!dqIsDone(c,q)).length;return !Q.length?'':!lf?'✓':(pcN?'⚠':'')+lf})()]].map(x=>'<button class="'+(dt===x[0]?'on':'')+'" data-a="dtab" data-k="'+x[0]+'"><span class="ic" style="background-image:url('+ICO(x[1])+')"></span>'+x[2]+(x[3]!==''?' <em>'+x[3]+'</em>':'')+'</button>').join('')+'</div>';
   if(dt==='route')return h+dgRoute(c,d,dgTargets(c,d,dt))+'</div>';
   /* 1. 퀘스트 */
-  if(dt==='quest'){const outN=dqOf(c,d).filter(q=>!/던전 안/.test(q.start)&&q.start).length;const dn=dqOf(c,d).filter(q=>dqIsDone(c,q)).length;const nLg=dqOf(c,d).filter(q=>!dqIsDone(c,q)&&(c.ql||{})[q.id]).length,nRd=dqOf(c,d).filter(q=>!dqIsDone(c,q)&&(c.ql||{})[q.id]===2).length;
+  if(dt==='quest'){const outN=dqOf(c,d).filter(q=>!dqIn(q)&&q.start&&!dqAfter(d,q)).length;const dn=dqOf(c,d).filter(q=>dqIsDone(c,q)).length;const nLg=dqOf(c,d).filter(q=>!dqIsDone(c,q)&&(c.ql||{})[q.id]).length,nRd=dqOf(c,d).filter(q=>!dqIsDone(c,q)&&(c.ql||{})[q.id]===2).length;
     if(dqOf(c,d).length)h+='<div class="qtop"><span class="ic" style="background-image:url('+ICO('inv_misc_note_01')+')"></span><span class="m"><b>'+(outN?'미리 받아 갈 퀘스트 '+outN+'개':'던전 안에서 받는 퀘스트')+'</b><small>'+(outN?'던전 들어가기 전에 받아 두세요':'들어가서 받아요')+(pcN?' · ⚠ 앞 연계가 필요한 퀘스트 '+pcN+'개':'')+(PV?(n=>n?' · 안에서 반납 '+n+'개(나오기 전에)':'')(dqOf(c,d).filter(q=>!dqIsDone(c,q)&&dqRetIn(q,d)).length):'')+(nLg?' · 🎒 퀘스트창에 '+nLg+'개'+(nRd?'(반납 가능 '+nRd+')':''):'')+'</small></span><span class="ok">끝냄 '+dn+'/'+dqOf(c,d).length+'</span></div>'+(c.imported?'<p class="dqsync">🎮 게임에서 불러온 기록으로 표시했어요 · '+armAgo(c.imported.t)+' 불러옴</p>':'');
     h+=dqOf(c,d).length?'<div class="card">'+dqList(c,d)+'</div>':'<p class="empty-st">이 던전 퀘스트가 없어요.</p>';return h+'</div>'}
   if(false)h+='<div class="card"><h3>📜 퀘스트 '+d.q.length+'개</h3>'+dqList(c,d)+'</div>';

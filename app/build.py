@@ -307,6 +307,52 @@ def _dq():
                     f[12] = '1'
                 l = '|'.join(f)
         out.append(l)
+    return _dq_inside('\n'.join(out))
+
+
+def _dq_inside(base):
+    """던전 안에서 해야 하는 퀘스트에 f[15]='1' — 이걸 앞 단계로 둔 퀘스트는 앱에서 「던전 끝나고 이어서」로 따로 보여 줌
+    (가라앉은 도시 「가라앉은 도시의 마법」(던전 안 수집) → 반납 뒤 받는 「그물처럼 엉킨 마법」, 놈리건 「폐기물 수집」 → 「유일한 치료법」).
+    던전 안: 던전 안·곳곳·몇 층에서 시작 / 던전 안 목표(f[11]) / 설명에 던전 이름 / 퀘스트 자료(QuestieDB) 목표 몹이 그 던전 몹·보스"""
+    KO = {}
+    for l in _dgl().split('\n'):
+        g = l.split('|')
+        if len(g) > 1 and g[1]:
+            KO[g[0]] = g[1]
+    MOB = {}
+    for l in base.split('\n'):
+        if l.startswith('B|'):
+            g = l.split('|')
+            MOB.setdefault(g[1], set()).update(x.split('=', 1)[1] for x in (g[2] if len(g) > 2 else '').split(';') if '=' in x)
+    m3 = ROOT / 'data' / 'guides' / 'dungeon-maps3d.json'
+    if m3.exists():
+        for slug, dd in json.loads(rd(m3)).items():
+            if not isinstance(dd, dict):
+                continue
+            for fl in dd.get('floors') or []:
+                for pk in ((fl.get('mob') or {}).get('p') or []):
+                    if len(pk) > 7 and isinstance(pk[7], list):
+                        MOB.setdefault(slug, set()).update(m[0] for m in pk[7] if m and isinstance(m[0], str))
+    QT, QO = {}, {}
+    if (Q / 'quests.jsonl').exists():
+        for line in rd(Q / 'quests.jsonl').splitlines():
+            o = json.loads(line)
+            if o.get('o'):
+                QO[str(o['id'])] = o['o']
+            for t in o.get('t') or []:
+                if len(t) > 2 and isinstance(t[2], list):
+                    QT.setdefault(str(o['id']), set()).update(m[0] for m in t[2] if m and isinstance(m[0], str))
+    out = []
+    for l in base.split('\n'):
+        f = l.split('|')
+        if f[0] == 'Q' and len(f) > 8:
+            sl, ko_ = f[1], KO.get(f[1], '')
+            ins = bool(re.search(r'던전 안|던전 곳곳|\d층', f[8])) or bool(len(f) > 11 and f[11].strip()) \
+                or bool(ko_ and ko_ in (f[7] or QO.get(f[2], ''))) or bool(QT.get(f[2], set()) & MOB.get(sl, set()))
+            while len(f) < 16: f.append('')
+            f[15] = '1' if ins else ''
+            l = '|'.join(f)
+        out.append(l)
     return '\n'.join(out)
 
 
