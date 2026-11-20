@@ -489,11 +489,22 @@ if (Q / 'item-ko.txt').exists():
         if len(f) > 1 and f[0].isdigit():
             ko[int(f[0])] = f[1]
 lat = lambda x: bool(re.search('[A-Za-z]{3}', x or ''))
+# forg 능력치 이름 중 앱이 못 읽는 것(critMelee1·hitRanged1 …) → 앱 칸 이름으로. 포에버는 근접·원거리 적중·치명타가 하나(앱 normST)
+# 예전엔 앱이 이 칸을 버려 턱뼈 파쇄기·결정체 고리(치명타 1%)·기민함의 펜던트(적중 1%)가 그만큼 낮게 셈 · 다른 자료와 합칠 때도 지워졌음
+_SKFIX = {'critMelee': 'crit', 'critRanged': 'crit', 'critSpell': 'scrit', 'hitMelee': 'hit', 'hitRanged': 'hit', 'hitSpell': 'shit'}
+def _stfix(t):
+    st = {}
+    for k, v in re.findall(r'(?:^|\s)([A-Za-z]+\d?|mp5)(-?[\d.]+)(?=\s|$)', t):
+        k = _SKFIX.get(k, k)
+        st[k] = max(st.get(k, 0), float(v)) if k in _SKFIX.values() and k in st else float(v)
+    return ' '.join('%s%s' % (k, '%g' % v) for k, v in st.items()) if any(k in t for k in _SKFIX) else t
 items = []
 for line in rd(F / 'items.txt').splitlines():
     if not line:
         continue
     f = line.split('|')
+    if len(f) > 5:
+        f[5] = _stfix(f[5])
     if len(f) > 12 and lat(f[12]) and ko.get(int(f[0])) and not lat(ko[int(f[0])]):
         f[12] = ko[int(f[0])]
     items.append('|'.join(f))
@@ -559,7 +570,14 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
                 items[ix] = '|'.join(f)
                 _stfix += 1
     print('포에버 툴팁으로 능력치 보강', _stfix, '· 효과 표시 고침', _effix)
-    for line in convert(rd(Q / 'items-wowf.jsonl'), rd(Q / 'item-equip.txt'), sidx):
+    _qn_ = {}
+    if (Q / 'quests.jsonl').exists():
+        for _l in rd(Q / 'quests.jsonl').splitlines():
+            _o = json.loads(_l)
+            if _o.get('n') and not lat(_o['n']):
+                _qn_[_o['id']] = _o['n']
+    _hq_ = set(int(x) for x in rd(Q / 'horde-quests.txt').split()) if (Q / 'horde-quests.txt').exists() else set()
+    for line in convert(rd(Q / 'items-wowf.jsonl'), rd(Q / 'item-equip.txt'), sidx, _qn_, _hq_):
         if int(line.split('|')[0]) not in have_:
             items.append(line)
     srcs = '\n'.join(sl_)
@@ -721,6 +739,17 @@ if (Q / 'items-addon.jsonl').exists():
             items[ix] = '|'.join(f)
             _rc += 1
     print('게임 캐시에 없는 전투력·방어·적중·회피 뺌', _rc)
+# 방어구 방어도(bar)가 없는 템(애드온 값 없음): 포에버 툴팁(wowf.io) 「방어도 N」로 — 탱커 점수의 방어도 가중치가 0으로 셈하던 것
+_bf = 0
+for ix, line in enumerate(items):
+    f = line.split('|')
+    if len(f) > 12 and f[3] in ('4.1', '4.2', '4.3', '4.4') and not re.search(r'(?:^|\s)bar\d', f[5]):
+        o_ = globals().get('WREC', {}).get(int(f[0]))
+        for _t in (o_ or {}).get('lines') or []:
+            _m = re.match(r'^방어도\s*(\d+)$', str(_t).strip())
+            if _m:
+                f[5] = (f[5] + ' bar' + _m.group(1)).strip(); items[ix] = '|'.join(f); _bf += 1; break
+print('방어도 채움(툴팁)', _bf)
 # 착용 가능 직업: forg 마스크는 「어울리는 직업」(능력치 기준)이라 실제 착용 규칙으로 다시 계산
 #  - 무기 숙련·방어구 종류로 판단, wowf.io 「직업:」 줄이나 allow가 있으면 그 직업만
 #  - forg가 3직업 이하로만 표시한 건 영웅·전설(티어 등)일 때만 직업 전용으로 보고 그대로 둠
@@ -989,7 +1018,7 @@ def _rwnm():
 # 아이템 출처 퀘스트의 받는 레벨 (얻을 수 있는 레벨 계산용)
 QLV = {}
 if (Q / 'quests.jsonl').exists():
-    want = set(int(x) for x in re.findall(r'quest=(\d+)', srcs))
+    want = set(int(x) for x in re.findall(r'(?:quest=|/quest/)(\d+)', srcs))  # forg 출처의 /forever/quest/번호 꼴도 (예전엔 빠져 포에버 퀘스트 보상이 템 레벨로 일찍 추천됐음)
     for line in rd(Q / 'quests.jsonl').splitlines():
         o = json.loads(line)
         if o['id'] in want:
@@ -1178,8 +1207,36 @@ for _i, _l in enumerate(items):
     _k = [x for x in _s if not _noq(int(x))]
     if _k and len(_k) < len(_s):
         _f[7] = ';'.join(_k); items[_i] = '|'.join(_f); _nh += 1
+# 「던전 · 퀘스트 보상」 묶음 출처(dg:)인데 얼라이언스가 받는 던전 퀘스트 보상 칸에 없고, 도감(QuestieDB) 보상 퀘스트가 모두 호드 퀘스트인 것 → 그 출처를 뺌
+#   예: 오그리마의 도끼 등 4개(성난불길 협곡 호드 퀘스트 「숨은 적」 보상)가 얼라이언스 14레벨 전사 주무기 1등으로 나왔음. 출처가 다 빠지면 템도 뺌
+_DQA = set()
+for _l in _dq().splitlines():
+    _f = _l.split('|')
+    if _f[0] == 'Q' and len(_f) > 10 and _f[3] != 'horde':
+        _DQA.update(int(x) for x in _f[10].split(',') if x.isdigit())
+_EQQ = {}
+for _l in (rd(Q / 'item-equip.txt').splitlines() if (Q / 'item-equip.txt').exists() else []):
+    _f = _l.split('|')
+    if len(_f) > 5 and _f[0].isdigit() and _f[5]:
+        _EQQ[int(_f[0])] = [int(x) for x in _f[5].split(',') if x.isdigit()]
+_ndg = 0
+_keep = []
+for _l in items:
+    _f = _l.split('|')
+    if len(_f) > 7 and _f[0].isdigit() and int(_f[0]) not in _DQA:
+        _qs = _EQQ.get(int(_f[0])) or []
+        if _qs and all(q in _HQS for q in _qs):
+            _s = [x for x in _f[7].split(';') if x]
+            _k = [x for x in _s if not (_SL[int(x)].startswith('1~') and _SL[int(x)].split('~')[2:3] and _SL[int(x)].split('~')[2].startswith('dg:'))]
+            if len(_k) < len(_s):
+                _ndg += 1
+                if not _k:
+                    continue
+                _f[7] = ';'.join(_k); _l = '|'.join(_f)
+    _keep.append(_l)
+items = _keep
 ITEMS_TXT = '\n'.join(items) + '\n'
-print('호드·없는 퀘스트 출처 뺌', _nh)
+print('호드·없는 퀘스트 출처 뺌', _nh, '· 호드 던전 퀘스트 보상 뺌', _ndg)
 
 # 퀘스트 할 일(forg) 「떨구는 몹」 등에 남은 영어 몹 이름 → 한글 (앱에서 바꿔 보여 줌)
 def _npcko_q():

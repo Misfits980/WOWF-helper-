@@ -3541,8 +3541,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=5227ed59" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* vc011c1 @11/21 07:35 */
+<script src="app-data.js?v=cf573df4" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* v077cb4 @11/21 07:39 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3550,7 +3550,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/21 07:35';
+const BUILD='11/21 07:39';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3685,7 +3685,7 @@ function rqAsQ(id){const x=RQ.get(id);if(!x)return null;return {id,n:x.nm,lv:x.l
    if(RW[it.id]!=null)ob=Math.min(ob,RW[it.id]);
    for(const i of it.src){const s=SRC[i];if(!s)continue;let v=it.lv;
      if(s.k===0&&DG[s.dg])v=DG[s.dg].lo;
-     else if(s.k===1){const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);const qm=(s.href||'').match(/quest=(\d+)/);if(m&&DGKO[m[1]])v=Math.max(DGKO[m[1]].lo,RW[it.id]??0);else if(qm&&typeof D_QLV!=='undefined'&&D_QLV[qm[1]]!=null)v=Math.max(it.lv,D_QLV[qm[1]]);else if(QMIN[s.qn]!=null)v=QMIN[s.qn]}
+     else if(s.k===1){const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);const qm=(s.href||'').match(/(?:quest=|\/quest\/)(\d+)/);/* forg 출처는 /forever/quest/번호 꼴 — 예전엔 quest= 꼴만 읽어 포에버 퀘스트 보상 300여 개가 퀘스트 레벨이 아닌 템 레벨로 일찍 추천됐음(뾰족부리 구출 51레벨 보상이 40레벨부터) */if(m&&DGKO[m[1]])v=Math.max(DGKO[m[1]].lo,RW[it.id]??0);else if(qm&&typeof D_QLV!=='undefined'&&D_QLV[qm[1]]!=null)v=Math.max(it.lv,D_QLV[qm[1]]);else if(QMIN[s.qn]!=null)v=QMIN[s.qn]}
      ob=Math.min(ob,v);(it._sv=it._sv||[]).push([s,v])}
    it.ob=Math.max(it.lv,ob===99?it.lv:ob);
    if(it._sv&&it._sv.length<2)delete it._sv;else if(RW[it.id]!=null)it._rw=RW[it.id];/* 출처가 여럿이면 출처별 레벨을 남겨 obOf에서 씀 */
@@ -4377,13 +4377,14 @@ let chx=chainOf(id);
   if(d.r&&d.r[0]&&!d.r[3])h+='<p class="npc">'+QMK.r+' 반납하는 곳: <b>'+esc(npcKo(d,'r'))+'</b>'+(d.r[1]?' · '+esc(placeTxt(d.r[1],d.r[2],id)):'')+'</p>';
   else if(d.r&&d.r[3])h+='<p class="npc">'+QMK.r+' 반납하는 곳: 받은 NPC에게 다시</p>';
   /* 보상 */
-  const tile=(x,best)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use?bestSlot(it,c):null;
+  /* ★ 추천·좋아짐은 장비 탭과 같은 기준: 근접·탱커에게 천(clothNo)은 안 권함 — 예전엔 전사에게 「탄돌 교각」 천 바지가 ★였고 게임 「고를 템」 코드도 그걸 알려 줬음 */
+  const tile=(x,best)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use&&!clothNo(c,it)?bestSlot(it,c):null;
     return '<button class="rt2'+(best?' best':'')+(it&&!use?' no':'')+'" data-a="'+(it?'info':'')+'" data-k="'+x[0]+'"><span class="ic q-'+x[3]+'" style="background-image:url('+ICO(x[2])+')"></span><span class="rn q'+x[3]+'">'+esc(x[1])+(x[4]>1?' ×'+x[4]:'')+'</span>'+(best?'<span class="rb">★ 추천</span>':b&&b.g>.01?'<span class="rb s">좋아짐</span>':it&&!use?'<span class="rb nx">못 씀</span>':'')+'</button>'};
   if(R.ch||R.fx||R.xp||R.money||R.rep){h+='<h5>보상</h5>';
-    if(R.ch&&R.ch.length){let bi=-1,bg=.01;R.ch.forEach((x,i)=>{const it=IT.get(x[0]);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});
+    if(R.ch&&R.ch.length){let bi=-1,bg=.01;R.ch.forEach((x,i)=>{const it=IT.get(x[0]);if(it&&usable(it,c)&&!clothNo(c,it)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});
       /* 보상 카드를 누르면 그게 「고를 템」 (다시 누르면 앱 추천으로) · 템 정보는 오른쪽 ⓘ */
       const pk=(c.rwPick||{})[id];const cur=pk&&R.ch.some(x=>x[0]===pk)?pk:(bi>=0?R.ch[bi][0]:0);
-      const ptile=(x,best,on)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use?bestSlot(it,c):null;
+      const ptile=(x,best,on)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use&&!clothNo(c,it)?bestSlot(it,c):null;
         return '<div class="rt2 pk'+(on?' on':'')+(best?' best':'')+(it&&!use?' no':'')+'"><button class="rpb" data-a="rwpick" data-k="'+id+':'+x[0]+'" aria-pressed="'+(on?'true':'false')+'"><span class="ic q-'+x[3]+'" style="background-image:url('+ICO(x[2])+')"></span><span class="rn q'+x[3]+'">'+esc(x[1])+(x[4]>1?' ×'+x[4]:'')+'</span></button>'
           +(it?'<button class="rinf" data-a="info" data-k="'+x[0]+'" aria-label="템 정보">i</button>':'')
           +(on?'<span class="rb pk">📌 고를 템'+(best?' · ★ 추천':'')+'</span>':best?'<span class="rb">★ 추천</span>':b&&b.g>.01?'<span class="rb s">좋아짐</span>':it&&!use?'<span class="rb nx">못 씀</span>':'')+'</div>'};
@@ -4480,7 +4481,7 @@ const srcQid=s=>{const m=(s.href||'').match(/(?:quest=|\/quest\/)(\d+)/);if(m)re
 let _HQ=null;const hordeQ=q=>(_HQ||(_HQ=new Set(typeof D_HQ!=='undefined'?D_HQ:[]))).has(q);
 let _QX=null;const nolistQ=q=>(_QX||(_QX=new Set(typeof D_QX!=='undefined'?D_QX:[]))).has(q);
 function qGone(c,q){if(!q)return false;if(hordeQ(q))return true;if(!QDB){/* 퀘스트 자료가 오기 전(느린 폰·새로고침): 직업·종족 제한만 미리 받은 표로 — 예전엔 다른 직업 보상이 첫 화면에 추천됐음 */const r=typeof D_QCR!=='undefined'&&D_QCR[q];if(r&&r[0]===-1)return !(dgOfQ(q)||nolistQ(q));/* -1 = 퀘스트 자료에 없는 퀘스트 */return r?!qdbOk(c,{cls:r[0],rc:r[1]}):false}const X=QDB.get(q);if(!X)return !(dgOfQ(q)||nolistQ(q));return !qdbOk(c,X)||exOut(c,X)}
-function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)return S;const done=id=>!!((c.mq||{})[id]||(c.dq||{})[id]);
+function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)return S;/* 레벨업 길잡이 「끝냄」(c.fq = 지역|이름)도 봄 — 예전엔 mq·dq만 봐서 길잡이에서 끝낸 퀘스트 보상이 계속 추천됐음 (퀘스트 창 「끝냈어요」와 같은 mqDone 기준) */const done=id=>{if((c.mq||{})[id]||(c.dq||{})[id])return true;const X=QDB&&QDB.get(id);if(X)return mqDone(c,X);const r=c.fq&&RQ.get(id);return !!(r&&fqHit(c,r.gz||r.sz,r.nm,id))};
   return S.filter(s=>{if(s.k!==1)return true;const q=srcQid(s);if(q)return !done(q)&&!qGone(c,q);if(/^dg:/.test(s.href||'')){const qs=IT_Q[it.id]||[];return !qs.length||qs.some(x=>!done(x))}return true})}
 const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
 const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(ql[srcQid(s)]||(IT_Q[it.id]||[]).some(x=>ql[x])))};
@@ -4516,9 +4517,12 @@ const clothNo=(c,it)=>it.cs==='4.1'&&it.sl!=='ba'&&(['warrior','rogue','hunter']
 function obOf(it,m){if(!it._sv||m==='all')return it.ob;if(!it.obm){const M={};for(const [s,v] of it._sv)for(const k of ['q','dg','ok','rd']){const hit=k==='ok'?srcSure(s)&&!s.raid&&!s.pvp:k==='rd'?srcSure(s)&&!s.pvp:srcCat(s)===k;if(hit)M[k]=Math.min(M[k]??99,k!=='q'&&it._rw!=null?Math.min(v,it._rw):v)}
   it.obm={};for(const k in M)it.obm[k]=Math.max(it.ob,M[k])}return it.obm[m]||it.ob}
 function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>obOf(it,mode)<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
+/* 「하나 고르기」 퀘스트: 이미 그 보상을 끼고 있거나 직접 다른 보상을 골랐으면(c.rwPick) 나머지 보상은 못 받음 — 장비 탭 목록(upgrades)·칸 비교·애드온 추천 코드(bestFor)가 같은 규칙.
+   예전엔 bestFor가 이 규칙을 안 써서 고른 뒤에도 칸 비교·게임 툴팁에 고르지 않은 보상이 「좋아짐」으로 나왔음 */
+function p1Out(c){const eqQ=new Set(SLOTS.map(([s])=>eqIt(c,s)).filter(Boolean).map(pickOneQ).filter(Boolean));const rp=c.rwPick||{};const hasRp=Object.keys(rp).length>0;
+  return it=>{if(!eqQ.size&&!hasRp)return false;const q=pickOneQ(it);return !!q&&(eqQ.has(q)||(rp[q]&&rp[q]!==it.id&&rwChoices(q).includes(rp[q])))}}
 function upgrades(c,L,mode,minLv,ex){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);if(ex)ex.forEach(i=>ng.add(i));
-  /* 「하나 고르기」 퀘스트: 이미 그 보상을 끼고 있거나 직접 다른 보상을 골랐으면 나머지 보상은 못 받음 */const eqQ=new Set(SLOTS.map(([s])=>eqIt(c,s)).filter(Boolean).map(pickOneQ).filter(Boolean));const rp=c.rwPick||{};const hasRp=Object.keys(rp).length>0;
-  const p1No=it=>{if(!eqQ.size&&!hasRp)return false;const q=pickOneQ(it);return !!q&&(eqQ.has(q)||(rp[q]&&rp[q]!==it.id&&rwChoices(q).includes(rp[q])))};/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
+  const p1No=p1Out(c);/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
     const curS=Math.min(...pair.map(p=>sc(eqIt(c,p),p,w)));const tgt=pair.reduce((a,p)=>sc(eqIt(c,p),p,w)<=sc(eqIt(c,a),a,w)?p:a,pair[0]);
@@ -4718,9 +4722,12 @@ function srcParts(c,it){let h='';
   for(const i of it.src){const s=SRC[i];if(!s)continue;
     if(s.k===0){const d=DG[s.dg];const n=d?bossNo(d,s.boss):null;parts.push('<div class="src"><b>🏰 던전 보스 드랍</b><div class="nm">'+esc(d?d.ko:s.dn)+(n?' · '+n+'번째 보스':'')+' 「'+esc(s.boss)+'」</div>'+(d?'<div class="sub">'+esc(d.loc)+' · 권장 레벨 '+d.lo+'–'+d.hi+(d.bosses.length?' · 보스 '+d.bosses.length+'마리'+(n?' 중 '+n+'번째':''):'')+'</div><button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 보기</button>':'')+'</div>')}
     else if(s.k===1){if(dq&&srcQid(s)===dq.q.id)continue;const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);if(m){if(seen.has('dq'))continue;const d=DGS.find(x=>x.ko===m[1]);parts.push('<div class="src"><b>📜 던전 퀘스트 보상</b><div class="nm">'+esc(m[1])+' 퀘스트 중 하나</div>'+(d?'<button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 퀘스트 보기</button>':'')+'</div>');continue}
-      const f=findZoneQuest(s.qn);if(f){const q=f.q;const z=q.gz||q.sz;parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div>'+(q.obj?'<div class="obj">'+esc(q.obj)+'</div>':'')+'<div class="sub">'+esc(z)+' '+contTag(z)+'</div><div class="sub">'+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 '+q.pre+'개 먼저':'')+(q.ch?' · 연계 '+q.ch+'개 이어짐':'')+'</div><div class="bkb">'+(q.id?'<button class="btn sm" data-a="qopen" data-k="'+q.id+'">퀘스트·위치 보기</button>':'')+'<button class="btn sm ghost" data-a="goz" data-k="'+esc(z)+'">이 지역 퀘스트</button></div></div>')}
-      else if(QDB&&QDB.get(srcQid(s))){const X=QDB.get(srcQid(s));parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(X.n)+'」 <span class="lvb '+lvCls(X.lv,c.lv)+'">'+(X.lv||'?')+'</span></div><div class="sub">'+(X.g&&X.g[0]?'받는 곳 '+esc(X.g[0])+(X.g[1]?' ('+esc(ZKO[X.g[1]]||X.g[1])+')':'')+(X.z&&X.g[1]&&(ZKO[X.g[1]]||X.g[1])!==X.z?' · 하는 곳 '+esc(X.z):''):esc(X.z||''))+' · '+mTxt(X)+(mqDone(c,X)?' · ✅ 했어요':'')+'</div><div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+X.id+'">퀘스트·위치 보기</button>'+(X.z?'<button class="btn sm ghost" data-a="goz" data-k="'+esc(X.z)+'">이 지역 퀘스트</button>':'')+'</div></div>')}
-      else parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(s.qn)+'」</div>'+(QDB?'':'<div class="sub">퀘스트 자료를 불러오는 중…</div>')+'<div class="sub">앱 자료에 없는 퀘스트예요. <a href="https://www.wowhead.com/forever/ko/'+esc(s.href.replace('wh:','').replace('=','='))+'" target="_blank" rel="noopener">와우헤드에서 보기 ↗</a></div></div>')}
+      /* 퀘스트 번호로 먼저 찾음: 예전엔 이름으로만 찾아 같은 이름 연계(알살락스의 탑 4단계 등 48곳)의 첫 단계가 열리고 레벨·할 일도 첫 단계 것이 나왔음 */
+      const qi0=srcQid(s);const f=(qi0&&questById(qi0))||(!qi0||!QDB||!QDB.get(qi0)?findZoneQuest(s.qn):null);
+      /* 이 캐릭터가 이미 했거나 못 받는 퀘스트면 표시 (추천에서 빠지는 이유) */const qSt=id=>{if(!id)return '';const X=QDB&&QDB.get(id);if(X&&mqDone(c,X)||(c.mq||{})[id]||(c.dq||{})[id])return ' · ✅ 했어요';return qGone(c,id)?' · 🚫 이 캐릭터는 못 받아요':''};
+      if(f){const q=f.q;const z=q.gz||q.sz;parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div>'+(q.obj?'<div class="obj">'+esc(q.obj)+'</div>':'')+'<div class="sub">'+esc(z)+' '+contTag(z)+'</div><div class="sub">'+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 '+q.pre+'개 먼저':'')+(q.ch?' · 연계 '+q.ch+'개 이어짐':'')+qSt(q.id)+'</div><div class="bkb">'+(q.id?'<button class="btn sm" data-a="qopen" data-k="'+q.id+'">퀘스트·위치 보기</button>':'')+'<button class="btn sm ghost" data-a="goz" data-k="'+esc(z)+'">이 지역 퀘스트</button></div></div>')}
+      else if(QDB&&QDB.get(srcQid(s))){const X=QDB.get(srcQid(s));parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(X.n)+'」 <span class="lvb '+lvCls(X.lv,c.lv)+'">'+(X.lv||'?')+'</span></div><div class="sub">'+(X.g&&X.g[0]?'받는 곳 '+esc(X.g[0])+(X.g[1]?' ('+esc(ZKO[X.g[1]]||X.g[1])+')':'')+(X.z&&X.g[1]&&(ZKO[X.g[1]]||X.g[1])!==X.z?' · 하는 곳 '+esc(X.z):''):esc(X.z||''))+' · '+mTxt(X)+qSt(X.id)+'</div><div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+X.id+'">퀘스트·위치 보기</button>'+(X.z?'<button class="btn sm ghost" data-a="goz" data-k="'+esc(X.z)+'">이 지역 퀘스트</button>':'')+'</div></div>')}
+      else parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(s.qn)+'」</div>'+(QDB?'':'<div class="sub">퀘스트 자료를 불러오는 중…</div>')+'<div class="sub">앱 자료에 없는 퀘스트예요. <a href="https://www.wowhead.com/forever/ko/'+(srcQid(s)?'quest='+srcQid(s):esc(s.href.replace('wh:','')))+'" target="_blank" rel="noopener">와우헤드에서 보기 ↗</a></div></div>')}
     else if(s.k===3)parts.push('<div class="src"><b>⚔️ 몹 드랍</b><div class="nm">'+esc(s.label.replace('드랍 · ',''))+'</div><div class="sub">이 몹을 잡으면 낮은 확률로 나와요.</div></div>');
     else if(s.k===2)parts.push('<div class="src"><b>🎲 월드 드랍</b><div class="sub">레벨 맞는 필드 몹에게서 무작위로 나와요. 경매장에서 사는 게 빨라요.</div></div>');
     else if(s.k===4)parts.push('<div class="src"><b>🔨 제작</b><div class="nm">'+esc(s.label.replace(/^제작 · /,''))+'</div><div class="sub">전문기술로 만들거나 경매장에서 사요.</div></div>');
@@ -5157,16 +5164,19 @@ function qItemIdx(){if(!QDB)return null;if(QIX&&QIX_SRC===QDB)return QIX;const M
   QD.forEach((d,id)=>{((d&&d.wf&&d.wf.t)||[]).forEach(t=>add(t[0],+id,'모으기'))});
   QIX=M;QIX_SRC=QDB;return M}
 /* 상태: 1 퀘스트창 · 2 반납만 남음 · 0 아직 안 받음 · 3 끝냄 — 퀘스트창 → 안 받음 → 끝냄 순, 같으면 낮은 레벨부터 */
-function itemQuests(c,nm){const M=qItemIdx();if(!M)return [];const ql=c.ql||{},mq=c.mq||{};const st=id=>ql[id]===2?2:ql[id]?1:mq[id]?3:0;
+function itemQuests(c,nm){const M=qItemIdx();if(!M)return [];const ql=c.ql||{},mq=c.mq||{};/* 끝냄 = 퀘스트 창 「끝냈어요」·던전 퀘스트·레벨업 길잡이 체크 다 (mqDone) — 예전엔 mq만 봐서 던전·길잡이에서 끝낸 퀘스트 템이 「아직 안 받음」으로 나왔음 */const st=id=>ql[id]===2?2:ql[id]?1:(mq[id]||(QDB.get(id)&&mqDone(c,QDB.get(id))))?3:0;
   return (M.get(nm)||[]).map(y=>({...y,X:QDB.get(y.id),s:st(y.id)})).filter(y=>y.X&&(y.s===1||y.s===2||(qdbOk(c,y.X)&&!exOut(c,y.X)))).sort(iqCmp)}
 const iqCmp=(a,b)=>{const rk=s=>s===1||s===2?0:s===0?1:2;return rk(a.s)-rk(b.s)||(a.X.lv||0)-(b.X.lv||0)||String(a.X.n).localeCompare(String(b.X.n),'ko',{numeric:true})};
 function bagSort(c){if(!BAGDB)return null;const eqd=new Set(Object.values(c.eq||{}).map(Number));const E=new Map(bagAll(c).map(x=>[x.it.id,x]));const QN=questItemNames(c);const MM=myMatIds(c);const W=new Set((c.wish||[]).map(Number));
   const G={q:[],sell:[],mat:[],bank:[],other:[]};let sellSum=0;
   [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.entries(B).forEach(([k,n])=>{const id=+k;if(eqd.has(id))return;const T0=IT.get(id)||{};const I=BAGDB.get(id)||{nm:T0.nm||('아이템 #'+id),q:{p:0,c:1,u:2,r:3,e:4,l:5}[T0.q]??1,cls:T0.sl?(T0.cs&&T0.cs[0]==='2'?2:4):-1,sell:0,ic:T0.ic||''};const x={id,n,where,I};
-    if(I.cls===12||QN.has(I.nm)){G.q.push(x);return}
+    /* 퀘스트 템인데 쓰는 퀘스트를 다 끝냈으면 「이제 필요 없어요」(팔거나 버려도 됨) — 예전엔 끝낸 뒤에도 「퀘스트에 써요」에 남았음 */
+    if(I.cls===12||QN.has(I.nm)){const Q=QN.has(I.nm)?null:itemQuests(c,I.nm);if(Q&&Q.length&&Q.every(y=>y.s===3)){G.sell.push(x);if(I.sell>0)sellSum+=I.sell*n;x.why='끝낸 퀘스트 템 · 이제 필요 없어요';return}G.q.push(x);return}
+    /* 아직 할 수 있는 퀘스트에 내는 템(반납용 장비·회색 재료 등)은 퀘스트창에 없어도 팔 것에 넣지 않음 — 예전엔 산악인의 망토(퀘스트 565 반납)·해골 조각이 「팔아도 돼요」로 나왔음 */
+    const qNeed=()=>itemQuests(c,I.nm).some(y=>y.s!==3&&!hordeQ(y.id));
     const e=E.get(id);
-    if(e){if(e.ok&&e.g>.5||e.lvUp||W.has(id)||(I.q||0)>=3){G.other.push(x);return}if(I.sell>0){G.sell.push(x);sellSum+=I.sell*n;x.why=e.ok?'지금 낀 게 더 좋아요':'못 끼는 장비'}else G.other.push(x);return}
-    if(I.q===0&&I.sell>0){G.sell.push(x);sellSum+=I.sell*n;x.why='잡동사니';return}
+    if(e){if(e.ok&&e.g>.5||e.lvUp||W.has(id)||(I.q||0)>=3){G.other.push(x);return}if(I.sell>0&&qNeed()){G.q.push(x);return}if(I.sell>0){G.sell.push(x);sellSum+=I.sell*n;x.why=e.ok?'지금 낀 게 더 좋아요':'못 끼는 장비'}else G.other.push(x);return}
+    if(I.q===0&&I.sell>0){if(qNeed()){G.q.push(x);return}G.sell.push(x);sellSum+=I.sell*n;x.why='잡동사니';return}
     if(I.cls===7||I.cls===5){if(MM.has(id))G.mat.push(x);else G.bank.push(x);return}
     G.other.push(x)}));
   return {G,sellSum}}
@@ -5266,7 +5276,7 @@ function nextStops(c){const L=c.lv;const S0=routeOf(c).find(S=>L>=S.a&&L<=S.b);i
 /* 이 템을 얻는 곳이 「하나 고르기」 퀘스트 하나뿐이면 그 퀘스트 번호 */
 function pickOneQ(it){const S=(it.src||[]).map(i=>SRC[i]).filter(Boolean);if(!S.length||S.some(s=>s.k!==1))return 0;const qs=[...new Set(S.map(s=>srcQid(s)).filter(Boolean))];if(qs.length!==1)return 0;const ch=rwChoices(qs[0]);return ch.length>=2&&ch.includes(it.id)?qs[0]:0}
 function rwChoices(id){const R=qRw(id);if(R&&R.ch&&R.ch.length)return R.ch.map(x=>x[0]);const d=dgOfQ(id);const q=d&&d.q.find(x=>x.id===id);return q&&q.choose&&q.rw.length>1?q.rw:[]}
-function rwPickFor(c,id){const ch=rwChoices(id);if(ch.length<2)return 0;const pk=(c.rwPick||{})[id];if(pk&&ch.includes(pk))return pk;let bi=0,bg=.01;ch.forEach(i=>{const it=IT.get(i);if(it&&usable(it,c)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});return bi}
+function rwPickFor(c,id){const ch=rwChoices(id);if(ch.length<2)return 0;const pk=(c.rwPick||{})[id];if(pk&&ch.includes(pk))return pk;let bi=0,bg=.01;ch.forEach(i=>{const it=IT.get(i);if(it&&usable(it,c)&&!clothNo(c,it)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});return bi}
 function rwPicks(c){const L=c.lv;const ids=new Set(Object.keys(c.ql||{}).map(Number));Object.keys(c.rwPick||{}).forEach(k=>ids.add(+k));
   routeOf(c).filter(S=>S.b>=L-1&&S.a<=L+6).forEach(S=>S.q.forEach(q=>{if(q.id)ids.add(q.id)}));dgNow(L).forEach(d=>dqOf(c,d).forEach(q=>ids.add(q.id)));
   const out=[];ids.forEach(id=>{const i=rwPickFor(c,id);if(i)out.push([id,i])});return out.slice(0,150)}
@@ -5330,7 +5340,7 @@ const HEALER_NOTE={paladin:1,shaman:1,druid:1};
 function offLocked(c,s){return s==='off'&&(!!(eqIt(c,'main')&&eqIt(c,'main').sl==='2h')||wsetOf(c)==='2h'&&!eqIt(c,'off'))}
 function bestFor(c,slot,L,mode){const w=wOf(c);const cur=eqIt(c,slot);const other=slot==='ring1'?'ring2':slot==='ring2'?'ring1':slot==='trink1'?'trink2':slot==='trink2'?'trink1':null;const skip=other?c.eq[other]:slot==='off'?c.eq.main:slot==='main'?c.eq.off:null;/* 짝 칸(반지·장신구)과 두 손 무기: 다른 칸에 낀 템은 빼요 */
   const base=slot==='main'?sc(cur,'main',w):sc(cur,slot,w);
-  const ng=c.nogo||[];return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
+  const ng=c.nogo||[];const p1No=p1Out(c);return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)&&!p1No(x.it)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
 const gNum=g=>g>=10?Math.round(g):g.toFixed(1);
 /* 칸 비교 창 「🔜 레벨 오르면」: 10레벨 안에 얻는 것 중 지금 추천(없으면 지금 장비)보다 확실히 좋은 것 2개 — 가까운 레벨 먼저 */
 function nextBox(c,slot,best){const L=c.lv;if(L>=60)return '';const top=best&&best.length?best[0].g:0;const seen=new Set((best||[]).map(x=>x.it.id));
@@ -6065,7 +6075,9 @@ function lvHelp(c,S,NX){if(!WLD)wldLoad();if(!QDB)qdbLoad();const L=c.lv;const C
         '<p class="mute">이 구간에서 장비를 떨구는 몹이에요. 희귀 몹은 자주 안 보이니 보이면 잡으세요.</p>'+top.map(({z,m,rank,best})=>'<div class="rmr"><span class="m"><span class="mt"><b>'+esc(m[0])+'</b> <span class="qlv '+lvCls(m[2]||L,L)+'">'+(m[1]===m[2]?m[1]:m[1]+'–'+m[2])+'</span>'+(RK[rank]?' <i class="rk">'+RK[rank]+'</i>':'')+'</span><small>'+esc(z)+' '+m[4]+', '+m[5]+(m[3]&&m[3]<=3&&!RK[rank]?' · 자리 '+m[3]+'곳':'')+'</small></span>'
           +best.slice(0,2).map(x=>'<button class="rmi" data-a="'+(x.b&&x.b.g>.01?'cmpq':'info')+'" data-k="'+(x.b&&x.b.g>.01?x.b.s+':'+x.it.id:x.it.id)+'">'+itIcon(x.it)+'<span class="q'+x.it.q+'">'+esc(x.it.nm)+'</span>'+(x.b&&x.b.g>.01?'<em>+'+Math.round(x.b.g)+'</em>':'')+'</button>').join('')+'</div>').join('')])}}
   /* 몹이 떨구는 퀘스트 시작 아이템 */
-  if(QDB){const IQ=[];for(const q of QDB.values()){if(!q.g||q.g[3]!=='item'||!qdbOk(c,q)||mqDone(c,q)||exOut(c,q))continue;const z=zn(q.g[1]||q.z);if(!zs.map(zn).includes(z))continue;if((q.m||1)>L+1||(q.lv||L)<L-6)continue;IQ.push(q)}
+  if(QDB){const IQ=[];for(const q of QDB.values()){if(!q.g||q.g[3]!=='item'||!qdbOk(c,q)||mqDone(c,q)||exOut(c,q))continue;
+    /* 던전 안에서 줍는 퀘스트(던전 탭 「안에서 시작」과 같은 기준 dqIn)는 필드 목록에서 뺌 — 예전엔 울다만 「부서진 목걸이」가 황야의 땅, 가시덩굴 우리 「론브로우의 일지」가 버섯구름 봉우리에서 줍는 것처럼 나왔음 */
+    {const d=dgOfQ(q.id);const dq=d&&d.q.find(x=>x.id===q.id);if(dq&&dqIn(dq))continue}const z=zn(q.g[1]||q.z);if(!zs.map(zn).includes(z))continue;if((q.m||1)>L+1||(q.lv||L)<L-6)continue;IQ.push(q)}
     if(IQ.length)rows.push(['itq','📜','주워서 시작하는 퀘스트 '+IQ.length+'개',
       '<p class="mute">몹이 떨구거나 바닥에 있는 아이템을 주우면 시작돼요. 보이면 꼭 챙기세요.</p>'+IQ.sort((a,b)=>(a.lv||0)-(b.lv||0)).slice(0,8).map(q=>'<button class="iqr" data-a="qopen" data-k="'+q.id+'"><span class="qlv '+lvCls(q.lv,L)+'">'+(q.lv||'?')+'</span><span class="m"><b>📦 '+esc(q.g[0])+'</b><small>'+(q.g[4]?esc(q.g[4])+'에게서 · ':'')+esc(q.g[1]||'')+(q.g[2]?' '+esc(q.g[2].replace(',',', ')):'')+' → 「'+esc(q.n)+'」</small></span></button>').join('')])}
   /* 6) 사냥 전에 챙길 것 (포에버: 휴식 경험치·침낭·야영지·음식) */

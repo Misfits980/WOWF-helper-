@@ -206,13 +206,17 @@ def mask_of(cs, allow):
     return m
 
 
-def convert(jsonl_text, equip_text, src_index):
-    """src_index(label)→번호. 돌려주는 값: 장비 줄 목록"""
+def convert(jsonl_text, equip_text, src_index, qname=None, horde=None):
+    """src_index(label)→번호. 돌려주는 값: 장비 줄 목록
+    qname: 퀘스트 번호 → 한글 이름(퀘스트 자료) · horde: 호드만 받는 퀘스트 번호 — 도감에 얻는 곳이 빈 템을 도감(QuestieDB) 퀘스트 보상 칸으로 채울 때 씀"""
     EQ = {}
+    EQQ = {}
     for line in equip_text.splitlines():
         f = line.split('|')
         if len(f) > 4 and f[0].isdigit():
-            EQ[int(f[0])] = (int(f[1]), int(f[2]) if f[2] else 0, int(f[3] or 0), int(f[4] or 0))
+            EQ[int(f[0])] = (int(f[1]), int(f[2]) if f[2] else None, int(f[3] or 0), int(f[4] or 0))
+            if len(f) > 5 and f[5]:
+                EQQ[int(f[0])] = [int(x) for x in f[5].split(',') if x.isdigit()]
     out = []
     for line in jsonl_text.splitlines():
         if not line:
@@ -224,9 +228,13 @@ def convert(jsonl_text, equip_text, src_index):
         cl, sub, ilvl, rlq = EQ.get(iid, (0, 0, 0, 0))
         parts = (o.get('sub') or '').split(' · ')
         slot = o.get('slot') or (parts[1] if len(parts) > 1 else '')
-        sl = SL.get(slot.replace(' ', '')) or SL.get(slot)
+        # 새 형식 도감(ft)은 부위를 「한손 장비」·「양손 장비」로 적음 → 「한손」·「양손」으로 (예전엔 몰라서 건너뛰어 포에버 새 퀘스트 보상 무기 85개가 빠졌음: 도움의 손길 「컬리의 도끼」 등)
+        sl = SL.get(slot.replace(' ', '')) or SL.get(slot) or SL.get(re.sub(r'\s*장비$', '', slot))
         if not cl:
             continue
+        # 도감(QuestieDB)에 방어구 종류가 빈 포에버 새 템 → 도감 「종류」(천·가죽·사슬·판금·방패)로 (예전엔 종류 0으로 보고 건너뛰어 새 망토 51개가 빠졌음)
+        if sub is None:
+            sub = {'천': 1, '가죽': 2, '사슬': 3, '판금': 4, '방패': 6}.get((o.get('type') or '').strip(), 0) if cl == 4 else 0
         cs = '%d.%d' % (cl, sub)
         if cl == 4 and sub == 0:
             cs = ''
@@ -239,6 +247,9 @@ def convert(jsonl_text, equip_text, src_index):
                 sl = 'ra'
             else:
                 continue
+        # 종류 「기타」인 보조 장비 = 보조손 장착(수정구·책 등). 방패(4.6)만 「보조 장비」 칸 — 예전엔 방패 칸으로 보고 건너뛰어 42개가 빠졌음
+        if cl == 4 and sub == 0 and sl == 'oh':
+            sl = 'ho'
         if cl == 4 and sub == 0 and sl not in ('ne', 'fi', 'tr', 'ho'):
             continue
         st = {}
@@ -345,6 +356,16 @@ def convert(jsonl_text, equip_text, src_index):
                 refs.append(src_index('3~드랍 · 숨은 물건: %s~' % label.split(' · ', 1)[1]))
             else:
                 refs.append(src_index('3~드랍 · %s~' % re.sub(r'^(드랍|희귀 몹) · ', '', label)))
+        # 새 형식 도감(ft)은 얻는 곳이 비어 있음 → 도감(QuestieDB)의 퀘스트 보상 칸으로.
+        # 호드 퀘스트 보상뿐이면 얼라이언스가 못 얻어 뺌 (예전엔 출처 빈 템 = 「월드 드랍」으로 잡혀 지옥의 로브 등 90개가 「아무 몹에서」로 나왔음)
+        if not o.get('src'):
+            qs = EQQ.get(iid) or []
+            keep = [q for q in qs if not (horde and q in horde)]
+            if qs and not keep:
+                continue
+            for q in keep:
+                if qname and qname.get(q):
+                    refs.append(src_index('1~퀘스트 · %s~wh:quest=%d' % (qname[q], q)))
         mask = mask_of(cs, allow)
         if not mask:
             continue
