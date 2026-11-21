@@ -12,7 +12,7 @@
 1~구체자의 정원 · 퀘스트 보상~dg:shapers-terrace
 1~퀘스트 · 폭풍우의 병기~/forever/quest/79442
 1~퀘스트 · 폭풍우의 병기~/forever/quest/96016
-1~웰가르 발굴 현장 · 퀘스트 보상~dg:whelgar-excavation
+1~발굴 현장: 저습지 · 퀘스트 보상~dg:whelgar-excavation
 1~퀘스트 · 뒤틀린 증오~/forever/quest/98403
 4~제작 · 대장기술 · 경매장 거래~
 4~제작 · 가죽세공 · 경매장 거래~
@@ -335,8 +335,8 @@
 3~드랍 · 가르넥 찰스컬~
 0~가시덩굴 우리 · 죽음의예언자 잘그바~dg:razorfen-kraul
 1~퀘스트 · 세나리우스의 가지~/forever/quest/1031
-0~웰가르 발굴 현장 · 소금가시~dg:whelgar-excavation
-0~웰가르 발굴 현장 · 그늘이빨~dg:whelgar-excavation
+0~발굴 현장: 저습지 · 소금가시~dg:whelgar-excavation
+0~발굴 현장: 저습지 · 그늘이빨~dg:whelgar-excavation
 0~스톰윈드 지하감옥 · 바질 스레드~dg:stockade
 0~가시덩굴 우리 · 저주의가시 아겜~dg:razorfen-kraul
 0~놈리건 · 방사성 폐기물~dg:gnomeregan
@@ -355,7 +355,7 @@
 1~퀘스트 · 노움의 실력 향상~/forever/quest/2948
 1~퀘스트 · 대단한 사냥꾼~/forever/quest/208
 1~퀘스트 · 딸의 사랑~/forever/quest/231
-0~웰가르 발굴 현장 · 유물 수호자~dg:whelgar-excavation
+0~발굴 현장: 저습지 · 유물 수호자~dg:whelgar-excavation
 0~달라란 · 마나 포식자~dg:city-of-dalaran
 0~달라란 · 불안정한 파수꾼~dg:city-of-dalaran
 0~달라란 · 외면받는 린~dg:city-of-dalaran
@@ -519,18 +519,18 @@
 0~줄파락 · 족장 우코르즈 샌드스칼프~dg:zul-farrak
 1~퀘스트 · 방황하는 샤이~/forever/quest/2845
 1~퀘스트 · 뒤꽁무니에서 불을 뿜는 거미~/forever/quest/7724
-1~아탈학카르 신전 · 퀘스트 보상~dg:temple-of-atal-hakkar
+1~가라앉은 사원 · 퀘스트 보상~dg:temple-of-atal-hakkar
 1~퀘스트 · 반짝이는 돌~/forever/quest/2942
 1~퀘스트 · 엘룬께 올리는 기도문~/forever/quest/3378
 0~마라우돈 · 군주 바일텅~dg:maraudon
 1~퀘스트 · 현상수배: 감독관 말토류스~/forever/quest/7701
 1~퀘스트 · 불 공격!~/forever/quest/3463
-0~아탈학카르 신전 · 아탈알라리온~dg:temple-of-atal-hakkar
+0~가라앉은 사원 · 아탈알라리온~dg:temple-of-atal-hakkar
 0~마라우돈 · 정원사 메슬로크~dg:maraudon
 0~마라우돈 · 녹시온~dg:maraudon
 0~마라우돈 · 칼날채찍~dg:maraudon
 1~퀘스트 · 티모르에게 돌아가기~/forever/quest/3461
-0~아탈학카르 신전 · 학카르의 피조물~dg:temple-of-atal-hakkar
+0~가라앉은 사원 · 학카르의 피조물~dg:temple-of-atal-hakkar
 0~검은바위 나락 · 사냥개조련사 그렙마르~dg:blackrock-depths
 0~검은바위 나락 · 대심문관 게르스탄~dg:blackrock-depths
 0~검은바위 나락 · 불의군주 록코르~dg:blackrock-depths
@@ -543,14 +543,14 @@
 0~검은바위 나락 · 화염술사 로어그레인~dg:blackrock-depths
 0~검은바위 나락 · 문지기 스틸기스~dg:blackrock-depths
 1~퀘스트 · 창에 꽂은 오우거 가면~/forever/quest/3825
-0~아탈학카르 신전~dg:temple-of-atal-hakkar
+0~가라앉은 사원~dg:temple-of-atal-hakkar
 0~마라우돈 · 땜장이 기즐록~dg:maraudon
 0~마라우돈 · 썩은아귀~dg:maraudon
 0~마라우돈 · 산사태~dg:maraudon
 3~드랍 · 대심문관 게르스탄~
 0~알카즈 감옥 · 심문관~dg:alcaz-prison
-0~아탈학카르 신전 · 비운의 오그옴~dg:temple-of-atal-hakkar
-0~아탈학카르 신전 · 학카르의 화신~dg:temple-of-atal-hakkar
+0~가라앉은 사원 · 비운의 오그옴~dg:temple-of-atal-hakkar
+0~가라앉은 사원 · 학카르의 화신~dg:temple-of-atal-hakkar
 0~검은바위 나락 · 왕거미 헤드룸~dg:blackrock-depths
 0~검은바위 나락 · 파괴자 오크토르~dg:blackrock-depths
 1~검은바위 나락 · 퀘스트 보상~dg:blackrock-depths
@@ -558,7 +558,7 @@
 1~퀘스트 · 팅키에게 돌아가는 길~/forever/quest/4810
 0~마라우돈 · 공주 테라드라스~dg:maraudon
 0~알카즈 감옥 · 청소부 카테리나~dg:alcaz-prison
-0~아탈학카르 신전 · 예언자 잠말란~dg:temple-of-atal-hakkar
+0~가라앉은 사원 · 예언자 잠말란~dg:temple-of-atal-hakkar
 0~검은바위 나락 · 아눕쉬아~dg:blackrock-depths
 0~검은바위 나락 · 적출자~dg:blackrock-depths
 0~검은바위 나락 · 그리즐~dg:blackrock-depths
@@ -575,7 +575,7 @@
 5~상인 · Zippie Fizzbolt~
 6~상인 · Zippie Fizzbolt~
 0~알카즈 감옥 · 불길포효~dg:alcaz-prison
-0~아탈학카르 신전 · 에라니쿠스의 사령~dg:temple-of-atal-hakkar
+0~가라앉은 사원 · 에라니쿠스의 사령~dg:temple-of-atal-hakkar
 0~검은바위 나락~dg:blackrock-depths
 0~검은바위 나락 · 베레크~dg:blackrock-depths
 0~검은바위 나락 · 밸가르~dg:blackrock-depths
@@ -590,7 +590,7 @@
 0~검은바위 나락 · 헐레이 블랙브레스~dg:blackrock-depths
 0~검은바위 나락 · 운명의 문지기~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 불타는 지옥군단병~dg:lower-blackrock-spire
-0~스트라솔름: 이승 · 용서받지 못한 자~dg:stratholme-live
+0~스트라솔름: 정문 · 용서받지 못한 자~dg:stratholme-live
 1~퀘스트 · 탤런의 꿈~/forever/quest/5944
 1~퀘스트 · 엘룬의 올빼미야수~/forever/quest/4902
 3~드랍 · 성난발톱용혈족~
@@ -603,7 +603,7 @@
 0~검은바위 나락 · 마그무스~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 뾰족바위일족 학살자~dg:lower-blackrock-spire
 0~검은바위 첨탑 하층 · 뾰족바위일족 전투대장~dg:lower-blackrock-spire
-0~스트라솔름: 이승 · 하스싱어 포레스턴~dg:stratholme-live
+0~스트라솔름: 정문 · 하스싱어 포레스턴~dg:stratholme-live
 1~퀘스트 · 마지막 일격~/forever/quest/5242
 3~드랍 · 가시불꽃부족 비술사~
 3~드랍 · 투자딘 흑마술사~
@@ -620,18 +620,18 @@
 0~검은바위 나락 · 공주 모이라 브론즈비어드~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 어둠사냥꾼 보쉬가진~dg:lower-blackrock-spire
 0~검은바위 첨탑 하층 · 뾰족바위일족 마법사장~dg:lower-blackrock-spire
-0~스트라솔름: 저승 · 집정관 발실라스~dg:stratholme-dead
+0~스트라솔름: 후문 · 집정관 발실라스~dg:stratholme-dead
 0~스칼로맨스 · 들창어금니~dg:scholomance
 1~퀘스트 · 대부족장 눈사태~/forever/quest/5121
 0~검은바위 첨탑 상층 · 불의수호자 엠버시어~dg:upper-blackrock-spire
-0~스트라솔름: 저승 · 네룹엔칸~dg:stratholme-dead
+0~스트라솔름: 후문 · 네룹엔칸~dg:stratholme-dead
 0~검은바위 첨탑 하층 · 대장군 부네~dg:lower-blackrock-spire
 0~스칼로맨스 · 학자 테올렌 크라스티노브~dg:scholomance
-0~스트라솔름: 이승 · 기록관 갈포드~dg:stratholme-live
-0~스트라솔름: 저승 · 남작부인 아나스타리~dg:stratholme-dead
+0~스트라솔름: 정문 · 기록관 갈포드~dg:stratholme-live
+0~스트라솔름: 후문 · 남작부인 아나스타리~dg:stratholme-dead
 0~스칼로맨스 · 현자 폴켈트~dg:scholomance
 0~스칼로맨스 · 사자 키르토노스~dg:scholomance
-0~스트라솔름: 저승 · 먹보 람스타인~dg:stratholme-dead
+0~스트라솔름: 후문 · 먹보 람스타인~dg:stratholme-dead
 0~혈투의 전장: 동쪽 · 칼날바람 알진~dg:dire-maul-east
 0~스칼로맨스 · 마르두크 블랙풀~dg:scholomance
 1~퀘스트 · 예킨야와의 대면~/forever/quest/8181
@@ -646,8 +646,8 @@
 0~검은바위 첨탑 하층 · 할리콘~dg:lower-blackrock-spire
 0~검은바위 첨탑 하층 · 여왕 불그물거미~dg:lower-blackrock-spire
 0~검은바위 첨탑 하층 · 병참장교 지그리스~dg:lower-blackrock-spire
-0~스트라솔름: 이승 · 스컬~dg:stratholme-live
-0~스트라솔름: 이승 · 잔혹한 티미~dg:stratholme-live
+0~스트라솔름: 정문 · 스컬~dg:stratholme-live
+0~스트라솔름: 정문 · 잔혹한 티미~dg:stratholme-live
 0~검은바위 첨탑 상층 · 고랄루크 앤빌크랙~dg:upper-blackrock-spire
 1~검은바위 첨탑 하층 · 퀘스트 보상~dg:lower-blackrock-spire
 1~스칼로맨스 · 퀘스트 보상~dg:scholomance
@@ -656,7 +656,7 @@
 0~스칼로맨스 · 라스 프로스트위스퍼~dg:scholomance
 0~검은바위 첨탑 상층 · 화염고리 솔라카르~dg:upper-blackrock-spire
 0~스칼로맨스 · 잔다이스 바로브~dg:scholomance
-0~스트라솔름: 이승 · 포병대장 윌리~dg:stratholme-live
+0~스트라솔름: 정문 · 포병대장 윌리~dg:stratholme-live
 0~검은바위 첨탑 하층 · 흉포한 기즈룰~dg:lower-blackrock-spire
 0~검은바위 첨탑 상층 · 괴수~dg:upper-blackrock-spire
 0~검은바위 첨탑 상층 · 대족장 렌드 블랙핸드~dg:upper-blackrock-spire
@@ -675,10 +675,10 @@
 0~검은아귀 요새 · 꺾이지 않는 해골주둥이~dg:blackmaw-hold
 0~검은아귀 요새 · 마른아귀~dg:blackmaw-hold
 0~검은바위 첨탑 하층 · 수정 맹독거미~dg:lower-blackrock-spire
-0~스트라솔름: 이승 · 우체국장 말로운~dg:stratholme-live
+0~스트라솔름: 정문 · 우체국장 말로운~dg:stratholme-live
 0~스칼로맨스~dg:scholomance
-0~스트라솔름: 저승 · 남작 리븐데어~dg:stratholme-dead
-1~스트라솔름: 저승 · 퀘스트 보상~dg:stratholme-dead
+0~스트라솔름: 후문 · 남작 리븐데어~dg:stratholme-dead
+1~스트라솔름: 후문 · 퀘스트 보상~dg:stratholme-dead
 0~혈투의 전장: 서쪽 · 일샨나 레이븐오크~dg:dire-maul-west
 0~혈투의 전장: 서쪽 · 마술사 칼렌드리스~dg:dire-maul-west
 0~혈투의 전장: 서쪽 · 굽이나무 텐드리스~dg:dire-maul-west
@@ -702,8 +702,8 @@
 0~검은아귀 요새 · 검은아귀 거수~dg:blackmaw-hold
 0~검은아귀 요새 · 장로 주술사 핏빛갈기~dg:blackmaw-hold
 0~검은아귀 요새 · 속박 풀린 영혼~dg:blackmaw-hold
-0~스트라솔름: 저승 · 뾰족바위~dg:stratholme-dead
-0~스트라솔름: 저승 · 냉혈한 말레키~dg:stratholme-dead
+0~스트라솔름: 후문 · 뾰족바위~dg:stratholme-dead
+0~스트라솔름: 후문 · 냉혈한 말레키~dg:stratholme-dead
 0~스칼로맨스 · 암흑스승 간들링~dg:scholomance
 3~드랍 · 군주 신슬레이어~
 0~혈투의 전장: 서쪽 · 이몰타르~dg:dire-maul-west
@@ -715,7 +715,7 @@
 1~퀘스트 · 신념의 전투장비~/forever/quest/8574
 0~스칼로맨스 · 코르모크~dg:scholomance
 0~검은아귀 요새 · 바록스 블릭후프~dg:blackmaw-hold
-0~스트라솔름: 이승 · 발나자르~dg:stratholme-live
+0~스트라솔름: 정문 · 발나자르~dg:stratholme-live
 0~검은바위 첨탑 상층 · 사령관 드라키사스~dg:upper-blackrock-spire
 1~검은바위 첨탑 상층 · 퀘스트 보상~dg:upper-blackrock-spire
 1~혈투의 전장: 서쪽 · 퀘스트 보상~dg:dire-maul-west
