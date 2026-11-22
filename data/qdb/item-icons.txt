@@ -675,3 +675,11 @@
 281729|inv_sword_04|
 281730|inv_jewelry_talisman_01|
 287090|inv_weapon_shortblade_20|
+19602|inv_jewelry_necklace_23|
+19614|inv_jewelry_necklace_23|
+21209|inv_jewelry_ring_40|
+250593|inv_helmet_24|
+252481|inv_belt_03|
+252557|inv_bracer_23b|
+252600|inv_pants_mail_15|
+275607|inv_gauntlets_17|
