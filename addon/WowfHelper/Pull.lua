@@ -62,7 +62,7 @@ local function PL() local d = DB().pull; if d and d.p and #d.p > 0 then return d
 local frame, lines, render
 -- GUID: Creature-0-서버-지도-인스턴스-NPC-스폰 → NPC 번호, 인스턴스 번호(던전 한 판마다 다름)
 local function npcOf(guid)
-  if not guid then return end
+  if not guid or (issecretvalue and issecretvalue(guid)) then return end
   local kind, z, id = guid:match("^(%a+)%-%d+%-%d+%-%d+%-(%d+)%-(%d+)%-")
   if kind == "Creature" or kind == "Vehicle" then return tonumber(id), z end
 end

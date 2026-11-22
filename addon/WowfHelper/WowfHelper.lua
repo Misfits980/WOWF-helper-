@@ -1083,7 +1083,12 @@ if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and Enum and
 end
 
 -- ===== 보스 공략 창: 보스를 대상으로 잡으면 앱 공략 요약 =====
-local COL = { dz = "ff6060", int = "ffd040", dis = "60c0ff", av = "ff9a40", add = "c0c0c0", tk = "a0a0ff", hl = "60ff80", info = "cccccc" }
+-- 포에버(새 엔진)는 전투 중 대상 이름을 '비밀 값'으로 줌 → 표 열쇠로 쓰거나 비교하면 오류. 비밀이면 모르는 것으로.
+local function pub(v)
+  if v ~= nil and issecretvalue and issecretvalue(v) then return nil end
+  return v
+end
+local COL ={ dz = "ff6060", int = "ffd040", dis = "60c0ff", av = "ff9a40", add = "c0c0c0", tk = "a0a0ff", hl = "60ff80", info = "cccccc" }
 local bossF
 local function bossFrame()
   if bossF then return bossF end
@@ -1094,7 +1099,7 @@ local function bossFrame()
   local bg = bossF:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetColorTexture(0.05, 0.04, 0.03, 0.85)
   bossF.title = bossF:CreateFontString(nil, "OVERLAY", "GameFontNormal"); bossF.title:SetPoint("TOPLEFT", 10, -8)
   local close = CreateFrame("Button", nil, bossF, "UIPanelCloseButton"); close:SetPoint("TOPRIGHT", 2, 2); close:SetScale(0.8)
-  close:SetScript("OnClick", function() bossF:Hide(); bossF.hiddenFor = UnitName("target"); say("이 보스 공략 창을 닫았어요. 아예 끄려면 /wfh 공략") end)
+  close:SetScript("OnClick", function() bossF:Hide(); bossF.hiddenFor = pub(UnitName("target")); say("이 보스 공략 창을 닫았어요. 아예 끄려면 /wfh 공략") end)
   bossF.lines = {}
   for i = 1, 7 do
     local l = bossF:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
@@ -1108,7 +1113,7 @@ function WowfHelper_BossCheck(leftCombat)
   WowfHelperDB = WowfHelperDB or {}
   if WowfHelperDB.bossOff or not WowfHelperBoss then return end
   local f = bossFrame()
-  local name = UnitExists("target") and UnitName("target")
+  local name = UnitExists("target") and pub(UnitName("target")) or nil
   local tips = name and WowfHelperBoss[name]
   if tips and f.hiddenFor == name then return end
   if not tips then
