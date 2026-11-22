@@ -3541,8 +3541,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=f59993eb" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* vc1fc02 @11/21 10:03 */
+<script src="app-data.js?v=a1b7a87d" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* v52f192 @11/23 00:27 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3550,7 +3550,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/21 10:03';
+const BUILD='11/23 00:27';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -7341,7 +7341,7 @@ function mdtRoute(c){const R=dpRoutes(c,DGX.slug);/* 보관 목록이 빈 채로
   else if(m==='del')h+='<div class="mdrp"><p>「'+esc(cur.n||'')+'」 루트를 지울까요? 묶은 풀도 같이 지워져요.</p><button class="btn sm" data-a="dprt" data-k="delok">지우기</button><button class="btn sm ghost" data-a="dprt" data-k="x">취소</button></div>';
   else if(m==='exp')h+='<div class="mdrp"><p>이 코드를 친구에게 보내면 「가져오기」로 같은 루트를 받을 수 있어요.</p><textarea class="mdrc" readonly rows="3">'+esc(ui.dpExp||'만드는 중…')+'</textarea><button class="btn sm" data-a="dprt" data-k="copy">코드 복사</button><button class="btn sm ghost" data-a="dprt" data-k="x">닫기</button></div>';
   else if(m==='fexp')h+='<div class="mdrp"><p>게임에서 <b>/fdt</b> → <b>Import</b>(가져오기)에 붙여 넣으면 FDT에 같은 풀·보스·표식·그림이 들어가요.'+(ui.dpFi?' · 풀 '+ui.dpFi.n+'개'+(ui.dpFi.b?' · 보스 '+ui.dpFi.b:'')+(ui.dpFi.m?' · 따로 뺀 몹 '+ui.dpFi.m:'')+(ui.dpFi.k?' · 표식 '+ui.dpFi.k:'')+(ui.dpFi.o?' · 그림 '+ui.dpFi.o:''):'')+'</p><textarea class="mdrc" readonly rows="4">'+esc(ui.dpExp||'만드는 중…')+'</textarea><button class="btn sm" data-a="dprt" data-k="copy">코드 복사</button><button class="btn sm ghost" data-a="dprt" data-k="x">닫기</button></div>';
-  else if(m==='aexp'){const W=ui.dpAx;h+='<div class="mdrp"><p>게임에서 <b>/wfh 풀 넣기</b>(또는 <b>/wfh 추천</b> 창)에 붙여 넣으면 지금 풀·남은 몹·표식이 화면에 떠요. 풀 몹이 다 죽으면 다음 풀로 넘어가요.'+(W?' · 풀 '+W.n+'개 · 몹 '+W.m+'마리':'')+' <small>와포 도우미 애드온 v4.0부터</small></p><textarea class="mdrc" readonly rows="3">'+esc(W?W.code:'묶은 풀이 없어요')+'</textarea><button class="btn sm" data-a="dprt" data-k="copy"'+(W?'':' disabled')+'>코드 복사</button><button class="btn sm ghost" data-a="dprt" data-k="x">닫기</button></div>'}
+  else if(m==='aexp'){const W=ui.dpAx;h+='<div class="mdrp"><p>게임에서 <b>/wfh 풀 넣기</b>(또는 <b>/wfh 추천</b> 창)에 붙여 넣으면 지금 풀·남은 몹·표식이 화면에 떠요. 포에버는 애드온이 몹 죽음을 못 세서, 한 풀이 끝나면 창의 <b>&gt;</b> 버튼(또는 <b>/wfh 풀 다음</b>)으로 넘겨요.'+(W?' · 풀 '+W.n+'개 · 몹 '+W.m+'마리':'')+' <small>와포 도우미 애드온 v4.0부터</small></p><textarea class="mdrc" readonly rows="3">'+esc(W?W.code:'묶은 풀이 없어요')+'</textarea><button class="btn sm" data-a="dprt" data-k="copy"'+(W?'':' disabled')+'>코드 복사</button><button class="btn sm ghost" data-a="dprt" data-k="x">닫기</button></div>'}
   else if(m==='old'){const L=(c.dgpOld||{})[DGX.slug]||[];h+='<div class="mdrp mdold"><p>몹 자료가 바뀌기 전에 짠 풀 계획이에요. 꺼내면 새 루트로 들어가요. 몹 자료가 바뀐 층은 몹이 어긋날 수 있어요.</p>'
     +L.map((x,i)=>{const pp=((x.p&&x.p.p)||[]).filter(k=>Array.isArray(k)&&k.length),n=pp.filter(ks=>ks.some(kk=>dpKeyOk(DGX.fl,kk))).length;return '<div class="mdoi"><span><b>'+esc(x.n||'내 루트')+'</b> <small>'+(x.t?new Date(x.t).toLocaleDateString('ko-KR',{month:'numeric',day:'numeric'})+' 보관 · ':'')+'풀 '+n+'개'+(n<pp.length?' (원래 '+pp.length+'개 · '+(n?'나머지는 ':'')+'지금 몹 자료에 없어요)':'')+'</small></span><button class="btn sm" data-a="dprt" data-k="oldget:'+i+'"'+(n?'':' disabled title="지금 몹 자료로는 꺼낼 풀이 없어요"')+'>새 루트로 꺼내기</button><button class="btn sm ghost" data-a="dprt" data-k="olddel:'+i+'">지우기</button></div>'}).join('')+'<button class="btn sm ghost" data-a="dprt" data-k="x">닫기</button></div>'}
   else if(m==='imp')h+='<div class="mdrp"><p>받은 루트 코드(이 앱 WF1… 또는 FDT !~FDT1~…)를 붙여 넣으세요. 새 루트로 들어가요.</p><textarea class="mdrc mdrin" rows="3" placeholder="WF1…"></textarea>'+(ui.dpImpErr?'<p class="warn">'+esc(ui.dpImpErr)+'</p>':'')+'<button class="btn sm" data-a="dprt" data-k="impok">가져오기</button><button class="btn sm ghost" data-a="dprt" data-k="x">취소</button></div>';

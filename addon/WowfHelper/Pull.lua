@@ -1,6 +1,7 @@
 -- 와포 도우미 · 던전 풀 따라가기 (v4.0)
 -- 앱 「던전 → 풀 짜기」의 루트 메뉴 「와포 도우미 애드온으로」 코드(WFP1;…)를 넣으면
 -- 화면에 지금 풀(몹 · 남은 수 · 표식)과 다음 풀을 띄우고, 풀 몹이 다 죽으면 저절로 다음 풀로 넘어가요.
+-- 포에버(새 엔진)는 애드온에 전투 기록을 막아 두어 죽음을 못 세요 → 창의 > 버튼이나 /wfh 풀 다음 으로 넘겨요.
 -- 몹에 마우스를 올리거나 대상으로 잡으면 앱에서 정한 공격대 표식을 달아 줘요(혼자 · 파티 · 공격대장/부공대장일 때).
 -- /wfh 풀          풀 창 켜기/끄기 (넣은 코드가 없으면 넣는 창)
 -- /wfh 풀 넣기     앱 풀 코드 붙여 넣기 (/wfh 추천 창에 넣어도 돼요)
@@ -16,6 +17,9 @@ local function DB() WowfHelperDB = WowfHelperDB or {}; return WowfHelperDB end
 local RT = { "별", "동그라미", "다이아몬드", "세모", "달", "네모", "가위표", "해골" }
 local function icon(n) return "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_" .. n .. ":0|t" end
 local function norm(s) return ((s or ""):gsub("%s+", ""):lower()) end
+-- 전투 기록(COMBAT_LOG_EVENT_UNFILTERED)을 쓸 수 있는지. 비밀 값(issecretvalue)이 있는 새 엔진(포에버)은
+-- 이 이벤트를 애드온에 막아서, 등록만 해도 「WowfHelper가 지원하는 기능이 차단되었습니다」 창이 떠요(v4.0.2에서 뺌).
+local CANLOG = not issecretvalue
 
 -- ===== 코드 읽기 =====
 function WowfHelper_PullParse(txt)
@@ -245,7 +249,7 @@ function WowfHelper_PullLoad(txt, quiet)
   local mobs, bs, mk = 0, 0, 0
   for _, pull in ipairs(p.p) do for _, x in ipairs(pull) do if x.b then bs = bs + 1 else mobs = mobs + x.c end; mk = mk + (x.mk and #x.mk or 0) end end
   if not quiet then
-    say(("%s 풀 %d개(몹 %d마리%s%s)를 넣었어요. 몹이 다 죽으면 다음 풀로 넘어가요 · /wfh 풀 = 창 켜고 끄기"):format(p.n ~= "" and p.n or "던전", #p.p, mobs, bs > 0 and (" · 보스 " .. bs) or "", mk > 0 and (" · 표식 " .. mk) or ""))
+    say(("%s 풀 %d개(몹 %d마리%s%s)를 넣었어요. " .. (CANLOG and "몹이 다 죽으면 다음 풀로 넘어가요" or "한 풀이 끝나면 창의 > 버튼(또는 /wfh 풀 다음)으로 넘겨요") .. " · /wfh 풀 = 창 켜고 끄기"):format(p.n ~= "" and p.n or "던전", #p.p, mobs, bs > 0 and (" · 보스 " .. bs) or "", mk > 0 and (" · 표식 " .. mk) or ""))
   end
   show(true)
   return true
@@ -295,7 +299,7 @@ end
 -- ===== 이벤트 =====
 local ev = CreateFrame("Frame")
 ev:RegisterEvent("PLAYER_ENTERING_WORLD")
-ev:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+if CANLOG then ev:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED") end
 ev:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 ev:RegisterEvent("PLAYER_TARGET_CHANGED")
 ev:SetScript("OnEvent", function(_, e)
