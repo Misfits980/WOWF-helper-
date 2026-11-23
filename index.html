@@ -3675,7 +3675,7 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=cc926564" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* vc54c70 @11/24 00:04 */
+<script>/* v906108 @11/24 01:20 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3683,7 +3683,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/24 00:04';
+const BUILD='11/24 01:20';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3868,7 +3868,13 @@ const save=()=>{const c=DB.list.find(x=>x.id===DB.cur);if(c)c._t=Date.now();save
    토큰(gist 권한만)은 이 기기 브라우저에만 저장. 캐릭터마다 더 늦게 고친 쪽이 이김. 지운 캐릭터는 지운 시각을 같이 남김 */
 const SYNC_K='wfh_sync',SYNC_DESC='wowf-helper sync (와포 도우미 기록)',SYNC_F='wowf-helper.json';
 let SY=(()=>{if(SBX)return {};try{return JSON.parse(localStorage.getItem(SYNC_K))||{}}catch(e){return {}}})();
-const sySave=()=>{if(SBX)return;try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}};
+/* 아이폰: 사파리와 「홈 화면에 추가」한 앱은 기록 칸(localStorage)이 따로라 앱을 처음 열면 빈 화면이었음.
+   iOS 17.2부터 홈 화면에 추가할 때 사파리 쿠키는 앱으로 복사됨 → 연동 코드를 이 앱 주소에만 쓰는 쿠키로도 들고 있다가,
+   홈 화면 앱을 처음 열 때(연동 전) 그 코드로 저절로 연결해 기록을 가져옴 */
+const SYC_K='wfh_sc',SYC_P=location.pathname.replace(/[^/]*$/,'');
+function syCookie(){if(SBX)return;try{const v=SY.bid&&SY.key?SY.bid+'-'+SY.key:'';document.cookie=SYC_K+'='+(v?encodeURIComponent(v)+'; Max-Age=34560000':'; Max-Age=0')+'; Path='+SYC_P+'; Secure; SameSite=Strict'}catch(e){}}
+const syCookieGet=()=>{try{const m=document.cookie.match(new RegExp('(?:^|; )'+SYC_K+'=([^;]+)'));return m?decodeURIComponent(m[1]):''}catch(e){return ''}};
+const sySave=()=>{if(SBX)return;try{localStorage.setItem(SYNC_K,JSON.stringify(SY))}catch(e){}syCookie()};
 let syT=null,syBusy=false,syHold=0;
 const syOn=()=>!SBX&&(!!(SY.bid&&SY.key)||!!(SY.tok&&SY.gid));
 /* 「되돌리기」 알림이 떠 있는 동안(6초)은 올리지 않고 기다림: 되돌릴 수 있는 바뀜이 다른 기기로 먼저 퍼지지 않게 */
@@ -4037,7 +4043,7 @@ function syncBox(){let h='<div class="card syc"><h3>📱💻 휴대폰·컴퓨�
   if(SY.bid&&SY.key){h+='<p class="note">✅ 연결됐어요'+(SY.at?' · 마지막으로 맞춘 때 <b>'+armAgo(SY.at)+'</b>':'')+'. 고치면 몇 초 뒤 올라가고, 앱을 열거나 돌아올 때 다른 기기 기록을 가져와요.</p>'+(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'');
     h+='<div class="syq">'+(ui.syqr?'<div class="qr">'+qrSvg(syLink())+'</div>':'')+'<div class="syt"><small>다른 기기에 넣을 연동 코드</small><b class="sycode">'+esc(syCode())+'</b><div class="bkb"><button class="btn sm" data-a="sycp">🔗 링크 복사</button><button class="btn sm ghost" data-a="syqr">'+(ui.syqr?'QR 닫기':'📷 QR 보기')+'</button></div></div></div>'
       +'<p class="mute" style="font-size:12px">다른 기기에서 QR을 찍거나, 링크를 카톡 「나와의 채팅」으로 보내서 열면 바로 연결돼요. 코드를 아는 사람은 기록을 볼 수 있으니 남한테는 보내지 마세요.</p>'
-      +(isApp()?'':'<p class="note">📲 <b>홈 화면에 깐 앱</b>으로 쓰시면: 위 「🔗 링크 복사」 → 홈 화면 앱 열기 → 「📋 복사한 코드로 연결」. 아이폰은 브라우저와 앱의 기록 칸이 따로라 한 번 더 연결해야 해요.</p>')
+      +(isApp()?'':'<p class="note">📲 <b>아이폰 홈 화면 앱</b>: 사파리와 앱은 기록 칸이 따로예요. 이 화면에서 연동이 켜진 채로 「홈 화면에 추가」하면 앱을 처음 열 때 저절로 연결돼요(iOS 17.2 이상). 안 되면 위 연동 코드를 적어 두었다가 앱 첫 화면에 넣어 주세요.</p>')
       +'<div class="bkb"><button class="btn sm" data-a="sygo">🔄 지금 맞추기</button><button class="btn sm ghost" data-a="syoff">연결 끊기</button></div></div>';return h}
   if(SY.tok&&SY.gid)return h+'<p class="note">✅ GitHub로 연결됐어요'+(SY.at?' · 마지막으로 맞춘 때 <b>'+armAgo(SY.at)+'</b>':'')+'.</p>'+(SY.err?'<p class="adw">⚠ '+esc(SY.err)+'</p>':'')+'<div class="bkb"><button class="btn sm" data-a="sygo">🔄 지금 맞추기</button><button class="btn sm ghost" data-a="syoff">연결 끊기</button></div></div>';
   h+='<p class="note">휴대폰과 컴퓨터에서 같은 캐릭터·장비·끝낸 퀘스트를 자동으로 맞춰요. 로그인은 필요 없어요.</p>'
@@ -5044,7 +5050,7 @@ function onboard(){const d=ui.onb;const C=d.cls?D_CLS[d.cls]:null;const first=!D
   let h='<div class="hero"><div class="logo">⚔️</div><h1>와포 도우미</h1><p>와우 포에버 얼라이언스 레벨업·장비·퀘스트·던전 도우미</p></div>';
   if(!first)h='<header class="top"><button class="x" data-a="onb-x" aria-label="닫기">✕</button><b style="flex:1">새 캐릭터 만들기</b></header>';
   /* 처음 여는 기기(특히 홈 화면에 깐 앱): 다른 기기 기록을 한 번에 가져오기 */
-  if(first)h+='<div class="step card"><div class="q">📱💻 다른 기기에서 쓰던 기록이 있나요?</div><p class="note">다른 기기의 「내 캐릭터 → 휴대폰·컴퓨터 자동 연동」에서 <b>🔗 링크 복사</b>를 누른 뒤(카톡 「나와의 채팅」으로 받아 복사해도 돼요) 아래 버튼을 누르면 캐릭터·장비·끝낸 퀘스트를 그대로 가져와요.</p><button class="btn full" data-a="sypaste">📋 복사한 코드로 연결</button></div>';
+  if(first)h+='<div class="step card"><div class="q">📱💻 다른 기기에서 쓰던 기록이 있나요?</div><p class="note">다른 기기의 「내 캐릭터 → 휴대폰·컴퓨터 자동 연동」에서 <b>🔗 링크 복사</b>를 누른 뒤(카톡 「나와의 채팅」으로 받아 복사해도 돼요) 아래 버튼을 누르면 캐릭터·장비·끝낸 퀘스트를 그대로 가져와요.</p><button class="btn full" data-a="sypaste">📋 복사한 코드로 연결</button><input style="margin-top:6px" class="inp" autocomplete="off" autocapitalize="characters" placeholder="또는 연동 코드 직접 넣기 (예: t1234…-7K3Q…)" data-c="syjoin"><button class="btn ghost full" style="margin-top:6px" data-a="syjn">코드로 연결</button></div>';
   const ak=Object.keys(ARM).filter(k=>ARM[k]&&ARM[k].gear);
   if(ak.length)h+='<div class="step card"><div class="q">⚔️ 전투정보실에서 불러오기</div><p class="note">명단에 있으면 누르기만 하면 종족·직업·레벨·장비가 채워져요. 전문화만 골라 주세요.</p><div class="chips" style="flex-wrap:wrap">'+ak.map(k=>'<button class="chip'+(d.arm===k?' on':'')+'" data-a="onb-arm" data-k="'+esc(k)+'">'+esc(ARM[k].name)+' <span class="n">Lv'+(ARM[k].level||'?')+' '+esc(ARM[k].clsName||'')+'</span></button>').join('')+'</div></div>';
   h+='<div class="step"><div class="q"><span>1</span>캐릭터 이름 <small class="mute">(안 써도 돼요)</small></div><input class="inp" maxlength="12" placeholder="예: 용현사제" value="'+esc(d.name)+'" data-c="onb-name"></div>';
@@ -8760,6 +8766,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='close'){noteClean(c);ui.sheet=null;ui.delAsk=0;rerender(true);return}
   if(a==='bkpend'){const code=ui.bkpend;ui.bkpend=null;ui.sheet=null;bkImport(code,k);return}
   if(a==='sypaste'){syPaste();return}
+  /* 연동 코드 직접 넣기 — 캐릭터가 아직 없는 첫 화면(홈 화면 앱)에서도 되게 위로 옮김 */
+  if(a==='syjn'){const t=document.querySelector('[data-c=syjoin]');const v=t&&t.value.trim();if(!v){toast('연동 코드를 먼저 넣어 주세요');return}toast('연결하는 중…');syJoin(v).then(ok=>{if(ok)ui.onb=null;toast(ok?'연결됐어요! 기록을 맞췄어요':(SY.err||'연결하지 못했어요'));render()});return}
   if(a==='fsload'){fsLoad(k==='re'||k==='reauto',k==='auto'||k==='reauto');return}
   if(a==='fspick'){fsPick(+k);return}
   if(a==='fs'){const v=+k||1;try{localStorage.setItem(FS_KEY,String(v))}catch(e){}fsApply(v);render();toast('글씨 크기를 바꿨어요');return}
@@ -8859,7 +8867,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='syoff'){SY={};_syK=null;sySave();toast('연결을 끊었어요');rerender(true);return}
   if(a==='symk'){toast('연동 코드를 만드는 중…');syMake().then(ok=>{ui.syqr=ok&&isPC();toast(ok?'만들었어요! 다른 기기에서 링크를 열거나 QR을 찍어 주세요':'만들지 못했어요');rerender(true)});return}
   if(a==='armrq'){const n=(document.querySelector('[data-c=armrqn]')||{}).value||'',rg=(document.querySelector('[data-c=armrgn]')||{}).value||'kr';ui.armreqOpen=1;armReq(rg,n).then(m=>{toast(m);rerender(true)});return}
-  if(a==='syjn'){const t=document.querySelector('[data-c=syjoin]');const v=t&&t.value.trim();if(!v){toast('연동 코드를 먼저 넣어 주세요');return}toast('연결하는 중…');syJoin(v).then(ok=>{toast(ok?'연결됐어요! 기록을 맞췄어요':(SY.err||'연결하지 못했어요'));rerender(true)});return}
   if(a==='sycp'){const t=syLink();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('링크를 복사했어요 · 다른 기기에서 열면 연결돼요'),()=>{prompt('이 링크를 복사하세요',t)});return}
   if(a==='syqr'){ui.syqr=!ui.syqr;rerender(true);return}
   if(a==='bkin'){const t=document.querySelector('[data-c=bkin]');if(t&&t.value.trim())bkImport(t.value,k);else toast('코드를 먼저 붙여 넣으세요');return}
@@ -9141,6 +9148,11 @@ render();
     if(SY.bid&&SY.key&&syCode()===hm[1]){toast('이미 연결된 코드예요 · 기록을 맞추는 중…');syPull(true).then(()=>{toast(SY.err||'맞췄어요');render()});return}
     toast('연동 코드로 연결하는 중…');syJoin(hm[1]).then(ok=>{toast(ok?'연결됐어요! 다른 기기에서 보던 캐릭터를 가져왔어요':(SY.err||'연결하지 못했어요'));render()})};
   syHash();window.addEventListener('hashchange',syHash);
+  /* 홈 화면 앱을 처음 열었는데 연동이 안 돼 있으면: 사파리에서 넘어온 쿠키의 연동 코드로 연결 (한 번만 시도) */
+  if(!(SY.bid&&SY.key)&&!SY.tok&&!location.hash){const ck=syCookieGet();let tried='';try{tried=localStorage.getItem('wfh_sc_try')||''}catch(e){}
+    if(ck&&/^[A-Za-z0-9]+-[2-9A-Z]{10}$/.test(ck)&&tried!==ck){try{localStorage.setItem('wfh_sc_try',ck)}catch(e){}toast('사파리에서 쓰던 기록을 가져오는 중…');
+      syJoin(ck).then(ok=>{if(ok)ui.onb=null;toast(ok?'사파리에서 쓰던 기록을 가져왔어요':(SY.err||'가져오지 못했어요 · 연동 코드를 직접 넣어 주세요'));render()})}}
+  else syCookie();
   setTimeout(()=>syPull(),1500);let syLast=Date.now();
   document.addEventListener('visibilitychange',()=>{if(!syOn())return;if(!document.hidden&&Date.now()-syLast>20e3){syLast=Date.now();syPull()}else if(document.hidden&&syT){clearTimeout(syT);syPush()}});
   setInterval(()=>{if(syOn()&&!document.hidden&&!document.querySelector('input:focus,textarea:focus')){syLast=Date.now();syPull(true)}},120e3)}
