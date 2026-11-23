@@ -1232,7 +1232,7 @@ function cmpTable(c,cols,w,opt){opt=opt||{};const L=c.lv;
 /* 비교 줄을 누르면 바로 아래: 능력치 전체 · 끼면 바뀌는 것 · 얻는 곳 · 버튼 */
 function cmpDetail(c,x){const it=x.it;const sl=x.slot||cmpSlot(it,c);
   return '<div class="cdet">'+gameTip(c,it)+'<div class="cdm">'+(it.ob>c.lv?'🔒 '+it.ob+'레벨부터':'지금 낄 수 있어요')+'</div>'
-   +(!x.eq&&sl&&usable(it,c)?statChange(c,sl,it):'')
+   +(!x.eq&&sl&&usable(it,c)?statChange(c,sl,it,cmpW(c).w):'')
    +'<div class="cdsrc">'+srcParts(c,it)+'</div>'
    +'<div class="cdb">'+(!x.eq&&sl&&usable(it,c)?'<button class="btn sm" data-a="equip" data-k="'+sl+'" data-id="'+it.id+'">착용</button>':'')+'<button class="btn sm ghost" data-a="wish" data-k="'+it.id+'">'+(isWish(c,it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="info" data-k="'+it.id+'">ⓘ 템 정보</button></div></div>'}
 function wishView(c){const ids=(c.wish||[]).filter(id=>IT.get(id));const L=c.lv;
@@ -1261,7 +1261,7 @@ function cmpSheet(c,slot,id){const it=IT.get(+id);if(!it)return '';const {csp,w}
   const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat([{it,slot}]);
   h+=cmpTable(c,cols,w);
   if(!cur)h+='<p class="note">지금 이 칸이 비어 있어요. 끼기만 해도 좋아져요.</p>';
-  h+='<p class="note">끼면 내 능력치가 이렇게 바뀌어요</p>'+statChange(c,slot,it);
+  h+='<p class="note">끼면 내 능력치가 이렇게 바뀌어요</p>'+statChange(c,slot,it,w);
   h+=itActs(c,it.id);
   return h}
 /* ===== 👥 친구 장비 (전투정보실) ===== */
@@ -1341,7 +1341,7 @@ function srcParts(c,it){let h='';
 function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';if(!QDB)qdbLoad();const b=bestSlot(it,c);const cur=b?eqIt(c,b.s):null;
   let h='<div class="sh"><h2>'+itName(it)+'</h2><button class="x" data-a="close">✕</button></div>';
   h+='<div class="row wtip gtw">'+itIcon(it,'lg')+'<span class="m">'+gameTip(c,it)+(usable(it,c)?'':'<span class="sub" style="color:var(--bad)">내 직업은 못 써요</span>')+'</span></div>';
-  if(b&&usable(it,c))h+='<p class="note gtg">'+SLOT_KO[b.s]+' 칸에 끼면 (지금: '+(cur?esc(cur.nm):'비어 있음')+') '+gainTag(b.g,b.base,b.empty)+'</p>'+statChange(c,b.s,it);
+  if(b&&usable(it,c))h+='<p class="note gtg">'+SLOT_KO[b.s]+' 칸에 끼면 (지금: '+(cur?esc(cur.nm):'비어 있음')+')</p>'+statChange(c,b.s,it);
   h+=itActs(c,it.id).replace('<button class="btn sm ghost" data-a="info" data-k="'+it.id+'">ⓘ 얻는 곳</button>',(c.cmp||[]).length?'<button class="btn sm ghost" data-a="cmpgo">비교 보기 ('+c.cmp.length+')</button>':'');
   /* 특수 효과 글은 위 게임 툴팁에 초록 줄로 나옴 → 점수 밖이라는 것만 짧게 (툴팁에 효과 글이 없을 때만 예전 상자) */
   h+=it.eff&&(gameLines(it)||effLines(it).length)?'<p class="note">특수 효과(발동·사용 등)는 점수에 안 들어가요.</p>':effBox(it);
@@ -2024,9 +2024,27 @@ function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 
     +'<p class="note">'+(c.cls==='hunter'?'사냥꾼은 원거리 무기 DPS가 제일 중요해요.':w.rdps&&w.rdps<.1?'원거리 칸은 당기기용이라 DPS는 거의 안 세고, 힘·민첩 같은 능력치를 봐요. 활·총의 전투력은 원거리 전투력이라 빼요.':'')
     +' 치명타·적중 같은 % 효과는 "착용 효과" 글에서 읽어서 넣어요. 그 밖의 특수 효과(발동 효과 등)는 점수에 안 들어가니 <b>효과</b> 표시 장비는 직접 견줘 보세요.</p></details>'}
   return h+'</details><button class="wfrb" data-a="wfr">🎮 게임 툴팁에 앱 추천 넣기 <small>애드온 /wfh 추천</small></button></div></div>'}
-function statChange(c,slot,it){const a=statTotals(c),b=statTotals(c,it,null,slot);const w=wOf(c);const ks=new Set([...Object.keys(a),...Object.keys(b)]);const arr=[];
-  ks.forEach(k=>{const d=(b[k]||0)-(a[k]||0);if(Math.abs(d)>=.5&&STAT_KO[k])arr.push([k,d])});{const dm=Object.fromEntries(arr);for(let i=arr.length-1;i>=0;i--){const [k,d]=arr[i];if((k==='shit'&&dm.hit!=null&&Math.abs(dm.hit-d)<.01)||(k==='scrit'&&dm.crit!=null&&Math.abs(dm.crit-d)<.01))arr.splice(i,1)}}arr.sort((x,y)=>(w[y[0]]||0)-(w[x[0]]||0));
-  return arr.length?'<div class="chg">'+arr.map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+Math.round(Math.abs(d))+' <i>→ '+Math.round(b[k]||0)+'</i></span>').join('')+'</div>':''}
+/* 끼면 달라지는 것 — 저울: 얻는 것(점수) vs 잃는 것(점수) + 결론 (추천 점수 sc와 같은 계산)
+   능력치는 낀 장비 합계 차이(statTotals) × 가중치, 무기 초당 공격력·세트 효과도 한 줄씩. 남는 차이는 「그 밖에」 */
+function statChange(c,slot,it,W){const w=W||wOf(c);const a=statTotals(c),b=statTotals(c,it,null,slot);const cur=eqIt(c,slot);
+  const off=slot==='main'&&it&&it.sl==='2h'?eqIt(c,'off'):null;const R=[];const add=(nm,d,v,pct)=>{const r=R.find(x=>x[0]===nm);if(r){r[2]+=v;return}R.push([nm,d,v,pct])};
+  new Set([...Object.keys(a),...Object.keys(b)]).forEach(k=>{const d=(b[k]||0)-(a[k]||0);if(Math.abs(d)<.05)return;
+    if(k==='bar'||k==='bare'){if(w.armor>0)add('방어도',d,d*w.armor);return}
+    if(!STAT_KO[k])return;const v=d*(w[k]||0);
+    /* 적중·치명타는 근접·주문 두 칸에 같은 값(normST) → 한 줄로, 점수는 두 칸 합 */
+    if(k==='shit'||k==='scrit'){const m=k==='shit'?'hit':'crit';if(Math.abs(((b[m]||0)-(a[m]||0))-d)<.01){const r=R.find(x=>x[4]===m);if(r)r[2]+=v;else R.push([STAT_KO[m].replace(/ %$/,''),d,v,1,m]);return}}
+    const pct=/%$/.test(STAT_KO[k]);const nm=STAT_KO[k].replace(/ %$/,'');const r=R.find(x=>x[4]===k);if(r){r[2]+=v;return}R.push([nm,d,v,pct?1:0,k])});
+  const arm=x=>x&&x.st&&x.st.bar==null&&x.st.bare==null?(x.st.armor||0):0;{const d=arm(it)-arm(cur)-arm(off);if(Math.abs(d)>=.5&&w.armor>0)add('방어도',d,d*w.armor)}
+  {const dv=x=>x&&x.st&&x.st.dps?x.st.dps*dpsW(x,x===off?'off':slot,w):0;const d=((it&&it.st.dps)||0)-((cur&&cur.st.dps)||0)-((off&&off.st.dps)||0);const v=dv(it)-dv(cur)-dv(off);if(Math.abs(d)>=.05)R.push(['무기 초당 공격력',d,v,2])}
+  {const sg=setGain(c,it,slot,w)-(cur?setGain(c,cur,slot,w):0);if(Math.abs(sg)>=.05)R.push(['세트 효과',0,sg,3])}
+  if(!R.length)return '';
+  const tot=sc(it,slot,w,c)-sc(cur,slot,w,c)-(off?sc(off,'off',w,c):0);const rest=tot-R.reduce((t,r)=>t+r[2],0);
+  const f1=v=>(v>0?'+':v<0?'−':'')+Math.abs(v).toFixed(1);
+  const txt=r=>r[3]===3?'세트 효과':esc(r[0])+' '+(r[1]>0?'+':'−')+(r[3]===2?Math.abs(r[1]).toFixed(1):r[3]===1?Math.abs(r[1]).toFixed(1)+'%':Math.round(Math.abs(r[1])));
+  const col=(up)=>{const L=R.filter(r=>up?(r[2]>.05||(Math.abs(r[2])<=.05&&r[1]>0)):(r[2]<-.05||(Math.abs(r[2])<=.05&&r[1]<0)));const S=L.filter(r=>Math.abs(r[2])>.05).sort((x,y)=>Math.abs(y[2])-Math.abs(x[2])),Z=L.filter(r=>Math.abs(r[2])<=.05);const pt=S.reduce((t,r)=>t+r[2],0);
+    return '<div class="bl '+(up?'up':'dn')+'"><div class="bh"><span>'+(up?'얻는 것':'잃는 것')+'</span><b>'+(S.length?f1(pt):'')+'</b></div>'+(S.length?'<div class="bs">'+S.map(txt).join(' · ')+'</div>':Z.length?'':'<div class="bz">없음</div>')+(Z.length?'<div class="bz">'+Z.map(txt).join(' · ')+' (점수 0)</div>':'')+'</div>'};
+  const vd=!cur&&!off?['g','빈 칸 채우기']:tot>=1?['g','좋아져요']:tot<=-1?['b','나빠져요']:['y','거의 같아요'];
+  return '<div class="bal">'+col(1)+col(0)+'<div class="bv"><b class="'+vd[0]+'">'+vd[1]+'</b> <span>· 합계 '+f1(tot)+'점</span></div>'+(Math.abs(rest)>=.5?'<div class="bo">그 밖에 '+f1(rest)+'점 (점수 계산 보정)</div>':'')+'</div>'}
 /* 장비 칸 넘기기: ‹ › 버튼 · 옆으로 밀기 (머리 → … → 원거리 순서) */
 const SLOT_ORDER=()=>DOLL_L.concat(DOLL_R,DOLL_B);
 function slotStep(c,slot,d){const O=SLOT_ORDER().filter(s=>!offLocked(c,s));let i=O.indexOf(slot);if(i<0)i=0;return O[(i+d+O.length)%O.length]}
