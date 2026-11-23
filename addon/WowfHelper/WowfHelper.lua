@@ -20,6 +20,7 @@
 -- /wfh 아이템 앱 장비 목록을 게임에서 천천히 읽어 두기 (ItemScan.lua)
 -- /wfh 풀     던전 풀 따라가기 창 (Pull.lua · 앱 풀 짜기 루트를 WFP1 코드로)
 -- v4.0: 던전 풀 따라가기(Pull.lua) — 앱에서 짠 풀을 화면에 띄우고, 몹이 다 죽으면 다음 풀로 · 정한 표식 달기.
+-- v4.1.0: 이중 특성 — 코드에 Z 구간(지금 쓰는 특성 번호~다른 특성 트리별 점수~다른 특성 하나하나). 앱이 특성 1·2 페이지에 나눠 넣음.
 -- v4.0.2: 포에버는 전투 기록을 애드온에 막아 「기능이 차단되었습니다」 창이 떴음 → 새 엔진에선 전투 기록을 안 씀(풀은 > 버튼·/wfh 풀 다음).
 -- v3.4: 게임이 알려 주는 퀘스트 위치(목표·반납·길안내 다음 지점), 동굴 입구, 퀘스트 받은/반납한 자리도 코드에 담아요.
 -- v3.5: 끼고 있는 장비의 실제 능력치(게임이 읽은 값)와 무작위 옵션 이름(「산적의 ○○」)도 담아요.
@@ -223,12 +224,13 @@ local function talents()
 end
 
 -- 5-2) 찍은 특성 하나하나: 트리-줄-칸-랭크-아이콘 (앱이 가이드 칸과 맞춰 「내 특성」으로 보여 줌)
-local function talentRanks()
+local function talentRanks(group)
   local out = {}
   if not (GetNumTalentTabs and GetNumTalents and GetTalentInfo) then return out end
   for t = 1, (GetNumTalentTabs() or 0) do
     for i = 1, (GetNumTalents(t) or 0) do
-      local _, icon, tier, col, rank = GetTalentInfo(t, i)
+      local _, icon, tier, col, rank
+      if group then _, icon, tier, col, rank = GetTalentInfo(t, i, false, false, group) else _, icon, tier, col, rank = GetTalentInfo(t, i) end
       if rank and rank > 0 and tier and col then
         local ic = type(icon) == "number" and b36(icon) or "0"
         out[#out + 1] = t .. "-" .. tier .. "-" .. col .. "-" .. rank .. "-" .. ic
@@ -237,6 +239,30 @@ local function talentRanks()
   end
   return out
 end
+
+-- 5-3) 이중 특성(포에버 40레벨~): 지금 쓰는 특성 번호 + 다른 특성의 트리별 점수·하나하나.
+--   함수가 없거나 특성이 하나뿐이거나, 게임이 번호를 무시해서 지금 특성과 똑같이 나오면 빈 칸(앱은 예전처럼 한 페이지만)
+local function talentGroups()
+  if not (GetActiveTalentGroup and GetNumTalentGroups and GetTalentTabInfo) then return "" end
+  local ok1, act = pcall(GetActiveTalentGroup, false, false)
+  local ok2, n = pcall(GetNumTalentGroups, false, false)
+  if not (ok1 and ok2 and type(act) == "number" and type(n) == "number" and n >= 2) then return "" end
+  local other = (act == 1) and 2 or 1
+  local pts = {}
+  for t = 1, (GetNumTalentTabs() or 0) do
+    local r = { pcall(GetTalentTabInfo, t, false, false, other) }
+    if not r[1] then return "" end
+    local p
+    if type(r[4]) == "number" then p = r[4] elseif type(r[6]) == "number" then p = r[6] end
+    pts[#pts + 1] = p or 0
+  end
+  local okr, rk = pcall(talentRanks, other)
+  if not okr then return "" end
+  local a, b = table.concat(rk, "."), table.concat(talentRanks(), ".")
+  if a == b then return "" end
+  return act .. "~" .. table.concat(pts, "-") .. "~" .. a
+end
+
 
 -- 6) 사냥 기록: 이번 접속에서 얻은 경험치 · 시간 (+ 최근 접속 5번 합)
 local sess = { xp = 0, t0 = 0, last = 0, lastMax = 0 }
@@ -629,10 +655,11 @@ local function makeCode()
   local rp, al = reps(), alts()
   local tx, nt = {}, 0
   for nm in pairs((WowfHelperDB and WowfHelperDB.taxi) or {}) do tx[#tx + 1] = (nm:gsub("[;%^]", " ")); nt = nt + 1 end
+  local okz, zs = pcall(talentGroups)
   local code = table.concat({ "WFH2", name, realm, cls or "", tostring(lv), race or "", faction,
     "D:" .. table.concat(parts, "."), "L:" .. table.concat(log, "."),
     "E:" .. table.concat(eq, "."), "P:" .. table.concat(pf, "."),
-    "T:" .. table.concat(tl, "-"), "U:" .. table.concat(talentRanks(), "."), "X:" .. xp .. "-" .. xpMax .. "-" .. (rest or 0),
+    "T:" .. table.concat(tl, "-"), "U:" .. table.concat(talentRanks(), "."), "Z:" .. ((okz and zs) or ""), "X:" .. xp .. "-" .. xpMax .. "-" .. (rest or 0),
     "S:" .. sx .. "-" .. ss .. "-" .. hx .. "-" .. hs, "G:" .. (GetMoney and GetMoney() or 0),
     "B:" .. table.concat(bag, "."), "K:" .. table.concat(bank, "."),
     "R:" .. table.concat(rp, "."), "A:" .. table.concat(al, "."), "W:" .. table.concat(ws, ","), "F:" .. table.concat(tx, "^") }, ";")

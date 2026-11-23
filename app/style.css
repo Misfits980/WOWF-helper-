@@ -1497,6 +1497,8 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .jn2.now .c{border-color:#e8c06a;box-shadow:0 0 0 3px var(--bg),0 0 0 5px rgba(232,192,106,.35)}.jn2.now b{color:var(--gold)}
 .jn2 .nb{position:absolute;top:-4px;right:6px;font-size:9.5px;font-weight:900;color:#1a140a;background:#e8c06a;border-radius:5px;padding:0 4px}
 .jn2.dg .c{width:40px;height:40px;margin-top:3px;border-radius:12px;border-color:#a35bd6}.jn2.dg b{color:#d7b4ff}
+.prepz{margin:10px 0 0}.prepz .chip small{opacity:.8}
+/* 던전 준비(다른 지역에서 던전 퀘스트 받기) 칸 */.jn2.prep .c{width:40px;height:40px;margin-top:3px;border-radius:12px;border-color:#7ec8ff}.jn2.prep b{color:#bfe3ff}.jn2.prep .nb{background:#7ec8ff}
 .jn2.add .c{width:40px;height:40px;margin-top:3px;background:var(--bg);border:2px dashed #5a4f3c}
 .pdg{margin-top:10px}.pdg h3{margin:0 0 8px;font-size:15px}
 .pdgr{display:flex;align-items:center;gap:9px;width:100%;margin-bottom:6px;padding:7px 9px;border-radius:11px;background:var(--bg);border:1px solid var(--line);color:inherit;font-family:inherit;text-align:left;cursor:pointer}
