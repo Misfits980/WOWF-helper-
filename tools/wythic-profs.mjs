@@ -8,12 +8,15 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const N = {};   // 이름(영어/한글) → [한글, 아이콘, 영어]
 const put = (en, ko, icon) => { if (!en && !ko) return; const v = [ko || '', icon || '', en || '']; if (en && !N[en]) N[en] = v; if (ko && !N[ko]) N[ko] = v };
 let n = 0;
+// 제작법 자세히(재료·필요 숙련도·도안과 도안 얻는 곳): 앱 「어디서 얻나요」 제작 칸에 씀 → data/wythic/recipes.json
+const RC = {};
 for (const s of SL) {
   let j = null;
   for (let i = 0; i < 3 && !j; i++) { try { const r = await fetch(B + '/data/professions/' + s + '.json', { headers: UA }); if (r.ok) j = await r.json(); else console.log('HTTP', r.status, s) } catch (e) { console.log('ERR', e.message) } if (!j) await sleep(1500) }
   if (!j) continue;
   for (const m of Object.values(j.mats || {})) put(m.name, m.nameKo, m.icon);
   for (const sp of j.spells || []) { put(sp.name, sp.nameKo, sp.icon); if (sp.creates) put(sp.creates.name, sp.creates.nameKo, sp.creates.icon || sp.icon); n++ }
+  RC[s] = { spells: (j.spells || []).map(sp => { const o = Object.assign({}, sp); delete o.colors; if (o.creates) { o.creates = Object.assign({}, o.creates); delete o.creates.equip } return o }), mats: j.mats || {} };
   console.log(s, (j.spells || []).length, Object.keys(j.mats || {}).length);
   await sleep(500);
 }
@@ -21,3 +24,5 @@ if (n < 100) { console.log('too few, keep old'); process.exit(0) }
 fs.mkdirSync('data/wythic', { recursive: true });
 fs.writeFileSync('data/wythic/profs.json', JSON.stringify({ src: B + '/ko/forever/professions', n: N }));
 console.log('saved names', Object.keys(N).length);
+fs.writeFileSync('data/wythic/recipes.json', JSON.stringify({ src: B + '/ko/forever/professions', profs: RC }));
+console.log('saved recipes', Object.values(RC).reduce((a, x) => a + x.spells.length, 0));
