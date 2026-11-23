@@ -2346,3 +2346,27 @@ details.rcpd .src.craft{margin:4px 0}
 .bal .bv b{font-weight:800}.bal .bv .g{color:var(--good)}.bal .bv .b{color:var(--bad)}.bal .bv .y{color:var(--gold)}
 .bal .bv span{color:var(--mute);font-size:12px}
 .bal .bo{grid-column:1/-1;text-align:center;color:var(--mute);font-size:11.5px}
+
+/* 미리보기(preview/) 퀘스트 창: 금테 창 안에 여정 줄 + 지금 할 일, 아래 탭(다음 단계 · 마을별 · 장비 보상 · 도구) */
+.qwin{margin-top:10px;padding:10px 10px 12px;border-radius:14px;background:#14110c;border:2px solid #7a5d27;box-shadow:inset 0 0 0 1px #000,0 0 0 1px #000,inset 0 0 0 3px #2b2213}
+.qwin .scroll2.qw{padding-left:64px}
+.qwin .qwm{position:absolute;left:13px;top:15px;width:40px;height:40px;border-radius:50%;background:#2a1d0b center/26px no-repeat;box-shadow:inset 0 0 0 2px #b8913e,0 1px 0 #fff3}
+.qwm.t-get{background-image:url(img/qget.png)}.qwm.t-turn{background-image:url(img/qturn.png)}.qwm.t-do{background-size:30px}
+.qwt{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:14px 0 0;padding:0 2px;border-bottom:2px solid #7a5d27}
+.qwt button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:48px;padding:6px 2px 5px;border:1px solid #4d3c1e;border-bottom:0;border-radius:10px 10px 0 0;background:#1f1912;color:#bfae88;font-family:inherit;cursor:pointer}
+.qwt button b{font-size:13px;font-weight:800}
+.qwt button small{font-size:11px;color:#8f8470;min-height:14px}
+.qwt button.on{background:linear-gradient(#4a3818,#2a2113);border-color:#c9a24a;color:#ffd75a}
+.qwt button.on small{color:#e8c06a}
+.qwp{padding:10px 2px 0}
+.qwp .nxl3{margin-top:0}.qwp .nxl3>.hd{display:none}
+.qwp .rtg{margin-top:0}.qwp .rtg>h3{display:none}
+.qwp>.card:first-child,.qwp>div:first-child{margin-top:0}
+/* 미리보기 던전 퀘스트: 밖 → 던전 안 → 나와서 세 칸, 줄마다 받는 곳 한 줄 */
+.dql3{display:flex;flex-direction:column;gap:12px}
+.dql{border:1px solid var(--line);border-radius:12px;padding:8px 8px 4px;background:var(--panel)}
+.dqlh{display:flex;align-items:center;gap:8px;margin:0 2px 6px;flex-wrap:wrap}
+.dqlh .n{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:#3b2f17;color:#ffd75a;flex:none}
+.dqlh b{font-size:14px}.dqlh small{color:var(--mute);font-size:11.5px}
+.dql-i .dqlh .n{background:#1c3550;color:#9fd0ff}.dql-a .dqlh .n{background:#1f4d27;color:#8af59a}
+.qf .qn .t2.gv{display:block;font-size:11.5px;color:var(--mute);font-weight:400;margin-top:2px;white-space:normal}
