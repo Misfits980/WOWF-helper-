@@ -1346,6 +1346,14 @@ for _i, _l in enumerate(_SLr):
         while len(_f) < 3:
             _f.append('')
         _SLr[_i] = '~'.join(_f[:3] + ['r']); _nrp += 1
+# 같은 퀘스트 번호가 출처 두 줄(/forever/quest/9023 · wh:quest=9023)로 나뉘어 한쪽만 레이드면 다른 쪽도 레이드
+#  (「완벽한 독」 = 줄구룹·안퀴라즈 폐허 재료 퀘스트: 라벤홀트 학살자가 「퀘스트+던전」 도적 주무기 1등으로 나오던 것)
+_qid = lambda _h: (re.search(r'(?:quest=|/quest/)(\d+)', _h or '') or [None, None])[1]
+_rq_ids = {_qid(_x.split('~')[2]) for _x in _SLr if _x.startswith('1~') and _x.count('~') >= 3 and _x.split('~')[3] == 'r'} - {None}
+for _i, _l in enumerate(_SLr):
+    _f = _l.split('~')
+    if len(_f) >= 3 and _f[0] == '1' and not (len(_f) > 3 and _f[3]) and _qid(_f[2]) in _rq_ids:
+        _SLr[_i] = '~'.join(_f[:3] + ['r']); _nrp += 1
 srcs = '\n'.join(_SLr)
 print('레이드 단계 템 출처 → 레이드', _nrp)
 print('레이드 출처', sum(1 for l in srcs.split('\n') if l.endswith('~r')), '· PvP(명예·전장)', sum(1 for l in srcs.split('\n') if l.endswith('~p')), '· 레이드 퀘스트', len(_RQ))
@@ -1401,6 +1409,25 @@ for _l in items:
                 _f[7] = ';'.join(_k); _l = '|'.join(_f)
     _keep.append(_l)
 items = _keep
+# 포에버에 없는 레이드 템은 추천에서 뺌(ph 'x' = 앱 cands가 안 씀). 포에버 레이드는 Barrow Deeps·하이잘 정상·오닉시아(11/23 용현 결정)
+#  출처가 전부 레이드 표시(r)인데 그게 오닉시아·하이잘 정상·Barrow Deeps가 아닌 템(화산 심장부·검은날개·줄구룹·안퀴라즈·낙스·월드 보스·실리더스 군주·아나크로노스 상인)
+#  예전엔 「레이드」·「전체」 추천 1등이 메네실의 힘·아티쉬처럼 포에버에서 못 얻는 템이었음. 다른 출처(제작·경매장·상인·월드 드랍)가 하나라도 있으면 그대로
+_FRAID = re.compile(r"오닉시아|For All To See|대축제|쿠엘세라|Quel'Serrar|하이잘 정상|Hyjal Summit|Barrow")
+_SLx = SRC_TXT.split('\n')
+def _oldraid(i):
+    f = _SLx[i].split('~') if 0 <= i < len(_SLx) else []
+    if len(f) < 2:
+        return False
+    if f[1].startswith('상인 · 아나크로노스'):
+        return True
+    return len(f) > 3 and f[3] == 'r' and not _FRAID.search(f[1])
+_nx = 0
+for _i, _l in enumerate(items):
+    _f = _l.split('|')
+    _s = [int(x) for x in _f[7].split(';') if x] if len(_f) > 9 else []
+    if _s and _f[9] != 'x' and all(_oldraid(x) for x in _s):
+        _f[9] = 'x'; items[_i] = '|'.join(_f); _nx += 1
+print('포에버에 없는 레이드 템 추천에서 뺌', _nx)
 ITEMS_TXT = '\n'.join(items) + '\n'
 print('호드·없는 퀘스트 출처 뺌', _nh, '· 호드 던전 퀘스트 보상 뺌', _ndg)
 

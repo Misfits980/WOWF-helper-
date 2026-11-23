@@ -1840,7 +1840,7 @@ function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
 /* 추천 기준 칸 (장비 탭) */
-const IFIL=[['q','퀘스트만','던전 없이 퀘스트 보상만'],['dg','던전만','던전 보스·던전 퀘스트만'],['ok','퀘스트+던전','퀘스트·던전·상인 (기본)'],['rd','레이드','퀘스트·던전에 레이드 템까지 (만렙)'],['all','전체','경매장·월드 드랍·명예 상인까지']];
+const IFIL=[['q','퀘스트만','던전 없이 퀘스트 보상만'],['dg','던전만','던전 보스·던전 퀘스트만'],['ok','퀘스트+던전','퀘스트·던전·상인 (기본)'],['rd','레이드','퀘스트·던전에 포에버 레이드(오닉시아·하이잘 정상) 템까지 (만렙)'],['all','전체','경매장·월드 드랍·명예 상인까지']];
 const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
 const HEALER_NOTE={paladin:1,shaman:1,druid:1};
 function offLocked(c,s){return s==='off'&&(!!(eqIt(c,'main')&&eqIt(c,'main').sl==='2h')||wsetOf(c)==='2h'&&!eqIt(c,'off'))}
