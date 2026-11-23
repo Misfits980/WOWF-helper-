@@ -817,7 +817,7 @@
 6998|22?|fe|4.1|u|agi5 sp3 heal10||259|511||||빛구름 장화|inv_boots_05
 7000|22?|wa|4.2|u|sta5 sp6 heal6||259|511||||심재 벨트|inv_belt_04
 7352|22|sh|4.2|u|sta7||17|265||||대지의 가죽 어깨보호구|inv_shoulder_06
-11121|22|mh|2.7|r|dps17.05 ap6|1|285|15||||검은물 탈와르|inv_sword_36
+11121|22|mh|2.7|r|dps17.05|1|285|11||||검은물 탈와르|inv_sword_36
 13012|22|wr|4.3|r|str6 agi3 sta3||44|35||||요르겐 팔보호구|inv_bracer_02
 13062|22|ra|2.19|r|dps27.11 sp6 heal6||44|208||||우레나무|inv_staff_02
 250486|22|sh|4.3|u|str4 sta4 sp4 heal4||16|3||||순은 어깨보호구|inv_shoulder_09
@@ -2241,7 +2241,7 @@
 11807|53|wa|4.1|r|sta10 int10 spi10 fire14||611|64||||불타는 심장의 허리띠|inv_belt_11
 11815|53|tr|4.0|r|ap12|1|612|303||||심판의 손길|inv_jewelry_talisman_01
 11821|53|le|4.2|r|str8 agi7 sta22 def7|1|612|256||||전쟁광의 다리보호구|inv_pants_09
-11832|53|tr|4.0|r|sp12 heal12 mp58|1|655|498||||지식의 홍수|inv_jewelry_amulet_07
+11832|53|tr|4.0|r|mp58|1|655|306||||지식의 홍수|inv_jewelry_amulet_07
 12082|53?|sh|4.2|u|ap12 hit1.5|1|570|303||||고룡가죽 어깨갑옷|inv_shoulder_16
 12083|53?|wa|4.1|u|sta6 sp17 heal17||570|144||||떡갈나무 장식띠|inv_belt_11
 12608|53|ba|4.1|r|sta7 spi15 sp3 heal9||656|402||||학살자의 의복|inv_misc_cape_18
@@ -2614,7 +2614,7 @@
 13258|56|ha|4.2|r|||709|256||||검은가죽 건틀릿|inv_gauntlets_22
 13259|56|fe|4.4|r|str10 agi10 sta19||709|3||||강철빗살 경갑|inv_boots_plate_08
 13380|56|ra|2.3|r|sta9 dps31.21 ap10||722|1||||윌리의 휴대용 곡사포|inv_weapon_rifle_07
-13382|56|tr|4.0|r|hit0.5|1|722|367||||휴대용 대포|inv_misc_bomb_04
+13382|56|tr|4.0|r|hit0.5|1|722|511||||휴대용 대포|inv_misc_bomb_04
 13386|56|ba|4.1|r|mp54||689|416||||기록관 단망토|inv_misc_cape_19
 13388|56|ch|4.1|r|sta13 int20 spi10 sp18 heal18||756|496||||우체국장의 튜닉|inv_chest_leather_10
 13389|56|le|4.1|r|sta12 int20 spi15 sp13 heal13||756|208||||우체국장의 바지|inv_pants_06
@@ -3390,7 +3390,7 @@
 272415|60|ba|4.1|r|sta14 hit1|1|1046;1047;1045;1044|491||||굳건한 망토|inv_misc_cape_16
 272437|60|tr|4.0|r|||1046;1047;1045;1044|303||||적응성 전투 보조기|inv_engineering_90_lightningbox
 272438|60|tr|4.0|r|sp18 heal18|1|1047;1044|498||||약점 분석기|inv_misc_blizzcon09_graphicscard
-272439|60|tr|4.0|r|sp7 heal21|1|1047;1044|434||||평온의 지대|inv_misc_enggizmos_36
+272439|60|tr|4.0|r|sp7 heal21|1|1047;1044|498||||평온의 지대|inv_misc_enggizmos_36
 272440|60|tr|4.0|r|def13||1046;1047|3||||파수병의 악력 안정기|ui_profession_engineering
 272500|60|ch|4.1|e|sta34 int12 sp18 heal18 crit1||745|64||mage||최고급 장군의 학자 의복|inv_chest_leather_01
 272502|60|wa|4.1|e|sta26 int15 sp14 heal14||745|64||mage||최고급 군단병의 학자 장식띠|inv_belt_13
