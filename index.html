@@ -1420,6 +1420,8 @@ h2.hh small{font-size:calc(13px*var(--fs,1));color:var(--mute);font-weight:600}
 .bs2 .m{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}.bs2 .m b{font-size:calc(14.5px*var(--fs,1))}.bs2 .m small{font-size:calc(11px*var(--fs,1));color:var(--mute)}
 .bs2 .cnt{flex:none;font-size:calc(11px*var(--fs,1));color:var(--good);border:1px solid #4f7a3c;border-radius:7px;padding:1px 7px}.bs2 .cnt.none{color:var(--mute);border-color:var(--line)}
 .dgg2{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px 10px 10px}
+/* 이중 특성: 던전 템 특성별 칸 */
+.dspg{margin:8px 12px 0;font-size:calc(12.5px*var(--fs,1));font-weight:700;color:#e9dcc0}.dspg span{font-weight:400;font-size:calc(11px*var(--fs,1));color:var(--mute);margin-left:2px}.dspg+.dgg2{padding-top:4px}
 .ci{position:relative;display:flex;align-items:center;gap:7px;padding:6px 7px;border-radius:10px;background:var(--bg);border:1px solid var(--line);color:inherit;font-family:inherit;text-align:left;cursor:pointer;min-width:0}
 .ci .ic{width:36px;height:36px;flex:none}.ci .m{min-width:0;flex:1;display:flex;flex-direction:column;line-height:1.25}
 .ci b{font-size:calc(12px*var(--fs,1));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ci small{font-size:calc(10.5px*var(--fs,1));color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ci .why{color:#8bd37a}
@@ -3542,7 +3544,7 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script src="app-data.js?v=e8037f3b" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* v2c2531 @11/23 12:11 */
+<script>/* vbe4193 @11/23 13:18 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3550,7 +3552,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/23 12:11';
+const BUILD='11/23 13:18';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4652,7 +4654,7 @@ const wishMark=(c,id)=>isWish(c,id)?'<span class="wsh">⭐</span>':'';
 function itActs(c,id){const on=(c.cmp||[]).includes(id),w=isWish(c,id);return '<div class="cmpa"><button class="btn sm '+(w?'':'ghost')+'" data-a="wish" data-k="'+id+'">'+(w?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="cmpadd" data-k="'+id+'">'+(on?'⚖ 비교에서 빼기':'⚖ 비교에 담기')+'</button><button class="btn sm ghost" data-a="info" data-k="'+id+'">ⓘ 얻는 곳</button></div>'}
 /* ===== 장비 비교: 최대 3개 나란히 (지금 착용 장비와도) ===== */
 function cmpSlot(it,c){const b=bestSlot(it,c);if(b)return b.s;const S=SLOTS.find(x=>x[2].includes(it.sl));return S?S[0]:null}
-function cmpW(c){const C=D_CLS[c.cls];const csp=(ui.cmpsp&&C.specs.some(x=>x.id===ui.cmpsp))?ui.cmpsp:c.spec;return {csp,w:wOf(Object.assign({},c,{spec:csp}))}}
+function cmpW(c){const C=D_CLS[c.cls];const csp=(ui.cmpsp&&C.specs.some(x=>x.id===ui.cmpsp))?ui.cmpsp:c.spec;/* 둘째 특성 점수는 둘째 특성 페이지(tal2)로 */return {csp,w:wOf(Object.assign({},c,{spec:csp},csp!==c.spec&&dspOn(c)&&csp===c.spec2?{tal:c.tal2||null,_dsp:2}:{}))}}
 function cmpBasis(c,csp){const C=D_CLS[c.cls];const role=ROLE[c.cls+'/'+csp]||'';const src=WSRC[c.cls+'/'+csp]||'';
   return '<div class="cmpb2"><span class="k">점수 기준</span><div class="cmpsp">'+C.specs.map(x=>{const r=ROLE[c.cls+'/'+x.id]||'';return '<button class="'+(x.id===csp?'on':'')+'" data-a="cmpsp" data-k="'+x.id+'">'+(RLEMO[r]||'')+esc(x.name)+'</button>'}).join('')+'</div>'
    +'<p class="mute cmpsrc">'+(/시뮬레이터/.test(src)?'⚔️ 딜러: <b>wowsims 포에버 시뮬레이터</b> 능력치 가치':role==='치유'?'💚 힐러: <b>치유량·지능·정신력·5초당 마나</b> 위주':role==='탱커'?'🛡️ 탱커: 방어도·체력·방어 위주':'forg 기본표')+(csp!==c.spec?' · <span class="warn">내 전문화가 아닌 기준</span>':'')+'</p></div>'}
@@ -5412,6 +5414,8 @@ function dspOn(c){return (c.lv||1)>=40&&c.spec2&&c.spec2!==c.spec}
 const tpgK=c=>ui.dsp==='2'&&dspOn(c)?'tal2':'tal';
 /* 둘째 특성은 특성 페이지도 따로(tal2) — 예전엔 첫째 특성 페이지로 둘째 특성 점수(적중·쌍수·특성 반영)를 계산했음 */
 function dspView(c){if(ui.dsp==='2'&&dspOn(c))return Object.assign({},c,{spec:c.spec2,tal:c.tal2||null,_dsp:2});return c}
+/* 던전 템 탭: 둘째 특성으로 본 캐릭터(이중 특성 켠 때만) */
+function dgC2(c){return dspOn(c)?Object.assign({},c,{spec:c.spec2,tal:c.tal2||null,_dsp:2}):null}
 function dspOther(c){if(!dspOn(me()||c))return null;const r=me();return c._dsp===2?r:Object.assign({},r,{spec:r.spec2,tal:r.tal2||null,_dsp:2})}
 function dspSeg(c){if((c.lv||1)<40)return '';const r=me();const C=D_CLS[r.cls];if(!C)return '';const nm=id=>(C.specs.find(x=>x.id===id)||{}).name||id;const ic=id=>gic((C.specs.find(x=>x.id===id)||{}).icon);
   return '<span class="gseg dsp"><button class="'+(c._dsp===2?'':'on')+'" data-a="dsp" data-k="1">'+ic(r.spec)+'<span>'+esc(nm(r.spec))+'</span></button><button class="'+(c._dsp===2?'on':'')+'" data-a="dsp" data-k="2">'+(r.spec2&&r.spec2!==r.spec?ic(r.spec2)+'<span>'+esc(nm(r.spec2))+'</span>':'<span>둘째 특성 +</span>')+'</button>'+(c._dsp===2?'<button data-a="dsp2" data-k="" title="둘째 특성 바꾸기">↺</button>':'')+'</span>'}
@@ -7722,7 +7726,8 @@ function dgRoute0(c,d,tg){if(!DGG){dggLoad();return '<p class="note">동선 자�
         +d.bosses.map((b,i)=>{const n=its.filter(it=>it.src.some(x=>SRC[x]&&SRC[x].k===0&&SRC[x].dg===d.slug&&SRC[x].boss===b.nm)).length;const rare=/^mob-/.test(b.slug);return '<li class="rs boss"><span class="no">'+(rare?'◆':i+1)+'</span><div class="rb2"><div class="rt3"><b>'+esc(b.nm)+'</b>'+(rare?' <small class="mute">희귀몹</small>':'')+(n?' <small class="mute">드랍 '+n+'</small>':'')+'</div></div></li>'}).join('')+'</ol></div>'}
     return dgAcc(g)+dgRcp(g)+'<p class="empty-st">이 던전 진행 순서 자료가 아직 없어요. 보스 공략만 보여 줘요.</p>'+(g&&g.boss?bossTacOnly(g):'')}
   const B=g.boss||{};const items=dgItems(c,d);ui.stopen=ui.stopen||{};const me=myRole(c);
-  const goodOf=nm=>items.filter(it=>usable(it,c)&&it.src.some(i=>{const s=SRC[i];return s&&s.k===0&&s.dg===d.slug&&s.boss===nm})).map(it=>bestSlot(it,c)).filter(b=>b&&b.g>.01).length;
+  const C2=dgC2(c);const gOk=(it,cc)=>{if(!usable(it,cc))return false;const b=bestSlot(it,cc);return !!(b&&b.g>.01)};/* 이중 특성이면 두 특성 중 하나라도 좋은 템 */
+  const goodOf=nm=>items.filter(it=>it.src.some(i=>{const s=SRC[i];return s&&s.k===0&&s.dg===d.slug&&s.boss===nm})&&(gOk(it,c)||(C2&&gOk(it,C2)))).length;
   const KL=killOf(c,d.slug);const BL=S0=>S0.filter(x=>x.kind!=='obj');
   const S=dgSteps(d,g);
   const cnt=k=>S.filter(x=>x.F.some(f=>f[0]===k)).length;
@@ -7780,11 +7785,14 @@ function spCard(c,d){const S=spOf(d.slug);if(!S)return '';const n=S[2].filter(x=
 function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const byBoss={};items.forEach(it=>{const s=it.src.map(i=>SRC[i]).find(s=>s&&s.k===0&&s.dg===d.slug);const b=s?s.boss:'기타';(byBoss[b]=byBoss[b]||[]).push(it)});
   const order=d.bosses.map(b=>b.nm);Object.keys(byBoss).forEach(b=>{if(!order.includes(b))order.push(b)});
-  const myUps=items.filter(it=>usable(it,c)).map(it=>({it,b:bestSlot(it,c)})).filter(x=>x.b&&x.b.g>.01);
+  /* 이중 특성(40레벨, 둘째 특성 고름): 두 특성 점수를 따로 매겨 템 탭을 특성별 칸으로 — 예전엔 첫째 특성 것만 보였음 */
+  const C2=dgC2(c);const upsOf=cc=>items.filter(it=>usable(it,cc)).map(it=>({it,b:bestSlot(it,cc)})).filter(x=>x.b&&x.b.g>.01);
+  const myUps=upsOf(c),myUps2=C2?upsOf(C2):[];const nU=new Set([...myUps,...myUps2].map(x=>x.it.id)).size;
+  /* 템마다 특성별 점수(좋으면 bestSlot, 아니면 null) — 보스 드랍뿐 아니라 던전 퀘스트 보상 템도 같은 기준 */const gc=new Map();const gs=(it,k)=>{const key=k+':'+it.id;if(!gc.has(key)){const cc=k===1?c:C2;let b=null;if(cc&&usable(it,cc)){b=bestSlot(it,cc);if(!(b&&b.g>.01))b=null}gc.set(key,b)}return gc.get(key)};
   /* ⚠ 앞 연계 수 = 줄마다 ⚠️가 붙는 것과 같은 기준(끝냄·퀘스트창에 있음·더는 못 받음 빼고) */const DS=dgState(c,d);const pcN=DS.left.filter(q=>!(c.ql||{})[q.id]&&preChain(q.id,c).some(i=>!mqDone(c,QDB.get(i)))).length;
   let h='<div class="wrap"><div class="dhero2"><img src="'+DG_IMG(d.slug)+'" alt="" onerror="this.remove()"><div class="dt"><h2>'+esc(d.ko)+'</h2><small>'+esc(d.en)+'</small><div class="meta"><span class="pill lvp">Lv '+d.lo+'–'+d.hi+'</span>'+(d.soon?'<span class="pill soonp">🚧 개방 예정</span>':'')+(d.loc?'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_map_01')+')"></span>'+esc(d.loc)+'</span>':'')+'<span class="pill"><span class="ic" style="background-image:url('+ICO('inv_misc_bone_humanskull_01')+')"></span>보스 '+order.length+'</span></div></div></div>';
   const dt=ui.dtab||'route';h+=dgQBanner(c,d)+spCard(c,d);
-  h+='<div class="tabs3">'+[['route','inv_misc_map02','공략',''],['loot','inv_misc_bag_10','템',myUps.length?'⭐'+myUps.length:''],['quest','inv_misc_note_01','퀘스트',(()=>{const lf=DS.left.length;/* 「⚠6」이 경고 6개처럼 읽혀서: 남은 수와 앞 연계 수를 따로 */return !DS.Q.length?'':!lf?'✓':'<span class="bl">남은 </span>'+lf+(pcN?' · ⚠'+pcN:'')})(),(()=>{const lf=DS.left.length;return lf?'남은 퀘스트 '+lf+'개'+(pcN?' · 앞 연계가 필요한 퀘스트 '+pcN+'개':''):''})()]].map(x=>'<button class="'+(dt===x[0]?'on':'')+'" data-a="dtab" data-k="'+x[0]+'"><span class="ic" style="background-image:url('+ICO(x[1])+')"></span>'+x[2]+(x[3]!==''?' <em'+(x[4]?' title="'+x[4]+'"':'')+'>'+x[3]+'</em>':'')+'</button>').join('')+'</div>';
+  h+='<div class="tabs3">'+[['route','inv_misc_map02','공략',''],['loot','inv_misc_bag_10','템',nU?'⭐'+nU:''],['quest','inv_misc_note_01','퀘스트',(()=>{const lf=DS.left.length;/* 「⚠6」이 경고 6개처럼 읽혀서: 남은 수와 앞 연계 수를 따로 */return !DS.Q.length?'':!lf?'✓':'<span class="bl">남은 </span>'+lf+(pcN?' · ⚠'+pcN:'')})(),(()=>{const lf=DS.left.length;return lf?'남은 퀘스트 '+lf+'개'+(pcN?' · 앞 연계가 필요한 퀘스트 '+pcN+'개':''):''})()]].map(x=>'<button class="'+(dt===x[0]?'on':'')+'" data-a="dtab" data-k="'+x[0]+'"><span class="ic" style="background-image:url('+ICO(x[1])+')"></span>'+x[2]+(x[3]!==''?' <em'+(x[4]?' title="'+x[4]+'"':'')+'>'+x[3]+'</em>':'')+'</button>').join('')+'</div>';
   if(dt==='route')return h+dgRoute(c,d,dgTargets(c,d,dt))+'</div>';
   /* 1. 퀘스트 */
   if(dt==='quest'){const outN=DS.Q.filter(q=>dqPick(c,d,q)).length;const inN=DS.left.filter(q=>(dqIn(q)||!q.start)&&!(c.ql||{})[q.id]).length;const dn=DS.done.length;const nLg=dqOf(c,d).filter(q=>!dqIsDone(c,q)&&(c.ql||{})[q.id]).length,nRd=dqOf(c,d).filter(q=>!dqIsDone(c,q)&&(c.ql||{})[q.id]===2).length;
@@ -7792,22 +7800,33 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
     h+=dqOf(c,d).length?'<div class="card">'+dqList(c,d)+'</div>':'<p class="empty-st">이 던전 퀘스트가 없어요.</p>';return h+'</div>'}
   if(false)h+='<div class="card"><h3>📜 퀘스트 '+d.q.length+'개</h3>'+dqList(c,d)+'</div>';
   /* 2. 템: 맨 위 최고 템 → 거르기 → 보스별 2칸 */
-  const lf=ui.lf||'good';const why=(it,b)=>{const cur=eqIt(c,b.s);const w=wOf(c);return Object.keys(it.st).filter(k=>STAT_KO[k]&&(w[k]||0)>0&&!SHDUP(k,it.st)).map(k=>[k,(it.st[k]||0)-((cur&&cur.st[k])||0)]).filter(x=>x[1]>0).sort((x,y)=>y[1]*(w[y[0]]||0)-x[1]*(w[x[0]]||0)).slice(0,2).map(([k,v])=>STAT_KO[k].replace('무기 초당 공격력','DPS')+' +'+(k==='dps'?v.toFixed(1):Math.round(v))).join(' · ')};
+  const lf=ui.lf||'good';const why=(it,b,cc)=>{cc=cc||c;const cur=eqIt(cc,b.s);const w=wOf(cc);return Object.keys(it.st).filter(k=>STAT_KO[k]&&(w[k]||0)>0&&!SHDUP(k,it.st)).map(k=>[k,(it.st[k]||0)-((cur&&cur.st[k])||0)]).filter(x=>x[1]>0).sort((x,y)=>y[1]*(w[y[0]]||0)-x[1]*(w[x[0]]||0)).slice(0,2).map(([k,v])=>STAT_KO[k].replace('무기 초당 공격력','DPS')+' +'+(k==='dps'?v.toFixed(1):Math.round(v))).join(' · ')};
   const top=myUps.slice().sort((x,y)=>y.b.g-x.b.g)[0];const bossOf=it=>{const s2=it.src.map(i=>SRC[i]).find(z=>z&&z.k===0&&z.dg===d.slug);return s2?s2.boss:''};
-  if(top)h+='<button class="lsum" data-a="cmpq" data-k="'+top.b.s+':'+top.it.id+'">'+itIcon(top.it)+'<span class="m"><b class="q'+top.it.q+'">'+esc(top.it.nm)+'</b><small>이 던전 최고 · '+esc(bossOf(top.it)||'몹 드랍')+' · '+esc(SL_KO[top.it.sl]||'')+'</small>'+(why(top.it,top.b)?'<small class="why">'+esc(why(top.it,top.b))+' 덕분</small>':'')+'</span><span class="g">+'+Math.round(top.b.g)+'</span></button>';
-  h+='<div class="flt2">'+[['good','⭐ 내게 좋은 것 '+myUps.length],['all','전부 '+items.length]].map(x=>'<button class="'+(lf===x[0]?'on':'')+'" data-a="lf" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
-  const tile=(it)=>{const use=usable(it,c);const b=use?bestSlot(it,c):null;const gd=b&&b.g>.01;const wy=why(it,b||{s:''});
-    return '<button class="ci'+(gd&&top&&top.it.id===it.id?' best':'')+(use?'':' no')+'" data-a="'+(gd?'cmpq':'info')+'" data-k="'+(gd?b.s+':'+it.id:it.id)+'">'+itIcon(it)+'<span class="m"><b class="q'+it.q+'">'+wishMark(c,it.id)+esc(it.nm)+'</b><small>'+esc((SL_KO[it.sl]||'')+(use?((it.ob||it.lv)>0?' · Lv '+(it.ob||it.lv):''):' · 못 씀'))+'</small>'+(gd&&wy?'<small class="why">'+esc(wy)+'</small>':'')+'</span>'+(gd?'<em class="g">+'+Math.round(b.g)+'</em>':'')+'</button>'};
-  const B=order.map((nm,i)=>{const its=byBoss[nm]||[];const good=its.filter(it=>myUps.some(x=>x.it.id===it.id)).sort((x,y)=>bestSlot(y,c).g-bestSlot(x,c).g);return {nm,i,its,good}});
+  const top2=C2?myUps2.slice().sort((x,y)=>y.b.g-x.b.g)[0]:null;const spN=id=>(((D_CLS[c.cls]||{}).specs||[]).find(x=>x.id===id)||{}).name||id;
+  const lsum=(t,cc,lab)=>'<button class="lsum" data-a="cmpq" data-k="'+t.b.s+':'+t.it.id+(C2?':'+cc.spec:'')+'">'+itIcon(t.it)+'<span class="m"><b class="q'+t.it.q+'">'+esc(t.it.nm)+'</b><small>'+esc(lab)+' · '+esc(bossOf(t.it)||'몹 드랍')+' · '+esc(SL_KO[t.it.sl]||'')+'</small>'+(why(t.it,t.b,cc)?'<small class="why">'+esc(why(t.it,t.b,cc))+' 덕분</small>':'')+'</span><span class="g">+'+Math.round(t.b.g)+'</span></button>';
+  if(top)h+=lsum(top,c,C2?(top2&&top2.it.id===top.it.id?'두 특성 다 이 던전 최고':spN(c.spec)+' 최고'):'이 던전 최고');
+  if(top2&&!(top&&top2.it.id===top.it.id))h+=lsum(top2,C2,spN(C2.spec)+' 최고');
+  h+='<div class="flt2">'+[['good',(C2?'⭐ 두 특성 좋은 것 ':'⭐ 내게 좋은 것 ')+nU],['all','전부 '+items.length]].map(x=>'<button class="'+(lf===x[0]?'on':'')+'" data-a="lf" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
+  const tile=(it,cc)=>{if(C2&&!cc)return tileD(it);cc=cc||c;const use=usable(it,cc);const b=use?bestSlot(it,cc):null;const gd=b&&b.g>.01;const wy=why(it,b||{s:''},cc);
+    return '<button class="ci'+(gd&&top&&top.it.id===it.id&&cc===c?' best':'')+(use?'':' no')+'" data-a="'+(gd?'cmpq':'info')+'" data-k="'+(gd?b.s+':'+it.id+(C2?':'+cc.spec:''):it.id)+'">'+itIcon(it)+'<span class="m"><b class="q'+it.q+'">'+wishMark(c,it.id)+esc(it.nm)+'</b><small>'+esc((SL_KO[it.sl]||'')+(use?((it.ob||it.lv)>0?' · Lv '+(it.ob||it.lv):''):' · 못 씀'))+'</small>'+(gd&&wy?'<small class="why">'+esc(wy)+'</small>':'')+'</span>'+(gd?'<em class="g">+'+Math.round(b.g)+'</em>':'')+'</button>'};
+  /* 두 특성 다 좋은 템: 점수 두 개를 같이(큰 숫자는 더 좋은 쪽), 누르면 더 좋은 쪽 특성으로 비교 */
+  const tileD=it=>{const b1=gs(it,1),b2=gs(it,2);if(!b1&&!b2)return tile(it,c);if(!b2)return tile(it,c);if(!b1)return tile(it,C2);const hi=b2.g>b1.g?[b2,C2]:[b1,c];
+    return '<button class="ci" data-a="cmpq" data-k="'+hi[0].s+':'+it.id+':'+hi[1].spec+'">'+itIcon(it)+'<span class="m"><b class="q'+it.q+'">'+wishMark(c,it.id)+esc(it.nm)+'</b><small>'+esc((SL_KO[it.sl]||'')+((it.ob||it.lv)>0?' · Lv '+(it.ob||it.lv):''))+'</small><small class="why">'+esc(spN(c.spec)+' +'+Math.round(b1.g)+' · '+spN(C2.spec)+' +'+Math.round(b2.g))+'</small></span><em class="g">+'+Math.round(hi[0].g)+'</em></button>'};
+  /* 특성별 칸: 두 특성 다 · 첫째만 · 둘째만 */
+  const grpH=list=>{if(!C2)return list.map(it=>tile(it)).join('');const A=list.filter(it=>gs(it,1)&&gs(it,2)),P=list.filter(it=>gs(it,1)&&!gs(it,2)),S2=list.filter(it=>gs(it,2)&&!gs(it,1));
+    return [['🔁 두 특성 다',A,null],[spN(c.spec)+'용',P,c],[spN(C2.spec)+'용',S2,C2]].filter(x=>x[1].length).map(x=>'<p class="dspg">'+esc(x[0])+' <span>'+x[1].length+'</span></p><div class="dgg2">'+x[1].map(it=>x[2]?tile(it,x[2]):tileD(it)).join('')+'</div>').join('')};
+  const isG=it=>!!(gs(it,1)||gs(it,2));
+  const gB=it=>Math.max((gs(it,1)||{g:0}).g,(gs(it,2)||{g:0}).g);
+  const B=order.map((nm,i)=>{const its=byBoss[nm]||[];const good=its.filter(isG).sort((x,y)=>gB(y)-gB(x));return {nm,i,its,good}});
   h+=B.map(x=>{const show=lf==='all'?x.its.slice().sort((p,q)=>(x.good.includes(q)-x.good.includes(p))||(usable(q,c)-usable(p,c))):x.good;
     const bi=d.bosses.findIndex(b=>b.nm===x.nm);const im=x.nm==='기타'?'':(bossImg(d,x.nm,bi)||npcThumb((wyBoss(d,x.nm)||{}).id));
     return '<div class="bs2"><div class="h"><span class="por"'+(im?' style="background-image:url('+im+'),url('+ICO('inv_misc_bone_humanskull_01')+')"':'')+'>'+(im?'':'👹')+'</span><span class="m"><b>'+esc(x.nm==='기타'?'보스 외 드랍':x.nm)+(killOf(c,d.slug)[x.nm]?' <em class="kdm">✓ 잡음</em>':'')+'</b><small>'+(bi>=0?(bi+1)+'번째 보스 · ':'')+'드랍 '+x.its.length+'</small></span><span class="cnt'+(x.good.length?'':' none')+'">'+(x.good.length?'좋은 템 '+x.good.length:'좋은 템 없음')+'</span></div>'
-     +(show.length?'<div class="dgg2">'+show.map(tile).join('')+'</div>':'')+'</div>'}).join('');
+     +(show.length?(lf==='all'||!C2?'<div class="dgg2">'+show.map(it=>tile(it)).join('')+'</div>':grpH(show)):'')+'</div>'}).join('');
   /* 던전 퀘스트 보상 템 (보스 드랍과 따로) */
   {const QR=dqOf(c,d).map(q=>({q,its:q.rw.map(id=>IT.get(id)).filter(Boolean),oth:q.rw.filter(id=>!IT.get(id)&&D_RWNM[id]).map(id=>D_RWNM[id])})).filter(x=>x.its.length||x.oth.length);
-   if(QR.length){const gd=it=>{if(!usable(it,c))return 0;const b=bestSlot(it,c);return b&&b.g>.01?b.g:0};const nG=QR.reduce((n,x)=>n+x.its.filter(gd).length,0);
+   if(QR.length){const gd=it=>{if(C2)return isG(it)?gB(it):0;if(!usable(it,c))return 0;const b=bestSlot(it,c);return b&&b.g>.01?b.g:0};const nG=QR.reduce((n,x)=>n+x.its.filter(gd).length,0);
     h+='<div class="bs2 dqr"><div class="h"><span class="por">📜</span><span class="m"><b>던전 퀘스트 보상</b><small>퀘스트 '+QR.length+'개 · 하나 골라 받는 건 「택1」</small></span><span class="cnt'+(nG?'':' none')+'">'+(nG?'좋은 템 '+nG:'좋은 템 없음')+'</span></div>'
-     +QR.map(x=>{const show=lf==='all'?x.its:x.its.filter(gd);if(!show.length&&!(lf==='all'&&x.oth.length))return '';return '<p class="dqrn">'+(dqIsDone(c,x.q)?'✅ ':'')+esc(x.q.nm)+(x.q.choose&&x.its.length+x.oth.length>1?' <em>택1</em>':'')+(x.q.lv>0?' <span class="mute">Lv '+x.q.lv+'</span>':'')+'</p>'+(show.length?'<div class="dgg2">'+show.map(tile).join('')+'</div>':'')+(x.oth.length?'<p class="dqro">🎁 '+x.oth.map(esc).join(' · ')+'</p>':'')}).join('')+'</div>'}}
+     +QR.map(x=>{const show=lf==='all'?x.its:x.its.filter(gd);if(!show.length&&!(lf==='all'&&x.oth.length))return '';return '<p class="dqrn">'+(dqIsDone(c,x.q)?'✅ ':'')+esc(x.q.nm)+(x.q.choose&&x.its.length+x.oth.length>1?' <em>택1</em>':'')+(x.q.lv>0?' <span class="mute">Lv '+x.q.lv+'</span>':'')+'</p>'+(show.length?(lf==='all'||!C2?'<div class="dgg2">'+show.map(it=>tile(it)).join('')+'</div>':grpH(show)):'')+(x.oth.length?'<p class="dqro">🎁 '+x.oth.map(esc).join(' · ')+'</p>':'')}).join('')+'</div>'}}
   const W=wyOf(d);if(!WY)wyLoad();
   if(W&&W.trash&&W.trash.length){const T=W.trash;
     h+='<details class="trash2"><summary>🗡️ 그 밖의 몹 드랍 '+T.length+'<span class="ics">'+T.slice(0,4).map(t=>{const it=IT.get(t[0]);return it?itIcon(it):''}).join('')+'</span><i>›</i></summary><div class="sb">'+T.map(t=>{const it=IT.get(t[0]);return it?dropLine(c,it)+(t[6]?'<p class="wysrc">↳ '+esc(t[6])+'</p>':''):'<div class="wyit q'+t[4]+'"><b>'+esc(t[1])+'</b><span>'+esc([t[2],t[3]?'iLv '+t[3]:'',t[6]].filter(Boolean).join(' · '))+'</span></div>'}).join('')+'</div></details>'}
@@ -8388,7 +8407,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='cmpadd'){const id=+k;c.cmp=c.cmp||[];const i=c.cmp.indexOf(id);if(i>=0){c.cmp.splice(i,1);toast('비교에서 뺐어요')}else{c.cmp.push(id);if(c.cmp.length>3)c.cmp.shift();toast('⚖ 비교에 담았어요 ('+c.cmp.length+'/3) · 장비 › 비교')}save();rerender(true);return}
   if(a==='cmpgo'){ui.sheet=null;ui.tab='gear';ui.gsub='cmp';ui.gslot=null;render();window.scrollTo(0,0);return}
   if(a==='cmpsp'){ui.cmpsp=k;rerender(true);return}
-  if(a==='cmpq'){ui.sheet='cmp:'+k;rerender(true);return}
+  if(a==='cmpq'){const P=String(k).split(':');/* 셋째 칸 = 점수 기준 특성(던전 템 탭 특성별 칸) · 장비 탭 둘째 특성 화면에서 열면 둘째 특성 — 예전엔 첫째 특성 점수로 열렸음 */if(P[2])ui.cmpsp=P[2];else if(ui.tab==='gear'&&dspOn(me()))ui.cmpsp=dspView(me()).spec;ui.sheet='cmp:'+P[0]+':'+P[1];rerender(true);return}
   if(a==='cmpslot'){ui.cmpslot=k;const own=c.bag?bagAll(c).filter(x=>x.ok&&fits(x.it,k,c)&&x.g>.5).map(x=>x.it.id):[];const rec=bestFor(c,k,c.lv,ui.ifil).map(x=>x.it.id).filter(id=>!own.includes(id));
     c.cmp=own.slice(0,1).concat(rec).slice(0,3);if(!c.cmp.length){const cur=eqIt(c,k);const alt=cands(c,k,c.lv,ui.ifil).filter(x=>!cur||x.it.id!==cur.id).sort((a,b)=>b.s-a.s).slice(0,2).map(x=>x.it.id);c.cmp=alt.length?alt:(cur?[cur.id]:[]);toast(SLOT_KO[k]+' · 지금 게 제일 좋아요 👍 '+(alt.length?'다음 후보와 견줘요':''))}save();rerender(true);
     setTimeout(()=>{const t=document.querySelector('.cmpc .cmpt,.cmpc table');if(t&&t.getBoundingClientRect().top>innerHeight-80)t.scrollIntoView({behavior:'smooth',block:'start'})},30);return}

@@ -1411,6 +1411,8 @@ h2.hh small{font-size:13px;color:var(--mute);font-weight:600}
 .bs2 .m{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}.bs2 .m b{font-size:14.5px}.bs2 .m small{font-size:11px;color:var(--mute)}
 .bs2 .cnt{flex:none;font-size:11px;color:var(--good);border:1px solid #4f7a3c;border-radius:7px;padding:1px 7px}.bs2 .cnt.none{color:var(--mute);border-color:var(--line)}
 .dgg2{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px 10px 10px}
+/* 이중 특성: 던전 템 특성별 칸 */
+.dspg{margin:8px 12px 0;font-size:12.5px;font-weight:700;color:#e9dcc0}.dspg span{font-weight:400;font-size:11px;color:var(--mute);margin-left:2px}.dspg+.dgg2{padding-top:4px}
 .ci{position:relative;display:flex;align-items:center;gap:7px;padding:6px 7px;border-radius:10px;background:var(--bg);border:1px solid var(--line);color:inherit;font-family:inherit;text-align:left;cursor:pointer;min-width:0}
 .ci .ic{width:36px;height:36px;flex:none}.ci .m{min-width:0;flex:1;display:flex;flex-direction:column;line-height:1.25}
 .ci b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ci small{font-size:10.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ci .why{color:#8bd37a}
