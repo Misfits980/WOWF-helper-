@@ -1554,6 +1554,31 @@ def _dg_acc():
         p.write_text(out, encoding='utf-8')
     return n
 print('dungeon access', _dg_acc())
+
+
+def _armor_est(txt):
+    """방어도 자료가 없는 방어구(게임 툴팁을 못 읽은 템, 천·가죽·사슬 8%·판금 15%) → 같은 종류·부위·등급, 요구 레벨 ±2 템들의 방어도 가운데값을 bare(어림)로.
+    탱커 점수에서 방어도 없는 템이 0으로 밀리던 것(곰 방어도 4.6배 반영 뒤 더 커짐). 앱 툴팁은 「방어도 약 N」"""
+    rows = [l.split('|') for l in txt.split('\n') if l]
+    have = {}
+    for f in rows:
+        if len(f) > 5 and f[3] in ('4.1', '4.2', '4.3', '4.4'):
+            m = re.search(r'(?:^|\s)bar(\d+)', f[5])
+            if m:
+                have.setdefault((f[3], f[2], f[4]), []).append((int(re.sub(r'\D', '', f[1]) or 1), int(m.group(1))))
+    n = 0
+    for f in rows:
+        if len(f) > 5 and f[3] in ('4.1', '4.2', '4.3', '4.4') and not re.search(r'(?:^|\s)(bar|bare)\d', f[5]):
+            lv = int(re.sub(r'\D', '', f[1]) or 1)
+            near = sorted(a for (L_, a) in have.get((f[3], f[2], f[4]), []) if abs(L_ - lv) <= 2)
+            if len(near) >= 3:
+                f[5] = (f[5] + ' ' if f[5] else '') + 'bare%d' % near[len(near) // 2]
+                n += 1
+    print('방어도 어림(bare)', n)
+    return '\n'.join('|'.join(f) for f in rows) + '\n'
+
+
+ITEMS_TXT = _armor_est(ITEMS_TXT)
 DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'm3': 'data/guides/dungeon-maps3d.json', 'rp': 'data/guides/dungeon-replays.json', 'fdt': 'data/guides/fdt-map.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
 # 길 따라 동선 격자(data/route/*.png, tools/route/build_grid.py): 파일 전체 지문 하나 + 있는 지역 번호
 _rg = sorted((ROOT / 'data' / 'route').glob('*.png'))
