@@ -392,15 +392,27 @@ const RACE_HIT={dwarf:1};let _hc={k:'',v:null};
    (예: 냉기 법사 정밀함 3점 = 주문 적중 6% → 레벨업 상한 5%를 특성만으로 채워 적중 템 점수를 낮춤) */
 const TALHIT={mage:{'frost-elemental-precision':[2,'s']},warlock:{'affliction-suppression':[1,'s']},priest:{'shadow-magic-shadow-focus':[1,'s']},druid:{'balance-natures-reach':[2,'s']},
   paladin:{'protection-precision':[1,'p']},rogue:{'combat-precision':[1,'p']},hunter:{'survival-surefooted':[1,'p']}};
-function talHit(c,L,cast){const T=TALHIT[c.cls];if(!T)return 0;let R=null;if(c.tal&&c.tal.cls===c.cls&&c.tal.r&&Object.keys(c.tal.r).length)R=c.tal.r;
-  else{const sp=specOf(c);R={};(sp&&sp.steps||[]).forEach(s=>{if(s[0]<=L&&T[s[1]])R[s[1]]=Math.max(R[s[1]]||0,s[2])})}
+/* 내 특성(게임·전투정보실·직접 고친 것), 없으면 L레벨까지의 가이드 빌드 → {특성: 점수} */
+function talR(c,L){if(c.tal&&c.tal.cls===c.cls&&c.tal.r&&Object.keys(c.tal.r).length)return c.tal.r;const sp=specOf(c);const R={};(sp&&sp.steps||[]).forEach(s=>{if(s[0]<=L)R[s[1]]=Math.max(R[s[1]]||0,s[2])});return R}
+function talHit(c,L,cast){const T=TALHIT[c.cls];if(!T)return 0;const R=talR(c,L);
   let h=0;for(const k in T)if(R[k]&&(T[k][1]==='s')===cast)h+=R[k]*T[k][0];return h}
 function hitInfo(c){const k=(c.eq?Object.values(c.eq).join(','):'')+'|'+c.lv+'|'+c.race+'|'+c.cls+'|'+c.spec+'|'+JSON.stringify(c.tal&&c.tal.r||'');if(_hc.k===k)return _hc.v;
   const w=wOf0(c);const cast=(w.shit||0)>(w.hit||0);const L=c.lv||60;const f=rateF(L);const tot={};SLOTS.forEach(([s])=>{const it=eqIt(c,s);if(it)for(const x of ['hit','exp'])if(it.st[x])tot[x]=(tot[x]||0)+it.st[x]});
   const th=talHit(c,L,cast);const end=L>=58;const v={cast,th,hit:+((tot.hit||0)*f+(RACE_HIT[c.race]||0)+th).toFixed(1),cap:cast?(end?17:5):(end?8:6),exp:+((tot.exp||0)*f).toFixed(1),ecap:end?6.5:5,phys:!cast&&!w.heal};_hc={k,v};return v}
 const capF=(cur,cap)=>cur>=cap?.15:cur>=cap-1?.6:1;
-const _wcap={};function wOf(c){const w=wRace(wOf1(c),c);if(w.def)return w;const h=hitInfo(c);const fh=capF(h.hit,h.cap),fe=h.phys?capF(h.exp,h.ecap):1;if(fh===1&&fe===1)return w;
-  const k=fh+'|'+fe;if(_wcap.b===w&&_wcap.k===k)return _wcap.r;const r=Object.assign({},w);if(fh<1){if(r.hit)r.hit*=fh;if(r.shit)r.shit*=fh}if(fe<1&&r.exp)r.exp*=fe;_wcap.b=w;_wcap.k=k;_wcap.r=r;return r}
+/* 쌍수 자동 공격: 포에버도 빗나감 +19% — 기술은 8%(레벨업 6%)면 끝, 자동 공격은 보스 27%·같은 레벨 24%까지 적중이 계속 이득 (Icy Veins·Method 포에버).
+   상한 넘은 적중은 자동 공격 몫만 → 0.45배 (자동 공격이 딜의 40~50%라고 본 어림값, 시뮬 값 아님) */
+const DW_HITF=.45;
+const isDW=c=>c.cls==='rogue'&&(c.lv||60)>=DWLV.rogue||wsetOf(c)==='dw';
+const dwCap=c=>(c.lv||60)>=58?27:24;
+function hitF(h,c){const f=capF(h.hit,h.cap);if(f===1||!h.phys||!isDW(c))return f;const dc=dwCap(c);return h.hit>=dc?.15:h.hit>=dc-1?Math.max(f,.6*DW_HITF):Math.max(f,DW_HITF)}
+/* 레벨업 중 보조 무기: 시뮬 값은 60레벨 특성(쌍수 무기 전문화 다 찍음) 기준 → 아직 안 찍었으면 보조 무기 피해가 그만큼 적음.
+   전투 도적 쌍수 무기 전문화 2점 = 보조 피해 +50%(50%→75%), 분노 쌍수 무기 전문화 5점 = +25%(50%→62.5%), 격노한 정밀함 3점 = 보조 적중 +10%(약 10% 더 맞음).
+   암살·잠행 가이드 빌드는 이 특성을 안 찍어서 그대로 */
+const OFFT={'rogue/combat':[['combat-dual-wield-specialization',2,.5]],'warrior/fury':[['fury-dual-wield-specialization',5,.25],['fury-furious-precision',3,.1]]};
+function offF(c){const T=OFFT[c.cls+'/'+c.spec];if(!T)return 1;const R=talR(c,c.lv||60);let f=1;for(const [k,mx,b] of T){const r=Math.min(R[k]||0,mx);f*=(1+b*r/mx)/(1+b)}return +f.toFixed(3)}
+const _wcap={};function wOf(c){const w=wRace(wOf1(c),c);if(w.def)return w;const h=hitInfo(c);const fh=hitF(h,c),fe=h.phys?capF(h.exp,h.ecap):1,fo=w.dpsOff?offF(c):1;if(fh===1&&fe===1&&fo===1)return w;
+  const k=fh+'|'+fe+'|'+fo;if(_wcap.b===w&&_wcap.k===k)return _wcap.r;const r=Object.assign({},w);if(fh<1){if(r.hit)r.hit*=fh;if(r.shit)r.shit*=fh}if(fe<1&&r.exp)r.exp*=fe;if(fo<1)r.dpsOff=+(r.dpsOff*fo).toFixed(3);_wcap.b=w;_wcap.k=k;_wcap.r=r;return r}
 const _wl={};
 function wOf1(c){const w=wOf0(c);if((c.lv||60)>=58||w.def)return w;const L=c.lv||60;const k=c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+L;if(_wl[k]&&_wl[k].b===w)return _wl[k].r;
   const r=Object.assign({},w,{sta:Math.max(w.sta||0,.4)});if(w.sp>=1||w.heal>=1)r.spi=Math.max(w.spi||0,.3);const f=rateF(L);RATEK.forEach(x=>{if(r[x])r[x]=+(r[x]*f).toFixed(2)});_wl[k]={b:w,r};return r}
@@ -1812,7 +1824,7 @@ function dollCell(c,s,ups,bb){const it=eqIt(c,s);const sel=ui.gslot===s;const lo
    +(it?'<span class="ic lg q-'+it.q+'" data-tip="'+it.id+'" data-ts="'+s+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
    +(PV?(b?'<span class="up'+(b.soon?' soon':'')+'">'+(b.soon?(b.it.ob||b.it.lv)+'렙':b.empty?'빈 칸':'+'+gNum(b.g))+'</span>':''):ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
 function hitCapHtml(c){if(isTank(c))return '';if(PV){const w0=wOf0(c);if(!((w0.hit||0)>0||(w0.shit||0)>0||(w0.exp||0)>0))return ''}const h=hitInfo(c);const row=(nm,v,cap)=>{const st=v>=cap?'full':v>=cap-1?'near':'low';return '<div class="hcap '+st+'"><span>'+nm+'</span><b>'+v+'%</b><i style="width:'+Math.min(100,v/cap*100)+'%"></i><small>상한 '+cap+'%'+(st==='full'?' · 다 찼어요':st==='near'?' · 거의':'')+'</small></div>'};
-  return '<div class="hcaps">'+row('적중',h.hit,h.cap)+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note">'+((c.lv||60)>=58?'보스 기준':'레벨업 기준(몹 1~2레벨 위)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+(h.th?'+특성 '+h.th+'%':'')+' 셈 · 상한 넘으면 그 능력치 점수를 낮춰요</p></div>'}
+  return '<div class="hcaps">'+row('적중',h.hit,h.cap)+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note">'+((c.lv||60)>=58?'보스 기준':'레벨업 기준(몹 1~2레벨 위)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+(h.th?'+특성 '+h.th+'%':'')+' 셈 · 상한 넘으면 그 능력치 점수를 낮춰요'+(h.phys&&isDW(c)?' · 쌍수 자동 공격은 적중 '+dwCap(c)+'%까지 조금 더 이득이라 덜 낮춰요':'')+'</p></div>'}
 function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
 /* 이중 특성 (40레벨~): 둘째 특성으로 보기 · 두 특성 다 좋은 템 표시 */
 function dspOn(c){return (c.lv||1)>=40&&c.spec2&&c.spec2!==c.spec}
