@@ -2306,3 +2306,29 @@ button.amh.nx{opacity:.7}
 
 /* 칸 비교 창 · 레벨 오르면 바꿀 다음 템 */
 .nxbox{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(201,163,92,.35)}.nxbox h4{margin:0 0 4px;font-size:14px}.nxbox h4 small{font-weight:400;opacity:.7;margin-left:4px}
+
+/* 게임 툴팁처럼 (템 자세히 보기 · 비교 펼침 · 제작법) — PC 마우스 툴팁(.ttip)과 같은 색, 화면 안에 그대로 놓임 */
+.gtip{max-width:380px;background:rgba(10,14,30,.96);border:1px solid #5a6a8a;box-shadow:0 0 0 1px #000;border-radius:8px;padding:8px 10px;margin:4px 0 6px;font-size:12.5px;line-height:1.45;color:#fff;text-align:left}
+.gtip .tt-n{font-size:14px;font-weight:800;line-height:1.3}
+.gtip .tt-m{display:flex;justify-content:space-between;gap:8px}
+.gtip .tt-g{color:#2ee04a}
+.gtip .bad{color:#ff5a4a}
+.gtip .tt-h{color:#ffd100;font-size:12px;margin-top:5px}
+.gtip .qc{color:#fff}
+.gtip .tt-q,.gtip .tt-set{color:#ffd100}
+.gtn{font-size:11.5px;color:var(--mute);margin:-2px 0 4px}
+.gtw{align-items:flex-start}.gtw .m .gtip{margin-top:0}
+.note.gtg .gain{margin-left:4px}
+.src.craft .sub.ok{color:#7bea7b}.src.craft .sub.bad{color:#ff7a6a}
+.rtip .rmat{display:flex;align-items:center;gap:6px;padding:2px 0}
+.rtip .rmat .ic.sm{width:22px;height:22px;border-radius:5px}
+.rtip .rmat b{color:#fff;font-weight:700}
+.rtip .rmat small{margin-left:auto;color:#a5b0c8;font-size:11px;white-space:nowrap}
+.rwh{margin:6px 0 4px}.rwh .tt-h{color:var(--gold);font-size:12.5px;font-weight:700}
+.rw1{display:flex;gap:8px;align-items:baseline;padding:3px 0;font-size:12.5px;line-height:1.4}
+.rw1 .k{flex:none;min-width:52px;font-size:11px;font-weight:700;color:#e8c06a;border:1px solid #5a4a2a;border-radius:999px;padding:0 6px;text-align:center}
+.rw1 small{display:block;color:var(--mute);font-size:11.5px}
+details.rcpd{margin:0 0 6px 28px}
+details.rcpd>summary{cursor:pointer;font-size:12px;color:var(--gold);padding:2px 0;list-style:none}details.rcpd>summary::-webkit-details-marker{display:none}
+details.rcpd[open]>summary{margin-bottom:2px}
+details.rcpd .src.craft{margin:4px 0}

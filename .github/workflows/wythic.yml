@@ -25,6 +25,6 @@ jobs:
           git commit -qm "wythic 던전 공략 갱신"
           git pull -q --rebase
           python3 app/build.py
-          git add data/forg/dungeon-guide.json index.html app-data.js addon/WowfHelper/BossTips.lua
+          git add data/forg/dungeon-guide.json index.html app-data.js addon/WowfHelper/BossTips.lua data/rcp.json data/tip.json
           git diff --cached --quiet || git commit -qm "wythic 반영 다시 빌드"
           git push

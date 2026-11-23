@@ -90,6 +90,6 @@ jobs:
           git reset --hard -q HEAD && git clean -fdq
           git pull --rebase -X theirs
           python3 app/build.py
-          git add index.html app-data.js addon
+          git add index.html app-data.js addon data/rcp.json data/tip.json
           git diff --cached --quiet || git commit -m "rebuild"
           git push

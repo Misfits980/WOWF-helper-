@@ -879,6 +879,39 @@ with open(os.path.join(OUT, 'world.json'), 'w', encoding='utf-8') as f:
     json.dump(W, f, ensure_ascii=False, separators=(',', ':'))
 print('출처 몹 지역', len(_nz), '/', len(_nids))
 
+# 제작법(도안·도면) 파는 상인 (wythic 제작법 자료 data/wythic/recipes.json의 npcs) → data/qdb/recipe-npcs.json
+#  앱 「어디서 얻나요」 제작 칸: 도안을 어디서 사는지(한글 이름·직함·지역·좌표·진영). 번호: [이름, 직함, 진영 A/H/AH, 지역, x, y]
+_rp = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'wythic', 'recipes.json')
+if os.path.exists(_rp):
+    _rv_ids = set()
+    for _pf in (json.load(open(_rp, encoding='utf-8')).get('profs') or {}).values():
+        for _sp0 in _pf.get('spells') or []:
+            for _rc in _sp0.get('recipes') or []:
+                _rv_ids.update(int(x) for x in (_rc.get('npcs') or []))
+    _rv = {}
+    for _i in sorted(_rv_ids):
+        _r = NPC.get(_i)
+        if not _r:
+            continue
+        _v = KN.get(_i)
+        _v = arr(_v) if isinstance(_v, dict) else _v
+        _sub = (_v[1] if isinstance(_v, list) and len(_v) > 1 and _v[1] else None) or _r.get(NK['subName']) or ''
+        _sp = _r.get(NK['spawns']); _best = None
+        if isinstance(_sp, dict):
+            for _zz in _sp:
+                _P = pts_of(_sp, _zz)
+                _zk2 = zone_name(_zz)[0] if _P else None
+                if _zk2 and (not _best or len(_P) > len(_best[1])):
+                    _best = (_zk2, _P)
+        _row = [ko_npc(_i) or '', _sub, _r.get(NK['friendlyToFaction']) or '']
+        if _best:
+            _xs = sorted(p[0] for p in _best[1]); _ys = sorted(p[1] for p in _best[1])
+            _row += [_best[0], round(_xs[len(_xs) // 2], 1), round(_ys[len(_ys) // 2], 1)]
+        _rv[str(_i)] = _row
+    with open(os.path.join(OUT, 'recipe-npcs.json'), 'w', encoding='utf-8') as f:
+        json.dump(_rv, f, ensure_ascii=False, separators=(',', ':'), sort_keys=True)
+    print('제작법 상인', len(_rv), '/', len(_rv_ids))
+
 # 아이템 영어 이름 → 한글 (전문기술 재료·제작품 번역용)
 with open(os.path.join(OUT, 'item-en-ko.txt'), 'w', encoding='utf-8') as f:
     _seen = set()

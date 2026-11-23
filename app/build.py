@@ -224,6 +224,116 @@ def _setst(t):
     return st
 
 
+def _rcp():
+    """제작 장비 만드는 법 (앱 「어디서 얻나요」 제작 칸): wythic 제작법(data/wythic/recipes.json) + 도안 상인(data/qdb/recipe-npcs.json)
+    D_RCP {템 번호: {p 전문기술, s 숙련도, f 제작 장소, t 도구, r [[재료 번호, 개수]], c 교관 비용(동), l 배우는 법 코드, n [[도안 이름, 등급, 숙련도, 코드, [[지역, 몹]], [상인 번호]]]}}
+    D_RMAT {재료 번호: [이름, 아이콘, 등급, 얻는 법 코드]} · D_RNPC {상인 번호: [이름, 직함, 진영, 지역, x, y]}
+    코드(와우헤드 출처 번호): 2 드랍 · 4 퀘스트 · 5 상인 · 6 교관 · 16 낚시 · 21 소매치기"""
+    rp = ROOT / 'data' / 'wythic' / 'recipes.json'
+    if not rp.exists():
+        return {}, {}, {}
+    P = json.loads(rd(rp)).get('profs') or {}
+    NPC_ = json.loads(rd(Q / 'recipe-npcs.json')) if (Q / 'recipe-npcs.json').exists() else {}
+    have = {int(l.split('|', 1)[0]) for l in ITEMS_TXT.splitlines() if l and l.split('|', 1)[0].isdigit()}
+    PK = {'alchemy': '연금술', 'blacksmithing': '대장기술', 'enchanting': '마법부여', 'engineering': '기계공학', 'leatherworking': '가죽세공',
+          'tailoring': '재봉술', 'cooking': '요리', 'first-aid': '응급치료', 'mining': '채광'}
+    SUB = {'Tailoring Supplies': '재봉술 용품', 'Leatherworking Supplies': '가죽세공 용품', 'Alchemy Supplies': '연금술 용품', 'Engineering Supplies': '기계공학 용품',
+           'Enchanting Supplies': '마법부여 용품', 'Blacksmithing Supplies': '대장기술 용품', 'Trade Supplies': '잡화', 'Trade Goods': '잡화', 'General Goods': '잡화',
+           'General Supplies': '잡화', 'General Trade Supplier': '잡화', 'Tailor': '재봉사', 'Leatherworker': '가죽세공사', 'Blacksmith': '대장장이', 'Alchemist': '연금술사',
+           'Engineer': '기계공학자', 'Enchanter': '마법부여사', 'Cooking Supplies': '요리 재료', 'Cooking Supplier': '요리 재료', 'Cook': '요리사', 'Fisherman': '낚시꾼',
+           'Fishing Supplies': '낚시 용품', 'Butcher': '푸줏간 주인', 'Supply Officer': '보급관', 'Quartermaster': '병참장교', 'Innkeeper': '여관 주인',
+           'Gunsmith': '총기 제작자', 'Superior Leatherworker': '고급 가죽세공사', 'Superior Weaponsmith': '고급 무기제작자', 'The Argent Dawn': '은빛 여명회',
+           'Undermine Trader': '지하 상인'}
+    rcp, mat, npc = {}, {}, {}
+    for slug, pf in P.items():
+        mats = pf.get('mats') or {}
+        for sp in pf.get('spells') or []:
+            cr = sp.get('creates') or {}
+            iid = cr.get('id')
+            if not iid or iid not in have or iid in rcp:
+                continue
+            o = {'p': PK.get(slug, slug), 's': sp.get('learnedat') or 0, 'r': [[x['id'], x.get('qty') or 1] for x in sp.get('reagents') or [] if x.get('id')]}
+            if sp.get('focus'):
+                o['f'] = sp['focus']
+            if sp.get('tools'):
+                o['t'] = [t if isinstance(t, str) else (t.get('nameKo') or t.get('name')) if isinstance(t, dict) else '' for t in sp['tools']]
+                o['t'] = [t for t in o['t'] if t]
+                if not o['t']:
+                    o.pop('t')
+            if sp.get('trainingcost'):
+                o['c'] = sp['trainingcost']
+            if sp.get('source'):
+                o['l'] = sp['source']
+            n = []
+            for rc in sp.get('recipes') or []:
+                vs = [str(v) for v in rc.get('npcs') or [] if str(v) in NPC_]
+                for v in vs:
+                    r_ = NPC_[v]
+                    npc[v] = [r_[0], SUB.get(r_[1], r_[1] if re.search('[가-힣]', r_[1] or '') else '').replace('\xa0', ' ')] + r_[2:]
+                n.append([rc.get('nameKo') or rc.get('name') or '', rc.get('quality') or 1, rc.get('skill') or 0, rc.get('source') or [],
+                          [[d.get('zone') or '', d.get('npc') or ''] for d in rc.get('sources') or []][:4], vs[:8]])
+            if n:
+                o['n'] = n
+            rcp[iid] = o
+            for x in o['r']:
+                m = mats.get(str(x[0])) or {}
+                if m and str(x[0]) not in mat:
+                    mat[str(x[0])] = [m.get('nameKo') or m.get('name') or '', m.get('icon') or '', m.get('quality') or 1,
+                                      [k for k in dict.fromkeys(g.get('k') for g in m.get('origin') or []) if k][:3]]
+    print('제작법', len(rcp), '· 재료', len(mat), '· 도안 상인', len(npc))
+    return rcp, mat, npc
+
+
+def _tips():
+    """게임 툴팁 줄 그대로(애드온 data/qdb/items-addon.jsonl, 이름 줄 빼고) — 앱 「게임 툴팁처럼」 칸 (data/tip.json, 열 때만 받음)
+    숫자를 #로 바꾼 줄 모양(t)을 한 번만 적고, 템마다 [모양 번호, 숫자…] (숫자 없으면 번호만) → 약 1/2 크기"""
+    AD = globals().get('_AD') or {}
+    have = {int(l.split('|', 1)[0]) for l in ITEMS_TXT.splitlines() if l and l.split('|', 1)[0].isdigit()}
+    NUM = re.compile(r'\d[\d,]*(?:\.\d+)?')
+    T, out = {}, {}
+    for i in sorted(have):
+        L = (AD.get(i) or {}).get('lines')
+        if not L:
+            continue
+        row = []
+        for t in L:
+            t = str(t)
+            if t == '이미 습득':  # 계정 수집 상태(그때 그 계정) — 툴팁 내용 아님
+                continue
+            k = NUM.sub('#', t)
+            if k not in T:
+                T[k] = len(T)
+            ns = [int(x) if x.isdigit() else x for x in NUM.findall(t)]
+            row.append([T[k]] + ns if ns else T[k])
+        out[str(i)] = row
+    print('게임 툴팁', len(out), '· 줄 모양', len(T))
+    return {'t': sorted(T, key=T.get), 'i': out}
+
+
+def _bind():
+    """게임 툴팁 첫 줄 귀속: 획득 시 귀속(p)·착용 시 귀속(e) 번호를 앞 번호와의 차(36진수)로 이어 씀 → 앱이 풀어서 it.bd"""
+    AD = globals().get('_AD') or {}
+    have = {int(l.split('|', 1)[0]) for l in ITEMS_TXT.splitlines() if l and l.split('|', 1)[0].isdigit()}
+    out = {}
+    for k, w in (('p', '획득 시 귀속'), ('e', '착용 시 귀속')):
+        ids = sorted(i for i, o in AD.items() if i in have and w in (o.get('lines') or [])[:2])
+        prev, seq = 0, []
+        for i in ids:
+            seq.append(base36(i - prev)); prev = i
+        out[k] = ','.join(seq)
+    return out
+
+
+def base36(n):
+    s = ''
+    while True:
+        n, r = divmod(n, 36)
+        s = '0123456789abcdefghijklmnopqrstuvwxyz'[r] + s
+        if not n:
+            return s
+
+
+
 def _efft():
     """「효과」 표시 템의 특수 효과 글: 게임 툴팁(애드온) 줄이 wowf.io보다 적지 않으면 게임 것, 아니면 wowf.io → {번호: '줄\n줄'}"""
     from items_wowf import special_lines
@@ -1691,7 +1801,11 @@ def _armor_est(txt):
 
 
 ITEMS_TXT = _armor_est(ITEMS_TXT)
-DVER = {k: fp(v) for k, v in {'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'm3': 'data/guides/dungeon-maps3d.json', 'rp': 'data/guides/dungeon-replays.json', 'fdt': 'data/guides/fdt-map.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
+# 제작 장비 만드는 법은 따로 파일(data/rcp.json) — 제작 칸을 열 때만 받음(앱 rcpLoad) · 게임 툴팁 줄은 data/tip.json(앱 tipLoad, 템 자세히 보기를 열 때)
+_RC3 = _rcp()
+(ROOT / 'data' / 'rcp.json').write_text(json.dumps({'r': _RC3[0], 'm': _RC3[1], 'n': _RC3[2]}, ensure_ascii=False, separators=(',', ':'), sort_keys=True), encoding='utf-8')
+(ROOT / 'data' / 'tip.json').write_text(json.dumps(_tips(), ensure_ascii=False, separators=(',', ':'), sort_keys=True), encoding='utf-8')
+DVER = {k: fp(v) for k, v in {'rcp': 'data/rcp.json', 'tip': 'data/tip.json', 'fq': 'data/forg/quests.jsonl', 'rw': 'data/forg/rewards.jsonl', 'qdb': 'data/qdb/quests.jsonl', 'dgg': 'data/forg/dungeon-guide.json', 'm3': 'data/guides/dungeon-maps3d.json', 'rp': 'data/guides/dungeon-replays.json', 'fdt': 'data/guides/fdt-map.json', 'world': 'data/qdb/world.json', 'wy': 'data/wythic/dungeons.json', 'bag': 'data/qdb/item-bag.txt'}.items()}
 # 길 따라 동선 격자(data/route/*.png, tools/route/build_grid.py): 파일 전체 지문 하나 + 있는 지역 번호
 _rg = sorted((ROOT / 'data' / 'route').glob('*.png'))
 DVER['rg'] = hashlib.md5(b''.join(p.read_bytes() for p in _rg)).hexdigest()[:10] if _rg else '0'
@@ -1729,6 +1843,7 @@ data = '\n'.join([
     'const D_MATID=' + json.dumps(MATID, ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_SETS=' + json.dumps(_sets(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_EFFT=' + json.dumps(_efft(), ensure_ascii=False, separators=(',', ':')) + ';',
+    'const D_BIND=' + json.dumps(_bind(), ensure_ascii=False, separators=(',', ':')) + ';',
     rd(A / 'hubs.js'),
 ])
 (ROOT / 'app-data.js').write_text(data, encoding='utf-8')

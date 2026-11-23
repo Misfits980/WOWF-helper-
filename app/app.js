@@ -981,7 +981,7 @@ function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)retur
 const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
 const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(ql[srcQid(s)]||(IT_Q[it.id]||[]).some(x=>ql[x])))};
 function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(s=>srcSure(s)&&!s.raid&&!s.pvp))return 'sure';if(S.some(s=>s.raid&&srcSure(s)))return 'raid';if(S.some(s=>s.pvp))return 'pvp';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
-const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',soon:'🚧 개방 예정 던전',ah:'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+'</span>'};
+const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',soon:'🚧 개방 예정 던전',ah:bindOf(it)==='p'?'🔨 직접 제작':'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+'</span>'};
 /* 추천 기준: q 퀘스트만(던전 퀘스트 빼고) · dg 던전만(던전 보스·던전 퀘스트) · ok 퀘스트+던전(퀘스트·던전·상인·이름 있는 몹, 기본) · rd 레이드까지(ok + 레이드 보스·레이드 퀘스트) · all 전체(경매장·월드 드랍·명예 상인까지)
    레이드·명예 상인 출처는 build.py가 4번째 칸(r·p)으로 표시 */
 let DQSET=null;const dqSet=()=>DQSET||(DQSET=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id))));
@@ -1048,14 +1048,113 @@ function diffHtml(a,b,c){const w=wOf(c);const ks=new Set([...Object.keys(a?a.st:
   arr.sort((x,y)=>y[2]-x[2]);if(!arr.length)return '';
   return '<span class="dif">'+arr.slice(0,4).map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+(k==='dps'||(PCTK[k]&&Math.abs(d)%1)?Math.abs(d).toFixed(1):Math.round(Math.abs(d)))+'</span>').join(' · ')+'</span>'}
 function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.src.slice(0,n||2).map(i=>{const s=SRC[i];if(!s)return '';
-  if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+(s.boss?' · '+s.boss:'');if(s.k===1)return / · 퀘스트 보상$/.test(s.qn)?s.qn:'퀘스트 「'+s.qn+'」'+(hordeQ(srcQid(s))?' (호드)':'');if(s.k===2)return '월드 드랍 (경매장)';if(s.pvp)return (s.k===1?'퀘스트 「'+s.qn+'」':s.label.replace(/^PvP · /,'').replace(/^상인 · /,'상인 '))+' (PvP)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':/^드랍 · 숨은 물건: /.test(s.label)?s.label.replace('드랍 · 숨은 물건: ','숨은 물건 「')+'」에서 얻기':s.label.replace('드랍 · ','')+' 처치';if(s.k===4)return s.label.replace(/ · 경매장 거래$/,'')+' (경매장)';if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
-function srcList(it){if(!it.src.length)return '<p class="note">어디서 나오는지 아직 몰라요.</p>';
+  if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+(s.boss?' · '+s.boss:'');if(s.k===1)return / · 퀘스트 보상$/.test(s.qn)?s.qn:'퀘스트 「'+s.qn+'」'+(hordeQ(srcQid(s))?' (호드)':'');if(s.k===2)return '월드 드랍 (경매장)';if(s.pvp)return (s.k===1?'퀘스트 「'+s.qn+'」':s.label.replace(/^PvP · /,'').replace(/^상인 · /,'상인 '))+' (PvP)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':/^드랍 · 숨은 물건: /.test(s.label)?s.label.replace('드랍 · 숨은 물건: ','숨은 물건 「')+'」에서 얻기':s.label.replace('드랍 · ','')+' 처치';if(s.k===4){/* 획득 시 귀속(게임 툴팁) 제작템은 경매장에 안 나옴 — 예전엔 모두 「(경매장)」 */const pf=craftProf(s),bd=bindOf(it);return bd==='p'?pf+' 직접 제작':pf+' 제작 · '+(bd==='e'?'경매장에도 있어요':'경매장')}if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
+function srcList(it,c){if(!it.src.length)return '<p class="note">어디서 나오는지 아직 몰라요.</p>';
   return '<div class="srcl">'+it.src.slice(0,6).map(i=>{const s=SRC[i];if(!s)return '';const d=s.k===0&&DG[s.dg];
     const ico={0:'🏰',1:'📜',2:'🌍',3:'⚔️',4:'🧪',5:'🛒'}[s.k]||'•';const bn=d&&d.bosses?bossNo(d,s.boss):null;
-    return '<div class="srci"><span class="si">'+ico+'</span><span class="sx">'+esc(srcTxt({src:[i]},1))+(d?'<small>'+d.lo+'–'+d.hi+'레벨 던전'+(bn?' · '+bn+'번째 보스':'')+'</small>':'')+'</span>'+(d?'<button class="btn sm ghost" data-a="dgo" data-k="'+s.dg+'">던전 ›</button>':s.k===1&&srcQid(s)?(()=>{const qi=srcQid(s);const dd=dgOfQ(qi);return dd?'<button class="btn sm ghost" data-a="dgo" data-k="'+dd.slug+'">던전 ›</button>':'<button class="btn sm ghost" data-a="qopen" data-k="'+qi+'">퀘스트 ›</button>'})():'')+'</div>'}).join('')+'</div>'}
+    if(s.k===4){/* 제작: 숙련도·재료 수·배우는 곳 한 줄 + 펼치면 만드는 법 */const R=RCP&&RCP.r[it.id];if(!RCP)rcpLoad();return '<div class="srci"><span class="si">'+ico+'</span><span class="sx">'+esc(srcTxt({src:[i],id:it.id},1))+'<small>'+(R?esc(R.p+' '+R.s+' · 재료 '+R.r.length+'가지 · '+rcpBrief(R)):RCP?'만드는 법 정보가 아직 없어요':DERR.rcp?'만드는 법을 못 받았어요 (인터넷 확인)':'만드는 법 불러오는 중…')+'</small></span></div>'+(R?'<details class="rcpd"><summary>만드는 법 · 재료 · 배우는 곳 ▾</summary>'+craftBox(c,it,s)+'</details>':'')}
+    return '<div class="srci"><span class="si">'+ico+'</span><span class="sx">'+esc(srcTxt({src:[i],id:it.id},1))+(d?'<small>'+d.lo+'–'+d.hi+'레벨 던전'+(bn?' · '+bn+'번째 보스':'')+'</small>':'')+'</span>'+(d?'<button class="btn sm ghost" data-a="dgo" data-k="'+s.dg+'">던전 ›</button>':s.k===1&&srcQid(s)?(()=>{const qi=srcQid(s);const dd=dgOfQ(qi);return dd?'<button class="btn sm ghost" data-a="dgo" data-k="'+dd.slug+'">던전 ›</button>':'<button class="btn sm ghost" data-a="qopen" data-k="'+qi+'">퀘스트 ›</button>'})():'')+'</div>'}).join('')+'</div>'}
 /* 특수 효과 글(발동·사용 효과·몹 종류 상대 등 점수 밖): build.py _efft가 게임 툴팁(애드온) 또는 wowf.io 툴팁에서 뽑음 */
 const effLines=it=>{const t=it&&typeof D_EFFT!=='undefined'?D_EFFT[it.id]:'';return t?t.split('\n'):[]};
 function effBox(it){if(!it||!it.eff)return '';const L=effLines(it);return '<div class="src"><b>특수 효과 · 점수에 안 들어가요</b>'+(L.length?L.map(x=>'<div class="nm">'+esc(x)+'</div>').join(''):'<div class="nm">게임 툴팁에서 확인해 주세요.</div>')+'</div>'}
+/* ===== 🔨 제작 장비 만드는 법 + 게임 툴팁처럼 보기 =====
+   귀속: build.py _bind가 게임 툴팁 첫 줄(획득 시/착용 시 귀속) 번호를 앞 번호와의 차(36진수)로 이어 씀
+   만드는 법: data/rcp.json (제작 칸을 열 때만) · 게임 툴팁 줄: data/tip.json (템 자세히 보기를 열 때만, build.py _tips) */
+const BIND=(()=>{const m=new Map();if(typeof D_BIND==='undefined')return m;for(const k of ['p','e']){let p=0;for(const x of String(D_BIND[k]||'').split(',')){if(!x)continue;p+=parseInt(x,36);m.set(p,k)}}return m})();
+const bindOf=it=>it&&BIND.get(it.id)||'';
+let RCP=null,RCP_LD=false;
+let TIPD=null,TIP_LD=false;
+function tipLoad(force){if(TIPD||TIP_LD||!dTry('tip',force))return;TIP_LD=true;dGet('data/tip.json?v='+D_VER.tip,'json').then(j=>{TIPD=j&&j.t?j:{t:[],i:{}};TIP_LD=false;delete DERR.tip;if(me()&&(ui.sheet||ui.tab==='gear'))dRedraw()}).catch(()=>{TIP_LD=false;DERR.tip=Date.now()})}
+/* 게임 툴팁 줄 풀기: 줄 모양의 #에 숫자를 차례로 넣음 */
+function gameLines(it){const r=TIPD&&TIPD.i[it.id];if(!r)return null;return r.map(e=>{if(typeof e==='number')return TIPD.t[e]||'';let k=0;return (TIPD.t[e[0]]||'').replace(/#/g,()=>String(e[++k]))})}
+function rcpLoad(force){if(RCP||RCP_LD||!dTry('rcp',force))return;RCP_LD=true;dGet('data/rcp.json?v='+D_VER.rcp,'json').then(j=>{RCP=j&&j.r?j:{r:{},m:{},n:{},x:{}};RCP_LD=false;delete DERR.rcp;if(me()&&(ui.sheet||ui.tab==='gear'))dRedraw()}).catch(()=>{RCP_LD=false;DERR.rcp=Date.now()})}
+const GSL={he:'머리',ne:'목',sh:'어깨',ba:'등',ch:'가슴',wr:'손목',ha:'손',wa:'허리',le:'다리',fe:'발',fi:'손가락',tr:'장신구','1h':'한손 장비','2h':'양손 장비',mh:'주장비',oh:'보조장비',ho:'보조장비',ra:'원거리 장비'};
+const GCS={'2.0':'도끼','2.1':'도끼','2.2':'활','2.3':'총','2.4':'둔기','2.5':'둔기','2.6':'장창류','2.7':'도검','2.8':'도검','2.10':'지팡이','2.13':'장착 무기','2.15':'단검','2.16':'투척 무기','2.18':'석궁','2.19':'마법봉','4.1':'천','4.2':'가죽','4.3':'사슬','4.4':'판금','4.6':'방패','4.7':'성서','4.8':'우상','4.9':'토템'};
+const GBASE=[['str','힘'],['agi','민첩성'],['sta','체력'],['int','지능'],['spi','정신력']];
+const GSCH={shadow:'암흑',fire:'화염',frost:'냉기',arcane:'비전',holy:'신성'};
+const gN=v=>Math.round(v).toLocaleString('en-US');
+/* 게임 툴팁 자료가 없는 템(약 1,000개)·자료를 받기 전: 앱 능력치로 게임 말투 그대로 만듦 → [[글, 종류]] 종류: m 두 칸 · g 초록 · bad 빨강(내가 못 맞춤) */
+function gTipLines(it,c){const st=it.st||{};const L=[];const P=(t,k)=>L.push([t,k||'']);
+  const bd=bindOf(it);if(bd)P(bd==='p'?'획득 시 귀속':'착용 시 귀속');
+  P([it.sl==='ra'&&it.cs==='2.16'?'투척':it.sl==='ra'&&/^4\.[789]$/.test(it.cs)?'성물':GSL[it.sl]||SL_KO[it.sl]||'',it.sl==='ba'?'':GCS[it.cs]||''],'m');
+  if(st.dps)P('(초당 공격력 '+st.dps.toFixed(1)+')');
+  const ar=Math.round(st.bar||st.armor||0);
+  if(ar>0)P('방어도 '+gN(ar));else if(st.bare)P('방어도 약 '+gN(st.bare)+' (어림)');
+  if(st.block&&it.cs==='4.6')P('방패 막기 '+gN(st.block));
+  GBASE.forEach(([k,n])=>{if(st[k])P(n+' '+(st[k]>0?'+':'')+gN(st[k]))});
+  const E=t=>P('착용 효과: '+t,'g');const sp=st.sp||0,hl=st.heal||0;
+  if(sp&&hl&&Math.abs(sp-hl)<.5)E('마법 주문 및 효과로 입히는 피해와 치유량이 최대 '+gN(sp)+'만큼 증가합니다.');
+  else if(sp&&hl)E('모든 마법 주문 및 효과에 의한 치유량이 최대 '+gN(hl)+'만큼, 주문 공격력이 최대 '+gN(sp)+'만큼 증가합니다.');
+  else if(hl)E('마법 주문과 효과에 의한 치유량이 최대 '+gN(hl)+'만큼 증가합니다.');
+  else if(sp)E('마법 주문과 효과에 의한 공격력이 최대 '+gN(sp)+'만큼 증가합니다.');
+  for(const k in GSCH)if(st[k])E(GSCH[k]+' 주문과 효과에 의한 공격력이 최대 '+gN(st[k])+'만큼 증가합니다.');
+  if(st.nature)E('자연 주문 및 효과의 공격력이 최대 '+gN(st.nature)+'만큼 증가합니다.');
+  const cr=Math.max(st.crit||0,st.scrit||0),ht=Math.max(st.hit||0,st.shit||0);
+  if(cr)E('치명타 및 극대화율이 '+cr.toFixed(1)+'%만큼 증가합니다.');
+  if(ht)E('적중률이 '+ht.toFixed(1)+'%만큼 증가합니다.');
+  if(st.ap)E('전투력이 '+gN(st.ap)+'만큼 증가합니다.');
+  if(st.rap)E('원거리 전투력이 '+gN(st.rap)+'만큼 증가합니다.');
+  if(st.mp5)E('5초마다 '+gN(st.mp5)+'의 마나를 회복합니다.');
+  if(st.def)E('방어 숙련도가 '+gN(st.def)+'만큼 증가합니다.');
+  if(st.dodge)E('공격을 회피할 확률이 '+st.dodge.toFixed(1)+'%만큼 증가합니다.');
+  if(st.parry)E('무기 막기 확률이 '+st.parry.toFixed(1)+'%만큼 증가합니다.');
+  if(st.blockp)E('방패 막기 확률이 '+st.blockp.toFixed(1)+'%만큼 증가합니다.');
+  if(st.block&&it.cs!=='4.6')E('방패의 피해 방어량이 '+gN(st.block)+'만큼 증가합니다.');
+  if(st.exp)E('공격이 회피되거나 무기 막기에 막힐 확률이 '+st.exp.toFixed(1)+'%만큼 감소합니다.');
+  effLines(it).forEach(x=>P(x,'g'));
+  if(it.allow)P('직업: '+it.allow.map(k=>(CINFO[k]||[k])[0]).join(', '),c&&!it.allow.includes(c.cls)?'bad':'');
+  if(it.lv>1&&!it.nr)P('최소 요구 레벨 '+it.lv+(it.est?' (어림)':''),c&&c.lv<it.lv?'bad':'');
+  return L}
+/* 게임 툴팁 줄 → [[글, 종류]]: 빈 줄·세트 부위 목록·세트 효과는 뺌(세트 칸이 따로 있음, 세트 이름만 남김) · 부위/종류와 공격력/속도는 게임처럼 두 칸 */
+const GSLW=/^(머리|목|어깨|등|가슴|손목|손|허리|다리|발|손가락|장신구|한손 장비|양손 장비|주장비|보조장비|원거리 장비|투척|성물)(?: (.+))?$/;
+function gTipGame(G,it,c){const L=[];let sk=0;const me_=c&&CINFO[c.cls]?CINFO[c.cls][0]:'';
+  for(const t of G){if(t===''){sk=0;continue}if(sk)continue;
+    if(/ \(\d+\/\d+\)$/.test(t)){L.push([t.replace(/ \(\d+\/\d+\)$/,''),'set']);sk=1;continue}
+    if(/^\(\d+\) 세트 효과/.test(t))continue;
+    let m=t.match(/^\|c[fF]{2}([0-9a-fA-F]{6})(.*?)\|r$/);if(m){L.push([m[2],'c#'+m[1]]);continue}
+    m=t.match(GSLW);if(m&&L.length<4&&!L.some(x=>x[1]==='m')){L.push([[m[1],m[2]||''],'m']);continue}
+    m=t.match(/^(.*공격력 [\d,]+ - [\d,]+) +(속도 [\d.]+)$/);if(m){L.push([[m[1],m[2]],'m']);continue}
+    if(/^(착용|사용|발동) 효과:/.test(t)){L.push([t,'g']);continue}
+    if(/^"/.test(t)){L.push([t,'q']);continue}
+    m=t.match(/^최소 요구 레벨 (\d+)$/);if(m){L.push([t,c&&c.lv<+m[1]?'bad':'']);continue}
+    m=t.match(/^직업: (.+)$/);if(m){L.push([t,me_&&!m[1].split(/, ?/).includes(me_)?'bad':'']);continue}
+    m=t.match(/^요구 사항: (.+?) \((\d+)\)$/);if(m&&c&&c.profLv){const pl=c.profLv[m[1]];L.push([t,typeof PROFS!=='undefined'&&PROFS.some(p=>p.ko===m[1])&&(!pl||pl[0]<+m[2])?'bad':'']);continue}
+    L.push([t,''])}
+  return L}
+function gameTip(c,it){if(!TIPD)tipLoad();const G=gameLines(it);
+  return '<div class="gtip"><div class="tt-n q'+it.q+'">'+esc(it.nm)+'</div>'+(G?gTipGame(G,it,c):gTipLines(it,c)).map(([t,k])=>k==='m'?'<div class="tt-m"><span>'+esc(t[0])+'</span><span>'+esc(t[1])+'</span></div>':k.startsWith('c#')?'<div class="tt-l" style="color:#'+k.slice(2)+'">'+esc(t)+'</div>':'<div class="'+({g:'tt-g',q:'tt-q',set:'tt-set'}[k]||'tt-l')+(k==='bad'?' bad':'')+'">'+esc(t)+'</div>').join('')+'</div>'
+   +(((it.lv<=1||it.nr)&&it.ob>1)||(it.ph==='extra'&&!G)?'<div class="gtn">'+((it.lv<=1||it.nr)&&it.ob>1?'착용 레벨 제한 없음 · '+it.ob+'레벨쯤 얻음':'')+(it.ph==='extra'&&!G?' <span class="tag sm" title="클래식 자료로 더한 장비라 능력치가 조금 다를 수 있어요">능력치 대략</span>':'')+'</div>':'')}
+/* 제작: 전문기술 이름 (출처 글 「제작 · 재봉술 · …」) */
+const craftProf=s=>(s&&s.label||'').split(' · ')[1]||'';
+const MAT_KO={craft:'제작',drop:'몹 드랍',vendor:'상인',skin:'무두질',de:'마력 추출',quest:'퀘스트',mine:'채광',herb:'약초채집',object:'채집',pickpocket:'소매치기',fish:'낚시'};
+const QN='pcurel';
+/* 배우는 곳 → [[구분, 이름, 설명]] (얼라이언스 상인 먼저 · 호드 상인만 있으면 알림) */
+function rcpWhere(R){const out=[],seen=new Set();const add=(k,a,b)=>{const key=k+a+b;if(seen.has(key))return;seen.add(key);out.push([k,a,b||''])};const NP=RCP.n||{};
+  for(const n of R.n||[]){const cd=n[3]||[],zs=n[4]||[],V=(n[5]||[]).map(v=>NP[v]).filter(Boolean);
+    if(cd.includes(5)){const VA=V.filter(r=>!r[2]||/A/.test(r[2]));if(VA.length)VA.slice(0,3).forEach(r=>add('상인',r[0],[r[1],r[3]+(r[4]?' '+(+r[4]).toFixed(1)+', '+(+r[5]).toFixed(1):'')].filter(Boolean).join(' · ')));
+      else if(V.length)add('상인','호드 상인만 팔아요',V.slice(0,2).map(r=>r[0]+' ('+r[3]+')').join(', ')+' — 경매장에서 도안을 찾아보세요');else add('상인','상인 판매','파는 상인 정보가 없어요')}
+    if(cd.includes(2)){const D=zs.filter(z=>z[0]&&z[0]!=='월드 드랍');if(D.length)D.slice(0,3).forEach(z=>add('몹 드랍',z[1]||z[0],z[1]?z[0]:''));else add('월드 드랍','아무 몹에게서 낮은 확률','경매장에서 사는 게 빨라요')}
+    if(cd.includes(4))add('퀘스트','퀘스트 보상','');
+    if(cd.includes(16))add('낚시','낚시로 건짐','');
+    if(cd.includes(21))add('소매치기','도적 소매치기','')}
+  const l=R.l||[];if(l.includes(6))add('교관',R.p+' 교관에게 배워요',R.c?money(R.c):'');
+  if(!out.length){if(l.includes(5))add('상인','상인 판매','');if(l.includes(2))add('몹 드랍','몹 드랍','');if(l.includes(4))add('퀘스트','퀘스트 보상','')}
+  return out}
+const rcpBrief=R=>{const w=rcpWhere(R)[0];return w?(w[0]==='상인'&&w[1]!=='호드 상인만 팔아요'?'상인 '+w[1]+(w[2]?' ('+w[2].split(' · ').pop().replace(/ [\d.]+, [\d.]+$/,'')+')':''):w[0]==='교관'?'교관':w[1]):'배우는 곳 정보 없음'};
+function craftBox(c,it,s){const pf=craftProf(s);const bd=bindOf(it);const R=RCP&&RCP.r[it.id];if(!RCP)rcpLoad();
+  const note=bd==='p'?'획득 시 귀속이라 경매장에 안 나와요. 직접 만들어야 해요.':bd==='e'?'착용 시 귀속이라 경매장에서도 살 수 있어요.':'전문기술로 만들거나 경매장에서 사요.';
+  let h='<div class="src craft"><b>🔨 '+(bd==='p'?'직접 제작':'제작')+' · '+esc(R?R.p:pf)+(R&&R.s?' '+R.s:'')+'</b>';
+  if(!R){h+='<div class="sub">'+(RCP?'만드는 법 정보가 아직 없어요.':DERR.rcp?'만드는 법을 못 받았어요. 인터넷을 확인하고 다시 열어 주세요.':'만드는 법 불러오는 중…')+'</div><div class="sub">'+note+'</div></div>';return h}
+  const pl=c&&c.profLv?c.profLv[R.p]:null;
+  if(c&&c.profLv)h+='<div class="sub '+(pl&&pl[0]>=R.s?'ok':'bad')+'">'+(pl?'내 '+esc(R.p)+' '+pl[0]+(pl[0]>=R.s?' — 지금 만들 수 있어요':' — '+R.s+'까지 올려야 해요'):'이 캐릭터는 '+esc(R.p)+' 전문기술이 없어요')+'</div>';
+  const M=RCP.m||{};const n0=(R.n||[])[0];
+  h+='<div class="gtip rtip">'+(n0?'<div class="tt-n q'+(QN[n0[1]]||'c')+'">'+esc(n0[0])+'</div>':'<div class="tt-n qc">'+esc(R.p)+' 제작법</div>')
+    +'<div class="tt-l'+(c&&c.profLv&&!(pl&&pl[0]>=R.s)?' bad':'')+'">요구 사항: '+esc(R.p)+' ('+R.s+')</div>'
+    +(R.f?'<div class="tt-l">필요한 곳: '+esc(R.f)+'</div>':'')+(R.t&&R.t.length?'<div class="tt-l">필요 도구: '+esc(R.t.join(', '))+'</div>':'')
+    +'<div class="tt-h">재료</div>'+R.r.map(([id,q])=>{const m=M[id]||['재료 '+id,'',1,[]];return '<div class="rmat"><span class="ic sm" style="background-image:url('+ICO(m[1])+')"></span><span class="q'+(QN[m[2]]||'c')+'">'+esc(m[0])+'</span><b>×'+q+'</b>'+(m[3]&&m[3].length?'<small>'+esc(m[3].map(k=>MAT_KO[k]||k).join('·'))+'</small>':'')+'</div>'}).join('')+'</div>';
+  const W=rcpWhere(R);
+  h+='<div class="rwh"><div class="tt-h">배우는 곳</div>'+(W.length?W.map(w=>'<div class="rw1"><span class="k">'+esc(w[0])+'</span><span>'+esc(w[1])+(w[2]?'<small>'+esc(w[2])+'</small>':'')+'</span></div>').join(''):'<div class="sub">배우는 곳 정보가 아직 없어요.</div>')+'</div>';
+  return h+'<div class="sub">'+note+'</div></div>'}
 /* ===== 🖱️ PC: 아이템 아이콘에 마우스를 올리면 와우 툴팁처럼 전체 능력치 ===== */
 const TIP_BASE=['str','agi','sta','int','spi'];
 function itemTipHtml(c,it,slot){const st=it.st||{};const QC={p:'qp',c:'qc',u:'qu',r:'qr',e:'qe',l:'ql'}[it.q]||'qc';
@@ -1132,7 +1231,7 @@ function cmpTable(c,cols,w,opt){opt=opt||{};const L=c.lv;
   return h}
 /* 비교 줄을 누르면 바로 아래: 능력치 전체 · 끼면 바뀌는 것 · 얻는 곳 · 버튼 */
 function cmpDetail(c,x){const it=x.it;const sl=x.slot||cmpSlot(it,c);
-  return '<div class="cdet"><div class="cdm">'+itMeta(it)+' · '+(it.ob>c.lv?'🔒 '+it.ob+'레벨부터':'지금 낄 수 있어요')+'</div>'+statLine(it)
+  return '<div class="cdet">'+gameTip(c,it)+'<div class="cdm">'+(it.ob>c.lv?'🔒 '+it.ob+'레벨부터':'지금 낄 수 있어요')+'</div>'
    +(!x.eq&&sl&&usable(it,c)?statChange(c,sl,it):'')
    +'<div class="cdsrc">'+srcParts(c,it)+'</div>'
    +'<div class="cdb">'+(!x.eq&&sl&&usable(it,c)?'<button class="btn sm" data-a="equip" data-k="'+sl+'" data-id="'+it.id+'">착용</button>':'')+'<button class="btn sm ghost" data-a="wish" data-k="'+it.id+'">'+(isWish(c,it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="info" data-k="'+it.id+'">ⓘ 템 정보</button></div></div>'}
@@ -1234,17 +1333,18 @@ function srcParts(c,it){let h='';
       else parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(s.qn)+'」</div>'+(QDB?'':'<div class="sub">퀘스트 자료를 불러오는 중…</div>')+'<div class="sub">'+(()=>{const qi=srcQid(s);/* 이름이 영어로만 남은 출처는 대부분 호드 퀘스트이거나 포에버에 없는 퀘스트(다른 확장팩 번호) — 추천에서 빠지는 이유를 적음 */return qi&&hordeQ(qi)?'🚫 호드 퀘스트예요 — 얼라이언스는 못 받아요.':qi&&QDB?'포에버 퀘스트 자료에 없는 퀘스트예요 (지금은 못 받을 수 있어요).':'앱 자료에 없는 퀘스트예요.'})()+' <a href="https://www.wowhead.com/forever/ko/'+(srcQid(s)?'quest='+srcQid(s):esc(s.href.replace('wh:','')))+'" target="_blank" rel="noopener">와우헤드에서 보기 ↗</a></div></div>')}
     else if(s.k===3)parts.push('<div class="src"><b>⚔️ 몹 드랍</b><div class="nm">'+esc(s.label.replace('드랍 · ',''))+'</div><div class="sub">이 몹을 잡으면 낮은 확률로 나와요.</div></div>');
     else if(s.k===2)parts.push('<div class="src"><b>🎲 월드 드랍</b><div class="sub">레벨 맞는 필드 몹에게서 무작위로 나와요. 경매장에서 사는 게 빨라요.</div></div>');
-    else if(s.k===4)parts.push('<div class="src"><b>🔨 제작</b><div class="nm">'+esc(s.label.replace(/^제작 · /,''))+'</div><div class="sub">전문기술로 만들거나 경매장에서 사요.</div></div>');
+    else if(s.k===4)parts.push(craftBox(c,it,s));
     else if(s.k===5)parts.push('<div class="src"><b>🪙 상인 판매</b><div class="nm">'+esc(s.label.replace(/^상인 · /,''))+'</div></div>');
     else parts.push('<div class="src">'+esc(s.label)+'</div>')}
   h+=parts.length?parts.join(''):'<p class="note">출처 정보가 없어요.</p>';
   return h}
 function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';if(!QDB)qdbLoad();const b=bestSlot(it,c);const cur=b?eqIt(c,b.s):null;
   let h='<div class="sh"><h2>'+itName(it)+'</h2><button class="x" data-a="close">✕</button></div>';
-  h+='<div class="row wtip">'+itIcon(it,'lg')+'<span class="m"><span class="sub">'+itMeta(it)+'</span>'+statLine(it)+(usable(it,c)?'':'<span class="sub" style="color:var(--bad)">내 직업은 못 써요</span>')+'</span>'+(b&&usable(it,c)?'<span class="r">'+gainTag(b.g,b.base,b.empty)+'</span>':'')+'</div>';
-  if(b&&usable(it,c))h+='<p class="note">'+SLOT_KO[b.s]+' 칸에 끼면 (지금: '+(cur?esc(cur.nm):'비어 있음')+')</p>'+statChange(c,b.s,it);
+  h+='<div class="row wtip gtw">'+itIcon(it,'lg')+'<span class="m">'+gameTip(c,it)+(usable(it,c)?'':'<span class="sub" style="color:var(--bad)">내 직업은 못 써요</span>')+'</span></div>';
+  if(b&&usable(it,c))h+='<p class="note gtg">'+SLOT_KO[b.s]+' 칸에 끼면 (지금: '+(cur?esc(cur.nm):'비어 있음')+') '+gainTag(b.g,b.base,b.empty)+'</p>'+statChange(c,b.s,it);
   h+=itActs(c,it.id).replace('<button class="btn sm ghost" data-a="info" data-k="'+it.id+'">ⓘ 얻는 곳</button>',(c.cmp||[]).length?'<button class="btn sm ghost" data-a="cmpgo">비교 보기 ('+c.cmp.length+')</button>':'');
-  h+=effBox(it);
+  /* 특수 효과 글은 위 게임 툴팁에 초록 줄로 나옴 → 점수 밖이라는 것만 짧게 (툴팁에 효과 글이 없을 때만 예전 상자) */
+  h+=it.eff&&(gameLines(it)||effLines(it).length)?'<p class="note">특수 효과(발동·사용 등)는 점수에 안 들어가요.</p>':effBox(it);
   {const so=setOf(it.id)||setOfIt(it);if(so)h+=setHtml(c,so,1)}
   h+='<h3>어디서 얻나요</h3>'+srcParts(c,it);
   {const n=wskNeed(it,c);if(n)h+=n.low?'<div class="src"><b>🎓 '+esc(n.ko)+' 숙련도 '+n.low[0]+'/'+n.low[1]+'</b><div class="nm">숙련도가 낮으면 빗나감·스치는 공격이 많아요. 낄 거라면 사냥하면서 숙련도부터 올리세요.</div></div>'
@@ -1947,7 +2047,7 @@ function fltNone(cur){const f=(IFIL.find(x=>x[0]===ui.ifil)||[])[1];const t=ui.i
 function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFor(c,slot,L,ui.ifil).slice(0,3);const {w}=cmpW(c);
   let h='<div class="card hl spanel'+(ui.swd?' sw'+ui.swd:'')+'" data-swslot="1"><div class="hd"><h3>'+SLOT_KO[slot]+' · 지금 장비와 추천 비교</h3>'+slotNav(c,slot)+'<button class="x" data-a="gsel" data-k="">✕</button></div>';ui.swd=null;
   if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div>'+curSrcNote(c,cur)+'<p class="note">'+fltNone(cur)+'</p>'}
-  else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w)+curSrcNote(c,cur);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
+  else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w)+curSrcNote(c,cur);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it,c)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
   h+=nextBox(c,slot,best);
   if(c.bag){const w2=wOf(c);const O=bagAll(c).filter(x=>x.ok&&fits(x.it,slot,c)&&x.it.id!==(cur&&cur.id)).map(x=>Object.assign({},x,{g:sc(x.it,slot,w2,c)-sc(cur,slot,w2,c)})).sort((a,b)=>b.g-a.g);
     h+='<div class="owb"><h4>🎒 내 가방·은행의 '+SLOT_KO[slot]+' 템 <small>'+(O.length?O.length+'개':'없어요')+'</small></h4>'+O.slice(0,5).map(x=>'<div class="row">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+'</span><span class="nm">'+itName(x.it)+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'</span>'+(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain no">'+(x.g<-.5?'−'+(x.g<=-10?Math.round(-x.g):(-x.g).toFixed(1))+'점':'비슷해요')+'</span>')+'</div>').join('')+'</div>'}
