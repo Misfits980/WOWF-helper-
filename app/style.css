@@ -2376,3 +2376,19 @@ details.rcpd .src.craft{margin:4px 0}
 .prz{display:inline-flex;flex-direction:column;padding:4px 9px;border-radius:9px;background:#221b12;border:1px solid #4d3c1e}.prz b{font-size:13px}.prz small{font-size:11px;color:var(--mute)}
 .pra{color:#8f8470;font-size:14px}.prb{font-size:11px;font-weight:800;color:#9fd0ff;border:1px solid #2c4a6e;border-radius:999px;padding:1px 7px}
 .nxz{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:10px 2px 2px;padding-top:8px;border-top:1px dashed #4d3c1e}.nxz b{font-size:12.5px;color:#e8c06a}.nxz small{font-size:11.5px;color:var(--mute)}
+/* 미리보기 던전 준비 동선 — 이동 시간 · 던전 켜고 끄기 */
+.prep2 .hd{justify-content:space-between}.prep2 .ptt{font-size:12px;color:var(--mute)}.prep2 .ptt b{font-size:20px;color:#ffd65a;margin:0 2px;font-variant-numeric:tabular-nums}
+.psub{font-size:12px;color:var(--mute);margin-top:2px}
+.dgtg{display:grid;gap:6px;margin:10px 0 4px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.dgtr{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 10px;border-radius:10px;background:#1a140c;border:1px solid #3a2e1a;color:var(--mute);cursor:pointer;font:inherit}
+.dgtr .dgck{flex:none;width:18px;height:18px;border-radius:5px;border:2px solid #6b5a3a;display:grid;place-items:center}
+.dgtr .dgck svg{width:14px;height:14px;color:#1a140a;display:none}.dgtr.on{background:#241b0f;border-color:#8a6a2c;color:#f1e6cf}.dgtr.on .dgck{background:#e8c06a;border-color:#e8c06a}.dgtr.on .dgck svg{display:block}
+.dgtr .m{flex:1;min-width:0;display:flex;flex-direction:column}.dgtr .m b{font-size:13.5px;color:#f1e6cf}.dgtr:not(.on) .m b{color:#a59d8c}.dgtr:not(.on) .m b{text-decoration:line-through;text-decoration-color:#6b5a3a}.dgtr .m small{font-size:11.5px;color:var(--mute)}
+.dgtr .dt{flex:none;font-size:12px;font-weight:800;color:#e8c06a;font-variant-numeric:tabular-nums}.dgtr:not(.on) .dt{color:var(--mute);font-weight:600}
+.dgtr:focus-visible{outline:2px solid #ffd65a;outline-offset:2px}
+.prz.now{border-style:dashed;background:transparent}.prz.now b{color:#cfc4ad}.prz.end{border-color:#8a6a2c;background:#2b1f10}.prz.end b{color:#ffd65a}
+.prc{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#cfc4ad;padding:1px 2px}.prc b{font-weight:700;font-variant-numeric:tabular-nums}
+.tvi{width:15px;height:15px;flex:none}
+.prc.k-fly{color:#ffd65a}.prc.k-boat{color:#9fd0ff}.prc.k-port{color:#d7a6ff}.prc.k-tram{color:#ffb36b}.prc.k-walk{color:#a59d8c}
+.nxz small.trv{display:inline-flex;align-items:center;gap:4px}.nxz small.trv .tvi{width:13px;height:13px;color:#e8c06a}
+.isl.trvl{display:flex;align-items:flex-start;gap:6px}.isl.trvl .tvi{margin-top:1px;color:#e8c06a}

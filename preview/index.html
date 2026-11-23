@@ -2386,6 +2386,22 @@ details.rcpd .src.craft{margin:4px 0}
 .prz{display:inline-flex;flex-direction:column;padding:4px 9px;border-radius:9px;background:#221b12;border:1px solid #4d3c1e}.prz b{font-size:calc(13px*var(--fs,1))}.prz small{font-size:calc(11px*var(--fs,1));color:var(--mute)}
 .pra{color:#8f8470;font-size:calc(14px*var(--fs,1))}.prb{font-size:calc(11px*var(--fs,1));font-weight:800;color:#9fd0ff;border:1px solid #2c4a6e;border-radius:999px;padding:1px 7px}
 .nxz{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:10px 2px 2px;padding-top:8px;border-top:1px dashed #4d3c1e}.nxz b{font-size:calc(12.5px*var(--fs,1));color:#e8c06a}.nxz small{font-size:calc(11.5px*var(--fs,1));color:var(--mute)}
+/* 미리보기 던전 준비 동선 — 이동 시간 · 던전 켜고 끄기 */
+.prep2 .hd{justify-content:space-between}.prep2 .ptt{font-size:calc(12px*var(--fs,1));color:var(--mute)}.prep2 .ptt b{font-size:calc(20px*var(--fs,1));color:#ffd65a;margin:0 2px;font-variant-numeric:tabular-nums}
+.psub{font-size:calc(12px*var(--fs,1));color:var(--mute);margin-top:2px}
+.dgtg{display:grid;gap:6px;margin:10px 0 4px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.dgtr{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 10px;border-radius:10px;background:#1a140c;border:1px solid #3a2e1a;color:var(--mute);cursor:pointer;font:inherit}
+.dgtr .dgck{flex:none;width:18px;height:18px;border-radius:5px;border:2px solid #6b5a3a;display:grid;place-items:center}
+.dgtr .dgck svg{width:14px;height:14px;color:#1a140a;display:none}.dgtr.on{background:#241b0f;border-color:#8a6a2c;color:#f1e6cf}.dgtr.on .dgck{background:#e8c06a;border-color:#e8c06a}.dgtr.on .dgck svg{display:block}
+.dgtr .m{flex:1;min-width:0;display:flex;flex-direction:column}.dgtr .m b{font-size:calc(13.5px*var(--fs,1));color:#f1e6cf}.dgtr:not(.on) .m b{color:#a59d8c}.dgtr:not(.on) .m b{text-decoration:line-through;text-decoration-color:#6b5a3a}.dgtr .m small{font-size:calc(11.5px*var(--fs,1));color:var(--mute)}
+.dgtr .dt{flex:none;font-size:calc(12px*var(--fs,1));font-weight:800;color:#e8c06a;font-variant-numeric:tabular-nums}.dgtr:not(.on) .dt{color:var(--mute);font-weight:600}
+.dgtr:focus-visible{outline:2px solid #ffd65a;outline-offset:2px}
+.prz.now{border-style:dashed;background:transparent}.prz.now b{color:#cfc4ad}.prz.end{border-color:#8a6a2c;background:#2b1f10}.prz.end b{color:#ffd65a}
+.prc{display:inline-flex;align-items:center;gap:3px;font-size:calc(11px*var(--fs,1));color:#cfc4ad;padding:1px 2px}.prc b{font-weight:700;font-variant-numeric:tabular-nums}
+.tvi{width:15px;height:15px;flex:none}
+.prc.k-fly{color:#ffd65a}.prc.k-boat{color:#9fd0ff}.prc.k-port{color:#d7a6ff}.prc.k-tram{color:#ffb36b}.prc.k-walk{color:#a59d8c}
+.nxz small.trv{display:inline-flex;align-items:center;gap:4px}.nxz small.trv .tvi{width:13px;height:13px;color:#e8c06a}
+.isl.trvl{display:flex;align-items:flex-start;gap:6px}.isl.trvl .tvi{margin-top:1px;color:#e8c06a}
 
 /* ===================================================================
    와포 도우미 — 와우 게임 창 테마 (2026-11 대격변)
@@ -3616,7 +3632,7 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
 <script src="app-data.js?v=010f399c" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* vbd8607 @11/23 19:12 */
+<script>/* v66b395 @11/23 20:15 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3624,7 +3640,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/23 19:12';
+const BUILD='11/23 20:15';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -6576,18 +6592,115 @@ function dgPrepQ(c){if(!QDB)return new Map();const L=c.lv,ql=c.ql||{};
     for(const g of G){if(!g.length||g.some(dn))continue;const p=g.find(p=>{const P=QDB.get(p);return P&&(P.m||0)<=L&&!/^장인의 계약서/.test(P.n||'')});if(p==null||!need(p,k+1,acc))return false;if(!acc.includes(p))acc.push(p)}return true};
   for(const d of ds)for(const q of dqOf(c,d)){if(!dqPick(c,d,q))continue;const acc=[];if(!need(+q.id,0,acc))continue;acc.forEach(p=>{if((ql[p]||0)<3)put(p,d,false)});put(+q.id,d,true)}
   return Z}
+/* ===== 이동 시간 어림 (미리보기 던전 준비 동선) =====
+   걷기(40레벨부터 탈것 · 60레벨 빠른 탈것) · 그리폰(애드온 기록이 있으면 연 비행 경로만, 없으면 다 열었다고 봄) · 배 · 깊은굴 지하철 · 루테란 마을 차원문
+   큰 지도(toAtlas) 1칸 ≈ 2.08야드 · 걷는 길은 직선보다 35%(다른 지역으로 넘어가면 70%) 더 · 그리폰 초당 32야드(항로가 돌아서 20% 더) + 타고 내리기 0.6분 · 배는 기다리는 시간까지 5분 */
+const TRV_PT={swh:['스톰윈드 항구','스톰윈드','20,30'],men:['메네실 항구','저습지','4.8,60'],aub:['아우버다인','어둠의 해안','32.8,42'],rut:['루테란 마을','텔드랏실','55,97'],rutp:['루테란 마을','텔드랏실','56,90'],dar:['다르나서스','다르나서스','40,50'],
+  rat:['톱니항','불모의 땅','63.7,38.6'],bb:['무법항','가시덤불 골짜기','25.8,73.1'],thr:['테라모어','먼지진흙 습지대','71.5,56.3'],ssh:['사우스쇼어','힐스브래드 구릉지','50,60'],swt:['스톰윈드','스톰윈드','64,8'],ift:['아이언포지','아이언포지','76.6,51.2']};
+/* [출발, 도착, 종류, 분, 양방향] · 메네실 → 사우스쇼어 → 아우버다인 → 메네실 배는 한쪽으로만 돎(포에버) */
+const TRV_LK=[['swh','aub','boat',5,1],['men','ssh','boat',5],['ssh','aub','boat',5],['aub','men','boat',5],['men','thr','boat',5,1],['aub','rut','boat',5,1],['rat','bb','boat',5,1],['rutp','dar','port',.4,1],['swt','ift','tram',3,1]];
+const TRV_K={walk:'걸어서',fly:'그리폰',boat:'배',tram:'지하철',port:'차원문'};
+const TRV_IC={walk:'<path fill="currentColor" d="M8.2 2.5h5v8.2l5.4 3c1.4.8 2.4 2.2 2.4 3.8V19H3.5v-3.2L6 14.4V4.7c0-1.2 1-2.2 2.2-2.2zM3.5 20.3H21V22H3.5z"/>',
+  fly:'<path fill="currentColor" d="M1.8 13.2c3.4.3 6.2-1.3 8.5-4.6L13 4.5l.7 3.6c2.3-1.7 5-2.7 8.5-2.5-1.5 2.5-3.5 4.1-6 5 1.7.3 3.1 1 4.4 1.9-2.7 1.4-5.5 1.6-8.3.7L9.7 18.6H7.1l1.7-4.8c-2.5.7-4.9.6-7-.6z"/>',
+  boat:'<path fill="currentColor" d="M11 2.5h1.6v10.2H11zM13.3 3.6c3 2.2 5 5 5.6 8.6h-5.6zM10.3 5.3v6.9H5.2c.9-3 2.6-5.3 5.1-6.9zM2.5 13.9h19l-2.8 5.3c-.3.5-.8.8-1.4.8H6.7c-.6 0-1.1-.3-1.4-.8z"/>',
+  tram:'<path fill="currentColor" fill-rule="evenodd" d="M8 2.5h8a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3zm-.6 3v4.8h9.2V5.5zM8.6 12.4a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6zm6.8 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6zM8.3 18.4h2.1l-1.6 3.1H6.6zm5.3 0h2.1l1.7 3.1h-2.2z"/>',
+  port:'<path fill="currentColor" fill-rule="evenodd" d="M12 2c4 0 7 4.5 7 10s-3 10-7 10-7-4.5-7-10S8 2 12 2zm0 2.4c-2.6 0-4.6 3.4-4.6 7.6s2 7.6 4.6 7.6 4.6-3.4 4.6-7.6-2-7.6-4.6-7.6zm0 3c1.5 0 2.5 2 2.5 4.6s-1 4.6-2.5 4.6-2.5-2-2.5-4.6 1-4.6 2.5-4.6z"/>'};
+const trvIco=k=>'<svg class="tvi" viewBox="0 0 24 24" aria-hidden="true">'+(TRV_IC[k]||TRV_IC.walk)+'</svg>';
+const trvReg=(z,a)=>/^(텔드랏실|다르나서스)$/.test(z)?'td':a.c;/* 텔드랏실 섬은 걸어서 못 건넘 */
+function trvPt(z,xy){if(!z)return null;const p=Array.isArray(xy)?xy.join(','):xy;const a=toAtlas(z,p||'50,50')||(p?toAtlas(z,'50,50'):null);return a?{z,c:a.c,r:trvReg(z,a),x:a.x,y:a.y}:null}
+const trvSpd=c=>c.lv>=60?14:c.lv>=40?11.2:7;
+const trvWalk=(a,b,spd)=>Math.hypot(a.x-b.x,a.y-b.y)*2.08*(a.z===b.z?1.35:1.7)/spd/60;
+let _TRVN=null;
+function trvNet(c){const spd=trvSpd(c);const kn=f=>!c.taxi||!!fpKnown(c,f);
+  const key=spd+'|'+(c.taxi?c.taxi.join('^'):'all')+'|'+Object.keys(c.fpk||{}).join('^')+'|'+(WLD?WLD.fp.length:0);if(_TRVN&&_TRVN.key===key)return _TRVN;
+  const N=[];(WLD&&WLD.fp||[]).forEach(f=>{if(f[1]==='달의 숲')return;const p=trvPt(f[1],f[2]);if(p)N.push(Object.assign(p,{nm:f[0],fp:1,kn:kn(f)}))});
+  const PI={};Object.entries(TRV_PT).forEach(([k,v])=>{const p=trvPt(v[1],v[2]);if(p){PI[k]=N.length;N.push(Object.assign(p,{nm:v[0]}))}});
+  const n=N.length,D=new Float64Array(n*n).fill(Infinity),E=new Float64Array(n*n).fill(Infinity),K=new Array(n*n).fill(''),NX=new Int16Array(n*n).fill(-1);
+  const set=(i,j,t,k)=>{if(t<E[i*n+j]){E[i*n+j]=t;K[i*n+j]=k}};
+  for(let i=0;i<n;i++)for(let j=0;j<n;j++){if(i===j)continue;const a=N[i],b=N[j];
+    if(a.r===b.r)set(i,j,trvWalk(a,b,spd),'walk');
+    if(a.fp&&b.fp&&b.kn&&a.c===b.c)set(i,j,Math.hypot(a.x-b.x,a.y-b.y)*2.08*1.2/32/60+.6,'fly')}
+  TRV_LK.forEach(([a,b,k,t,both])=>{const i=PI[a],j=PI[b];if(i==null||j==null)return;set(i,j,t,k);if(both)set(j,i,t,k)});
+  for(let i=0;i<n*n;i++){D[i]=E[i];if(E[i]<Infinity)NX[i]=i%n}for(let i=0;i<n;i++){D[i*n+i]=0;NX[i*n+i]=i}
+  for(let m=0;m<n;m++)for(let i=0;i<n;i++){const im=D[i*n+m];if(im===Infinity)continue;for(let j=0;j<n;j++){const v=im+D[m*n+j];if(v<D[i*n+j]){D[i*n+j]=v;NX[i*n+j]=NX[i*n+m]}}}
+  _TRVN={key,N,n,D,E,K,NX,spd,all:!c.taxi};return _TRVN}
+/* A → B 가장 빠른 길: {t:분, segs:[{k,a,b,t}]} — 걷기만이면 segs는 걷기 하나 */
+function trvGo(net,A,B){if(!A||!B)return null;const {N,n,D,spd}=net;let best=A.r===B.r?trvWalk(A,B,spd):Infinity,bi=-1,bj=-1;const wb=new Float64Array(n);
+  for(let j=0;j<n;j++)wb[j]=N[j].r===B.r?trvWalk(N[j],B,spd):Infinity;
+  for(let i=0;i<n;i++){if(N[i].r!==A.r)continue;const wa=trvWalk(A,N[i],spd);if(wa>=best)continue;for(let j=0;j<n;j++){const v=wa+D[i*n+j]+wb[j];if(v<best){best=v;bi=i;bj=j}}}
+  if(best===Infinity)return null;
+  const segs=[];const push=(k,a,b,t,az,bz)=>{const l=segs[segs.length-1];if(k==='walk'&&l&&l.k==='walk'){l.t+=t;l.b=b;return}if(k!=='walk'&&t<=0)return;segs.push({k,a,b,t,az,bz})};
+  if(bi<0)push('walk',A.z,B.z,best);
+  else{push('walk',A.z,N[bi].nm,trvWalk(A,N[bi],spd));let u=bi;for(let g=0;u!==bj&&g<n;g++){const v=net.NX[u*n+bj];if(v<0)break;const k=net.K[u*n+v];push(k,N[u].nm,k==='fly'?N[v].z:N[v].nm,net.E[u*n+v],N[u].z,N[v].z);u=v}push('walk',N[bj].nm,B.z,wb[bj])}
+  return {t:best,from:A.z,segs:segs.filter(s=>s.k!=='walk'||s.t>=.05)}}
+const trvMin=t=>t<60?Math.max(1,Math.round(t))+'분':Math.floor(t/60)+'시간'+(Math.round(t%60)?' '+Math.round(t%60)+'분':'');
+/* 한 줄 안내: 「그리폰 · 셸라이 브론디르 → 아이언포지 · 3분」 */
+function trvTxt(g,c){if(!g)return '';const S=g.segs.filter(s=>s.k!=='walk');if(!S.length)return (c&&c.lv>=40?'탈것':'걸어서')+' '+trvMin(g.t);
+  /* 비행 조련사가 지금 있는 지역 밖이면 어느 지역인지 붙임 (예: 돌발톱 산맥에서 잊혀진 땅 바리타나스로 걸어가서 탐) */
+  return S.map((s,i)=>TRV_K[s.k]+' '+s.a+(s.k==='fly'&&s.az&&s.az!==(i?S[i-1].bz:g.from)?'('+s.az+')':'')+' → '+s.b).join(' · ')+' · '+trvMin(g.t)}
+const trvMain=g=>{const k=g?g.segs.map(s=>s.k):[];return ['boat','port','fly','tram'].find(x=>k.includes(x))||'walk'};
+/* 던전 입구 자리 (DGENT에 없는 곳만 여기) */
+const PREP_ENT={'붉은십자군 수도원':['티리스팔 숲','82.6,33.8'],'가라앉은 사원':['슬픔의 늪','69.6,53.6']};
+function prepEnt(dg){const d=DGS.find(x=>x.ko.replace(/^붉은십자군 수도원: /,'붉은십자군 ')===dg);const ko=d?d.ko:dg;const base=ko.split(/:| \(/)[0].trim();
+  const E=DGENT[ko]||DGENT[dg]||DGENT[base]||PREP_ENT[base]||(Object.entries(DGENT).find(([k])=>ko.startsWith(k))||[])[1];if(E)return [dg,E[0],E[1]];return d&&MAPZ[d.loc]?[dg,d.loc,'50,50']:null}
+const prepEnds=dgs=>dgs.map(prepEnt).filter(Boolean);
+/* 끈 던전 빼기 — 켠 던전에 필요한 앞 퀘스트는 남김(두 던전이 같이 쓰는 앞 퀘스트) */
+function prepKeep(items,on){const ids=new Set(items.map(q=>q.id));const keep=new Set(items.filter(q=>on.includes(q.dg)).map(q=>q.id));
+  const pres=id=>{const o=QDB&&QDB.get(id);if(!o)return [];const P=new Set(o.pre||[]);(o.pre1||[]).forEach(x=>P.add(x));if(QPAR[id]!=null)P.add(QPAR[id]);return [...P]};
+  const st=[...keep];while(st.length){const id=st.pop();for(const p of pres(id))if(ids.has(p)&&!keep.has(p)){keep.add(p);st.push(p)}}
+  return items.filter(q=>keep.has(q.id))}
+/* 이동 시간 기준 줄 세우기: 받기 → (하기) → 반납 순서를 지키며 전체 시간이 가장 짧게
+   단계 15곳까지는 모든 순서를 따져 봄(DP), 더 많으면 가까운 곳부터 고른 뒤 옮겨 보며 줄임. 끝은 켠 던전 입구 중 가까운 곳 */
+function prepOrd(c,St,done0,start,ends,fast){const net=trvNet(c);
+  const its=[];St.forEach((s,si)=>s.items.forEach(it=>its.push({s,si,it,id:it.q.id})));
+  const mk=x=>x.it.type==='get'?['g'+x.id]:x.it.type==='do'?['d'+x.id]:['d'+x.id,'t'+x.id];
+  const prod=new Map();its.filter(x=>x.it.type!=='turn').concat(its.filter(x=>x.it.type==='turn')).forEach(x=>mk(x).forEach(t=>{if(!prod.has(t))prod.set(t,x)}));
+  const needs=x=>x.it.need?[].concat(x.it.need).filter(t=>!done0.has(t)):[];
+  const dep=new Map();const depth=x=>{if(dep.has(x))return dep.get(x);dep.set(x,-1);let d=0;for(const t of needs(x)){const p=prod.get(t);if(!p||p===x){d=-1;break}const pd=depth(p);if(pd<0){d=-1;break}d=Math.max(d,pd+1)}dep.set(x,d);return d};
+  const SM=new Map();its.forEach(x=>{const d=depth(x);if(d<0)return;const k=x.si+'|'+d;if(!SM.has(k))SM.set(k,{s:x.s,items:[],xs:[]});const o=SM.get(k);o.items.push(x.it);o.xs.push(x)});
+  const P=[...SM.values()],n=P.length;if(!n)return [];
+  const ix=new Map();P.forEach((p,i)=>p.xs.forEach(x=>ix.set(x,i)));
+  const preL=P.map((p,i)=>[...new Set(p.xs.flatMap(x=>needs(x).map(t=>ix.get(prod.get(t)))))].filter(j=>j!=null&&j!==i));
+  const pt=P.map(p=>trvPt(p.s.zone,p.s.sxy||p.s.xy));const A0=start?trvPt(start.z,start.xy):null;const EP=(ends||[]).map(e=>({e,p:trvPt(e[1],e[2])})).filter(x=>x.p);
+  const tt=(a,b,za,zb)=>{if(!a||!b)return za===zb?1:12;const g=trvGo(net,a,b);return g?g.t:30};
+  const T=new Float64Array(n*n);for(let i=0;i<n;i++)for(let j=0;j<n;j++)if(i!==j)T[i*n+j]=tt(pt[i],pt[j],P[i].s.zone,P[j].s.zone);
+  const T0=P.map((p,j)=>A0?tt(A0,pt[j],start.z,p.s.zone):0);const TE=P.map((p,i)=>EP.length?Math.min(...EP.map(x=>tt(pt[i],x.p,p.s.zone,x.e[1]))):0);
+  let ord=null;
+  if(n<=15){const F=1<<n;const dp=new Float64Array(F*n).fill(Infinity),par=new Int8Array(F*n).fill(-1);const pm=preL.map(l=>l.reduce((m,j)=>m|(1<<j),0));
+    for(let j=0;j<n;j++)if(!pm[j])dp[(1<<j)*n+j]=T0[j];
+    for(let m=1;m<F;m++)for(let l=0;l<n;l++){const v=dp[m*n+l];if(v===Infinity)continue;for(let j=0;j<n;j++){if((m>>j)&1||(pm[j]&~m))continue;const k=(m|(1<<j))*n+j,w=v+T[l*n+j];if(w<dp[k]){dp[k]=w;par[k]=l}}}
+    let bl=-1,bv=Infinity;for(let l=0;l<n;l++){const v=dp[(F-1)*n+l]+TE[l];if(v<bv){bv=v;bl=l}}
+    if(bl>=0){ord=[];let m=F-1,l=bl;while(l>=0){ord.push(l);const pl=par[m*n+l];m&=~(1<<l);l=pl}ord.reverse()}}
+  if(!ord){/* 시작점을 여러 곳으로 바꿔 가며 가까운 곳부터 → 1~5곳 묶음을 다른 자리로 옮겨 보며 줄임 → 가장 짧은 것 */
+    const cost=o=>o.reduce((s,j,k)=>s+(k?T[o[k-1]*n+j]:T0[j]),0)+(o.length?TE[o[o.length-1]]:0);
+    const valid=o=>{const pos=new Array(n);o.forEach((j,k)=>pos[j]=k);return o.every((j,k)=>preL[j].every(x=>pos[x]<k))};
+    const greedy=f=>{const used=new Array(n).fill(false);const o=[f];used[f]=true;let cur=f;for(let k=1;k<n;k++){let bj=-1,bv=Infinity;for(let j=0;j<n;j++){if(used[j]||preL[j].some(x=>!used[x]))continue;const v=T[cur*n+j];if(v<bv){bv=v;bj=j}}if(bj<0)break;used[bj]=true;o.push(bj);cur=bj}return o};
+    const polish=o=>{let bc=cost(o);for(let pass=0;pass<(fast?3:8);pass++){let imp=false;for(let a=0;a<o.length;a++)for(let len=1;len<=5&&a+len<=o.length;len++){const seg=o.slice(a,a+len),rest=o.slice(0,a).concat(o.slice(a+len));
+      for(let b=0;b<=rest.length;b++){if(b===a)continue;const t=rest.slice(0,b).concat(seg,rest.slice(b));const v=cost(t);if(v<bc-1e-6&&valid(t)){o=t;bc=v;imp=true;break}}}if(!imp)break}return [o,bc]};
+    const firsts=[...Array(n).keys()].filter(j=>!preL[j].length).sort((a,b)=>T0[a]-T0[b]).slice(0,fast?2:n>40?4:n>25?6:10);let bc=Infinity;
+    for(const f of firsts){const g=greedy(f);if(g.length<n)continue;const [o,v]=polish(g);if(v<bc){bc=v;ord=o}}
+    if(!ord)ord=greedy(firsts[0]||0)}
+  let prev=A0;return ord.map(j=>{const p=P[j];const g=prev&&pt[j]?trvGo(net,prev,pt[j]):null;prev=pt[j]||prev;return Object.assign({},p.s,{items:p.items,trv:g})})}
+/* 할 일 시간(분): 받기·반납 0.4분 · 하기는 목표 수만큼 (recTime과 같은 어림) */
+const prepWork=s=>s.items.reduce((m,it)=>{if(it.type!=='do')return m+.4;const C=it.q.cnt||[];return m+(C.length?C.reduce((a,o)=>a+Math.min(12,Math.min(30,+o[1]||1)*.45)+.5,0):3)},0);
+const _PRC=new Map();
 /* 미리보기 던전 준비 동선: 전달 퀘스트(목표 없이 다른 NPC에게 가져가기)는 반납까지 넣어야 다음 퀘스트가 열림
-   (예: 스톰윈드 「수석땜장이 오버스파크」 → 아이언포지 반납 → 「고장난 첨단로봇 수리」) · 대륙을 덜 넘는 순서를 고름(지금 대륙부터 / 다른 대륙부터) */
-function prepRoute(c,items,start){const it=items.map(q=>q.go&&!q.o&&!q.rep?Object.assign({},q,{go:0}):q);const cn=z=>CONT[z]||'';
-  const endC=(()=>{const n={};items.forEach(q=>{const d=DGS.find(x=>x.ko.replace(/^붉은십자군 수도원: /,'붉은십자군 ')===q.dg);const z=d&&d.loc;if(z&&cn(z))n[cn(z)]=(n[cn(z)]||0)+1});return Object.entries(n).sort((a,b)=>b[1]-a[1]).map(x=>x[0])[0]||''})();
-  const cost=ST=>{let k=0,zk=0,p=start?cn(start.z):'',pz='';ST.forEach(s=>{const x=cn(s.zone);if(x&&p&&x!==p)k++;if(x)p=x;if(s.zone!==pz)zk++;pz=s.zone});if(endC&&p&&endC!==p)k++;return k*100+zk};
-  /* 빠진 단계 없는지는 단계 수가 아니라 줄 수로 셈(붙은 같은 곳은 한 단계로 합쳐져서) */const nIt=ST=>ST.reduce((n,s)=>n+s.items.length,0);
-  let best=recStages(c,it,start),bc=cost(best),bn=nIt(best);
-  /* 지금 있는 지역에 할 게 있으면 거기부터(다른 대륙부터 도는 쪽이 지역 수가 적어도 서 있는 곳을 두고 떠나지 않게) */
-  if(start&&best[0]&&best[0].zone===start.z)return best;
-  for(const z of [...new Set(it.map(q=>q.g[1]).filter(z=>z&&z!==(start&&start.z)))]){const q=it.find(x=>x.g[1]===z&&x.g[2]);if(!q)continue;const ST=recStages(c,it,{z,xy:q.g[2]});const k=cost(ST);if(nIt(ST)>=bn&&k<bc){best=ST;bc=k;bn=nIt(ST)}}
-  return best}
-/* 지역을 옮길 때 가는 법 한 줄 (배 · 지하철 · 대륙 건너기) */
+   (예: 스톰윈드 「수석땜장이 오버스파크」 → 아이언포지 반납 → 「고장난 첨단로봇 수리」) · 순서는 이동 시간이 가장 짧게(그리폰·배·지하철 포함) */
+function prepRoute(c,items,start,ends,fast){if(!WLD)wldLoad();const it=items.map(q=>q.go&&!q.o&&!q.rep?Object.assign({},q,{go:0}):q);const ql=c.ql||{};
+  const key=[fast?'f':'',c.id,c.lv,trvNet(c).key,start?start.z+String(start.xy):'',(ends||[]).map(e=>e.join(',')).join(';'),it.map(q=>q.id+':'+(ql[q.id]||0)+(q.go?'g':'')).join(',')].join('|');
+  if(_PRC.has(key))return _PRC.get(key);
+  const ST=recStages(c,it,start,{ord:(St,done)=>prepOrd(c,St,done,start,ends,fast)});
+  const net=trvNet(c);let mv=0,wk=0;ST.forEach(s=>{mv+=s.trv?s.trv.t:0;wk+=prepWork(s)});
+  const last=ST[ST.length-1];let end=null;if(last){const lp=trvPt(last.zone,last.sxy||last.xy);(ends||[]).forEach(e=>{const g=lp?trvGo(net,lp,trvPt(e[1],e[2])):null;if(g&&(!end||g.t<end.g.t))end={dg:e[0],z:e[1],g}})}
+  ST.mv=mv;ST.wk=wk;ST.tot=mv+wk;ST.end=end;ST.all=net.all;
+  if(_PRC.size>40)_PRC.clear();_PRC.set(key,ST);return ST}
+/* 던전마다: 퀘스트 수 · 경험치 · 이 던전 때문에 늘어나는 동선 시간(켜면 빼 봤을 때, 끄면 넣어 봤을 때) */
+function prepStats(c,node,start){const off=c.prepOff||{};const dgs=node.dgs;const on0=dgs.filter(d=>!off[d]);const on=on0.length?on0:dgs.slice();
+  const run=(set,f)=>{const L=prepKeep(node.items,set);return L.length?prepRoute(c,L,start,prepEnds(set),f):[]};const tot=ST=>ST.length?ST.tot:0;
+  const base=run(on);
+  return {on,base,start,rows:dgs.map(d=>{const isOn=on.includes(d);const R=run(isOn?on.filter(x=>x!==d):on.concat(d),1);/* 비교용은 빠르게(어림) */const qs=node.items.filter(q=>q.dg===d);
+    return {dg:d,on:isOn,n:qs.length,xp:qs.reduce((s,q)=>s+((RWD.get(q.id)||{}).xp||0),0),dt:Math.max(0,isOn?tot(base)-tot(R):tot(R)-tot(base))}})}}
+/* 지역을 옮길 때 가는 법 한 줄 (배 · 지하철 · 대륙 건너기) — 이동 시간 자료가 없는 단계용 */
 function hopTip(za,zb){if(!za||!zb||za===zb)return '';const b=boatTip(za,zb);if(b)return b;
   const T=['스톰윈드','아이언포지','던 모로'];if(T.includes(za)&&T.includes(zb)&&(za==='스톰윈드'||zb==='스톰윈드'))return '스톰윈드 ↔ 아이언포지는 깊은굴 지하철로 오가요.';
   const ca=CONT[za],cb=CONT[zb];const sth=z=>/^(불모의 땅|먼지진흙 습지대|타나리스|버섯구름 봉우리|잊혀진 땅|페랄라스)$/.test(z);
@@ -6595,13 +6708,20 @@ function hopTip(za,zb){if(!za||!zb||za===zb)return '';const b=boatTip(za,zb);if(
   if(ca&&cb&&ca!==cb&&cb==='동부 왕국')return '동부 왕국으로 배 · '+(sth(za)?'톱니항 → 무법항, 또는 ':'')+'아우버다인 → 스톰윈드 항구(또는 메네실 항구)';
   if(zb==='다르나서스'&&za!=='텔드랏실')return '아우버다인 → 루테란 마을 배 → 차원문으로 다르나서스';
   return ''}
-/* 던전 준비 동선 요약: 들를 마을 순서(받기·반납 수) + 대륙 넘는 곳 */
-function prepSum(c,node,ST){const legs=[];ST.forEach(s=>{const l=legs[legs.length-1];if(l&&l.z===s.zone){l.g+=s.type==='get'?s.items.length:0;l.t+=s.type==='turn'?s.items.length:0}else legs.push({z:s.zone,g:s.type==='get'?s.items.length:0,t:s.type==='turn'?s.items.length:0})});
-  const nQ=new Set(node.items.map(q=>q.id)).size;
-  return '<div class="card prep2"><div class="hd"><b>🏰 던전 준비 동선</b><small>'+esc(node.dgs.join(' · '))+' · 퀘스트 '+nQ+'개 · 들를 곳 '+legs.length+'번</small></div>'
-   +'<div class="prl">'+legs.map((l,i)=>(i&&CONT[l.z]&&CONT[legs[i-1].z]&&CONT[l.z]!==CONT[legs[i-1].z]?'<span class="prb">배</span>':i?'<span class="pra">›</span>':'')+'<span class="prz"><b>'+esc(l.z)+'</b><small>'+[l.g?'받기 '+l.g:'',l.t?'반납 '+l.t:''].filter(Boolean).join(' · ')+'</small></span>').join('')+'</div>'
-   +'<p class="note">던전 퀘스트는 받기만 해요. 다른 NPC에게 가져다주는 퀘스트는 반납까지 해야 다음 퀘스트가 열려서 같이 넣었어요. 순서는 대륙을 덜 건너는 쪽으로 골랐어요.</p></div>'}
-function recStages(c,list,start){const ql=c.ql||{};const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
+/* 던전 준비 동선 요약: 켤 던전 · 들를 곳 순서(가는 법 아이콘 + 분) · 전체 시간 */
+function prepSum(c,node,ST,X){const legs=[];ST.forEach(s=>{const l=legs[legs.length-1];const g=s.type==='get'?s.items.length:0,t=s.type==='turn'?s.items.length:0;if(l&&l.z===s.zone){l.g+=g;l.t+=t}else legs.push({z:s.zone,g,t,trv:s.trv})});
+  const nQ=new Set(ST.flatMap(s=>s.items.map(i=>i.q.id))).size;ui._pdgs=X?X.rows.map(r=>r.dg):[];
+  const con=g=>{if(!g)return '<span class="pra">›</span>';const k=trvMain(g);return '<span class="prc k-'+k+'" title="'+esc(trvTxt(g,c))+'">'+trvIco(k)+'<b>'+trvMin(g.t)+'</b></span>'};
+  const st=X&&X.start?X.start.z:'';const g0=legs[0]&&legs[0].trv;
+  let h='<div class="card prep2"><div class="hd"><b>🏰 던전 준비 동선</b><span class="ptt">약 <b>'+Math.max(1,Math.round(ST.tot||0))+'</b>분</span></div>'
+   +'<div class="psub">퀘스트 '+nQ+'개 · 들를 곳 '+legs.length+'번 · 이동 '+trvMin(ST.mv||0)+' · 받기·반납 '+trvMin(ST.wk||0)+'</div>';
+  if(X&&X.rows.length>1)h+='<div class="dgtg">'+X.rows.map(r=>'<button class="dgtr'+(r.on?' on':'')+'" data-a="prepdg" data-k="'+esc(r.dg)+'" aria-pressed="'+r.on+'"><span class="dgck">'+MKS.check+'</span><span class="m"><b>'+esc(r.dg)+'</b><small>퀘스트 '+r.n+'개'+(r.xp?' · 경험치 +'+r.xp.toLocaleString():'')+'</small></span><span class="dt">'+(r.on?(r.dt>=.5?'+'+trvMin(r.dt):'거의 그대로'):'넣으면 +'+trvMin(r.dt))+'</span></button>').join('')+'</div>';
+  h+='<div class="prl">'+(g0&&g0.t>=.5&&st?'<span class="prz now"><b>'+esc(st)+'</b><small>'+(c.lpos&&c.lpos.z===st?'지금 여기':'지금 구간')+'</small></span>'+con(g0):'')
+   +legs.map((l,i)=>(i?con(l.trv):'')+'<span class="prz"><b>'+esc(l.z)+'</b><small>'+[l.g?'받기 '+l.g:'',l.t?'반납 '+l.t:''].filter(Boolean).join(' · ')+'</small></span>').join('')
+   +(ST.end?con(ST.end.g)+'<span class="prz end"><b>'+esc(ST.end.dg)+'</b><small>'+esc(ST.end.z)+' 입구</small></span>':'')+'</div>';
+  h+='<p class="note">시간은 어림이에요 · 그리폰·배·지하철을 타는 길로 셌어요'+(ST.all?' (비행 경로는 다 열었다고 봤어요)':' (연 비행 경로만)')+'. 전달 퀘스트는 반납까지 넣었어요.</p></div>';
+  return h}
+function recStages(c,list,start,O){const ql=c.ql||{};const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
   const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.type===type&&s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}if(place&&!s0.place.split(' · ').includes(place)&&s0.place.split(' · ').length<2)s0.place+=' · '+place;s0.items.push({q,type,need});if(need)[].concat(need).forEach(x=>s0.need.add(x));return s0};
   /* 선행 퀘스트가 같은 목록에 있으면 그걸 반납한 뒤에 받기 (예: 은둔자 → 다크샤이어로부터의 보급품) */
   const inL=new Set(list.map(q=>q.id));const preOf=id=>{const o=QDB&&QDB.get(id);if(!o)return [];const P=new Set(o.pre||[]);if(o.pre1&&o.pre1.length===1)P.add(o.pre1[0]);if(QPAR[id]!=null)P.add(QPAR[id]);return [...P].filter(x=>x!==id&&inL.has(x)&&(ql[x]||0)<3)};
@@ -6618,12 +6738,14 @@ function recStages(c,list,start){const ql=c.ql||{};const St=[];const near=(a,b)=
   const AC=new Map();const atl=s=>{const p=s.sxy||s.xy;if(!p)return null;const k=s.zone+'|'+p.join(',');if(!AC.has(k))AC.set(k,toAtlas(s.zone,p.join(',')));return AC.get(k)};
   /* 같은 지역이면 지역 좌표, 다른 지역이면 큰 지도 거리(다른 대륙은 맨 뒤) — 지역마다 좌표 기준이 달라서 그냥 빼면 안 됨 */
   const gap=(a,b)=>{if(a.zone===b.zone)return dist(a.sxy||a.xy,b.sxy||b.xy);const p=atl(a),q=atl(b);if(!p||!q)return 5e5;if(p.c!==q.c)return 1e6;return Math.hypot(p.x-q.x,p.y-q.y)};
+  /* 미리보기 던전 준비 동선: 줄 세우기를 이동 시간 기준(prepOrd)으로 — 기본(레벨업 단계)은 아래 가까운 곳부터 그대로 */
+  if(O&&O.ord)out.push(...O.ord(St,done));else{
   let cur=null;if(start&&start.xy){const av=left.filter(s=>s.items.some(ok));const S0={zone:start.z,xy:start.xy};cur=av.slice().sort((a,b)=>(a.zone!==start.z)-(b.zone!==start.z)||gap(S0,a)-gap(S0,b))[0]}
   cur=cur||left.find(s=>s.type==='get'&&s.items.every(ok))||left.find(s=>s.items.some(ok));let g=0;
   while(cur&&g++<120){const R=cur.items.filter(ok),W=cur.items.filter(it=>!ok(it));
     if(R.length){out.push(Object.assign({},cur,{items:R}));R.forEach(it=>{done.add((it.type==='get'?'g':'d')+it.q.id);if(it.type==='turn')done.add('t'+it.q.id)})}
     left.splice(left.indexOf(cur),1);if(W.length)left.push(Object.assign({},cur,{items:W}));if(!left.length)break;
-    const av=left.filter(s=>s.items.some(ok));const pool=av.length?av:left;const from=cur;cur=pool.slice().sort((a,b)=>(a.zone!==from.zone)-(b.zone!==from.zone)||gap(from,a)-gap(from,b))[0]}
+    const av=left.filter(s=>s.items.some(ok));const pool=av.length?av:left;const from=cur;cur=pool.slice().sort((a,b)=>(a.zone!==from.zone)-(b.zone!==from.zone)||gap(from,a)-gap(from,b))[0]}}
   /* 붙어 있는 같은 곳·같은 종류는 하나로 */
   const M=[];out.forEach(s=>{const p=M[M.length-1];if(p&&p.type===s.type&&p.zone===s.zone&&(near(p.xy,s.xy)||(!p.xy&&!s.xy&&p.place===s.place)))p.items=p.items.concat(s.items);else M.push(s)});return M}
 const RST={get:['받기','g'],do:['하기','o'],turn:['반납','r']};
@@ -6657,7 +6779,7 @@ function sideView(c){if(!QDB){qdbLoad();return '<div class="sdh"><b>📱 옆 화
 function recTime(c,ST){const L=c.lv,spd=(L>=40?11.2:7)/1.35;/* 길이 꼬불꼬불해서 직선보다 35% 더 걸림 */
   const at=(z,xy)=>xy?toAtlas(z,xy[0]+','+xy[1]):null;let prev=c.lpos?at(c.lpos.z,c.lpos.xy):null;const M=[],X=[];
   for(const s of ST){const a=at(s.zone,s.xy);let m=0,x=0;
-    if(a&&prev){if(a.c!==prev.c)m+=6;else m+=Math.hypot(a.x-prev.x,a.y-prev.y)/0.48/spd/60}
+    if(s.trv)m+=s.trv.t;/* 미리보기 던전 준비: 그리폰·배까지 센 이동 시간 */else if(a&&prev){if(a.c!==prev.c)m+=6;else m+=Math.hypot(a.x-prev.x,a.y-prev.y)/0.48/spd/60}
     if(a)prev=a;
     for(const it of s.items){const q=it.q;if(it.type==='turn'){m+=0.4;x+=(RWD.get(q.id)||{}).xp||0}
       else if(it.type==='get')m+=0.4;
@@ -6727,7 +6849,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
       if((ql[q.id]||0)>=1){kept.add(q.id);return true}if(P.some(i=>(ql[i]||0)>=1||mqDone(c,QDB.get(i))||kept.has(i)))return false;kept.add(q.id);return true})};
   const baseOf=n=>exOne(qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)<=L&&(!QDB||QDB.has(q.id)||RQ.has(q.id))&&!prof(q)));/* RQ: 동선 자료로 채운 새 퀘스트(하이잘·강물터 등) — 예전엔 여기서 빠져 단계에 안 나왔음 */
   const blkOf=n=>preFix(n,baseOf(n)).blk;
-  const stOf=n=>{if(n.all)return prepRoute(c,n.items,c.lpos&&c.lpos.xy?c.lpos:{z:curN.z,xy:[50,50]});const b=n.prep?[]:preFix(n,baseOf(n)).list;const ids=new Set(b.map(q=>q.id));return recStages(c,b.concat(prepOf(n).filter(q=>!ids.has(q.id))),c.lpos)};
+  let PST=null;const stOf=n=>{if(n.all){PST=prepStats(c,n,c.lpos&&c.lpos.xy?c.lpos:{z:curN.z,xy:[50,50]});return PST.base}const b=n.prep?[]:preFix(n,baseOf(n)).list;const ids=new Set(b.map(q=>q.id));return recStages(c,b.concat(prepOf(n).filter(q=>!ids.has(q.id))),c.lpos)};
   const lockOf=n=>qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)>L&&(c.ql||{})[q.id]==null);
   let node=selN||curN,ST=stOf(node),moved=null;
   /* 이 구간 퀘스트를 다 했으면 다음 구간으로 자동으로 넘어감 (레벨을 안 올렸어도) */
@@ -6738,7 +6860,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
   const lk=lockOf(moved||node);const lkMsg=lk.length?' · 남은 '+lk.length+'개는 '+Math.min(...lk.map(minLv))+'레벨부터 받을 수 있어요':'';
   if(!ST.length)return h+'<div class="card"><p class="note">'+esc(z)+' '+node.a+'–'+node.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg+'. ':' 퀘스트를 다 했어요 🎉 ')+(pk.nodes.indexOf(node)<pk.nodes.length-1?'여정 줄에서 다음 구간을 눌러 보세요.':'이 루트 끝까지 왔어요.')+'</p></div>';
   if(moved)h+='<p class="note mvn">✓ '+esc(moved.z)+' '+moved.a+'–'+moved.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg:' 퀘스트를 다 했어요')+' · 다음 구간으로 넘어갔어요: <b>'+esc(node.z)+' '+node.a+'–'+node.b+'</b>'+(node.a>L+2?' · 몹 레벨이 조금 높으니 조심하세요':'')+'</p>';
-  {const pq=prepOf(node).filter(q=>(c.ql||{})[q.id]==null||((c.ql||{})[q.id]||0)<3);if(pq.length){const dn=[...new Set(pq.map(q=>q.dg))];if(node.all)h+=prepSum(c,node,ST);else h+='<div class="card blkq prepn"><p class="note">🏰 <b>'+(node.prep?esc(node.z)+' · 던전 준비':'던전 준비 퀘스트 '+pq.length+'개를 이 지역 단계에 넣었어요')+'</b> — '+esc(dn.join(' · '))+(node.prep?' 퀘스트를 받으러 들르는 곳이에요. 받기만 하고 하기·반납은 던전에서 해요.':'')+(pq.some(q=>!q.go)?' 먼저 해야 하는 앞 퀘스트도 같이 넣었어요.':'')+'</p></div>'}}
+  {const pq=prepOf(node).filter(q=>(c.ql||{})[q.id]==null||((c.ql||{})[q.id]||0)<3);if(pq.length){const dn=[...new Set(pq.map(q=>q.dg))];if(node.all)h+=prepSum(c,node,ST,PST);else h+='<div class="card blkq prepn"><p class="note">🏰 <b>'+(node.prep?esc(node.z)+' · 던전 준비':'던전 준비 퀘스트 '+pq.length+'개를 이 지역 단계에 넣었어요')+'</b> — '+esc(dn.join(' · '))+(node.prep?' 퀘스트를 받으러 들르는 곳이에요. 받기만 하고 하기·반납은 던전에서 해요.':'')+(pq.some(q=>!q.go)?' 먼저 해야 하는 앞 퀘스트도 같이 넣었어요.':'')+'</p></div>'}}
   {const bk=blkOf(moved||node);if(bk.length)h+='<div class="card blkq"><p class="note">🔒 <b>앞 퀘스트를 먼저 끝내야 받을 수 있는 퀘스트 '+bk.length+'개</b> — 단계에서 뺐어요.</p><ul>'+bk.slice(0,6).map(x=>'<li><button class="lnk" data-a="qopen" data-k="'+x.q.id+'">「'+esc(x.q.nm)+'」</button>'+(x.need?' ← 먼저 <button class="lnk" data-a="qopen" data-k="'+x.need.id+'">「'+esc(x.need.n)+'」</button> <small class="mute">'+esc(x.need.z||'')+' · '+mTxt(x.need)+'</small>':'')+'</li>').join('')+'</ul></div>'}
   const s0=ST[0];const xpOf=s=>s.items.filter(i=>i.type==='turn').reduce((n,i)=>n+((RWD.get(i.q.id)||{}).xp||0),0);
   const xy=s=>s.xy?' '+s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'';
@@ -6758,6 +6880,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
   h+='<div class="scroll2'+(PVE?' qw':'')+'">'+(PVE?'<span class="qwm t-'+s0.type+'"'+(s0.type==='do'?' style="background-image:url('+ICO('inv_sword_04')+')"':'')+'></span>':'')+'<div class="k">1단계 · 지금 할 일 · '+RST[s0.type][0]+'</div><h3>'+esc(s0.place)+'</h3><div class="wh">'+esc(s0.zone)+xy(s0)+' · '+s0.items.length+'개</div>';
   {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오가면 알려 주기 */const ISL=[['페더문','페더문 요새는 섬이에요. 페랄라스 서쪽 해안 선착장(31, 39 근처)에서 배를 타고 건너요.']];const isl=x=>x?ISL.find(i=>x.place.includes(i[0])):null;
    const hit=isl(s0)||isl(ST[1]);if(hit)h+='<div class="isl">⛵ '+esc(hit[1])+'</div>';
+   else if(PVE&&s0.trv&&s0.trv.t>=.5)h+='<div class="isl trvl">'+trvIco(trvMain(s0.trv))+'<span>가는 법 · '+esc(trvTxt(s0.trv,c))+'</span></div>';
    else{const bt=PVE?(c.lpos&&c.lpos.z&&c.lpos.z!==s0.zone?hopTip(c.lpos.z,s0.zone):'')||hopTip(s0.zone,ST[1]&&ST[1].zone):boatTip(s0.zone,ST[1]&&ST[1].zone);if(bt)h+='<div class="isl">⛵ '+esc(bt)+'</div>'}}
   /* 하기 단계인데 지도 위치 자료가 없으면(강물터·셴드랄라스 새 퀘스트, 악령의 숲 오염된 식물 등 62곳) 퀘스트 목표 글로 어디인지 힌트 */
   if(s0.type==='do'&&!s0.xy&&QDB){const o=s0.items.map(it=>(QDB.get(it.q.id)||rqAsQ(it.q.id)||{}).o).find(t=>typeof t==='string'&&t.trim());if(o)h+='<div class="isl">지도 위치 자료가 없어요 · 퀘스트 목표: 「'+esc(o.length>90?o.slice(0,88)+'…':o)+'」</div>'}
@@ -6767,7 +6890,7 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
   h+='<div class="ft"><button class="q" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button><button class="p" data-a="rsdone">다 했어요 · 다음 단계</button></div></div>';
   const more=ui.rsall?ST.slice(1):ST.slice(1,5);
   if(PVE)h+='<!--Q:tools-->';const TC=recTimeCard(c,ST);h+=TC.h;h+='<button class="btn sm ghost full navgo" data-a="side" data-k="1">📱 옆 화면 모드 <small>게임하면서 폰 세워 두기 · 화면 안 꺼짐</small></button>';if(isPC()||FSA)h+='<button class="btn sm ghost full navgo" data-a="wfr">🧭 게임 화면에 이 단계 길 안내 띄우기 <small>애드온 /wfh 추천</small></button>';if(PVE)h+='<!--/Q:tools-->';const h0=h.length;
-  h+=(PVE?'<!--Q:next-->':'')+'<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>(PVE&&s.zone!==(i?more[i-1]:s0).zone?'<div class="nxz"><b>'+esc(s.zone)+'</b>'+(t=>t?'<small>'+esc(t)+'</small>':'')(hopTip((i?more[i-1]:s0).zone,s.zone))+'</div>':'')+'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
+  h+=(PVE?'<!--Q:next-->':'')+'<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>(PVE&&s.zone!==(i?more[i-1]:s0).zone?'<div class="nxz"><b>'+esc(s.zone)+'</b>'+(s.trv?'<small class="trv">'+trvIco(trvMain(s.trv))+esc(trvTxt(s.trv,c))+'</small>':(t=>t?'<small>'+esc(t)+'</small>':'')(hopTip((i?more[i-1]:s0).zone,s.zone)))+'</div>':'')+'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
    +(ST.length>5?'<button class="btn ghost sm full" data-a="rsall">'+(ui.rsall?'접기':'모든 단계 보기 ('+(ST.length-1)+')')+'</button>':'')+'</div>'+(PVE?'<!--/Q:next-->':'');
   {const mk=(k,t)=>{const a='<div class="nxr3" data-st="'+(k+2)+'"';const p=h.indexOf(a,h0);if(p>0)h=h.slice(0,p)+t+h.slice(p)};
    if(TC.cut>=0)mk(TC.cut,'<div class="tcut">⏱ '+TC.mm(c.tbud)+'이면 여기까지</div>');
@@ -8631,6 +8754,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='dgf'){ui.dgf=k;rerender(true);return}
   if(a==='upf'){ui.upf=k||null;rerender(true);return}
   if(a==='qtab'){ui.qtab=k;rerender(true);return}
+  if(a==='prepdg'){const O=c.prepOff=c.prepOff||{};if(O[k])delete O[k];else{if(!(ui._pdgs||[]).some(d=>d!==k&&!O[d])){toast('던전 하나는 남겨 두세요');return}O[k]=1}save();rerender(true);return}
   if(a==='rtgm'){ui.rtgm=1;rerender(true);return}
   if(a==='gsub'){ui.gsub=k;ui.gslot=null;ui.gmore=0;rerender(true);return}
   if(a==='gmore'){ui.gmore=1;rerender(true);return}
