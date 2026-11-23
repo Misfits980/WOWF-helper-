@@ -411,7 +411,29 @@ function hitF(h,c){const f=capF(h.hit,h.cap);if(f===1||!h.phys||!isDW(c))return 
    암살·잠행 가이드 빌드는 이 특성을 안 찍어서 그대로 */
 const OFFT={'rogue/combat':[['combat-dual-wield-specialization',2,.5]],'warrior/fury':[['fury-dual-wield-specialization',5,.25],['fury-furious-precision',3,.1]]};
 function offF(c){const T=OFFT[c.cls+'/'+c.spec];if(!T)return 1;const R=talR(c,c.lv||60);let f=1;for(const [k,mx,b] of T){const r=Math.min(R[k]||0,mx);f*=(1+b*r/mx)/(1+b)}return +f.toFixed(3)}
-const _wcap={};function wOf(c){const w=wRace(wOf1(c),c);if(w.def)return w;const h=hitInfo(c);const fh=hitF(h,c),fe=h.phys?capF(h.exp,h.ecap):1,fo=w.dpsOff?offF(c):1;if(fh===1&&fe===1&&fo===1)return w;
+/* 특성으로 바뀌는 능력치 값. 시뮬레이터 60레벨 값 = 가이드 60레벨 빌드(시뮬 기본 빌드와 같다고 봄) 특성이 들어간 값 → 그 빌드와 지금 점수 차만큼 고침.
+   conv [특성, 능력치, 바뀌는 능력치, 다 찍었을 때 비율]: 교묘한 정신 = 지능의 100%가 전투력 → 지능 값에 「전투력 값 × 100%」가 들어 있음
+   pct [특성, 능력치, 다 찍었을 때 %]: 지능 +10% 같은 것 → 곱함. add: 힐러 기본표엔 특성이 안 들어 있어 더하기만(영혼의 길잡이: 정신력의 25% 치유량·8% 주문 공격력)
+   점수는 내 특성(게임·전투정보실·직접 고친 것), 없으면 그 레벨 가이드 빌드(talR). 특성 설명 숫자는 다 찍었을 때 값이라 점수만큼 나눔 */
+const TCA=[['marksmanship-careful-aim','int','ap',1]],TSG=[['holy-spiritual-guidance','spi','heal',.25],['holy-spiritual-guidance','spi','sp',.08]];
+const TADJ={'shaman/enhancement':{conv:[['enhancement-mental-dexterity','int','ap',1],['enhancement-mental-quickness','int','sp',.3]],pct:[['enhancement-ancestral-knowledge','int',.1]]},
+  'shaman/elemental-combat':{pct:[['enhancement-ancestral-knowledge','int',.1]]},
+  'paladin/retribution':{conv:[['retribution-champion-of-the-light','int','sp',.6]],pct:[['holy-divine-strength','str',.1],['protection-divine-intellect','int',.1]]},
+  'hunter/beast-mastery':{conv:TCA},'hunter/marksmanship':{conv:TCA},'hunter/survival':{conv:TCA},
+  'priest/shadow-magic':{pct:[['discipline-mental-strength','int',.1]]},'mage/arcane':{pct:[['arcane-arcane-mind','int',.1]]},
+  'druid/feral-cat':{pct:[['restoration-heart-of-the-wild','str',.1]]},'priest/holy':{add:TSG},'priest/discipline':{add:TSG}};
+const _wt=new Map();
+function talW(w,c){const A=TADJ[c.cls+'/'+c.spec];if(!A||w.def)return w;const T=(D_CLS[c.cls]||{}).talents||{};const mx=k=>(T[k]&&T[k][2])||1;
+  const R=talR(c,c.lv||60);const sp=specOf(c);const G={};(sp&&sp.steps||[]).forEach(s=>{G[s[1]]=Math.max(G[s[1]]||0,s[2])});
+  const rk=k=>Math.min(R[k]||0,mx(k))/mx(k),g=k=>Math.min(G[k]||0,mx(k))/mx(k);const all=[...(A.conv||[]),...(A.pct||[]),...(A.add||[])];
+  const key=c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+(c.lv||60)+'/'+all.map(x=>rk(x[0])).join(',');const hit=_wt.get(key);if(hit&&hit.b===w)return hit.r;
+  const r=Object.assign({},w);new Set([...(A.conv||[]),...(A.pct||[])].map(x=>x[1])).forEach(X=>{if(!w[X])return;let m60=1,mN=1,d=0;
+    (A.pct||[]).filter(x=>x[1]===X).forEach(([k,,p])=>{m60*=1+p*g(k);mN*=1+p*rk(k)});
+    (A.conv||[]).filter(x=>x[1]===X).forEach(([k,,to,p])=>{d+=p*(w[to]||0)*(rk(k)-g(k))});
+    r[X]=+Math.max(0,(w[X]/m60+d)*mN).toFixed(3)});
+  (A.add||[]).forEach(([k,X,to,p])=>{const n=rk(k);if(n&&w[to])r[X]=+((r[X]||0)+p*w[to]*n).toFixed(3)});
+  _wt.set(key,{b:w,r});return r}
+const _wcap={};function wOf(c){const w=wRace(talW(wOf1(c),c),c);if(w.def)return w;const h=hitInfo(c);const fh=hitF(h,c),fe=h.phys?capF(h.exp,h.ecap):1,fo=w.dpsOff?offF(c):1;if(fh===1&&fe===1&&fo===1)return w;
   const k=fh+'|'+fe+'|'+fo;if(_wcap.b===w&&_wcap.k===k)return _wcap.r;const r=Object.assign({},w);if(fh<1){if(r.hit)r.hit*=fh;if(r.shit)r.shit*=fh}if(fe<1&&r.exp)r.exp*=fe;if(fo<1)r.dpsOff=+(r.dpsOff*fo).toFixed(3);_wcap.b=w;_wcap.k=k;_wcap.r=r;return r}
 const _wl={};
 function wOf1(c){const w=wOf0(c);if((c.lv||60)>=58||w.def)return w;const L=c.lv||60;const k=c.cls+'/'+c.spec+'/'+(c.gmode||'')+'/'+L;if(_wl[k]&&_wl[k].b===w)return _wl[k].r;
