@@ -3541,8 +3541,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=a1b7a87d" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* v52f192 @11/23 00:27 */
+<script src="app-data.js?v=b3709f35" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* v73b43b @11/23 09:42 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3550,7 +3550,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/23 00:27';
+const BUILD='11/23 09:42';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3598,7 +3598,7 @@ const WHY={rogue:'주무기 DPS가 딜을 가장 크게 정해요. 포에버는 
   mage:'적중(17%까지)·주문력·치명타·지능 순이에요. 마법봉은 마나 아끼는 용도예요.',warlock:'적중·주문력·치명타 순이에요(파괴는 치명타가 먼저). 체력도 생명력 전환에 좋아요.',
   paladin:{holy:'치유량·지능·5초당 마나 순이에요.',protection:'체력·방어 숙련·방패 막기 순이에요.',retribution:'양손 무기 DPS·힘·치명타 순이에요. 포에버는 징벌 특성 「빛의 용사」로 지능이 주문력이 돼서 지능·주문력도 조금 봐요.'},
   shaman:{'elemental-combat':'주문력·지능·치명타 순이에요.',enhancement:'무기 DPS·힘이 먼저예요. 포에버는 고양 특성 「교묘한 정신」으로 지능이 전투력이 돼요. 11월 10일 핫픽스로 비율이 150%→100%로 줄어 힘이 1순위예요.',restoration:'치유량·치명타·지능·정신력 순이에요.'},
-  druid:{balance:'적중(17%까지)·치명타·주문력·지능 순이에요.','feral-cat':'포에버에서는 표범도 무기 DPS가 점수에 들어가요. 무기 DPS·회피·막기 감소·적중·민첩·힘 순이에요.','feral-bear':'체력·민첩·방어 숙련 순이에요.',restoration:'치유량·지능·정신력·5초당 마나 순이에요.'}};
+  druid:{balance:'적중(17%까지)·치명타·주문력·지능 순이에요.','feral-cat':'포에버에서는 표범도 무기 DPS가 점수에 들어가요(한손·양손 같은 값). 무기 DPS·회피·막기 감소·적중·민첩·힘 순이에요.','feral-bear':'체력·민첩·방어 숙련 순이에요. 포에버는 곰도 무기 DPS가 점수에 들어가요(한손·양손 같은 값).',restoration:'치유량·지능·정신력·5초당 마나 순이에요.'}};
 /* ===== 점수 공식 = forg.gg와 같은 틀 =====
    1) 기본 가중치: forg.gg 장비 추천 기본표(역할별)
    2) 시뮬이 있는 특성은 포에버 시뮬레이터(wowsims/forever, 60레벨) 값으로 덮음 — 무기 DPS·적중·치명타 1% 가치 포함
@@ -3616,7 +3616,7 @@ const WSRC={};
 function simU(sim){const u=Object.assign({},sim.unscored||{});if(u.crit&&u.hit!=null&&u.hit<u.crit*.3)u.hit=u.crit;return u}
 for(const c in FS)for(const s in FS[c]){if(!W[c]||!W[c][s])continue;const [b,ex]=FS[c][s];let w=Object.assign({},b?FB[b]:{},ex||{});const role=b==='tank'||s==='feral-bear'?'tank':b==='heal'?'heal':b==='cast'?'cast':'phys';
   const sim=(typeof D_SIMW!=='undefined'&&D_SIMW.specs||{})[c+'/'+s];let src='forg 기본표';
-  if(sim&&role!=='tank'){const keep={sta:w.sta||0};w=Object.assign({},sim.weights,keep);const u=simU(sim);
+  if(sim&&role!=='tank'){const keep={sta:w.sta||0};/* 시뮬엔 마법봉이 없어 forg 기본표 값(시전자 1)을 남김 — 레벨업 중 마법봉 DPS가 0점이던 것 */if(w.dpsWand!=null)keep.dpsWand=w.dpsWand;w=Object.assign({},sim.weights,keep);const u=simU(sim);
     if(role==='cast'){w.scrit=u.crit||0;w.shit=u.hit||0}else{w.crit=u.crit||0;w.hit=u.hit||0}src='포에버 시뮬레이터 ('+(SIM_KO[sim.preset]||sim.preset)+')'}
   else if(role==='tank'){const u=sim?simU(sim):{};Object.assign(w,{dodge:12,hit:(u.hit||14)*.4,crit:(u.crit||12)*.25});if(s!=='feral-bear')Object.assign(w,{parry:10,blockp:6})}
   else if(role==='heal')w.scrit=6;
@@ -3626,6 +3626,8 @@ for(const c in FS)for(const s in FS[c]){if(!W[c]||!W[c][s])continue;const [b,ex]
   if(role==='phys'||role==='tank')w.exp=(w.hit||0)*(c==='rogue'||s==='feral-cat'?1.1:.85);if(c==='hunter')w.rap=w.ap??.5;
   /* Icy Veins 포에버 우선순위(11/4): 복원 주술사는 치명타가 지능보다 위, 파괴 흑마는 치명타 > 지능 > 적중 */
   if(c==='shaman'&&s==='restoration')w.scrit=10;
+  /* 포에버 야성: 변신 중 자동 공격 DPS = 낀 무기 DPS (한손·양손 구분 없음, 블리자드 개발 노트·Icy Veins) */
+  if(c==='druid'&&s==='feral-cat'&&w.dps2h)w.dps1h=w.dps2h;
   if(c==='warlock'&&s==='destruction'){w.scrit=Math.max(w.scrit||0,12);w.shit=Math.min(w.shit||9,9)}
   /* 화면 표시·예전 계산용 */
   w.dps=w.dpsMain??w.dps2h??w.dps1h??0;w.rdps=w.dpsRanged??w.dpsWand??0;
@@ -3956,13 +3958,14 @@ const TW={
  'paladin/protection':{def:{sta:1,def:.9,armor:.03,agi:.5,blockp:7,block:.3,sp:.5,holy:.5,dodge:12,parry:10,str:.2,hit:5,int:.1,dps1h:.6},
    bal:{sta:1,sp:.9,holy:.9,hit:18,def:.6,armor:.02,agi:.35,blockp:4,block:.2,dodge:8,parry:7,crit:8,str:.15,int:.1,dps1h:.8},
    off:{sp:1,holy:1,hit:21,crit:12,sta:.6,str:.15,agi:.2,def:.3,armor:.01,blockp:2,dodge:4,parry:4,int:.1,dps1h:1}},
- 'druid/feral-bear':{def:{sta:1,def:.8,armor:.04,agi:.9,dodge:12,str:.4,ap:.2,hit:5,crit:2},
-   bal:{sta:1,agi:.8,str:.7,ap:.35,armor:.03,def:.5,hit:12,crit:6,dodge:9},
-   off:{hit:25,str:1,agi:.7,ap:.5,crit:12,sta:.6,armor:.015,def:.2,dodge:4}}};
+ /* 곰 무기 DPS(포에버는 변신 피해에 들어감) = 방어 전사 값 × (곰 시뮬 6.36 ÷ 방어 전사 시뮬 3.29) ≈ 1.93배, 한손·양손 같음 */
+ 'druid/feral-bear':{def:{sta:1,def:.8,armor:.04,agi:.9,dodge:12,str:.4,ap:.2,hit:5,crit:2,dps2h:1.9,dps1h:1.9},
+   bal:{sta:1,agi:.8,str:.7,ap:.35,armor:.03,def:.5,hit:12,crit:6,dodge:9,dps2h:2.9,dps1h:2.9},
+   off:{hit:25,str:1,agi:.7,ap:.5,crit:12,sta:.6,armor:.015,def:.2,dodge:4,dps2h:4.8,dps1h:4.8}}};
 const TMODE=[['def','생존','안 죽게','ability_warrior_defensivestance'],['bal','균형','처음엔 이것','inv_shield_06'],['off','위협','어그로·TPS','ability_warrior_sunder']];
 const isTank=c=>!!TW[c.cls+'/'+c.spec];
 const shieldTank=c=>c.spec==='protection'&&(c.cls==='warrior'||c.cls==='paladin');
-const _tw={};function tankW(c){const k=c.cls+'/'+c.spec+'/'+(c.tmode||'bal');if(_tw[k])return _tw[k];const w=Object.assign({},TW[c.cls+'/'+c.spec][c.tmode||'bal']);w.dps=w.dps1h||0;w.rdps=.03;return _tw[k]=w}
+const _tw={};function tankW(c){const k=c.cls+'/'+c.spec+'/'+(c.tmode||'bal');if(_tw[k])return _tw[k];const w=Object.assign({},TW[c.cls+'/'+c.spec][c.tmode||'bal']);w.dps=w.dps1h||w.dps2h||0;w.rdps=.03;return _tw[k]=w}
 /* 분노 전사 무기 방식: 쌍수(한손 둘, 기본) / 양손(양손 무기 하나). 쌍수는 20레벨에 배워서 그 전엔 둘 다 봄(null)
    포에버 시뮬레이터 분노 점수표는 쌍수 기준(주무기 4.26 · 보조 1.52) → 양손 방식은 양손 무기에 주무기 값을 씀 */
 const WSET=[['dw','쌍수','한손 무기 둘','ability_dualwield'],['2h','양손','양손 무기 하나','inv_axe_09']];
