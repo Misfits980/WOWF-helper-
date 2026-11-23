@@ -776,7 +776,16 @@ print('장비 목록 끝')
 # ---------- 레벨업 보강: 비행 조련사 · 여관 주인 · 직업 교관 · 사냥터 ----------
 CLS_EN = {'Warrior': 'warrior', 'Paladin': 'paladin', 'Hunter': 'hunter', 'Rogue': 'rogue', 'Priest': 'priest',
           'Shaman': 'shaman', 'Mage': 'mage', 'Warlock': 'warlock', 'Druid': 'druid'}
-W = {'fp': [], 'inn': [], 'tr': {}, 'mob': {}}
+W = {'fp': [], 'inn': [], 'tr': {}, 'mob': {}, 'pn': []}
+# 전문기술 교관·재료 상인·책 파는 사람 (앱 전문기술 화면 「배우는 곳」·「장보기」): [한글 이름, 영어 이름, 직함, 지역, 좌표]
+PROF_SUB = re.compile(r'^((Alchemy|Blacksmithing|Enchanting|Engineering|Leatherworking|Tailoring|Herbalism|Mining|Skinning|Cooking|Fishing|First Aid) (Trainer|Supplies)'
+                      r'|(Junior|Journeyman|Expert|Artisan|Master) (Alchemist|Blacksmith|Enchanter|Engineer|Leatherworker|Tailor|Herbalism Trainer|Mining Trainer|Skinning Trainer)'
+                      r'|Trade Supplies|General Supplies|Reagents|Trade Goods|Superior Fisherman|Master Mycologist)$')
+PROF_NPC_EN = {'Shandrina', 'Old Man Heming', 'Deneb Walker', 'Dirge Quikcleave', 'Nat Pagle', 'Doctor Gustaf VanHowzen', 'Annora', 'Kaylaena Springwhisper', 'Master Mycologist Shurome'}
+_PTJ = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'guides', 'prof-trainers.json')
+if os.path.exists(_PTJ):  # 교관 목록에 있는 이름은 직함(Herbalist·Cook·Fisherman 등)과 상관없이 넣음
+    _ptj = json.loads(rd(_PTJ))
+    PROF_NPC_EN |= {t[0] for L in _ptj.get('tr', {}).values() for t in L} | {t[1] for L in _ptj.get('book', {}).values() for t in L}
 
 
 def pts_of(sp, z):
@@ -797,6 +806,13 @@ for i, r in NPC.items():
     nm = ko_npc(i)
     if not nm:
         continue
+    _sub0 = r.get(NK['subName']) or ''
+    _en0 = r.get(NK['name']) or ''
+    if 'A' in fr and (PROF_SUB.match(_sub0) or _en0 in PROF_NPC_EN):
+        _z, _xy = first_spawn(sp)
+        _zk = zone_name(_z)[0] if _z else None
+        if _zk and _xy:
+            W['pn'].append([nm, _en0, _sub0, _zk, _xy])
     if 'A' in fr and fl & (8 | 128 | 16):
         z, xy = first_spawn(sp)
         zk = zone_name(z)[0] if z else None
@@ -832,7 +848,7 @@ for zk in W['mob']:
     W['mob'][zk] = sorted(W['mob'][zk], key=lambda x: -x[3])[:40]
 with open(os.path.join(OUT, 'world.json'), 'w', encoding='utf-8') as f:
     json.dump(W, f, ensure_ascii=False, separators=(',', ':'))
-print('비행', len(W['fp']), '여관', len(W['inn']), '교관', {k: len(v) for k, v in W['tr'].items()}, '사냥터 지역', len(W['mob']))
+print('전문기술 NPC', len(W['pn']), '비행', len(W['fp']), '여관', len(W['inn']), '교관', {k: len(v) for k, v in W['tr'].items()}, '사냥터 지역', len(W['mob']))
 
 # 아이템 출처 몹(wh:npc=번호)이 어느 지역에 있는지 (지역별 얻는 장비용)
 _nids = set()

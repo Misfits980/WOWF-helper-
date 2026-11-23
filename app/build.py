@@ -1121,6 +1121,14 @@ def prof_ko(txt):
     for en_, v_ in WYN.items():
         if v_[0] and v_[2] == en_:
             M.setdefault(en_, v_[0])
+    # 도안 이름에서 만드는 것 이름 (「Pattern: Masterwork Volcanic Leggings|도안: 걸작 화산 다리보호구」 → 걸작 화산 다리보호구)
+    for en_, ko_ in list(M.items()):
+        mm = re.match(r'^(?:Pattern|Plans|Recipe|Schematic|Formula|Manual): (.+)$', en_)
+        km = re.match(r'^(?:도안|설계도|조제법|제조법|주문식|요리법|교본|도면|안내서|기술서): (.+)$', ko_ or '')
+        if mm and km:
+            M.setdefault(mm.group(1), km.group(1))
+    # 자료에 없는 것 (전문기술 루트에만 나오는 이름)
+    M.setdefault('Obsidian Grinding Stone', '흑요석 연마석')
     SL = {'Bracer': '손목', 'Chest': '가슴', 'Cloak': '망토', 'Boots': '장화', 'Gloves': '장갑', 'Weapon': '무기', 'Shield': '방패', '2H Weapon': '양손 무기'}
     GR = {'Minor': '최하급', 'Lesser': '하급', 'Inferior': '최하급', 'Greater': '상급', 'Superior': '최상급', 'Major': '특급'}
     EF = {'Stamina': '체력', 'Spirit': '정신력', 'Intellect': '지능', 'Agility': '민첩성', 'Strength': '힘', 'Defense': '방어', 'Deflect': '피해 반사', 'Absorption': '피해 흡수', 'Health': '생명력', 'Mana': '마나', 'Striking': '타격', 'Protection': '보호'}
@@ -1158,6 +1166,33 @@ def prof_ko(txt):
     return re.sub(r"'((?:[^'\\]|\\.)*)'", tr, txt)
 
 PROFS_JS = prof_ko(rd(A / 'profs.js'))
+# 전문기술 교관·책·재료 상인 (data/guides/prof-trainers.json 등급 + data/qdb/world.json pn 한글 이름·좌표) → D_PTR
+PTR = {'tr': {}, 'book': {}, 'sv': {}}
+_ptj = ROOT / 'data/guides/prof-trainers.json'
+if _ptj.exists():
+    _G = json.loads(rd(_ptj))
+    _W = json.loads(rd(Q / 'world.json')) if (Q / 'world.json').exists() else {}
+    _by = {}
+    for _x in _W.get('pn', []):
+        _by.setdefault(_x[1], _x)
+    def _np(en):
+        x = _by.get(en)
+        return [x[0], x[3], x[4]] if x else (_G.get('fb') or {}).get(en)
+    for _k, _L in _G.get('tr', {}).items():
+        PTR['tr'][_k] = [_np(t[0]) + [t[1], t[3]] for t in _L if _np(t[0])]
+    for _k, _L in _G.get('book', {}).items():
+        PTR['book'][_k] = [[t[0]] + _np(t[1]) + [t[2], t[4]] for t in _L if _np(t[1])]
+    # 재료 상인: 직함 → 앱 이름 (얼라이언스 대도시·큰 마을)
+    _SV = {'Tailoring Supplies': '재봉 용품', 'Trade Supplies': '잡화', 'General Supplies': '잡화', 'Trade Goods': '잡화', 'Alchemy Supplies': '연금술 용품',
+           'Leatherworking Supplies': '가죽세공 용품', 'Blacksmithing Supplies': '대장 용품', 'Engineering Supplies': '기계공학 용품', 'Enchanting Supplies': '마법부여 용품',
+           'Cooking Supplies': '요리 재료', 'Fishing Supplies': '낚시 용품', 'Mining Supplies': '대장 용품'}
+    _BIG = ['스톰윈드', '아이언포지', '다르나서스', '엘윈 숲', '던 모로', '텔드랏실', '어둠의 해안', '저습지', '먼지진흙 습지대', '가시덤불 골짜기', '모단 호수', '그늘숲', '붉은마루 산맥', '잿빛 골짜기', '페랄라스', '타나리스', '알터랙 산맥', '강물터', '힐스브래드 구릉지']
+    for _x in _W.get('pn', []):
+        _t = _SV.get(_x[2])
+        if _t and _x[3] in _BIG:
+            PTR['sv'].setdefault(_t, []).append([_x[0], _x[3], _x[4]])
+    for _t in PTR['sv']:
+        PTR['sv'][_t].sort(key=lambda r: _BIG.index(r[1]))
 # 전문기술 화면에 쓰는 이름 → 아이콘 (만드는 아이템·재료)
 PICO = {}
 # 재료 이름 → 아이템 번호 (애드온 가방 개수와 맞추기용)
@@ -1841,6 +1876,7 @@ data = '\n'.join([
     PROFS_JS,
     'const PICO=' + json.dumps(PICO, ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_MATID=' + json.dumps(MATID, ensure_ascii=False, separators=(',', ':')) + ';',
+    'const D_PTR=' + json.dumps(PTR, ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_SETS=' + json.dumps(_sets(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_EFFT=' + json.dumps(_efft(), ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_BIND=' + json.dumps(_bind(), ensure_ascii=False, separators=(',', ':')) + ';',
