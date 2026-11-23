@@ -76,7 +76,8 @@ def parse_stats(lines):
             elif '무기 막기' in body: add('parry',v)
             elif '방패 막기' in body: add('blockp',v)
             continue
-        mv=re.search(r'최대 (\d+)',body) or re.search(r'(\d+)만큼',body) or re.search(r'5초마다 (\d+)의 마나',body)
+        # 「전투력이 30 증가합니다」처럼 「만큼」이 없는 문장도 (반격의 자철광 전투력 30이 빠졌던 것)
+        mv=re.search(r'최대 (\d+)',body) or re.search(r'(\d+)만큼',body) or re.search(r'5초마다 (\d+)의 마나',body) or re.search(r'(?:이|가) (\d+) 증가합니다',body)
         if not mv: continue
         v=int(mv.group(1))
         if re.search(r'확률|초 동안|적중 시|공격 시|사용 시',body): continue

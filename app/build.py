@@ -746,7 +746,10 @@ if (Q / 'items-addon.jsonl').exists():
             for k in ('str', 'agi', 'sta', 'int', 'spi'):
                 _new.pop(k, None)
             _new.update(_gp)
-        _w = _wd(L_) or (round((o_.get('gs') or {}).get('DAMAGE_PER_SECOND') or 0, 2) if f[3].startswith('2.') else 0)  # 「공격력 1」처럼 최소·최대가 같은 무기는 글로 못 읽음 → 게임 값
+        # 초당 공격력은 게임이 계산한 값(DAMAGE_PER_SECOND)이 먼저: 툴팁 「공격력 N - M」만으로 셈하면 추가 속성 피해(고문용 부지깽이 +화염)가 빠져 0.1~0.2씩 달랐음(9개)
+        #  게임 값이 없을 때만 툴팁 글로 (「공격력 1」처럼 최소·최대가 같은 무기는 글로 못 읽음)
+        _gd = round((o_.get('gs') or {}).get('DAMAGE_PER_SECOND') or 0, 2) if f[3].startswith('2.') else 0
+        _w = _gd or _wd(L_)
         if _w and ('dps' in _cur or f[3].startswith('2.')):  # 투척 무기처럼 초당 공격력이 빠져 있던 무기도 게임 값으로
             _new['dps'] = _w
         # 장착 자리도 게임 값으로: 「주장비 전용」을 한손(보조 손 가능)으로 잡아 쌍수 보조 무기로 추천하던 것(서슬피 등 98개)
@@ -754,10 +757,26 @@ if (Q / 'items-addon.jsonl').exists():
         # 방패는 원래 armor 칸이 전체 방어도라 게임 값으로 맞춤. 그동안 방어도는 「추가 방어도」가 있는 템 300여 개만 있어 탱커 방어도 가중치가 거의 안 쓰였음
         _ga = (o_.get('gs') or {}).get('RESISTANCE0_NAME')
         if _ga and _ga > 0:
-            if f[3] in ('4.1', '4.2', '4.3', '4.4'):
+            if f[3] in ('4.1', '4.2', '4.3', '4.4') or o_.get('loc') == 'INVTYPE_CLOAK':
+                # 망토는 종류 칸이 빈 것(280개)도 있어 자리로도 봄 — 예전엔 종류가 「천」인 망토만 방어도가 들어가 망토끼리 곰·탱커 점수가 달랐음
                 _new['bar'] = round(_ga)
-            elif f[3] == '4.6':
+            else:
+                # 방패는 armor 칸이 전체 방어도. 무기·반지·목·장신구·보조 장비의 「방어도 N」은 추가 방어도(교도관 지팡이 260, 보호의 반지 150 등 40여 개)라 같은 칸으로
                 _new['armor'] = round(_ga)
+        # 방패 피해 방어(block): 게임 툴팁 「방패 막기 N」(방패 기본) + 착용 효과 「방패의 피해 방어량이 N만큼 증가」
+        #  예전엔 방패 255개 중 191개가 0이거나 달랐고(검은해골 방패 0 → 30), 클래식 자료(items-extra)가 남은 4개는 두 배(스틸린의 방어 스카라베 48 → 24)
+        _bb = _be = 0; _hb = False
+        for x_ in L_:
+            m_ = re.match(r'^방패 막기 ([\d,]+)$', x_)
+            if m_:
+                _bb = int(m_.group(1).replace(',', '')); _hb = True
+            m_ = re.match(r'^착용 효과:.*?방패의 피해 방어량이 (\d+)만큼 증가', x_)  # 사용 효과(굴곡의 문양 「20초 동안 235」)는 아님
+            if m_:
+                _be += int(m_.group(1)); _hb = True
+        if _hb:
+            _new['block'] = _bb + _be
+        elif 'block' in _new and any(x.startswith(('착용 효과', '사용 효과', '발동 효과', '적중 시')) for x in L_):
+            _new.pop('block')  # 효과 줄까지 다 불러온 툴팁에 방패 피해 방어가 없으면 없는 것
         _sl = _LOC.get(o_.get('loc') or '')
         if _sl and f[2] != _sl:
             f[2] = _sl; _al += 1
@@ -817,10 +836,40 @@ try:
             if l_:
                 o_ = json.loads(l_)
                 _W[o_['id']] = o_
-    _fix = 0
+    _fix = _gfix = 0
+    # 게임 툴팁(애드온)이 있으면 그게 정답: 「직업:」 줄이 있으면 그 직업만, 없으면 숙련·방어구 규칙만.
+    #  단 퀘스트로만 얻는 템은 직업 전용 퀘스트 보상(검은장막·고결 세트 등, 획득 시 귀속)일 수 있어 아래 예전 규칙 그대로.
+    #  예전엔 forg의 「어울리는 직업」 표시(allowedClasses)·레이드 단계 템 건너뛰기 때문에 게임에선 누구나 끼는 템 150여 개가 한두 직업 전용으로 잡혔음
+    #  (일몰 → 징벌 성기사·고양 주술사 못 낌, 소진된 토륨 발덮개 → 방어 전사 못 낌, 깊은뿌리 반지 → 마법사 못 낌, 녹색 타워실드 → 주술사 못 낌)
+    _ADm = globals().get('_AD') or {}
+    _SLm = srcs.split('\n')
+    def _open_src(f):
+        """직업과 상관없이 얻는 출처(던전 보스·이름 있는 몹 드랍·제작·상인·평판·경매장 월드 드랍)가 있나"""
+        for i_ in filter(None, f[7].split(';')):
+            s_ = _SLm[int(i_)].split('~') if int(i_) < len(_SLm) else []
+            k_, lb_ = (s_ + ['', ''])[:2]
+            if k_ in ('0', '4', '5', '6', '7', '8', '9') or (k_ == '3' and '미공개' not in lb_) or (k_ == '2' and '경매장' in lb_):
+                return True
+        return False
+    _GTOP = re.compile(r'^(머리|목|어깨|등|가슴|손목|손|허리|다리|발|손가락|장신구|양손 장비|한손 장비|주장비|보조장비|원거리 장비|투척|성물)')
     for ix, line in enumerate(items):
         f = line.split('|')
-        if len(f) < 13 or f[9] not in ('', 'extra'):
+        if len(f) < 13:
+            continue
+        g_ = _ADm.get(int(f[0]))
+        gl_ = (g_ or {}).get('lines') or []
+        if any(_GTOP.match(x) for x in gl_[:5]):
+            cl = [t for t in gl_ if t.startswith('직업:')]
+            al_ = [_KO[x.strip()] for x in cl[0][3:].split(',') if x.strip() in _KO] if cl else (None if _open_src(f) else False)
+            if al_ is not False:
+                m1 = mask_of(f[3] or '', al_)
+                a1 = ','.join(al_ or [])
+                if m1 and (m1 != int(f[8] or 0) or a1 != f[10]):
+                    f[8] = str(m1); f[10] = a1
+                    items[ix] = '|'.join(f)
+                    _gfix += 1
+                continue
+        if f[9] not in ('', 'extra'):
             continue
         m0 = int(f[8] or 0)
         allow = [x for x in f[10].split(',') if x] or None
@@ -838,7 +887,7 @@ try:
             f[8] = str(m1)
             items[ix] = '|'.join(f)
             _fix += 1
-    print('착용 직업 다시 계산', _fix)
+    print('착용 직업 다시 계산', _fix, '· 게임 툴팁 기준', _gfix)
 except ImportError as e:
     print('착용 직업 계산 건너뜀', e)
 # 퀘스트 보상 바로잡기: forever-tool(블리자드 자료) 퀘스트 보상 목록(data/forg/rewards.jsonl)과 템 출처를 맞춤
@@ -1263,6 +1312,42 @@ def _qenko(l):
 _sb = srcs
 srcs = '\n'.join(_qenko(l) for l in srcs.split('\n'))
 print('영어 퀘스트 출처 이름 한글로', sum(1 for a_, b_ in zip(_sb.split('\n'), srcs.split('\n')) if a_ != b_))
+# 레이드 단계 템(forg phase: 낙스라마스·안퀴라즈·줄구룹·화산 심장부·검은날개 둥지·오닉시아·하이잘 정상·월드 보스)만 쓰는 출처도 레이드로.
+#  보스 이름 목록(_RAIDNM)에 없는 보스 드랍(맥스나·타디우스·마그마다르 등)·영어 이름 레이드 퀘스트(Paragons of Power·For All To See 등)가
+#  표시 없이 남아 「퀘스트+던전」 60레벨 추천에 레이드 템 40개가 섞였음(장신구 1등 거미의 입맞춤·감쇠의 눈)
+_RPH = {'naxxramas', 'ahn-qiraj-temple', 'ahn-qiraj-ruins', 'zul-gurub', 'molten-core', 'blackwing-lair', 'onyxias-lair', 'hyjal-summit', 'world-boss'}
+_sph = {}
+for _l in items:
+    _f = _l.split('|')
+    if len(_f) > 9:
+        for _x in filter(None, _f[7].split(';')):
+            _sph.setdefault(int(_x), set()).add(_f[9])
+_SLr = srcs.split('\n'); _nrp = 0
+for _i, _l in enumerate(_SLr):
+    _f = _l.split('~')
+    if len(_f) >= 2 and _f[0] in ('0', '1', '3') and not (len(_f) > 3 and _f[3]) and _sph.get(_i) and _sph[_i] <= _RPH:
+        while len(_f) < 3:
+            _f.append('')
+        _SLr[_i] = '~'.join(_f[:3] + ['r']); _nrp += 1
+# 같은 퀘스트가 영어 이름(주소 없음, 클래식 자료)과 한글 이름(레이드 표시)으로 두 번 들어간 템: 영어 쪽도 레이드로
+#  (청동용군단의 인장 반지 「The Path of the Protector」 = 안퀴라즈 「수호자의 길」 → 「퀘스트+던전」 반지 1등으로 나오던 것)
+_its = {}
+for _l in items:
+    _f = _l.split('|')
+    if len(_f) > 7:
+        _ix = [int(_x) for _x in _f[7].split(';') if _x]
+        for _x in _ix:
+            _its.setdefault(_x, []).append(_ix)
+_isr = lambda _x: len(_SLr[_x].split('~')) > 3 and _SLr[_x].split('~')[3] == 'r'
+for _i, _l in enumerate(_SLr):
+    _f = _l.split('~')
+    if len(_f) >= 2 and _f[0] == '1' and not (len(_f) > 2 and _f[2]) and not (len(_f) > 3 and _f[3]) and not re.search('[가-힣]', _f[1].replace('퀘스트 · ', '', 1)) \
+            and _its.get(_i) and all(any(_isr(_y) for _y in _ix if _y != _i) for _ix in _its[_i]):
+        while len(_f) < 3:
+            _f.append('')
+        _SLr[_i] = '~'.join(_f[:3] + ['r']); _nrp += 1
+srcs = '\n'.join(_SLr)
+print('레이드 단계 템 출처 → 레이드', _nrp)
 print('레이드 출처', sum(1 for l in srcs.split('\n') if l.endswith('~r')), '· PvP(명예·전장)', sum(1 for l in srcs.split('\n') if l.endswith('~p')), '· 레이드 퀘스트', len(_RQ))
 SRC_TXT = srcs + '\n'
 # 템의 다른 출처가 있으면 얼라이언스가 못 하는 퀘스트 출처는 뺌 (호드 퀘스트 · 포에버 퀘스트 자료에 없는 영어 이름 퀘스트)
