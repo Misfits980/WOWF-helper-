@@ -196,6 +196,55 @@ def _qfix(t):
     return t
 
 
+_SPRI = {'힘': 'str', '민첩성': 'agi', '민첩': 'agi', '체력': 'sta', '지능': 'int', '정신력': 'spi'}
+
+
+def _setst(t):
+    """세트 효과 글 → 늘 붙는 능력치 {키: 값} (앱 세트 점수). 발동·조건·기술 강화·몹 종류·저항·무기 숙련은 빈 칸(점수 밖)"""
+    from items_wowf import parse_stats
+    if re.search(r'확률로|초 동안|적중 시|공격 시|시전 시|사용 시|발동|활성화|동안|에 대한 |\S+ 주문의 ', t):  # 「모든 충격 주문의 치명타」처럼 기술 하나만은 뺌
+        return {}
+    st = dict(parse_stats(['착용 효과: ' + t]))
+    m = re.match(r'^(힘|민첩성|민첩|체력|지능|정신력)(?:이|가) (\d+)만큼 증가', t)
+    if m:
+        st[_SPRI[m.group(1)]] = int(m.group(2))
+    m = re.match(r'^모든 능력치(?:가|이) (\d+)만큼 증가', t)
+    if m:
+        for k in ('str', 'agi', 'sta', 'int', 'spi'):
+            st[k] = int(m.group(1))
+    m = re.match(r'^방어도(?:가|이) (\d+)만큼 증가', t) or re.match(r'^방어도 \+(\d+)$', t)
+    if m:
+        st['armor'] = int(m.group(1))
+    m = re.search(r'방패로 적의 공격을 방어할 확률이 ([\d.]+)%', t)
+    if m:
+        st['blockp'] = float(m.group(1))
+    m = re.search(r'치유량이 최대 (\d+)만큼,\s*(?:주문 및 효과의 )?공격력(?:은|이)? 최대 (\d+)', t)
+    if m:
+        st['heal'] = int(m.group(1)); st['sp'] = int(m.group(2))
+    return st
+
+
+def _efft():
+    """「효과」 표시 템의 특수 효과 글: 게임 툴팁(애드온) 줄이 wowf.io보다 적지 않으면 게임 것, 아니면 wowf.io → {번호: '줄\n줄'}"""
+    from items_wowf import special_lines
+    AD = globals().get('_AD') or {}
+    WR = globals().get('WREC') or {}
+    out = {}
+    for l in ITEMS_TXT.split('\n'):
+        f = l.split('|')
+        if len(f) < 7 or f[6] != '1':
+            continue
+        i = int(f[0])
+        best = []
+        for src in (AD.get(i), WR.get(i)):
+            L = special_lines((src or {}).get('lines'))
+            if len(L) > len(best):
+                best = L
+        if best:
+            out[str(i)] = '\n'.join(_qfix(x)[:240] for x in best[:4])
+    return out
+
+
 def _sets():
     """세트 장비: wowf.io 툴팁의 「세트 이름 (0/N)」 + 부위 이름 + 「(n) 세트: 효과」 → [[이름, [부위], [[n, 효과]]]]"""
     out = {}
@@ -223,7 +272,8 @@ def _sets():
             for y in L[i + 1 + len(parts):]:
                 mb = re.match(r'^\((\d+)\) 세트: (.+)$', y)
                 if mb:
-                    bon.append([int(mb.group(1)), _qfix(mb.group(2))])
+                    _t = _qfix(mb.group(2))
+                    bon.append([int(mb.group(1)), _t, _setst(_t)])
             if nm not in out or len(bon) > len(out[nm][2]):
                 out[nm] = [nm, parts, bon, n]  # n = 게임 툴팁 (0/N)
             break
@@ -1541,6 +1591,7 @@ data = '\n'.join([
     'const PICO=' + json.dumps(PICO, ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_MATID=' + json.dumps(MATID, ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_SETS=' + json.dumps(_sets(), ensure_ascii=False, separators=(',', ':')) + ';',
+    'const D_EFFT=' + json.dumps(_efft(), ensure_ascii=False, separators=(',', ':')) + ';',
     rd(A / 'hubs.js'),
 ])
 (ROOT / 'app-data.js').write_text(data, encoding='utf-8')

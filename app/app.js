@@ -923,7 +923,7 @@ function fits(it,slot,c,lv){const S=SLOTS.find(s=>s[0]===slot);if(!S||!S[2].incl
   if(slot==='off'){if(it.sl==='1h'||(it.sl==='oh'&&it.cs!=='4.6'))return DW.has(c.cls)&&DWLV[c.cls]<=Math.max(lv||0,c.lv||1);return true}
   return true}
 function slotsFor(it,c){return SLOTS.filter(s=>fits(it,s[0],c)).map(s=>s[0])}
-function sc(it,slot,w){if(!it)return 0;let s=0;for(const k in it.st){const v=it.st[k];/* bar = 게임 툴팁 방어도 전체(방어구) → 탱커 방어도 가중치. 있으면 armor(추가 방어도)는 그 안에 들어 있어 따로 안 셈 */if(k==='bar'){s+=v*(w.armor||0);continue}if(k==='armor'&&it.st.bar!=null)continue;if(k==='ap'&&it.sl==='ra'&&!(w.dpsRanged>0)&&/^2\.(2|3|18|16)$/.test(it.cs||''))continue;/* 활·총·석궁·투척의 전투력은 원거리 전투력 → 사냥꾼만 */if(k==='dps'){s+=v*dpsW(it,slot,w);continue}s+=v*(w[k]||0)}return s}
+function sc(it,slot,w,c){if(!it)return 0;let s=c?setGain(c,it,slot,w):0;for(const k in it.st){const v=it.st[k];/* bar = 게임 툴팁 방어도 전체(방어구) → 탱커 방어도 가중치. 있으면 armor(추가 방어도)는 그 안에 들어 있어 따로 안 셈 */if(k==='bar'){s+=v*(w.armor||0);continue}if(k==='armor'&&it.st.bar!=null)continue;if(k==='ap'&&it.sl==='ra'&&!(w.dpsRanged>0)&&/^2\.(2|3|18|16)$/.test(it.cs||''))continue;/* 활·총·석궁·투척의 전투력은 원거리 전투력 → 사냥꾼만 */if(k==='dps'){s+=v*dpsW(it,slot,w);continue}s+=v*(w[k]||0)}return s}
 /* 착용 장비: 앱 자료 + 게임(애드온·전투정보실)이 읽은 실제 능력치. 무작위 옵션(「산적의 궁수 장화」)·포에버에서 바뀐 템을 맞추려고.
    주 능력치(힘·민첩·체력·지능·정신)는 게임 값을 그대로, 나머지는 게임이 알려 준 것만 덮고 적중·치명타 같은 건 앱 자료 유지 */
 const GPRI=['str','agi','sta','int','spi'];
@@ -935,10 +935,10 @@ function eqIt(c,slot){const id=c.eq&&c.eq[slot];if(!id)return null;const it=IT.g
 /* 이 아이템을 낄 때 가장 이득인 칸과 이득 */
 function bestSlot(it,c){const w=wOf(c);let best=null;
   for(const s of slotsFor(it,c)){let base;
-    if(s==='main'&&it.sl==='2h')base=sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w);
+    if(s==='main'&&it.sl==='2h')base=sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c);
     else if(s==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h')continue;
-    else base=sc(eqIt(c,s),s,w);
-    const g=sc(it,s,w)-base;const empty=!eqIt(c,s);
+    else base=sc(eqIt(c,s),s,w,c);
+    const g=sc(it,s,w,c)-base;const empty=!eqIt(c,s);
     if(!best||g>best.g)best={s,g,base,empty}}
   return best}
 /* 확실히 얻는 곳: 던전 보스(0) · 퀘스트(1) · 상인(5) · 알려진 몹(3). 월드 드랍(2) · 경매장·제작(4) · 어디서 나오는지 모르는 몹 드랍은 「운」 */
@@ -986,7 +986,7 @@ const clothNo=(c,it)=>it.cs==='4.1'&&it.sl!=='ba'&&(['warrior','rogue','hunter']
 /* 고른 출처로만 얻는 레벨이 더 늦으면 그 레벨부터 추천: 예) 불꽃의 판금 건틀릿은 제작 53레벨이지만 퀘스트 보상은 57레벨 → 「퀘스트+던전」에선 57부터 */
 function obOf(it,m){if(!it._sv||m==='all')return it.ob;if(!it.obm){const M={};for(const [s,v] of it._sv)for(const k of ['q','dg','ok','rd']){const hit=k==='ok'?srcSure(s)&&!s.raid&&!s.pvp:k==='rd'?srcSure(s)&&!s.pvp:srcCat(s)===k;if(hit)M[k]=Math.min(M[k]??99,k!=='q'&&it._rw!=null?Math.min(v,it._rw):v)}
   it.obm={};for(const k in M)it.obm[k]=Math.max(it.ob,M[k])}return it.obm[m]||it.ob}
-function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>obOf(it,mode)<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
+function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>obOf(it,mode)<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w,c),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 /* 「하나 고르기」 퀘스트: 이미 그 보상을 끼고 있거나 직접 다른 보상을 골랐으면(c.rwPick) 나머지 보상은 못 받음 — 장비 탭 목록(upgrades)·칸 비교·애드온 추천 코드(bestFor)가 같은 규칙.
    예전엔 bestFor가 이 규칙을 안 써서 고른 뒤에도 칸 비교·게임 툴팁에 고르지 않은 보상이 「좋아짐」으로 나왔음 */
 function p1Out(c){const eqQ=new Set(SLOTS.map(([s])=>eqIt(c,s)).filter(Boolean).map(pickOneQ).filter(Boolean));const rp=c.rwPick||{};const hasRp=Object.keys(rp).length>0;
@@ -995,22 +995,22 @@ function upgrades(c,L,mode,minLv,ex){const out=[];const w=wOf(c);const ng=new Se
   const p1No=p1Out(c);/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
-    const curS=Math.min(...pair.map(p=>sc(eqIt(c,p),p,w)));const tgt=pair.reduce((a,p)=>sc(eqIt(c,p),p,w)<=sc(eqIt(c,a),a,w)?p:a,pair[0]);
-    let base=curS;if(slot==='main')base=sc(eqIt(c,'main'),'main',w)+(0);
+    const curS=Math.min(...pair.map(p=>sc(eqIt(c,p),p,w,c)));const tgt=pair.reduce((a,p)=>sc(eqIt(c,p),p,w,c)<=sc(eqIt(c,a),a,w,c)?p:a,pair[0]);
+    let base=curS;if(slot==='main')base=sc(eqIt(c,'main'),'main',w,c)+(0);
     if(slot==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h')continue;
     const have=new Set(pair.map(p=>c.eq[p]).filter(Boolean));
     const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&!ng.has(x.it.id)&&!p1No(x.it)&&(minLv==null||obOf(x.it,mode)>=minLv)&&!(slot==='off'&&out.some(o=>o.slot==='main'&&o.it.id===x.it.id))
       /* 지금 다른 손에 낀 무기는 이 손 추천에서 뺌(다른 손을 바꾸라는 추천이 없을 때) — 예전엔 한 손만 있으면 그 무기를 다른 손에도 추천했음 */&&!(slot==='off'&&x.it.id===c.eq.main&&!out.some(o=>o.slot==='main'))&&!(slot==='main'&&x.it.id===c.eq.off));
     for(const x of list.slice(0,1)){let g;
-      if(slot==='main'&&x.it.sl==='2h')g=x.s-(sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w));else g=x.s-base;
-      if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):base,empty:!eqIt(c,tgt)})}}
+      if(slot==='main'&&x.it.sl==='2h')g=x.s-(sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c));else g=x.s-base;
+      if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c):base,empty:!eqIt(c,tgt)})}}
   /* 양손 무기 추천과 보조 추천이 같이 나오지 않게: 양손 vs (한손+보조) 중 나은 쪽만 */
   const mi=out.findIndex(o=>o.slot==='main'&&o.it.sl==='2h'),oi=out.findIndex(o=>o.slot==='off');
   if(mi>=0&&oi>=0){const m=out[mi],o=out[oi];const two=m.base+m.g;const offS=o.base+o.g;
     const m1=cands(c,'main',L,mode).find(x=>x.it.sl!=='2h'&&x.it.id!==o.it.id&&!ng.has(x.it.id)&&!p1No(x.it)&&(minLv==null||obOf(x.it,mode)>=minLv));const curM=eqIt(c,'main');
-    const oneS=Math.max(m1?m1.s:0,curM&&curM.sl!=='2h'?sc(curM,'main',w):0);
+    const oneS=Math.max(m1?m1.s:0,curM&&curM.sl!=='2h'?sc(curM,'main',w,c):0);
     if(two>=oneS+offS)out.splice(oi,1);
-    else{if(m1&&(!curM||m1.s>sc(curM,'main',w)+.01)){const b0=sc(curM,'main',w);out[mi]={slot:'main',it:m1.it,g:m1.s-b0,base:b0,empty:!curM}}else out.splice(mi,1)}}
+    else{if(m1&&(!curM||m1.s>sc(curM,'main',w,c)+.01)){const b0=sc(curM,'main',w,c);out[mi]={slot:'main',it:m1.it,g:m1.s-b0,base:b0,empty:!curM}}else out.splice(mi,1)}}
   /* 「하나 고르기」 퀘스트 보상(그 퀘스트로만 얻는 템)이 두 칸 이상에 같이 추천되면 하나만 남김: 직접 고른 템 → 없으면 더 좋아지는 쪽 · 나머지 칸은 다음 추천으로 */
   {const by={};out.forEach(o=>{const q=pickOneQ(o.it);if(q)(by[q]=by[q]||[]).push(o)});const drop=new Set(ex||[]);let more=false;
     for(const q in by){const G=by[q];if(G.length<2)continue;const pk=(c.rwPick||{})[q];const keep=G.find(o=>o.it.id===pk)||G.reduce((a,b)=>b.g>a.g?b:a);G.forEach(o=>{if(o!==keep){drop.add(o.it.id);more=true}})}
@@ -1028,6 +1028,9 @@ function srcList(it){if(!it.src.length)return '<p class="note">어디서 나오�
   return '<div class="srcl">'+it.src.slice(0,6).map(i=>{const s=SRC[i];if(!s)return '';const d=s.k===0&&DG[s.dg];
     const ico={0:'🏰',1:'📜',2:'🌍',3:'⚔️',4:'🧪',5:'🛒'}[s.k]||'•';const bn=d&&d.bosses?bossNo(d,s.boss):null;
     return '<div class="srci"><span class="si">'+ico+'</span><span class="sx">'+esc(srcTxt({src:[i]},1))+(d?'<small>'+d.lo+'–'+d.hi+'레벨 던전'+(bn?' · '+bn+'번째 보스':'')+'</small>':'')+'</span>'+(d?'<button class="btn sm ghost" data-a="dgo" data-k="'+s.dg+'">던전 ›</button>':s.k===1&&srcQid(s)?(()=>{const qi=srcQid(s);const dd=dgOfQ(qi);return dd?'<button class="btn sm ghost" data-a="dgo" data-k="'+dd.slug+'">던전 ›</button>':'<button class="btn sm ghost" data-a="qopen" data-k="'+qi+'">퀘스트 ›</button>'})():'')+'</div>'}).join('')+'</div>'}
+/* 특수 효과 글(발동·사용 효과·몹 종류 상대 등 점수 밖): build.py _efft가 게임 툴팁(애드온) 또는 wowf.io 툴팁에서 뽑음 */
+const effLines=it=>{const t=it&&typeof D_EFFT!=='undefined'?D_EFFT[it.id]:'';return t?t.split('\n'):[]};
+function effBox(it){if(!it||!it.eff)return '';const L=effLines(it);return '<div class="src"><b>특수 효과 · 점수에 안 들어가요</b>'+(L.length?L.map(x=>'<div class="nm">'+esc(x)+'</div>').join(''):'<div class="nm">게임 툴팁에서 확인해 주세요.</div>')+'</div>'}
 /* ===== 🖱️ PC: 아이템 아이콘에 마우스를 올리면 와우 툴팁처럼 전체 능력치 ===== */
 const TIP_BASE=['str','agi','sta','int','spi'];
 function itemTipHtml(c,it,slot){const st=it.st||{};const QC={p:'qp',c:'qc',u:'qu',r:'qr',e:'qe',l:'ql'}[it.q]||'qc';
@@ -1038,7 +1041,7 @@ function itemTipHtml(c,it,slot){const st=it.st||{};const QC={p:'qp',c:'qc',u:'qu
   /* 게임 툴팁처럼 방어도 전체(bar). 없으면 예전 값(방패·추가 방어도) */if(st.bar||st.armor)h+='<div class="tt-l">방어도 '+Math.round(st.bar||st.armor)+'</div>';
   TIP_BASE.forEach(k=>{if(st[k])h+='<div class="tt-l">'+(st[k]>0?'+':'')+Math.round(st[k])+' '+STAT_KO[k]+'</div>'});
   Object.keys(st).filter(k=>!TIP_BASE.includes(k)&&k!=='dps'&&k!=='armor'&&STAT_KO[k]&&!SHDUP(k,st)).forEach(k=>{h+='<div class="tt-g">착용 효과: '+STAT_KO[k].replace(/ %$/,'')+' '+(/%$/.test(STAT_KO[k])?st[k]+'%':'+'+Math.round(st[k]))+'</div>'});
-  if(it.eff)h+='<div class="tt-g">착용 효과: 특수 효과 있음 (게임 툴팁 확인)</div>';
+  if(it.eff){const L=effLines(it);h+=L.length?L.map(x=>'<div class="tt-g">'+esc(x)+'</div>').join('')+'<div class="tt-lv">위 효과는 점수에 안 들어가요</div>':'<div class="tt-g">착용 효과: 특수 효과 있음 (게임 툴팁 확인)</div>'}
   h+='<div class="tt-lv">'+(it.nr?'착용 레벨 제한 없음'+(it.ob>1?' · '+it.ob+'레벨쯤 얻음':''):it.lv>1?'최소 레벨 '+it.lv+(it.est?'?':''):'')+'</div>';
   if(cur){const d=diffHtml(it,cur,c);h+='<div class="tt-cmp"><div class="tt-ch">지금 낀 것과 비교 <small>'+esc(cur.nm)+'</small></div>'+(d||'<span class="dif">달라지는 능력치 없음</span>')+'</div>'}
   else if(slot&&!c.eq?.[slot])h+='<div class="tt-cmp"><div class="tt-ch">이 칸은 비어 있어요</div></div>';
@@ -1085,7 +1088,7 @@ function cmpBasis(c,csp){const C=D_CLS[c.cls];const role=ROLE[c.cls+'/'+csp]||''
    +'<p class="mute cmpsrc">'+(/시뮬레이터/.test(src)?'⚔️ 딜러: <b>wowsims 포에버 시뮬레이터</b> 능력치 가치':role==='치유'?'💚 힐러: <b>치유량·지능·정신력·5초당 마나</b> 위주':role==='탱커'?'🛡️ 탱커: 방어도·체력·방어 위주':'forg 기본표')+(csp!==c.spec?' · <span class="warn">내 전문화가 아닌 기준</span>':'')+'</p></div>'}
 /* 비교 표: 결론(🏆) → 점수 막대 → 능력치 줄 */
 function cmpTable(c,cols,w,opt){opt=opt||{};const L=c.lv;
-  const S=x=>{const sl=x.slot||cmpSlot(x.it,c);return sl?sc(x.it,sl,w):0};cols.forEach(x=>x.s=S(x));
+  const S=x=>{const sl=x.slot||cmpSlot(x.it,c);return sl?sc(x.it,sl,w,c):0};cols.forEach(x=>x.s=S(x));
   const eq=cols.find(x=>x.eq);const best=cols.slice().sort((a,b)=>b.s-a.s)[0];const mx=Math.max(1,...cols.map(x=>x.s));
   const ks=[...new Set(cols.flatMap(x=>Object.keys(x.it.st)))].filter(k=>STAT_KO[k]&&!cols.every(x=>SHDUP(k,x.it.st))).sort((a,b)=>(w[b]||0)-(w[a]||0));
   /* 결론 한 줄 */
@@ -1146,8 +1149,8 @@ function frGuess(A){const C=D_CLS[A.cls];let tsp=null;if(A.tal&&A.tal.length){ts
   const S=C.specs.find(x=>ROLE[A.cls+'/'+x.id]===role)||C.specs.find(x=>/딜/.test(role)&&/딜/.test(ROLE[A.cls+'/'+x.id]||''))||C.specs[0];return S.id}
 function frChar(k){const A=ARM[k];/* 직접 고른 친구 전문화는 캐릭터에 저장 (새로고침·연동 뒤에도) */const fs=(me()&&me().frsp)||{};const spec=(fs[k]&&D_CLS[A.cls].specs.some(s=>s.id===fs[k]))?fs[k]:frGuess(A);const eq={},eqv={};Object.values(A.gear).forEach(g=>{const s=ARM_SLOT[g.slot];if(s){const base=IT.get(g.id);armItem(g);eq[s]=g.id;if(base){const gs=armSt(g);if(varDiff(base,g.nm,gs))eqv[s]={id:g.id,nm:g.nm,st:gs}}}});
   return {cls:A.cls,spec,lv:A.level||1,race:(A.race||A.raceName)?armRace(A.race||A.raceName):A.race,eq,eqv,gmode:'heal',name:A.name,key:k}}
-function eqScore(c){const w=wOf(c);return SLOTS.reduce((a,[sl])=>a+(offLocked(c,sl)?0:sc(eqIt(c,sl),sl,w)),0)}
-function frScore(fc){const w=wOf(fc);return Object.entries(fc.eq).reduce((a,[s,id])=>a+sc(IT.get(id),s,w),0)}
+function eqScore(c){const w=wOf(c);const eq={};SLOTS.forEach(([sl])=>{const it=eqIt(c,sl);if(it&&!offLocked(c,sl))eq[sl]=it.id});return SLOTS.reduce((a,[sl])=>a+(offLocked(c,sl)?0:sc(eqIt(c,sl),sl,w)),0)+setScoreEq(eq,w)}
+function frScore(fc){const w=wOf(fc);return Object.entries(fc.eq).reduce((a,[s,id])=>a+sc(IT.get(id),s,w),0)+setScoreEq(fc.eq,w)}
 function frView(c){const ks=frList(c);if(!ARM_OK)return '<p class="note">전투정보실 자료를 불러오는 중…</p>';
   if(!ks.length)return '<div class="card"><p class="note">전투정보실에 등록된 친구가 없어요. data/armory/chars.txt에 이름을 넣으면 20분마다 불러와요.</p></div>';
   ui.fropen=ui.fropen||{};const mw=wOf(c);
@@ -1171,13 +1174,19 @@ function cmpSearch(c){const q=(ui.csrch||'').replace(/\s+/g,'');if(q.length<1)re
   return L.length?'<div class="csl">'+L.map(it=>'<div class="row">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+'</span><span class="sub">'+itMeta(it)+(usable(it,c)?'':' · <span style="color:var(--bad)">못 씀</span>')+'</span></span><button class="btn sm'+(((c.cmp||[]).includes(it.id))?' ghost':'')+'" data-a="cmpadd" data-k="'+it.id+'">'+(((c.cmp||[]).includes(it.id))?'담음':'담기')+'</button></div>').join('')+'</div>':'<p class="note">찾는 장비가 없어요.</p>'}
 /* ===== 세트 장비 (wowf.io 툴팁의 세트 정보) ===== */
 let _SETS=null;function setsIdx(){if(_SETS)return _SETS;const byNm={};ITEMS.forEach(it=>{(byNm[it.nm]=byNm[it.nm]||[]).push(it)});const S=[];const of={};
-  (typeof D_SETS!=='undefined'?D_SETS:[]).forEach(([n,parts,bon,tot])=>{const ps=parts.map(pn=>{const a=byNm[pn]||[];return a.sort((x,y)=>y.lv-x.lv)[0]||null});if(!ps.some(Boolean))return;const o={n,parts,ps,bon,tot,N:Math.max(tot||0,parts.length)/* 게임 툴팁 (0/N) — 부위 이름이 N개보다 적은 세트(숲지기 등)도 6 */};S.push(o);ps.forEach(it=>{if(it)of[it.id]=o})});
-  _SETS={S,of};return _SETS}
+  const ofn={};(typeof D_SETS!=='undefined'?D_SETS:[]).forEach(([n,parts,bon,tot])=>{const ps=parts.map(pn=>{const a=byNm[pn]||[];return a.sort((x,y)=>y.lv-x.lv)[0]||null});if(!ps.some(Boolean))return;const o={n,parts,ps,bon,tot,N:Math.max(tot||0,parts.length)/* 게임 툴팁 (0/N) — 부위 이름이 N개보다 적은 세트(숲지기 등)도 6 */};S.push(o);ps.forEach(it=>{if(it)of[it.id]=o});parts.forEach(pn=>{ofn[pn]=o})});
+  _SETS={S,of,ofn};return _SETS}
+/* 세트 효과 점수: 낀 부위 수(부위 이름 기준, 같은 이름은 하나)만큼 켜진 효과의 능력치(build.py _setst가 효과 글에서 읽음)에 가중치를 곱해 더함.
+   기술 강화·발동·몹 종류·저항 효과는 능력치가 없어 점수 밖. 칸 하나를 바꿀 때는 「그 칸에 이 템」과 「그 칸 비움」의 세트 점수 차를 그 템 점수에 더함 */
+const setOfIt=it=>it&&setsIdx().ofn[it.nm]||null;
+function setScoreEq(eq,w){const cnt=new Map();for(const id of Object.values(eq||{})){const it=IT.get(+id);const o=setOfIt(it);if(!o)continue;if(!cnt.has(o))cnt.set(o,new Set());cnt.get(o).add(it.nm)}
+  let s=0;cnt.forEach((nms,o)=>{for(const b of o.bon)if(b[2]&&nms.size>=b[0])s+=sc({st:normST(Object.assign({},b[2])),sl:'',cs:''},'',w)});return s}
+function setGain(c,it,slot,w){if(!c||!setOfIt(it))return 0;const e0=Object.assign({},c.eq||{});delete e0[slot];const e1=Object.assign({},e0,{[slot]:it.id});return setScoreEq(e1,w)-setScoreEq(e0,w)}
 const setOf=id=>setsIdx().of[id]||null;
 const ownSet=(c,it)=>!!it&&(Object.values(c.eq||{}).includes(it.id)||!!ownedOf(c,it.id));
 function setHtml(c,o,full){const have=o.ps.filter(it=>ownSet(c,it)).length;const N=o.N;
   let h='<div class="setc"><div class="seth"><b>🧩 '+esc(o.n)+'</b><em>'+have+'/'+N+'</em></div><div class="setp">'+o.parts.map((pn,i)=>{const it=o.ps[i];const own=ownSet(c,it);return it?'<button class="setpi'+(own?' own':'')+'" data-a="info" data-k="'+it.id+'">'+(own?'✓ ':'')+esc(pn)+'</button>':'<span class="setpi">'+esc(pn)+'</span>'}).join('')+'</div>';
-  if(full||have)h+='<div class="setb">'+o.bon.map(([n,t])=>'<p class="'+(have>=n?'on':'')+'"><b>('+n+')</b> '+esc(t)+'</p>').join('')+'</div>';
+  if(full||have)h+='<div class="setb">'+o.bon.map(([n,t,st])=>'<p class="'+(have>=n?'on':'')+'"><b>('+n+')</b> '+esc(t)+(st&&Object.keys(st).length?' <small>· 점수에 넣음</small>':'')+'</p>').join('')+'</div>';
   return h+'</div>'}
 function setCard(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>ownSet(c,it)));if(!mine.length)return '';
   return '<div class="card"><h3>🧩 세트 장비 <small class="mute">'+mine.length+'세트 모으는 중</small></h3>'+mine.map(o=>setHtml(c,o)).join('')+'</div>'}
@@ -1210,7 +1219,8 @@ function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';if(!QDB)qdbLoad()
   h+='<div class="row wtip">'+itIcon(it,'lg')+'<span class="m"><span class="sub">'+itMeta(it)+'</span>'+statLine(it)+(usable(it,c)?'':'<span class="sub" style="color:var(--bad)">내 직업은 못 써요</span>')+'</span>'+(b&&usable(it,c)?'<span class="r">'+gainTag(b.g,b.base,b.empty)+'</span>':'')+'</div>';
   if(b&&usable(it,c))h+='<p class="note">'+SLOT_KO[b.s]+' 칸에 끼면 (지금: '+(cur?esc(cur.nm):'비어 있음')+')</p>'+statChange(c,b.s,it);
   h+=itActs(c,it.id).replace('<button class="btn sm ghost" data-a="info" data-k="'+it.id+'">ⓘ 얻는 곳</button>',(c.cmp||[]).length?'<button class="btn sm ghost" data-a="cmpgo">비교 보기 ('+c.cmp.length+')</button>':'');
-  {const so=setOf(it.id);if(so)h+=setHtml(c,so,1)}
+  h+=effBox(it);
+  {const so=setOf(it.id)||setOfIt(it);if(so)h+=setHtml(c,so,1)}
   h+='<h3>어디서 얻나요</h3>'+srcParts(c,it);
   {const n=wskNeed(it,c);if(n)h+=n.low?'<div class="src"><b>🎓 '+esc(n.ko)+' 숙련도 '+n.low[0]+'/'+n.low[1]+'</b><div class="nm">숙련도가 낮으면 빗나감·스치는 공격이 많아요. 낄 거라면 사냥하면서 숙련도부터 올리세요.</div></div>'
     :'<div class="src"><b>🎓 '+esc(n.ko)+' 숙련이 필요해요</b><div class="nm">'+(n.guess?'처음부터 배우는 무기가 아니에요. 아직 안 배웠다면':'게임에서 불러온 무기 숙련에 없어요.')+' 무기 전문가 '+esc(n.at)+'에게 배우세요 (10실버). 배운 뒤엔 숙련도를 1부터 올려야 해요.'+(n.guess?' 애드온으로 불러오면 배운 숙련을 정확히 알 수 있어요.':'')+'</div></div>'}
@@ -1558,7 +1568,7 @@ const ownTag=(c,id)=>{const o=ownedOf(c,id);return o?'<span class="owt">'+(o==='
 /* 내 가방·은행의 낄 수 있는 템 전부: 칸마다 지금 것과 비교 */
 function bagAll(c){const w=wOf(c);const out=[];
   [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.keys(B).forEach(k=>{const id=+k;const it=IT.get(id);if(!it||out.some(x=>x.it.id===id)||Object.values(c.eq||{}).includes(id))return;
-    const ok=usable(it,c)&&!(it.lv>c.lv&&!it.est&&!it.nr);const lvUp=usable(it,c)&&it.lv>c.lv&&!it.est&&!it.nr;/* 착용 레벨 제한 없는 템(nr)은 지금 낄 수 있음 */let best=null;SLOTS.forEach(([sl])=>{if(!fits(it,sl,c))return;const cur=eqIt(c,sl);const g=sc(it,sl,w)-sc(cur,sl,w);if(!best||g>best.g)best={slot:sl,g,cur}});
+    const ok=usable(it,c)&&!(it.lv>c.lv&&!it.est&&!it.nr);const lvUp=usable(it,c)&&it.lv>c.lv&&!it.est&&!it.nr;/* 착용 레벨 제한 없는 템(nr)은 지금 낄 수 있음 */let best=null;SLOTS.forEach(([sl])=>{if(!fits(it,sl,c))return;const cur=eqIt(c,sl);const g=sc(it,sl,w,c)-sc(cur,sl,w,c);if(!best||g>best.g)best={slot:sl,g,cur}});
     if(!best)return;out.push({it,slot:best.slot,g:best.g,cur:best.cur,where,ok,lvUp,n:B[k]})}));
   return out}
 /* 🏘️ 마을 들를 때 할 일: 마을(거점)별로 기술 배우기 · 반납 · 받을 퀘스트 · 팔 것 · 은행 · 전문기술 승급을 한 장에 */
@@ -1727,7 +1737,7 @@ function upPlaces(c,U){const M=new Map();const rt=myRoute(c);
 /* 가방·은행 템 중 지금보다 좋은 것 */
 function bagUps(c){const w=wOf(c);const out=[];const seen=new Set();
   [['bag',c.bag||{}],['bank',c.bank||{}]].forEach(([where,B])=>Object.keys(B).forEach(k=>{const id=+k;const it=IT.get(id);if(!it||seen.has(id)||!usable(it,c)||(it.lv>c.lv&&!it.est)||Object.values(c.eq||{}).includes(id))return;
-    let best=null;SLOTS.forEach(([sl])=>{if(!fits(it,sl,c)||offLocked(c,sl))return;const cur=eqIt(c,sl);if(cur&&cur.id===id)return;const g=sc(it,sl,w)-sc(cur,sl,w);if(g>.5&&(!best||g>best.g))best={it,slot:sl,g,base:sc(cur,sl,w),where}});
+    let best=null;SLOTS.forEach(([sl])=>{if(!fits(it,sl,c)||offLocked(c,sl))return;const cur=eqIt(c,sl);if(cur&&cur.id===id)return;const g=sc(it,sl,w,c)-sc(cur,sl,w,c);if(g>.5&&(!best||g>best.g))best={it,slot:sl,g,base:sc(cur,sl,w,c),where}});
     if(best){seen.add(id);out.push(best)}}));
   return out.sort((a,b)=>b.g-a.g)}
 /* 🎮 애드온 툴팁용 추천 코드: WFR1;U:번호-점수×10-칸.…;W:찜 */
@@ -1810,8 +1820,8 @@ const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','
 const HEALER_NOTE={paladin:1,shaman:1,druid:1};
 function offLocked(c,s){return s==='off'&&(!!(eqIt(c,'main')&&eqIt(c,'main').sl==='2h')||wsetOf(c)==='2h'&&!eqIt(c,'off'))}
 function bestFor(c,slot,L,mode){const w=wOf(c);const cur=eqIt(c,slot);const other=slot==='ring1'?'ring2':slot==='ring2'?'ring1':slot==='trink1'?'trink2':slot==='trink2'?'trink1':null;const skip=other?c.eq[other]:slot==='off'?c.eq.main:slot==='main'?c.eq.off:null;/* 짝 칸(반지·장신구)과 두 손 무기: 다른 칸에 낀 템은 빼요 */
-  const base=slot==='main'?sc(cur,'main',w):sc(cur,slot,w);
-  const ng=c.nogo||[];const p1No=p1Out(c);return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)&&!p1No(x.it)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w)+sc(eqIt(c,'off'),'off',w):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
+  const base=slot==='main'?sc(cur,'main',w,c):sc(cur,slot,w,c);
+  const ng=c.nogo||[];const p1No=p1Out(c);return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)&&!p1No(x.it)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w,c)+sc(eqIt(c,'off'),'off',w,c):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
 const gNum=g=>g>=10?Math.round(g):g.toFixed(1);
 /* 칸 비교 창 「🔜 레벨 오르면」: 10레벨 안에 얻는 것 중 지금 추천(없으면 지금 장비)보다 확실히 좋은 것 2개 — 가까운 레벨 먼저 */
 function nextBox(c,slot,best){const L=c.lv;if(L>=60)return '';const top=best&&best.length?best[0].g:0;const seen=new Set((best||[]).map(x=>x.it.id));
@@ -1909,16 +1919,16 @@ function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFo
   if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div>'+curSrcNote(c,cur)+'<p class="note">'+fltNone(cur)+'</p>'}
   else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w)+curSrcNote(c,cur);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
   h+=nextBox(c,slot,best);
-  if(c.bag){const w2=wOf(c);const O=bagAll(c).filter(x=>x.ok&&fits(x.it,slot,c)&&x.it.id!==(cur&&cur.id)).map(x=>Object.assign({},x,{g:sc(x.it,slot,w2)-sc(cur,slot,w2)})).sort((a,b)=>b.g-a.g);
+  if(c.bag){const w2=wOf(c);const O=bagAll(c).filter(x=>x.ok&&fits(x.it,slot,c)&&x.it.id!==(cur&&cur.id)).map(x=>Object.assign({},x,{g:sc(x.it,slot,w2,c)-sc(cur,slot,w2,c)})).sort((a,b)=>b.g-a.g);
     h+='<div class="owb"><h4>🎒 내 가방·은행의 '+SLOT_KO[slot]+' 템 <small>'+(O.length?O.length+'개':'없어요')+'</small></h4>'+O.slice(0,5).map(x=>'<div class="row">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+'</span><span class="nm">'+itName(x.it)+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'</span>'+(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain no">'+(x.g<-.5?'−'+(x.g<=-10?Math.round(-x.g):(-x.g).toFixed(1))+'점':'비슷해요')+'</span>')+'</div>').join('')+'</div>'}
   {const ng=(c.nogo||[]).filter(id=>{const it=IT.get(id);return it&&fits(it,slot,c)});if(ng.length)h+='<p class="note">🚫 못 얻는다고 뺀 장비 '+ng.length+'개 · <button class="lnk" data-a="nogoclr" data-k="'+slot+'">다시 넣기</button></p>'}
   h+='<button class="btn ghost full" style="margin-top:8px" data-a="slot" data-k="'+slot+'">후보 전체 보기 · 이름으로 찾기</button></div>';
   return h}
 function statLine(it){const ks=Object.keys(it.st).filter(k=>STAT_KO[k]&&k!=='armor'&&!SHDUP(k,it.st));return ks.length?'<span class="dif">'+ks.map(k=>STAT_KO[k]+' '+(k==='dps'?it.st[k].toFixed(1):(it.st[k]<0?'−'+Math.abs(Math.round(it.st[k])):'+'+Math.round(it.st[k])))).join(' · ')+'</span>':''}
 function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);const q=ui.isrch.trim();const srt=ui.gsort||'lv';
-  const base=it=>slot==='main'&&it.sl==='2h'?sc(eqIt(c,'main'),'main',w)+sc(eqIt(c,'off'),'off',w):sc(cur,slot,w);
+  const base=it=>slot==='main'&&it.sl==='2h'?sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c):sc(cur,slot,w,c);
   const nq=q.replace(/\s+/g,'');const hit=it=>it.nm.replace(/\s+/g,'').includes(nq);
-  let list;if(q)list=ITEMS.filter(it=>usable(it,c)&&fits(it,slot,c)&&hit(it)).slice(0,60).map(it=>({it,s:sc(it,slot,w)}));
+  let list;if(q)list=ITEMS.filter(it=>usable(it,c)&&fits(it,slot,c)&&hit(it)).slice(0,60).map(it=>({it,s:sc(it,slot,w,c)}));
   else list=cands(c,slot,Math.min(60,L+3),ui.ifil);
   list.forEach(x=>{x.g=x.s-base(x.it)});
   const sorter=srt==='lv'?(a,b)=>b.it.ob-a.it.ob||b.it.lv-a.it.lv||b.g-a.g:(a,b)=>b.g-a.g;

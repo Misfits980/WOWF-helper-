@@ -187,6 +187,11 @@ def has_special(lines):
     return False
 
 
+def special_lines(lines):
+    """점수로 못 세는 특수 효과 줄만 (has_special과 같은 기준을 줄마다) — 앱 툴팁·자세히 보기에 글 그대로 보여 주려고"""
+    return [str(t).strip() for t in (lines or []) if has_special([t])]
+
+
 def mask_of(cs, allow):
     m = 0
     for i, c in enumerate(CL):
