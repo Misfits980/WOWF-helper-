@@ -3086,6 +3086,12 @@ function prepSum(c,node,ST,X){const legs=[];ST.forEach(s=>{const l=legs[legs.len
    +(ST.end?con(ST.end.g)+'<span class="prz end"><b>'+esc(ST.end.dg)+'</b><small>'+esc(ST.end.z)+' 입구</small></span>':'')+'</div>';
   h+='<p class="note">시간은 어림이에요 · 그리폰·배·지하철을 타는 길로 셌어요'+(ST.all?' (비행 경로는 다 열었다고 봤어요)':' (연 비행 경로만)')+'. 전달 퀘스트는 반납까지 넣었어요.</p></div>';
   return h}
+/* 하기 목표 [이름, 지금, 목표, 게임 기록인지] — 게임에서 불러온 진행도(c.qp)와 앱 자료(q.cnt)를 순서대로 맞추고, 손으로 센 것(c.qc)과 큰 쪽.
+   예전엔 앱 자료에 목표 개수가 없는 퀘스트(예: 「황야의 땅에서 재료 찾기」)는 게임 진행도가 있어도 숫자를 안 보여 줬음 */
+function qObjs(c,q){const g=(c.qp||{})[q.id]||[];const C=q.cnt||[];const T=((typeof QDB!=='undefined'&&QDB&&QDB.get(q.id))||{}).t||[];const n=Math.max(g.length,C.length);const out=[];
+  for(let i=0;i<n;i++){const nm=(C[i]&&C[i][0])||(T[i]&&T[i][1])||'목표 '+(i+1);const mx=g[i]?g[i][1]:+(C[i]&&C[i][1])||0;out.push([nm,Math.max(g[i]?g[i][0]:0,(c.qc||{})[q.id+'|'+i]||0),mx,!!g[i]])}return out}
+/* 미리보기 다음 단계 줄: 「하기」 진행도 — 예: 대머리수리 모래주머니 3/5 */
+function stProg(c,s){const P=[];s.items.forEach(it=>qObjs(c,it.q).forEach(o=>{if(o[1]||o[3])P.push('<span class="'+(o[2]&&o[1]>=o[2]?'dn':'')+'">'+esc(o[0])+' <b>'+o[1]+(o[2]?'/'+o[2]:'')+'</b></span>')}));return P.length?'<span class="stpg">'+P.join('')+'</span>':''}
 function recStages(c,list,start,O){const ql=c.ql||{};const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
   const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.type===type&&s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}if(place&&!s0.place.split(' · ').includes(place)&&s0.place.split(' · ').length<2)s0.place+=' · '+place;s0.items.push({q,type,need});if(need)[].concat(need).forEach(x=>s0.need.add(x));return s0};
   /* 선행 퀘스트가 같은 목록에 있으면 그걸 반납한 뒤에 받기 (예: 은둔자 → 다크샤이어로부터의 보급품) */
@@ -3130,7 +3136,7 @@ function sideView(c){if(!QDB){qdbLoad();return '<div class="sdh"><b>📱 옆 화
   const key=s0.type+'|'+s0.place+'|'+s0.items.map(i=>i.q.id).join(',');const flash=sideKey&&sideKey!==key;if(flash){try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}}sideKey=key;
   const qp=c.qp||{},qc=c.qc||{};
   const li=s0.items.map(it=>{const q=it.q;let o='';
-    if(it.type==='do'&&q.cnt&&q.cnt.length)o=q.cnt.map((x,i)=>{const g=(qp[q.id]||[])[i];const cur=g?g[0]:(qc[q.id+'|'+i]||0),mx=g?g[1]:(x[1]||0);return '<span class="'+(mx&&cur>=mx?'dn':'')+'">'+esc(x[0])+' <b>'+cur+(mx?'/'+mx:'')+'</b></span>'}).join('');
+    if(it.type==='do'&&qObjs(c,q).length)o=qObjs(c,q).map(([nm,cur,mx])=>'<span class="'+(mx&&cur>=mx?'dn':'')+'">'+esc(nm)+' <b>'+cur+(mx?'/'+mx:'')+'</b></span>').join('');
     else if(it.type==='turn'){const xp=(RWD.get(q.id)||{}).xp;o=xp?'<span>경험치 <b>+'+xp.toLocaleString()+'</b></span>':''}
     else if(it.type==='get')o='<span>'+esc(q.g&&q.g[0]||'')+'</span>';
     return '<li><b>'+esc(q.nm)+'</b>'+(o?'<div class="so">'+o+'</div>':'')+qnTag(c,q.id)+'</li>'}).join('');
@@ -3249,13 +3255,13 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
    else{const bt=PVE?(c.lpos&&c.lpos.z&&c.lpos.z!==s0.zone?hopTip(c.lpos.z,s0.zone):'')||hopTip(s0.zone,ST[1]&&ST[1].zone):boatTip(s0.zone,ST[1]&&ST[1].zone);if(bt)h+='<div class="isl">⛵ '+esc(bt)+'</div>'}}
   /* 하기 단계인데 지도 위치 자료가 없으면(강물터·셴드랄라스 새 퀘스트, 악령의 숲 오염된 식물 등 62곳) 퀘스트 목표 글로 어디인지 힌트 */
   if(s0.type==='do'&&!s0.xy&&QDB){const o=s0.items.map(it=>(QDB.get(it.q.id)||rqAsQ(it.q.id)||{}).o).find(t=>typeof t==='string'&&t.trim());if(o)h+='<div class="isl">지도 위치 자료가 없어요 · 퀘스트 목표: 「'+esc(o.length>90?o.slice(0,88)+'…':o)+'」</div>'}
-  h+=s0.items.map(it=>{const q=it.q;if(it.type==='do'&&q.cnt.length)return q.cnt.map((o,i)=>{const k=q.id+'|'+i;const v=(c.qc||{})[k]||0;return '<div class="ob4"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+'</small>'+(i===0?qnTag(c,q.id):'')+'</span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+v+'/'+o[1]+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
+  h+=s0.items.map(it=>{const q=it.q;const O=it.type==='do'?qObjs(c,q):[];if(O.length)return O.map((o,i)=>{const k=q.id+'|'+i;return '<div class="ob4'+(o[2]&&o[1]>=o[2]?' dn':'')+'"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+(o[3]?' · 게임 진행도':'')+'</small>'+(i===0?qnTag(c,q.id):'')+'</span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+o[1]+(o[2]?'/'+o[2]:'')+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
     return '<div class="ob4"><span class="m">'+esc(q.nm)+'<small>'+(it.type==='get'?esc(q.g[0]||'')+(q.lv>0?' · Lv '+q.lv:'')+(q.dg?' · 🏰 '+esc(q.dg)+(q.go?' 퀘스트':' 앞 퀘스트'):'')+preHint(c,q.id):it.type==='turn'?'반납 · '+esc(q.r[0]||''):esc(q.o?q.o.nm:'평판 올리기'))+'</small>'+qnTag(c,q.id)+'</span>'+(it.type==='turn'&&(RWD.get(q.id)||{}).xp?'<span class="xp">+'+((RWD.get(q.id)||{}).xp).toLocaleString()+'</span>':'')+'</div>'}).join('');
   const sx=xpOf(s0);if(sx)h+='<div class="xpl">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>';
   h+='<div class="ft"><button class="q" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button><button class="p" data-a="rsdone">다 했어요 · 다음 단계</button></div></div>';
   const more=ui.rsall?ST.slice(1):ST.slice(1,5);
   if(PVE)h+='<!--Q:tools-->';const TC=recTimeCard(c,ST);h+=TC.h;h+='<button class="btn sm ghost full navgo" data-a="side" data-k="1">📱 옆 화면 모드 <small>게임하면서 폰 세워 두기 · 화면 안 꺼짐</small></button>';if(isPC()||FSA)h+='<button class="btn sm ghost full navgo" data-a="wfr">🧭 게임 화면에 이 단계 길 안내 띄우기 <small>애드온 /wfh 추천</small></button>';if(PVE)h+='<!--/Q:tools-->';const h0=h.length;
-  h+=(PVE?'<!--Q:next-->':'')+'<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>(PVE&&s.zone!==(i?more[i-1]:s0).zone?'<div class="nxz"><b>'+esc(s.zone)+'</b>'+(s.trv?'<small class="trv">'+trvIco(trvMain(s.trv))+esc(trvTxt(s.trv,c))+'</small>':(t=>t?'<small>'+esc(t)+'</small>':'')(hopTip((i?more[i-1]:s0).zone,s.zone)))+'</div>':'')+'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small></span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
+  h+=(PVE?'<!--Q:next-->':'')+'<div class="nxl3"><div class="hd"><b>다음 단계</b><small>'+(ST.length-1)+'개</small></div>'+more.map((s,i)=>(PVE&&s.zone!==(i?more[i-1]:s0).zone?'<div class="nxz"><b>'+esc(s.zone)+'</b>'+(s.trv?'<small class="trv">'+trvIco(trvMain(s.trv))+esc(trvTxt(s.trv,c))+'</small>':(t=>t?'<small>'+esc(t)+'</small>':'')(hopTip((i?more[i-1]:s0).zone,s.zone)))+'</div>':'')+'<div class="nxr3" data-st="'+(i+2)+'"><span class="n t-'+s.type+'">'+(i+2)+'</span><span class="m"><b>'+RST[s.type][0]+' · '+esc(s.place)+'</b><small>'+esc(s.items.map(it=>it.q.nm).filter((v,j,a)=>a.indexOf(v)===j).slice(0,3).join(' · '))+(s.items.length>3?' 외 '+(s.items.length-3):'')+'</small>'+(PVE&&s.type==='do'?stProg(c,s):'')+'</span>'+(xpOf(s)?'<span class="xv">+'+xpOf(s).toLocaleString()+'</span>':'')+'</div>').join('')
    +(ST.length>5?'<button class="btn ghost sm full" data-a="rsall">'+(ui.rsall?'접기':'모든 단계 보기 ('+(ST.length-1)+')')+'</button>':'')+'</div>'+(PVE?'<!--/Q:next-->':'');
   {const mk=(k,t)=>{const a='<div class="nxr3" data-st="'+(k+2)+'"';const p=h.indexOf(a,h0);if(p>0)h=h.slice(0,p)+t+h.slice(p)};
    if(TC.cut>=0)mk(TC.cut,'<div class="tcut">⏱ '+TC.mm(c.tbud)+'이면 여기까지</div>');
@@ -4928,35 +4934,38 @@ async function fsScan(root){const out=[];let seen=0;
   await walk(root,[root.name],0);return out.sort((a,b)=>b.t-a.t)}
 async function fsLoad(repick,silent){try{let h=repick?null:await idbH('get');
     if(!h){h=await window.showDirectoryPicker({id:'wfh-wtf',mode:'read'});await idbH('put',h)}
-    if(h.queryPermission&&(await h.queryPermission({mode:'read'}))!=='granted'&&(await h.requestPermission({mode:'read'}))!=='granted'){toast('폴더를 읽게 허락해 주세요');return}
-    toast('애드온 파일 찾는 중…');const L=await fsScan(h);ui.fsList=L;ui.fsDir=h.name;
+    if(h.queryPermission&&(await fsTO(h.queryPermission({mode:'read'}),4000))!=='granted'&&(await h.requestPermission({mode:'read'}))!=='granted'){toast('폴더를 읽게 허락해 주세요');return}
+    toast('애드온 파일 찾는 중…');const L=await fsTO(fsScan(h),30000);ui.fsList=L;ui.fsDir=h.name;
     if(!L.length){ui.sheet='imp';ui.fsMsg='「'+h.name+'」 폴더에서 애드온 저장 파일을 못 찾았어요. 내 PC의 와우 설치 폴더(배틀넷 앱 → 와우 → 톱니바퀴 → 「탐색기에서 보기」로 찾을 수 있어요)나 그 안의 WTF 폴더를 골라 주세요. 게임에서 /reload 를 한 번 해야 파일이 생겨요.';rerender(true);return}
     fsAutoSet(true);ui.fsNeed=false;
     const c=me();if(silent){await fsAuto(true);rerender(true);return}const nm=c&&(c.fsName||c.name);const i=Math.max(0,L.findIndex(x=>nm&&x.name===nm));fsPick(i)}
-  catch(e){if(e&&e.name==='AbortError')return;toast('파일을 못 읽었어요: '+((e&&e.message)||e))}}
+  catch(e){if(e&&e.name==='AbortError')return;if(e&&e.name==='FsTimeout'){ui.fsList=null;ui.fsNeed='stuck';rerender(true);toast('와우 폴더가 응답하지 않아요 · 위 버튼으로 폴더를 다시 골라 주세요');return}toast('파일을 못 읽었어요: '+((e&&e.message)||e))}}
 function fsPick(i){const x=(ui.fsList||[])[i];if(!x)return;ui.fsCur=i;ui.fsMsg='';ui.fsPickCode=x.code;ui.fsPickT=x.t;ui.sheet='imp';ui.impraw=x.code;ui.imp=impParse(x.code);if(!QDB)qdbLoad();rerender(true)}
 /* 🔄 PC 자동 맞춤: 게임에서 /reload·접속 종료 → 브라우저로 돌아오면 저장 파일이 바뀌었는지 보고 저절로 불러옴 */
 const fsAutoOn=()=>{if(QA)return false;try{return localStorage.getItem('wowf_fsauto')!=='0'}catch(e){return true}};
 function fsAutoSet(v){if(QA)return;try{localStorage.setItem('wowf_fsauto',v?'1':'0')}catch(e){}}
 let fsBusy=false,fsLastChk=0;
-async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy)return;let c=me();if(!c||!(c.fsName||c.name)||ui.sheet==='imp')return;
+/* 저장해 둔 와우 폴더가 응답을 안 할 때가 있음(크롬이 그 폴더를 다시 못 잡으면 queryPermission·entries가 끝나지 않음 — 11/24 사용자 크롬에서 재현).
+   그러면 fsBusy가 영영 풀리지 않아 자동 맞춤이 조용히 멈췄음 → 정해진 시간이 넘으면 「멈춤」으로 보고 폴더를 다시 고르게 함 */
+const fsTO=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error('폴더가 응답하지 않아요'),{name:'FsTimeout'})),ms))]);
+async function fsAuto(force){if(!FSA||!fsAutoOn()||fsBusy||(ui.fsNeed==='stuck'&&!force))return;let c=me();if(!c||!(c.fsName||c.name)||ui.sheet==='imp')return;
   if(!force&&Date.now()-fsLastChk<2500)return;fsLastChk=Date.now();fsBusy=true;
   try{let L=ui.fsList;
     if(!L||!L.length){const h=await idbH('get');if(!h)return;
-      const st=h.queryPermission?await h.queryPermission({mode:'read'}):'granted';
+      const st=h.queryPermission?await fsTO(h.queryPermission({mode:'read'}),4000):'granted';
       if(st!=='granted'){if(!ui.fsNeed){ui.fsNeed=true;rerender(true)}return}
-      L=await fsScan(h);ui.fsList=L;ui.fsDir=h.name}
+      L=await fsTO(fsScan(h),30000);ui.fsList=L;ui.fsDir=h.name}
     const nm=c.fsName||c.name;const x=L.find(y=>y.name===nm);if(!x||!x.fh)return;
-    const f=await x.fh.getFile();if(f.lastModified<=(c.fsT||0))return;
-    const t=await f.text();const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(!m)return;
+    const f=await fsTO(x.fh.getFile(),4000);if(f.lastModified<=(c.fsT||0))return;
+    const t=await fsTO(f.text(),4000);const m=t.match(/\["last"\]\s*=\s*"((?:[^"\\]|\\[\s\S])*)"/);if(!m)return;
     /* 읽는 사이 다른 탭이 저장해 기록이 바뀌었을 수 있어 지금 기록의 같은 캐릭터를 다시 잡음 */c=DB.list.find(y=>y.id===c.id);if(!c)return;
     const code=luaStr(m[1]);x.code=code;x.t=f.lastModified;const P=impParse(code);if(!P||P.name!==nm){c.fsT=f.lastModified;return}
     const snap=JSON.stringify(DB);const lv0=c.lv;
     const r=impApply(c,P,{eq:true,sp:false});c.fsT=f.lastModified;save();rerender(true);
     const got=[];if(c.lv>lv0)got.push(c.lv+'레벨');if(r.n)got.push('끝낸 퀘스트 +'+r.n);if(!P.thin||P.log.length)got.push('퀘스트창 '+P.log.length+'개');
     toastUndo('🎮 게임 파일에서 맞췄어요 · '+got.join(' · '),()=>{const o=JSON.parse(snap);Object.keys(DB).forEach(k=>delete DB[k]);Object.assign(DB,o);save();rerender(true);toast('되돌렸어요')})}
-  catch(e){}finally{fsBusy=false}}
-function fsNeedBar(){return FSA&&ui.fsNeed&&fsAutoOn()?'<button class="fsneed" data-a="fsload" data-k="auto">🔄 게임 파일 자동 맞춤을 다시 켜려면 눌러 주세요 <small>브라우저를 새로 열면 한 번 허락이 필요해요</small></button>':''}
+  catch(e){if(e&&e.name==='FsTimeout'){ui.fsList=null;if(ui.fsNeed!=='stuck'){ui.fsNeed='stuck';rerender(true)}}}finally{fsBusy=false}}
+function fsNeedBar(){return FSA&&ui.fsNeed==='stuck'&&fsAutoOn()?'<button class="fsneed" data-a="fsload" data-k="reauto">🔄 게임 파일 자동 맞춤이 멈췄어요 — 와우 폴더를 한 번 다시 골라 주세요 <small>World of Warcraft 폴더를 고르면 다음부터 다시 저절로 맞춰요</small></button>':FSA&&ui.fsNeed&&fsAutoOn()?'<button class="fsneed" data-a="fsload" data-k="auto">🔄 게임 파일 자동 맞춤을 다시 켜려면 눌러 주세요 <small>브라우저를 새로 열면 한 번 허락이 필요해요</small></button>':''}
 function fsBox(){if(!FSA)return '';const L=ui.fsList||[];let h='<div class="card fsimp"><h3>📂 PC에서 바로 불러오기 <small class="mute">크롬·엣지</small></h3>';
   h+='<p class="note">처음 한 번 <b>내 PC의 와우 설치 폴더</b>(보통 <b>C:\\Program Files (x86)\\World of Warcraft</b> · 다른 곳에 깔았으면 배틀넷 앱 → 와우 → 톱니바퀴 → 「탐색기에서 보기」)를 고르면, 다음부터는 버튼 하나로 불러와요. 계정·서버·캐릭터 폴더는 알아서 찾아요. 고른 폴더는 이 브라우저에만 기억돼요. 복사·붙여 넣기 필요 없어요. 게임에서 <code>/reload</code> 하거나 접속을 끝내면 새 내용이 저장돼요.</p>';
   h+='<div class="bkb"><button class="btn sm" data-a="fsload">📂 '+(L.length?'다시 읽기':'불러오기')+'</button>'+(ui.fsDir?'<button class="btn sm ghost" data-a="fsload" data-k="re">다른 폴더 고르기</button>':'')+'</div>';
@@ -5073,7 +5082,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='close'){noteClean(c);ui.sheet=null;ui.delAsk=0;rerender(true);return}
   if(a==='bkpend'){const code=ui.bkpend;ui.bkpend=null;ui.sheet=null;bkImport(code,k);return}
   if(a==='sypaste'){syPaste();return}
-  if(a==='fsload'){fsLoad(k==='re',k==='auto');return}
+  if(a==='fsload'){fsLoad(k==='re'||k==='reauto',k==='auto'||k==='reauto');return}
   if(a==='fspick'){fsPick(+k);return}
   if(a==='fs'){const v=+k||1;try{localStorage.setItem(FS_KEY,String(v))}catch(e){}fsApply(v);render();toast('글씨 크기를 바꿨어요');return}
   /* 시작 화면 */
@@ -5096,7 +5105,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='pdgo'){ui.pdgo=!ui.pdgo;rerender(true);return}
   if(a==='pdgt'){c.pdg=c.pdg||[];const i=c.pdg.indexOf(k);if(i>=0)c.pdg.splice(i,1);else c.pdg.push(k);save();rerender(true);return}
   if(a==='rsall'){ui.rsall=!ui.rsall;rerender(true);return}
-  if(a==='qcn'){c.qc=c.qc||{};c.qc[k]=Math.max(0,(c.qc[k]||0)+(+b.dataset.d||0));save();rerender(true);return}
+  if(a==='qcn'){c.qc=c.qc||{};const [qi,oi]=String(k).split('|');const g=((c.qp||{})[qi]||[])[+oi];c.qc[k]=Math.max(0,Math.max(c.qc[k]||0,g?g[0]:0)+(+b.dataset.d||0));save();rerender(true);return}
   if(a==='rsdone'){const P=recPlans(c);const pk=P.find(p=>p.k===c.plan)||P[0];if(!pk)return;/* 지금 단계 다시 계산해서 적용 */
     const html=recView(c);const ST=ui._st;if(!ST||!ST[0])return;c.ql=c.ql||{};c.mq=c.mq||{};
     ST[0].items.forEach(it=>{const id=it.q.id;if(it.type==='get')c.ql[id]=Math.max(c.ql[id]||0,1);else if(it.type==='do')c.ql[id]=2;else{c.mq[id]=1;delete c.ql[id]}});
