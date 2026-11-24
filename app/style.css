@@ -2154,6 +2154,7 @@ body.sidem{overflow:hidden}
 .sidev .so{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:3px;font-size:13.5px;color:#5a4426}
 .sidev .so b{color:#2b1d0e}.sidev .so .dn{color:#2f6b3a;text-decoration:line-through}
 .sidev .sxp{margin-top:10px;font-size:13px;color:#5a4426}.sidev .sxp b{color:#6a1fb0}
+.sidev .sxp.qlfull{color:#8a1c12;font-weight:600}.sidev .sxp.qlfull b{color:#8a1c12}
 .sidev .sdb{display:flex;gap:8px}
 .sidev .sdb .sdgo{flex:1;min-height:56px;font-size:17px;font-weight:800}
 .sidev .sdb .ghost{min-height:56px;padding:0 18px}

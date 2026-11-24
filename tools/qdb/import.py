@@ -567,6 +567,8 @@ SPECIAL_KO = {'Crafting': '제작', 'lunar festival': '달의 축제', 'camping'
               'legendary': '전설', 'epic': '영웅', 'treasure map': '보물 지도', 'night elf': '나이트 엘프', "Temple of Ahn'Qiraj": '안퀴라즈 사원',
               'Alterac Valley': '알터랙 계곡', 'Arathi Basin': '아라시 분지', 'Warsong Gulch': '전쟁노래 협곡', 'Darkspear Islands': '검은창 섬',
               'City Of Dalaran 16560': '달라란'}
+# 이름 바로잡기: wowf.io 이름이 잘려 나온 것 — forg 레벨업 표·와우헤드 포에버 한국어판과 대조해 확인한 것만
+QNAME_FIX = {98300: '아이언포지에 전할 소식'}  # wowf.io 「이 소란만큼은 아이」
 CONT_FIX = {'하이잘 산': '칼림도어', '검은바위 산': '동부 왕국', '검은창 섬': '칼림도어', '달라란': '던전'}
 
 NAME_HOLE = [  # 앞뒤 글자로 확실히 알 수 있는 것만
@@ -624,6 +626,9 @@ for qid, q in sorted(QUEST.items()):
         name = x['n']
     if x.get('wv') and x.get('n') and not lat(x['n']):
         name = x['n']  # wowf.io로 확인한 이름이 우선
+    name_alt = ''
+    if qid in QNAME_FIX and name != QNAME_FIX[qid]:
+        name_alt, name = name, QNAME_FIX[qid]  # 틀린 이름은 찾기용 다른 이름(na)으로 남김
     # 포에버 사이트(wowf.io·forever-tool) 어디에도 없는 영어 퀘스트 = 다른 서버판 퀘스트로 보고 뺌
     if qid in KX and not x.get('n') and not x.get('nbad') and not re.search('[가-힣]', name):
         skip['notforever'] = skip.get('notforever', 0) + 1
@@ -679,6 +684,8 @@ for qid, q in sorted(QUEST.items()):
     if _ql <= 0:  # -1(레벨 따라감)·0은 받는 레벨로
         _ql = _rl
     rec = {'id': qid, 'n': name, 'lv': _ql, 'm': _rl, 'z': zone, 'c': cont, 'o': obj, 'g': g, 'r': r}
+    if name_alt:
+        rec['na'] = [name_alt]
     if tasks:
         rec['t'] = tasks
     # preQuestGroup: 모두 끝내야 함 / preQuestSingle: 그중 하나만 끝내면 됨

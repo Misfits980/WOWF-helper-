@@ -410,7 +410,8 @@ const capF=(cur,cap)=>cur>=cap?.15:cur>=cap-1?.6:1;
    상한 넘은 적중은 자동 공격 몫만 → 0.45배 (자동 공격이 딜의 40~50%라고 본 어림값, 시뮬 값 아님) */
 const DW_HITF=.45;
 const isDW=c=>c.cls==='rogue'&&(c.lv||60)>=DWLV.rogue||wsetOf(c)==='dw';
-const dwCap=c=>(c.lv||60)>=58?27:24;
+/* 상대는 기술 상한과 같게: 58레벨부터 보스(+3레벨) 27%, 그 전엔 2레벨 위 몹 25% (예전 24%는 같은 레벨 몹 기준이라 기술 6%(2레벨 위)와 상대가 달랐음) */
+const dwCap=c=>(c.lv||60)>=58?27:25;
 function hitF(h,c){const f=capF(h.hit,h.cap);if(f===1||!h.phys||!isDW(c))return f;const dc=dwCap(c);return h.hit>=dc?.15:h.hit>=dc-1?Math.max(f,.6*DW_HITF):Math.max(f,DW_HITF)}
 /* 레벨업 중 보조 무기: 시뮬 값은 60레벨 특성(쌍수 무기 전문화 다 찍음) 기준 → 아직 안 찍었으면 보조 무기 피해가 그만큼 적음.
    전투 도적 쌍수 무기 전문화 2점 = 보조 피해 +50%(50%→75%), 분노 쌍수 무기 전문화 5점 = +25%(50%→62.5%), 격노한 정밀함 3점 = 보조 적중 +10%(약 10% 더 맞음).
@@ -571,8 +572,10 @@ function exOut(c,q){if(!q)return false;const gone=id=>{if((c.ql||{})[id])return 
   /* 길잡이 퀘스트(bc): 가리키는 퀘스트를 이미 받았거나 끝냈으면 길잡이는 못 받음 */
   return !!((q.ex&&q.ex.some(id=>{const X=QDB&&QDB.get(id);/* 내 직업·종족이 못 받는 짝은 안 봄(예전 다른 직업 발타라크 조각 표시가 내 조각을 막지 않게) */return !(X&&!qdbOk(c,X))&&gone(id)}))||(q.bc&&gone(q.bc))||skOut(c,q))}
 /* 「이 중 하나」 앞 퀘스트 묶음을 끝냈나: 내 직업·종족이 못 받는 건 빼고 봄 — 예전엔 다른 직업 것을 끝낸 것으로 쳐서 묶음이 늘 끝난 것처럼 보였음(발타라크 「중요한 요소」) */
-function preGrp(c,g){return g.length>1?g.filter(p=>{const P=QDB.get(p);return !P||qdbOk(c,P)}):g}
-function preGrpOk(c,g){const g2=preGrp(c,g);return !g2.length||g2.some(p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)})}
+/* 퀘스트 자료에 없는 갈래(정리 때 빠진 호드 퀘스트 등 — 예: 스컬지석 ← 은빛 여명회 위임봉 5401·5503·5405 중 호드 5405)는 묶음에서 뺌.
+   예전엔 없는 갈래를 「끝낸 것」으로 쳐서 묶음이 늘 끝난 것처럼 보였음 — 그 번호를 실제로 끝낸 기록(mq·dq)이 있을 때만 끝냄으로 셈 */
+function preGrp(c,g){return g.length>1?g.filter(p=>{const P=QDB.get(p);return P&&qdbOk(c,P)}):g}
+function preGrpOk(c,g){if(g.some(p=>(c.mq||{})[p]||(c.dq||{})[p]))return true;const g2=preGrp(c,g);return !g2.length||g2.some(p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)})}
 function qdbOk(c,q){if(q.cls&&!(q.cls&(CLS_BIT[c.cls]||0)))return false;if(q.rc){const b=RACE_BIT[c.race]||0;if(b&&Math.floor(q.rc/b)%2===0)return false}return true}
 function qdbLoad(force){if(QDB||QDB_LOAD||!dTry('qdb',force))return;QDB_LOAD=true;
   dGet('data/qdb/quests.jsonl?v='+D_VER.qdb).then(t=>{const M=new Map();
@@ -783,8 +786,8 @@ function preBlock(id,flag){const X=QDB&&QDB.get(id);const c0=me();const ok=o=>!c
   return '<div class="pre"><b>🔒 앞 퀘스트가 있어요</b><div>이 퀘스트는 다른 퀘스트를 먼저 끝내야 받을 수 있어요. 어떤 퀘스트인지는 자료에 없어서, 받는 NPC 머리 위에 <b>!</b>가 안 보이면 같은 지역의 다른 퀘스트를 먼저 해 보세요.</div></div>'}
 /* forg 연계 표는 퀘스트 번호가 밀린 줄이 있어 이름으로 맞춤 */
 let QNAME=null,QNAME_N=0;const nkey=n=>String(n||'').replace(/\s/g,'');
-function qByName(n){if(!QDB)return null;if(!QNAME||QNAME_N!==QDB.size){QNAME=new Map();QNAME_N=QDB.size;for(const q of QDB.values()){const k=nkey(q.n);if(!QNAME.has(k))QNAME.set(k,[]);QNAME.get(k).push(q.id)}}return QNAME.get(nkey(n))}
-function fixChain(ch){if(!ch||!QDB)return ch;const ids=new Set(ch.map(r=>r[6]));return ch.map(r=>{if(!r[6])return r;const x=QDB.get(r[6]);if(x&&nkey(x.n)===nkey(r[1]))return r;const c=qByName(r[1]);if(!c||!c.length)return r;
+function qByName(n){if(!QDB)return null;if(!QNAME||QNAME_N!==QDB.size){QNAME=new Map();QNAME_N=QDB.size;for(const q of QDB.values())[q.n].concat(q.na||[]).forEach(nm=>{const k=nkey(nm);if(!QNAME.has(k))QNAME.set(k,[]);QNAME.get(k).push(q.id)})}return QNAME.get(nkey(n))}/* na = 예전·다른 사이트 이름(98300 「이 소란만큼은 아이」 등) — 찾기·연계 표 맞추기에만 */
+function fixChain(ch){if(!ch||!QDB)return ch;const ids=new Set(ch.map(r=>r[6]));return ch.map(r=>{if(!r[6])return r;const x=QDB.get(r[6]);if(x&&nkey(x.n)===nkey(r[1]))return r;if(x&&(x.na||[]).some(a=>nkey(a)===nkey(r[1]))){r=r.slice();r[1]=x.n;return r}const c=qByName(r[1]);if(!c||!c.length)return r;
   const pick=c.find(i=>ids.has(i)&&i!==r[6])||c.slice().sort((a,b)=>Math.abs(a-r[6])-Math.abs(b-r[6]))[0];r=r.slice();r[6]=pick;return r})}
 
 /* ===== 퀘스트 창 안 작은 지도: 받는 곳 ❗ · 할 일 ⚔️ · 반납 ❓ ===== */
@@ -863,7 +866,7 @@ let chx=chainOf(id);
   const g=d.g&&d.g[0]?d.g:null;
   if(d.ch&&d.ch.length>1)d.ch=fixChain(d.ch);const CH=d.ch&&d.ch.length>1?d.ch:null;const ci0=CH?(((()=>{const byN=CH.filter(r=>nkey(r[1])===nkey(nm));return byN.find(r=>r[6]===id)||byN[0]})()||CH.find(r=>r[6]===id)||CH.find(r=>r[5])||[0])[0]||d.cc||0):0;
   if(CH&&ci0){/* 선행 퀘스트 1/4 · 2/4 … 한 상자에 */
-    const dnOf=r=>{const x=r[6]&&QDB&&QDB.get(r[6]);if(x)return mqDone(c,x);const f=r[6]&&questById(r[6]);return f?(f.dg?!!(c.dq||{})[String(r[6])]:fqHit(c,f.z,r[1],r[6])):false};
+    const dnOf=r=>{const x=r[6]&&QDB&&QDB.get(r[6]);if(x)return mqDone(c,x);const f=r[6]&&questById(r[6]);return f?(f.dg?!!((c.dq||{})[String(r[6])]||(c.mq||{})[r[6]]):fqHit(c,f.z,r[1],r[6])):false};
     const prior=CH.filter(r=>r[0]<ci0),left=prior.filter(r=>!dnOf(r)).length,n=CH.length;
     h+='<div class="prech'+(left?'':' ok')+'"><b>'+(prior.length?(left?'⚠️ 선행 퀘스트 '+left+'개를 먼저 끝내야 받을 수 있어요':'✓ 선행 퀘스트를 다 끝냈어요'):'🔗 연계 퀘스트의 첫 단계예요')+'</b>'
      +(()=>{const chIds=CH.every(r=>r[6])?CH.map(r=>r[6]).join('.'):'';const row=r=>{const me_=r[0]===ci0,dn=dnOf(r),past=r[0]<ci0;return '<'+(me_||!r[6]?'div':'button data-a="qopen" data-k="'+r[6]+'"'+(chIds?' data-ch="'+chIds+'"':''))+' class="pcs'+(me_?' me':'')+(dn?' dn':'')+(past?'':' nx')+'"><span class="f">'+r[0]+'/'+n+'</span><span class="t"><b>'+(r[2]?'['+r[2]+'] ':'')+esc(r[1])+'</b>'+(me_?'<i>지금 이 퀘스트</i>':past?(dn?'<i>끝냄 ✓</i>':'<i>선행 퀘스트</i>'):'<i>다음</i>')+'</span>'+(me_?'':'<span class="cv">›</span>')+'</'+(me_||!r[6]?'div':'button')+'>'};
@@ -871,12 +874,14 @@ let chx=chainOf(id);
        const win=r=>r[0]===1||r[0]===n||(r[0]>=ci0-2&&r[0]<=ci0+2);let out='',buf=[];const flush=()=>{if(buf.length){out+='<details class="pcfold"><summary>… '+buf[0][0]+(buf.length>1?'–'+buf[buf.length-1][0]:'')+'단계 '+buf.length+'개 더 보기</summary>'+buf.map(row).join('')+'</details>';buf=[]}};
        CH.forEach(r=>{if(win(r)){flush();out+=row(r)}else buf.push(r)});flush();return out})()
      +(QDB?forkBox(c,id,new Set(CH.map(r=>r[6]))):'')+'</div>'}
-  else{h+=preBlock(id,base.pre);const fb=QDB?forkBox(c,id):'';if(fb)h+='<div class="prech ok"><b>🔗 연계 퀘스트의 첫 단계예요</b>'+fb.replace('<div class="pcfork">','<div class="pcfork top">')+'</div>'}{const X=QDB&&QDB.get(id);const xl=X&&!mqDone(c,X)?exLine(c,X):'';if(xl)h+='<p class="exn">⚖️ '+esc(xl)+'</p>'}h+='<p class="npc">'+QMK.g+' 받는 곳: <b>'+esc(g?npcKo(d,'g'):(base.gv||'—'))+'</b>'+(g&&g[1]?' · '+esc(placeTxt(g[1],g[2],id)):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
+  else{h+=preBlock(id,base.pre);const fb=QDB?forkBox(c,id):'';if(fb)h+='<div class="prech ok"><b>🔗 연계 퀘스트의 첫 단계예요</b>'+fb.replace('<div class="pcfork">','<div class="pcfork top">')+'</div>'}{const X=QDB&&QDB.get(id);const xl=X&&!mqDone(c,X)?exLine(c,X):'';if(xl)h+='<p class="exn">⚖️ '+esc(xl)+'</p>'}h+='<p class="npc">'+QMK.g+(g&&(g[3]==='item'||XG&&XG.g&&XG.g[3]==='item'&&XG.g[0]===g[0])?' 시작: 가방의 <b>'+esc(npcKo(d,'g'))+'</b> 쓰기':' 받는 곳: <b>'+esc(g?npcKo(d,'g'):(base.gv||'—'))+'</b>')+(g&&g[1]?' · '+esc(placeTxt(g[1],g[2],id)):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
   if(base.extra)h+=base.extra;
   {const TS=tasksOf(d,obj);if(TS.length)h+='<h5>챙길 것 · 할 일</h5><ul class="ptask">'+TS.map(t=>{const drop=(t.drop||'').replace(/ ?그 밖 지역$/,'').trim();const unit=t.type==='처치'?'마리':'개';
     return '<li>'+(T_IC[t.type]||'•')+' <b>'+esc(t.nm)+(t.cnt?' '+t.cnt+unit:'')+'</b> '+(T_KO[t.type]||t.type)+(drop?'<br><span>'+(t.type==='수집'?'떨구는 몹: ':'')+esc(drop)+'</span>':'')+(t.where?'<br><span>많은 곳 '+esc(qWhere(id,t.nm,t.where))+'</span>':(()=>{const J=GJP(id,TS.indexOf(t)+1)||(TS.length===1?GJP(id):null);return J&&J[0]?'<br><span>📍 내가 한 곳 '+esc(J[0][0]+' '+J[0][1]+', '+J[0][2])+' <small>(애드온 기록)</small></span>':''})())+'</li>'}).join('')+'</ul>';if(!TS.length){const J=GJP(id);if(J&&J[0])h+='<p class="npc">📍 내가 목표를 한 곳: <b>'+esc(J[0][0]+' '+J[0][1]+', '+J[0][2])+'</b> <small>(애드온 기록)</small></p>'}}
   if(d.r&&d.r[0]&&!d.r[3])h+='<p class="npc">'+QMK.r+' 반납하는 곳: <b>'+esc(npcKo(d,'r'))+'</b>'+(d.r[1]?' · '+esc(placeTxt(d.r[1],d.r[2],id)):'')+'</p>';
   else if(d.r&&d.r[3])h+='<p class="npc">'+QMK.r+' 반납하는 곳: 받은 NPC에게 다시</p>';
+  /* 반납 NPC 자료가 없는 퀘스트(24개, 그중 장인의 계약서 17개): 빈칸으로 두지 않고 근거대로 — 설명에 「지도에 표시된 장소」면 정해진 NPC 없음, 아니면 자료에 없음 */
+  else if(XG&&!(d.r&&d.r[0])&&!(XG.r&&XG.r[0])){const mapT=/지도에 (표시|지정)된/.test(obj);h+='<p class="npc">'+QMK.r+' 반납하는 곳: '+(mapT?'<b>정해진 NPC 없음</b> · 지도에 표시된 곳으로 가져가요'+(XG.g&&XG.g[3]==='item'?' · 시작한 계약서를 가방에 갖고 있어야 해요':''):'<span class="mute">자료에 없어요 · 퀘스트 설명을 따라가세요</span>')+'</p>'}
   /* 보상 */
   /* ★ 추천·좋아짐은 장비 탭과 같은 기준: 근접·탱커에게 천(clothNo)은 안 권함 — 예전엔 전사에게 「탄돌 교각」 천 바지가 ★였고 게임 「고를 템」 코드도 그걸 알려 줬음 */
   const tile=(x,best)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use&&!clothNo(c,it)?bestSlot(it,c):null;
@@ -915,7 +920,7 @@ function questSheet(c,id){id=+id;const f=questById(id);const d=QD.get(id)||{};co
     return h+'<button class="btn ghost full" style="margin-top:8px" data-a="mzgo" data-k="'+esc((X.c||'기타')+'|'+X.z)+'">'+esc(X.z||'')+' 퀘스트 전체 보기</button>'}
   let h='<div class="sh"><h2>['+(q.lv||'?')+'] '+esc(q.nm)+'</h2><button class="x" data-a="close">✕</button></div>';
   const place=f&&f.dg?'🏰 '+esc(f.dg.ko)+' 퀘스트':f?esc(f.z)+' '+(CONT[f.z]?CONT_IC[CONT[f.z]]:''):'';
-  const ck=f&&!f.dg?f.z+'|'+q.nm:String(id);const kind=f&&!f.dg?'fq':'dq';const done=f?(f.dg?!!(c.dq||{})[ck]:fqHit(c,f.z,q.nm,id)||!!(c.mq||{})[id]):null;
+  const ck=f&&!f.dg?f.z+'|'+q.nm:String(id);const kind=f&&!f.dg?'fq':'dq';const done=f?(f.dg?!!((c.dq||{})[ck]||(c.mq||{})[id]):fqHit(c,f.z,q.nm,id)||!!(c.mq||{})[id]):null;/* 던전 퀘스트: 퀘스트창·불러오기로 끝낸 것(mq)도 같이 — 예전엔 dq만 봐서 6626 같은 게 상세에서 꺼져 보였음 */
   h+=parch(c,id,{nm:q.nm,obj:q.obj,gv:q.gv,xy:q.xy,place,tags:chainTag(id,q)+(()=>{const X=QDB&&QDB.get(id);const mm=X?(X.m||1):q.min;return mm>c.lv?'<span class="tag">'+(X?mTxt(X):q.min+'레벨부터')+'</span>':''})(),done:f?done:null,kind,ck});
   if(f&&!f.dg)h+='<button class="btn ghost full" style="margin-top:8px" data-a="goz" data-k="'+esc(f.z)+'">'+esc(f.z)+' 퀘스트 목록으로</button>';
   if(f&&f.dg)h+='<button class="btn full" style="margin-top:8px" data-a="dgo" data-k="'+f.dg.slug+'">🏰 '+esc(f.dg.ko)+' 던전 보기</button>';
@@ -1664,7 +1669,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   /* 홈 「바꿀 장비」도 장비 탭에서 고른 출처(퀘스트만·던전만…)를 따름: 예전엔 늘 퀘스트+던전으로 세서 「퀘스트만」인데 던전 템이 나왔음 */
   const U=upgrades(c,L,ui.ifil||'ok');
   /* 지금 갈 던전: 내게 좋은 템(보스 드랍+퀘스트 보상)·남은 퀘스트가 많은 순 */
-  const D=dgNow(L).map(d=>{const S=dgState(c,d);const qg=S.left.reduce((n,q)=>n+q.rw.map(id=>IT.get(id)).filter(it=>it&&usable(it,c)&&!ownedOf(c,it.id)&&((bestSlot(it,c)||{}).g||0)>.01).length,0);d._v={g:S.ups.length+qg,q:S.left.length,all:S.all};return d}).sort((a,b)=>(a._v.all-b._v.all)||(b._v.g*2+b._v.q)-(a._v.g*2+a._v.q)||(a.fit-b.fit));
+  const D=dgNow(L).map(d=>{const S=dgState(c,d);const qg=S.left.reduce((n,q)=>n+q.rw.map(id=>IT.get(id)).filter(it=>it&&usable(it,c)&&!ownedOf(c,it.id)&&((bestSlot(it,c)||{}).g||0)>.01).length,0);const nNow=S.ups.filter(x=>(x.it.lv||0)<=L).length;d._v={g:S.ups.length+qg,now:nNow,later:S.ups.length-nNow,qg,q:S.left.length,all:S.all};return d}).sort((a,b)=>(a._v.all-b._v.all)||(b._v.g*2+b._v.q)-(a._v.g*2+a._v.q)||(a.fit-b.fit));
   const tip=[[5,'전문기술(수습)을 배울 수 있어요'],[10,'전문기술 숙련 등급과 특성이 열려요'],[20,'전문기술 전문 등급을 배울 수 있어요'],[35,'전문기술 장인 등급을 배울 수 있어요'],[40,(c.cls==='paladin'||c.cls==='warlock')?'직업 탈것 퀘스트와 이중 특성이 열려요':'탈것(훈련 100골드, 말 함께 받음)과 이중 특성이 열려요'],[60,'만렙! 빠른 탈것 훈련은 1,000골드 · 던전 장비와 레이드 준비']].find(t=>t[0]>=L&&t[0]<=L+3);
   const row=(ic,t,sub,a,k,right,dim)=>'<div class="trow'+(dim?' dim':'')+'" data-a="'+a+'" data-k="'+k+'"><img class="ti" src="'+ic+'" alt=""><span class="m"><b>'+t+'</b><span>'+sub+'</span></span>'+(right||'')+'<span class="r">›</span></div>';
   /* 챙길 것: 기술·장비·던전을 한눈에 보는 세 칸(숫자 크게) + 레벨별 할 일 */
@@ -1674,7 +1679,7 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
     :tile('img/ui-book.png','배울 기술','✓','다 배웠어요'+(nextLearn?' · 다음 '+nextLearn[0]+'레벨':''),'goc','learn','',1);
   const NEW=U.filter(x=>(x.it.ob||x.it.lv)>=L-1);
   h+=U.length?tile('img/ui-shield.png','바꿀 장비',U.length+'<i>칸</i>',NEW.length?'🆕 새 템 '+NEW.length+'개 · '+esc(NEW[0].it.nm):esc(U[0].it.nm),'tab','gear'):tile('img/ui-shield.png','바꿀 장비','✓','지금 장비가 제일 좋아요','tab','gear','',1);
-  h+=D.length?tile('img/eye.png','갈 던전',D.length+'<i>곳</i>',esc(D[0].ko)+(D[0]._v.g?' · ⭐ 좋은 템 '+D[0]._v.g:''),'dgo',D[0].slug):tile('img/eye.png','갈 던전','–',L<13?'13레벨쯤부터':'맞는 던전 없음','tab','dungeon','',1);
+  h+=D.length?tile('img/eye.png','갈 던전',D.length+'<i>곳</i>',esc(D[0].ko)+(D[0]._v.g?' · ⭐ 좋은 템 '+D[0]._v.g+(D[0]._v.later?' ('+D[0]._v.later+'개는 레벨 오르면)':''):''),'dgo',D[0].slug):tile('img/eye.png','갈 던전','–',L<13?'13레벨쯤부터':'맞는 던전 없음','tab','dungeon','',1);
   h+='</div>';
   {const ms=msRows(c);if(ms)h+='<div class="card todo"><div class="hd"><h3>📌 레벨별 할 일</h3></div>'+ms+'</div>'}
   if(!PV)try{h+=townCard(c)}catch(e){}
@@ -1682,11 +1687,11 @@ function home(c){const L=c.lv;const C=D_CLS[c.cls];let h='<div class="wrap">';
   /* PC: 빈 공간에 퀘스트창 · 바꿀 장비 · 던전 → 왼쪽(갈 곳·퀘스트창·던전) / 오른쪽(할 일·장비) 두 줄 */
   if(window.innerWidth>=1000){const hq=h.slice(i1,i2),td=h.slice(i2,i3);h=h.slice(0,i1);let qlC='',gC='',dC='';const ql=c.ql||{};const ids=Object.keys(ql).map(Number);
     if(ids.length&&QDB){const R=ids.filter(id=>ql[id]===2&&QDB.has(id)).map(id=>QDB.get(id));const G={};R.forEach(q=>{const z=(q.r&&q.r[1])||q.z;G[z]=(G[z]||0)+1});
-      qlC+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3><button class="more" data-a="hgo" data-k="log"><b>'+ids.length+'/40</b> 보기 ›</button></div><p class="note">반납 가능 <b>'+R.length+'</b>개 · 하는 중 '+(ids.length-R.length)+'개</p>'
+      qlC+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3><button class="more" data-a="hgo" data-k="log"><b>'+ids.length+'/'+QL_MAX+'</b> 보기 ›</button></div><p class="note">반납 가능 <b>'+R.length+'</b>개 · 하는 중 '+(ids.length-R.length)+'개</p>'
         +(R.length?'<div class="hpz">'+Object.entries(G).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([z,n])=>'<span>'+esc(z)+' <b>'+n+'</b></span>').join('')+'</div>':'')+'</div>'}
     else qlC+='<div class="card hpc"><div class="hd"><h3>🎒 퀘스트창</h3></div><p class="note">게임 퀘스트창을 가져오면 반납할 곳·정리할 퀘스트를 알려 줘요.</p><button class="btn sm ghost" data-a="imp">🧩 게임에서 불러오기</button></div>';
     if(U.length)gC+='<div class="card hpc"><div class="hd"><h3>⬆️ 바꾸면 좋은 장비</h3><button class="more" data-a="tab" data-k="gear">'+U.length+'개 ›</button></div>'+U.slice(0,3).map(x=>upRow(c,x)).join('')+'</div>';
-    if(D.length)dC+='<div class="card hpc"><div class="hd"><h3>🏰 지금 갈 만한 던전</h3><button class="more" data-a="tab" data-k="dungeon">던전 ›</button></div>'+D.map(d=>[d,dgState(c,d)]).sort((x,y)=>x[1].all-y[1].all).slice(0,4).map(([d,S])=>'<div class="trow" data-a="dgo" data-k="'+d.slug+'"><span class="m"><b>'+esc(d.ko)+(S.all?' <span class="dgok">✅ 퀘스트 다 함</span>':'')+'</b><span>'+d.lo+'–'+d.hi+'레벨 · '+esc(d.loc||'')+(S.Q.length?' · 퀘스트 '+S.done.length+'/'+S.Q.length:'')+(S.inLog.length?' · 퀘스트창 '+S.inLog.length:'')+(d._v&&d._v.g?' · <b class="hl">⭐ 좋은 템 '+d._v.g+'</b>':'')+'</span></span><span class="r">›</span></div>').join('')+'</div>';
+    if(D.length)dC+='<div class="card hpc"><div class="hd"><h3>🏰 지금 갈 만한 던전</h3><button class="more" data-a="tab" data-k="dungeon">던전 ›</button></div>'+D.map(d=>[d,dgState(c,d)]).sort((x,y)=>x[1].all-y[1].all).slice(0,4).map(([d,S])=>'<div class="trow" data-a="dgo" data-k="'+d.slug+'"><span class="m"><b>'+esc(d.ko)+(S.all?' <span class="dgok">✅ 퀘스트 다 함</span>':'')+'</b><span>'+d.lo+'–'+d.hi+'레벨 · '+esc(d.loc||'')+(S.Q.length?' · 퀘스트 '+S.done.length+'/'+S.Q.length:'')+(S.inLog.length?' · 퀘스트창 '+S.inLog.length:'')+(d._v&&d._v.g?' · <b class="hl">⭐ 좋은 템 '+[d._v.now?'지금 '+d._v.now:'',d._v.later?'레벨 오르면 '+d._v.later:'',d._v.qg?'퀘스트 보상 '+d._v.qg:''].filter(Boolean).join(' · ')+'</b>':'')+'</span></span><span class="r">›</span></div>').join('')+'</div>';
     h+='<div class="hcols"><div>'+hq+qlC+dC+'</div><div>'+td+gC+adC+'</div></div>'}
   else h+=adC;
   return h+'</div>'}
@@ -1964,8 +1969,9 @@ function dollCell(c,s,ups,bb){const it=eqIt(c,s);const sel=ui.gslot===s;const lo
   return '<button class="dc'+(sel?' sel':'')+(it?'':' empty')+'" data-a="gsel" data-k="'+s+'"'+(lock?' disabled':'')+' aria-label="'+SLOT_KO[s]+(it?' '+esc(it.nm):' 비어 있음')+'">'
    +(it?'<span class="ic lg q-'+it.q+'" data-tip="'+it.id+'" data-ts="'+s+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
    +(PV?(b?'<span class="up'+(b.soon?' soon':'')+'">'+(b.soon?(b.it.ob||b.it.lv)+'렙':b.empty?'빈 칸':'+'+gNum(b.g))+'</span>':''):ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
-function hitCapHtml(c){if(isTank(c))return '';if(PV){const w0=wOf0(c);if(!((w0.hit||0)>0||(w0.shit||0)>0||(w0.exp||0)>0))return ''}const h=hitInfo(c);const row=(nm,v,cap)=>{const st=v>=cap?'full':v>=cap-1?'near':'low';return '<div class="hcap '+st+'"><span>'+nm+'</span><b>'+v+'%</b><i style="width:'+Math.min(100,v/cap*100)+'%"></i><small>상한 '+cap+'%'+(st==='full'?' · 다 찼어요':st==='near'?' · 거의':'')+'</small></div>'};
-  return '<div class="hcaps">'+row('적중',h.hit,h.cap)+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note">'+((c.lv||60)>=58?'보스 기준':'레벨업 기준(몹 1~2레벨 위)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+(h.th?'+특성 '+h.th+'%':'')+' 셈 · 상한 넘으면 그 능력치 점수를 낮춰요'+(h.phys&&isDW(c)?' · 쌍수 자동 공격은 적중 '+dwCap(c)+'%까지 조금 더 이득이라 덜 낮춰요':'')+'</p></div>'}
+function hitCapHtml(c){if(isTank(c))return '';if(PV){const w0=wOf0(c);if(!((w0.hit||0)>0||(w0.shit||0)>0||(w0.exp||0)>0))return ''}const h=hitInfo(c);const row=(nm,v,cap)=>{const st=v>=cap?'full':v>=cap-1?'near':'low';return '<div class="hcap '+st+'"><span>'+nm+'</span><b>'+v+'%</b><i style="width:'+Math.min(100,v/cap*100)+'%"></i><small>상한 '+cap+'%'+(st==='full'?' · 다 찼어요':' · '+(+(cap-v).toFixed(1))+'% 남음')+'</small></div>'};
+  /* 상대 레벨·공격 종류를 같이 적음 — 58레벨에 기준이 보스로 바뀌는 걸 말없이 바꾸지 않게. 쌍수 자동 공격 줄은 공략 값(실측 전 추정) */const dw=h.phys&&isDW(c);const boss=(c.lv||60)>=58;
+  return '<div class="hcaps">'+row(dw?'적중 · 기술':'적중',h.hit,h.cap)+(dw?row('적중 · 자동 공격',h.hit,dwCap(c)):'')+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note"><b>상대: '+(boss?'보스(3레벨 위)':'2레벨 위 몹')+'</b>'+(boss?'':' (58레벨부터 보스)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+(h.th?'+특성 '+h.th+'%':'')+' 셈 · 상한 넘으면 점수를 낮춰요'+(dw?' · 쌍수 자동 공격 상한은 공략 값(추정)':'')+'</p></div>'}
 function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
 /* 이중 특성 (40레벨~): 둘째 특성으로 보기 · 두 특성 다 좋은 템 표시 */
 function dspOn(c){return (c.lv||1)>=40&&c.spec2&&c.spec2!==c.spec}
@@ -2209,7 +2215,7 @@ function nowCard(c,S){let P=nowPlan(c,S);const PS=planStats(c,P);const all=PS.al
 function qSearchHtml(c,q){const nq=q.replace(/\s+/g,'');if(nq.length<1)return '';
   if(!QDB){qdbLoad();return ldNote('qdb','퀘스트 자료를 불러오는 중…')}
   const L=c.lv;const hit=s=>(s||'').replace(/\s+/g,'').includes(nq);const R=[];
-  for(const x of QDB.values()){if(!qdbOk(c,x))continue;const a=hit(x.n),b=x.g&&hit(x.g[0]),z=hit(x.z);if(!(a||b||z))continue;
+  for(const x of QDB.values()){if(!qdbOk(c,x))continue;const a=hit(x.n)||(x.na||[]).some(hit),b=x.g&&hit(x.g[0]),z=hit(x.z);if(!(a||b||z))continue;
     R.push({x,sc:(x.n.replace(/\s+/g,'').startsWith(nq)?0:a?1:b?2:3)*100+Math.abs((x.lv||L)-L)})}
   R.sort((a,b)=>a.sc-b.sc);const n=R.length;
   /* 던전·장비도 같이 찾기 */
@@ -3026,7 +3032,7 @@ function prepOrd(c,St,done0,start,ends,fast){const net=trvNet(c);
   const its=[];St.forEach((s,si)=>s.items.forEach(it=>its.push({s,si,it,id:it.q.id})));
   const mk=x=>x.it.type==='get'?['g'+x.id]:x.it.type==='do'?['d'+x.id]:['d'+x.id,'t'+x.id];
   const prod=new Map();its.filter(x=>x.it.type!=='turn').concat(its.filter(x=>x.it.type==='turn')).forEach(x=>mk(x).forEach(t=>{if(!prod.has(t))prod.set(t,x)}));
-  const needs=x=>x.it.need?[].concat(x.it.need).filter(t=>!done0.has(t)):[];
+  const needs=x=>x.it.need?[].concat(x.it.need).map(t=>{if(!t.includes('|'))return t;const A=t.split('|');return A.some(y=>done0.has(y))?'':(A.find(y=>prod.has(y))||A[0])}).filter(t=>t&&!done0.has(t)):[];/* 't1|t2'(둘 중 하나)는 이미 끝낸 게 있으면 통과, 아니면 동선에 있는 갈래 */
   const dep=new Map();const depth=x=>{if(dep.has(x))return dep.get(x);dep.set(x,-1);let d=0;for(const t of needs(x)){const p=prod.get(t);if(!p||p===x){d=-1;break}const pd=depth(p);if(pd<0){d=-1;break}d=Math.max(d,pd+1)}dep.set(x,d);return d};
   const SM=new Map();its.forEach(x=>{const d=depth(x);if(d<0)return;const k=x.si+'|'+d;if(!SM.has(k))SM.set(k,{s:x.s,items:[],xs:[]});const o=SM.get(k);o.items.push(x.it);o.xs.push(x)});
   const P=[...SM.values()],n=P.length;if(!n)return [];
@@ -3101,15 +3107,19 @@ function stProg(c,s){const P=[];s.items.forEach(it=>qObjs(c,it.q).forEach(o=>{if
 function recStages(c,list,start,O){const ql=c.ql||{};const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
   const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.type===type&&s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}if(place&&!s0.place.split(' · ').includes(place)&&s0.place.split(' · ').length<2)s0.place+=' · '+place;s0.items.push({q,type,need});if(need)[].concat(need).forEach(x=>s0.need.add(x));return s0};
   /* 선행 퀘스트가 같은 목록에 있으면 그걸 반납한 뒤에 받기 (예: 은둔자 → 다크샤이어로부터의 보급품) */
-  const inL=new Set(list.map(q=>q.id));const preOf=id=>{const o=QDB&&QDB.get(id);if(!o)return [];const P=new Set(o.pre||[]);if(o.pre1&&o.pre1.length===1)P.add(o.pre1[0]);if(QPAR[id]!=null)P.add(QPAR[id]);return [...P].filter(x=>x!==id&&inL.has(x)&&(ql[x]||0)<3)};
+  const inL=new Set(list.map(q=>q.id));const preOf=id=>{const o=QDB&&QDB.get(id);if(!o)return [];const P=new Set(o.pre||[]);if(o.pre1&&o.pre1.length===1)P.add(o.pre1[0]);if(QPAR[id]!=null)P.add(QPAR[id]);
+    const out=[...P].filter(x=>x!==id&&inL.has(x)&&(ql[x]||0)<3).map(x=>'t'+x);
+    /* 여럿 중 하나만 끝내면 되는 앞 퀘스트(예: 캠핑 입문 ← 지역별 「드넓은 야외」): 끝낸 갈래가 없으면 이 목록에 있는 갈래 중 하나를 반납한 뒤에 받기 ('t1|t2' = 둘 중 하나) */
+    if(o.pre1&&o.pre1.length>1){const g=preGrp(c,o.pre1);if(!g.some(x=>{const X=QDB.get(x);return (ql[x]||0)>=3||(X&&mqDone(c,X))})){const g2=g.filter(x=>x!==id&&inL.has(x)&&(ql[x]||0)<3);if(g2.length)out.push(g2.map(x=>'t'+x).join('|'))}}
+    return out};
   list.forEach(q=>{const st=ql[q.id]||0;const hasDo=q.o||q.rep;
-    if(st<1){const pr=preOf(q.id);add('get',q.g[1],q.g[2],(q.g[2]?hubOfXY(q.g[1],q.g[2].join(','),q.g[0])[0]:'')||q.g[0]||'받는 곳',q,pr.length?pr.map(x=>'t'+x):null)}
+    if(st<1){const pr=preOf(q.id);add('get',q.g[1],q.g[2],(q.g[2]?hubOfXY(q.g[1],q.g[2].join(','),q.g[0])[0]:'')||q.g[0]||'받는 곳',q,pr.length?pr:null)}
     if(q.go)return;/* 던전 준비 퀘스트: 받기만 (하기·반납은 던전 안·끝나고) */
     if(st<2&&hasDo){const s0=add('do',(q.o&&q.o.z)||q.z,q.o?q.o.xy:null,q.o?q.o.nm:'평판 올리기',q,'g'+q.id);if(q.o&&q.o.via&&!s0.via)s0.via=q.o.via}
     add('turn',q.r[1],q.r[2],q.r[0]||'반납',q,(hasDo?'d':'g')+q.id)});
   /* 순서: 받기 → 하기 → 반납 조건을 지키며 가까운 곳부터 */
   const done=new Set(Object.keys(ql).flatMap(id=>ql[id]>=2?['g'+id,'d'+id]:ql[id]>=1?['g'+id]:[]));const out=[];const left=St.slice();
-  const ok=it=>!it.need||(Array.isArray(it.need)?it.need.every(x=>done.has(x)):done.has(it.need));const dist=(a,b)=>a&&b?Math.hypot(a[0]-b[0],a[1]-b[1]):999;
+  const ok=it=>!it.need||(Array.isArray(it.need)?it.need.every(x=>x.split('|').some(y=>done.has(y))):done.has(it.need));const dist=(a,b)=>a&&b?Math.hypot(a[0]-b[0],a[1]-b[1]):999;
   /* 줄 세울 때만 쓰는 자리: 위치 모르는 「하기」는 그 퀘스트를 받은 곳 근처로 어림(화면·길 안내 좌표는 그대로 「위치 없음」) */
   St.forEach(s=>{if(!s.xy&&s.type==='do'){const g=s.items.map(it=>it.q.g).find(g=>g&&g[2]&&g[1]===s.zone);if(g)s.sxy=g[2]}});
   const AC=new Map();const atl=s=>{const p=s.sxy||s.xy;if(!p)return null;const k=s.zone+'|'+p.join(',');if(!AC.has(k))AC.set(k,toAtlas(s.zone,p.join(',')));return AC.get(k)};
@@ -3125,6 +3135,8 @@ function recStages(c,list,start,O){const ql=c.ql||{};const St=[];const near=(a,b
     const av=left.filter(s=>s.items.some(ok));const pool=av.length?av:left;const from=cur;cur=pool.slice().sort((a,b)=>(a.zone!==from.zone)-(b.zone!==from.zone)||gap(from,a)-gap(from,b))[0]}}
   /* 붙어 있는 같은 곳·같은 종류는 하나로 */
   const M=[];out.forEach(s=>{const p=M[M.length-1];if(p&&p.type===s.type&&p.zone===s.zone&&(near(p.xy,s.xy)||(!p.xy&&!s.xy&&p.place===s.place)))p.items=p.items.concat(s.items);else M.push(s)});return M}
+/* 퀘스트창 한도: 와우 포에버는 40개 (일반 클래식 20개의 두 배) — 표시·「다 했어요」가 같은 값을 씀 */
+const QL_MAX=40;const qlN=c=>Object.values(c.ql||{}).filter(v=>v>=1&&v<3).length;
 const RST={get:['받기','g'],do:['하기','o'],turn:['반납','r']};
 /* 📱 옆 화면 모드: 게임하는 동안 폰을 세워 두면 「지금 단계」만 크게 · 화면 안 꺼짐 · 30초마다 PC와 맞춤 */
 let sideWL=null,sideIv=null,sideKey='';
@@ -3147,7 +3159,7 @@ function sideView(c){if(!QDB){qdbLoad();return '<div class="sdh"><b>📱 옆 화
     else if(it.type==='get')o='<span>'+esc(q.g&&q.g[0]||'')+'</span>';
     return '<li><b>'+esc(q.nm)+'</b>'+(o?'<div class="so">'+o+'</div>':'')+qnTag(c,q.id)+'</li>'}).join('');
   const sx=s0.items.filter(i=>i.type==='turn').reduce((n,i)=>n+((RWD.get(i.q.id)||{}).xp||0),0);
-  h+='<div class="sdc t-'+s0.type+(flash?' flash':'')+'"><div class="sk">1단계 · '+RST[s0.type][0]+'</div><h1>'+esc(s0.place)+'</h1><div class="sz">'+esc(s0.zone)+(s0.xy?' <b>'+s0.xy[0].toFixed(0)+', '+s0.xy[1].toFixed(0)+'</b>':'')+'</div><ul>'+li+'</ul>'+(sx?'<div class="sxp">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>':'')+'</div>';
+  h+='<div class="sdc t-'+s0.type+(flash?' flash':'')+'"><div class="sk">1단계 · '+RST[s0.type][0]+'</div><h1>'+esc(s0.place)+'</h1><div class="sz">'+esc(s0.zone)+(s0.xy?' <b>'+s0.xy[0].toFixed(0)+', '+s0.xy[1].toFixed(0)+'</b>':'')+'</div><ul>'+li+'</ul>'+(sx?'<div class="sxp">이 단계 경험치 <b>+'+sx.toLocaleString()+'</b></div>':'')+(()=>{const g=s0.items.filter(i=>i.type==='get'&&!((c.ql||{})[i.q.id]>=1)).length;const fr=QL_MAX-qlN(c)+s0.items.filter(i=>i.type==='turn'&&(c.ql||{})[i.q.id]>=1).length;return g>fr?'<div class="sxp qlfull">퀘스트창 <b>'+qlN(c)+'/'+QL_MAX+'</b> · '+(fr>0?'앞의 '+fr+'개만 받아요':'꽉 차서 못 받아요 — 반납하거나 포기하세요')+'</div>':''})()+'</div>';
   h+='<div class="sdb"><button class="btn sdgo" data-a="rsdone">다 했어요 · 다음 단계</button><button class="btn ghost" data-a="mmgo" data-k="'+s0.items[0].q.id+'">지도</button></div>';
   h+='<div class="sdn">'+ST.slice(1,4).map((s,i)=>'<div><span class="n t-'+s.type+'">'+(i+2)+'</span><b>'+RST[s.type][0]+'</b> '+esc(s.place)+'</div>').join('')+'</div>';
   h+=syOn()?'<p class="sdf">PC에서 게임 파일을 맞추면 30초 안에 이 화면도 저절로 바뀌어요.</p>':'<p class="sdf">PC와 연동하면 PC에서 맞춘 내용이 30초마다 저절로 들어와요 · <button class="lnk" data-a="side" data-k="chars">연동하러 가기</button></p>';
@@ -3210,8 +3222,10 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
   const prof=q=>/^장인의 계약서/.test(q.nm||'');
   /* 앞 퀘스트 맞추기(게임 기록을 불러왔을 때): 앞 퀘스트를 안 했고 이 구간에도 없으면 받을 수 있는 앞 퀘스트를 구간에 끌어오고(4단계까지),
      그래도 안 되면 단계에서 빼고 「먼저 「…」」로 알려 줌 — 예: 마이조스는 트롤의 마법·대령 쿠르젠을 끝내야 받을 수 있음 */
-  const preFix=(n,list)=>{if(!c.imported||!QDB)return {list,blk:[]};const ids=new Set(list.map(q=>q.id)),out=list.slice(),blk=[],ql=c.ql||{};
-    const dn=p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)};
+  const preFix=(n,list)=>{if(!QDB)return {list,blk:[]};const ids=new Set(list.map(q=>q.id)),out=list.slice(),blk=[],ql=c.ql||{};
+    /* 게임 기록 없이 쓰는 캐릭터도 같은 기준(예전엔 불러온 캐릭터만 → 같은 빈 기록인데 수동은 「한때의 영토」를 앞 퀘스트 없이 권했음).
+       다만 기록이 없으니 내 레벨보다 8 넘게 낮은 앞 퀘스트는 이미 한 걸로 봄 — 지나온 지역으로 되돌려 보내지 않게 */
+    const dn=p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)||(!c.imported&&(P.lv||P.m||0)<L-8)};
     const groups=id=>{const X=QDB.get(id);if(!X)return [];const G=(X.pre||[]).map(p=>[p]);if(X.pre1&&X.pre1.length)G.push(preGrp(c,X.pre1));return G.filter(g=>g.length&&!g.some(dn))};
     const pull=(id,d)=>{for(const g of groups(id)){if(g.some(p=>ids.has(p)))continue;let ok=false;
         for(const p of g){const P=QDB.get(p);if(!P||(P.m||0)>L||d>4||prof({nm:P.n}))continue;if(!pull(p,d+1))continue;const r=recQ(p,n.z);if(!r)continue;out.push(r);ids.add(p);ok=true;break}
@@ -3235,7 +3249,10 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
   if(moved){const kk=esc(nKey(node));h=h.replace('class="jn2" data-a="pnode" data-k="'+kk+'"','class="jn2 sel" data-a="pnode" data-k="'+kk+'"')}
   /* 레벨이 모자라 아직 못 받는 퀘스트: 「다 했어요」 대신 몇 레벨부터인지 알려 줌 */
   const lk=lockOf(moved||node);const lkMsg=lk.length?' · 남은 '+lk.length+'개는 '+Math.min(...lk.map(minLv))+'레벨부터 받을 수 있어요':'';
-  if(!ST.length)return h+'<div class="card"><p class="note">'+esc(z)+' '+node.a+'–'+node.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg+'. ':' 퀘스트를 다 했어요 🎉 ')+(pk.nodes.indexOf(node)<pk.nodes.length-1?'여정 줄에서 다음 구간을 눌러 보세요.':'이 루트 끝까지 왔어요.')+'</p></div>';
+  if(!ST.length){/* 곧(2레벨 안) 열리는 퀘스트가 남았으면 다음 구간 대신 여기서 레벨 올릴 사냥감을 알려 줌 (예: 제프라스 섬 3레벨 → 남은 15개는 4레벨부터) */
+    const nl=lk.length?Math.min(...lk.map(minLv)):0;const soon=nl&&nl<=L+2;const M=soon&&WLD&&WLD.mob?(WLD.mob[z]||[]).filter(m=>m[1]<=L+1&&m[2]>=L-1).sort((a,b)=>b[3]-a[3]).slice(0,2):[];
+    return h+'<div class="card"><p class="note">'+esc(z)+' '+node.a+'–'+node.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg+'. ':' 퀘스트를 다 했어요 🎉 ')+(soon?nl+'레벨이 되면 여기서 이어서 해요.':pk.nodes.indexOf(node)<pk.nodes.length-1?'여정 줄에서 다음 구간을 눌러 보세요.':'이 루트 끝까지 왔어요.')+'</p>'
+      +(soon?'<p class="note">⚔️ <b>'+nl+'레벨까지 근처에서 사냥</b>'+(M.length?' · '+M.map(m=>esc(m[0])+' Lv '+(m[1]===m[2]?m[1]:m[1]+'–'+m[2])+' ('+m[4]+', '+m[5]+')').join(' · '):'')+'</p>':'')+'</div>'}
   if(moved)h+='<p class="note mvn">✓ '+esc(moved.z)+' '+moved.a+'–'+moved.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg:' 퀘스트를 다 했어요')+' · 다음 구간으로 넘어갔어요: <b>'+esc(node.z)+' '+node.a+'–'+node.b+'</b>'+(node.a>L+2?' · 몹 레벨이 조금 높으니 조심하세요':'')+'</p>';
   {const pq=prepOf(node).filter(q=>(c.ql||{})[q.id]==null||((c.ql||{})[q.id]||0)<3);if(pq.length){const dn=[...new Set(pq.map(q=>q.dg))];if(node.all)h+=prepSum(c,node,ST,PST);else h+='<div class="card blkq prepn"><p class="note">🏰 <b>'+(node.prep?esc(node.z)+' · 던전 준비':'던전 준비 퀘스트 '+pq.length+'개를 이 지역 단계에 넣었어요')+'</b> — '+esc(dn.join(' · '))+(node.prep?' 퀘스트를 받으러 들르는 곳이에요. 받기만 하고 하기·반납은 던전에서 해요.':'')+(pq.some(q=>!q.go)?' 먼저 해야 하는 앞 퀘스트도 같이 넣었어요.':'')+'</p></div>'}}
   {const bk=blkOf(moved||node);if(bk.length)h+='<div class="card blkq"><p class="note">🔒 <b>앞 퀘스트를 먼저 끝내야 받을 수 있는 퀘스트 '+bk.length+'개</b> — 단계에서 뺐어요.</p><ul>'+bk.slice(0,6).map(x=>'<li><button class="lnk" data-a="qopen" data-k="'+x.q.id+'">「'+esc(x.q.nm)+'」</button>'+(x.need?' ← 먼저 <button class="lnk" data-a="qopen" data-k="'+x.need.id+'">「'+esc(x.need.n)+'」</button> <small class="mute">'+esc(x.need.z||'')+' · '+mTxt(x.need)+'</small>':'')+'</li>').join('')+'</ul></div>'}
@@ -3255,8 +3272,11 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
     h+='<div class="rmap">'+m+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">진짜 지도에서 크게 ›</button></div></div>'}
   if(recMapOn(c))h+='<!--/RM-->';
   h+='<div class="scroll2'+(PVE?' qw':'')+'">'+(PVE?'<span class="qwm t-'+s0.type+'"'+(s0.type==='do'?' style="background-image:url('+ICO('inv_sword_04')+')"':'')+'></span>':'')+'<div class="k">1단계 · 지금 할 일 · '+RST[s0.type][0]+'</div><h3>'+esc(s0.place)+'</h3><div class="wh">'+esc(s0.zone)+xy(s0)+' · '+s0.items.length+'개</div>';
-  {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오가면 알려 주기 */const ISL=[['페더문','페더문 요새는 섬이에요. 페랄라스 서쪽 해안 선착장(31, 39 근처)에서 배를 타고 건너요.']];const isl=x=>x?ISL.find(i=>x.place.includes(i[0])):null;
-   const hit=isl(s0)||isl(ST[1]);if(hit)h+='<div class="isl">⛵ '+esc(hit[1])+'</div>';
+  {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오갈 때만 알려 주기 — 뭍 선착장은 잊혀진 해안 43, 43(조브린 팬대즐 옆). 예전엔 선착장 좌표가 틀렸고(31, 39) 섬 안에서도 매 단계 떴음 */
+   /* 섬(사도르 섬: 페더문 요새·솔라살 폐허)은 좌표로 가림 — 반납 단계는 이름이 NPC라서 이름만으론 못 가림 */const fmXY=xy=>xy[0]<36&&xy[1]>33&&xy[1]<60;
+   const fmi=s=>!!(s&&s.zone==='페랄라스'&&(s.xy?fmXY(s.xy):/페더문/.test(s.place||'')));const lp=c.lpos&&c.lpos.z==='페랄라스'&&c.lpos.xy?{zone:'페랄라스',xy:c.lpos.xy}:null;
+   const hit=fmi(s0)&&!(lp&&fmi(lp))?'페더문 요새는 섬이에요. 뭍 선착장(43, 43 · 조브린 팬대즐 옆)에서 배를 타고 건너요.':!fmi(s0)&&s0.zone==='페랄라스'&&lp&&fmi(lp)?'지금은 섬이에요. 페더문 요새 선착장에서 배를 타고 뭍(43, 43)으로 건너요.':!fmi(s0)&&fmi(ST[1])?'다음 단계는 섬(페더문 요새)이에요. 뭍 선착장(43, 43 · 조브린 팬대즐 옆)에서 배를 타요.':'';
+   if(hit)h+='<div class="isl">⛵ '+esc(hit)+'</div>';
    else if(PVE&&s0.trv&&s0.trv.t>=.5)h+='<div class="isl trvl">'+trvIco(trvMain(s0.trv))+'<span>가는 법 · '+esc(trvTxt(s0.trv,c))+'</span></div>';
    else{const bt=PVE?(c.lpos&&c.lpos.z&&c.lpos.z!==s0.zone?hopTip(c.lpos.z,s0.zone):'')||hopTip(s0.zone,ST[1]&&ST[1].zone):boatTip(s0.zone,ST[1]&&ST[1].zone);if(bt)h+='<div class="isl">⛵ '+esc(bt)+'</div>'}}
   /* 하기 단계인데 지도 위치 자료가 없으면(강물터·셴드랄라스 새 퀘스트, 악령의 숲 오염된 식물 등 62곳) 퀘스트 목표 글로 어디인지 힌트 */
@@ -3450,8 +3470,8 @@ function dgEndItems(c,d){const its=dgItems(c,d).concat(dqOf(c,d).flatMap(q=>q.rw
 function dgEndSheet(c,slug){const d=DG[slug];if(!d||!ui.de)return '';const L=c.lv;let h='<div class="sh"><h2>🏁 '+esc(d.ko)+' 정리</h2><button class="x" data-a="close">✕</button></div>';
   const R=ui.de.res;
   if(R){h+='<div class="der"><p>🎉 수고했어요!'+(R.dur?' <b>'+R.dur+'분</b>':'')+' · 보스 <b>'+R.nk+'</b> · 퀘스트 <b>'+R.nq+'개</b> 끝냄'+(R.eqd.length?' · 착용 <b>'+R.eqd.length+'개</b>':'')+'</p>'+(R.eqd.length?'<p class="mute">'+R.eqd.map(esc).join(' · ')+'</p>':'')+'</div>';
-    const nx=dgNow(L).filter(x=>x.slug!==slug).map(x=>{const S=dgState(c,x);return {x,S,g:S.ups.length,q:S.left.length}}).filter(o=>!o.S.all||o.g).sort((a,b)=>(b.g*2+b.q)-(a.g*2+a.q)).slice(0,3);
-    h+='<h3>다음 던전 추천</h3>'+(nx.length?nx.map(({x,g,q})=>'<button class="srow" data-a="dgo" data-k="'+x.slug+'"><span class="qlv '+lvCls(x.fit||x.lo,L)+'">'+x.lo+'</span><span class="t"><b>🏰 '+esc(x.ko)+'</b><span>'+x.lo+'–'+x.hi+'레벨'+(g?' · ⭐ 좋은 템 '+g:'')+(q?' · 퀘스트 '+q:'')+'</span></span></button>').join(''):'<p class="note">지금 레벨에 더 갈 던전이 없어요. 퀘스트로 레벨을 올려요.</p>');
+    const nx=dgNow(L).filter(x=>x.slug!==slug).map(x=>{const S=dgState(c,x);return {x,S,g:S.ups.length,gl:S.ups.filter(u=>(u.it.lv||0)>L).length,q:S.left.length}}).filter(o=>!o.S.all||o.g).sort((a,b)=>(b.g*2+b.q)-(a.g*2+a.q)).slice(0,3);
+    h+='<h3>다음 던전 추천</h3>'+(nx.length?nx.map(({x,g,gl,q})=>'<button class="srow" data-a="dgo" data-k="'+x.slug+'"><span class="qlv '+lvCls(x.fit||x.lo,L)+'">'+x.lo+'</span><span class="t"><b>🏰 '+esc(x.ko)+'</b><span>'+x.lo+'–'+x.hi+'레벨'+(g?' · ⭐ 좋은 템 '+g+(gl?' ('+gl+'개는 레벨 오르면)':''):'')+(q?' · 퀘스트 '+q:'')+'</span></span></button>').join(''):'<p class="note">지금 레벨에 더 갈 던전이 없어요. 퀘스트로 레벨을 올려요.</p>');
     return h+'<button class="btn ghost full" data-a="close">닫기</button>'}
   const kl=killOf(c,slug);const nk=Object.keys(kl).filter(x=>x!=='_s').length;const dur=kl._s?Math.round((Date.now()-kl._s)/60000):0;
   h+='<p class="note">'+(dur?'⏱️ '+dur+'분 · ':'')+'보스 '+nk+'마리 잡음. 끝낸 퀘스트와 얻은 템을 고르고 「정리하기」를 눌러요.</p>';
@@ -4532,12 +4552,12 @@ function dgDetail(c,d){const L=c.lv;const items=dgItems(c,d);
   const lf=ui.lf||'good';const why=(it,b,cc)=>{cc=cc||c;const cur=eqIt(cc,b.s);const w=wOf(cc);return Object.keys(it.st).filter(k=>STAT_KO[k]&&(w[k]||0)>0&&!SHDUP(k,it.st)).map(k=>[k,(it.st[k]||0)-((cur&&cur.st[k])||0)]).filter(x=>x[1]>0).sort((x,y)=>y[1]*(w[y[0]]||0)-x[1]*(w[x[0]]||0)).slice(0,2).map(([k,v])=>STAT_KO[k].replace('무기 초당 공격력','DPS')+' +'+(k==='dps'?v.toFixed(1):Math.round(v))).join(' · ')};
   const top=myUps.slice().sort((x,y)=>y.b.g-x.b.g)[0];const bossOf=it=>{const s2=it.src.map(i=>SRC[i]).find(z=>z&&z.k===0&&z.dg===d.slug);return s2?s2.boss:''};
   const top2=C2?myUps2.slice().sort((x,y)=>y.b.g-x.b.g)[0]:null;const spN=id=>(((D_CLS[c.cls]||{}).specs||[]).find(x=>x.id===id)||{}).name||id;
-  const lsum=(t,cc,lab)=>'<button class="lsum" data-a="cmpq" data-k="'+t.b.s+':'+t.it.id+(C2?':'+cc.spec:'')+'">'+itIcon(t.it)+'<span class="m"><b class="q'+t.it.q+'">'+esc(t.it.nm)+'</b><small>'+esc(lab)+' · '+esc(bossOf(t.it)||'몹 드랍')+' · '+esc(SL_KO[t.it.sl]||'')+'</small>'+(why(t.it,t.b,cc)?'<small class="why">'+esc(why(t.it,t.b,cc))+' 덕분</small>':'')+'</span><span class="g">+'+Math.round(t.b.g)+'</span></button>';
+  const lsum=(t,cc,lab)=>'<button class="lsum" data-a="cmpq" data-k="'+t.b.s+':'+t.it.id+(C2?':'+cc.spec:'')+'">'+itIcon(t.it)+'<span class="m"><b class="q'+t.it.q+'">'+esc(t.it.nm)+'</b><small>'+esc(lab)+' · '+esc(bossOf(t.it)||'몹 드랍')+' · '+esc(SL_KO[t.it.sl]||'')+((t.it.lv||0)>cc.lv?' · '+t.it.lv+'레벨부터':'')+'</small>'+(why(t.it,t.b,cc)?'<small class="why">'+esc(why(t.it,t.b,cc))+' 덕분</small>':'')+'</span><span class="g">+'+Math.round(t.b.g)+'</span></button>';
   if(top)h+=lsum(top,c,C2?(top2&&top2.it.id===top.it.id?'두 특성 다 이 던전 최고':spN(c.spec)+' 최고'):'이 던전 최고');
   if(top2&&!(top&&top2.it.id===top.it.id))h+=lsum(top2,C2,spN(C2.spec)+' 최고');
-  h+='<div class="flt2">'+[['good',(C2?'⭐ 두 특성 좋은 것 ':'⭐ 내게 좋은 것 ')+nU],['all','전부 '+items.length]].map(x=>'<button class="'+(lf===x[0]?'on':'')+'" data-a="lf" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
+  h+='<div class="flt2">'+[['good',(C2?'⭐ 두 특성 좋은 것 ':'⭐ 내게 좋은 것 ')+nU+(()=>{/* 지금 낄 수 있는 것과 레벨 오르면 낄 것을 나눠 셈 (예: 46레벨 마라우돈 11개 중 7개는 48·49레벨부터) */const n=new Set([...myUps,...myUps2].filter(x=>(x.it.lv||0)>c.lv).map(x=>x.it.id)).size;return n&&n<nU?' (지금 '+(nU-n)+')':n&&n===nU?' (다 레벨 오르면)':''})()],['all','전부 '+items.length]].map(x=>'<button class="'+(lf===x[0]?'on':'')+'" data-a="lf" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
   const tile=(it,cc)=>{if(C2&&!cc)return tileD(it);cc=cc||c;const use=usable(it,cc);const b=use?bestSlot(it,cc):null;const gd=b&&b.g>.01;const wy=why(it,b||{s:''},cc);
-    return '<button class="ci'+(gd&&top&&top.it.id===it.id&&cc===c?' best':'')+(use?'':' no')+'" data-a="'+(gd?'cmpq':'info')+'" data-k="'+(gd?b.s+':'+it.id+(C2?':'+cc.spec:''):it.id)+'">'+itIcon(it)+'<span class="m"><b class="q'+it.q+'">'+wishMark(c,it.id)+esc(it.nm)+'</b><small>'+esc((SL_KO[it.sl]||'')+(use?((it.ob||it.lv)>0?' · Lv '+(it.ob||it.lv):''):' · 못 씀'))+'</small>'+(gd&&wy?'<small class="why">'+esc(wy)+'</small>':'')+'</span>'+(gd?'<em class="g">+'+Math.round(b.g)+'</em>':'')+'</button>'};
+    return '<button class="ci'+(gd&&top&&top.it.id===it.id&&cc===c?' best':'')+(use?'':' no')+'" data-a="'+(gd?'cmpq':'info')+'" data-k="'+(gd?b.s+':'+it.id+(C2?':'+cc.spec:''):it.id)+'">'+itIcon(it)+'<span class="m"><b class="q'+it.q+'">'+wishMark(c,it.id)+esc(it.nm)+'</b><small>'+esc((SL_KO[it.sl]||'')+(use?((it.lv||0)>cc.lv?' · '+it.lv+'레벨부터 착용':(it.ob||it.lv)>0?' · Lv '+(it.ob||it.lv):''):' · 못 씀'))+'</small>'+(gd&&wy?'<small class="why">'+esc(wy)+'</small>':'')+'</span>'+(gd?'<em class="g">+'+Math.round(b.g)+'</em>':'')+'</button>'};
   /* 두 특성 다 좋은 템: 점수 두 개를 같이(큰 숫자는 더 좋은 쪽), 누르면 더 좋은 쪽 특성으로 비교 */
   const tileD=it=>{const b1=gs(it,1),b2=gs(it,2);if(!b1&&!b2)return tile(it,c);if(!b2)return tile(it,c);if(!b1)return tile(it,C2);const hi=b2.g>b1.g?[b2,C2]:[b1,c];
     return '<button class="ci" data-a="cmpq" data-k="'+hi[0].s+':'+it.id+':'+hi[1].spec+'">'+itIcon(it)+'<span class="m"><b class="q'+it.q+'">'+wishMark(c,it.id)+esc(it.nm)+'</b><small>'+esc((SL_KO[it.sl]||'')+((it.ob||it.lv)>0?' · Lv '+(it.ob||it.lv):''))+'</small><small class="why">'+esc(spN(c.spec)+' +'+Math.round(b1.g)+' · '+spN(C2.spec)+' +'+Math.round(b2.g))+'</small></span><em class="g">+'+Math.round(hi[0].g)+'</em></button>'};
@@ -4595,7 +4615,7 @@ function klass(c0){if((c0.lv||1)>=40&&ui.dsp==='2'&&!dspOn(c0)){const r=c0;retur
   if(sec==='tal')h+=talView(c,C,sp,L);
   if(sec==='rot'){const blk=(t,arr,sub)=>arr.length?'<div class="card krot"><h3>'+t+'</h3>'+(sub?'<p class="note">'+sub+'</p>':'')+arr.map(r=>'<div class="rot2"><div class="w"><i>'+rotEmo(r[0])+'</i>'+esc(r[0])+'</div><div class="v">'+rotHtml(C,r[1],L)+'</div></div>').join('')+'</div>':'';
     /* 딜 사이클 여는 법: 보스 앞 준비 → 순서대로 → 큰 기술 겹치기 (data/guides/openers.json) */
-    const op=sp.open;const opH=op&&op.open&&op.open.length?'<div class="card krot kopen"><h3>⚔️ 딜 사이클 여는 법 <small>보스 · 60레벨 기준</small></h3>'+(op.pre?'<p class="kpre"><b>시작 전</b> '+rotHtml(C,op.pre,L)+'</p>':'')+'<ol class="kop">'+op.open.map(t=>'<li>'+rotHtml(C,t,L)+'</li>').join('')+'</ol>'+(op.cd?'<p class="kcd"><b>큰 기술</b> '+rotHtml(C,op.cd,L)+'</p>':'')+(op.src?'<p class="mute src">'+esc(op.src)+'</p>':'')+'</div>':'';
+    const op=sp.open;const opH=op&&op.open&&op.open.length?'<div class="card krot kopen"><h3>'+(role==='치유'?'💚 보스전 치유 순서':role==='탱커'?'🛡️ 보스전 탱킹 여는 법':'⚔️ 딜 사이클 여는 법')+' <small>보스 · 60레벨 기준'+(L<60&&/\[[^\]@]+@(\d+)/.test(op.open.join(' ')+(op.pre||'')+(op.cd||''))&&[op.pre||'',op.cd||''].concat(op.open).some(t=>[...t.matchAll(/@(\d+)/g)].some(m=>+m[1]>L))?' · 흐린 기술은 '+L+'레벨엔 아직 없어요':'')+'</small></h3>'+(op.pre?'<p class="kpre"><b>시작 전</b> '+rotHtml(C,op.pre,L)+'</p>':'')+'<ol class="kop">'+op.open.map(t=>'<li>'+rotHtml(C,t,L)+'</li>').join('')+'</ol>'+(op.cd?'<p class="kcd"><b>큰 기술</b> '+rotHtml(C,op.cd,L)+'</p>':'')+(op.src?'<p class="mute src">'+esc(op.src)+'</p>':'')+'</div>':'';
     /* 포에버에서 달라진 점·레벨업 팁 (data/guides/spec-tips.json) — 미리보기 */
     const tp=PV&&sp.tips;const tpH=tp?'<div class="card ktip"><h3>포에버에서 달라진 점</h3><ul>'+(tp.ch||[]).map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>'+((tp.tip||[]).length?'<h4>'+(L>=60?'알아 두면 좋은 것':'레벨업 팁')+'</h4><ul>'+tp.tip.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>':'')+'<p class="mute src">와우헤드 포에버 직업 가이드(10월~11월 갱신) 정리 · 패치로 바뀔 수 있어요</p></div>':'';
     h+='<p class="note kn">흐린 기술은 아직 못 배운 거예요 · 작은 숫자는 배우는 레벨</p>'+tpH+(L>=40?opH:'')+(L<30?blk('🌱 초반 (레벨업)',sp.early,'혼자 사냥하며 올릴 때')+blk('🔁 기본 운영',sp.rot,'던전·만렙까지 쓰는 기본 순서'):blk('🔁 기본 운영',sp.rot,'던전·만렙까지 쓰는 기본 순서')+blk('🌱 초반 (레벨업)',sp.early,'혼자 사냥하며 올릴 때'))+blk('🏰 후반',sp.late,'60레벨·레이드')+(L<40?opH:'')}
@@ -5116,8 +5136,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='qcn'){c.qc=c.qc||{};const [qi,oi]=String(k).split('|');const g=((c.qp||{})[qi]||[])[+oi];c.qc[k]=Math.max(0,Math.max(c.qc[k]||0,g?g[0]:0)+(+b.dataset.d||0));save();rerender(true);return}
   if(a==='rsdone'){const P=recPlans(c);const pk=P.find(p=>p.k===c.plan)||P[0];if(!pk)return;/* 지금 단계 다시 계산해서 적용 */
     const html=recView(c);const ST=ui._st;if(!ST||!ST[0])return;c.ql=c.ql||{};c.mq=c.mq||{};
-    ST[0].items.forEach(it=>{const id=it.q.id;if(it.type==='get')c.ql[id]=Math.max(c.ql[id]||0,1);else if(it.type==='do')c.ql[id]=2;else{c.mq[id]=1;delete c.ql[id]}});
-    if(ST[0].xy)c.lpos={z:ST[0].zone,xy:ST[0].xy};    save();toast('✓ '+RST[ST[0].type][0]+' 끝 · 다음 단계로');rerender(true);return}
+    /* 반납 먼저(자리 비움) → 받기는 퀘스트창 남은 칸만큼, 넘치면 안 받은 채로 남겨 둠 (예전엔 40개에서 5개를 더 받아 45개로 저장됐음) */const its=ST[0].items.slice().sort((x,y)=>(x.type==='get')-(y.type==='get'));let left=0;
+    its.forEach(it=>{const id=it.q.id;if(it.type==='get'){if((c.ql[id]||0)>=1)return;if(qlN(c)>=QL_MAX){left++;return}c.ql[id]=1}else if(it.type==='do')c.ql[id]=2;else{c.mq[id]=1;delete c.ql[id]}});
+    if(ST[0].xy)c.lpos={z:ST[0].zone,xy:ST[0].xy};    save();toast(left?'퀘스트창이 꽉 차서 '+left+'개는 안 받았어요 ('+qlN(c)+'/'+QL_MAX+') · 반납하거나 포기하면 다시 나와요':'✓ '+RST[ST[0].type][0]+' 끝 · 다음 단계로');rerender(true);return}
   if(a==='mapst'&&b.dataset.f==='mini'){c.miniStyle=k;save();rerender(true);return}
   if(a==='mapst'){c.mapStyle=k;save();rerender(true);if(ui.qmode==='atlas'&&k==='atlas')setTimeout(()=>{try{amInit()}catch(e){}},30);return}
   if(a==='gz'){ui.gz=k;ui.amq=null;rerender(true);return}
@@ -5444,7 +5465,7 @@ document.addEventListener('change',e=>{const t=e.target;const f=t.dataset.c;if(!
   if(f==='impSp'){ui.impSp=t.checked;return}
   if(f==='impTl'){ui.impTl=t.checked;return}
   if(f==='fq'){c.fq=c.fq||{};c.mq=c.mq||{};const qi=t.dataset.id;if(t.checked){c.fq[t.dataset.k]=1;if(qi)c.mq[qi]=1}else{delete c.fq[t.dataset.k];if(qi)delete c.mq[qi]}save();rerender(true);return}
-  if(f==='mq'){c.mq=c.mq||{};c.fq=c.fq||{};if(t.checked)c.mq[t.dataset.k]=1;else{delete c.mq[t.dataset.k];const f0=questById(+t.dataset.k);if(f0)delete c.fq[f0.z+'|'+f0.q.nm]}save();rerender(true);return}
+  if(f==='mq'){c.mq=c.mq||{};c.fq=c.fq||{};if(t.checked)c.mq[t.dataset.k]=1;else{delete c.mq[t.dataset.k];if(c.dq)delete c.dq[t.dataset.k];const f0=questById(+t.dataset.k);if(f0)delete c.fq[f0.z+'|'+f0.q.nm]}save();rerender(true);return}
   if(f==='dq'){c.dq=c.dq||{};if(t.checked)c.dq[t.dataset.k]=1;else{delete c.dq[t.dataset.k];if(c.mq)delete c.mq[t.dataset.k]}save();rerender(true);return}
 });
 let srchT=null;
@@ -5491,7 +5512,7 @@ document.addEventListener('wheel',e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(
 
 /* 퀘스트 줄 왼쪽 ❗ 누르면 바로 끝냄 표시 (펼치지 않고) */
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-qd]');if(!t)return;e.preventDefault();e.stopPropagation();const c=me();if(!c)return;
-  const id=+t.dataset.qd;const q=QDB&&QDB.get(id);c.mq=c.mq||{};if(q&&mqDone(c,q)){delete c.mq[id];if(c.fq)delete c.fq[q.z+'|'+q.n]}else c.mq[id]=1;save();rerender(true);toast(c.mq[id]?'끝냄으로 표시했어요':'끝냄 표시를 뺐어요')},true);
+  const id=+t.dataset.qd;const q=QDB&&QDB.get(id);c.mq=c.mq||{};if(q&&mqDone(c,q)){delete c.mq[id];if(c.dq)delete c.dq[id];if(c.fq)delete c.fq[q.z+'|'+q.n]}else c.mq[id]=1;save();rerender(true);toast(c.mq[id]?'끝냄으로 표시했어요':'끝냄 표시를 뺐어요')},true);
 document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('acc2'))ui.accOpen=t.open},true);
 document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('zinfo')){const was=!!ui.zinfo;ui.zinfo=t.open;if(t.open&&!was)rerender(true)}},true);
 
