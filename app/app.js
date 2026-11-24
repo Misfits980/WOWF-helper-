@@ -3127,12 +3127,16 @@ function recStages(c,list,start,O){const ql=c.ql||{};const St=[];const near=(a,b
   const gap=(a,b)=>{if(a.zone===b.zone)return dist(a.sxy||a.xy,b.sxy||b.xy);const p=atl(a),q=atl(b);if(!p||!q)return 5e5;if(p.c!==q.c)return 1e6;return Math.hypot(p.x-q.x,p.y-q.y)};
   /* 미리보기 던전 준비 동선: 줄 세우기를 이동 시간 기준(prepOrd)으로 — 기본(레벨업 단계)은 아래 가까운 곳부터 그대로 */
   if(O&&O.ord)out.push(...O.ord(St,done));else{
-  let cur=null;if(start&&start.xy){const av=left.filter(s=>s.items.some(ok));const S0={zone:start.z,xy:start.xy};cur=av.slice().sort((a,b)=>(a.zone!==start.z)-(b.zone!==start.z)||gap(S0,a)-gap(S0,b))[0]}
-  cur=cur||left.find(s=>s.type==='get'&&s.items.every(ok))||left.find(s=>s.items.some(ok));let g=0;
-  while(cur&&g++<120){const R=cur.items.filter(ok),W=cur.items.filter(it=>!ok(it));
+  /* 퀘스트창 40칸: 받기는 빈칸이 있을 때만 — 꽉 차면 반납·하기부터 (예전엔 35개에서 시작하면 중간에 42개까지 받게 짰음).
+     반납·하기가 하나도 안 남았는데 꽉 찼으면(다른 지역 퀘스트로 찬 경우) 받기를 그대로 둠 — 단계를 빼 버리지 않게 */
+  let lg=qlN(c),relax=false;const okC=it=>ok(it)&&(it.type!=='get'||relax||lg<QL_MAX);
+  const pick=(from,S0)=>{relax=false;let av=left.filter(s=>s.items.some(okC));if(!av.length){relax=true;av=left.filter(s=>s.items.some(okC))}const pool=av.length?av:left;const f=from||S0;
+    return f?pool.slice().sort((a,b)=>(a.zone!==f.zone)-(b.zone!==f.zone)||gap(f,a)-gap(f,b))[0]:(pool.find(s=>s.type==='get'&&s.items.every(okC))||pool[0])};
+  let cur=start&&start.xy?pick(null,{zone:start.z,xy:start.xy}):pick(null,null);let g=0;
+  while(cur&&g++<160){const R=[],W=[];let rx=0;cur.items.forEach(it=>{if(okC(it)&&!(relax&&it.type==='get'&&rx++)){R.push(it);if(it.type==='get')lg++;else if(it.type==='turn')lg--}else W.push(it)});/* 꽉 찬 채 받기만 남았으면 한 번에 하나씩만 */
     if(R.length){out.push(Object.assign({},cur,{items:R}));R.forEach(it=>{done.add((it.type==='get'?'g':'d')+it.q.id);if(it.type==='turn')done.add('t'+it.q.id)})}
     left.splice(left.indexOf(cur),1);if(W.length)left.push(Object.assign({},cur,{items:W}));if(!left.length)break;
-    const av=left.filter(s=>s.items.some(ok));const pool=av.length?av:left;const from=cur;cur=pool.slice().sort((a,b)=>(a.zone!==from.zone)-(b.zone!==from.zone)||gap(from,a)-gap(from,b))[0]}}
+    cur=pick(cur,null)}}
   /* 붙어 있는 같은 곳·같은 종류는 하나로 */
   const M=[];out.forEach(s=>{const p=M[M.length-1];if(p&&p.type===s.type&&p.zone===s.zone&&(near(p.xy,s.xy)||(!p.xy&&!s.xy&&p.place===s.place)))p.items=p.items.concat(s.items);else M.push(s)});return M}
 /* 퀘스트창 한도: 와우 포에버는 40개 (일반 클래식 20개의 두 배) — 표시·「다 했어요」가 같은 값을 씀 */
@@ -3279,6 +3283,8 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
    if(hit)h+='<div class="isl">⛵ '+esc(hit)+'</div>';
    else if(PVE&&s0.trv&&s0.trv.t>=.5)h+='<div class="isl trvl">'+trvIco(trvMain(s0.trv))+'<span>가는 법 · '+esc(trvTxt(s0.trv,c))+'</span></div>';
    else{const bt=PVE?(c.lpos&&c.lpos.z&&c.lpos.z!==s0.zone?hopTip(c.lpos.z,s0.zone):'')||hopTip(s0.zone,ST[1]&&ST[1].zone):boatTip(s0.zone,ST[1]&&ST[1].zone);if(bt)h+='<div class="isl">⛵ '+esc(bt)+'</div>'}}
+  /* 퀘스트창이 모자라 이 단계에서 다 못 받을 때(다른 지역 퀘스트로 찬 경우) — 옆 화면과 같은 안내 */
+  {const gN=s0.items.filter(i=>i.type==='get'&&!((c.ql||{})[i.q.id]>=1)).length;const fr=QL_MAX-qlN(c);if(gN&&gN>fr)h+='<div class="isl">퀘스트창 <b>'+qlN(c)+'/'+QL_MAX+'</b> · '+(fr>0?'앞의 '+fr+'개만 받아요':'꽉 찼어요 — 반납하거나 포기하면 받을 수 있어요')+'</div>'}
   /* 하기 단계인데 지도 위치 자료가 없으면(강물터·셴드랄라스 새 퀘스트, 악령의 숲 오염된 식물 등 62곳) 퀘스트 목표 글로 어디인지 힌트 */
   if(s0.type==='do'&&!s0.xy&&QDB){const o=s0.items.map(it=>(QDB.get(it.q.id)||rqAsQ(it.q.id)||{}).o).find(t=>typeof t==='string'&&t.trim());if(o)h+='<div class="isl">지도 위치 자료가 없어요 · 퀘스트 목표: 「'+esc(o.length>90?o.slice(0,88)+'…':o)+'」</div>'}
   h+=s0.items.map(it=>{const q=it.q;const O=it.type==='do'?qObjs(c,q):[];if(O.length)return O.map((o,i)=>{const k=q.id+'|'+i;return '<div class="ob4'+(o[2]&&o[1]>=o[2]?' dn':'')+'"><span class="m">'+esc(o[0])+'<small>'+esc(q.nm)+(o[3]?' · 게임 진행도':'')+'</small>'+(i===0?qnTag(c,q.id):'')+'</span><span class="cn"><button data-a="qcn" data-k="'+k+'" data-d="-1">−</button><b>'+o[1]+(o[2]?'/'+o[2]:'')+'</b><button data-a="qcn" data-k="'+k+'" data-d="1">＋</button></span></div>'}).join('');
