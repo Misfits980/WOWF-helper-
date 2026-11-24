@@ -22,10 +22,10 @@
 1~퀘스트 · 투사 우르살~/forever/quest/486
 1~퀘스트 · 깨움의 의식을 위한 재료~/forever/quest/483
 1~퀘스트 · 현상 수배: 탐욕의 불가라~/forever/quest/93318
-6~상인 · Brother Zendraas~
-8~상인 · Brother Zendraas~
-5~상인 · Brother Zendraas~
 7~상인 · Brother Zendraas~
+8~상인 · Brother Zendraas~
+6~상인 · Brother Zendraas~
+5~상인 · Brother Zendraas~
 4~제작 · 재봉술 · 경매장 거래~
 3~드랍 · 여왕 굴거미~
 3~드랍 · 새끼 늑대~
@@ -88,7 +88,6 @@
 3~드랍 · 감독관 에밀군드~
 3~드랍 · The Condemned One~
 1~퀘스트 · 백성의 민병대~/forever/quest/14
-3~드랍 · 뱌른~
 1~퀘스트 · 더러운 손~/forever/quest/307
 3~드랍 · 우두머리 타조~
 1~퀘스트 · 도난당한 전리품~/forever/quest/888
@@ -266,10 +265,10 @@
 1~퀘스트 · 클락몰트의 창작품~/forever/quest/1709
 3~드랍 · 브론투스~
 3~드랍 · 살육의 괴물~
+7~상인 · Winklespark~
 6~상인 · Winklespark~
 5~상인 · Winklespark~
 8~상인 · Winklespark~
-7~상인 · Winklespark~
 1~퀘스트 · 돌발톱 보급품 조달~/forever/quest/86574
 1~퀘스트 · 가족의 벗~/forever/quest/98191
 1~퀘스트 · 훌륭한 도서관의 친구~/forever/quest/79536
@@ -286,6 +285,7 @@
 0~검은심연 나락 · 여왕 사레베스~dg:blackfathom-deeps
 1~스톰윈드 지하감옥 · 퀘스트 보상~dg:stockade
 3~드랍 · 갈라크일족 약탈자~
+3~드랍 · 용아귀부족 늪길잡이~
 0~가시덩굴 우리~dg:razorfen-kraul
 1~퀘스트 · 스탈반의 전설~/forever/quest/98
 1~퀘스트 · 팔레스의 눈 정화~/forever/quest/293
@@ -389,6 +389,7 @@
 1~퀘스트 · 마우리의 의족 열기~/forever/quest/613
 1~퀘스트 · 공주 소환~/forever/quest/656
 1~퀘스트 · 현상 수배: 마레즈 코울~/forever/quest/684
+1~퀘스트 · 현상 수배: 오토와 팰컨크레스트~/forever/quest/685
 1~울다만 · 퀘스트 보상~dg:uldaman
 1~퀘스트 · 멀달록~/forever/quest/739
 0~가시덩굴 우리 · 서슬깃 차를가~dg:razorfen-kraul
@@ -411,7 +412,6 @@
 1~퀘스트 · 아그몬드의 운명~/forever/quest/704
 1~퀘스트 · 대령 쿠르젠~/forever/quest/202
 1~퀘스트 · 멸망의 해결책~/forever/quest/709
-1~퀘스트 · 현상 수배: 오토와 팰컨크레스트~/forever/quest/685
 0~달라란 · 대마법사의 망령~dg:city-of-dalaran
 8~상인 · Gezzy Gunkgear~
 7~상인 · Gezzy Gunkgear~
@@ -491,15 +491,15 @@
 1~퀘스트 · 그림자매듭~/forever/quest/3379
 3~드랍 · 갓 부화한 화염 새끼용~
 1~퀘스트 · 남쪽바다해적단 처리반~/forever/quest/8366
+7~상인 · Rettrick~
 8~상인 · Rettrick~
 6~상인 · Rettrick~
 5~상인 · Rettrick~
-7~상인 · Rettrick~
 0~크롤도크 보루 · 황혼의 사령관 자르모크~dg:kroldok-stronghold
 0~크롤도크 보루 · 조련사 아쉬카~dg:kroldok-stronghold
-6~상인 · Friz Frazzlespark~
-8~상인 · Friz Frazzlespark~
 7~상인 · Friz Frazzlespark~
+8~상인 · Friz Frazzlespark~
+6~상인 · Friz Frazzlespark~
 1~퀘스트 · 훌륭한 도서관의 친구~/forever/quest/82208
 0~크롤도크 보루 · 두목 투프~dg:kroldok-stronghold
 0~울다만 · 고대 바위 문지기~dg:uldaman
@@ -603,6 +603,7 @@
 8~상인 · Deliana~
 1~퀘스트 · 예언자 잠말란~/forever/quest/1446
 6~상인 · Zippie Fizzbolt~
+7~상인 · Zippie Fizzbolt~
 8~상인 · Zippie Fizzbolt~
 0~알카즈 감옥 · 불길포효~dg:alcaz-prison
 3~드랍 · 송장아귀~
@@ -652,6 +653,7 @@
 3~드랍 · 광신자 고로쉬~
 0~검은바위 나락 · 마그무스~dg:blackrock-depths
 1~퀘스트 · 내용물 주의~/forever/quest/93383
+5~줍는 곳 · 단단한 궤짝~
 6~줍는 곳 · 단단한 궤짝~
 0~검은바위 나락 · 사자 화염채찍~dg:blackrock-depths
 0~검은바위 첨탑 하층 · 뾰족바위일족 학살자~dg:lower-blackrock-spire
@@ -671,8 +673,8 @@
 1~퀘스트 · 눈사태일족의 동태~/forever/quest/8464
 3~드랍 · 마그무스~
 7~상인 · Dala Fairmaw~
-6~상인 · Dala Fairmaw~
 8~상인 · Dala Fairmaw~
+6~상인 · Dala Fairmaw~
 3~드랍 · 말다자르 경~
 3~드랍 · 데시쿠스~
 3~드랍 · 250027~
@@ -714,6 +716,7 @@
 0~검은바위 첨탑 하층 · 병참장교 지그리스~dg:lower-blackrock-spire
 0~스트라솔름: 정문 · 스컬~dg:stratholme-live
 0~스트라솔름: 정문 · 잔혹한 티미~dg:stratholme-live
+0~검은바위 첨탑 상층 · 고랄루크 앤빌크랙~dg:upper-blackrock-spire
 1~검은바위 첨탑 하층 · 퀘스트 보상~dg:lower-blackrock-spire
 1~스칼로맨스 · 퀘스트 보상~dg:scholomance
 1~퀘스트 · 숨겨진 보물~/forever/quest/5942
@@ -725,7 +728,6 @@
 0~검은바위 첨탑 상층 · 괴수~dg:upper-blackrock-spire
 0~검은바위 첨탑 상층 · 대족장 렌드 블랙핸드~dg:upper-blackrock-spire
 1~퀘스트 · The Eye of Command~
-0~검은바위 첨탑 상층 · 고랄루크 앤빌크랙~dg:upper-blackrock-spire
 0~혈투의 전장: 서쪽 · 츄지~dg:dire-maul-west
 1~혈투의 전장: 북쪽 · 퀘스트 보상~dg:dire-maul-north
 0~혈투의 전장: 북쪽~dg:dire-maul-north
@@ -737,7 +739,6 @@
 1~퀘스트 · Kezan's Taint~
 1~퀘스트 · Zandalarian Shadow Talisman~
 1~퀘스트 · The Maelstrom's Tendril~
-1~퀘스트 · 타락의 바이랄~/forever/quest/8321
 1~퀘스트 · Anthion's Parting Words~
 1~퀘스트 · Saving the Best for Last~
 3~드랍 · 제왕 다그란 타우릿산~
@@ -849,6 +850,7 @@
 1~퀘스트 · 1200 Tickets - Orb of the Darkmoon~
 3~드랍 · 검은날개 역술사~
 1~퀘스트 · 1200 Tickets - Amulet of the Darkmoon~
+1~퀘스트 · 마력의 보물: 구원자의 흉갑~/forever/quest/8079
 1~퀘스트 · Paragons of Power: The Freethinker's Breastplate~
 1~퀘스트 · Paragons of Power: The Augur's Hauberk~
 1~퀘스트 · Paragons of Power: The Predator's Mantle~
@@ -858,7 +860,6 @@
 1~퀘스트 · Paragons of Power: The Demoniac's Robes~
 1~퀘스트 · Paragons of Power: The Illusionist's Robes~
 1~퀘스트 · A Collection of Heads~
-3~드랍 · Ysondre~
 3~드랍 · 왕자 스칼레녹스~
 3~드랍 · 군주 스퀄~
 3~드랍 · 쑨~
@@ -1019,7 +1020,6 @@
 1~퀘스트 · Belt of Faith~
 1~퀘스트 · Bindings of Faith~
 1~퀘스트 · Atiesh, Greatstaff of the Guardian~
-1~퀘스트 · Icy Scale Bracers~
 1~퀘스트 · 희귀한 전투 장비: 여명회에 약간 우호적~/forever/quest/9221
 3~드랍 · 아눕레칸~
 3~드랍 · 귀부인 팰리나~
@@ -1034,13 +1034,13 @@
 3~드랍 · 사피론~
 3~드랍 · 켈투자드~
 3~드랍 · 공포의 암흑거미~
-6~상인 · 메일로쉬~
+7~상인 · 메일로쉬~
 8~상인 · 메일로쉬~
 5~상인 · 메일로쉬~
-7~상인 · 메일로쉬~
-6~상인 · 아나크로노스~
+6~상인 · 메일로쉬~
 7~상인 · 아나크로노스~
 8~상인 · 아나크로노스~
+6~상인 · 아나크로노스~
 5~상인 · 아나크로노스~
 7~상인 · Pix Xizzix~
 5~상인 · Pix Xizzix~
@@ -1048,4 +1048,3 @@
 8~상인 · Pix Xizzix~
 8~평판 보상~
 9~평판 보상~
-7~평판 보상~

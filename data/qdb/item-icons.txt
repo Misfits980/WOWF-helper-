@@ -683,3 +683,9 @@
 252557|inv_bracer_23b|
 252600|inv_pants_mail_15|
 275607|inv_gauntlets_17|
+22078|inv_belt_10|
+252574|inv_boots_chain_07|
+252580|inv_pants_mail_09|
+252582|inv_bracer_23a|
+252590|inv_belt_39c|
+252597|inv_helmet_34|
