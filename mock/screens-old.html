@@ -1,0 +1,506 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>홈·장비·던전 시안</title><style>:root{--bg:#15130f;--panel:#1f1c17;--panel2:#29251e;--line:#3a3429;--txt:#ece6d8;--mute:#a59d8c;--gold:#e8c06a;--gold2:#b8913f;--good:#5fd16b;--blue:#7cb8ff;--q-u:#2ee04a;--q-r:#3d8bff;--q-e:#b65cff;--lk:#2a7de1;
+  --serif:"AppleMyungjo","Noto Serif KR","Nanum Myeongjo",Georgia,serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:#0b0a08;color:var(--txt);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+small{font-size:12px}
+/* ── 페이지 ── */
+.pg{position:sticky;top:0;z-index:20;background:rgba(11,10,8,.96);backdrop-filter:blur(8px);padding:12px 16px 10px;border-bottom:1px solid var(--line)}
+.pg h1{margin:0;font-size:18px;color:var(--gold)}
+.pg p{margin:4px 0 8px;font-size:13px;color:var(--mute);max-width:70ch}
+.vt{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.vt button{flex:none;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 14px;font-size:14px}
+.vt button.on{border-color:var(--gold);background:#3a301b;color:var(--gold);font-weight:700}
+main{padding:0 0 10px}
+.var{display:none}.var.on{display:block}
+.vh{padding:14px 16px 4px;max-width:1240px;margin:0 auto}
+.vh h2{margin:0;font-size:20px;color:var(--gold)}
+.vh>p{margin:4px 0 8px;color:#d9d2c3;font-size:14px;max-width:62ch}
+.lks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.lks li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute)}
+.frames{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 16px 6px;scrollbar-width:thin;justify-content:flex-start}
+@media (min-width:1260px){.frames{justify-content:center}}
+figure{margin:0;flex:none;scroll-snap-align:center}
+figcaption{font-size:13px;font-weight:700;color:var(--gold);margin:0 0 6px 4px}
+.pc{max-width:1240px;margin:4px auto 0;padding:0 16px 18px;font-size:13px;color:var(--mute)}
+.ft{text-align:center;color:#6f685b;font-size:12px;padding:6px 16px 30px}
+/* ── 폰 틀 ── */
+.ph{width:min(390px,calc(100vw - 32px));height:min(800px,max(560px,calc(100svh - 170px)));background:var(--bg);border:1px solid #333;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.scr{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding-bottom:12px}
+.scr::-webkit-scrollbar{display:none}
+.top{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(21,19,15,.97);border-bottom:1px solid var(--line)}
+.ava{width:42px;height:42px;border-radius:50%;background:#000 center/cover;box-shadow:0 0 0 2px var(--gold2);flex:none}
+.who{flex:1;min-width:0}.who b{display:block;font-size:15px}.who small{color:var(--mute)}
+.lv{display:flex;flex-direction:column;align-items:center}.lv small{font-size:10px;color:var(--mute)}
+.lv span{display:flex;align-items:center;gap:4px}.lv i{font-style:normal;width:30px;height:30px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--mute)}
+.lv b{min-width:42px;height:34px;border:1.5px solid var(--gold2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:18px}
+.tb{flex:none;display:flex;border-top:1px solid var(--line);background:rgba(24,21,17,.98);padding:6px 0 8px}
+.tb span{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--mute)}
+.tb img{width:26px;height:26px;filter:grayscale(.7) brightness(.8)}
+.tb .on{color:var(--gold)}.tb .on img{filter:none}
+/* ── 공통 조각 ── */
+.ic{display:inline-block;width:36px;height:36px;border-radius:7px;flex:none;background:#000 center/cover;border:1px solid #000;box-shadow:0 0 0 1px var(--line);vertical-align:middle}
+.ic.xs{width:22px;height:22px;border-radius:5px}
+.ic.q-u{box-shadow:0 0 0 1.5px var(--q-u)}.ic.q-r{box-shadow:0 0 0 1.5px var(--q-r)}
+.qr{color:#5ea2ff}.gd{color:var(--good)}
+em{font-style:normal}
+.up{font-size:11px;font-weight:800;background:#1f4d27;color:#8af59a;border-radius:6px;padding:0 5px;line-height:17px}
+.soon{font-size:11px;font-weight:800;background:#1b3550;color:#9fd2ff;border-radius:6px;padding:0 5px;line-height:17px}
+.gn{font-size:15px;font-weight:800;color:#8af59a;flex:none}
+.mut{color:var(--mute)}
+.dpi{display:inline-block;background:#222 center/cover;flex:none}
+/* 연결 번호 */
+.lk{flex:none;width:20px;height:20px;padding:0;border:0;border-radius:50%;background:var(--lk);color:#fff;font-size:11.5px;font-weight:800;line-height:20px;text-align:center;box-shadow:0 0 0 2px rgba(42,125,225,.35);font-family:-apple-system,sans-serif;vertical-align:middle}
+.hit{outline:2.5px solid #58b7ff;outline-offset:2px;border-radius:8px;animation:hit 1.4s ease-out 1}
+.lk.hit{outline:0;animation:lkp 1.4s ease-out 1}
+@keyframes hit{0%{box-shadow:0 0 0 0 rgba(88,183,255,.7)}100%{box-shadow:0 0 0 14px rgba(88,183,255,0)}}
+@keyframes lkp{0%,100%{transform:scale(1)}30%{transform:scale(1.35)}}
+@media (prefers-reduced-motion:reduce){.hit,.lk.hit{animation:none}}
+
+/* ═════════ A 게임 창 ═════════ */
+.gw{margin:12px 10px;background:#1a140c;border:2px solid #7a5a26;border-radius:6px;box-shadow:inset 0 0 0 1px #2b200f,inset 0 0 0 3px rgba(184,145,63,.25),0 3px 0 #000;overflow:hidden}
+.gwt{position:relative;height:32px;display:flex;align-items:center;justify-content:center;background:linear-gradient(#5e2215,#3a140c);border-bottom:1px solid #b8913f}
+.gwt b{font-family:var(--serif);color:#f3d27a;font-size:15px;letter-spacing:.5px;text-shadow:0 1px 0 #000}
+.gwt::before,.gwt::after{content:'';position:absolute;top:50%;width:8px;height:8px;background:#e8c06a;transform:translateY(-50%) rotate(45deg);box-shadow:0 0 0 2px #3a140c,0 0 0 3px #b8913f}
+.gwt::before{left:10px}.gwt::after{right:10px}
+.bm{display:flex;gap:2px;padding:6px 8px 0;background:#1a140c}
+.bm span{flex:1;text-align:center;font-size:12.5px;padding:6px 2px;border-radius:6px 6px 0 0;background:#2b2216;color:#bba67a;border:1px solid #4a3a1e;border-bottom:0}
+.bm .on{background:#e3c78f;color:#2b1d0e;font-weight:800}
+.pp{margin:0 8px 8px;padding:12px 12px 10px;border-radius:0 0 4px 4px;color:#2b1d0e;background:radial-gradient(ellipse at 30% 20%,#f1dfb4 0%,#e3c78f 55%,#cfae6c 100%);box-shadow:inset 0 0 18px rgba(90,60,20,.4),inset 0 0 0 1.5px #7a5a2a}
+.pp h4{margin:0 0 6px;font-family:var(--serif);font-size:17px;color:#24170a}
+.pp h5{margin:12px 0 6px;padding-top:8px;border-top:1px solid rgba(90,60,20,.3);font-family:var(--serif);font-size:15px;color:#24170a;display:flex;align-items:center;gap:6px}
+.pp small{color:#5a4120}
+.qline{display:flex;align-items:center;gap:8px;padding:8px;border:1.5px solid #9a7a45;border-radius:6px;background:rgba(255,248,230,.55)}
+.qline .m{display:flex;flex-direction:column}.qline b{font-size:15px}
+.qm{flex:none;width:20px;text-align:center;font-weight:900;font-size:16px}
+.qm.g,.qm.r{color:#b07b00;text-shadow:0 0 3px rgba(255,210,0,.5)}.qm.o{color:#a1450f;font-size:13px}
+.nx{list-style:none;margin:6px 0 0;padding:0}
+.nx li{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px dashed rgba(90,60,20,.3);font-size:13.5px}
+.nx li small{margin-left:auto}
+.ppr{display:flex;align-items:center;gap:8px}
+.ppr .m{flex:1;display:flex;flex-direction:column}.ppr b.qr{color:#0b4fb8}
+.dgp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dpo{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 4px;border:1.5px solid #9a7a45;border-radius:6px;background:rgba(255,248,230,.45)}
+.dpo .dpi{width:52px;height:52px;border-radius:50%;box-shadow:0 0 0 2px #7a5a2a,0 0 0 4px #e8c06a}
+.dpo b{font-family:var(--serif);margin-top:6px}.dpo .lk{position:absolute;top:4px;right:4px}
+.ppn{margin-top:8px;padding:8px;border:1.5px dashed #8a5a10;border-radius:6px;background:rgba(255,236,190,.5);display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.ppn b{flex:1;min-width:0;font-size:14px}.ppn small{flex-basis:100%}
+.gw.sm .town{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px}
+.town span{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 4px;border:1px solid #5a4422;border-radius:6px;background:#241b10}
+.town b{font-size:12.5px;color:#f1dfb4;font-family:var(--serif)}.town small{color:var(--gold)}
+/* 캐릭터 창 */
+.doll{display:grid;grid-template-columns:auto 1fr auto;gap:6px;padding:10px 8px 4px;background:radial-gradient(ellipse at 50% 30%,#3a2c18 0%,#1a140c 75%)}
+.dcol{display:flex;flex-direction:column;gap:6px}
+.ds{position:relative;display:flex;flex-direction:column;align-items:center;width:52px}
+.ds .ic{width:44px;height:44px;border-radius:6px;box-shadow:0 0 0 1px #000,0 0 0 2px #6b5426}
+.ds .ic.q-u{box-shadow:0 0 0 1px #000,0 0 0 2px var(--q-u)}.ds .ic.q-r{box-shadow:0 0 0 1px #000,0 0 0 2px var(--q-r)}
+.ds i{font-style:normal;font-size:10px;color:#a8946a;margin-top:2px}
+.ds .up,.ds .soon{position:absolute;top:-6px;right:-2px;font-size:10px;line-height:15px;padding:0 4px;z-index:1}
+.ds .lk{position:absolute;bottom:12px;left:-4px;width:18px;height:18px;line-height:18px;font-size:10.5px;z-index:1}
+.ds.sel .ic{box-shadow:0 0 0 1px #000,0 0 0 3px var(--gold),0 0 12px rgba(232,192,106,.6)}
+.dmid{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:6px;min-width:0}
+.por{width:74px;height:74px;border-radius:50%;background:#000 center/cover;box-shadow:0 0 0 2px #000,0 0 0 4px var(--gold2),0 0 22px rgba(232,192,106,.3)}
+.dmid>b{margin-top:8px;font-family:var(--serif);color:#f3d27a}.dmid small{color:var(--mute)}
+.ast{width:100%;margin-top:10px;padding:6px 8px;border-radius:4px;color:#2b1d0e;background:radial-gradient(ellipse at 30% 20%,#f1dfb4,#d8b97c);box-shadow:inset 0 0 0 1px #7a5a2a;font-size:12px}
+.ast span{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dashed rgba(90,60,20,.3)}.ast span:last-child{border-bottom:0}
+.ast b{color:#24170a}
+.dbot{display:flex;justify-content:center;gap:6px;padding:4px 8px 10px;background:#1a140c}
+.tip{margin:4px 10px 10px;padding:10px;border-radius:5px;background:rgba(10,12,30,.96);border:1px solid #5a6a9a;box-shadow:0 0 0 1px #000}
+.tip .th{display:flex;align-items:center;gap:8px}.tip .th>span:not(.ic){flex:1;display:flex;flex-direction:column}
+.tip p{margin:6px 0 0;font-size:13px;color:#e7e7f0}.tip .src{color:#ffd100;font-size:12.5px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;padding:0 10px 10px;font-size:11.5px;color:var(--mute)}
+.dstrip{display:flex;gap:8px;overflow-x:auto;padding:10px 10px 0;scrollbar-width:none}
+.dch{position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border:1px solid var(--line);border-radius:10px;background:var(--panel);font-size:13.5px}
+.dch .dpi{width:34px;height:34px;border-radius:7px}
+.dch.on{border-color:var(--gold2);background:#2b2214;color:var(--gold)}
+.dch .lk{margin-left:2px}
+.ejh{height:118px;background:#222 center/cover;position:relative;display:flex;align-items:flex-end}
+.ejh::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(10,8,5,.92))}
+.ejh span{position:relative;z-index:1;padding:10px 12px;display:flex;flex-direction:column}
+.ejh b{font-family:var(--serif);font-size:21px;color:#f3d27a;text-shadow:0 2px 4px #000}.ejh small{color:#d9d2c3}
+.bl{list-style:none;counter-reset:b;margin:0;padding:6px 10px;background:radial-gradient(ellipse at 30% 0%,#e9d3a2 0%,#d9b97c 100%);color:#2b1d0e}
+.bl li{counter-increment:b;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:6px 0;border-bottom:1px dashed rgba(90,60,20,.35)}
+.bl li::before{content:counter(b);width:22px;height:22px;border-radius:50%;background:#5e2215;color:#f3d27a;font-size:11.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 1.5px #b8913f}
+.bl b{font-family:var(--serif);font-size:14.5px}
+.lt{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#3a2810}
+.ppq{border-radius:0;margin:0}
+.ck{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+.ck li{display:flex;align-items:center;gap:6px;font-size:13px}
+.ck li::before{content:'';width:14px;height:14px;border:1.5px solid #7a5a2a;border-radius:3px;background:rgba(255,248,230,.6);flex:none}
+
+/* 바뀌는 점 */
+.chg{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0 0 10px;font-size:13.5px}
+.chg dt{color:var(--gold);font-weight:700}.chg dd{margin:0;color:#d9d2c3}
+.vh h3{margin:6px 0 4px;font-size:13px;color:var(--mute);font-weight:600}
+.vx{display:none}
+.tb button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--mute);background:none;border:0;padding:0}
+.tb .on{color:var(--gold)}.tb .on img{filter:none}
+.mbar{display:none}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:70;background:#3a301b;border:1px solid var(--gold2);color:var(--gold);padding:8px 16px;border-radius:18px;font-size:14px;white-space:nowrap}
+/* ── 폰 체험: 앱처럼 한 화면씩 ── */
+body.mob{overflow:hidden}
+body.mob .pg,body.mob .pc,body.mob .ft,body.mob figcaption,body.mob .vh{display:none}
+body.mob main{padding:0}
+body.mob .frames{display:block;padding:0;overflow:visible}
+body.mob figure{display:none}body.mob figure.cur{display:block}
+body.mob .ph{position:fixed;left:0;right:0;top:calc(40px + env(safe-area-inset-top));bottom:0;width:auto;height:auto;border:0;border-radius:0;box-shadow:none}
+body.mob .tb{padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+body.mob .mbar{display:flex;position:fixed;left:0;right:0;top:0;z-index:40;gap:6px;align-items:center;padding:calc(5px + env(safe-area-inset-top)) 8px 5px;background:#0b0a08;border-bottom:1px solid var(--line)}
+.seg3{flex:1;display:flex;gap:3px;padding:2px;border-radius:9px;background:var(--panel)}
+.seg3 button{flex:1;border:0;background:none;border-radius:7px;padding:5px 0;font-size:12.5px;color:var(--mute);white-space:nowrap}
+.seg3 button.on{background:#3a301b;color:var(--gold);font-weight:800}
+.mi{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--gold2);background:#3a301b;color:var(--gold);font-weight:800}
+body.mob.info .var.on .vh{display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;max-height:78vh;overflow:auto;padding:16px 16px calc(20px + env(safe-area-inset-bottom));background:#15130f;border-top:2px solid var(--gold2);border-radius:16px 16px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.6)}
+body.mob.info::after{content:'';position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.5)}
+body.mob .vx{display:block;position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--panel)}
+
+/* ═════════ D 클래식 창 ═════════ */
+.cy{color:#ffd100}.cg{color:#1eff00}.cbl{color:#0070dd}.cgr{color:#9d9d9d}.cgg{color:#40bf40}.cgn{color:#fff}
+.cfw{margin:16px 10px 6px}
+.cf{position:relative;background:#121212 repeating-linear-gradient(45deg,rgba(255,255,255,.015) 0 2px,transparent 2px 6px);border:3px solid #5a5a5a;border-radius:6px;box-shadow:inset 0 0 0 1px #000,inset 0 0 0 3px #8d7a46,0 0 0 1px #000,0 4px 10px rgba(0,0,0,.6)}
+.cfp{position:absolute;left:-8px;top:-12px;width:54px;height:54px;border-radius:50%;background:#000 center/cover;box-shadow:0 0 0 2px #000,0 0 0 4px #b8913f,0 0 0 5px #000;z-index:2}
+.cft{position:relative;height:30px;display:flex;align-items:center;justify-content:center;padding:0 34px 0 52px;background:linear-gradient(#2c2c2c,#141414);border-bottom:2px solid #5a5a5a}
+.cft.np{padding-left:34px}
+.cft b{color:#ffd100;font-size:14px;text-shadow:0 1px 0 #000}
+.cx{position:absolute;right:5px;top:4px;width:20px;height:20px;border-radius:3px;background:linear-gradient(#b5261a,#6a0d06);border:1px solid #d6b25e;color:#ffd100;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:900}
+.ctabs{display:flex;gap:3px;padding-left:16px;margin-top:-3px}
+.ctabs span{position:relative;padding:5px 12px 6px;font-size:12px;color:#c9b47a;background:linear-gradient(#1a1a1a,#2a2a2a);border:2px solid #5a5a5a;border-top:0;border-radius:0 0 9px 9px}
+.ctabs .on{color:#ffd100;background:#121212;top:-1px}
+.clog{padding:8px 10px;background:#0a0a0a;border-bottom:2px solid #3a3a3a}
+.clog p{margin:0;padding:3px 4px;font-size:13.5px;display:flex;align-items:baseline;gap:6px}
+.clog small{margin-left:auto;color:#9d9d9d;font-size:11px}
+.czh{color:#fff;font-weight:700}
+.cq.y{color:#ffd100}.cq.g{color:#40bf40}
+.cq.sel{background:linear-gradient(90deg,rgba(255,209,0,.22),transparent)}
+.cdet{padding:10px 12px 12px;color:#2b1d0e;background:radial-gradient(ellipse at 30% 20%,#f1dfb4 0%,#e3c78f 55%,#cfae6c 100%)}
+.cdet h4{margin:0 0 4px;font-family:var(--serif);font-size:17px;color:#24170a}
+.cdet h5{margin:10px 0 4px;font-family:var(--serif);font-size:14.5px;color:#24170a;display:flex;align-items:center;gap:6px}
+.cdet p{margin:2px 0;font-size:13.5px}
+.cbtns{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+.cb{padding:6px 14px;border-radius:3px;background:linear-gradient(#a01b0f,#6a0d06);border:1px solid #d6b25e;color:#ffd100;font-size:13px;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 1px 0 #000}
+.cnews{padding:6px 10px}
+.cn{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #2a2a2a}
+.cn:last-child{border-bottom:0}
+.cn .m{flex:1;display:flex;flex-direction:column}.cn small{color:#9d9d9d}
+.cdi{width:36px;height:36px;border-radius:50%;box-shadow:0 0 0 1px #000,0 0 0 2px #b8913f}
+.cqm{width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:#ffd100;font-size:22px;font-weight:900;text-shadow:0 0 6px rgba(255,209,0,.6)}
+.ctown{display:flex;flex-direction:column;gap:2px;padding:6px 10px 10px;border-top:2px solid #3a3a3a;font-size:12.5px;color:#d0d0d0}
+.ctown b{color:#ffd100}
+.csub{margin:6px 0 0;text-align:center;color:#d0d0d0;font-size:12.5px}
+.cdoll{display:grid;grid-template-columns:auto 1fr auto;gap:6px;padding:8px}
+.ccol{display:flex;flex-direction:column;gap:5px}
+.cs{position:relative;display:block}
+.cs .ic{width:42px;height:42px;border-radius:3px;box-shadow:0 0 0 1px #000,0 0 0 2px #5a5a5a}
+.cs .ic.q-u{box-shadow:0 0 0 1px #000,0 0 0 2px var(--q-u)}.cs .ic.q-r{box-shadow:0 0 0 1px #000,0 0 0 2px var(--q-r)}
+.cs .up,.cs .soon{position:absolute;top:-5px;right:-4px;font-size:10px;line-height:15px;padding:0 4px}
+.cs .lk{position:absolute;left:-6px;bottom:-4px;width:18px;height:18px;line-height:18px;font-size:10.5px}
+.cs.sel .ic{box-shadow:0 0 0 1px #000,0 0 0 3px #ffd100,0 0 10px rgba(255,209,0,.6)}
+.cmodel{display:flex;flex-direction:column;align-items:center;gap:8px;background:radial-gradient(ellipse at 50% 40%,#2d2d33,#0c0c0e 70%);border:1px solid #2a2a2a;border-radius:3px;padding:10px 6px;min-width:0}
+.cmi{width:78px;height:78px;border-radius:50%;background:#000 center/cover;opacity:.9;box-shadow:0 0 0 2px #000,0 0 20px rgba(120,160,255,.25)}
+.cst{width:100%;background:#0a0a0a;border:1px solid #3a3a3a;border-radius:3px;padding:4px 6px}
+.cst p{margin:0;display:flex;justify-content:space-between;font-size:12px;color:#ffd100}.cst b{color:#fff}
+.cbot{display:flex;justify-content:center;gap:6px;padding:2px 8px 8px}
+.ctt2{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 8px 10px}
+.ctt,.gtt{padding:7px 8px;border-radius:4px;background:rgba(6,8,20,.95);border:1px solid #9d9d9d;font-size:12.5px}
+.ctt p,.gtt p{margin:1px 0;color:#fff}
+.ctt.nw,.gtt.nw{border-color:#0070dd;box-shadow:0 0 8px rgba(0,112,221,.35)}
+.clfg{padding:6px 8px;background:#0a0a0a;border-bottom:2px solid #3a3a3a}
+.cl{margin:0;display:flex;align-items:center;gap:8px;padding:6px 4px;font-size:13.5px;border-bottom:1px solid #1d1d1d}
+.cl small{color:#9d9d9d}.cl em{margin-left:auto;color:#d0d0d0;font-size:12px}
+.cl.on{background:linear-gradient(90deg,rgba(255,209,0,.18),transparent)}
+.cbx{width:14px;height:14px;border:1px solid #8d7a46;background:#000;flex:none;position:relative}
+.cbx.on::after{content:'✓';position:absolute;left:1px;top:-4px;color:#ffd100;font-weight:900;font-size:13px}
+.cboss{margin:6px 0 0;padding-left:22px;font-size:13.5px;font-family:var(--serif)}
+.cboss li{padding:3px 0;border-bottom:1px dashed rgba(90,60,20,.3)}
+.cboss span{float:right;display:inline-flex;align-items:center;gap:4px;font-family:-apple-system,sans-serif}
+.cql{font-size:12.5px;color:#4a3216}
+
+/* ═════════ E 모험 일지 ═════════ */
+.bk{position:relative;min-height:100%;padding:18px 18px 24px;color:#3a2610;background:#e9d4a4 radial-gradient(ellipse at 20% 0%,#f4e4bc 0%,#e6cf9b 45%,#d2b277 100%);box-shadow:inset 18px 0 30px -18px rgba(70,40,10,.55),inset 0 0 40px rgba(90,60,20,.35);font-family:var(--serif)}
+.scr:has(.bk){background:#d2b277}
+.rib{position:absolute;top:0;right:22px;width:46px;padding:14px 0 18px;text-align:center;color:#ffe9b8;font-size:12px;font-weight:700;font-family:-apple-system,sans-serif;background:linear-gradient(#9a1f14,#6d1208);clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.chap{margin:0;font-size:12px;letter-spacing:2px;color:#7a5530}
+.bt3{margin:2px 0 0;font-size:25px;color:#2b1808;font-weight:900}
+.orn{margin:8px 0;text-align:center;color:#8a6a3a;font-size:13px;letter-spacing:8px}
+.orn::before,.orn::after{content:'';display:inline-block;width:32%;height:1px;background:linear-gradient(90deg,transparent,#8a6a3a);vertical-align:middle;margin:0 6px}
+.orn::after{background:linear-gradient(90deg,#8a6a3a,transparent)}
+.ink{list-style:none;margin:0;padding:0}
+.ink li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:15px;line-height:1.4}
+.ink.sm li{font-size:14px;padding:3px 0;align-items:center}
+.ink .m{display:flex;flex-direction:column}.ink small{font-size:12px;color:#7a5530;font-family:-apple-system,sans-serif}
+.box{flex:none;width:16px;height:16px;margin-top:3px;border:1.6px solid #5a3a18;border-radius:2px;transform:rotate(-2deg)}
+.ink.sm .box{margin-top:0}
+.ent{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed rgba(90,60,20,.35)}
+.ent .m{flex:1;display:flex;flex-direction:column}.ent b{font-size:15.5px}.ent small{color:#7a5530;font-size:12px;font-family:-apple-system,sans-serif}
+.ic.stamp{filter:sepia(.35) saturate(.9);box-shadow:0 0 0 1px #5a3a18,0 0 0 3px rgba(255,248,230,.6),0 0 0 4px #8a6a3a;border-radius:4px}
+.dpi.med{width:38px;height:38px;border-radius:50%;box-shadow:0 0 0 2px #5a3a18,0 0 0 4px #c9a14a;filter:sepia(.3)}
+.seal{flex:none;width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#c83a2a,#7a140a);color:#ffe2b0;font-weight:900;display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif;box-shadow:0 1px 2px rgba(0,0,0,.4)}
+.foot2{margin:4px 0 0;font-size:13px;color:#5a3a18;line-height:1.6}
+.ledger{width:100%;border-collapse:collapse;font-size:13px;font-family:-apple-system,sans-serif}
+.ledger th{text-align:left;font-weight:700;color:#7a5530;font-size:11.5px;border-bottom:1.5px solid #5a3a18;padding:4px 2px}
+.ledger td{padding:6px 2px;border-bottom:1px solid rgba(90,60,20,.3);vertical-align:middle}
+.ledger td:first-child{font-weight:700;color:#5a3a18;white-space:nowrap}
+.lc{color:#7a5530;font-size:12px}
+.ln2{display:flex;align-items:center;gap:6px;font-weight:700;color:#0b4fb8}
+.ln2 span{min-width:0}
+.lg{color:#14741f;font-size:14px;white-space:nowrap}
+.bh{margin:16px 0 6px;font-size:16px;color:#2b1808;display:flex;align-items:center;gap:6px}
+.stamps{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.stamps .ic{width:100%;height:auto;aspect-ratio:1}
+.medh{display:flex;align-items:center;gap:12px}
+.medh>span:nth-child(2){flex:1;display:flex;flex-direction:column}.medh small{color:#7a5530;font-family:-apple-system,sans-serif}
+.dpi.medb{width:64px;height:64px;border-radius:50%;box-shadow:0 0 0 2px #5a3a18,0 0 0 5px #c9a14a,0 0 0 6px #5a3a18;filter:sepia(.25)}
+.best{margin:0;padding-left:26px;list-style:upper-roman;font-size:15px}
+.best li{padding:4px 0;border-bottom:1px dashed rgba(90,60,20,.3)}
+.best span{float:right;display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-family:-apple-system,sans-serif}
+
+/* ═════════ F 게임 화면 ═════════ */
+.hud{position:relative;min-height:100%;padding:10px 10px 46px;background:radial-gradient(ellipse at 60% 20%,color-mix(in srgb,var(--sc) 85%,#fff 6%),var(--sc) 55%,#07080a 100%);text-shadow:0 1px 1px #000}
+.scr:has(.hud){background:#07080a}
+.hz{position:absolute;right:16px;top:8px;text-align:center;width:120px}
+.hz b{display:block;color:#ffd100;font-size:13px}.hz small{color:#cfcfcf;font-size:11px}
+.mm{position:absolute;right:16px;top:44px;width:120px;height:120px;filter:drop-shadow(0 2px 4px #000)}
+.trk{max-width:62%;padding:6px 8px;border-radius:4px;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,0))}
+.tt{margin:6px 0 2px;color:#ffd100;font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px}
+.tq{margin:2px 0 0;color:#ffd100;font-size:13px}
+.to{margin:0;color:#fff;font-size:12.5px}.to.dim,.dim{color:#bdbdbd}
+.toast2{display:flex;align-items:center;gap:8px;margin:14px 0 0;padding:8px 10px;border-radius:6px;background:rgba(10,10,14,.88);border:1px solid #c9a14a;box-shadow:0 0 0 1px #000,0 0 14px rgba(255,209,0,.25)}
+.toast2 .m,.lfg .m,.roll .m{flex:1;min-width:0;display:flex;flex-direction:column}
+.toast2 small,.lfg small,.roll small{color:#bdbdbd;font-size:11.5px}
+.lfg{display:flex;align-items:center;gap:8px;margin:8px 0 0;padding:8px 10px;border-radius:6px;background:rgba(10,10,14,.82);border:1px solid #5a5a5a}
+.lfg .dpi{width:40px;height:40px;border-radius:50%;box-shadow:0 0 0 2px #000,0 0 0 3px #c9a14a}
+.town2{margin:8px 0 0;padding:6px 10px;font-size:12.5px;color:#e6e6e6;background:rgba(0,0,0,.45);border-radius:4px}
+.town2 b{color:#ffd100}
+.xpb{position:absolute;left:8px;right:8px;bottom:10px;height:12px;border:1px solid #000;border-radius:2px;background:#1b1230;box-shadow:inset 0 0 0 1px #5a4a8a}
+.xpb i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(#a36cff,#6a2fd6)}
+.xpb span{position:absolute;left:50%;top:-1px;transform:translateX(-50%);font-size:10px;color:#fff;font-weight:800}
+.xpb::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(5% - 1px),rgba(0,0,0,.6) calc(5% - 1px) 5%)}
+.bagw{margin:8px 0;border-radius:6px;background:#141414;border:2px solid #5a5a5a;box-shadow:inset 0 0 0 1px #000,inset 0 0 0 3px #3a3a3a}
+.bagt{display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid #3a3a3a}
+.bagt b{color:#ffd100;font-size:14px;flex:1}.bagt small{color:#bdbdbd}
+.bgi{width:28px;height:28px;border-radius:50%;background:#000 center/cover;box-shadow:0 0 0 1px #000,0 0 0 2px #8d7a46}
+.bagg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}
+.bs{position:relative;display:block;aspect-ratio:1;border-radius:4px;background:#000;box-shadow:inset 0 0 0 1px #3a3a3a}
+.bs .ic{width:100%;height:100%;border-radius:4px}
+.bs .up,.bs .soon{position:absolute;right:-3px;bottom:-3px;font-size:10.5px;line-height:15px}
+.bs .lk{position:absolute;left:-5px;top:-5px;width:18px;height:18px;line-height:18px;font-size:10.5px}
+.bs.sel .ic{box-shadow:0 0 0 2px #ffd100,0 0 12px rgba(255,209,0,.6)}
+.cmpt{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:4px 0 10px}
+.mini-doll{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;padding:6px;border-radius:4px;background:rgba(0,0,0,.45)}
+.mini-doll .ic{width:100%;height:auto;aspect-ratio:1}
+.mapw2{margin:4px 0 8px;border-radius:6px;overflow:hidden;border:2px solid #5a5a5a;box-shadow:0 0 0 1px #000}
+.mapt{display:flex;align-items:center;gap:8px;padding:6px 10px;background:linear-gradient(#2c2c2c,#141414)}
+.mapt b{color:#ffd100}.mapt small{flex:1;color:#bdbdbd}
+.mapi{height:170px;background:#0d0e10 center/contain no-repeat}
+.rlh{margin:10px 0 4px;color:#ffd100;font-size:13px;font-weight:800}
+.roll{display:flex;align-items:center;gap:8px;margin:0 0 6px;padding:7px 8px;border-radius:6px;background:linear-gradient(#1c1c22,#0e0e12);border:1px solid #8d7a46;box-shadow:0 0 0 1px #000}
+.roll .soon{font-size:11px;white-space:nowrap}
+.rb{display:flex;gap:4px}.rb span{width:26px;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;background:#2a2a2a;border:1px solid #5a5a5a;font-size:13px}
+.lfg.sm{margin-top:10px}
+
+.scr:has(.hud),.scr:has(.bk){display:flex;flex-direction:column;padding-bottom:0}.scr:has(.hud)>.hud,.scr:has(.bk)>.bk{flex:1 0 auto;min-height:0}
+.bagg{padding-top:14px}
+</style></head><body>
+<header class="pg"><h1>홈 · 장비 · 던전 시안</h1>
+<p>개추(47 수양 사제)로 뽑은 실제 앱 자료예요. 시안마다 세 화면이 이어져 있어요. 파란 번호를 누르면 다른 화면의 같은 곳이 빛나요. 폰으로 열면 앱처럼 한 화면씩 써 볼 수 있어요.</p>
+<nav class="vt"><button data-v="a" class="on">A 금테 창</button><button data-v="d">D 클래식 창</button><button data-v="e">E 모험 일지</button><button data-v="f">F 게임 화면</button></nav></header>
+<div class="mbar"><span class="seg3"><button type="button" data-v="a">A 금테</button><button type="button" data-v="d">D 클래식</button><button type="button" data-v="e">E 일지</button><button type="button" data-v="f">F 게임 화면</button></span><button type="button" class="mi" aria-label="이 시안 설명">?</button></div>
+<main><section class="var" id="va" data-v="a"><div class="vh"><button type="button" class="vx" aria-label="닫기">✕</button><h2>A · 금테 창</h2><p>지금 고르신 쪽. 와우 안의 창처럼 모험 안내서 · 캐릭터 창 · 던전 도감, 양피지와 금테.</p><dl class="chg"><dt>홈</dt><dd>카드 여러 장 → 「모험 안내서」 창 하나(오늘·마을·지난 기록 탭)</dd><dt>장비</dt><dd>목록 → 캐릭터 창 인형, 칸마다 +점수·레벨</dd><dt>던전</dt><dd>긴 스크롤 → 던전 도감(우두머리 옆에 노릴 템)</dd></dl><h3>이어진 곳</h3><ol class="lks"><li><button class="lk" data-l="1" aria-label="연결 1">1</button><span>바꿀 템 「주만자 장갑 +13」: 홈 → 장비 손 칸 → 던전 줄파락</span></li><li><button class="lk" data-l="2" aria-label="연결 2">2</button><span>던전 「마라우돈」: 홈 → 던전 → 장비 「49레벨 주장비 +23」</span></li><li><button class="lk" data-l="3" aria-label="연결 3">3</button><span>던전 가기 전 퀘스트 6: 홈 → 던전 준비</span></li></ol></div><div class="frames"><figure data-t="home"><figcaption>홈</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="gw"><div class="gwt"><b>모험 안내서</b></div>
+ <div class="bm"><span class="on">오늘</span><span>마을</span><span>지난 기록</span></div>
+ <div class="pp">
+  <h4>페랄라스 · 지금 할 일</h4>
+  <div class="qline"><span class="qm g">!</span><span class="m"><b>OOX-22/FE 수색</b><small>시작 아이템 근처 75, 26 · 받기</small></span></div>
+  <ol class="nx"><li><span class="qm g">!</span>모든 생명에 자유를 <small>동쪽 66, 46</small></li><li><span class="qm o">⚔</span>최소 6마리 풀어 주기</li><li><span class="qm r">?</span>킨달 문위버에게 반납</li></ol>
+  <h5>장비 소식 <small>바꿀 템 5</small></h5>
+  <div class="ppr"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_09.jpg)"></span><span class="m"><b class="qr">주만자 장갑</b><small>손 · 줄파락 의술사 줌라</small></span><em class="up">+13</em><button class="lk" data-l="1" aria-label="연결 1">1</button></div>
+  <h5>던전 소식</h5>
+  <div class="dgp">
+   <div class="dpo"><span class="dpi" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/maraudon-loading.webp)"></span><b>마라우돈</b><small>46–55 · 템 지금 1 · 49레벨 1</small><button class="lk" data-l="2" aria-label="연결 2">2</button></div>
+   <div class="dpo"><span class="dpi" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/zul-farrak-loading.webp)"></span><b>줄파락</b><small>44–54 · 템 2</small><button class="lk" data-l="1" aria-label="연결 1">1</button></div>
+  </div>
+  <div class="ppn"><b>마라우돈 가기 전 받을 퀘스트 6개</b><small>음영석 조각 · 뒤틀린 악마 · 바일텅의 타락 …</small><button class="lk" data-l="3" aria-label="연결 3">3</button></div>
+ </div>
+</div>
+<div class="gw sm"><div class="gwt"><b>마을 들를 때</b></div>
+ <div class="town"><span><b>페더문 요새</b><small>받기 5</small></span><span><b>잊혀진 해안 선착장</b><small>받기 2</small></span><span><b>스톰윈드</b><small>기술 4</small></span></div>
+</div></div><nav class="tb"><button type="button" class="on" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure><figure data-t="gear"><figcaption>장비</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="gw"><div class="gwt"><b>캐릭터</b></div>
+ <div class="doll">
+  <div class="dcol"><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_helmet_28.jpg)"></span><i>머리</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_orb_03.jpg)"></span><i>목</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_shoulder_27.jpg)"></span><em class="soon">48</em><i>어깨</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_cape_15.jpg)"></span><i>등</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_chest_cloth_18.jpg)"></span><em class="up">+8</em><i>가슴</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_bandage_09.jpg)"></span><em class="soon">49</em><i>손목</i></span></div>
+  <div class="dmid"><span class="por" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><b>개추</b><small>47 수양 사제</small>
+   <div class="ast"><span>지능<b>55</b></span><span>정신력<b>94</b></span><span>치유량<b>345</b></span><span>마나 회복<b>7</b></span></div></div>
+  <div class="dcol"><span class="ds sel"><span class="ic q-u " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_21.jpg)"></span><em class="up">+13</em><button class="lk" data-l="1" aria-label="연결 1">1</button><i>손</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_belt_05.jpg)"></span><i>허리</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_pants_01.jpg)"></span><i>다리</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_01.jpg)"></span><em class="up">+6</em><i>발</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_25.jpg)"></span><i>반지</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_33.jpg)"></span><i>반지</i></span></div>
+ </div>
+ <div class="dbot"><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_head_quillboar_01.jpg)"></span><em class="up">+3</em><i>장신구</i></span><span class="ds"><span class="ic q-u " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_drink_01.jpg)"></span><i>장신구</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_hammer_02.jpg)"></span><em class="soon">49</em><button class="lk" data-l="2" aria-label="연결 2">2</button><i>주장비</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_lantern_01.jpg)"></span><em class="up">+2</em><i>보조</i></span><span class="ds"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_wand_04.jpg)"></span><i>원거리</i></span></div>
+ <div class="tip"><div class="th"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_09.jpg)"></span><span><b class="qr">주만자 장갑</b><small>손 · 43레벨 · 지금 낄 수 있음</small></span><em class="up">+13</em></div>
+  <p>지금: 복원가의 고운 장갑 → 바꾸면 점수 <b class="gd">+13</b></p><p class="src">줄파락 · 3번째 보스 의술사 줌라</p></div>
+ <div class="legend"><span><em class="up">+8</em> 지금 바꾸면 좋아짐</span><span><em class="soon">49</em> 그 레벨부터 낄 좋은 템</span></div>
+</div></div><nav class="tb"><button type="button" class="" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="on" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure><figure data-t="dg"><figcaption>던전</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="dstrip"><span class="dch on"><span class="dpi" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/maraudon-loading.webp)"></span><b>마라우돈</b><button class="lk" data-l="2" aria-label="연결 2">2</button></span><span class="dch"><span class="dpi" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/zul-farrak-loading.webp)"></span><b>줄파락</b><button class="lk" data-l="1" aria-label="연결 1">1</button></span><span class="dch"><span class="dpi" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/uldaman-loading.webp)"></span><b>울다만</b></span></div>
+<div class="gw"><div class="gwt"><b>던전 도감</b></div>
+ <div class="ejh" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/maraudon-loading.webp)"><span><b>마라우돈</b><small>46–55레벨 · 잊혀진 땅</small></span></div>
+ <div class="bm"><span>개요</span><span class="on">우두머리</span><span>전리품</span><span>퀘스트</span></div>
+ <ol class="bl">
+  <li><b>녹시온</b></li>
+  <li><b>칼날채찍</b><span class="lt"><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_05.jpg)"></span>덩굴뿌리 덧신 <em class="up">+6</em></span></li>
+  <li><b>정원사 메슬로크</b></li><li><b>군주 바일텅</b></li><li><b>저주받은 셀레브라스</b></li><li><b>산사태</b></li><li><b>땜장이 기즐록</b></li><li><b>썩은아귀</b></li>
+  <li><b>공주 테라드라스</b><span class="lt"><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_shortblade_14.jpg)"></span>화염석 손칼 <em class="soon">49</em><button class="lk" data-l="2" aria-label="연결 2">2</button></span></li>
+ </ol>
+ <div class="pp ppq"><h5>미리 받아 갈 퀘스트 6 <button class="lk" data-l="3" aria-label="연결 3">3</button></h5>
+  <ul class="ck"><li>음영석 조각</li><li>뒤틀린 악마</li><li>바일텅의 타락</li><li>추방자의 지시서</li><li>마라우돈의 전설</li><li>대지와 씨앗의 오염</li></ul>
+  <small>안에서 받는 것 2 · 49레벨부터 1</small></div>
+</div></div><nav class="tb"><button type="button" class="" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="on" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure></div><p class="pc">PC에서는 세 창을 나란히 띄워 둠(안내서 | 캐릭터 | 도감).</p></section><section class="var" id="vd" data-v="d"><div class="vh"><button type="button" class="vx" aria-label="닫기">✕</button><h2>D · 클래식 창</h2><p>와우 클래식 그대로의 돌 테두리 창 · 왼쪽 위 동그란 초상화 · 빨간 단추 · 창 아래 탭.</p><dl class="chg"><dt>홈</dt><dd>와우 퀘스트 일지처럼: 위 목록(난이도 색) + 아래 양피지 설명</dd><dt>장비</dt><dd>클래식 캐릭터 창 + 「현재 착용 / 새 템」 비교 툴팁 두 장</dd><dt>던전</dt><dd>던전 찾기 창: 던전 고르고 → 우두머리·노릴 템·퀘스트</dd></dl><h3>이어진 곳</h3><ol class="lks"><li><button class="lk" data-l="1" aria-label="연결 1">1</button><span>바꿀 템 「주만자 장갑 +13」: 홈 → 장비 손 칸 → 던전 줄파락</span></li><li><button class="lk" data-l="2" aria-label="연결 2">2</button><span>던전 「마라우돈」: 홈 → 던전 → 장비 「49레벨 주장비 +23」</span></li><li><button class="lk" data-l="3" aria-label="연결 3">3</button><span>던전 가기 전 퀘스트 6: 홈 → 던전 준비</span></li></ol></div><div class="frames"><figure data-t="home"><figcaption>홈</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div><div class="cfw "><div class="cf"><span class="cfp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><div class="cft"><b>지금 할 일</b><span class="cx">✕</span></div>
+ <div class="clog">
+  <p class="czh">− 페랄라스</p>
+  <p class="cq g sel">[45] OOX-22/FE 수색 <small>받기</small></p>
+  <p class="cq y">[47] 모든 생명에 자유를 <small>받기</small></p>
+  <p class="cq y">　└ 최소 6마리 풀어 주기 <small>하기</small></p>
+  <p class="cq y">　└ 킨달 문위버에게 <small>반납</small></p>
+ </div>
+ <div class="cdet"><h4>OOX-22/FE 수색</h4><p>시작 아이템 근처 <b>75, 26</b>에서 받아요.</p>
+  <div class="cbtns"><span class="cb">지도</span><span class="cb">다 했어요</span></div></div></div><div class="ctabs"><span class="on">오늘</span><span class="">마을</span><span class="">기록</span></div></div><div class="cfw "><div class="cf"><div class="cft np"><b>소식</b><span class="cx">✕</span></div>
+ <div class="cnews">
+  <div class="cn"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_09.jpg)"></span><span class="m"><b class="cbl">주만자 장갑</b><small>손 · 줄파락 의술사 줌라</small></span><b class="cg">+13</b><button class="lk" data-l="1" aria-label="연결 1">1</button></div>
+  <div class="cn"><span class="dpi cdi" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/maraudon-loading.webp)"></span><span class="m"><b class="cy">마라우돈</b><small>46–55 · 노릴 템 2</small></span><button class="lk" data-l="2" aria-label="연결 2">2</button></div>
+  <div class="cn"><span class="cqm">!</span><span class="m"><b class="cy">미리 받을 퀘스트 6</b><small>마라우돈 가기 전에</small></span><button class="lk" data-l="3" aria-label="연결 3">3</button></div>
+ </div>
+ <div class="ctown"><span><b>페더문 요새</b> 받기 5</span><span><b>잊혀진 해안 선착장</b> 받기 2</span><span><b>스톰윈드</b> 기술 4</span></div></div></div></div><nav class="tb"><button type="button" class="on" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure><figure data-t="gear"><figcaption>장비</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div><div class="cfw "><div class="cf"><span class="cfp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><div class="cft"><b>개추</b><span class="cx">✕</span></div>
+ <p class="csub">47레벨 노움 사제 · 수양</p>
+ <div class="cdoll">
+  <div class="ccol"><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_helmet_28.jpg)"></span></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_orb_03.jpg)"></span></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_shoulder_27.jpg)"></span><em class="soon">48</em></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_cape_15.jpg)"></span></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_chest_cloth_18.jpg)"></span><em class="up">+8</em></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_bandage_09.jpg)"></span><em class="soon">49</em></span></div>
+  <div class="cmodel"><span class="cmi" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span>
+   <div class="cst"><p><span>지능</span><b>55</b></p><p><span>정신력</span><b>94</b></p><p><span>치유량</span><b class="cg">345</b></p><p><span>마나 회복</span><b>7</b></p></div></div>
+  <div class="ccol"><span class="cs sel"><span class="ic q-u " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_21.jpg)"></span><em class="up">+13</em><button class="lk" data-l="1" aria-label="연결 1">1</button></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_belt_05.jpg)"></span></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_pants_01.jpg)"></span></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_01.jpg)"></span><em class="up">+6</em></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_25.jpg)"></span></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_33.jpg)"></span></span></div>
+ </div>
+ <div class="cbot"><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_head_quillboar_01.jpg)"></span><em class="up">+3</em></span><span class="cs"><span class="ic q-u " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_drink_01.jpg)"></span></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_hammer_02.jpg)"></span><em class="soon">49</em><button class="lk" data-l="2" aria-label="연결 2">2</button></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_lantern_01.jpg)"></span><em class="up">+2</em></span><span class="cs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_wand_04.jpg)"></span></span></div>
+ <div class="ctt2">
+  <div class="ctt"><p class="cgr">현재 착용</p><p class="cgn">복원가의 고운 장갑</p><p>손 · 천</p></div>
+  <div class="ctt nw"><p class="cbl">주만자 장갑</p><p>손 · 천 · 43레벨</p><p class="cg">점수 +13</p><p class="cy">줄파락 · 의술사 줌라</p></div>
+ </div></div><div class="ctabs"><span class="on">캐릭터</span><span class="">평판</span><span class="">기술</span></div></div></div><nav class="tb"><button type="button" class="" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="on" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure><figure data-t="dg"><figcaption>던전</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div><div class="cfw "><div class="cf"><span class="cfp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><div class="cft"><b>던전 찾기</b><span class="cx">✕</span></div>
+ <div class="clfg">
+  <p class="cl on"><span class="cbx on"></span><b class="cy">마라우돈</b><small>46–55</small><em>템 2 · 퀘 9</em><button class="lk" data-l="2" aria-label="연결 2">2</button></p>
+  <p class="cl"><span class="cbx"></span><b class="cy">줄파락</b><small>44–54</small><em>템 2 · 퀘 11</em><button class="lk" data-l="1" aria-label="연결 1">1</button></p>
+  <p class="cl"><span class="cbx"></span><b class="cgg">울다만</b><small>41–51</small><em>템 1 · 퀘 16</em></p>
+  <p class="cl"><span class="cbx"></span><b class="cgg">크롤도크 보루</b><small>40–47</small><em>템 1 · 퀘 8</em></p>
+ </div>
+ <div class="cdet"><h4>마라우돈 · 잊혀진 땅</h4>
+  <ol class="cboss"><li>녹시온</li><li>칼날채찍 <span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_05.jpg)"></span><b class="cg">+6</b></span></li><li>정원사 메슬로크</li><li>군주 바일텅</li><li>저주받은 셀레브라스</li><li>산사태</li><li>땜장이 기즐록</li><li>썩은아귀</li><li>공주 테라드라스 <span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_shortblade_14.jpg)"></span><em class="soon">49</em><button class="lk" data-l="2" aria-label="연결 2">2</button></span></li></ol>
+  <h5>미리 받아 갈 퀘스트 6 <button class="lk" data-l="3" aria-label="연결 3">3</button></h5>
+  <p class="cql">음영석 조각 · 뒤틀린 악마 · 바일텅의 타락 · 추방자의 지시서 · 마라우돈의 전설 · 대지와 씨앗의 오염</p>
+  <div class="cbtns"><span class="cb">퀘스트 받으러 가기</span></div></div></div><div class="ctabs"><span class="on">던전</span><span class="">우두머리</span><span class="">전리품</span></div></div></div><nav class="tb"><button type="button" class="" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="on" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure></div><p class="pc">PC에서는 게임처럼 창 두세 개를 겹치지 않게 펼쳐 둠.</p></section><section class="var" id="ve" data-v="e"><div class="vh"><button type="button" class="vx" aria-label="닫기">✕</button><h2>E · 모험 일지</h2><p>화면 전체가 펼친 책 한 쪽. 장(章)·리본 책갈피·도장 찍은 아이콘으로 일기 쓰듯.</p><dl class="chg"><dt>홈</dt><dd>화면 전체가 일지 한 쪽: 오늘 할 일을 체크하는 책</dd><dt>장비</dt><dd>장부 표: 부위 | 지금 | 바꿀 것 | +점수</dd><dt>던전</dt><dd>던전 기록장: 우두머리 목록에 템 도장</dd></dl><h3>이어진 곳</h3><ol class="lks"><li><button class="lk" data-l="1" aria-label="연결 1">1</button><span>바꿀 템 「주만자 장갑 +13」: 홈 → 장비 손 칸 → 던전 줄파락</span></li><li><button class="lk" data-l="2" aria-label="연결 2">2</button><span>던전 「마라우돈」: 홈 → 던전 → 장비 「49레벨 주장비 +23」</span></li><li><button class="lk" data-l="3" aria-label="연결 3">3</button><span>던전 가기 전 퀘스트 6: 홈 → 던전 준비</span></li></ol></div><div class="frames"><figure data-t="home"><figcaption>홈</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="bk"><div class="rib">오늘</div>
+ <p class="chap">제 47장</p><h3 class="bt3">페랄라스에서</h3><p class="orn">✦</p>
+ <ul class="ink">
+  <li><span class="box"></span><span class="m"><span><b>OOX-22/FE 수색</b> 받기</span><small>시작 아이템 근처 75, 26</small></span></li>
+  <li><span class="box"></span><span class="m"><span><b>모든 생명에 자유를</b> 받기</span><small>동쪽 66, 46</small></span></li>
+  <li><span class="box"></span><span class="m"><span>최소 6마리 풀어 주고 <b>킨달 문위버</b>에게</span></span></li>
+ </ul>
+ <p class="orn">✦</p>
+ <div class="ent"><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_09.jpg)"></span><span class="m"><b>새 장갑을 찾을 것</b><small>주만자 장갑 · 줄파락 의술사 줌라 · 점수 +13</small></span><button class="lk" data-l="1" aria-label="연결 1">1</button></div>
+ <div class="ent"><span class="dpi med" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/maraudon-loading.webp)"></span><span class="m"><b>마라우돈에 갈 것</b><small>46–55 · 노릴 템 2</small></span><button class="lk" data-l="2" aria-label="연결 2">2</button></div>
+ <div class="ent"><span class="seal">6</span><span class="m"><b>가기 전에 퀘스트 받기</b><small>음영석 조각 · 뒤틀린 악마 외 4</small></span><button class="lk" data-l="3" aria-label="연결 3">3</button></div>
+ <p class="orn">✦</p>
+ <p class="foot2">마을 들르면 — 페더문 요새 받기 5 · 잊혀진 해안 선착장 받기 2 · 스톰윈드 기술 4</p>
+</div></div><nav class="tb"><button type="button" class="on" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure><figure data-t="gear"><figcaption>장비</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="bk"><div class="rib">장비</div>
+ <p class="chap">장비 기록</p><h3 class="bt3">바꿀 것</h3><p class="orn">✦</p>
+ <table class="ledger"><thead><tr><th>부위</th><th>지금</th><th>바꿀 것</th><th></th></tr></thead><tbody>
+  <tr><td>손</td><td class="lc">복원가의 고운 장갑</td><td class="ln2"><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_09.jpg)"></span><span>주만자 장갑</span><button class="lk" data-l="1" aria-label="연결 1">1</button></td><td><b class="lg">+13</b></td></tr>
+  <tr><td>가슴</td><td class="lc">선민의 로브</td><td class="ln2"><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_shirt_05.jpg)"></span><span>그림로크의 전통복</span></td><td><b class="lg">+8</b></td></tr>
+  <tr><td>발</td><td class="lc">사색의 장화</td><td class="ln2"><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_05.jpg)"></span><span>덩굴뿌리 덧신</span><button class="lk" data-l="2" aria-label="연결 2">2</button></td><td><b class="lg">+6</b></td></tr>
+  <tr><td>장신구</td><td class="lc">루구그의 절단된 머리카락</td><td class="ln2"><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_armorkit_18.jpg)"></span><span>에보니스의 낙하 방석</span></td><td><b class="lg">+3</b></td></tr>
+  <tr><td>보조</td><td class="lc">희망의 등불</td><td class="ln2"><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_staff_21.jpg)"></span><span>사막방랑자의 나뭇가지</span></td><td><b class="lg">+2</b></td></tr>
+ </tbody></table>
+ <h4 class="bh">레벨이 오르면</h4>
+ <table class="ledger"><tbody>
+  <tr><td>어깨</td><td class="lc">48레벨</td><td class="ln2"><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_shoulder_09.jpg)"></span><span>잃어버린 희망의 어깨보호대</span></td><td><em class="soon">48</em></td></tr>
+  <tr><td>주장비</td><td class="lc">49레벨</td><td class="ln2"><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_shortblade_14.jpg)"></span><span>화염석 손칼</span><button class="lk" data-l="2" aria-label="연결 2">2</button></td><td><em class="soon">49</em></td></tr>
+  <tr><td>가슴</td><td class="lc">50레벨</td><td class="ln2"><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_chest_cloth_42.jpg)"></span><span>천둥매의 선물</span></td><td><em class="soon">50</em></td></tr>
+ </tbody></table>
+ <h4 class="bh">지금 차림</h4>
+ <div class="stamps"><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_helmet_28.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_orb_03.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_shoulder_27.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_cape_15.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_chest_cloth_18.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_bandage_09.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_21.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_belt_05.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_pants_01.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_01.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_25.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_33.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_head_quillboar_01.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_drink_01.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_hammer_02.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_lantern_01.jpg)"></span><span class="ic q-r stamp" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_wand_04.jpg)"></span></div>
+</div></div><nav class="tb"><button type="button" class="" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="on" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure><figure data-t="dg"><figcaption>던전</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="bk"><div class="rib">던전</div>
+ <div class="medh"><span class="dpi medb" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/maraudon-loading.webp)"></span><span><p class="chap">던전 기록</p><h3 class="bt3">마라우돈</h3><small>46–55레벨 · 잊혀진 땅</small></span><button class="lk" data-l="2" aria-label="연결 2">2</button></div>
+ <p class="orn">✦</p>
+ <ol class="best">
+  <li>녹시온</li><li>칼날채찍 <span><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_05.jpg)"></span>덩굴뿌리 덧신 <b class="lg">+6</b></span></li><li>정원사 메슬로크</li><li>군주 바일텅</li><li>저주받은 셀레브라스</li><li>산사태</li><li>땜장이 기즐록</li><li>썩은아귀</li>
+  <li>공주 테라드라스 <span><span class="ic q-r stamp xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_shortblade_14.jpg)"></span>화염석 손칼 <em class="soon">49</em><button class="lk" data-l="2" aria-label="연결 2">2</button></span></li>
+ </ol>
+ <h4 class="bh">가기 전에 받을 것 <button class="lk" data-l="3" aria-label="연결 3">3</button></h4>
+ <ul class="ink sm"><li><span class="box"></span>음영석 조각</li><li><span class="box"></span>뒤틀린 악마</li><li><span class="box"></span>바일텅의 타락</li><li><span class="box"></span>추방자의 지시서</li><li><span class="box"></span>마라우돈의 전설</li><li><span class="box"></span>대지와 씨앗의 오염</li></ul>
+ <p class="foot2">다른 장: 줄파락 — 주만자 장갑 <button class="lk" data-l="1" aria-label="연결 1">1</button> · 울다만 · 크롤도크 보루</p>
+</div></div><nav class="tb"><button type="button" class="" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="on" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure></div><p class="pc">PC에서는 책을 두 쪽으로 펼쳐 왼쪽 목록 · 오른쪽 내용.</p></section><section class="var" id="vf" data-v="f"><div class="vh"><button type="button" class="vx" aria-label="닫기">✕</button><h2>F · 게임 화면</h2><p>게임하면서 보는 화면처럼 미니맵 · 퀘스트 추적기 · 템 알림 · 주사위 창.</p><dl class="chg"><dt>홈</dt><dd>게임 화면 그대로: 미니맵 · 퀘스트 추적기 · 템 알림</dd><dt>장비</dt><dd>「바꿀 템 가방」 칸 + 비교 툴팁</dd><dt>던전</dt><dd>던전 지도 + 우두머리 추적기 + 주사위 굴리는 템 창</dd></dl><h3>이어진 곳</h3><ol class="lks"><li><button class="lk" data-l="1" aria-label="연결 1">1</button><span>바꿀 템 「주만자 장갑 +13」: 홈 → 장비 손 칸 → 던전 줄파락</span></li><li><button class="lk" data-l="2" aria-label="연결 2">2</button><span>던전 「마라우돈」: 홈 → 던전 → 장비 「49레벨 주장비 +23」</span></li><li><button class="lk" data-l="3" aria-label="연결 3">3</button><span>던전 가기 전 퀘스트 6: 홈 → 던전 준비</span></li></ol></div><div class="frames"><figure data-t="home"><figcaption>홈</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="hud" style="--sc:#24301a">
+ <div class="hz"><b>페랄라스</b><small>지금 있는 곳</small></div>
+ <svg viewBox="0 0 100 100" class="mm"><defs><clipPath id="mc"><circle cx="50" cy="50" r="46"/></clipPath><radialGradient id="mg" cx="45%" cy="40%"><stop offset="0" stop-color="#5b6b3a"/><stop offset="1" stop-color="#26301a"/></radialGradient></defs><g clip-path="url(#mc)"><rect width="100" height="100" fill="url(#mg)"/><path d="M8 70 C30 60 40 74 58 56 S84 40 96 30" stroke="#2c4a5e" stroke-width="7" fill="none" opacity=".7"/><path d="M50 52 L70 30" stroke="#ffd100" stroke-width="1.6" stroke-dasharray="3 2"/></g><circle cx="50" cy="50" r="46" fill="none" stroke="#c9a14a" stroke-width="3"/><circle cx="50" cy="50" r="49" fill="none" stroke="#000" stroke-width="2"/><path d="M50 46 l4 9 -4 -2 -4 2z" fill="#fff"/><text x="70" y="31" fill="#ffd100" font-size="12" font-weight="900" text-anchor="middle">!</text><text x="66" y="62" fill="#ffd100" font-size="11" font-weight="900" text-anchor="middle">?</text></svg>
+ <div class="trk"><p class="tt">퀘스트</p>
+  <p class="tq">OOX-22/FE 수색</p><p class="to">- 시작 아이템 근처 75, 26에서 받기</p>
+  <p class="tq">모든 생명에 자유를</p><p class="to">- 받기 · 동쪽 66, 46</p><p class="to dim">- 최소 6마리 풀어 주기</p>
+  <p class="tt">던전 준비 <button class="lk" data-l="3" aria-label="연결 3">3</button></p><p class="tq">마라우돈 퀘스트 6</p><p class="to">- 음영석 조각 · 뒤틀린 악마 …</p>
+ </div>
+ <div class="toast2"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_09.jpg)"></span><span class="m"><small>더 좋은 템이 있어요</small><b class="cbl">주만자 장갑</b><small>손 · 줄파락 의술사 줌라</small></span><b class="cg">+13</b><button class="lk" data-l="1" aria-label="연결 1">1</button></div>
+ <div class="lfg"><span class="dpi" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/maraudon-loading.webp)"></span><span class="m"><small>지금 갈 만한 던전</small><b class="cy">마라우돈</b><small>46–55 · 노릴 템 2</small></span><button class="lk" data-l="2" aria-label="연결 2">2</button></div>
+ <div class="town2"><b>마을 들르면</b> 페더문 요새 받기 5 · 스톰윈드 기술 4</div>
+ <div class="xpb"><i style="width:40%"></i><span>47</span></div>
+</div></div><nav class="tb"><button type="button" class="on" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure><figure data-t="gear"><figcaption>장비</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="hud" style="--sc:#1d1a24">
+ <div class="bagw"><div class="bagt"><span class="bgi" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_bag_10.jpg)"></span><b>바꿀 템 가방</b><small>지금 5 · 나중 3</small></div>
+  <div class="bagg">
+   <span class="bs sel"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_09.jpg)"></span><em class="up">+13</em><button class="lk" data-l="1" aria-label="연결 1">1</button></span><span class="bs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_shirt_05.jpg)"></span><em class="up">+8</em></span><span class="bs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_05.jpg)"></span><em class="up">+6</em></span><span class="bs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_armorkit_18.jpg)"></span><em class="up">+3</em></span>
+   <span class="bs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_staff_21.jpg)"></span><em class="up">+2</em></span><span class="bs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_shoulder_09.jpg)"></span><em class="soon">48</em></span><span class="bs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_shortblade_14.jpg)"></span><em class="soon">49</em><button class="lk" data-l="2" aria-label="연결 2">2</button></span><span class="bs"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_chest_cloth_42.jpg)"></span><em class="soon">50</em></span>
+  </div></div>
+ <div class="cmpt">
+  <div class="gtt"><p class="cgr">현재 착용</p><p>복원가의 고운 장갑</p><p class="dim">손 · 30레벨</p></div>
+  <div class="gtt nw"><p class="cbl">주만자 장갑</p><p class="dim">손 · 43레벨</p><p class="cg">점수 +13</p><p class="cy">줄파락 · 의술사 줌라</p></div>
+ </div>
+ <div class="mini-doll"><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_helmet_28.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_orb_03.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_shoulder_27.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_cape_15.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_chest_cloth_18.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_bandage_09.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_21.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_belt_05.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_pants_01.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_01.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_25.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_33.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_head_quillboar_01.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_drink_01.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_hammer_02.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_lantern_01.jpg)"></span><span class="ic q-r xs" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_wand_04.jpg)"></span></div>
+ <div class="xpb"><i style="width:40%"></i><span>47</span></div>
+</div></div><nav class="tb"><button type="button" class="" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="on" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure><figure data-t="dg"><figcaption>던전</figcaption><div class="ph"><div class="scr"><div class="top"><span class="ava" style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/spell_holy_powerwordshield.jpg)"></span><span class="who"><b>개추</b><small>수양 사제 · 노움 ▾</small></span><span class="lv"><small>내 레벨</small><span><i>−</i><b>47</b><i>+</i></span></span></div>
+<div class="hud" style="--sc:#1a1d22">
+ <div class="mapw2"><div class="mapt"><b>마라우돈</b><small>46–55 · 잊혀진 땅</small><button class="lk" data-l="2" aria-label="연결 2">2</button></div><div class="mapi" style="background-image:url(../data/dgmap/maraudon-1.webp)"></div></div>
+ <div class="trk"><p class="tt">우두머리 9</p>
+  <p class="tq">녹시온 · 칼날채찍 · 정원사 메슬로크</p><p class="to">- 군주 바일텅 · 저주받은 셀레브라스 · 산사태</p><p class="to">- 땜장이 기즐록 · 썩은아귀 · 공주 테라드라스</p>
+  <p class="tt">미리 받을 퀘스트 6 <button class="lk" data-l="3" aria-label="연결 3">3</button></p><p class="to">- 음영석 조각 · 뒤틀린 악마 · 바일텅의 타락 …</p></div>
+ <p class="rlh">노릴 템</p>
+ <div class="roll"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_boots_05.jpg)"></span><span class="m"><b class="cbl">덩굴뿌리 덧신</b><small>발 · 칼날채찍</small></span><b class="cg">+6</b><span class="rb"><span title="노리기">🎲</span><span title="패스">✕</span></span></div>
+ <div class="roll"><span class="ic q-r " style="background-image:url(https://wow.zamimg.com/images/wow/icons/medium/inv_weapon_shortblade_14.jpg)"></span><span class="m"><b class="cbl">화염석 손칼</b><small>주장비 · 공주 테라드라스</small></span><em class="soon">49레벨부터</em><button class="lk" data-l="2" aria-label="연결 2">2</button><span class="rb"><span title="노리기">🎲</span><span title="패스">✕</span></span></div>
+ <div class="lfg sm"><span class="dpi" style="background-image:url(https://forg.gg/images/wow-forever/dungeons/zul-farrak-loading.webp)"></span><span class="m"><small>다른 던전</small><b class="cy">줄파락</b><small>주만자 장갑이 나와요</small></span><button class="lk" data-l="1" aria-label="연결 1">1</button></div>
+</div></div><nav class="tb"><button type="button" class="" data-t="home"><img src="../img/ui-banner.png" alt="">홈</button><button type="button" class="" data-t="gear"><img src="../img/ui-shield.png" alt="">장비</button><button type="button" class="" data-t="quest"><img src="../img/ui-quest.png" alt="">퀘스트</button><button type="button" class="on" data-t="dg"><img src="../img/ui-eye.png" alt="">던전</button><button type="button" class="" data-t="cls"><img src="../img/ui-book.png" alt="">직업</button></nav></div></figure></div><p class="pc">PC에서는 게임 화면처럼 가장자리에 미니맵·추적기, 가운데는 비워 둠.</p></section></main><div class="toast" hidden></div>
+<p class="ft">시안이라 눌러도 실제 기록은 안 바뀌어요 · 화면 안은 위아래로 밀어 볼 수 있어요</p>
+<script>(()=>{
+const B=document.body,secs=[...document.querySelectorAll('.var')],tabs=[...document.querySelectorAll('.vt button,.seg3 button')];
+const MQ=matchMedia('(max-width:760px)');const mob=()=>B.classList.contains('mob');
+function setMob(){B.classList.toggle('mob',MQ.matches||/[?&]m=1/.test(location.search))}
+setMob();MQ.addEventListener&&MQ.addEventListener('change',()=>{setMob();fix()});
+const cur=()=>secs.find(s=>s.classList.contains('on'));
+function screen(sec,t){sec.querySelectorAll('figure').forEach(f=>f.classList.toggle('cur',f.dataset.t===t));sec.dataset.t=t}
+function fix(){const s=cur();if(s&&!s.querySelector('figure.cur'))screen(s,s.dataset.t||'home')}
+function show(v){secs.forEach(s=>s.classList.toggle('on',s.dataset.v===v));tabs.forEach(b=>b.classList.toggle('on',b.dataset.v===v));fix();try{history.replaceState(null,'',location.search+'#'+v)}catch(e){}}
+tabs.forEach(b=>b.addEventListener('click',()=>{const s0=cur();const t=s0&&s0.dataset.t;show(b.dataset.v);const s=cur();if(t)screen(s,t);if(!mob())window.scrollTo({top:0})}));
+show((location.hash||'#a').slice(1).replace(/[^adef]/g,'')||'a');
+let tt=0;function toast(m){const e=document.querySelector('.toast');e.textContent=m;e.hidden=false;clearTimeout(tt);tt=setTimeout(()=>e.hidden=true,1600)}
+/* 아래 탭: 폰에선 그 화면으로, PC에선 그 화면 쪽으로 */
+document.addEventListener('click',e=>{const b=e.target.closest('.tb button');if(!b)return;const sec=b.closest('.var');const t=b.dataset.t;
+  if(!['home','gear','dg'].includes(t)){toast('이번 시안은 홈·장비·던전만 있어요');return}
+  if(mob()){screen(sec,t);sec.querySelector('figure.cur .scr').scrollTop=0}else{const f=sec.querySelector('figure[data-t="'+t+'"]');f.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'})}});
+document.querySelector('.mi').addEventListener('click',()=>B.classList.add('info'));
+document.addEventListener('click',e=>{if(e.target.closest('.vx')||(B.classList.contains('info')&&!e.target.closest('.vh')&&!e.target.closest('.mi')))B.classList.remove('info')});
+/* 파란 번호: 같은 시안 안의 같은 번호를 모두 빛내고, 다음 화면으로 넘겨 보여 줌 */
+const HOST='.ppr,.dpo,.ppn,.ds,.dch,.ejh,.bl li,.ppq h5,.tip,.cn,.cs,.cl,.cboss li,.cdet h5,.ent,.ledger tr,.medh,.best li,.bh,.foot2,.toast2,.lfg,.bs,.roll,.mapt,.tt';
+document.addEventListener('click',e=>{const b=e.target.closest('.lk');if(!b)return;const sec=b.closest('.var');if(!sec)return;
+  const n=b.dataset.l;const inInfo=!!b.closest('.vh');if(inInfo)B.classList.remove('info');
+  sec.querySelectorAll('.hit').forEach(x=>x.classList.remove('hit'));
+  sec.querySelectorAll('.frames .lk[data-l="'+n+'"]').forEach(x=>{x.classList.add('hit');const h=x.closest(HOST);if(h)h.classList.add('hit')});
+  clearTimeout(window._hitT);window._hitT=setTimeout(()=>sec.querySelectorAll('.hit').forEach(x=>x.classList.remove('hit')),2600);
+  const figs=[...sec.querySelectorAll('.frames figure')];const curF=inInfo?null:b.closest('figure');const i=curF?figs.indexOf(curF):-1;
+  let tgt=null;for(let k=1;k<=figs.length;k++){const f=figs[(i+k+figs.length)%figs.length];if(f===curF)continue;const m=f.querySelector('.lk[data-l="'+n+'"]');if(m){tgt=m;break}}
+  if(!tgt)return;const fig=tgt.closest('figure');const fr=fig.parentElement;const scr=fig.querySelector('.scr');
+  if(mob()){screen(sec,fig.dataset.t);toast(({home:'홈',gear:'장비',dg:'던전'})[fig.dataset.t]+' 화면의 '+n+'번')}
+  else{if(fr.scrollWidth>fr.clientWidth+4)fr.scrollTo({left:fig.offsetLeft-fr.offsetLeft-(fr.clientWidth-fig.offsetWidth)/2,behavior:'smooth'});
+    if(!curF){const r=fr.getBoundingClientRect();if(r.top<0||r.top>innerHeight*.6)window.scrollTo({top:scrollY+r.top-130,behavior:'smooth'})}}
+  requestAnimationFrame(()=>{const y=tgt.getBoundingClientRect().top-scr.getBoundingClientRect().top+scr.scrollTop-scr.clientHeight/2;scr.scrollTo({top:Math.max(0,y),behavior:'smooth'})})});
+})();
+</script></body></html>
