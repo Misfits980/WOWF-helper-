@@ -3189,7 +3189,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .mapw .mobpat .pl.on{stroke-width:2.6;opacity:1}
 .mapw .mobpat .rm{stroke:#0b1a26;stroke-width:1.5;vector-effect:non-scaling-stroke}
 .mapw.sel .mobpat .pl:not(.on),.mapw.sel .mobpat .rm:not(.on){opacity:.3}
-.mz{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:4px;z-index:5}
+/* 지도 확대 단추 묶음 — 지역 목록 줄(.zr.mz)과 이름이 겹쳐 11/19부터 지역 목록 줄이 전부 맨 위에 겹쳐 안 보였음 → 줄은 빼고 */
+.mz:not(.zr){position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:4px;z-index:5}
 .mz button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:rgba(21,19,15,.88);color:var(--txt);font-size:calc(18px*var(--fs,1));line-height:1;cursor:pointer}
 .mz button:disabled{opacity:.35;cursor:default}
 .mz button:focus-visible,.mapw .mpk:focus-visible,.mapw .mpn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
@@ -3677,8 +3678,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=d69dff3d" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* v43a41a @11/24 09:56 */
+<script src="app-data.js?v=64e684a7" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* v3f37fc @11/24 10:08 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3686,7 +3687,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/24 09:56';
+const BUILD='11/24 10:08';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];

@@ -3188,7 +3188,8 @@ h3 .gic.h{width:20px;height:20px;vertical-align:-4px;margin-right:8px;border-rad
 .mapw .mobpat .pl.on{stroke-width:2.6;opacity:1}
 .mapw .mobpat .rm{stroke:#0b1a26;stroke-width:1.5;vector-effect:non-scaling-stroke}
 .mapw.sel .mobpat .pl:not(.on),.mapw.sel .mobpat .rm:not(.on){opacity:.3}
-.mz{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:4px;z-index:5}
+/* 지도 확대 단추 묶음 — 지역 목록 줄(.zr.mz)과 이름이 겹쳐 11/19부터 지역 목록 줄이 전부 맨 위에 겹쳐 안 보였음 → 줄은 빼고 */
+.mz:not(.zr){position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:4px;z-index:5}
 .mz button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:rgba(21,19,15,.88);color:var(--txt);font-size:calc(18px*var(--fs,1));line-height:1;cursor:pointer}
 .mz button:disabled{opacity:.35;cursor:default}
 .mz button:focus-visible,.mapw .mpk:focus-visible,.mapw .mpn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
