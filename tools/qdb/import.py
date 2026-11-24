@@ -802,6 +802,67 @@ with open(os.path.join(OUT, 'item-equip.txt'), 'w', encoding='utf-8') as f:
             f.write('%d|%s|%s|%s|%s|%s\n' % (i, cl, r.get(IK['subClass']) if r.get(IK['subClass']) is not None else '', r.get(IK['itemLevel']) or '', r.get(IK['requiredLevel']) or '', ','.join(str(x) for x in (arr(r.get(IK['questRewards'])) or []))))
 print('장비 목록 끝')
 
+# 포에버 새 장비(번호 200000 이상)의 몹 드랍·상인·상자 출처 → data/qdb/item-drops.txt (번호|출처^출처…)
+#  app/build.py가 forg·wowf.io에 없어 앱에서 빠지던 새 템(BiS QA: 가이드 대안 32개 중 25개 · 「검은 투구」 마르둑 블랙풀 등)을 채울 때 씀
+#  출처 글은 앱 출처 꼴: 몹 「3~드랍 · 이름 (지역)~wh:npc=번호」(몹 넷 이상은 「이름 외 N종」) · 상인 「5~상인 · 이름~」(호드 상인은 뺌) · 상자 「3~드랍 · 숨은 물건: 이름~」
+#  퀘스트 보상은 item-equip.txt 끝 칸에 있음 (build.py가 퀘스트 이름·호드 퀘스트를 거름)
+_E2K = None
+
+
+def _EN2KO():
+    global _E2K
+    if _E2K is None:
+        _E2K = {}
+        for _i, _r in NPC.items():
+            _en, _ko = _r.get(NK['name']), ko_npc(_i)
+            if _en and _ko and not lat(_ko):
+                _E2K.setdefault(_en, _ko)
+    return _E2K
+
+
+def item_drop_labels(r):
+    L = []
+    def zko(z):
+        ko, _c = zone_name(z) if z else (None, None)
+        return ko if ko and re.search('[가-힣]', ko) else None
+    nd = [n for n in (arr(r.get(IK['npcDrops'])) or []) if isinstance(n, int)]
+    def nko(n):
+        v = ko_npc(n)
+        if v and lat(v):  # 포에버 새 몹은 한글 이름이 없을 때가 많음 → 같은 영어 이름의 다른 몹 한글 이름 (npc-en-ko.txt와 같은 규칙)
+            v = _EN2KO().get(v, v)
+        return v or '번호 %d' % n
+    if 0 < len(nd) <= 3:
+        for n in nd:
+            z = zko((NPC.get(n) or {}).get(NK['zoneID']))
+            L.append('3~드랍 · %s%s~wh:npc=%d' % (nko(n), ' (%s)' % z if z else '', n))
+    elif nd:
+        zs = {(NPC.get(n) or {}).get(NK['zoneID']) for n in nd} - {None}
+        z = zko(next(iter(zs))) if len(zs) == 1 else None
+        n0 = next((n for n in nd if not lat(nko(n))), nd[0])  # 한글 이름이 있는 몹을 앞에
+        L.append('3~드랍 · %s 외 %d종%s~' % (nko(n0), len(nd) - 1, ' (%s)' % z if z else ''))
+    for n in (arr(r.get(IK['vendors'])) or []):
+        if not isinstance(n, int):
+            continue
+        fr = (NPC.get(n) or {}).get(NK['friendlyToFaction'])
+        if fr == 'H':
+            continue
+        L.append('5~상인 · %s~' % nko(n))
+    for o in (arr(r.get(IK['objectDrops'])) or []):
+        if isinstance(o, int):
+            v = ko_obj(o)
+            L.append('3~드랍 · 숨은 물건: %s~' % (v or '번호 %d' % o))
+    return [x.replace('|', '/').replace('^', ' ') for x in dict.fromkeys(L)]
+
+
+with open(os.path.join(OUT, 'item-drops.txt'), 'w', encoding='utf-8') as f:
+    f.write('# 포에버 새 장비(200000번 이상) 몹 드랍·상인·상자 출처: 번호|출처^출처 (import.py가 QuestieDB에서 만듦)\n')
+    for i, r in sorted(ITEM.items()):
+        if i >= 200000 and r.get(IK['class']) in (2, 4):
+            L = item_drop_labels(r)
+            if L:
+                f.write('%d|%s\n' % (i, '^'.join(L)))
+print('새 장비 드랍 출처 끝')
+
 # ---------- 레벨업 보강: 비행 조련사 · 여관 주인 · 직업 교관 · 사냥터 ----------
 CLS_EN = {'Warrior': 'warrior', 'Paladin': 'paladin', 'Hunter': 'hunter', 'Rogue': 'rogue', 'Priest': 'priest',
           'Shaman': 'shaman', 'Mage': 'mage', 'Warlock': 'warlock', 'Druid': 'druid'}

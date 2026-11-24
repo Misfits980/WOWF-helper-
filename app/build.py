@@ -749,6 +749,144 @@ if (Q / 'items-wowf.jsonl').exists() and (Q / 'item-equip.txt').exists():
         if int(line.split('|')[0]) not in have_:
             items.append(line)
     srcs = '\n'.join(sl_)
+# forg·wowf.io 어디에도 없어 앱에서 빠지던 포에버 장비 채우기 (BiS QA 2026-11-25: 가이드 대안 32개가 앱에 없었음)
+#  - 장비 칸: 게임 캐시(data/qdb/items-cache.txt, tools/itemcache/item_rows.py) — 부위·종류·등급·요구 레벨·능력치·방어도·초당 공격력·한글 이름·착용 직업
+#  - 얻는 곳: wythic 던전 보스 드랍 · QuestieDB 몹 드랍·상인·상자(item-drops.txt) · 퀘스트 보상(item-equip.txt 끝 칸) · 던전 퀘스트 보상 · forg 퀘스트 보상(rewards.jsonl)
+#    던전 보스(wythic 보스 번호)가 떨구는 건 던전 출처(「스칼로맨스 · 벡투스」)로, 던전 퀘스트 보상은 「던전 · 퀘스트 보상」 묶음으로 (다른 던전 템과 같은 꼴)
+#  - 얻는 곳을 모르는 건 포에버 새 템(200000번 이상, 핫픽스 기록)만 「얻는 곳 미공개」로 넣음 → 「전체」에서만 보임 (예: 기지의 칼날·셴드랄라 성물)
+#  - 호드 퀘스트·호드 상인뿐인 템은 넣지 않음 (아래 호드 퀘스트 거르기·던전 묶음 거르기도 같이 탐)
+if (Q / 'items-cache.txt').exists():
+    import sys
+    sys.path.insert(0, str(A))
+    from items_wowf import mask_of as _mko
+    _have = set(int(l.split('|')[0]) for l in items)
+    _SLX = srcs.split('\n')
+    _SIX = {l: i for i, l in enumerate(_SLX)}
+    def _six(label):
+        if label not in _SIX:
+            _SIX[label] = len(_SLX); _SLX.append(label)
+        return _SIX[label]
+    _qn2 = globals().get('_qn_') or {}
+    _hq2 = globals().get('_hq_') or set()
+    # 던전 이름·출처 머리: 기존 던전 보스 출처(「0~스칼로맨스 · 벡투스~dg:scholomance」)에서
+    _dgpre, _dgboss = {}, {}
+    for _l in _SLX:
+        _p = _l.split('~')
+        if len(_p) > 2 and _p[0] == '0' and _p[2].startswith('dg:') and ' · ' in _p[1]:
+            _k = _p[2][3:].split('#')[0]; _d, _b = _p[1].split(' · ', 1)
+            _dgpre.setdefault(_k, _d); _dgboss.setdefault(_b, set()).add(_k)
+    # wythic 보스 번호 → (던전, 보스 한글 이름) · 아이템 → 보스 출처. 던전은 보스 이름이 가장 많이 겹치는 기존 던전
+    _WYB, _WYI = {}, {}
+    if (ROOT / 'data/wythic/dungeons.json').exists():
+        for _d in json.loads(rd(ROOT / 'data/wythic/dungeons.json')).get('dungeons', []):
+            _cnt = {}
+            for _b in _d.get('bosses') or []:
+                for _k in _dgboss.get(_b.get('npc') or '', ()):
+                    _cnt[_k] = _cnt.get(_k, 0) + 1
+            _k = max(_cnt, key=_cnt.get) if _cnt else None
+            if not _k or _k not in _dgpre:
+                continue
+            for _b in _d.get('bosses') or []:
+                if not _b.get('npc'):
+                    continue
+                _lb = '0~%s · %s~dg:%s' % (_dgpre[_k], _b['npc'], _k)
+                if _b.get('id'):
+                    _WYB[_b['id']] = _lb
+                for _x in _b.get('drops') or []:
+                    if isinstance(_x, list) and _x and isinstance(_x[0], int):
+                        _WYI.setdefault(_x[0], []).append(_lb)
+    # 던전 퀘스트 번호 → 던전 (얼라이언스가 받는 것만) · 던전 퀘스트 보상 템
+    _DQM, _DQR = {}, {}
+    for _l in _dq().splitlines():
+        _f = _l.split('|')
+        if _f[0] == 'Q' and len(_f) > 3 and _f[2].isdigit() and _f[3] != 'horde':
+            _DQM[int(_f[2])] = _f[1]
+            for _x in (_f[10].split(',') if len(_f) > 10 else []):
+                if _x.isdigit():
+                    _DQR.setdefault(int(_x), []).append(int(_f[2]))
+    _DGKO = {}
+    for _l in rd(F / 'dungeons.txt').splitlines():
+        _f = _l.split('|')
+        if len(_f) > 1: _DGKO[_f[0]] = _f[1]
+    for _l in _dnew():
+        _f = _l.split('|')
+        if _f[0] == 'D' and len(_f) > 2: _DGKO.setdefault(_f[1], _f[2])
+    def _qlabel(q):
+        if q in _DQM and _DQM[q] in _DGKO:
+            return '1~%s · 퀘스트 보상~dg:%s' % (_DGKO[_DQM[q]], _DQM[q])
+        if q in _hq2 or not _qn2.get(q):
+            return None
+        return '1~퀘스트 · %s~wh:quest=%d' % (_qn2[q], q)
+    _EQX = {}
+    for _l in rd(Q / 'item-equip.txt').splitlines():
+        _f = _l.split('|')
+        if len(_f) > 5 and _f[0].isdigit():
+            _EQX[int(_f[0])] = (int(_f[4]) if _f[4].isdigit() else 0, [int(x) for x in _f[5].split(',') if x.isdigit()])
+    _QDR = {}
+    if (Q / 'item-drops.txt').exists():
+        for _l in rd(Q / 'item-drops.txt').splitlines():
+            if _l and not _l.startswith('#') and '|' in _l:
+                _i, _s = _l.split('|', 1); _QDR[int(_i)] = _s.split('^')
+    _FRW = {}
+    if (F / 'rewards.jsonl').exists():
+        for _l in rd(F / 'rewards.jsonl').splitlines():
+            try: _r = json.loads(_l)
+            except Exception: continue
+            for _kk in ('fx', 'ch'):
+                for _x in _r.get(_kk) or []:
+                    _FRW.setdefault(_x[0], []).append(_r['id'])
+    _ICO = {}
+    for _l in rd(Q / 'item-bag.txt').splitlines():
+        _f = _l.split('|')
+        if len(_f) > 5 and _f[0].isdigit() and _f[5]: _ICO[int(_f[0])] = _f[5]
+    _INV = {1: 'he', 2: 'ne', 3: 'sh', 5: 'ch', 20: 'ch', 6: 'wa', 7: 'le', 8: 'fe', 9: 'wr', 10: 'ha', 11: 'fi', 12: 'tr', 16: 'ba',
+            13: '1h', 21: 'mh', 22: 'oh', 14: 'oh', 23: 'ho', 17: '2h', 15: 'ra', 25: 'ra', 26: 'ra', 28: 'ra'}
+    _nadd = _nsrc = 0
+    for _l in rd(Q / 'items-cache.txt').splitlines():
+        if not _l or _l.startswith('#'):
+            continue
+        _f = _l.split('|')
+        _id = int(_f[0])
+        if _id in _have or int(_f[1]) not in _INV:
+            continue
+        _L = list(_WYI.get(_id, []))
+        for _s in _QDR.get(_id, []):
+            _m = re.search(r'wh:npc=(\d+)$', _s)
+            _L.append(_WYB.get(int(_m.group(1)), _s) if _m else _s)
+        for _q in (_EQX.get(_id, (0, []))[1] + _DQR.get(_id, []) + _FRW.get(_id, [])):
+            _x = _qlabel(_q)
+            if _x: _L.append(_x)
+        _L = list(dict.fromkeys(_L))
+        if not _L:
+            if _id < 200000 or _f[10] != 'h':
+                continue
+            _L = ['3~드랍 · 얻는 곳 미공개~']
+        else:
+            _nsrc += 1
+        _cl, _sub = _f[2].split('.')
+        _cs = '' if _cl == '4' and _sub == '0' else _f[2]
+        _sl = _INV[int(_f[1])]
+        if _sl == 'oh' and _cs != '4.6' and not _cs.startswith('2.'):
+            _sl = 'ho'
+        _st = _f[6]
+        if _f[7]:
+            _st = (_st + (' bar' if _cs in ('4.1', '4.2', '4.3', '4.4') or int(_f[1]) == 16 else ' armor') + _f[7]).strip()
+        if _f[8]:
+            _st = (_st + ' dps' + _f[8]).strip()
+        _req, _il = int(_f[4]), int(_f[5])
+        _eqr = _EQX.get(_id, (0, []))[0]
+        # 요구 레벨 0(핫픽스 기록) = 게임에서 착용 레벨 제한 없음 → 「!」 + 얻는 레벨 어림(도감 요구 레벨, 없으면 아이템 레벨 −5)
+        _lv = str(_req) if _req else (str(_eqr) if _eqr else '%d?' % max(1, _il - 5)) + ('!' if _f[10] == 'h' else '')
+        # 직업 전용(게임 AllowableClass) — 예: 무용의 손목보호구 = 전사, 우레의 팔보호구 = 주술사 (세트 조각)
+        _ac = int(_f[11]) if len(_f) > 11 and _f[11].isdigit() else 0
+        _al = [c_ for c_, b_ in (('warrior', 1), ('paladin', 2), ('hunter', 4), ('rogue', 8), ('priest', 16), ('shaman', 64), ('mage', 128), ('warlock', 256), ('druid', 1024)) if _ac & b_] if _ac else None
+        _mk = _mko(_cs, _al)
+        if not _mk:
+            continue
+        items.append('|'.join([_f[0], _lv, _sl, _cs, 'pcurel'[int(_f[3])], _st, '', ';'.join(str(_six(x)) for x in _L), str(_mk), 'game', ','.join(_al or []), '', _f[9], _ICO.get(_id, '')]))
+        _have.add(_id); _nadd += 1
+    srcs = '\n'.join(_SLX)
+    print('게임 캐시로 빠진 장비 채움', _nadd, '· 얻는 곳 있음', _nsrc)
 # 포에버 게임 자료(핫픽스 캐시 + 클라이언트 표, tools/itemcache/game_items.py)로 능력치 바로잡기
 #  - 핫픽스(h) 기록 = 포에버 서버가 보낸 지금 값 → 믿음. 기본 자료(c)는 캐시가 아직 못 받은 템일 수 있어 wowf.io 툴팁이 없을 때만 씀
 #  - 주 능력치(힘·민첩·체력·지능·정신력): 게임 값이 하나라도 있으면 게임 값으로 통째로 바꿈 (무작위 접미사 템은 게임 값이 비어 있어 그대로)
@@ -1431,9 +1569,11 @@ def _rflag(l):
         m = re.search(r'wh:npc=(\d+)', hr)
         if (z and z.group(1) in _RAIDZ) or (m and int(m.group(1)) in _RAIDNPC) or _RAIDNM.match(nm) or re.sub(r' 몹$', '', nm) in _RAIDZ:
             fl = 'r'
-    elif k == '5':
+    elif k in ('5', '6', '7', '8', '9'):
+        # 상인·평판 보상: forg 출처 종류 6~9도 상인 판매(얼라이언스·호드 상인 따로, 평판 상인 등 — forg 화면 「상인」·「평판 보상」)라 같은 규칙.
+        #  앱은 6~9도 상인으로 셈(예전엔 「❓ 나오는 곳 몰라요」로 「퀘스트+던전」에서 빠졌음: 픽스 시직스·델리아나 상인 템 · 감시관 인장). 「PvP 보상」(6·7)은 PvP
         n = lb.replace('상인 · ', '', 1)
-        if n in _PVPV or lb.startswith('PvP · '):
+        if n in _PVPV or lb.startswith('PvP · ') or lb.startswith('PvP 보상'):
             fl = 'p'
         elif n == '아나크로노스':
             fl = 'r'
@@ -1470,6 +1610,24 @@ def _qenko(l):
 _sb = srcs
 srcs = '\n'.join(_qenko(l) for l in srcs.split('\n'))
 print('영어 퀘스트 출처 이름 한글로', sum(1 for a_, b_ in zip(_sb.split('\n'), srcs.split('\n')) if a_ != b_))
+# 행사 때만 받는 보상 → 4번째 칸 e (앱: 「퀘스트+던전」·「레이드까지」 추천에서 빼고 「전체」에서만, 「🎪 행사 때만」 표시)
+#  다크문 축제(상품권 교환 퀘스트·카드 묶음 퀘스트·축제 상인 라흐라) · 구루바시 투기장(「최고검투사의 징표」 = 투기장 상자 징표 12개)
+#  BiS QA 2026-11-25: 다크문의 보주·아뮬렛(상품권 1200장)이 흑마법사·드루이드 「퀘스트+던전」 목 1등으로 나왔음
+_EVQ = {7838}
+def _evflag(l):
+    f = l.split('~')
+    if len(f) < 2 or (len(f) > 3 and f[3]):
+        return l
+    m = re.search(r'(?:quest=|/quest/)(\d+)', f[2] if len(f) > 2 else '')
+    ev = (f[0] == '1' and (bool(re.search(r'다크문|Darkmoon|상품권|Tickets?\b', f[1])) or (m and int(m.group(1)) in _EVQ) or f[1] == '퀘스트 · 최고검투사의 징표')) \
+        or (f[0] in ('5', '7', '8') and f[1] == '상인 · 라흐라')
+    if not ev:
+        return l
+    while len(f) < 3:
+        f.append('')
+    return '~'.join(f[:3] + ['e'])
+srcs = '\n'.join(_evflag(l) for l in srcs.split('\n'))
+print('행사 보상 출처', sum(1 for l in srcs.split('\n') if l.endswith('~e')))
 # 레이드 단계 템(forg phase: 낙스라마스·안퀴라즈·줄구룹·화산 심장부·검은날개 둥지·오닉시아·하이잘 정상·월드 보스)만 쓰는 출처도 레이드로.
 #  보스 이름 목록(_RAIDNM)에 없는 보스 드랍(맥스나·타디우스·마그마다르 등)·영어 이름 레이드 퀘스트(Paragons of Power·For All To See 등)가
 #  표시 없이 남아 「퀘스트+던전」 60레벨 추천에 레이드 템 40개가 섞였음(장신구 1등 거미의 입맞춤·감쇠의 눈)
@@ -1889,9 +2047,46 @@ for _i, _l in enumerate(SRC_TXT.split('\n')):
         if _m:
             SRC_REP[_i] = ['은빛 여명회', _REPLV[_m.group(1)]]
 print('평판이 필요한 퀘스트 보상 출처', len(SRC_REP))
+# 템 자체에 필요한 평판 (게임 툴팁 「감시자: 확고한 동맹 평판 필요」, 애드온 items-addon.jsonl) → 번호 → [세력, 단계]
+#  평판 상인 템(감시관 인장·톱니항 상인 템 등)에 「🏅 … 필요」 표시 (퀘스트 평판 D_SRCREP과 같은 칩)
+ITEM_REP = {}
+if (Q / 'items-addon.jsonl').exists():
+    _have_ir = set(int(l.split('|', 1)[0]) for l in ITEMS_TXT.split('\n') if l)
+    for _line in rd(Q / 'items-addon.jsonl').splitlines():
+        try:
+            _o = json.loads(_line)
+        except Exception:
+            continue
+        if _o.get('id') not in _have_ir:
+            continue
+        for _t in _o.get('lines') or []:
+            _m = re.match(r'^(.+?):\s*(확고한 동맹|매우 우호적|약간 우호적|우호적|중립적|중립) 평판 필요$', str(_t).strip())
+            if _m:
+                ITEM_REP[_o['id']] = [_m.group(1).strip(), _REPLV[_m.group(2).replace('중립적', '중립')]]
+                break
+print('평판이 필요한 템', len(ITEM_REP))
+# 고유 장착 묶음 (게임 툴팁 「고유 장착 아이템: 감시자의 인장 (1)」) → 번호 → 묶음 이름. 같은 묶음은 하나만 낄 수 있음(반지 둘·장신구 둘·장인 등급 방어구 넷 중 하나)
+#  앱 추천·채우기가 같은 묶음 둘을 함께 끼우지 않게 (1~3 재검증: 영민함의 감시자 인장 + 감시관 인장을 두 반지 칸에 같이 넣던 것)
+ITEM_UNIQ = {}
+if (Q / 'items-addon.jsonl').exists():
+    for _line in rd(Q / 'items-addon.jsonl').splitlines():
+        try:
+            _o = json.loads(_line)
+        except Exception:
+            continue
+        if _o.get('id') not in _have_ir:
+            continue
+        for _t in _o.get('lines') or []:
+            _m = re.match(r'^고유 장착 아이템: (.+) \(1\)$', str(_t).strip())
+            if _m:
+                ITEM_UNIQ[_o['id']] = _m.group(1).strip()
+                break
+print('고유 장착 묶음 템', len(ITEM_UNIQ))
 data = '\n'.join([
     'const D_VER=' + json.dumps(DVER) + ';',
     'const D_SRCREP=' + json.dumps(SRC_REP, ensure_ascii=False, separators=(',', ':')) + ';',
+    'const D_IREP=' + json.dumps(ITEM_REP, ensure_ascii=False, separators=(',', ':')) + ';',
+    'const D_UNIQ=' + json.dumps(ITEM_UNIQ, ensure_ascii=False, separators=(',', ':')) + ';',
     '/* 와포 도우미 자료 — forg.gg 공개 페이지에서 GitHub Actions로 모은 것 (tools/forg-*.mjs) */',
     'const D_ITEMS=' + js_str(ITEMS_TXT) + ';',
     'const D_SRC=' + js_str(SRC_TXT) + ';',

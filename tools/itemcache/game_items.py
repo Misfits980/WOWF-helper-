@@ -203,6 +203,21 @@ def main(cache, csvdir, dbddir, out):
             ilvl, q = int(g('ItemLevel')), int(g('OverallQualityID'))
             rec = {'id': iid, 'nm': g('Display_lang', str), 'ilvl': ilvl, 'req': int(g('RequiredLevel')), 'q': q, 'inv': inv, 'cls': cls, 'sub': sub,
                    'src': srow[0]}
+            # 착용 직업(AllowableClass 비트: 전사 1 · 성기사 2 · 사냥꾼 4 · 도적 8 · 사제 16 · 주술사 64 · 마법사 128 · 흑마법사 256 · 드루이드 1024)
+            # · 종족(AllowableRace) · 필요 평판(MinFactionID·MinReputation 단계 0 증오 … 4 중립 5 우호 6 존경 7 매우 존경 8 확고)
+            #  item_rows.py가 직업 전용 세트 조각(무용의 손목보호구 = 전사)·평판 상인 템에 씀
+            try:
+                acl = int(g('AllowableClass')) & 0x5FF
+                if acl and acl != 0x5DF and acl != 0x5FF:
+                    rec['acl'] = acl
+                arc = int(g('AllowableRace'))
+                if arc > 0 and (arc & 0x1FF) not in (0x1FF, 0xFF):
+                    rec['arc'] = arc & 0x7FF
+                mf = int(g('MinFactionID'))
+                if mf > 0:
+                    rec['rep'] = [mf, int(g('MinReputation'))]
+            except (KeyError, TypeError, ValueError):
+                pass
             st = {}
             cat = rpp_cat(inv)
             rp = RPP.get(ilvl)

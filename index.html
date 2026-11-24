@@ -1826,7 +1826,7 @@ html.fits,html.fits body{overscroll-behavior-y:none}
 .csl button i{position:absolute;top:2px;left:3px;font-style:normal;font-size:calc(11px*var(--fs,1))}
 .csl button.on{border-color:var(--gold2);background:#3a2c16;color:var(--gold)}
 .csr{margin-top:8px;width:100%}
-.lkt{display:inline-block;margin-left:6px;font-size:calc(10.5px*var(--fs,1));font-weight:700;border-radius:6px;padding:0 5px;vertical-align:1px;white-space:nowrap;border:1px solid #6b5a33;color:#d8b86a}.lkt.unknown,.lkt.none{color:#a59d8c;border-color:#4a4335}.lkt.world{color:#c9a0ff;border-color:#5a3f80}
+.lkt{display:inline-block;margin-left:6px;font-size:calc(10.5px*var(--fs,1));font-weight:700;border-radius:6px;padding:0 5px;vertical-align:1px;white-space:nowrap;border:1px solid #6b5a33;color:#d8b86a}.lkt.unknown,.lkt.none{color:#a59d8c;border-color:#4a4335}.lkt.world{color:#c9a0ff;border-color:#5a3f80}.lkt.ev{color:#8fd3c8;border-color:#2f5d57}
 /* 애드온 카드: 사물함처럼 접기 */
 .adsec{margin-top:6px;border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden}
 .adsec>summary{list-style:none;display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer}
@@ -3705,8 +3705,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 .dgerr{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.dgerr p{margin:0;flex:1 1 220px}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
-<script src="app-data.js?v=2e1873e3" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* v66005d @11/25 07:28 */
+<script src="app-data.js?v=629b3a1a" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* v17e43c @11/25 08:17 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3714,7 +3714,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/25 07:28';
+const BUILD='11/25 08:17';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -3807,7 +3807,7 @@ function prioLine(c){const w=wOf(c);const nm=k=>k==='dps'?'무기 DPS':k==='rdps
   return Object.entries(w).filter(([k,v])=>v>0&&(STAT_KO[k]||k==='rdps')&&k!=='armor').map(([k,v])=>[k,v*(typ[k]||5)]).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k])=>nm(k))}
 
 /* ----- 아이템 ----- */
-const SRC=D_SRC.split('\n').filter(Boolean).map((l,i)=>{const [k,label,href,fl]=l.split('~');const o={k:+k,label,href:href||''};if(fl==='r')o.raid=1;if(fl==='p')o.pvp=1;if(typeof D_SRCREP!=='undefined'&&D_SRCREP[i])o.rp=D_SRCREP[i];/* 끝내려면 평판이 필요한 퀘스트 [세력, 단계] */
+const SRC=D_SRC.split('\n').filter(Boolean).map((l,i)=>{const [k,label,href,fl]=l.split('~');const o={k:+k,label,href:href||''};/* forg 출처 종류 6~9 = 상인 판매(얼라이언스·호드 상인 따로 · 평판 상인 · PvP 보상) → 상인(5)으로. 예전엔 「❓ 나오는 곳 몰라요」로 「퀘스트+던전」에서 빠졌음 (픽스 시직스·델리아나 상인 템, 감시관 인장) */if(o.k>=6&&o.k<=9&&/^(상인 · |평판 보상|PvP)/.test(label||''))o.k=5;if(fl==='r')o.raid=1;if(fl==='p')o.pvp=1;if(fl==='e')o.ev=1;/* 행사 때만 받는 보상(다크문 축제 상품권·카드, 구루바시 투기장) — build.py가 4번째 칸 e */if(typeof D_SRCREP!=='undefined'&&D_SRCREP[i])o.rp=D_SRCREP[i];/* 끝내려면 평판이 필요한 퀘스트 [세력, 단계] */
   if(o.k===0){o.dg=(href||'').replace('dg:','').split('#')[0];const p=label.split(' · ');o.dn=p[0];o.boss=p.slice(1).join(' · ')}
   if(o.k===1)o.qn=label.replace(/^퀘스트 · /,'');
   return o});
@@ -4703,23 +4703,23 @@ function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)retur
   return S.filter(s=>{if(s.k!==1)return true;const q=srcQid(s);if(q)return !done(q)&&!qGone(c,q);if(/^dg:/.test(s.href||'')){const qs=IT_Q[it.id]||[];return !qs.length||qs.some(x=>!done(x))}return true})}
 const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
 const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(ql[srcQid(s)]||(IT_Q[it.id]||[]).some(x=>ql[x])))};
-function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(s=>srcSure(s)&&!s.raid&&!s.pvp))return 'sure';if(S.some(s=>s.raid&&srcSure(s)))return 'raid';if(S.some(s=>s.pvp))return 'pvp';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
+function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(s=>srcSure(s)&&!s.raid&&!s.pvp&&!s.ev))return 'sure';if(S.some(s=>s.raid&&srcSure(s)))return 'raid';if(S.some(s=>s.ev))return 'ev';if(S.some(s=>s.pvp))return 'pvp';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
 /* 평판이 있어야 끝내는 퀘스트로만 얻는 템 (BiS QA P2: 세나리우스의 힘 21188 = 「영웅의 전투장비」 세나리온 의회 확고한 동맹 · 휘장) → {fac 세력, st 필요한 단계, cur 지금 단계(모르면 null), ok}
    다른 출처(던전·드랍·상인·제작·평판 없는 퀘스트)가 하나라도 있으면 null */
 const repNm=st=>(REP_ST.find(x=>x[0]===st)||[0,''])[1];
-function repGate(it,c){if(!it||!it.src||!it.src.length)return null;let g=null;for(const i of it.src){const s=SRC[i];if(!s)continue;if(!s.rp)return null;if(!g||s.rp[1]<g.st)g={fac:s.rp[0],st:s.rp[1]}}
+function repGate(it,c){if(!it)return null;let g=null;/* 템 자체에 필요한 평판(게임 툴팁 「감시자: 확고한 동맹 평판 필요」, build.py D_IREP)이 먼저 */const ir=typeof D_IREP!=='undefined'&&D_IREP[it.id];if(ir)g={fac:ir[0],st:ir[1]};else{if(!it.src||!it.src.length)return null;for(const i of it.src){const s=SRC[i];if(!s)continue;if(!s.rp)return null;if(!g||s.rp[1]<g.st)g={fac:s.rp[0],st:s.rp[1]}}}
   if(!g)return null;const r=((c&&c.rep)||[]).find(x=>x.nm===g.fac);return Object.assign(g,{cur:r?r.st:null,ok:!!r&&r.st>=g.st})}
 const repTag=(it,c)=>{const g=repGate(it,c);return g&&!g.ok?'<span class="lkt rep">🏅 '+(g.st>=7?'장기 목표 · ':'')+esc(g.fac)+' '+repNm(g.st)+' 필요'+(g.cur?' (지금 '+repNm(g.cur)+')':' · 내 평판 확인 필요')+'</span>':''};
 /* 짧은 값(목록 칩): 1골드 넘으면 골드만, 아니면 실버, 아니면 코퍼 */
 const goldShort=cp=>{cp=Math.max(0,Math.round(cp||0));return cp>=10000?(cp>=1e5?Math.round(cp/1e4):Math.round(cp/1e3)/10)+'골드':cp>=100?Math.round(cp/100)+'실버':cp+'코퍼'};
 /* 경매장·운 템 칩에 시세 붙이기(시세가 있을 때만) */
 const luckAh=(it,c,k)=>{if(!c||!(k==='ah'||k==='world'||k==='unknown'))return '';const A=ahGet(c,it.id);return A&&!A.none?' · 최저 '+goldShort(A.u):''};
-const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return repTag(it,c)+(k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',soon:'🚧 개방 예정 던전',ah:bindOf(it)==='p'?'🔨 직접 제작':'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+luckAh(it,c,k)+'</span>')};
+const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return repTag(it,c)+(k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',ev:'🎪 행사 때만 (다크문 축제·투기장)',soon:'🚧 개방 예정 던전',ah:bindOf(it)==='p'?'🔨 직접 제작':'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+luckAh(it,c,k)+'</span>')};
 /* 추천 기준: q 퀘스트만(던전 퀘스트 빼고) · dg 던전만(던전 보스·던전 퀘스트) · ok 퀘스트+던전(퀘스트·던전·상인·이름 있는 몹, 기본) · rd 레이드까지(ok + 레이드 보스·레이드 퀘스트) · all 전체(경매장·월드 드랍·명예 상인까지)
    레이드·명예 상인 출처는 build.py가 4번째 칸(r·p)으로 표시 */
 let DQSET=null;const dqSet=()=>DQSET||(DQSET=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id))));
 const DGNM=new Set(DGS.flatMap(d=>[d.ko,d.old].filter(Boolean)));
-function srcCat(s){if(!s||s.raid||s.pvp)return '';if(s.k===0)return DG[s.dg]&&!DG[s.dg].soon?'dg':'';
+function srcCat(s){if(!s||s.raid||s.pvp||s.ev)return '';if(s.k===0)return DG[s.dg]&&!DG[s.dg].soon?'dg':'';
   if(s.k===1){const m=(s.qn||'').match(/^(.+?) · 퀘스트 보상$/);if(m&&DGNM.has(m[1]))return 'dg';const q=srcQid(s);return q&&dqSet().has(q)?'dg':'q'}return ''}
 /* 얻는 곳이 「미공개」뿐인데 레벨도 능력치로 어림한 템(포에버 새 템 · 예: 화염 군주의 목장식 「11레벨」)은 언제 얻는지 몰라 추천하지 않음 */
 const lvUnknown=it=>it.est&&it.src.every(i=>!SRC[i]||/미공개/.test(SRC[i].label||''));
@@ -4742,13 +4742,16 @@ const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead W
 const clothNo=(c,it)=>it.cs==='4.1'&&it.sl!=='ba'&&(['warrior','rogue','hunter'].includes(c.cls)||/근접 딜|탱커/.test(ROLE[c.cls+'/'+c.spec]||''))&&!['priest','mage','warlock'].includes(c.cls);
 /* 📘 공략 추천 템도 고른 출처를 따름: 예전엔 퀘스트+던전·레이드에서도 가이드 템이면 제작·경매장 템(파수병의 가죽 투구 등)이 추천에 들어왔음 */
 /* 고른 출처로만 얻는 레벨이 더 늦으면 그 레벨부터 추천: 예) 불꽃의 판금 건틀릿은 제작 53레벨이지만 퀘스트 보상은 57레벨 → 「퀘스트+던전」에선 57부터 */
-function obOf(it,m){if(!it._sv||m==='all')return it.ob;if(!it.obm){const M={};for(const [s,v] of it._sv)for(const k of ['q','dg','ok','rd']){const hit=k==='ok'?srcSure(s)&&!s.raid&&!s.pvp:k==='rd'?srcSure(s)&&!s.pvp:srcCat(s)===k;if(hit)M[k]=Math.min(M[k]??99,k!=='q'&&it._rw!=null?Math.min(v,it._rw):v)}
+function obOf(it,m){if(!it._sv||m==='all')return it.ob;if(!it.obm){const M={};for(const [s,v] of it._sv)for(const k of ['q','dg','ok','rd']){const hit=k==='ok'?srcSure(s)&&!s.raid&&!s.pvp&&!s.ev:k==='rd'?srcSure(s)&&!s.pvp&&!s.ev:srcCat(s)===k;if(hit)M[k]=Math.min(M[k]??99,k!=='q'&&it._rw!=null?Math.min(v,it._rw):v)}
   it.obm={};for(const k in M)it.obm[k]=Math.max(it.ob,M[k])}return it.obm[m]||it.ob}
 function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>obOf(it,mode)<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w,c),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 /* 「하나 고르기」 퀘스트: 이미 그 보상을 끼고 있거나 직접 다른 보상을 골랐으면(c.rwPick) 나머지 보상은 못 받음 — 장비 탭 목록(upgrades)·칸 비교·애드온 추천 코드(bestFor)가 같은 규칙.
    예전엔 bestFor가 이 규칙을 안 써서 고른 뒤에도 칸 비교·게임 툴팁에 고르지 않은 보상이 「좋아짐」으로 나왔음 */
 function p1Out(c){const eqQ=new Set(SLOTS.map(([s])=>eqIt(c,s)).filter(Boolean).map(pickOneQ).filter(Boolean));const rp=c.rwPick||{};const hasRp=Object.keys(rp).length>0;
   return it=>{if(!eqQ.size&&!hasRp)return false;const q=pickOneQ(it);return !!q&&(eqQ.has(q)||(rp[q]&&rp[q]!==it.id&&rwChoices(q).includes(rp[q])))}}
+/* 고유 장착 묶음(게임 툴팁 「고유 장착 아이템: 감시자의 인장 (1)」, build.py D_UNIQ): 같은 묶음 템이 다른 칸(바꿀 칸 말고)에 있으면 못 낌 */
+const uqOf=id=>typeof D_UNIQ!=='undefined'&&D_UNIQ[id]||null;
+function uqClash(c,id,slot){const g=uqOf(id);if(!g)return false;return Object.keys(c.eq||{}).some(s=>s!==slot&&c.eq[s]&&c.eq[s]!==id&&uqOf(c.eq[s])===g)}
 function upgrades(c,L,mode,minLv,ex){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);if(ex)ex.forEach(i=>ng.add(i));
   /* 좋아지는 값은 「바꿨을 때 전체 점수(eqScore) 차이」로 (BiS QA P2): 칸 하나만 보면 적중 상한을 넘겨 다른 칸 적중 값이 떨어지는 것·세트 효과가 깨지는 것을 못 봐서
      채운 세트에 「정조준 건틀릿 +19」처럼 실제로는 점수가 내려가는 바꾸기가 남았음. 칸마다 점수 높은 후보 6개를 끼워 보고 전체 점수가 가장 많이 오르는 것 */
@@ -4760,10 +4763,11 @@ function upgrades(c,L,mode,minLv,ex){const out=[];const w=wOf(c);const ng=new Se
     let base=curS;if(slot==='main')base=sc(eqIt(c,'main'),'main',w,c)+(0);
     if(slot==='off'&&eqIt(c,'main')&&eqIt(c,'main').sl==='2h')continue;
     const have=new Set(pair.map(p=>c.eq[p]).filter(Boolean));
-    const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&!ng.has(x.it.id)&&!p1No(x.it)&&(minLv==null||obOf(x.it,mode)>=minLv)&&!(slot==='off'&&out.some(o=>o.slot==='main'&&o.it.id===x.it.id))
+    /* 고유 장착 묶음이 짝 칸 템과 같으면 그 칸을 바꾸는 쪽으로 (감시자 인장 → 감시관 인장) */const tgOf=id=>!uqClash(c,id,tgt)?tgt:(pair.find(p=>p!==tgt&&!uqClash(c,id,p))||null);
+    const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&tgOf(x.it.id)&&!ng.has(x.it.id)&&!p1No(x.it)&&(minLv==null||obOf(x.it,mode)>=minLv)&&!(slot==='off'&&out.some(o=>o.slot==='main'&&o.it.id===x.it.id))
       /* 지금 다른 손에 낀 무기는 이 손 추천에서 뺌(다른 손을 바꾸라는 추천이 없을 때) — 예전엔 한 손만 있으면 그 무기를 다른 손에도 추천했음 */&&!(slot==='off'&&x.it.id===c.eq.main&&!out.some(o=>o.slot==='main'))&&!(slot==='main'&&x.it.id===c.eq.off));
-    {let best=null;for(const x of list.slice(0,6)){const g=net(tgt,x.it);if(g>.01&&(!best||g>best.g+1e-9))best={x,g}}
-      if(best){const x=best.x;out.push({slot:tgt,it:x.it,g:best.g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c):base,empty:!eqIt(c,tgt)})}}}
+    {let best=null;for(const x of list.slice(0,6)){const t=tgOf(x.it.id);const g=net(t,x.it);if(g>.01&&(!best||g>best.g+1e-9))best={x,g,t}}
+      if(best){const x=best.x,t=best.t;out.push({slot:t,it:x.it,g:best.g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c):t===tgt?base:sc(eqIt(c,t),t,w,c),empty:!eqIt(c,t)})}}}
   /* 양손 무기 추천과 보조 추천이 같이 나오지 않게: 양손 vs (한손+보조) 중 나은 쪽만 */
   const mi=out.findIndex(o=>o.slot==='main'&&o.it.sl==='2h'),oi=out.findIndex(o=>o.slot==='off');
   if(mi>=0&&oi>=0){const m=out[mi],o=out[oi];const two=m.base+m.g;const offS=o.base+o.g;
@@ -4783,7 +4787,7 @@ function diffHtml(a,b,c){const w=wOf(c);const ks=new Set([...Object.keys(a?a.st:
   arr.sort((x,y)=>y[2]-x[2]);if(!arr.length)return '';
   return '<span class="dif">'+arr.slice(0,4).map(([k,d])=>'<span class="'+(d>0?'p':'n')+'">'+STAT_KO[k]+' '+(d>0?'+':'−')+(k==='dps'||(PCTK[k]&&Math.abs(d)%1)?Math.abs(d).toFixed(1):Math.round(Math.abs(d)))+'</span>').join(' · ')+'</span>'}
 function srcTxt(it,n){if(!it.src.length)return '출처 정보 없음';return it.src.slice(0,n||2).map(i=>{const s=SRC[i];if(!s)return '';
-  if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+(s.boss?' · '+s.boss:'');if(s.k===1)return / · 퀘스트 보상$/.test(s.qn)?s.qn:'퀘스트 「'+s.qn+'」'+(hordeQ(srcQid(s))?' (호드)':'');if(s.k===2)return '월드 드랍 (경매장)';if(s.pvp)return (s.k===1?'퀘스트 「'+s.qn+'」':s.label.replace(/^PvP · /,'').replace(/^상인 · /,'상인 '))+' (PvP)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':/^드랍 · 숨은 물건: /.test(s.label)?s.label.replace('드랍 · 숨은 물건: ','숨은 물건 「')+'」에서 얻기':s.label.replace('드랍 · ','')+' 처치';if(s.k===4){/* 획득 시 귀속(게임 툴팁) 제작템은 경매장에 안 나옴 — 예전엔 모두 「(경매장)」 */const pf=craftProf(s),bd=bindOf(it);return bd==='p'?pf+' 직접 제작':pf+' 제작 · '+(bd==='e'?'경매장에도 있어요':'경매장')}if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter(Boolean).join(' / ')}
+  if(s.k===0)return (DG[s.dg]?DG[s.dg].ko:s.dn)+(s.boss?' · '+s.boss:'');if(s.k===1)return / · 퀘스트 보상$/.test(s.qn)?s.qn:'퀘스트 「'+s.qn+'」'+(hordeQ(srcQid(s))?' (호드)':'');if(s.k===2)return '월드 드랍 (경매장)';if(s.pvp)return (s.k===1?'퀘스트 「'+s.qn+'」':s.label.replace(/^PvP · /,'').replace(/^상인 · /,'상인 '))+' (PvP)';if(s.k===3)return /미공개/.test(s.label)?'몹 드랍 (어디서 나오는지 아직 몰라요)':/^드랍 · 숨은 물건: /.test(s.label)?s.label.replace('드랍 · 숨은 물건: ','숨은 물건 「')+'」에서 얻기':s.label.replace('드랍 · ','')+' 처치';if(s.k===4){/* 획득 시 귀속(게임 툴팁) 제작템은 경매장에 안 나옴 — 예전엔 모두 「(경매장)」 */const pf=craftProf(s),bd=bindOf(it);return bd==='p'?pf+' 직접 제작':pf+' 제작 · '+(bd==='e'?'경매장에도 있어요':'경매장')}if(s.k===5)return s.label.replace('상인 · ','상인 ');return s.label}).filter((x,j,A)=>x&&A.indexOf(x)===j).join(' / ')}
 function srcList(it,c){if(!it.src.length)return '<p class="note">어디서 나오는지 아직 몰라요.</p>';
   return '<div class="srcl">'+it.src.slice(0,6).map(i=>{const s=SRC[i];if(!s)return '';const d=s.k===0&&DG[s.dg];
     const ico={0:'🏰',1:'📜',2:'🌍',3:'⚔️',4:'🧪',5:'🛒'}[s.k]||'•';const bn=d&&d.bosses?bossNo(d,s.boss):null;
@@ -5008,7 +5012,12 @@ function frGuess(A){const C=D_CLS[A.cls];let tsp=null;if(A.tal&&A.tal.length){ts
   const S=C.specs.find(x=>ROLE[A.cls+'/'+x.id]===role)||C.specs.find(x=>/딜/.test(role)&&/딜/.test(ROLE[A.cls+'/'+x.id]||''))||C.specs[0];return S.id}
 function frChar(k){const A=ARM[k];/* 직접 고른 친구 전문화는 캐릭터에 저장 (새로고침·연동 뒤에도) */const fs=(me()&&me().frsp)||{};const spec=(fs[k]&&D_CLS[A.cls].specs.some(s=>s.id===fs[k]))?fs[k]:frGuess(A);const eq={},eqv={};Object.values(A.gear).forEach(g=>{const s=ARM_SLOT[g.slot];if(s){const base=IT.get(g.id);armItem(g);eq[s]=g.id;if(base){const gs=armSt(g);if(varDiff(base,g.nm,gs))eqv[s]={id:g.id,nm:g.nm,st:gs}}}});
   return {cls:A.cls,spec,lv:A.level||1,race:(A.race||A.raceName)?armRace(A.race||A.raceName):A.race,eq,eqv,gmode:'heal',name:A.name,key:k}}
-function eqScore(c){const w=wOf(c);const eq={};SLOTS.forEach(([sl])=>{const it=eqIt(c,sl);if(it&&!offLocked(c,sl))eq[sl]=it.id});return SLOTS.reduce((a,[sl])=>a+(offLocked(c,sl)?0:sc(eqIt(c,sl),sl,w)),0)+setScoreEq(eq,w)}
+function eqScore(c){const w=wOf(c);const eq={};SLOTS.forEach(([sl])=>{const it=eqIt(c,sl);if(it&&!offLocked(c,sl))eq[sl]=it.id});return SLOTS.reduce((a,[sl])=>a+(offLocked(c,sl)?0:sc(eqIt(c,sl),sl,w)),0)+setScoreEq(eq,w)+hitFix(c,w)}
+/* 적중 상한 구간 맞추기: wOf(c)는 지금 적중 합계 자리의 배수(상한 1% 앞 0.6 · 넘으면 0.15)를 모든 적중에 곱함 — 템 하나를 고를 땐 「다음 1%의 값」이라 맞지만,
+   세트 전체 점수(eqScore)에선 상한 아래 적중까지 같이 깎여 적중을 더 끼면 점수가 떨어졌음 (BiS QA 2026-11-25: 분노 전사 손목 +1% 적중 → 전체 −46, 무기 전사 머리 렌드의 눈 −42 → 「채우기」가 적중 템을 피함).
+   전체 점수에선 적중을 구간마다 그 구간 배수로 셈(0.05%씩 더함): 기본 적중(종족·특성) 위에 템 적중이 올라가는 자리 */
+function hitFix(c,w){const h=hitInfo(c);const fh=hitF(h,c);if(fh===1&&h.hit<h.cap-1)return 0;let I=0,Ia=0;SLOTS.forEach(([sl])=>{const it=eqIt(c,sl);const v=it&&it.st.hit||0;Ia+=v;if(!offLocked(c,sl))I+=v});if(!(I>0)||!(fh>0))return 0;
+  const wh=((w.hit||0)+(w.shit||0))/fh;const B=h.hit-Ia;let E=0;const d=.05;for(let x=B;x<B+I-1e-9;x+=d){const st=Math.min(d,B+I-x);E+=st*hitF(Object.assign({},h,{hit:x+st/2}),c)}return wh*(E-fh*I)}
 function frScore(fc){const w=wOf(fc);return Object.entries(fc.eq).reduce((a,[s,id])=>a+sc(IT.get(id),s,w),0)+setScoreEq(fc.eq,w)}
 function frView(c){const ks=frList(c);if(!ARM_OK)return '<p class="note">전투정보실 자료를 불러오는 중…</p>';
   if(!ks.length)return '<div class="card"><p class="note">전투정보실에 등록된 친구가 없어요. data/armory/chars.txt에 이름을 넣으면 20분마다 불러와요.</p></div>';
@@ -5057,7 +5066,7 @@ function srcParts(c,it){let h='';
   const parts=[];const seen=new Set();
   const dq=findDgQuestByReward(it.id);
   if(dq){seen.add('dq');const q=dq.q,d=dq.d;parts.push('<div class="src"><b>📜 던전 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div><div class="obj">'+esc(q.obj)+'</div><div class="sub">'+esc(startTxt(q.start))+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 먼저':'')+'</div><div class="sub">던전: '+esc(d.ko)+' ('+esc(d.loc)+' · 권장 '+d.lo+'–'+d.hi+')'+(q.boss.length?' · 목표: '+q.boss.map(x=>esc(x.replace(/^(\d+) /,'$1번 '))).join(', '):'')+'</div>'+(()=>{const t0=((QD.get(q.id)||{}).t||[]).find(t=>t&&t[2]);const w=qWhere(q.id,t0?t0[1]:'',t0?t0[2]:'');return w?'<div class="sub">📍 할 일 위치: '+esc(w)+'</div>':''})()+(q.choose&&q.rw.length>1?'<div class="sub">보상 '+q.rw.length+'개 중 하나를 골라요</div>':'')+'<div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+q.id+'">퀘스트·위치 보기</button><button class="btn sm ghost" data-a="dgo" data-k="'+d.slug+'">던전 보기</button></div></div>')}
-  for(const i of it.src){const s=SRC[i];if(!s)continue;
+  for(const i of it.src){const s=SRC[i];if(!s)continue;{const dk='s'+s.k+'~'+s.label;if(seen.has(dk))continue;seen.add(dk)}/* 같은 출처 글 두 줄(평판 보상 8·9 → 상인)은 한 번만 */
     if(s.k===0){const d=DG[s.dg];const n=d?bossNo(d,s.boss):null;parts.push('<div class="src"><b>🏰 던전 보스 드랍</b><div class="nm">'+esc(d?d.ko:s.dn)+(n?' · '+n+'번째 보스':'')+' 「'+esc(s.boss)+'」</div>'+(d?'<div class="sub">'+esc(d.loc)+' · 권장 레벨 '+d.lo+'–'+d.hi+(d.bosses.length?' · 보스 '+d.bosses.length+'마리'+(n?' 중 '+n+'번째':''):'')+'</div><button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 보기</button>':'')+'</div>')}
     else if(s.k===1){if(dq&&srcQid(s)===dq.q.id)continue;const m=s.qn.match(/^(.+?) · 퀘스트 보상$/);if(m){if(seen.has('dq'))continue;const d=DGS.find(x=>x.ko===m[1]);parts.push('<div class="src"><b>📜 던전 퀘스트 보상</b><div class="nm">'+esc(m[1])+' 퀘스트 중 하나</div>'+(d?'<button class="btn sm" data-a="dgo" data-k="'+d.slug+'">던전 퀘스트 보기</button>':'')+'</div>');continue}
       /* 퀘스트 번호로 먼저 찾음: 예전엔 이름으로만 찾아 같은 이름 연계(알살락스의 탑 4단계 등 48곳)의 첫 단계가 열리고 레벨·할 일도 첫 단계 것이 나왔음 */
@@ -5070,12 +5079,14 @@ function srcParts(c,it){let h='';
     else if(s.k===3)parts.push('<div class="src"><b>⚔️ 몹 드랍</b><div class="nm">'+esc(s.label.replace('드랍 · ',''))+'</div><div class="sub">이 몹을 잡으면 낮은 확률로 나와요.</div></div>');
     else if(s.k===2)parts.push('<div class="src"><b>🎲 월드 드랍</b><div class="sub">레벨 맞는 필드 몹에게서 무작위로 나와요. 경매장에서 사는 게 빨라요.</div></div>');
     else if(s.k===4)parts.push(craftBox(c,it,s));
-    else if(s.k===5)parts.push('<div class="src"><b>🪙 상인 판매</b><div class="nm">'+esc(s.label.replace(/^상인 · /,''))+'</div></div>');
+    else if(s.k===5)parts.push(/^평판 보상/.test(s.label)?'<div class="src"><b>🏅 평판 보상</b><div class="sub">세력 평판으로 사요'+(typeof D_IREP!=='undefined'&&D_IREP[it.id]?'':' · 필요한 세력·단계는 게임 툴팁에 있어요')+'</div></div>':'<div class="src"><b>🪙 상인 판매</b><div class="nm">'+esc(s.label.replace(/^상인 · /,''))+'</div></div>');
     else parts.push('<div class="src">'+esc(s.label)+'</div>')}
   /* 💰 경매장 시세(1시간마다 블리자드 API): 매물이 있으면 최저가·개수 · 없으면 경매장에서 구하는 템(월드 드랍·착용 시 귀속 제작)만 「없었어요」 */
   {const A=ahGet(c,it.id);const ahy=it.src.some(i=>SRC[i]&&(SRC[i].k===2||(SRC[i].k===4&&bindOf(it)!=='p')));
     if(A&&!A.none)parts.push('<div class="src ahs"><b>💰 경매장</b><div class="nm"><span>최저 '+ahG(A.u)+' · 매물 '+A.q.toLocaleString()+'개</span></div><div class="sub">'+(A.p[1]?'5번째로 싼 것 '+ahG(A.p[1])+' · ':'')+'시세 '+ahAge(A.t)+(A.nt?' · 중립 경매장':'')+'</div></div>');
     else if(A&&A.none&&ahy)parts.push('<div class="src ahs"><b>💰 경매장</b><div class="sub">'+ahAge(A.t)+' 시세에는 매물이 없었어요</div></div>')}
+  {const ir=typeof D_IREP!=='undefined'&&D_IREP[it.id];if(ir){const r=(c.rep||[]).find(x=>x.nm===ir[0]);parts.unshift('<div class="src"><b>🏅 필요한 평판</b><div class="sub rpn"><b>'+esc(ir[0])+' '+repNm(ir[1])+'</b> 이상이어야 사거나 낄 수 있어요'+(r?(r.st>=ir[1]?' · ✅ 지금 '+repNm(r.st):' · 지금 '+repNm(r.st)):' · 내 평판은 애드온으로 불러오면 보여요')+'</div></div>')}}
+  if(it.src.some(i=>SRC[i]&&SRC[i].ev))parts.unshift('<div class="src"><b>🎪 행사 때만</b><div class="sub">다크문 축제가 열렸을 때나 구루바시 투기장 행사 때만 받을 수 있어요. 그래서 「퀘스트+던전」 추천에선 빼고 「전체」에서 보여요.</div></div>');
   h+=parts.length?parts.join(''):'<p class="note">출처 정보가 없어요.</p>';
   return h}
 function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';if(!QDB)qdbLoad();const b=bestSlot(it,c);const cur=b?eqIt(c,b.s):null;
@@ -5503,7 +5514,7 @@ function fillPlan(c,quick){const t=Object.assign({},c,{eq:Object.assign({},c.eq|
   /* 보조를 이미 꼈으면 빈 주무기엔 양손 대신 가장 좋은 한손 (양손으로 바꾸기는 칸 창에서 직접) */
   const one=()=>{const ng=new Set(cv.nogo||[]),p1=p1Out(cv);const x=cands(cv,'main',L,M).find(x=>x.it.sl!=='2h'&&x.it.id!==t.eq.off&&!ng.has(x.it.id)&&!p1(x.it));return x&&x.it};
   const take=o=>{if(o.slot==='main'&&o.it.sl==='2h'&&t.eq.off){if(lock.has('off')){const m=one();if(m&&!t.eq.main)put('main',m.id);return}put('main',o.it.id);delete t.eq.off;P.push(['off',null]);return}put(o.slot,o.it.id)};
-  for(let r=0;r<4;r++){const U=upgrades(cv,L,M).filter(o=>o.empty&&!t.eq[o.slot]&&!offLocked(cv,o.slot));if(!U.length)break;let n=0;for(const o of U){if(t.eq[o.slot]||offLocked(cv,o.slot)||(o.slot==='off'&&o.it.id===t.eq.main)||(o.slot==='main'&&o.it.id===t.eq.off))continue;const k=P.length;take(o);if(P.length>k)n++}if(!n)break}
+  for(let r=0;r<4;r++){const U=upgrades(cv,L,M).filter(o=>o.empty&&!t.eq[o.slot]&&!offLocked(cv,o.slot));if(!U.length)break;let n=0;for(const o of U){if(t.eq[o.slot]||offLocked(cv,o.slot)||(o.slot==='off'&&o.it.id===t.eq.main)||(o.slot==='main'&&o.it.id===t.eq.off)||uqClash(t,o.it.id,o.slot))continue;/* 같은 차례에 고유 장착 묶음 둘(장인 등급 다리·손)을 같이 넣지 않게 */const k=P.length;take(o);if(P.length>k)n++}if(!n)break}
   /* 채운 칸끼리 다시 보기 (BiS QA P2): 세트 효과·적중 상한처럼 다른 칸과 같이 봐야 하는 점수 때문에 채운 뒤 바로 「바꿀 것」이 남던 것(11특성 81건).
      이번에 채운 칸만 · 「바꿀 것」 후보를 하나씩 끼워 보고 전체 점수(eqScore, 세트 효과 포함)가 0.5 넘게 오를 때만 바꿈 → 되돌아가는 일 없음 · 원래 낀 칸은 그대로
      quick = 버튼 숫자 셀 때(채울 칸 수만 필요): 다시 보기는 건너뜀(그리기 느려지지 않게) */
@@ -5706,7 +5717,7 @@ const HEALER_NOTE={paladin:1,shaman:1,druid:1};
 function offLocked(c,s){return s==='off'&&(!!(eqIt(c,'main')&&eqIt(c,'main').sl==='2h')||wsetOf(c)==='2h'&&!eqIt(c,'off'))}
 function bestFor(c,slot,L,mode){const w=wOf(c);const cur=eqIt(c,slot);const other=slot==='ring1'?'ring2':slot==='ring2'?'ring1':slot==='trink1'?'trink2':slot==='trink2'?'trink1':null;const skip=other?c.eq[other]:slot==='off'?c.eq.main:slot==='main'?c.eq.off:null;/* 짝 칸(반지·장신구)과 두 손 무기: 다른 칸에 낀 템은 빼요 */
   const base=slot==='main'?sc(cur,'main',w,c):sc(cur,slot,w,c);
-  const ng=c.nogo||[];const p1No=p1Out(c);return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!ng.includes(x.it.id)&&!p1No(x.it)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w,c)+sc(eqIt(c,'off'),'off',w,c):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
+  const ng=c.nogo||[];const p1No=p1Out(c);return cands(c,slot,L,mode).filter(x=>x.it.id!==(cur&&cur.id)&&x.it.id!==skip&&!uqClash(c,x.it.id,slot)&&!ng.includes(x.it.id)&&!p1No(x.it)).map(x=>{const b=slot==='main'&&x.it.sl==='2h'?sc(cur,'main',w,c)+sc(eqIt(c,'off'),'off',w,c):base;return {it:x.it,s:x.s,g:x.s-b,base:b}}).filter(x=>x.g>.01).sort((a,b)=>b.g-a.g)}
 const gNum=g=>g>=10?Math.round(g):g.toFixed(1);
 /* 칸 비교 창 「🔜 레벨 오르면」: 10레벨 안에 얻는 것 중 지금 추천(없으면 지금 장비)보다 확실히 좋은 것 2개 — 가까운 레벨 먼저 */
 function nextBox(c,slot,best){const L=c.lv;if(L>=60)return '';const top=best&&best.length?best[0].g:0;const seen=new Set((best||[]).map(x=>x.it.id));
@@ -6003,7 +6014,8 @@ const SESS_MAX=3*86400;
 function sessFix(s){const ok=v=>Number.isFinite(v)&&v>=0;if(!s||!ok(s.secs)||!ok(s.xp)||s.secs>SESS_MAX)return null;
   return ok(s.hs)&&ok(s.hx)&&s.hs>=s.secs&&s.hs<=5*SESS_MAX&&s.hx>=s.xp?s:Object.assign({},s,{hx:s.xp,hs:s.secs})}
 const xpRate=c=>{const s=sessFix(c.sess);return s&&s.hs>=600?s.hx/s.hs*3600:0};
-const REP_ST=[[1,'적대',-42000,-6000],[2,'적대적',-6000,-3000],[3,'약간 적대적',-3000,0],[4,'중립',0,3000],[5,'우호적',3000,9000],[6,'존경',9000,21000],[7,'매우 존경',21000,42000],[8,'확고한 동맹',42000,42999]];
+/* 평판 단계 이름은 게임 한글판 그대로(툴팁 「약간 우호적 평판 필요」·퀘스트 「확고한 동맹 이상의 평판」) — 예전엔 5 우호적 · 6 존경 · 7 매우 존경이라 게임 글과 한 단계씩 어긋나 보였음 */
+const REP_ST=[[1,'적대',-42000,-6000],[2,'적대적',-6000,-3000],[3,'약간 적대적',-3000,0],[4,'중립',0,3000],[5,'약간 우호적',3000,9000],[6,'우호적',9000,21000],[7,'매우 우호적',21000,42000],[8,'확고한 동맹',42000,42999]];
 const myXp=c=>c.xp&&c.xp.lv===c.lv&&c.xp.max>0?c.xp:null;
 /* 애드온에서 가져온 퀘스트 목표 진행도 */
 const qpHtml=(c,id)=>{const P=(c.qp||{})[id];if(!P||!P.length||!(c.ql||{})[id])return '';return '<span class="qpg'+(P.every(o=>o[0]>=o[1])?' ok':'')+'">'+P.map(o=>o[0]+'/'+o[1]).join(' · ')+'</span>'};
