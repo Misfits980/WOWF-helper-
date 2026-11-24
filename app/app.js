@@ -223,7 +223,7 @@ function syMergeGame(R){let local=false,remote=false;
   if(eo.length)DB.ent=eo.slice(-400);
   return {local,remote}}
 /* 게임에서 불러온 것(애드온 코드)은 「불러온 시각」으로 따로 비교: 다른 기기에서 나중에 사소한 걸 고쳐도 더 새로 불러온 장비·가방이 지워지지 않게 */
-const SY_IMP=['eq','eqv','bag','bank','gold','rep','ql','qp','lv','tal','wsk','taxi','sess','xp','profLv','profs','imported','spec','fsT','fsName'];
+const SY_IMP=['eq','eqv','bag','bank','gold','rep','ql','qp','lv','tal','wsk','taxi','sess','xp','profLv','profs','imported','spec','fsT','fsName','realm'];
 const impT=c=>(c&&c.imported&&c.imported.t)||0;
 /* 둘 중 이긴 쪽(w)에 진 쪽(o)의 더 새 불러오기와 끝낸 퀘스트 표시를 합침. 바뀌면 true */
 function syFold(w,o){let ch=false;
@@ -523,6 +523,8 @@ let ARM_ERR=0;
 armFetch().then(()=>render());
 setInterval(()=>{if(!document.hidden)armFetch()},10*60e3);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-ARM_AT>5*60e3)armFetch()});
+/* 💰 경매장 시세도 같은 식으로: 앱 열고 조금 뒤 · 30분마다 · 다시 볼 때 (ahFetch 안에서 10분에 한 번만) */
+setTimeout(()=>ahFetch(),1500);setInterval(()=>{if(!document.hidden)ahFetch()},30*60e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden)ahFetch()});
 function armBox(c){const keys=Object.keys(ARM).filter(k=>ARM[k]&&ARM[k].gear);const A=c&&ARM[c.arm];
   let h='<h3>⚔️ 전투정보실 연결</h3>';
   if(A)h+='<p class="note">연결됨: <b>'+esc(A.name)+'</b> ('+esc(A.key)+') · 레벨 '+(A.level||'?')+' · 마지막 갱신 '+armAgo(A.checked)+'<br>20분마다, 그리고 매일 밤 12시에 전투정보실을 다시 읽어 레벨과 장비를 맞춰요. 게임에서 <b>로그아웃해야</b> 전투정보실이 바뀌어요.</p><button class="btn sm" data-a="armref">🔄 새로 고침</button> <button class="btn sm ghost" data-a="armnow">지금 자료로 다시 맞추기</button> <button class="btn sm ghost" data-a="armoff">연결 끊기</button>';
@@ -882,6 +884,7 @@ let chx=chainOf(id);
   else if(d.r&&d.r[3])h+='<p class="npc">'+QMK.r+' 반납하는 곳: 받은 NPC에게 다시</p>';
   /* 반납 NPC 자료가 없는 퀘스트(24개, 그중 장인의 계약서 17개): 빈칸으로 두지 않고 근거대로 — 설명에 「지도에 표시된 장소」면 정해진 NPC 없음, 아니면 자료에 없음 */
   else if(XG&&!(d.r&&d.r[0])&&!(XG.r&&XG.r[0])){const mapT=/지도에 (표시|지정)된/.test(obj);h+='<p class="npc">'+QMK.r+' 반납하는 곳: '+(mapT?'<b>정해진 NPC 없음</b> · 지도에 표시된 곳으로 가져가요'+(XG.g&&XG.g[3]==='item'?' · 시작한 계약서를 가방에 갖고 있어야 해요':''):'<span class="mute">자료에 없어요 · 퀘스트 설명을 따라가세요</span>')+'</p>'}
+  if(XG&&/^장인의 계약서/.test(XG.n||''))h+=writQuote(c,XG);
   /* 보상 */
   /* ★ 추천·좋아짐은 장비 탭과 같은 기준: 근접·탱커에게 천(clothNo)은 안 권함 — 예전엔 전사에게 「탄돌 교각」 천 바지가 ★였고 게임 「고를 템」 코드도 그걸 알려 줬음 */
   const tile=(x,best)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use&&!clothNo(c,it)?bestSlot(it,c):null;
@@ -992,7 +995,11 @@ function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)retur
 const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
 const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(ql[srcQid(s)]||(IT_Q[it.id]||[]).some(x=>ql[x])))};
 function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(s=>srcSure(s)&&!s.raid&&!s.pvp))return 'sure';if(S.some(s=>s.raid&&srcSure(s)))return 'raid';if(S.some(s=>s.pvp))return 'pvp';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
-const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',soon:'🚧 개방 예정 던전',ah:bindOf(it)==='p'?'🔨 직접 제작':'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+'</span>'};
+/* 짧은 값(목록 칩): 1골드 넘으면 골드만, 아니면 실버, 아니면 코퍼 */
+const goldShort=cp=>{cp=Math.max(0,Math.round(cp||0));return cp>=10000?(cp>=1e5?Math.round(cp/1e4):Math.round(cp/1e3)/10)+'골드':cp>=100?Math.round(cp/100)+'실버':cp+'코퍼'};
+/* 경매장·운 템 칩에 시세 붙이기(시세가 있을 때만) */
+const luckAh=(it,c,k)=>{if(!c||!(k==='ah'||k==='world'||k==='unknown'))return '';const A=ahGet(c,it.id);return A&&!A.none?' · 최저 '+goldShort(A.u):''};
+const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',soon:'🚧 개방 예정 던전',ah:bindOf(it)==='p'?'🔨 직접 제작':'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+luckAh(it,c,k)+'</span>'};
 /* 추천 기준: q 퀘스트만(던전 퀘스트 빼고) · dg 던전만(던전 보스·던전 퀘스트) · ok 퀘스트+던전(퀘스트·던전·상인·이름 있는 몹, 기본) · rd 레이드까지(ok + 레이드 보스·레이드 퀘스트) · all 전체(경매장·월드 드랍·명예 상인까지)
    레이드·명예 상인 출처는 build.py가 4번째 칸(r·p)으로 표시 */
 let DQSET=null;const dqSet=()=>DQSET||(DQSET=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id))));
@@ -1347,6 +1354,10 @@ function srcParts(c,it){let h='';
     else if(s.k===4)parts.push(craftBox(c,it,s));
     else if(s.k===5)parts.push('<div class="src"><b>🪙 상인 판매</b><div class="nm">'+esc(s.label.replace(/^상인 · /,''))+'</div></div>');
     else parts.push('<div class="src">'+esc(s.label)+'</div>')}
+  /* 💰 경매장 시세(1시간마다 블리자드 API): 매물이 있으면 최저가·개수 · 없으면 경매장에서 구하는 템(월드 드랍·착용 시 귀속 제작)만 「없었어요」 */
+  {const A=ahGet(c,it.id);const ahy=it.src.some(i=>SRC[i]&&(SRC[i].k===2||(SRC[i].k===4&&bindOf(it)!=='p')));
+    if(A&&!A.none)parts.push('<div class="src ahs"><b>💰 경매장</b><div class="nm"><span>최저 '+ahG(A.u)+' · 매물 '+A.q.toLocaleString()+'개</span></div><div class="sub">'+(A.p[1]?'5번째로 싼 것 '+ahG(A.p[1])+' · ':'')+'시세 '+ahAge(A.t)+(A.nt?' · 중립 경매장':'')+'</div></div>');
+    else if(A&&A.none&&ahy)parts.push('<div class="src ahs"><b>💰 경매장</b><div class="sub">'+ahAge(A.t)+' 시세에는 매물이 없었어요</div></div>')}
   h+=parts.length?parts.join(''):'<p class="note">출처 정보가 없어요.</p>';
   return h}
 function infoSheet(c,id){const it=IT.get(+id);if(!it)return '';if(!QDB)qdbLoad();const b=bestSlot(it,c);const cur=b?eqIt(c,b.s):null;
@@ -1811,6 +1822,8 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
     if(x.pages)sub.push(x.pages.length+'장 · '+x.pages.join('·')+'쪽');
     if(x.where==='bank')sub.push('<i class="bk">은행</i>');
     if(x.why)sub.push('<i class="why">'+esc(x.why)+'</i>');
+    /* 💰 경매장 시세: 팔 것은 경매장이 상점보다 꽤 비쌀 때만(수수료 5% 빼고 1.5배·10실버 넘게), 은행·경매장 묶음은 시세가 있으면 늘 */
+    if(!x.pages&&(k==='sell'||k==='done'||k==='bank')){const A=k==='bank'?ahGet(c,x.id):bagAhBetter(c,x);if(A&&!A.none)sub.unshift('<i class="ahb'+(k==='bank'?' s':'')+'">경매장 개당 '+ahG(A.u)+(k!=='bank'&&x.I.sell?' · 상점의 '+Math.floor(A.u*.95/x.I.sell)+'배':'')+'</i>')}
     const pr=(k==='sell'||k==='done')&&x.I.sell?'<span class="pr">'+goldTxt(x.I.sell*x.n)+'</span>':'';
     /* 끝낸 퀘스트 템: 어느 퀘스트에 썼는지 */if(k==='done'&&x.qs&&x.qs.length)sub.unshift('<span class="qln">「'+esc(x.qs[0].X.n)+'」'+(x.qs.length>1?' 외 '+(x.qs.length-1)+'개':'')+' 끝냄</span>');
     const Q=k==='q'&&x.qs&&x.qs.length?x.qs:null;
@@ -1825,7 +1838,8 @@ function bagSortCard(c){if(!c.bag)return '';if(!QDB)qdbLoad();if(!BAGDB){bagDbLo
   G.q.forEach(x=>{x.qs=itemQuests(c,x.I.nm)});
   const KIND={0:'물약·음식',1:'가방',2:'장비',4:'장비',9:'도안·조리법',13:'열쇠',15:'기타'};
   G.other.forEach(x=>{if(!x.why)x.why=KIND[x.I.cls]||'기타'});
-  const SEC=[['q','inv_misc_note_06','퀘스트에 써요','누르면 어느 퀘스트에 쓰는지 · 몇 레벨인지 나와요',G.q,true],['done','inv_misc_note_02','이제 필요 없어요','끝낸 퀘스트 템 · 팔거나 버려도 돼요'+(doneSum?' · 상점에 팔면 약 '+goldTxt(doneSum):''),G.done,true],['sell','inv_misc_coin_01','팔아도 돼요',sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'',G.sell,true],
+  const ahB=L=>{const n=L.filter(x=>!x.pages&&bagAhBetter(c,x)).length;return n?' · 경매장이 더 비싼 것 '+n+'개':''};
+  const SEC=[['q','inv_misc_note_06','퀘스트에 써요','누르면 어느 퀘스트에 쓰는지 · 몇 레벨인지 나와요',G.q,true],['done','inv_misc_note_02','이제 필요 없어요','끝낸 퀘스트 템 · 팔거나 버려도 돼요'+(doneSum?' · 상점에 팔면 약 '+goldTxt(doneSum):'')+ahB(G.done),G.done,true],['sell','inv_misc_coin_01','팔아도 돼요',((sellSum?'상점에 팔면 약 '+goldTxt(sellSum):'')+ahB(G.sell)).replace(/^ · /,''),G.sell,true],
     ['mat','inv_fabric_linen_01','내 전문기술 재료',(c.profs||[]).join('·'),G.mat,false],['bank','inv_box_01','은행·경매장으로',(c.profs||[]).length?'내 전문기술에 안 쓰는 재료':'전문기술을 앱에 넣으면 쓰는 재료는 따로 빼 줘요',G.bank,false],['keep','inv_misc_bag_10','가방에 두기','물약·음식·도안·열쇠·장비 등 — 장비는 아래 「내 가방·은행 장비」에서 비교',G.other,false]];
   const sec=([k,e,t,sub,L,open])=>{if(!L.length)return '';const R2=grp(L.slice().sort((a,b)=>a.I.nm.localeCompare(b.I.nm,'ko')));
     return '<details class="bgsg g-'+k+'"'+(open?' open':'')+'><summary>'+gic(e,'e')+'<b>'+t+'</b><span class="n">'+L.length+'</span>'+(sub?'<small>'+sub+'</small>':'')+'<i class="cv"></i></summary><div class="bgl">'+R2.map(x=>row(x,k)).join('')+'</div></details>'};
@@ -2160,6 +2174,85 @@ function nchain(c,id,more){ui.nch=ui.nch||{};const open=!!ui.nch[id];
 /* 클래식 레벨별 다음 레벨까지 경험치 (포에버도 거의 같다고 보고 '약'으로 표시) */
 /* 애드온에서 가져온 경험치 (그 레벨일 때만 유효) */
 const goldTxt=cp=>{cp=Math.max(0,Math.floor(cp||0));const g=Math.floor(cp/10000),sv=Math.floor(cp%10000/100),cu=cp%100;return (g?'<b class="gg">'+g+'</b>골드 ':'')+(g||sv?'<b class="gs">'+sv+'</b>실버 ':'')+(g?'':'<b class="gc">'+cu+'</b>코퍼')};
+/* ===== 💰 경매장 시세 =====
+   GitHub 작업(.github/workflows/ah.yml · tools/ah-sync.mjs)이 1시간마다 블리자드 개발자 API에서 포에버 경매장을 받아 ah-data 가지에 올림
+   (전투정보실 불러오기와 같은 방식, 키는 GitHub Secrets에만): index.json = 경매장 목록 {t, h:[{k 연결서버-경매장, f a·n·h, rl 서버 이름들, n 매물, ni 아이템, t}]}
+   h-<k>.txt = 아이템마다 「번호:매물 개수:값,값,…」(36진수, 「|」로 이음) · 값 = 싼 것부터 1·5·20·50·100·200·500·1000번째 한 개 값(코퍼)
+   앱은 내 캐릭터들 서버의 얼라이언스 경매장만 받아 이 기기에 둠(wowf_ahsv) · 연동으로 안 보내도 기기마다 같은 자료를 받음 */
+const AH_URL='https://raw.githubusercontent.com/Misfits980/WOWF-helper-/ah-data/';
+const AH_K=[1,5,20,50,100,200,500,1000],AH_OLD=6*36e5;
+let AHS=(()=>{try{const v=JSON.parse(localStorage.getItem(LSK('wowf_ahsv'))||'null');return v&&typeof v==='object'&&v.hs?v:{idx:null,hs:{}}}catch(e){return {idx:null,hs:{}}}})();
+let AH_AT=0,AH_BUSY=false,AH_ERR=0;
+const ahSave=()=>{try{localStorage.setItem(LSK('wowf_ahsv'),JSON.stringify(AHS))}catch(e){}};
+/* 캐릭터 서버 이름: 애드온으로 불러온 서버(c.realm) → 전투정보실 연결(kr/이름-서버) */
+const ahRealm=c=>{if(!c)return '';if(c.realm)return c.realm;const a=String(c.arm||'').split('/')[1]||'';const i=a.indexOf('-');return i>0?a.slice(i+1):''};
+/* 이 캐릭터가 볼 경매장: 직접 고른 것(c.ahH) → 서버 이름이 맞는 얼라이언스 경매장 → 얼라이언스 경매장이 하나뿐이면 그것 */
+function ahHouse(c){const I=AHS.idx;if(!I||!Array.isArray(I.h)||!I.h.length)return null;
+  if(c&&c.ahH){const x=I.h.find(h=>h.k===c.ahH);if(x)return x}
+  const A=I.h.filter(h=>h.f==='a'),rl=nkey(ahRealm(c));
+  if(rl){const x=A.find(h=>(h.rl||[]).some(n=>nkey(n)===rl));if(x)return x}
+  return A.length===1?A[0]:null}
+/* 시세 받기: 앱 열 때 · 30분마다 · 다시 볼 때(10분 넘었으면) · 경매장을 고를 때 */
+async function ahFetch(force){if(AH_BUSY||(!force&&Date.now()-AH_AT<10*60e3))return;AH_BUSY=true;AH_AT=Date.now();let ch=false;
+  try{const r=await fetch(AH_URL+'index.json?t='+Math.floor(Date.now()/6e5),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const I=await r.json();if(!I||!Array.isArray(I.h))throw new Error('index');
+    if(!AHS.idx||AHS.idx.t!==I.t)ch=true;AHS.idx=I;
+    const want=new Set();DB.list.forEach(x=>{const H=ahHouse(x);if(H)want.add(H.k)});
+    for(const k of want){const H=I.h.find(h=>h.k===k);const B=AHS.hs[k];if(!H||(B&&B.t===H.t))continue;
+      const r2=await fetch(AH_URL+'h-'+k+'.txt?t='+H.t);if(!r2.ok)continue;const s=(await r2.text()).trim();if(!s)continue;AHS.hs[k]={t:H.t,s};ch=true}
+    Object.keys(AHS.hs).forEach(k=>{if(!want.has(k))delete AHS.hs[k]});AH_ERR=0;ahSave()}
+  catch(e){AH_ERR=Date.now()}finally{AH_BUSY=false}
+  if(ch)rerender(true);return ch}
+const AHC=new Map();/* 경매장 → {t, M: Map(아이템 번호 → {q 매물 개수, p 값들})} */
+function ahMap(k){const B=AHS.hs[k];const C=AHC.get(k);if(C&&B&&C.t===B.t)return C.M;const M=new Map();
+  if(B&&B.s)B.s.split('|').forEach(x=>{const a=x.split(':');if(a.length<3)return;const id=parseInt(a[0],36);if(!id)return;const pv=a[2].split(',').map(v=>parseInt(v,36)||0).filter(v=>v>0);if(pv.length)M.set(id,{q:parseInt(a[1],36)||0,p:pv})});
+  AHC.set(k,{t:B&&B.t,M});return M}
+/* 이 캐릭터의 경매장과 받은 시세 · 아직 없으면 null(받기 시작) */
+function ahPick(c){const H=ahHouse(c);if(!H){if(!AHS.idx)ahFetch();return null}const B=AHS.hs[H.k];if(!B||!B.s){ahFetch(!AH_ERR);return null}return {k:H.k,H,e:{t:B.t,nt:H.f==='n',ni:H.ni}}}
+/* 아이템 하나 시세: {q 매물 개수, p 값들, u 최저가, t 시각, nt 중립} · 시세가 없으면 null · 시세는 있는데 매물이 없으면 {none:true,t} */
+function ahGet(c,id){const P=ahPick(c);if(!P||!id)return null;const x=ahMap(P.k).get(+id);return x?{q:x.q,p:x.p,u:x.p[0],t:P.e.t,nt:P.e.nt}:{none:true,t:P.e.t,nt:P.e.nt}}
+const ahHName=h=>(h.rl&&h.rl.length?h.rl.slice(0,3).join('·')+(h.rl.length>3?' 외 '+(h.rl.length-3):''):'서버 '+h.k.split('-')[0])+(h.f==='n'?' 중립':'');
+/* n개 사는 값(어림): 싼 것부터 차례로 산다고 보고, 기준점(1·5·20…번째) 사이는 양 끝 값의 가운데 · 매물이 모자라면 short */
+function ahCost(x,n){if(!x||x.none||!(n>0))return null;const m=Math.min(n,x.q);let cost=0,prev=0;
+  for(let i=0;i<x.p.length&&prev<m;i++){const hi=Math.min(AH_K[i],m);if(hi>prev){cost+=(hi-prev)*(i?(x.p[i-1]+x.p[i])/2:x.p[0]);prev=hi}}
+  if(prev<m)cost+=(m-prev)*x.p[x.p.length-1];return {cost:Math.round(cost),got:m,short:Math.max(0,n-x.q)}}
+/* 가방 정리: 상점보다 경매장이 꽤 비싼지(수수료 5% 빼고 1.5배 넘고 10실버 넘게 차이) · 그러면 시세 */
+function bagAhBetter(c,x){const A=ahGet(c,x.id);if(!A||A.none)return null;const net=A.u*.95,v=(x.I&&x.I.sell)||0;return net>=v*1.5&&net-v>=1000?A:null}
+/* 💰 장인의 계약서 견적 (QA 시트 11번): 계약서(시작 아이템)와 완제품을 가방·퀘스트창과 맞춰 보고 모자란 것만 경매장 시세로.
+   완제품은 사는 값, 제작법 자료(rcp.json)가 있으면 재료 값도 · 몇 개 내는지는 퀘스트창 진행도(게임)에서만 알 수 있음(자료에 개수가 없음) */
+let BAGN=null;
+function bagByName(nm){if(!BAGDB||!nm)return [];if(!BAGN||BAGN.db!==BAGDB){const M=new Map();BAGDB.forEach((v,id)=>{const a=M.get(v.nm);if(a)a.push(id);else M.set(v.nm,[id])});BAGN={db:BAGDB,M}}return BAGN.M.get(nm)||[]}
+function writQuote(c,X){if(!BAGDB){bagDbLoad();return '<div class="ahq"><h5>견적</h5><p class="note">아이템 자료를 불러오는 중…</p></div>'}
+  if(!RCP)rcpLoad();
+  const cnt=id=>((c.bag||{})[id]||0)+((c.bank||{})[id]||0);const T=X.t||[];
+  const wn=X.g&&X.g[3]==='item'&&X.g[0]?X.g[0]:X.n;const wIds=bagByName(wn);const inLog=((c.ql||{})[X.id]||0)>=1;const wBag=wIds.some(i=>cnt(i)>0);
+  const pi=T.findIndex(t=>t[0]==='수집'&&t[1]&&t[1]!==wn&&!/^Craftsman/i.test(t[1]));const pn=pi>=0?T[pi][1]:'';
+  const pIds=bagByName(pn);const pid=pIds.find(i=>{const A=ahGet(c,i);return A&&!A.none})||pIds[0]||0;
+  const O=inLog?qObjs(c,{id:X.id}):[];const og=pi>=0&&O[pi]&&O[pi][3]?O[pi]:null;/* 게임 진행도 [이름, 지금, 목표, 게임] */
+  const need=og&&og[2]?og[2]:0,have=Math.max(og?og[1]:0,pid?cnt(pid):0);const buyN=need?Math.max(0,need-have):1;
+  const wA=!inLog&&!wBag&&wIds[0]?ahGet(c,wIds[0]):null;const wC=wA&&!wA.none?wA.u:0;
+  const pA=pid?ahGet(c,pid):null;const pC=pA&&!pA.none&&buyN?ahCost(pA,buyN):null;
+  /* 제작법이 있으면 재료 값: 재료마다 (1개 재료 수 × 만들 개수 − 가진 것)을 경매장 시세로 · 상인·시세 없는 재료는 따로 셈 */
+  const rc=RCP&&RCP.r&&pid?RCP.r[String(pid)]:null;let mC=null,mMiss=0;
+  if(rc&&buyN){mC=0;(rc.r||[]).forEach(([mid,q])=>{const n=Math.max(0,q*buyN-cnt(mid));if(!n)return;const A=ahGet(c,mid);const C=A&&!A.none?ahCost(A,n):null;if(C&&!C.short)mC+=C.cost;else mMiss++})}
+  let h='<div class="ahq"><h5>견적 · 경매장 시세</h5>'+ahNote(c);
+  h+='<p><b>계약서</b> '+(inLog?'퀘스트창에 있어요 (계약서를 갖고 있어요)':wBag?'가방에 있어요 · 쓰면 퀘스트가 시작돼요':wA&&!wA.none?'경매장 최저 '+ahG(wC):wA&&wA.none?'경매장에 매물이 없었어요':ahPick(c)?'경매장 자료에 없어요':'시세가 없어요')+'</p>';
+  if(pn)h+='<p><b>완제품</b> 「'+esc(pn)+'」 '+(need?need+'개 · 가진 것 '+Math.min(have,need)+'개':'<small>몇 개 내는지는 퀘스트를 받으면 게임 진행도로 나와요 · 아래는 1개 값</small>')+'</p>'
+    +(buyN?'<p class="ahl">'+(pC?'사면 약 <b>'+ahG(pC.cost)+'</b>'+(pC.short?' · 매물이 '+pC.got+'개뿐':''):pA&&pA.none?'경매장에 매물이 없었어요':pid&&ahPick(c)?'경매장 자료에 없어요':'')+(mC!=null?(pC||pA?' · ':'')+'만들면 재료 약 <b>'+ahG(mC)+'</b>'+(mMiss?' <small>(시세 없는 재료 '+mMiss+'가지 빼고)</small>':''):'')+'</p>':'<p class="ahl ok">완제품이 다 있어요</p>');
+  /* 합계: 계약서(없을 때) + 완제품(사는 값과 재료 값 중 싼 쪽) · 모르는 부분은 빼고 그렇다고 적음 */
+  if(ahPick(c)){const wk=inLog||wBag?0:wC||null;const best=[pC&&!pC.short?pC.cost:null,mC!=null&&!mMiss?mC:null].filter(v=>v!=null);const pk=!buyN?0:best.length?Math.min(...best):null;
+    const miss=[wk==null?'계약서':'',pk==null&&pn?'완제품':''].filter(Boolean);
+    if(wk!=null||pk!=null)h+='<p class="ahtot">모자란 것 다 구하면 약 <b>'+ahG((wk||0)+(pk||0))+'</b>'+(miss.length?' <small>('+miss.join('·')+' 값은 몰라서 빼고)</small>':'')+(pn&&!need&&buyN?' <small>· 완제품 1개 기준</small>':'')+'</p>'}
+  return h+'</div>'}
+const ahG=cp=>{cp=Math.max(0,Math.round(cp||0));const g=Math.floor(cp/10000),sv=Math.floor(cp%10000/100),cu=cp%100;const P=[];if(g)P.push('<b class="gg">'+g.toLocaleString()+'</b>골드');if(sv&&g<100)P.push('<b class="gs">'+sv+'</b>실버');if(!g&&(cu||!P.length))P.push('<b class="gc">'+cu+'</b>코퍼');return '<span class="ahp">'+P.join(' ')+'</span>'};
+const ahAge=t=>{const h=(Date.now()-t)/36e5;return h<1?Math.max(1,Math.round(h*60))+'분 전':h<48?Math.round(h)+'시간 전':Math.round(h/24)+'일 전'};
+/* 시세 상태 한 줄(장보기·견적 위): 어느 경매장 · 몇 분 전 · 못 받았으면 그렇다고 · 서버를 모르면 고르기 */
+function ahNote(c){const I=AHS.idx,H=ahHouse(c),P=H&&ahPick(c);const ic='<span class="ahi"></span>';
+  if(!I)return '<p class="ahn none">'+ic+'<span>'+(AH_ERR?'경매장 시세를 아직 받지 못했어요 · 잠시 뒤 다시 받아요':'경매장 시세를 받는 중…')+'</span></p>';
+  const A=(I.h||[]).filter(h=>h.f==='a');
+  if(!H||ui.ahPk)return '<div class="ahn pick">'+ic+'<span>어느 서버 경매장 시세를 볼까요?'+(!H&&ahRealm(c)?' <small>(「'+esc(ahRealm(c))+'」 서버를 목록에서 못 찾았어요)</small>':'')+'<span class="ahhs">'+A.map(h=>'<button class="chip'+(H&&H.k===h.k?' on':'')+'" data-a="ahh" data-k="'+esc(h.k)+'">'+esc(ahHName(h))+'</button>').join('')+'</span></span></div>';
+  if(!P)return '<p class="ahn none">'+ic+'<span>'+esc(ahHName(H))+' 경매장 시세를 받는 중…</span></p>';
+  const old=Date.now()-P.e.t>AH_OLD;
+  return '<p class="ahn'+(old?' old':'')+'">'+ic+'<span>경매장 시세 · '+esc(ahHName(H))+' · '+ahAge(P.e.t)+(old?' · 늦어지고 있어요':'')+(A.length>1?' <button class="lnk" data-a="ahh" data-k="">바꾸기</button>':'')+'</span></p>'}
 /* 사냥 기록 값 검사: 애드온 v3.8.0 이하는 게임에 다 들어오기 전에 끝난 접속(로딩 중 끊김 등)을 1970년부터 센 시간으로 남겼음
    → 이번 접속이 3일을 넘으면 버리고, 최근 접속 합만 이상하면 이번 접속 값만 씀 */
 const SESS_MAX=3*86400;
@@ -4741,7 +4834,8 @@ function pfSrc(nm,P){if(PF_VN[nm])return ['v',PF_VN[nm]];if(PF_OTHER[nm]&&!(PF_O
   if(PF_HERB.test(nm))return ['g','약초채집'];if(/아귀$|퉁돔$|물고기$|뱀장어$|송어$|놀래기$|연어$|대구$/.test(nm))return ['g','낚시'];if(/고기$|조갯살$|룬툼 줄기$/.test(nm))return ['g','사냥'];
   if(P.id==='ench'&&/가루$|정수$|티끌$|결정$/.test(nm))return ['g','마법부여 추출'];if(/정수$|원소$|심장$|핵$|진주$|눈알$|지느러미$|수액$|용액 상자$|타닌$/.test(nm))return ['g','몹·지역에서'];return ['g','경매장']}
 function pfMats(t){return String(t||'').split(/\s*,\s*/).filter(Boolean).map(x=>{const m=x.trim().match(/^(.*?)\s+(\d+)(?:~(\d+))?(?:\s*등)?$/);return m?[m[1],+(m[3]||m[2])]:[x.trim(),1]})}
-function pfHave(c,nm){const id=PF_VID[nm]||(typeof D_MATID!=='undefined'&&D_MATID[nm])||0;return id?((c.bag||{})[id]||0)+((c.bank||{})[id]||0):0}
+const pfId=nm=>PF_VID[nm]||(typeof D_MATID!=='undefined'&&D_MATID[nm])||0;
+function pfHave(c,nm){const id=pfId(nm);return id?((c.bag||{})[id]||0)+((c.bank||{})[id]||0):0}
 function pfSk(c,P){const L=(c.profLv||{})[P.ko];const g=Array.isArray(L)?+L[0]||0:+L||0;const mx=Array.isArray(L)?+L[1]||0:0;const m=+((c.pfSk||{})[P.ko])||0;const v=Math.max(g,m);return {v:v||(g||m?v:null),g,m,mx,has:!!(g||m)}}
 /* 게임 기록(최대 숙련)이 없으면 75·150·225에 딱 닿았을 때 아직 다음 등급을 안 배운 걸로 봄 */
 function pfCap(s,mx){return mx&&mx>=s?mx:PF_CAP.find(x=>x>=Math.max(1,s))||300}
@@ -4813,12 +4907,19 @@ function pfShopH(c,P,sk,cap,sh){const tg=ui.pft==='300'?300:ui.pft==='225'?Math.
   let h='<div class="flt2 pft">'+[['rank','다음 등급 '+cap],['225','225까지'],['300','300까지']].filter((x,i,A)=>!(x[0]==='225'&&(cap>=225||sk>=225))).map(x=>'<button class="'+((ui.pft||'rank')===x[0]?'on':'')+'" data-a="pft" data-k="'+x[0]+'">'+x[1]+'</button>').join('')+'</div>';
   if(!sh.n)return h+'<p class="note">이 구간은 다 올렸어요.</p>';
   const G={v:[],g:[],x:[]};[...sh.need].sort((a,b)=>b[1]-a[1]).forEach(([nm,q])=>{const s=pfSrc(nm,P);G[s[0]].push([nm,Math.ceil(q),s[1]])});
-  const row=([nm,q,src])=>{const hv=pfHave(c,nm);const left=Math.max(0,q-hv);return '<div class="pfi'+(c.bag&&!left?' ok':'')+'">'+(picoOf(nm)?'<span class="pic sm" style="background-image:url('+ICO(picoOf(nm))+')"></span>':'<span class="pic sm"></span>')+'<span class="m"><b>'+esc(nm)+'</b><small>'+esc(src)+'</small></span><span class="q"><b>'+q.toLocaleString()+'</b>'+(c.bag?'<small>'+(left?'더 '+left.toLocaleString():'다 있어요')+'</small>':'')+'</span></div>'};
+  /* 💰 경매장 시세가 있으면 줄마다 개당 값과 모자란 만큼 사는 값(어림), 위에 합계 — 상인 재료는 상인 값이라 빼고 셈 */
+  const AHP=ahPick(c);let ahTot=0,ahNo=0,ahShort=0,ahN=0;
+  const row=([nm,q,src],gk)=>{const hv=pfHave(c,nm);const left=Math.max(0,q-hv);const buy=c.bag?left:q;const id=gk!=='v'&&AHP?pfId(nm):0;const A=id?ahGet(c,id):null;const C=A&&!A.none&&buy>0?ahCost(A,buy):null;
+    if(C){ahTot+=C.cost;ahN++;if(C.short)ahShort++}else if(A&&A.none&&buy>0)ahNo++;
+    return '<div class="pfi'+(c.bag&&!left?' ok':'')+'">'+(picoOf(nm)?'<span class="pic sm" style="background-image:url('+ICO(picoOf(nm))+')"></span>':'<span class="pic sm"></span>')+'<span class="m"><b>'+esc(nm)+'</b><small>'+esc(src)+(A&&!A.none?' · 경매장 개당 '+ahG(A.u):A&&A.none?' · 경매장에 매물 없음':'')+'</small></span><span class="q"><b>'+q.toLocaleString()+'</b>'+(c.bag?'<small>'+(left?'더 '+left.toLocaleString():'다 있어요')+'</small>':'')+(C?'<small class="ahc">약 '+ahG(C.cost)+(C.short?' · '+C.got.toLocaleString()+'개만 있어요':'')+'</small>':'')+'</span></div>'};
+  const RV=G.v.map(r=>row(r,'v')).join(''),RG=G.g.map(r=>row(r,'g')).join(''),RX=G.x.map(r=>row(r,'x')).join('');
   h+='<p class="pfsum">'+sk+' → '+tg+' · 만들기 <b>'+sh.n.toLocaleString()+'</b>번 · 재료 '+sh.need.size+'가지'+(c.bag?' · 가방·은행과 비교':'')+'</p>';
-  if(G.v.length){const types=[...new Set(G.v.map(r=>r[2]))];h+='<h4 class="pfg">상인에게 사요</h4>'+G.v.map(row).join('')
+  if(AHP&&(ahN||ahNo))h+='<div class="ahsum"><b>'+(c.bag?'모자란 재료':'재료')+'를 경매장에서 사면 약 '+ahG(ahTot)+'</b><small>'+[ahNo?'매물 없는 것 '+ahNo+'가지':'',ahShort?'매물이 모자란 것 '+ahShort+'가지':'',G.v.length?'상인 재료 '+G.v.length+'가지는 빼고':''].filter(Boolean).join(' · ')+'</small></div>';
+  h+=ahNote(c);
+  if(G.v.length){const types=[...new Set(G.v.map(r=>r[2]))];h+='<h4 class="pfg">상인에게 사요</h4>'+RV
     +'<div class="pfwh">'+types.map(t=>{const L=((typeof D_PTR!=='undefined'&&D_PTR.sv)||{})[t]||[];return '<p><b>'+esc(t)+'</b> '+(t==='여관'?'<small>여관 주인·음식 상인</small>':L.slice(0,3).map(r=>pfNpc(r,'sm')).join(''))+'</p>'}).join('')+'</div>'}
-  if(G.g.length)h+='<h4 class="pfg">모으거나 경매장</h4>'+G.g.map(row).join('');
-  if(G.x.length)h+='<h4 class="pfg">다른 전문기술로 만드는 것</h4>'+G.x.map(row).join('');
+  if(G.g.length)h+='<h4 class="pfg">모으거나 경매장</h4>'+RG;
+  if(G.x.length)h+='<h4 class="pfg">다른 전문기술로 만드는 것</h4>'+RX;
   if(sh.inter.size)h+='<h4 class="pfg">직접 만들어 쓰는 것 <small>원재료는 위에 넣었어요</small></h4><div class="pfin">'+[...sh.inter].map(([nm,o])=>'<p>'+(picoOf(nm)?'<span class="pic xs" style="background-image:url('+ICO(picoOf(nm))+')"></span>':'')+'<b>'+esc(nm)+'</b> '+Math.ceil(o.need)+'개 <small>'+(o.made?'단계에서 '+o.made+'개'+(o.ex>0?' + '+Math.ceil(o.ex)+'개 더 만들기':''):'만들어 쓰기')+'</small></p>').join('')+'</div>';
   const txt=P.ko+' '+sk+'→'+tg+' 장보기: '+[...G.v,...G.g,...G.x].map(r=>r[0]+' '+r[1]).join(', ');
   return h+'<div class="pfcp"><button class="btn sm ghost" data-a="pfcopy" data-k="'+esc(txt)+'">목록 복사</button></div>'}
@@ -4923,6 +5024,7 @@ function impPreview(c){const P=ui.imp;if(!P)return ui.impraw?'<p class="note war
    +'<button class="btn full" data-a="impgo">이 캐릭터에 적용하기</button><p class="note">이미 체크한 건 그대로 두고, 끝낸 것만 더해요.</p></div>'}
 /* 애드온 코드 적용 (붙여 넣기·PC 파일·자동 맞춤이 같이 씀) */
 function impApply(c,P,o){o=o||{};const U={eq:o.eq!=null?o.eq:ui.impEq,sp:o.sp!=null?o.sp:ui.impSp,tl:o.tl!=null?o.tl:ui.impTl,alt:o.alt!=null?o.alt:ui.impAlt};
+    if(P.realm)c.realm=P.realm;/* 경매장 시세를 서버에 맞춰 고름(ahPick) */
     c.mq=c.mq||{};c.dq=c.dq||{};let n=0;const dqIds=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id)));P.done.forEach(id=>{if(!c.mq[id]){c.mq[id]=1;n++}if(dqIds.has(id))c.dq[id]=1});
     if(P.cut){c.imported=Object.assign({},c.imported||{},{t:Date.now(),n:P.done.length,v:P.ver});return {n,extra:[]}}/* 잘린 코드: 안내대로 끝낸 퀘스트만 더함 */
     if(!P.cut&&(!P.thin||P.log.length)){c.ql={};c.qp={};P.log.forEach(x=>{c.ql[x.id]=x.done?2:1;if(x.obj.length)c.qp[x.id]=x.obj})}if(P.lv>0&&P.lv<=60)c.lv=P.lv;c.imported={t:Date.now(),n:P.done.length,v:P.ver};if(P.tuSeen&&!P.tu.length&&!P.thin&&P.lv>=10)c.imported.nt=1;
@@ -5291,6 +5393,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='qtab'){ui.qtab=k;rerender(true);return}
   if(a==='pftab'){ui.pftab=k;rerender(true);return}
   if(a==='pft'){ui.pft=k;rerender(true);return}
+  if(a==='ahh'){const c=me();if(!c)return;if(!k){ui.ahPk=!ui.ahPk;rerender(true);return}c.ahH=k;ui.ahPk=false;save();ahFetch(true);rerender(true);return}
   if(a==='pfall'){ui.pfall=1;rerender(true);return}
   if(a==='pfcopy'){(navigator.clipboard?navigator.clipboard.writeText(k):Promise.reject()).then(()=>toast('장보기 목록을 복사했어요'),()=>toast('복사를 못 했어요'));return}
   if(a==='pfsk'){const P=PROFS.find(p=>p.id===ui.pf)||PROFS.find(p=>(c.profs||[]).includes(p.ko))||PROFS[0];const v=Math.max(0,Math.min(300,(pfSk(c,P).v||0)+(+k||0)));c.pfSk=c.pfSk||{};c.pfSk[P.ko]=v;save();rerender(true);return}

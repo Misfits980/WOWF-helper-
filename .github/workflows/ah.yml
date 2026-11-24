@@ -1,0 +1,42 @@
+name: 경매장 시세 받기
+on:
+  workflow_dispatch:
+    inputs:
+      ns:
+        description: '네임스페이스 (비우면 알아서 찾기, 예: dynamic-classic1x-kr)'
+        required: false
+  schedule:
+    - cron: '23 * * * *'   # 1시간마다 (블리자드가 경매장 자료를 1시간에 한 번 새로 냄)
+  push:
+    branches: [main]
+    paths: ['tools/ah-sync.mjs', '.github/workflows/ah.yml']
+permissions:
+  contents: write
+concurrency:
+  group: ah-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: 시세 받기 (키가 없으면 건너뜀)
+        env:
+          BNET_ID: ${{ secrets.BNET_ID }}
+          BNET_SECRET: ${{ secrets.BNET_SECRET }}
+          AH_NS: ${{ inputs.ns }}
+          AH_PREV: https://raw.githubusercontent.com/${{ github.repository }}/ah-data/index.json
+        run: node tools/ah-sync.mjs
+      - name: ah-data 가지에 덮어쓰기 (기록이 쌓이지 않게)
+        run: |
+          if [ ! -f ah-out/index.json ]; then echo "올릴 시세가 없어요"; exit 0; fi
+          cd ah-out
+          git init -q -b ah-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "경매장 시세 $(date -u +%FT%TZ)"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" ah-data

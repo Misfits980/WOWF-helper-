@@ -2438,3 +2438,27 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 /* 다음 단계 줄의 하기 진행도 (미리보기) */
 .nxr3 .stpg{display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:3px;font-size:11.5px;color:#cfc4ad}.nxr3 .stpg b{color:#ffd65a;font-variant-numeric:tabular-nums}.nxr3 .stpg .dn b{color:#8fd46a}
 .ob4.dn .cn b{color:#2f6a1a}
+/* 💰 경매장 시세 (애드온 「시세 저장」) — 장보기 합계 · 줄마다 개당 값 · 가방 정리 · 템 출처 · 계약서 견적 */
+.ahn{display:flex;gap:7px;align-items:flex-start;font-size:12px;line-height:1.45;color:#bfb196;margin:4px 0 8px}
+.ahn .ahi{flex:none;width:16px;height:16px;margin-top:1px;border-radius:3px;background:#3a2c14 url(https://wow.zamimg.com/images/wow/icons/medium/inv_misc_coin_02.jpg) center/cover;box-shadow:0 0 0 1px #6b5427}
+.ahn.old{color:#e8a868}.ahn.none{color:#a0957f}
+.ahn code{background:#2a251d;border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:11.5px;color:var(--gold)}
+.ahsum{display:flex;flex-direction:column;gap:2px;margin:2px 0 6px;padding:8px 10px;border-radius:8px;background:linear-gradient(#2c2312,#1f170b);box-shadow:inset 0 0 0 1px #6b5427}
+.ahsum>b{font-size:14px;color:#f1e6cf}.ahsum small{font-size:11.5px;color:#a59d8c}
+.pfi .q small.ahc{color:#e8c06a;white-space:nowrap}
+.bgs .bgi .m small .ahb{color:#ffd65a;border-color:#6b5427}.bgs .bgi .m small .ahb.s{color:#d8cfb8}
+.src.ahs .nm{font-variant-numeric:tabular-nums}
+.parch .ahq{margin-top:12px;padding:10px 12px;border-radius:6px;background:rgba(255,248,225,.35);box-shadow:inset 0 0 0 1px rgba(90,60,20,.35)}
+.parch .ahq h5{margin:0 0 4px;padding:0;border:0;font-size:16px}
+.parch .ahq p{margin:3px 0;font-size:14px;line-height:1.5}
+.parch .ahq small{font-size:12px;color:#5a4120}
+.parch .ahq .ahn{color:#5a4120;font-size:12.5px}.parch .ahq .ahn.old{color:#8a3c12}
+.parch .ahq .ahn code{background:rgba(255,255,255,.5);color:#3a280e;border-color:rgba(90,60,20,.35)}
+.parch .ahq .gg{color:#7a5400}.parch .ahq .gs{color:#4f4f4f}.parch .ahq .gc{color:#8a4a1c}
+.parch .ahq .ahl.ok{color:#2f6a1a}
+.parch .ahq .ahtot{margin-top:6px;padding-top:6px;border-top:1px dashed rgba(90,60,20,.4);font-size:15px}
+.ahn.pick{flex-wrap:wrap}.ahn .ahhs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.ahn .lnk{font-size:12px}
+.parch .ahq .ahn .chip{color:#2b1d0e;background:rgba(255,255,255,.45);border-color:rgba(90,60,20,.4)}.parch .ahq .ahn .chip.on{background:#7a5a2a;color:#fff4d8}
+.ahp{white-space:nowrap}
+.src.ahs .nm .ahp b{display:inline;font-size:inherit;margin:0}
+.parch .ahq .lnk{color:#5a3a10;text-decoration:underline}
