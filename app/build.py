@@ -1323,6 +1323,7 @@ _RAIDNM = re.compile(r'^(라그나로스|네파리안|오닉시아|크로마구�
                      r'군주 스퀄|왕자 스칼레녹스|남작 카줌|대장군 휠락시스|공주 템페스트리아|남작 차르|아발란치온|칼날바람|쑨|제왕 베클로어|제왕 베크닐라쉬|'
                      r'아우로|공주 후후란|비시디우스|불굴의 판크리스|전투감시병 살투라|예언자 스케람|귀부인 팰리나|패치워크|역병술사 노스|로데브|사피론|켈투자드)$')
 _PVPV = ('선임하사 클레이트', '부관 잭스프링', '사무엘 호키', '일리야나 문블레이즈')
+_PVPQ_EN = set(l.strip() for l in rd(Q / 'quest-pvp-en.txt').splitlines() if l.strip() and not l.startswith('#')) if (Q / 'quest-pvp-en.txt').exists() else set()
 _RQ, _QNR, _PQ = set(), {}, set()
 if (Q / 'quests.jsonl').exists():
     _qa = [json.loads(l) for l in rd(Q / 'quests.jsonl').splitlines() if l.strip()]
@@ -1419,6 +1420,10 @@ def _rflag(l):
                     if ko and v2:
                         f[1] = '퀘스트 · ' + ko
             fl = 'r' if v and all(v) else ''
+            # 영어 이름만 있는 전장 퀘스트(The Eye of Command = 지휘의 눈 · The Legend of Korrak)는 PvP — 예전엔 같은 템의 한글 출처에만 PvP가 붙어
+            # 「퀘스트+던전」 추천에 스톰파이크 6급 계급장·얼음가시 창 등이 섞였음 (BiS QA 역할 설정 비교)
+            if not fl and nm in _PVPQ_EN:
+                fl = 'p'
     elif k == '3':
         n = lb.replace('드랍 · ', '', 1)
         z = re.search(r'\(([^)]+)\)$', n)
@@ -1876,6 +1881,13 @@ for _i, _l in enumerate(SRC_TXT.split('\n')):
         _m = re.search(r'(?:quest=|/quest/)(\d+)', _f[2])
         if _m and _m.group(1) in _QO:
             SRC_REP[_i] = _QO[_m.group(1)]
+# 퀘스트 이름에 평판 단계가 있는 것: 은빛 여명회 「희귀한 전투 장비: 여명회에 약간 우호적」 등 (BiS QA 역할 설정 비교: 불굴의 고리 22680)
+for _i, _l in enumerate(SRC_TXT.split('\n')):
+    _f = _l.split('~')
+    if len(_f) >= 2 and _f[0] == '1' and _i not in SRC_REP:
+        _m = re.search(r'여명회(?:에|의)\s*(확고한 동맹|매우 우호적|약간 우호적|우호적)\s*$', _f[1])
+        if _m:
+            SRC_REP[_i] = ['은빛 여명회', _REPLV[_m.group(1)]]
 print('평판이 필요한 퀘스트 보상 출처', len(SRC_REP))
 data = '\n'.join([
     'const D_VER=' + json.dumps(DVER) + ';',

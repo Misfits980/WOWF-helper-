@@ -1,0 +1,104 @@
+# 전장 퀘스트 영어 이름 (import.py가 QuestieDB에서 만듦)
+A Gallon of Blood
+Ally of the Tauren
+Alterac Valley Graveyards
+Arathi Basin Resources!
+Arathor Advanced Care Package
+Arathor Basic Care Package
+Arathor Standard Care Package
+Armor Scraps
+Battle of Warsong Gulch
+Begin the Attack!
+Brotherly Love
+Call of Air - Guse's Fleet
+Call of Air - Ichman's Fleet
+Call of Air - Jeztor's Fleet
+Call of Air - Mulverick's Fleet
+Call of Air - Slidore's Fleet
+Call of Air - Vipore's Fleet
+Capture a Mine
+Claiming Arathi Basin
+Coldtooth Supplies
+Conquering Arathi Basin
+Control Five Bases
+Control Four Bases
+Crystal Cluster
+Cut Arathor Supply Lines
+Darkspear Defense
+Defiler's Advanced Care Package
+Defiler's Basic Care Package
+Defiler's Standard Care Package
+Defusing the Threat
+Earned Reverence
+Empty Stables
+Enemy Booty
+Fallen Sky Lords
+Favor Amongst the Darkspear
+Field of Honor: Week 3
+Fight for Warsong Gulch
+Gnomeregan Bounty
+Hero of the Frostwolf
+Hero of the Stormpike
+Honored Amongst the Clan
+Honored Amongst the Guard
+I've Got A Fever For More Bone Chips
+In Defense of Frostwolf
+Invaders of Alterac Valley
+Irondeep Supplies
+Ivus the Forest Lord
+Korrak the Bloodrager
+Korrak the Everliving
+Launch the Attack!
+Legendary Heroes
+Lokholar the Ice Lord
+Mark of Honor
+Master Ryson's All Seeing Eye
+More Armor Scraps
+More Booty!
+More Resource Crates
+One Man's Love
+Outrider Advanced Care Package
+Outrider Basic Care Package
+Outrider Standard Care Package
+Past Efforts in Warsong Gulch
+Past Victories in Arathi
+Past Victories in Warsong Gulch
+Proving Grounds
+Quell the Silverwing Usurpers
+Ram Hide Harnesses
+Ram Riding Harnesses
+Remember Alterac Valley!
+Ribbons of Sacrifice
+Rise and Be Recognized
+Sentinel Advanced Care Package
+Sentinel Basic Care Package
+Sentinel Standard Care Package
+Speak with Prospector Stonehewer
+Speak with Voggah Deathgrip
+Speak with our Quartermaster
+Staghelm's Mojo Jamboree
+Staghelm's Requiem
+Take Five Bases
+Take Four Bases
+Talismans of Merit
+The Archbishop's Mercy
+The Battle for Alterac
+The Battle for Arathi Basin!
+The Battle of Alterac
+The Eye of Command
+The Graveyards of Alterac
+The Human Condition
+The Legend of Korrak
+The Quartermaster
+The Return of Korrak
+The Sovereign Imperative
+Towers and Bunkers
+Tuft it Out
+Vanquish the Invaders
+Vanquish the Invaders!
+Wanted: DWARVES!
+Wanted: MORE DWARVES!
+Wanted: MORE ORCS!
+Wanted: ORCS!
+What the Hoof?
+Zinfizzlex's Portable Shredder Unit

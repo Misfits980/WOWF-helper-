@@ -765,6 +765,15 @@ with open(os.path.join(OUT, 'npc-en-ko.txt'), 'w', encoding='utf-8') as f:
         if en and ko and ko != en and en not in seen and not lat(ko):
             seen.add(en)
             f.write('%s|%s\n' % (en.replace('|', '/'), ko.replace('|', '/')))
+# 전장(알터랙·전쟁노래·아라시) 퀘스트 영어 이름 → build.py가 출처에 영어 이름만 있는 전장 퀘스트(예: The Eye of Command)에도 PvP 표시 (BiS QA: 스톰파이크 6급 계급장이 퀘스트+던전 추천에 섞임)
+with open(os.path.join(OUT, 'quest-pvp-en.txt'), 'w', encoding='utf-8') as f:
+    f.write('# 전장 퀘스트 영어 이름 (import.py가 QuestieDB에서 만듦)\n')
+    _pv = set()
+    for _qid, _r in QUEST.items():
+        if _r.get(QK['zoneOrSort']) in (2597, 3277, 3358) and _r.get(QK['name']):
+            _pv.add(_r[QK['name']])
+    for _n in sorted(_pv):
+        f.write(_n + '\n')
 # forg 출처에 이름 없이 번호만 온 몹(예: 「드랍 · 255247」) → 번호|영어 이름|한글 이름 (build.py가 출처 글을 고침)
 try:
     _fs = open(os.path.join(os.path.dirname(OUT), 'forg', 'sources.txt'), encoding='utf-8').read()

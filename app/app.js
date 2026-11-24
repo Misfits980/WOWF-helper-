@@ -1000,7 +1000,7 @@ function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Bool
 const repNm=st=>(REP_ST.find(x=>x[0]===st)||[0,''])[1];
 function repGate(it,c){if(!it||!it.src||!it.src.length)return null;let g=null;for(const i of it.src){const s=SRC[i];if(!s)continue;if(!s.rp)return null;if(!g||s.rp[1]<g.st)g={fac:s.rp[0],st:s.rp[1]}}
   if(!g)return null;const r=((c&&c.rep)||[]).find(x=>x.nm===g.fac);return Object.assign(g,{cur:r?r.st:null,ok:!!r&&r.st>=g.st})}
-const repTag=(it,c)=>{const g=repGate(it,c);return g&&!g.ok?'<span class="lkt rep">🏅 장기 목표 · '+esc(g.fac)+' '+repNm(g.st)+(g.cur?' (지금 '+repNm(g.cur)+')':' · 평판 확인 필요')+'</span>':''};
+const repTag=(it,c)=>{const g=repGate(it,c);return g&&!g.ok?'<span class="lkt rep">🏅 '+(g.st>=7?'장기 목표 · ':'')+esc(g.fac)+' '+repNm(g.st)+' 필요'+(g.cur?' (지금 '+repNm(g.cur)+')':' · 내 평판 확인 필요')+'</span>':''};
 /* 짧은 값(목록 칩): 1골드 넘으면 골드만, 아니면 실버, 아니면 코퍼 */
 const goldShort=cp=>{cp=Math.max(0,Math.round(cp||0));return cp>=10000?(cp>=1e5?Math.round(cp/1e4):Math.round(cp/1e3)/10)+'골드':cp>=100?Math.round(cp/100)+'실버':cp+'코퍼'};
 /* 경매장·운 템 칩에 시세 붙이기(시세가 있을 때만) */

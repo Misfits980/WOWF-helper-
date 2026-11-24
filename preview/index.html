@@ -3707,8 +3707,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=97e215ea" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* v81a74b @11/25 01:41 */
+<script src="app-data.js?v=68f40e72" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* v3575e4 @11/25 07:14 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3716,7 +3716,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/25 01:41';
+const BUILD='11/25 07:14';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4711,7 +4711,7 @@ function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Bool
 const repNm=st=>(REP_ST.find(x=>x[0]===st)||[0,''])[1];
 function repGate(it,c){if(!it||!it.src||!it.src.length)return null;let g=null;for(const i of it.src){const s=SRC[i];if(!s)continue;if(!s.rp)return null;if(!g||s.rp[1]<g.st)g={fac:s.rp[0],st:s.rp[1]}}
   if(!g)return null;const r=((c&&c.rep)||[]).find(x=>x.nm===g.fac);return Object.assign(g,{cur:r?r.st:null,ok:!!r&&r.st>=g.st})}
-const repTag=(it,c)=>{const g=repGate(it,c);return g&&!g.ok?'<span class="lkt rep">🏅 장기 목표 · '+esc(g.fac)+' '+repNm(g.st)+(g.cur?' (지금 '+repNm(g.cur)+')':' · 평판 확인 필요')+'</span>':''};
+const repTag=(it,c)=>{const g=repGate(it,c);return g&&!g.ok?'<span class="lkt rep">🏅 '+(g.st>=7?'장기 목표 · ':'')+esc(g.fac)+' '+repNm(g.st)+' 필요'+(g.cur?' (지금 '+repNm(g.cur)+')':' · 내 평판 확인 필요')+'</span>':''};
 /* 짧은 값(목록 칩): 1골드 넘으면 골드만, 아니면 실버, 아니면 코퍼 */
 const goldShort=cp=>{cp=Math.max(0,Math.round(cp||0));return cp>=10000?(cp>=1e5?Math.round(cp/1e4):Math.round(cp/1e3)/10)+'골드':cp>=100?Math.round(cp/100)+'실버':cp+'코퍼'};
 /* 경매장·운 템 칩에 시세 붙이기(시세가 있을 때만) */
