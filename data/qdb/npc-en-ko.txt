@@ -10484,3 +10484,10 @@ Groundskeeper Lomar|관리인 로마르
 Sulhasa|술하사
 Cyriden Farseeker|시리든 파시커
 Relathor Moonsong|렐라토르 문송
+Kroog|크루그
+Mopes|모페스
+Sabella No-Eyes|눈 없는 사벨라
+Tunnelweb Matriarch|땅굴그물 어미
+Old Rusthowl (하이잘 산)|늙은 녹슨울음
+Strashaz Enchantress|스트라샤즈 요술사
+Ironhide Ravasaur|무쇠가죽 라바사우루스
