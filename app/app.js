@@ -98,7 +98,7 @@ function prioLine(c){const w=wOf(c);const nm=k=>k==='dps'?'무기 DPS':k==='rdps
   return Object.entries(w).filter(([k,v])=>v>0&&(STAT_KO[k]||k==='rdps')&&k!=='armor').map(([k,v])=>[k,v*(typ[k]||5)]).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k])=>nm(k))}
 
 /* ----- 아이템 ----- */
-const SRC=D_SRC.split('\n').filter(Boolean).map(l=>{const [k,label,href,fl]=l.split('~');const o={k:+k,label,href:href||''};if(fl==='r')o.raid=1;if(fl==='p')o.pvp=1;
+const SRC=D_SRC.split('\n').filter(Boolean).map((l,i)=>{const [k,label,href,fl]=l.split('~');const o={k:+k,label,href:href||''};if(fl==='r')o.raid=1;if(fl==='p')o.pvp=1;if(typeof D_SRCREP!=='undefined'&&D_SRCREP[i])o.rp=D_SRCREP[i];/* 끝내려면 평판이 필요한 퀘스트 [세력, 단계] */
   if(o.k===0){o.dg=(href||'').replace('dg:','').split('#')[0];const p=label.split(' · ');o.dn=p[0];o.boss=p.slice(1).join(' · ')}
   if(o.k===1)o.qn=label.replace(/^퀘스트 · /,'');
   return o});
@@ -995,11 +995,17 @@ function srcLeft(it,c){const S=it.src.map(i=>SRC[i]).filter(Boolean);if(!c)retur
 const questDoneOnly=(it,c)=>it.src.length>0&&srcLeft(it,c).length===0;
 const inLogQ=(it,c)=>{const ql=c.ql||{};return srcLeft(it,c).some(s=>s.k===1&&(ql[srcQid(s)]||(IT_Q[it.id]||[]).some(x=>ql[x])))};
 function srcKind(it,c){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);if(!S.length)return 'none';if(S.some(s=>srcSure(s)&&!s.raid&&!s.pvp))return 'sure';if(S.some(s=>s.raid&&srcSure(s)))return 'raid';if(S.some(s=>s.pvp))return 'pvp';if(S.some(s=>s.k===0&&DG[s.dg]&&DG[s.dg].soon))return 'soon';if(S.some(s=>s.k===4))return 'ah';if(S.some(s=>s.k===2))return 'world';return 'unknown'}
+/* 평판이 있어야 끝내는 퀘스트로만 얻는 템 (BiS QA P2: 세나리우스의 힘 21188 = 「영웅의 전투장비」 세나리온 의회 확고한 동맹 · 휘장) → {fac 세력, st 필요한 단계, cur 지금 단계(모르면 null), ok}
+   다른 출처(던전·드랍·상인·제작·평판 없는 퀘스트)가 하나라도 있으면 null */
+const repNm=st=>(REP_ST.find(x=>x[0]===st)||[0,''])[1];
+function repGate(it,c){if(!it||!it.src||!it.src.length)return null;let g=null;for(const i of it.src){const s=SRC[i];if(!s)continue;if(!s.rp)return null;if(!g||s.rp[1]<g.st)g={fac:s.rp[0],st:s.rp[1]}}
+  if(!g)return null;const r=((c&&c.rep)||[]).find(x=>x.nm===g.fac);return Object.assign(g,{cur:r?r.st:null,ok:!!r&&r.st>=g.st})}
+const repTag=(it,c)=>{const g=repGate(it,c);return g&&!g.ok?'<span class="lkt rep">🏅 장기 목표 · '+esc(g.fac)+' '+repNm(g.st)+(g.cur?' (지금 '+repNm(g.cur)+')':' · 평판 확인 필요')+'</span>':''};
 /* 짧은 값(목록 칩): 1골드 넘으면 골드만, 아니면 실버, 아니면 코퍼 */
 const goldShort=cp=>{cp=Math.max(0,Math.round(cp||0));return cp>=10000?(cp>=1e5?Math.round(cp/1e4):Math.round(cp/1e3)/10)+'골드':cp>=100?Math.round(cp/100)+'실버':cp+'코퍼'};
 /* 경매장·운 템 칩에 시세 붙이기(시세가 있을 때만) */
 const luckAh=(it,c,k)=>{if(!c||!(k==='ah'||k==='world'||k==='unknown'))return '';const A=ahGet(c,it.id);return A&&!A.none?' · 최저 '+goldShort(A.u):''};
-const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',soon:'🚧 개방 예정 던전',ah:bindOf(it)==='p'?'🔨 직접 제작':'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+luckAh(it,c,k)+'</span>'};
+const luckTag=(it,c)=>{if(c&&ownedOf(c,it.id))return '';if(c&&inLogQ(it,c))return '<span class="lkt log">📜 퀘스트창에 있어요</span>';const k=srcKind(it,c);return repTag(it,c)+(k==='sure'?'':'<span class="lkt '+k+'">'+({raid:'⚔️ 레이드',pvp:'🏳️ 명예·전장 평판 상인',soon:'🚧 개방 예정 던전',ah:bindOf(it)==='p'?'🔨 직접 제작':'💰 경매장·제작',world:'🎲 아무 몹에서 (운)',unknown:'❓ 나오는 곳 몰라요',none:'❓ 얻는 곳 정보 없음'})[k]+luckAh(it,c,k)+'</span>')};
 /* 추천 기준: q 퀘스트만(던전 퀘스트 빼고) · dg 던전만(던전 보스·던전 퀘스트) · ok 퀘스트+던전(퀘스트·던전·상인·이름 있는 몹, 기본) · rd 레이드까지(ok + 레이드 보스·레이드 퀘스트) · all 전체(경매장·월드 드랍·명예 상인까지)
    레이드·명예 상인 출처는 build.py가 4번째 칸(r·p)으로 표시 */
 let DQSET=null;const dqSet=()=>DQSET||(DQSET=new Set(DGS.flatMap(d=>d.q.map(q=>+q.id))));
@@ -1035,6 +1041,9 @@ function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>obOf(it
 function p1Out(c){const eqQ=new Set(SLOTS.map(([s])=>eqIt(c,s)).filter(Boolean).map(pickOneQ).filter(Boolean));const rp=c.rwPick||{};const hasRp=Object.keys(rp).length>0;
   return it=>{if(!eqQ.size&&!hasRp)return false;const q=pickOneQ(it);return !!q&&(eqQ.has(q)||(rp[q]&&rp[q]!==it.id&&rwChoices(q).includes(rp[q])))}}
 function upgrades(c,L,mode,minLv,ex){const out=[];const w=wOf(c);const ng=new Set(c.nogo||[]);if(ex)ex.forEach(i=>ng.add(i));
+  /* 좋아지는 값은 「바꿨을 때 전체 점수(eqScore) 차이」로 (BiS QA P2): 칸 하나만 보면 적중 상한을 넘겨 다른 칸 적중 값이 떨어지는 것·세트 효과가 깨지는 것을 못 봐서
+     채운 세트에 「정조준 건틀릿 +19」처럼 실제로는 점수가 내려가는 바꾸기가 남았음. 칸마다 점수 높은 후보 6개를 끼워 보고 전체 점수가 가장 많이 오르는 것 */
+  const s0=eqScore(c);const net=(slot,it)=>{const e=c.eq||(c.eq={});const sv=Object.assign({},e);e[slot]=it.id;if(slot==='main'&&it.sl==='2h')delete e.off;const v=eqScore(c)-s0;for(const k of Object.keys(e))delete e[k];Object.assign(e,sv);return v};
   const p1No=p1Out(c);/* 「못 얻어요」로 뺀 템은 건너뛰고 다음 추천 */
   for(const [slot] of SLOTS){if(slot==='ring2'||slot==='trink2')continue;
     const pair=slot==='ring1'?['ring1','ring2']:slot==='trink1'?['trink1','trink2']:[slot];
@@ -1044,9 +1053,8 @@ function upgrades(c,L,mode,minLv,ex){const out=[];const w=wOf(c);const ng=new Se
     const have=new Set(pair.map(p=>c.eq[p]).filter(Boolean));
     const list=cands(c,slot,L,mode).filter(x=>!have.has(x.it.id)&&!ng.has(x.it.id)&&!p1No(x.it)&&(minLv==null||obOf(x.it,mode)>=minLv)&&!(slot==='off'&&out.some(o=>o.slot==='main'&&o.it.id===x.it.id))
       /* 지금 다른 손에 낀 무기는 이 손 추천에서 뺌(다른 손을 바꾸라는 추천이 없을 때) — 예전엔 한 손만 있으면 그 무기를 다른 손에도 추천했음 */&&!(slot==='off'&&x.it.id===c.eq.main&&!out.some(o=>o.slot==='main'))&&!(slot==='main'&&x.it.id===c.eq.off));
-    for(const x of list.slice(0,1)){let g;
-      if(slot==='main'&&x.it.sl==='2h')g=x.s-(sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c));else g=x.s-base;
-      if(g>.01)out.push({slot:tgt,it:x.it,g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c):base,empty:!eqIt(c,tgt)})}}
+    {let best=null;for(const x of list.slice(0,6)){const g=net(tgt,x.it);if(g>.01&&(!best||g>best.g+1e-9))best={x,g}}
+      if(best){const x=best.x;out.push({slot:tgt,it:x.it,g:best.g,base:slot==='main'&&x.it.sl==='2h'?sc(eqIt(c,'main'),'main',w,c)+sc(eqIt(c,'off'),'off',w,c):base,empty:!eqIt(c,tgt)})}}}
   /* 양손 무기 추천과 보조 추천이 같이 나오지 않게: 양손 vs (한손+보조) 중 나은 쪽만 */
   const mi=out.findIndex(o=>o.slot==='main'&&o.it.sl==='2h'),oi=out.findIndex(o=>o.slot==='off');
   if(mi>=0&&oi>=0){const m=out[mi],o=out[oi];const two=m.base+m.g;const offS=o.base+o.g;
@@ -1346,8 +1354,9 @@ function srcParts(c,it){let h='';
       /* 퀘스트 번호로 먼저 찾음: 예전엔 이름으로만 찾아 같은 이름 연계(알살락스의 탑 4단계 등 48곳)의 첫 단계가 열리고 레벨·할 일도 첫 단계 것이 나왔음 */
       const qi0=srcQid(s);const f=(qi0&&questById(qi0))||(!qi0||!QDB||!QDB.get(qi0)?findZoneQuest(s.qn):null);
       /* 이 캐릭터가 이미 했거나 못 받는 퀘스트면 표시 (추천에서 빠지는 이유) */const qSt=id=>{if(!id)return '';const X=QDB&&QDB.get(id);if(X&&mqDone(c,X)||(c.mq||{})[id]||(c.dq||{})[id])return ' · ✅ 했어요';return qGone(c,id)?' · 🚫 이 캐릭터는 못 받아요':''};
-      if(f){const q=f.q;const z=q.gz||q.sz;parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div>'+(q.obj?'<div class="obj">'+esc(q.obj)+'</div>':'')+'<div class="sub">'+esc(z)+' '+contTag(z)+'</div><div class="sub">'+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 '+q.pre+'개 먼저':'')+(q.ch?' · 연계 '+q.ch+'개 이어짐':'')+qSt(q.id)+'</div><div class="bkb">'+(q.id?'<button class="btn sm" data-a="qopen" data-k="'+q.id+'">퀘스트·위치 보기</button>':'')+'<button class="btn sm ghost" data-a="goz" data-k="'+esc(z)+'">이 지역 퀘스트</button></div></div>')}
-      else if(QDB&&QDB.get(srcQid(s))){const X=QDB.get(srcQid(s));parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(X.n)+'」 <span class="lvb '+lvCls(X.lv,c.lv)+'">'+(X.lv||'?')+'</span></div><div class="sub">'+(X.g&&X.g[0]?'받는 곳 '+esc(X.g[0])+(X.g[1]?' ('+esc(ZKO[X.g[1]]||X.g[1])+')':'')+(X.z&&X.g[1]&&(ZKO[X.g[1]]||X.g[1])!==X.z?' · 하는 곳 '+esc(X.z):''):esc(X.z||''))+' · '+mTxt(X)+qSt(X.id)+'</div><div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+X.id+'">퀘스트·위치 보기</button>'+(X.z?'<button class="btn sm ghost" data-a="goz" data-k="'+esc(X.z)+'">이 지역 퀘스트</button>':'')+'</div></div>')}
+      const rpL=s.rp?'<div class="sub rpn">🏅 끝내려면 <b>'+esc(s.rp[0])+' '+repNm(s.rp[1])+'</b> 이상 평판'+(()=>{const r=(c.rep||[]).find(x=>x.nm===s.rp[0]);return r?(r.st>=s.rp[1]?' · ✅ 지금 '+repNm(r.st):' · 지금 '+repNm(r.st)):' · 내 평판은 애드온으로 불러오면 맞춰 봐요'})()+'</div>':'';
+      if(f){const q=f.q;const z=q.gz||q.sz;parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div>'+rpL+(q.obj?'<div class="obj">'+esc(q.obj)+'</div>':'')+'<div class="sub">'+esc(z)+' '+contTag(z)+'</div><div class="sub">'+(q.gv?esc(q.gv)+(q.xy?' ('+esc(q.xy.replace(',',', '))+')':''):'아이템을 줍거나 필드에서 시작')+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 '+q.pre+'개 먼저':'')+(q.ch?' · 연계 '+q.ch+'개 이어짐':'')+qSt(q.id)+'</div><div class="bkb">'+(q.id?'<button class="btn sm" data-a="qopen" data-k="'+q.id+'">퀘스트·위치 보기</button>':'')+'<button class="btn sm ghost" data-a="goz" data-k="'+esc(z)+'">이 지역 퀘스트</button></div></div>')}
+      else if(QDB&&QDB.get(srcQid(s))){const X=QDB.get(srcQid(s));parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(X.n)+'」 <span class="lvb '+lvCls(X.lv,c.lv)+'">'+(X.lv||'?')+'</span></div>'+rpL+'<div class="sub">'+(X.g&&X.g[0]?'받는 곳 '+esc(X.g[0])+(X.g[1]?' ('+esc(ZKO[X.g[1]]||X.g[1])+')':'')+(X.z&&X.g[1]&&(ZKO[X.g[1]]||X.g[1])!==X.z?' · 하는 곳 '+esc(X.z):''):esc(X.z||''))+' · '+mTxt(X)+qSt(X.id)+'</div><div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+X.id+'">퀘스트·위치 보기</button>'+(X.z?'<button class="btn sm ghost" data-a="goz" data-k="'+esc(X.z)+'">이 지역 퀘스트</button>':'')+'</div></div>')}
       else parts.push('<div class="src"><b>📜 퀘스트 보상</b><div class="nm">「'+esc(s.qn)+'」</div>'+(QDB?'':'<div class="sub">퀘스트 자료를 불러오는 중…</div>')+'<div class="sub">'+(()=>{const qi=srcQid(s);/* 이름이 영어로만 남은 출처는 대부분 호드 퀘스트이거나 포에버에 없는 퀘스트(다른 확장팩 번호) — 추천에서 빠지는 이유를 적음 */return qi&&hordeQ(qi)?'🚫 호드 퀘스트예요 — 얼라이언스는 못 받아요.':qi&&QDB?'포에버 퀘스트 자료에 없는 퀘스트예요 (지금은 못 받을 수 있어요).':'앱 자료에 없는 퀘스트예요.'})()+' <a href="https://www.wowhead.com/forever/ko/'+(srcQid(s)?'quest='+srcQid(s):esc(s.href.replace('wh:','')))+'" target="_blank" rel="noopener">와우헤드에서 보기 ↗</a></div></div>')}
     else if(s.k===3)parts.push('<div class="src"><b>⚔️ 몹 드랍</b><div class="nm">'+esc(s.label.replace('드랍 · ',''))+'</div><div class="sub">이 몹을 잡으면 낮은 확률로 나와요.</div></div>');
     else if(s.k===2)parts.push('<div class="src"><b>🎲 월드 드랍</b><div class="sub">레벨 맞는 필드 몹에게서 무작위로 나와요. 경매장에서 사는 게 빨라요.</div></div>');
@@ -1778,8 +1787,25 @@ let BAGDB=null,BAGL=false;
 function bagDbLoad(force){if(BAGDB||BAGL||!dTry('bag',force))return;BAGL=true;dGet('data/qdb/item-bag.txt?v='+((D_VER&&D_VER.bag)||'0')).then(t=>{const M=new Map();t.split('\n').forEach(l=>{if(!l)return;const f=l.split('|');M.set(+f[0],{nm:f[1],q:+f[2],cls:+f[3],sell:+f[4],ic:f[5]||''})});BAGDB=M;delete DERR.bag;rerender(true)}).catch(()=>{BAGL=false;DERR.bag=Date.now();rerender(true)})}
 /* 「추천으로 빈 칸 채우기」 계획: 장비를 복사해 실제 채우기와 같은 순서로 [칸, 템 번호(null=비움)] — 미리보기 버튼 숫자도 이걸로 셈 */
 let FPN=null;
-function fillPlan(c){const t=Object.assign({},c,{eq:Object.assign({},c.eq||{})});const cv=ui.tab==='gear'?dspView(t):t;/* 둘째 특성 화면이면 그 특성 추천으로 (장비 칸은 같은 것) */const P=[];
-  for(let r=0;r<4;r++){const U=upgrades(cv,c.lv,ui.ifil||'ok').filter(o=>o.empty&&!t.eq[o.slot]&&!offLocked(cv,o.slot));if(!U.length)break;for(const o of U){if(t.eq[o.slot]||offLocked(cv,o.slot)||(o.slot==='off'&&o.it.id===t.eq.main)||(o.slot==='main'&&o.it.id===t.eq.off))continue;t.eq[o.slot]=o.it.id;P.push([o.slot,o.it.id]);if(o.slot==='main'&&o.it.sl==='2h'){delete t.eq.off;P.push(['off',null])}}}return P}
+function fillPlan(c,quick){const t=Object.assign({},c,{eq:Object.assign({},c.eq||{})});const cv=ui.tab==='gear'?dspView(t):t;/* 둘째 특성 화면이면 그 특성 추천으로 (장비 칸은 같은 것) */const P=[];
+  /* 이미 낀 칸은 잠금: 빼거나 바꾸지 않음 (BiS QA P1) — 예전엔 보조만 낀 채 주무기가 비어 있으면 양손 무기를 넣으면서 보조를 지웠음(28특성 중 22) */
+  const lock=new Set(Object.keys(c.eq||{}).filter(s=>c.eq[s]));const L=c.lv,M=ui.ifil||'ok';
+  const put=(s,id)=>{t.eq[s]=id;P.push([s,id])};
+  /* 보조를 이미 꼈으면 빈 주무기엔 양손 대신 가장 좋은 한손 (양손으로 바꾸기는 칸 창에서 직접) */
+  const one=()=>{const ng=new Set(cv.nogo||[]),p1=p1Out(cv);const x=cands(cv,'main',L,M).find(x=>x.it.sl!=='2h'&&x.it.id!==t.eq.off&&!ng.has(x.it.id)&&!p1(x.it));return x&&x.it};
+  const take=o=>{if(o.slot==='main'&&o.it.sl==='2h'&&t.eq.off){if(lock.has('off')){const m=one();if(m&&!t.eq.main)put('main',m.id);return}put('main',o.it.id);delete t.eq.off;P.push(['off',null]);return}put(o.slot,o.it.id)};
+  for(let r=0;r<4;r++){const U=upgrades(cv,L,M).filter(o=>o.empty&&!t.eq[o.slot]&&!offLocked(cv,o.slot));if(!U.length)break;let n=0;for(const o of U){if(t.eq[o.slot]||offLocked(cv,o.slot)||(o.slot==='off'&&o.it.id===t.eq.main)||(o.slot==='main'&&o.it.id===t.eq.off))continue;const k=P.length;take(o);if(P.length>k)n++}if(!n)break}
+  /* 채운 칸끼리 다시 보기 (BiS QA P2): 세트 효과·적중 상한처럼 다른 칸과 같이 봐야 하는 점수 때문에 채운 뒤 바로 「바꿀 것」이 남던 것(11특성 81건).
+     이번에 채운 칸만 · 「바꿀 것」 후보를 하나씩 끼워 보고 전체 점수(eqScore, 세트 효과 포함)가 0.5 넘게 오를 때만 바꿈 → 되돌아가는 일 없음 · 원래 낀 칸은 그대로
+     quick = 버튼 숫자 셀 때(채울 칸 수만 필요): 다시 보기는 건너뜀(그리기 느려지지 않게) */
+  if(!quick)for(let r=0;r<12;r++){const U=upgrades(cv,L,M).filter(o=>!o.empty&&o.g>.5&&!lock.has(o.slot)&&t.eq[o.slot]&&!(o.slot==='main'&&o.it.sl==='2h'&&lock.has('off'))&&!(o.slot==='off'&&o.it.id===t.eq.main)&&!(o.slot==='main'&&o.it.id===t.eq.off));
+    const s0=eqScore(cv);let done=false;
+    for(const o of U){const sv=Object.assign({},t.eq);t.eq[o.slot]=o.it.id;if(o.slot==='main'&&o.it.sl==='2h')delete t.eq.off;const g=eqScore(cv)-s0;Object.keys(t.eq).forEach(k=>delete t.eq[k]);Object.assign(t.eq,sv);
+      if(g>.5){take(o);done=true;break}}
+    if(!done)break}
+  return P}
+/* 채우기 계획을 끝까지 적용했을 때 새로 채워지는 칸 수 (같은 칸을 채운 뒤 바꾼 것은 한 번) */
+function fillN(c,P){const e=Object.assign({},c.eq||{});for(const [s,id] of P){if(id==null)delete e[s];else e[s]=id}return Object.keys(e).filter(s=>e[s]&&!(c.eq||{})[s]).length}
 function myMatIds(c){const S=new Set();const mine=new Set(c.profs||[]);(typeof PROFS!=='undefined'?PROFS:[]).filter(p=>mine.has(p.ko)).forEach(p=>(p.steps||[]).forEach(st=>String(st[4]||'').split(/\s*,\s*|\s*\/\s*/).forEach(t=>{const nm=t.replace(/\s*\(.*\)$/,'').replace(/\s+\d+(?:~\d+)?(\s*등)?$/,'').trim();const id=(typeof D_MATID!=='undefined')&&(D_MATID[nm]||D_MATID[nm.replace(/\s*(꽃잎|잎사귀)$/,'')]);if(id)S.add(id);/* 재봉술 단계엔 두루마리만 적혀 있음 — 그 원재료 옷감(양모·비단 등)도 내 재료 */const cl=p.ko==='재봉술'&&/두루마리$/.test(nm)&&typeof D_MATID!=='undefined'&&D_MATID[nm.replace(/두루마리$/,'옷감')];/* 옷감으로 두루마리를 만드는 건 재봉술뿐 — 가죽세공 등은 두루마리 자체가 재료 */if(cl)S.add(cl)})));return S}
 function questItemNames(c){const N=new Set();for(const id of Object.keys(c.ql||{})){const X=QDB&&QDB.get(+id);((X&&X.t)||[]).forEach(t=>{if(t[0]==='수집'&&t[1])N.add(t[1])});/* 아이템으로 시작한 퀘스트(장인의 계약서 등)는 그 아이템도 있어야 끝낼 수 있음 */if(X&&X.g&&X.g[3]==='item'&&X.g[0])N.add(X.g[0]);const d=QD.get(+id);((d&&d.wf&&d.wf.t)||[]).forEach(t=>{if(t[0])N.add(t[0])})}
   (ui._st||[]).forEach(s=>s.items.forEach(it=>(it.q.cnt||[]).forEach(o=>N.add(o[0]))));return N}
@@ -2012,7 +2038,7 @@ function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 
   const bb={};if(PV){RL.rows.forEach(x=>{if(x.g>.01||x.empty)bb[x.slot]=x});RL.later.forEach(x=>{if(!bb[x.slot])bb[x.slot]=Object.assign({soon:1},x)})}
   /* 위 「▲ N칸」·탭 숫자·「바꿀 것 N칸」은 같은 목록(RL.rows)을 셈: 예전엔 칸 표시(ups)를 세서 빈 반지 2칸·양손 무기 추천 때 보조 손까지 더해 1~2칸 많았음 */
   const nUp=PV?Object.keys(bb).filter(k=>!bb[k].soon).length:RL.rows.length;
-  /* 미리보기 「빈 칸 채우기 (N칸)」: 실제로 채울 칸 수(fillPlan) — 예전엔 추천 없는 장신구 칸까지 세어 눌러도 「채울 빈 칸이 없어요」 */const fk=PV&&nEq<nAll?JSON.stringify([c,ui.dsp,ui.ifil,!!QDB,RWD.size,QD.size,ITEMS.length])/* ITEMS: 친구·전투정보실 템이 붙으면 늘어남 */:null;const nFill=fk?(FPN&&FPN[0]===fk?FPN[1]:(FPN=[fk,fillPlan(c).filter(x=>x[1]!=null).length])[1]):0;/* 같은 캐릭터·자료 상태면 다시 셈하지 않음 — 매번 셈하면 미리보기 장비 탭 그리기가 두 배 느려졌음 */
+  /* 미리보기 「빈 칸 채우기 (N칸)」: 실제로 채울 칸 수(fillPlan) — 예전엔 추천 없는 장신구 칸까지 세어 눌러도 「채울 빈 칸이 없어요」 */const fk=PV&&nEq<nAll?JSON.stringify([c,ui.dsp,ui.ifil,!!QDB,RWD.size,QD.size,ITEMS.length])/* ITEMS: 친구·전투정보실 템이 붙으면 늘어남 */:null;const nFill=fk?(FPN&&FPN[0]===fk?FPN[1]:(FPN=[fk,fillN(c,fillPlan(c,true))])[1]):0;/* 같은 캐릭터·자료 상태면 다시 셈하지 않음 — 매번 셈하면 미리보기 장비 탭 그리기가 두 배 느려졌음 */
   let h='<div class="wrap g2"><div class="gL"><details class="dollf"'+((isPC()||(ui.dollf??PV))?' open':'')+' data-tg="dollf"><summary><span class="ic" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b>내 장비 칸</b><small>착용 '+nEq+'/'+nAll+' · 점수 <b class="gscs">'+myS+'</b>'+(nUp?' · <em>▲ '+nUp+'칸 더 좋은 게 있어요</em>':'')+'</small><span class="chev">⌄</span></summary><div class="armory"><div class="acol">'+DOLL_L.map(s=>dollCell(c,s,ups,bb)).join('')+'</div>'
    +'<div class="amid"><span class="ic xl" style="background-image:url('+ICO('classicon_'+c.cls)+')"></span><b style="color:'+C[1]+'">'+esc(c.name||C[0])+'</b><small>레벨 '+L+' '+esc((sp?sp.name+' ':'')+C[0])+'</small>'
    +'<div class="gsc" title="착용 장비 능력치 × 내 전문화 점수표를 모두 더한 값"><b>'+myS+'</b><span>장비 점수</span>'+(upS>=1?'<em>추천대로 바꾸면 +'+upS+'</em>':'')+'</div>'
@@ -2088,11 +2114,19 @@ function slotGo(d){const c=me();if(!c)return;const dd=+d;ui.swd=dd>0?'l':'r';
 /* 지금 낀 템은 출처 고르기(퀘스트만 등)와 상관없이 보임 — 고른 출처 밖 템이면 그렇다고 알려 줌 (「퀘스트만」인데 던전 템이 왜 나오냐) */
 function curSrcNote(c,cur){if(!cur||!cur.src||!cur.src.length||ui.ifil==='all'||srcOk(cur,ui.ifil,c))return '';const f=(IFIL.find(x=>x[0]===ui.ifil)||[])[1]||'';return '<p class="note mute">지금 낀 템이라 보여요 · '+esc(srcTxt(cur,1))+(f?' — 「'+f+'」 추천에는 안 들어가요':'')+'</p>'}
 function fltNone(cur){const f=(IFIL.find(x=>x[0]===ui.ifil)||[])[1];const t=ui.ifil==='q'?'퀘스트 보상 중엔 ':ui.ifil==='dg'?'던전 템 중엔 ':ui.ifil==='ok'?'퀘스트·던전 템 중엔 ':ui.ifil==='rd'?'레이드까지 봐도 ':'';return (cur?t+'지금보다 좋은 게 없어요 👍':t+'이 칸에 맞는 템이 없어요')+(f&&ui.ifil!=='all'?' · 위에서 출처를 넓혀 볼 수 있어요':'')}
+/* 성서·토템·우상 (BiS QA P1): 특정 주문만 세게 해 주는 효과만 있는 성물은 점수로 셀 수 없어 성물 칸 추천이 늘 비었음(신앙의 성서 23201 · 지탱의 토템 23200 · 회복의 우상 22398 점수 0)
+   → 점수 없이 후보로만 보여 줌(효과 글·얻는 곳·끼기). 「좋아짐 +n」 같은 수치는 붙이지 않음 */
+const RELIC_CL={paladin:'성서',shaman:'토템',druid:'우상'};
+function relicCands(c,L,mode){if(!RELIC_CL[c.cls])return [];const w=wOf(c);return ITEMS.filter(it=>it.sl==='ra'&&obOf(it,mode)<=L&&usable(it,c)&&fits(it,'ranged',c,L)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x'&&!(sc(it,'ranged',w,c)>0)).sort((a,b)=>(obOf(b,mode)-obOf(a,mode))||(b.q-a.q)||(a.id-b.id))}
+function relicFx(it){const G=gameLines(it);if(!G){tipLoad();return ''}return G.find(x=>/^(착용 효과|사용 효과|발동 효과)/.test(x))||''}
+function relicBox(c,slot){if(slot!=='ranged'||!RELIC_CL[c.cls])return '';const R=relicCands(c,c.lv,ui.ifil||'ok');if(!R.length)return '';const cur=eqIt(c,slot);
+  return '<div class="rlb"><h4>✨ 효과로 고르는 '+RELIC_CL[c.cls]+' <small>'+R.length+'개 · 점수로 비교하지 않아요</small></h4><p class="note">특정 주문만 세게 해 주는 효과라 점수에 넣지 않았어요. 내가 많이 쓰는 주문을 세게 해 주는 '+RELIC_CL[c.cls]+'를 고르세요.</p>'
+   +R.slice(0,8).map(it=>{const fx=relicFx(it);return '<div class="row">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+ownTag(c,it.id)+(cur&&cur.id===it.id?' <span class="tag gd">착용 중</span>':'')+'</span><span class="sub">'+itMeta(it)+'</span>'+(fx?'<span class="sub fx">'+esc(fx)+'</span>':'')+'<span class="sub">'+esc(srcTxt(it,1))+'</span></span><span class="r">'+infoBtn(it)+(cur&&cur.id===it.id?'':' <button class="btn sm" data-a="equip" data-k="ranged" data-id="'+it.id+'">착용</button>')+'</span></div>'}).join('')+'</div>'}
 function slotPanel(c,slot){const L=c.lv;const cur=eqIt(c,slot);const best=bestFor(c,slot,L,ui.ifil).slice(0,3);const {w}=cmpW(c);
   let h='<div class="card hl spanel'+(ui.swd?' sw'+ui.swd:'')+'" data-swslot="1"><div class="hd"><h3>'+SLOT_KO[slot]+' · 지금 장비와 추천 비교</h3>'+slotNav(c,slot)+'<button class="x" data-a="gsel" data-k="">✕</button></div>';ui.swd=null;
-  if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div>'+curSrcNote(c,cur)+'<p class="note">'+fltNone(cur)+'</p>'}
+  if(!best.length){h+='<div class="row">'+itIcon(cur)+'<span class="m"><span class="sub">지금 착용</span><span class="nm">'+(cur?itName(cur):'<span class="mute">비어 있음</span>')+'</span>'+(cur?'<span class="sub">'+itMeta(cur)+'</span>'+statLine(cur):'')+'</span>'+(cur?'<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">빼기</button>':'')+'</div>'+curSrcNote(c,cur)+(relicCands(c,L,ui.ifil||'ok').length&&slot==='ranged'?'':'<p class="note">'+fltNone(cur)+'</p>')}
   else{const cols=(cur?[{it:cur,eq:1,slot}]:[]).concat(best.map(x=>({it:x.it,slot})));h+=cmpTable(c,cols,w)+curSrcNote(c,cur);h+='<div class="picks"><h4>🎯 추천 3개 · 어디서 얻나요?</h4>'+best.map((x,i)=>'<details class="cpk"'+(i===0?' open':'')+'><summary>'+itIcon(x.it)+'<span class="m"><b>'+itName(x.it)+ownTag(c,x.it.id)+luckTag(x.it,c)+'</b><small>'+esc(srcTxt(x.it,1))+'</small></span><span class="g">+'+x.g.toFixed(1)+'</span><span class="ar">▾</span></summary>'+srcList(x.it,c)+'<div class="pka"><button class="btn sm ghost" data-a="wish" data-k="'+x.it.id+'">'+(isWish(c,x.it.id)?'⭐ 찜함':'☆ 찜하기')+'</button><button class="btn sm ghost" data-a="nogo" data-k="'+x.it.id+'">🚫 못 얻어요 · 다음 추천</button></div></details>').join('')+'</div>';if(cur)h+='<button class="btn sm ghost" data-a="unequip" data-k="'+slot+'">지금 장비 빼기</button>'}
-  h+=nextBox(c,slot,best);
+  h+=nextBox(c,slot,best);h+=relicBox(c,slot);
   if(c.bag){const w2=wOf(c);const O=bagAll(c).filter(x=>x.ok&&fits(x.it,slot,c)&&x.it.id!==(cur&&cur.id)).map(x=>Object.assign({},x,{g:sc(x.it,slot,w2,c)-sc(cur,slot,w2,c)})).sort((a,b)=>b.g-a.g);
     h+='<div class="owb"><h4>🎒 내 가방·은행의 '+SLOT_KO[slot]+' 템 <small>'+(O.length?O.length+'개':'없어요')+'</small></h4>'+O.slice(0,5).map(x=>'<div class="row">'+itIcon(x.it)+'<span class="m"><span class="sub">'+(x.where==='bank'?'🏦 은행':'🎒 가방')+'</span><span class="nm">'+itName(x.it)+'</span>'+itStats(x.it,c)+dif2(x.it,cur,c)+'</span>'+(x.g>.5?'<button class="btn sm" data-a="equip" data-k="'+slot+'" data-id="'+x.it.id+'">끼기 +'+(x.g>=10?Math.round(x.g):x.g.toFixed(1))+'</button>':'<span class="gain no">'+(x.g<-.5?'−'+(x.g<=-10?Math.round(-x.g):(-x.g).toFixed(1))+'점':'비슷해요')+'</span>')+'</div>').join('')+'</div>'}
   {const ng=(c.nogo||[]).filter(id=>{const it=IT.get(id);return it&&fits(it,slot,c)});if(ng.length)h+='<p class="note">🚫 못 얻는다고 뺀 장비 '+ng.length+'개 · <button class="lnk" data-a="nogoclr" data-k="'+slot+'">다시 넣기</button></p>'}
@@ -2112,7 +2146,8 @@ function slotSheet(c,slot){const L=c.lv;const cur=eqIt(c,slot);const w=wOf(c);co
   h+='<div class="srch"><input class="inp" placeholder="이름으로 찾기 (지금 끼고 있는 장비 넣기)" value="'+esc(ui.isrch)+'" data-c="isrch"></div>';
   h+='<div id="isres">';h+='<div class="chips">'+[['lv','레벨 높은 순'],['g','좋아지는 순']].map(f=>'<button class="chip'+(srt===f[0]?' on':'')+'" data-a="gsort" data-k="'+f[0]+'">'+f[1]+'</button>').join('')+'</div>';
   const row=x=>{const it=x.it;const lock=it.ob>L;return '<div class="row'+(lock?'" style="opacity:.55':'')+'">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+(it.id===(cur&&cur.id)?' <span class="tag gd">착용 중</span>':'')+'</span><span class="sub">'+itMeta(it)+(it.ob>it.lv?' · '+it.ob+'레벨쯤 얻음':'')+'</span>'+itStats(it,c)+dif2(it,cur,c)+'<span class="sub">'+esc(srcTxt(it,2))+'</span></span><span class="r">'+gainTag(x.g,base(it),!cur)+'<br>'+infoBtn(it)+' <button class="btn sm" style="margin-top:6px" data-a="equip" data-k="'+slot+'" data-id="'+it.id+'">착용</button></span></div>'};
-  h+='<h3>지금 낄 수 있어요 ('+now.length+')</h3>'+(now.length?now.map(row).join(''):'<p class="note">'+(q?'찾는 장비가 없어요. 이 직업이 못 끼는 장비일 수 있어요.':'후보가 없어요.')+'</p>');
+  h+='<h3>지금 낄 수 있어요 ('+now.length+')</h3>'+(now.length?now.map(row).join(''):(q||!relicCands(c,L,ui.ifil||'ok').length?'<p class="note">'+(q?'찾는 장비가 없어요. 이 직업이 못 끼는 장비일 수 있어요.':'후보가 없어요.')+'</p>':''));
+  if(!q)h+=relicBox(c,slot);
   if(q){const no=ITEMS.filter(it=>!usable(it,c)&&SLOTS.find(x=>x[0]===slot)[2].includes(it.sl)&&hit(it)).slice(0,12);if(no.length)h+='<h3>이 직업은 못 끼는 장비 ('+no.length+')</h3>'+no.map(it=>'<div class="row" style="opacity:.5">'+itIcon(it)+'<span class="m"><span class="nm">'+itName(it)+'</span><span class="sub">'+itMeta(it)+'</span></span><span class="r">'+infoBtn(it)+'</span></div>').join('')}
   if(later.length)h+='<h3>곧 낄 수 있어요 (레벨 '+(L+1)+'~'+Math.min(60,L+3)+')</h3>'+later.map(row).join('');
   return h+'</div>'}
@@ -5553,7 +5588,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='info'){ui.sheet='info:'+k;rerender(true);const sh=document.querySelector('.sheet');if(sh)sh.scrollTop=0;return}
   if(a==='gsort'){ui.gsort=k;rerender(true);return}
   if(a==='autofill'){let n=0;/* 「바꿀 것」 목록의 빈 칸 추천을 그대로 끼움(fillPlan) — 예전엔 칸마다 따로 골라 같은 무기를 두 손에, 「하나 고르기」 보상을 두 칸에 끼웠음 */
-    c.eq=c.eq||{};for(const [s,id] of fillPlan(c)){if(id==null)delete c.eq[s];else{c.eq[s]=id;n++}}if(n)save();/* 채운 게 없으면 저장값(_t)도 그대로 */rerender(true);toast(n?n+'칸을 추천 장비로 채웠어요':'채울 빈 칸이 없어요');return}
+    c.eq=c.eq||{};const FP=fillPlan(c);n=fillN(c,FP);for(const [s,id] of FP){if(id==null)delete c.eq[s];else c.eq[s]=id}if(FP.length)save();/* 채운 게 없으면 저장값(_t)도 그대로 */rerender(true);toast(n?n+'칸을 추천 장비로 채웠어요':'채울 빈 칸이 없어요');return}
   if(a==='equip'){const id=+b.dataset.id;const it=IT.get(id);c.eq=c.eq||{};c.eq[k]=id;if(k==='main'&&it&&it.sl==='2h')delete c.eq.off;save();ui.sheet=null;rerender(true);toast(it.nm+' 착용');return}
   if(a==='unequip'){delete c.eq[k];save();rerender(true);return}
 });

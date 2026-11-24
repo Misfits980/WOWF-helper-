@@ -765,6 +765,19 @@ with open(os.path.join(OUT, 'npc-en-ko.txt'), 'w', encoding='utf-8') as f:
         if en and ko and ko != en and en not in seen and not lat(ko):
             seen.add(en)
             f.write('%s|%s\n' % (en.replace('|', '/'), ko.replace('|', '/')))
+# forg 출처에 이름 없이 번호만 온 몹(예: 「드랍 · 255247」) → 번호|영어 이름|한글 이름 (build.py가 출처 글을 고침)
+try:
+    _fs = open(os.path.join(os.path.dirname(OUT), 'forg', 'sources.txt'), encoding='utf-8').read()
+    _ids = sorted({int(m) for m in re.findall(r'· (\d{4,})(?:~|$)', _fs, re.M)})
+    with open(os.path.join(OUT, 'npc-id-name.txt'), 'w', encoding='utf-8') as f:
+        f.write('# forg 출처에 번호만 있는 몹: 번호|영어|한글 (import.py가 QuestieDB에서 만듦)\n')
+        for i in _ids:
+            r = NPC.get(i)
+            en = (r.get(NK['name']) if r else '') or ''
+            ko = ko_npc(i) if r else ''
+            f.write('%d|%s|%s\n' % (i, en.replace('|', '/'), (ko if ko and not lat(ko) else '').replace('|', '/')))
+except FileNotFoundError:
+    pass
 with open(os.path.join(OUT, 'zone-ko.txt'), 'w', encoding='utf-8') as f:
     for z in sorted(set(ZEN) | set(DUNGEON)):
         ko, cont = zone_name(z)

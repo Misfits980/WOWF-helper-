@@ -673,6 +673,14 @@ srcs = rd(F / 'sources.txt').rstrip('\n')
 _npcko = dict(l.split('|', 1) for l in (ROOT / 'data/qdb/npc-en-ko.txt').read_text(encoding='utf-8').splitlines() if '|' in l)
 _npcko.update(_nmfix())
 srcs = re.sub(r'(?m)^(5~상인 · )([^~]+)', lambda m: m.group(1) + _npcko.get(m.group(2), m.group(2)), srcs)
+# 이름 없이 번호만 온 몹(「드랍 · 255247」) → 한글 이름, 없으면 영어 이름, 그것도 없으면 「이름 모르는 몹 (번호 …)」 (BiS QA P3)
+_npcid = {}
+if (Q / 'npc-id-name.txt').exists():
+    for l in rd(Q / 'npc-id-name.txt').splitlines():
+        if l.startswith('#') or '|' not in l: continue
+        _i, _en, _ko = (l.split('|') + ['', ''])[:3]
+        _npcid[_i] = _ko or _npcko.get(_en, '') or _en
+srcs = re.sub(r'(?m)^(\d~[^~]*· )(\d{4,})(?=~|$)', lambda m: m.group(1) + (_npcid.get(m.group(2)) or '이름 모르는 몹 (번호 ' + m.group(2) + ')'), srcs)
 if (Q / 'items-extra.txt').exists():
     off = len(srcs.split('\n'))
     srcs += '\n' + rd(Q / 'sources-extra.txt').rstrip('\n')
@@ -1845,8 +1853,33 @@ DVER = {k: fp(v) for k, v in {'rcp': 'data/rcp.json', 'tip': 'data/tip.json', 'f
 _rg = sorted((ROOT / 'data' / 'route').glob('*.png'))
 DVER['rg'] = hashlib.md5(b''.join(p.read_bytes() for p in _rg)).hexdigest()[:10] if _rg else '0'
 DVER['rgz'] = [int(p.stem) for p in _rg]
+# 퀘스트 보상인데 퀘스트를 끝내려면 평판이 필요한 것 (BiS QA P2: 세나리우스의 힘 21188 = 「영웅의 전투장비」, 세나리온 의회 확고한 동맹)
+#  퀘스트 글의 「○○로부터 확고한 동맹 이상의 평판」을 읽어 출처 줄 번호 → [세력, 평판 단계(4 중립 … 8 확고한 동맹)]
+_REPLV = {'중립': 4, '약간 우호적': 5, '우호적': 6, '매우 우호적': 7, '확고한 동맹': 8}
+_QO = {}
+if (Q / 'quests.jsonl').exists():
+    for _line in rd(Q / 'quests.jsonl').splitlines():
+        try:
+            _q = json.loads(_line)
+        except Exception:
+            continue
+        _m = re.search(r"([가-힣A-Za-z' ]+?)\s*(?:로부터|으로부터|에게서|에게|의|에서)\s*(확고한 동맹|매우 우호적|약간 우호적|우호적|중립)\s*이상의 평판", _q.get('o') or '')
+        if _m:
+            # 앞말(「이 퀘스트를 완료하려면」·「또한」·「개」) 떼고 세력 이름만: 알려진 세력 이름이면 그것, 아니면 마지막 두 낱말
+            _fn = _m.group(1).strip()
+            _kn = next((k for k in ('세나리온 의회', '잔달라 부족', '노즈도르무 혈족', '은빛 여명회', '아르젠트 여명회', '서리늑대 부족', '스톰파이크 경비대', '목재 정령', '히드락시안 군주', '브루드 군주') if _fn.endswith(k)), None)
+            _QO[str(_q['id'])] = [_kn or ' '.join(_fn.split()[-2:]), _REPLV[_m.group(2)]]
+SRC_REP = {}
+for _i, _l in enumerate(SRC_TXT.split('\n')):
+    _f = _l.split('~')
+    if len(_f) >= 3 and _f[0] == '1':
+        _m = re.search(r'(?:quest=|/quest/)(\d+)', _f[2])
+        if _m and _m.group(1) in _QO:
+            SRC_REP[_i] = _QO[_m.group(1)]
+print('평판이 필요한 퀘스트 보상 출처', len(SRC_REP))
 data = '\n'.join([
     'const D_VER=' + json.dumps(DVER) + ';',
+    'const D_SRCREP=' + json.dumps(SRC_REP, ensure_ascii=False, separators=(',', ':')) + ';',
     '/* 와포 도우미 자료 — forg.gg 공개 페이지에서 GitHub Actions로 모은 것 (tools/forg-*.mjs) */',
     'const D_ITEMS=' + js_str(ITEMS_TXT) + ';',
     'const D_SRC=' + js_str(SRC_TXT) + ';',

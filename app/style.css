@@ -2462,3 +2462,8 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 .ahp{white-space:nowrap}
 .src.ahs .nm .ahp b{display:inline;font-size:inherit;margin:0}
 .parch .ahq .lnk{color:#5a3a10;text-decoration:underline}
+/* 효과로 고르는 성물 (점수 없이 후보) */
+.rlb{margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}.rlb h4{margin:0 0 4px}.rlb h4 small{font-weight:400;color:var(--mute);margin-left:4px}
+.rlb .sub.fx{color:#7fd16a}
+.lkt.rep{color:#ffd27a;border-color:#7a5a24;background:rgba(122,90,36,.18)}.src .rpn{color:#e8c06a}
+.src .rpn b{display:inline;font-size:inherit;margin:0}

@@ -1,0 +1,4 @@
+# forg 출처에 번호만 있는 몹: 번호|영어|한글 (import.py가 QuestieDB에서 만듦)
+250023|Blackmaw Thrall|검은아귀 노예
+250027|Blackmaw Headhunter|
+255247|Swarming Imp|몰려드는 임프
