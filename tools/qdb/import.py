@@ -681,6 +681,13 @@ for qid, q in sorted(QUEST.items()):
                 t.pop()
             tasks.append(t)
     _ql, _rl = G('questLevel') or 0, G('requiredLevel') or 0
+    # 아이템으로 시작하는 퀘스트는 그 아이템을 쓸 수 있는 레벨부터 (장인의 계약서: 마력 저항의 영약 94321 → 계약서 264121 사용 10레벨, QuestieDB 최소 레벨은 1)
+    _st = arr(G('startedBy')) or []
+    _sti = [i for i in (arr(_st[2]) if len(_st) > 2 else None) or [] if isinstance(i, int)]
+    if _sti and not (arr(_st[0]) if _st else None) and not (arr(_st[1]) if len(_st) > 1 else None):
+        _irl = (ITEM.get(_sti[0]) or {}).get(IK['requiredLevel']) or 0
+        if isinstance(_irl, int) and _irl > _rl:
+            _rl = _irl
     if _ql <= 0:  # -1(레벨 따라감)·0은 받는 레벨로
         _ql = _rl
     rec = {'id': qid, 'n': name, 'lv': _ql, 'm': _rl, 'z': zone, 'c': cont, 'o': obj, 'g': g, 'r': r}

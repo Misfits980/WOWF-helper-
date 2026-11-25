@@ -2467,3 +2467,13 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 .rlb .sub.fx{color:#7fd16a}
 .lkt.rep{color:#ffd27a;border-color:#7a5a24;background:rgba(122,90,36,.18)}.src .rpn{color:#e8c06a}
 .src .rpn b{display:inline;font-size:inherit;margin:0}
+/* 했는지 모르는 앞 퀘스트(수동 기록) — 접어 둔 카드 */
+.unkq>summary{cursor:pointer;list-style:none;font-size:14px;padding:2px 0}
+.unkq>summary::-webkit-details-marker{display:none}
+.unkq[open]>summary{margin-bottom:6px}
+.unkq li{line-height:1.45}
+.unkb{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.unkh{margin:8px 0}
+/* 적중 상대 고르기 (2레벨 위 몹 / 레이드 보스) */
+.hct{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 2px;font-size:13px}
+.hct>span{color:var(--mute)}

@@ -2477,6 +2477,16 @@ h4.pfg{margin:12px 0 4px;font-size:calc(13px*var(--fs,1));color:#e8c06a}h4.pfg s
 .rlb .sub.fx{color:#7fd16a}
 .lkt.rep{color:#ffd27a;border-color:#7a5a24;background:rgba(122,90,36,.18)}.src .rpn{color:#e8c06a}
 .src .rpn b{display:inline;font-size:inherit;margin:0}
+/* 했는지 모르는 앞 퀘스트(수동 기록) — 접어 둔 카드 */
+.unkq>summary{cursor:pointer;list-style:none;font-size:calc(14px*var(--fs,1));padding:2px 0}
+.unkq>summary::-webkit-details-marker{display:none}
+.unkq[open]>summary{margin-bottom:6px}
+.unkq li{line-height:1.45}
+.unkb{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.unkh{margin:8px 0}
+/* 적중 상대 고르기 (2레벨 위 몹 / 레이드 보스) */
+.hct{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 2px;font-size:calc(13px*var(--fs,1))}
+.hct>span{color:var(--mute)}
 
 /* ===================================================================
    와포 도우미 — 와우 게임 창 테마 (2026-11 대격변)
@@ -3707,8 +3717,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=629b3a1a" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* v17e43c @11/25 08:17 */
+<script src="app-data.js?v=27795c57" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* vcd76ce @11/25 09:14 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3716,7 +3726,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/25 08:17';
+const BUILD='11/25 09:14';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4113,16 +4123,18 @@ const TALHIT={mage:{'frost-elemental-precision':[2,'s']},warlock:{'affliction-su
 function talR(c,L){if(c.tal&&c.tal.cls===c.cls&&c.tal.r&&Object.keys(c.tal.r).length)return c.tal.r;const sp=specOf(c);const R={};(sp&&sp.steps||[]).forEach(s=>{if(s[0]<=L)R[s[1]]=Math.max(R[s[1]]||0,s[2])});return R}
 function talHit(c,L,cast){const T=TALHIT[c.cls];if(!T)return 0;const R=talR(c,L);
   let h=0;for(const k in T)if(R[k]&&(T[k][1]==='s')===cast)h+=R[k]*T[k][0];return h}
-function hitInfo(c){const k=(c.eq?Object.values(c.eq).join(','):'')+'|'+c.lv+'|'+c.race+'|'+c.cls+'|'+c.spec+'|'+JSON.stringify(c.tal&&c.tal.r||'');if(_hc.k===k)return _hc.v;
+/* 적중 상대: 고른 것(c.hitT: mob = 2레벨 위 몹 · boss = 레이드 보스 3레벨 위), 안 골랐으면 예전처럼 58레벨부터 보스 — 58~59에 사냥·레이드를 따로 고르게 (QA 시트 11-25) */
+const hitBoss=c=>c.hitT?c.hitT==='boss':(c.lv||60)>=58;
+function hitInfo(c){const k=(c.eq?Object.values(c.eq).join(','):'')+'|'+c.lv+'|'+c.race+'|'+c.cls+'|'+c.spec+'|'+JSON.stringify(c.tal&&c.tal.r||'')+'|'+(c.hitT||'');if(_hc.k===k)return _hc.v;
   const w=wOf0(c);const cast=(w.shit||0)>(w.hit||0);const L=c.lv||60;const f=rateF(L);const tot={};SLOTS.forEach(([s])=>{const it=eqIt(c,s);if(it)for(const x of ['hit','exp'])if(it.st[x])tot[x]=(tot[x]||0)+it.st[x]});
-  const th=talHit(c,L,cast);const end=L>=58;const v={cast,th,hit:+((tot.hit||0)*f+(RACE_HIT[c.race]||0)+th).toFixed(1),cap:cast?(end?17:5):(end?8:6),exp:+((tot.exp||0)*f).toFixed(1),ecap:end?6.5:5,phys:!cast&&!w.heal};_hc={k,v};return v}
+  const th=talHit(c,L,cast);const end=hitBoss(c);const v={cast,th,hit:+((tot.hit||0)*f+(RACE_HIT[c.race]||0)+th).toFixed(1),cap:cast?(end?17:5):(end?8:6),exp:+((tot.exp||0)*f).toFixed(1),ecap:end?6.5:5,phys:!cast&&!w.heal};_hc={k,v};return v}
 const capF=(cur,cap)=>cur>=cap?.15:cur>=cap-1?.6:1;
 /* 쌍수 자동 공격: 포에버도 빗나감 +19% — 기술은 8%(레벨업 6%)면 끝, 자동 공격은 보스 27%·같은 레벨 24%까지 적중이 계속 이득 (Icy Veins·Method 포에버).
    상한 넘은 적중은 자동 공격 몫만 → 0.45배 (자동 공격이 딜의 40~50%라고 본 어림값, 시뮬 값 아님) */
 const DW_HITF=.45;
 const isDW=c=>c.cls==='rogue'&&(c.lv||60)>=DWLV.rogue||wsetOf(c)==='dw';
-/* 상대는 기술 상한과 같게: 58레벨부터 보스(+3레벨) 27%, 그 전엔 2레벨 위 몹 25% (예전 24%는 같은 레벨 몹 기준이라 기술 6%(2레벨 위)와 상대가 달랐음) */
-const dwCap=c=>(c.lv||60)>=58?27:25;
+/* 상대는 기술 상한과 같게(고른 상대 · hitBoss): 보스(+3레벨) 27%, 2레벨 위 몹 25% (예전 24%는 같은 레벨 몹 기준이라 기술 6%(2레벨 위)와 상대가 달랐음) */
+const dwCap=c=>hitBoss(c)?27:25;
 function hitF(h,c){const f=capF(h.hit,h.cap);if(f===1||!h.phys||!isDW(c))return f;const dc=dwCap(c);return h.hit>=dc?.15:h.hit>=dc-1?Math.max(f,.6*DW_HITF):Math.max(f,DW_HITF)}
 /* 레벨업 중 보조 무기: 시뮬 값은 60레벨 특성(쌍수 무기 전문화 다 찍음) 기준 → 아직 안 찍었으면 보조 무기 피해가 그만큼 적음.
    전투 도적 쌍수 무기 전문화 2점 = 보조 피해 +50%(50%→75%), 분노 쌍수 무기 전문화 5점 = +25%(50%→62.5%), 격노한 정밀함 3점 = 보조 적중 +10%(약 10% 더 맞음).
@@ -4587,15 +4599,17 @@ let chx=chainOf(id);
        const win=r=>r[0]===1||r[0]===n||(r[0]>=ci0-2&&r[0]<=ci0+2);let out='',buf=[];const flush=()=>{if(buf.length){out+='<details class="pcfold"><summary>… '+buf[0][0]+(buf.length>1?'–'+buf[buf.length-1][0]:'')+'단계 '+buf.length+'개 더 보기</summary>'+buf.map(row).join('')+'</details>';buf=[]}};
        CH.forEach(r=>{if(win(r)){flush();out+=row(r)}else buf.push(r)});flush();return out})()
      +(QDB?forkBox(c,id,new Set(CH.map(r=>r[6]))):'')+'</div>'}
-  else{h+=preBlock(id,base.pre);const fb=QDB?forkBox(c,id):'';if(fb)h+='<div class="prech ok"><b>🔗 연계 퀘스트의 첫 단계예요</b>'+fb.replace('<div class="pcfork">','<div class="pcfork top">')+'</div>'}{const X=QDB&&QDB.get(id);const xl=X&&!mqDone(c,X)?exLine(c,X):'';if(xl)h+='<p class="exn">⚖️ '+esc(xl)+'</p>'}h+='<p class="npc">'+QMK.g+(g&&(g[3]==='item'||XG&&XG.g&&XG.g[3]==='item'&&XG.g[0]===g[0])?' 시작: 가방의 <b>'+esc(npcKo(d,'g'))+'</b> 쓰기':' 받는 곳: <b>'+esc(g?npcKo(d,'g'):(base.gv||'—'))+'</b>')+(g&&g[1]?' · '+esc(placeTxt(g[1],g[2],id)):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
+  else{h+=preBlock(id,base.pre);const fb=QDB?forkBox(c,id):'';if(fb)h+='<div class="prech ok"><b>🔗 연계 퀘스트의 첫 단계예요</b>'+fb.replace('<div class="pcfork">','<div class="pcfork top">')+'</div>'}{const X=QDB&&QDB.get(id);const xl=X&&!mqDone(c,X)?exLine(c,X):'';if(xl)h+='<p class="exn">⚖️ '+esc(xl)+'</p>'}h+='<p class="npc">'+QMK.g+(g&&(g[3]==='item'||XG&&XG.g&&XG.g[3]==='item'&&XG.g[0]===g[0])?' 시작: 가방의 <b>'+esc(npcKo(d,'g'))+'</b> 쓰기'+(XG&&XG.m>1?' <small class="mute">('+mTxt(XG)+' 쓸 수 있어요)</small>':''):' 받는 곳: <b>'+esc(g?npcKo(d,'g'):(base.gv||'—'))+'</b>')+(g&&g[1]?' · '+esc(placeTxt(g[1],g[2],id)):(base.xy?' ('+esc(base.xy.replace(',',', '))+')':''))+'</p>';
   if(base.extra)h+=base.extra;
   {const TS=tasksOf(d,obj);if(TS.length)h+='<h5>챙길 것 · 할 일</h5><ul class="ptask">'+TS.map(t=>{const drop=(t.drop||'').replace(/ ?그 밖 지역$/,'').trim();const unit=t.type==='처치'?'마리':'개';
     return '<li>'+(T_IC[t.type]||'•')+' <b>'+esc(t.nm)+(t.cnt?' '+t.cnt+unit:'')+'</b> '+(T_KO[t.type]||t.type)+(drop?'<br><span>'+(t.type==='수집'?'떨구는 몹: ':'')+esc(drop)+'</span>':'')+(t.where?'<br><span>많은 곳 '+esc(qWhere(id,t.nm,t.where))+'</span>':(()=>{const J=GJP(id,TS.indexOf(t)+1)||(TS.length===1?GJP(id):null);return J&&J[0]?'<br><span>📍 내가 한 곳 '+esc(J[0][0]+' '+J[0][1]+', '+J[0][2])+' <small>(애드온 기록)</small></span>':''})())+'</li>'}).join('')+'</ul>';if(!TS.length){const J=GJP(id);if(J&&J[0])h+='<p class="npc">📍 내가 목표를 한 곳: <b>'+esc(J[0][0]+' '+J[0][1]+', '+J[0][2])+'</b> <small>(애드온 기록)</small></p>'}}
   if(d.r&&d.r[0]&&!d.r[3])h+='<p class="npc">'+QMK.r+' 반납하는 곳: <b>'+esc(npcKo(d,'r'))+'</b>'+(d.r[1]?' · '+esc(placeTxt(d.r[1],d.r[2],id)):'')+'</p>';
   else if(d.r&&d.r[3])h+='<p class="npc">'+QMK.r+' 반납하는 곳: 받은 NPC에게 다시</p>';
   /* 반납 NPC 자료가 없는 퀘스트(24개, 그중 장인의 계약서 17개): 빈칸으로 두지 않고 근거대로 — 설명에 「지도에 표시된 장소」면 정해진 NPC 없음, 아니면 자료에 없음 */
-  else if(XG&&!(d.r&&d.r[0])&&!(XG.r&&XG.r[0])){const mapT=/지도에 (표시|지정)된/.test(obj);h+='<p class="npc">'+QMK.r+' 반납하는 곳: '+(mapT?'<b>정해진 NPC 없음</b> · 지도에 표시된 곳으로 가져가요'+(XG.g&&XG.g[3]==='item'?' · 시작한 계약서를 가방에 갖고 있어야 해요':''):'<span class="mute">자료에 없어요 · 퀘스트 설명을 따라가세요</span>')+'</p>'}
-  if(XG&&/^장인의 계약서/.test(XG.n||''))h+=writQuote(c,XG);
+  else if(XG&&!(d.r&&d.r[0])&&!(XG.r&&XG.r[0])){const mapT=/지도에 (표시|지정)된/.test(obj);/* 장인의 계약서는 계약서마다 반납 NPC가 따로 있음(94321 → 여명의 설원 대지술사 프랑잘, QA 시트 11-25) — 자료가 없을 때 「정해진 NPC 없음」이라고 하지 않음 */const wr=/^장인의 계약서/.test(XG.n||'');
+    h+='<p class="npc">'+QMK.r+' 반납하는 곳: '+(mapT?(wr?'<span class="mute">반납 NPC 자료가 아직 없어요</span> · 게임 지도에 표시된 곳으로 가져가요':'<b>정해진 NPC 없음</b> · 지도에 표시된 곳으로 가져가요')+(XG.g&&XG.g[3]==='item'?' · 시작한 계약서를 가방에 갖고 있어야 해요':''):'<span class="mute">자료에 없어요 · 퀘스트 설명을 따라가세요</span>')+'</p>'}
+  /* 계약서 납품은 하루 한 번(같은 계약서) · 다른 계약서는 같은 날 따로 (QA 시트 11-25, 94321 일일 표시) — 한국 서버 초기화 시각은 아직 확인 못 함 */
+  if(XG&&/^장인의 계약서/.test(XG.n||''))h+='<p class="note"><b>하루 한 번</b> · 같은 계약서는 하루에 한 번, 다른 계약서는 같은 날 따로 낼 수 있어요 <small class="mute">(한국 서버 초기화 시각은 아직 확인 못 했어요)</small></p>'+writQuote(c,XG);
   /* 보상 */
   /* ★ 추천·좋아짐은 장비 탭과 같은 기준: 근접·탱커에게 천(clothNo)은 안 권함 — 예전엔 전사에게 「탄돌 교각」 천 바지가 ★였고 게임 「고를 템」 코드도 그걸 알려 줬음 */
   const tile=(x,best)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use&&!clothNo(c,it)?bestSlot(it,c):null;
@@ -5732,8 +5746,11 @@ function dollCell(c,s,ups,bb){const it=eqIt(c,s);const sel=ui.gslot===s;const lo
    +(it?'<span class="ic lg q-'+it.q+'" data-tip="'+it.id+'" data-ts="'+s+'" style="background-image:url('+(it.icUrl||ICO(it.ic))+')"></span>':'<span class="ic lg empty">'+(lock?'2H':SLOT_KO[s].replace(/ \d/,''))+'</span>')
    +(PV?(b?'<span class="up'+(b.soon?' soon':'')+'">'+(b.soon?(b.it.ob||b.it.lv)+'렙':b.empty?'빈 칸':'+'+gNum(b.g))+'</span>':''):ups.has(s)?'<span class="up">▲</span>':'')+'</button>'}
 function hitCapHtml(c){if(isTank(c))return '';if(PV){const w0=wOf0(c);if(!((w0.hit||0)>0||(w0.shit||0)>0||(w0.exp||0)>0))return ''}const h=hitInfo(c);const row=(nm,v,cap)=>{const st=v>=cap?'full':v>=cap-1?'near':'low';return '<div class="hcap '+st+'"><span>'+nm+'</span><b>'+v+'%</b><i style="width:'+Math.min(100,v/cap*100)+'%"></i><small>상한 '+cap+'%'+(st==='full'?' · 다 찼어요':' · '+(+(cap-v).toFixed(1))+'% 남음')+'</small></div>'};
-  /* 상대 레벨·공격 종류를 같이 적음 — 58레벨에 기준이 보스로 바뀌는 걸 말없이 바꾸지 않게. 쌍수 자동 공격 줄은 공략 값(실측 전 추정) */const dw=h.phys&&isDW(c);const boss=(c.lv||60)>=58;
-  return '<div class="hcaps">'+row(dw?'적중 · 기술':'적중',h.hit,h.cap)+(dw?row('적중 · 자동 공격',h.hit,dwCap(c)):'')+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')+'<p class="note"><b>상대: '+(boss?'보스(3레벨 위)':'2레벨 위 몹')+'</b>'+(boss?'':' (58레벨부터 보스)')+' · 장비'+(RACE_HIT[c.race]?'+종족':'')+(h.th?'+특성 '+h.th+'%':'')+' 셈 · 상한 넘으면 점수를 낮춰요'+(dw?' · 쌍수 자동 공격 상한은 공략 값(추정)':'')+'</p></div>'}
+  const dw=h.phys&&isDW(c);const boss=hitBoss(c);
+  /* 상대 고르기(2레벨 위 몹 / 레이드 보스) — 예전엔 58레벨에 말없이 보스로 바뀜 · 쌍수 상한은 무기 숙련 최대 기준 예상치(+2 몹 6%·25%를 확인한 전투 기록은 못 찾음, 게임 파일의 +2 일반 공격은 5.4%) */
+  return '<div class="hcaps">'+row(dw?'적중 · 기술':'적중',h.hit,h.cap)+(dw?row('적중 · 자동 공격',h.hit,dwCap(c)):'')+(h.phys?row('회피·막기 감소',h.exp,h.ecap):'')
+    +'<div class="hct"><span>상대</span><button class="chip'+(boss?'':' on')+'" data-a="hitt" data-k="mob" aria-pressed="'+!boss+'">2레벨 위 몹</button><button class="chip'+(boss?' on':'')+'" data-a="hitt" data-k="boss" aria-pressed="'+boss+'">레이드 보스</button></div>'
+    +'<p class="note">장비'+(RACE_HIT[c.race]?'+종족':'')+(h.th?'+특성 '+h.th+'%':'')+' 셈 · 상한 넘으면 점수를 낮춰요'+(dw?' · 쌍수 상한은 무기 숙련 최대 기준 예상치'+(boss?'':' (게임 파일의 +2 일반 공격은 5.4%)'):'')+'</p></div>'}
 function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
 /* 이중 특성 (40레벨~): 둘째 특성으로 보기 · 두 특성 다 좋은 템 표시 */
 function dspOn(c){return (c.lv||1)>=40&&c.spec2&&c.spec2!==c.spec}
@@ -6812,13 +6829,20 @@ function qLastWords(x){const w=String(x).trim().split(/\s+/);let i=-1;w.forEach(
    아직 안 한 앞 퀘스트(필요한 것만, 「이 중 하나」는 받을 수 있는 첫 것)도 받기·하기·반납으로 같이 — 앞 퀘스트를 아직 못 받으면 그 던전 퀘스트는 뺌. 던전 퀘스트 자체는 받기만(go) */
 function dgPrepQ(c){if(!QDB)return new Map();const L=c.lv,ql=c.ql||{};
   const ds=[...new Map([...dgNow(L).filter(d=>d.lo>=10).sort((a,b)=>b.fit-a.fit).slice(0,3),...(c.pdg||[]).map(s=>DG[s]).filter(d=>d&&!d.soon)].map(d=>[d.slug,d])).values()];
-  const Z=new Map(),seen=new Set();const dn=p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)};
-  const put=(id,d,go)=>{if(seen.has(id))return;const r=recQ(id);if(!r||!r.g[1])return;seen.add(id);const o=go?Object.assign({},r,{go:1}):Object.assign({},r);o.dg=d.ko.replace(/^붉은십자군 수도원: /,'붉은십자군 ');const z=r.g[1];
-    if(!Z.has(z))Z.set(z,{z,a:L,b:L,prep:true,items:[],dgs:[],d0:d});const e=Z.get(z);e.items.push(o);if(!e.dgs.includes(o.dg))e.dgs.push(o.dg)};
+  const Z=new Map(),seen=new Set(),IT=[];const dn=p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)};
+  const put=(id,d,go)=>{if(seen.has(id))return;const r=recQ(id);if(!r||!r.g[1])return;seen.add(id);const o=go?Object.assign({},r,{go:1}):Object.assign({},r);o.dg=d.ko.replace(/^붉은십자군 수도원: /,'붉은십자군 ');IT.push([o,d])};
   /* 앞 퀘스트 모으기 — 받을 수 없는 앞 퀘스트(레벨 모자람 등)가 하나라도 있으면 false → 그 던전 퀘스트는 아직 안 넣음 */
-  const need=(id,k,acc)=>{if(k>6)return true;const X=QDB.get(id);if(!X)return true;const G=(X.pre||[]).map(p=>[p]);if(X.pre1&&X.pre1.length)G.push(preGrp(c,X.pre1));if(QPAR[id]!=null&&!(X.pre||[]).includes(QPAR[id]))G.push([QPAR[id]]);
+  const need=(id,k,acc)=>{if(k>10)return false;/* 안 한 앞 퀘스트가 10단계 넘게 남았으면(오닉시아 연계 16단계 등) 아직 준비 단계가 아님 — 예전엔 7단계에서 그냥 true라 중간부터 잘린 연계가 앞 퀘스트 없이 들어갔음(「실망」 앞 「치안대장 윈저」 없이). 죽음의 폐광 파괴 작전은 7단계 */const X=QDB.get(id);if(!X)return true;const G=(X.pre||[]).map(p=>[p]);if(X.pre1&&X.pre1.length)G.push(preGrp(c,X.pre1));if(QPAR[id]!=null&&!(X.pre||[]).includes(QPAR[id]))G.push([QPAR[id]]);
     for(const g of G){if(!g.length||g.some(dn))continue;const p=g.find(p=>{const P=QDB.get(p);return P&&(P.m||0)<=L&&!/^장인의 계약서/.test(P.n||'')});if(p==null||!need(p,k+1,acc))return false;if(!acc.includes(p))acc.push(p)}return true};
   for(const d of ds)for(const q of dqOf(c,d)){if(!dqPick(c,d,q))continue;const acc=[];if(!need(+q.id,0,acc))continue;acc.forEach(p=>{if((ql[p]||0)<3)put(p,d,false)});put(+q.id,d,true)}
+  /* 앞 퀘스트로 이어진 것끼리는 한 곳에 — 연계의 첫 퀘스트를 받는 지역으로 (데피아즈단: 서부 몰락지대 65 → 붉은마루 132 → 서부 135 → 스톰윈드 141 …).
+     예전엔 받는 지역마다 나눠서 붉은마루 단계에 65를 안 끝낸 채 132 받기가 나왔음(QA ca6d8c2 「던전 준비」 22종) */
+  const ix=new Map(IT.map(([o],i)=>[o.id,i])),U=IT.map((_,i)=>i);const root=i=>U[i]===i?i:(U[i]=root(U[i]));
+  IT.forEach(([o],i)=>{const X=QDB.get(o.id);if(!X)return;[...(X.pre||[]),...(X.pre1||[]),...(QPAR[o.id]!=null?[QPAR[o.id]]:[])].forEach(p=>{const j=ix.get(p);if(j==null)return;const a=root(i),b=root(j);if(a!==b)U[Math.max(a,b)]=Math.min(a,b)})});
+  /* 다른 준비 퀘스트의 앞 퀘스트면 받기만(go) 말고 끝내기까지 — 「새끼 악어 가죽」(던전 퀘스트 목록에도 있음) → 「고원 가죽」. 예전엔 먼저 본 던전 퀘스트가 받기만으로 남아 뒤 퀘스트가 빠지거나 앞 퀘스트 없이 나왔음 */
+  const dep=new Set();IT.forEach(([o])=>{const X=QDB.get(o.id);if(X)[...(X.pre||[]),...(X.pre1||[]),...(QPAR[o.id]!=null?[QPAR[o.id]]:[])].forEach(p=>{if(p!==o.id&&ix.has(p))dep.add(p)})});
+  IT.forEach(x=>{if(x[0].go&&dep.has(x[0].id)){x[0]=Object.assign({},x[0]);delete x[0].go}});
+  IT.forEach(([o,d],i)=>{const z=IT[root(i)][0].g[1];if(!Z.has(z))Z.set(z,{z,a:L,b:L,prep:true,items:[],dgs:[],d0:d});const e=Z.get(z);e.items.push(o);if(!e.dgs.includes(o.dg))e.dgs.push(o.dg)});
   return Z}
 /* ===== 이동 시간 어림 (미리보기 던전 준비 동선) =====
    걷기(40레벨부터 탈것 · 60레벨 빠른 탈것) · 그리폰(애드온 기록이 있으면 연 비행 경로만, 없으면 다 열었다고 봄) · 배 · 깊은굴 지하철 · 루테란 마을 차원문
@@ -6915,7 +6939,7 @@ const _PRC=new Map();
 /* 미리보기 던전 준비 동선: 전달 퀘스트(목표 없이 다른 NPC에게 가져가기)는 반납까지 넣어야 다음 퀘스트가 열림
    (예: 스톰윈드 「수석땜장이 오버스파크」 → 아이언포지 반납 → 「고장난 첨단로봇 수리」) · 순서는 이동 시간이 가장 짧게(그리폰·배·지하철 포함) */
 function prepRoute(c,items,start,ends,fast){if(!WLD)wldLoad();const it=items.map(q=>q.go&&!q.o&&!q.rep?Object.assign({},q,{go:0}):q);const ql=c.ql||{};
-  const key=[fast?'f':'',c.id,c.lv,trvNet(c).key,start?start.z+String(start.xy):'',(ends||[]).map(e=>e.join(',')).join(';'),it.map(q=>q.id+':'+(ql[q.id]||0)+(q.go?'g':'')).join(',')].join('|');
+  const key=[fast?'f':'',c.id,c.lv,trvNet(c).key,start?start.z+String(start.xy):'',(ends||[]).map(e=>e.join(',')).join(';'),it.map(q=>q.id+':'+(ql[q.id]||0)+(q.go?'g':'')).join(','),qlN(c)].join('|');
   if(_PRC.has(key))return _PRC.get(key);
   const ST=recStages(c,it,start,{ord:(St,done)=>prepOrd(c,St,done,start,ends,fast)});
   const net=trvNet(c);let mv=0,wk=0;ST.forEach(s=>{mv+=s.trv?s.trv.t:0;wk+=prepWork(s)});
@@ -6942,7 +6966,8 @@ function prepSum(c,node,ST,X){const legs=[];ST.forEach(s=>{const l=legs[legs.len
   const con=g=>{if(!g)return '<span class="pra">›</span>';const k=trvMain(g);return '<span class="prc k-'+k+'" title="'+esc(trvTxt(g,c))+'">'+trvIco(k)+'<b>'+trvMin(g.t)+'</b></span>'};
   const st=X&&X.start?X.start.z:'';const g0=legs[0]&&legs[0].trv;
   let h='<div class="card prep2"><div class="hd"><b>🏰 던전 준비 동선</b><span class="ptt">약 <b>'+Math.max(1,Math.round(ST.tot||0))+'</b>분</span></div>'
-   +'<div class="psub">퀘스트 '+nQ+'개 · 들를 곳 '+legs.length+'번 · 이동 '+trvMin(ST.mv||0)+' · 받기·반납 '+trvMin(ST.wk||0)+'</div>';
+   +'<div class="psub">퀘스트 '+nQ+'개 · 들를 곳 '+legs.length+'번 · 이동 '+trvMin(ST.mv||0)+' · 받기·반납 '+trvMin(ST.wk||0)+'</div>'
+   +(ST.qcut?'<div class="sxp qlfull">퀘스트창 <b>'+qlN(c)+'/'+QL_MAX+'</b> · 꽉 차서 '+ST.qcut+'개는 동선에서 뺐어요 — 반납하거나 포기하면 다시 나와요</div>':'');
   if(X&&X.rows.length>1)h+='<div class="dgtg">'+X.rows.map(r=>'<button class="dgtr'+(r.on?' on':'')+'" data-a="prepdg" data-k="'+esc(r.dg)+'" aria-pressed="'+r.on+'"><span class="dgck">'+MKS.check+'</span><span class="m"><b>'+esc(r.dg)+'</b><small>퀘스트 '+r.n+'개'+(r.xp?' · 경험치 +'+r.xp.toLocaleString():'')+'</small></span><span class="dt">'+(r.on?(r.dt>=.5?'+'+trvMin(r.dt):'거의 그대로'):'넣으면 +'+trvMin(r.dt))+'</span></button>').join('')+'</div>';
   h+='<div class="prl">'+(g0&&g0.t>=.5&&st?'<span class="prz now"><b>'+esc(st)+'</b><small>'+(c.lpos&&c.lpos.z===st?'지금 여기':'지금 구간')+'</small></span>'+con(g0):'')
    +legs.map((l,i)=>(i?con(l.trv):'')+'<span class="prz"><b>'+esc(l.z)+'</b><small>'+[l.g?'받기 '+l.g:'',l.t?'반납 '+l.t:''].filter(Boolean).join(' · ')+'</small></span>').join('')
@@ -6958,7 +6983,8 @@ function stProg(c,s){const P=[];s.items.forEach(it=>qObjs(c,it.q).forEach(o=>{if
 function recStages(c,list,start,O){const ql=c.ql||{};const St=[];const near=(a,b)=>a&&b&&Math.hypot(a[0]-b[0],a[1]-b[1])<6;
   const add=(type,zone,xy,place,q,need)=>{let s0=St.find(s=>s.type===type&&s.zone===zone&&((xy&&near(s.xy,xy))||(!xy&&!s.xy&&s.place===place)));if(!s0){s0={type,zone,xy,place,items:[],need:new Set()};St.push(s0)}if(place&&!s0.place.split(' · ').includes(place)&&s0.place.split(' · ').length<2)s0.place+=' · '+place;s0.items.push({q,type,need});if(need)[].concat(need).forEach(x=>s0.need.add(x));return s0};
   /* 선행 퀘스트가 같은 목록에 있으면 그걸 반납한 뒤에 받기 (예: 은둔자 → 다크샤이어로부터의 보급품) */
-  const inL=new Set(list.map(q=>q.id));const preOf=id=>{const o=QDB&&QDB.get(id);if(!o)return [];const P=new Set(o.pre||[]);if(o.pre1&&o.pre1.length===1)P.add(o.pre1[0]);if(QPAR[id]!=null)P.add(QPAR[id]);
+  /* 던전 준비 퀘스트(go: 받기만, 반납은 던전 뒤)는 앞 퀘스트로 치지 않음 — 반납 단계가 없어 뒤 퀘스트가 영영 안 나왔음(길잡이 「수석땜장이 오버스파크」 → 「고장난 첨단로봇 수리」) */
+  const inL=new Set(list.filter(q=>!q.go).map(q=>q.id));const preOf=id=>{const o=QDB&&QDB.get(id);if(!o)return [];const P=new Set(o.pre||[]);if(o.pre1&&o.pre1.length===1)P.add(o.pre1[0]);if(QPAR[id]!=null)P.add(QPAR[id]);
     const out=[...P].filter(x=>x!==id&&inL.has(x)&&(ql[x]||0)<3).map(x=>'t'+x);
     /* 여럿 중 하나만 끝내면 되는 앞 퀘스트(예: 캠핑 입문 ← 지역별 「드넓은 야외」): 끝낸 갈래가 없으면 이 목록에 있는 갈래 중 하나를 반납한 뒤에 받기 ('t1|t2' = 둘 중 하나) */
     if(o.pre1&&o.pre1.length>1){const g=preGrp(c,o.pre1);if(!g.some(x=>{const X=QDB.get(x);return (ql[x]||0)>=3||(X&&mqDone(c,X))})){const g2=g.filter(x=>x!==id&&inL.has(x)&&(ql[x]||0)<3);if(g2.length)out.push(g2.map(x=>'t'+x).join('|'))}}
@@ -6977,7 +7003,12 @@ function recStages(c,list,start,O){const ql=c.ql||{};const St=[];const near=(a,b
   /* 같은 지역이면 지역 좌표, 다른 지역이면 큰 지도 거리(다른 대륙은 맨 뒤) — 지역마다 좌표 기준이 달라서 그냥 빼면 안 됨 */
   const gap=(a,b)=>{if(a.zone===b.zone)return dist(a.sxy||a.xy,b.sxy||b.xy);const p=atl(a),q=atl(b);if(!p||!q)return 5e5;if(p.c!==q.c)return 1e6;return Math.hypot(p.x-q.x,p.y-q.y)};
   /* 미리보기 던전 준비 동선: 줄 세우기를 이동 시간 기준(prepOrd)으로 — 기본(레벨업 단계)은 아래 가까운 곳부터 그대로 */
-  if(O&&O.ord)out.push(...O.ord(St,done));else{
+  let qcut=0;
+  if(O&&O.ord){/* 이동 시간 순서(미리보기 던전 준비)도 퀘스트창 40칸 — 꽉 찬 뒤의 받기는 빼고(그 퀘스트의 하기·반납, 그걸 앞 퀘스트로 둔 받기도) 몇 개 뺐는지 남김. 예전엔 36칸에서 시작하면 51칸까지 받게 짰음(QA ca6d8c2 누적 동선) */
+    let lg=qlN(c);const cut=new Set();const hit=it=>it.need&&[].concat(it.need).some(t=>t.split('|').every(y=>cut.has(+y.slice(1))));
+    O.ord(St,done).forEach(s=>{const its=s.items.filter(it=>{const id=it.q.id;if(cut.has(id)||hit(it)){if(it.type==='get')cut.add(id);return false}
+        if(it.type==='get'){if((ql[id]||0)>=1)return true;if(lg>=QL_MAX){cut.add(id);return false}lg++}else if(it.type==='turn')lg--;return true});
+      if(its.length)out.push(its.length===s.items.length?s:Object.assign({},s,{items:its}))});qcut=cut.size}else{
   /* 퀘스트창 40칸: 받기는 빈칸이 있을 때만 — 꽉 차면 반납·하기부터 (예전엔 35개에서 시작하면 중간에 42개까지 받게 짰음).
      반납·하기가 하나도 안 남았는데 꽉 찼으면(다른 지역 퀘스트로 찬 경우) 받기를 그대로 둠 — 단계를 빼 버리지 않게 */
   let lg=qlN(c),relax=false;const okC=it=>ok(it)&&(it.type!=='get'||relax||lg<QL_MAX);
@@ -6989,7 +7020,7 @@ function recStages(c,list,start,O){const ql=c.ql||{};const St=[];const near=(a,b
     left.splice(left.indexOf(cur),1);if(W.length)left.push(Object.assign({},cur,{items:W}));if(!left.length)break;
     cur=pick(cur,null)}}
   /* 붙어 있는 같은 곳·같은 종류는 하나로 */
-  const M=[];out.forEach(s=>{const p=M[M.length-1];if(p&&p.type===s.type&&p.zone===s.zone&&(near(p.xy,s.xy)||(!p.xy&&!s.xy&&p.place===s.place)))p.items=p.items.concat(s.items);else M.push(s)});return M}
+  const M=[];out.forEach(s=>{const p=M[M.length-1];if(p&&p.type===s.type&&p.zone===s.zone&&(near(p.xy,s.xy)||(!p.xy&&!s.xy&&p.place===s.place)))p.items=p.items.concat(s.items);else M.push(s)});if(qcut)M.qcut=qcut;return M}
 /* 퀘스트창 한도: 와우 포에버는 40개 (일반 클래식 20개의 두 배) — 표시·「다 했어요」가 같은 값을 씀 */
 const QL_MAX=40;const qlN=c=>Object.values(c.ql||{}).filter(v=>v>=1&&v<3).length;
 const RST={get:['받기','g'],do:['하기','o'],turn:['반납','r']};
@@ -7077,25 +7108,42 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
   const prof=q=>/^장인의 계약서/.test(q.nm||'');
   /* 앞 퀘스트 맞추기(게임 기록을 불러왔을 때): 앞 퀘스트를 안 했고 이 구간에도 없으면 받을 수 있는 앞 퀘스트를 구간에 끌어오고(4단계까지),
      그래도 안 되면 단계에서 빼고 「먼저 「…」」로 알려 줌 — 예: 마이조스는 트롤의 마법·대령 쿠르젠을 끝내야 받을 수 있음 */
-  const preFix=(n,list)=>{if(!QDB)return {list,blk:[]};const ids=new Set(list.map(q=>q.id)),out=list.slice(),blk=[],ql=c.ql||{};
+  const preFix=(n,list)=>{if(!QDB)return {list,blk:[],unk:[]};const ids=new Set(list.map(q=>q.id)),out=list.slice(),blk=[],unk=[],ql=c.ql||{};
     /* 게임 기록 없이 쓰는 캐릭터도 같은 기준(예전엔 불러온 캐릭터만 → 같은 빈 기록인데 수동은 「한때의 영토」를 앞 퀘스트 없이 권했음).
-       다만 기록이 없으니 내 레벨보다 8 넘게 낮은 앞 퀘스트는 이미 한 걸로 봄 — 지나온 지역으로 되돌려 보내지 않게 */
-    const dn=p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)||(!c.imported&&(P.lv||P.m||0)<L-8)};
+       기록이 없으면 내 레벨보다 8 넘게 낮은 앞 퀘스트는 했는지 모름 — 예전엔 이미 한 걸로 쳐서 뒤 퀘스트를 그냥 권했음(39레벨 전사에게 「정글 탐험」 없이 「랩터 사냥법 익히기」 등 QA ca6d8c2 수동 39종).
+       이제는 지나온 지역으로 되돌려 보내지도, 했다고 치지도 않고 「했는지 몰라요」로 따로 모아 고르게 함(이미 했어요 → 끝냄 표시 · 나중에) */
+    const dn=p=>{const P=QDB.get(p);return !P||!qdbOk(c,P)||mqDone(c,P)};
+    const old=P=>!c.imported&&(P.lv||P.m||0)<L-8&&!((ql[P.id]||0)>=1);
     const groups=id=>{const X=QDB.get(id);if(!X)return [];const G=(X.pre||[]).map(p=>[p]);if(X.pre1&&X.pre1.length)G.push(preGrp(c,X.pre1));return G.filter(g=>g.length&&!g.some(dn))};
-    const pull=(id,d)=>{for(const g of groups(id)){if(g.some(p=>ids.has(p)))continue;let ok=false;
-        for(const p of g){const P=QDB.get(p);if(!P||(P.m||0)>L||d>4||prof({nm:P.n}))continue;if(!pull(p,d+1))continue;const r=recQ(p,n.z);if(!r)continue;out.push(r);ids.add(p);ok=true;break}
-        if(!ok)return false}return true};
-    for(const q of list){if((ql[q.id]||0)>=1)continue;if(!pull(q.id,0)){const g=groups(q.id).find(g=>!g.some(p=>ids.has(p)));blk.push({q,need:g&&QDB.get(g[0])})}}
-    /* 앞 퀘스트가 목록에 있어도 그게 막혔으면 이것도 막힘 — 바뀌지 않을 때까지 반복 */
-    const B=new Set(blk.map(x=>x.q.id));for(let more=true,k=0;more&&k<20;k++){more=false;
-      for(const q of out){if(B.has(q.id)||(ql[q.id]||0)>=1)continue;const g=groups(q.id).find(g=>!g.some(p=>ids.has(p)&&!B.has(p)));if(g){B.add(q.id);blk.push({q,need:QDB.get(g.find(p=>B.has(p))||g[0])});more=true}}}
-    return {list:out.filter(q=>!B.has(q.id)),blk}};
+    /* 던전 준비로 받기만 하는 퀘스트(go)가 목록의 다른 퀘스트의 앞 퀘스트면 받기만 말고 끝내기까지(하기·반납) — 받기만이면 반납 단계가 없어 앞 퀘스트를 채워 주지 못함 */
+    const goI=new Set(list.filter(q=>q.go).map(q=>q.id));const inl=p=>ids.has(p)&&!goI.has(p);
+    const promote=p=>{const j=out.findIndex(q=>q.id===p);if(j>=0){out[j]=Object.assign({},out[j]);delete out[j].go}goI.delete(p)};
+    /* 1 = 됨 · 0 = 막힘 · 퀘스트 = 했는지 모르는 오래된 앞 퀘스트 */
+    const pull=(id,d)=>{for(const g of groups(id)){if(g.some(inl))continue;const gp=g.find(p=>goI.has(p));if(gp!=null){promote(gp);continue}let ok=false,u=null;
+        for(const p of g){const P=QDB.get(p);if(!P||goI.has(p))continue;if(old(P)){u=u||P;continue}if((P.m||0)>L||d>4||prof({nm:P.n}))continue;const r0=pull(p,d+1);if(r0!==1){if(r0&&!u)u=r0;continue}const r=recQ(p,n.z);if(!r)continue;out.push(r);ids.add(p);ok=true;break}
+        if(!ok)return u||0}return 1};
+    for(const q of list){if((ql[q.id]||0)>=1)continue;const r=pull(q.id,0);if(r===1)continue;if(r)unk.push({q,need:r});else{const g=groups(q.id).find(g=>!g.some(inl));blk.push({q,need:g&&QDB.get(g[0])})}}
+    /* 앞 퀘스트가 목록에 있어도 그게 막혔으면 이것도 막힘(했는지 모르는 것에 걸렸으면 그 앞 퀘스트 아래로) — 바뀌지 않을 때까지 반복 */
+    const B=new Set(blk.concat(unk).map(x=>x.q.id)),UQ=new Map(unk.map(x=>[x.q.id,x.need]));for(let more=true,k=0;more&&k<20;k++){more=false;
+      for(const q of out){if(B.has(q.id)||(ql[q.id]||0)>=1)continue;const g=groups(q.id).find(g=>!g.some(p=>inl(p)&&!B.has(p)));if(g){B.add(q.id);const p=g.find(p=>B.has(p));
+        if(p!=null&&UQ.has(p)){UQ.set(q.id,UQ.get(p));unk.push({q,need:UQ.get(p)})}else blk.push({q,need:QDB.get(p!=null?p:g[0])});more=true}}}
+    return {list:out.filter(q=>!B.has(q.id)),blk,unk}};
   /* 하나만 고르는 퀘스트(ex)는 단계에 하나만: 짝 중 이미 받았거나 끝낸 게 있으면 나머지를 빼고, 아니면 앞에 나온 것만 (예: 제프라스 섬 「헛된 희생」·「불길한 침묵」) */
   const exOne=list=>{if(!QDB)return list;const kept=new Set(),ql=c.ql||{};return list.filter(q=>{const X=QDB.get(q.id);const P=exPeers(c,X).map(x=>x.id);if(!P.length){kept.add(q.id);return true}
       if((ql[q.id]||0)>=1){kept.add(q.id);return true}if(P.some(i=>(ql[i]||0)>=1||mqDone(c,QDB.get(i))||kept.has(i)))return false;kept.add(q.id);return true})};
   const baseOf=n=>exOne(qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)<=L&&(!QDB||QDB.has(q.id)||RQ.has(q.id))&&!prof(q)));/* RQ: 동선 자료로 채운 새 퀘스트(하이잘·강물터 등) — 예전엔 여기서 빠져 단계에 안 나왔음 */
-  const blkOf=n=>preFix(n,baseOf(n)).blk;
-  let PST=null;const stOf=n=>{if(n.all){PST=prepStats(c,n,c.lpos&&c.lpos.xy?c.lpos:{z:curN.z,xy:[50,50]});return PST.base}const b=n.prep?[]:preFix(n,baseOf(n)).list;const ids=new Set(b.map(q=>q.id));return recStages(c,b.concat(prepOf(n).filter(q=>!ids.has(q.id))),c.lpos)};
+  /* 일반 목록 + 던전 준비 목록을 합친 뒤 앞 퀘스트를 맞춤 — 예전엔 일반 목록만 맞추고 던전 준비는 그 뒤에 그냥 붙여서, 다른 지역 앞 퀘스트를 안 끝낸 받기가 나왔음 */
+  const PF=new Map();const pfOf=n=>{if(!PF.has(n)){const b=n.prep?[]:baseOf(n);const ids=new Set(b.map(q=>q.id));PF.set(n,preFix(n,b.concat(prepOf(n).filter(q=>!ids.has(q.id)))))}return PF.get(n)};
+  const blkOf=n=>n.all?[]:pfOf(n).blk;const unkOf=n=>n.all?[]:pfOf(n).unk;
+  let PST=null;const stOf=n=>{if(n.all){PST=prepStats(c,n,c.lpos&&c.lpos.xy?c.lpos:{z:curN.z,xy:[50,50]});return PST.base}return recStages(c,pfOf(n).list,c.lpos)};
+  const blkCard=n=>{const bk=blkOf(n);return bk.length?'<div class="card blkq"><p class="note">🔒 <b>앞 퀘스트를 먼저 끝내야 받을 수 있는 퀘스트 '+bk.length+'개</b> — 단계에서 뺐어요.</p><ul>'+bk.slice(0,6).map(x=>'<li><button class="lnk" data-a="qopen" data-k="'+x.q.id+'">「'+esc(x.q.nm)+'」</button>'+(x.need?' ← 먼저 <button class="lnk" data-a="qopen" data-k="'+x.need.id+'">「'+esc(x.need.n)+'」</button> <small class="mute">'+esc(x.need.z||'')+' · '+mTxt(x.need)+'</small>':'')+'</li>').join('')+'</ul></div>':''};
+  /* 했는지 모르는 오래된 앞 퀘스트(수동 기록): 앞 퀘스트마다 묶어 접어 둠 — 선행 보기 · 이미 했어요(끝냄 표시 → 뒤 퀘스트가 단계로) · 나중에(이 카드에서만 숨김) */
+  const unkCard=n=>{const U=unkOf(n);if(!U.length)return '';const lt=c.unkL||{};const by=new Map();U.forEach(x=>{const k=x.need.id;if(!by.has(k))by.set(k,{P:x.need,qs:[]});by.get(k).qs.push(x.q)});
+    const all=[...by.values()],sh=all.filter(g=>!lt[g.P.id]),hid=all.length-sh.length;
+    if(!sh.length)return '<p class="note unkh">❔ 앞 퀘스트를 했는지 몰라 뺀 퀘스트 '+U.length+'개는 나중에로 미뤘어요 · <button class="lnk" data-a="unkre">다시 보기</button></p>';
+    return '<details class="card blkq unkq"><summary>❔ <b>앞 퀘스트를 했는지 몰라 뺀 퀘스트 '+sh.reduce((t,g)=>t+g.qs.length,0)+'개</b> <small class="mute">눌러서 고르기</small></summary><p class="note">게임 기록이 없어 '+(L-8)+'레벨 밑 앞 퀘스트는 했는지 몰라요.</p><ul>'
+      +sh.slice(0,8).map(g=>'<li><b>「'+esc(g.P.n||'')+'」</b> <small class="mute">'+esc(g.P.z||'')+' · '+(g.P.lv||g.P.m||'?')+'레벨</small><br><small>이어지는 퀘스트 '+g.qs.slice(0,3).map(q=>'「'+esc(q.nm)+'」').join(' ')+(g.qs.length>3?' 외 '+(g.qs.length-3)+'개':'')+'</small><div class="unkb"><button class="btn sm" data-a="qopen" data-k="'+g.P.id+'">선행 보기</button><button class="btn sm" data-a="unkok" data-k="'+g.P.id+'">이미 했어요</button><button class="btn sm" data-a="unklt" data-k="'+g.P.id+'">나중에</button></div></li>').join('')+'</ul>'
+      +(hid?'<p class="note">나중에로 미룬 앞 퀘스트 '+hid+'개 · <button class="lnk" data-a="unkre">다시 보기</button></p>':'')+'</details>'};
   const lockOf=n=>qsOf(n).filter(q=>q.lv<=Math.max(L,n.a)+3&&minLv(q)>L&&(c.ql||{})[q.id]==null);
   let node=selN||curN,ST=stOf(node),moved=null;
   /* 이 구간 퀘스트를 다 했으면 다음 구간으로 자동으로 넘어감 (레벨을 안 올렸어도) */
@@ -7106,11 +7154,13 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
   const lk=lockOf(moved||node);const lkMsg=lk.length?' · 남은 '+lk.length+'개는 '+Math.min(...lk.map(minLv))+'레벨부터 받을 수 있어요':'';
   if(!ST.length){/* 곧(2레벨 안) 열리는 퀘스트가 남았으면 다음 구간 대신 여기서 레벨 올릴 사냥감을 알려 줌 (예: 제프라스 섬 3레벨 → 남은 15개는 4레벨부터) */
     const nl=lk.length?Math.min(...lk.map(minLv)):0;const soon=nl&&nl<=L+2;const M=soon&&WLD&&WLD.mob?(WLD.mob[z]||[]).filter(m=>m[1]<=L+1&&m[2]>=L-1).sort((a,b)=>b[3]-a[3]).slice(0,2):[];
-    return h+'<div class="card"><p class="note">'+esc(z)+' '+node.a+'–'+node.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg+'. ':' 퀘스트를 다 했어요 🎉 ')+(soon?nl+'레벨이 되면 여기서 이어서 해요.':pk.nodes.indexOf(node)<pk.nodes.length-1?'여정 줄에서 다음 구간을 눌러 보세요.':'이 루트 끝까지 왔어요.')+'</p>'
-      +(soon?'<p class="note">⚔️ <b>'+nl+'레벨까지 근처에서 사냥</b>'+(M.length?' · '+M.map(m=>esc(m[0])+' Lv '+(m[1]===m[2]?m[1]:m[1]+'–'+m[2])+' ('+m[4]+', '+m[5]+')').join(' · '):'')+'</p>':'')+'</div>'}
+    const held=blkOf(node).length+unkOf(node).length;/* 앞 퀘스트에 막혀 뺀 것이 있으면 「다 했어요 🎉」가 아님 — 예전엔 다 막힌 던전 준비 칸이 「다 했어요」로 보이고 막힌 목록도 안 나왔음 */
+    return h+'<div class="card"><p class="note">'+esc(z)+' '+node.a+'–'+node.b+(lk.length||held?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg+'. ':' 퀘스트를 다 했어요 🎉 ')+(soon?nl+'레벨이 되면 여기서 이어서 해요.':pk.nodes.indexOf(node)<pk.nodes.length-1?'여정 줄에서 다음 구간을 눌러 보세요.':'이 루트 끝까지 왔어요.')+'</p>'
+      +(soon?'<p class="note">⚔️ <b>'+nl+'레벨까지 근처에서 사냥</b>'+(M.length?' · '+M.map(m=>esc(m[0])+' Lv '+(m[1]===m[2]?m[1]:m[1]+'–'+m[2])+' ('+m[4]+', '+m[5]+')').join(' · '):'')+'</p>':'')+'</div>'+unkCard(node)+blkCard(node)}
   if(moved)h+='<p class="note mvn">✓ '+esc(moved.z)+' '+moved.a+'–'+moved.b+(lk.length?' 지금 받을 수 있는 퀘스트를 다 했어요'+lkMsg:' 퀘스트를 다 했어요')+' · 다음 구간으로 넘어갔어요: <b>'+esc(node.z)+' '+node.a+'–'+node.b+'</b>'+(node.a>L+2?' · 몹 레벨이 조금 높으니 조심하세요':'')+'</p>';
   {const pq=prepOf(node).filter(q=>(c.ql||{})[q.id]==null||((c.ql||{})[q.id]||0)<3);if(pq.length){const dn=[...new Set(pq.map(q=>q.dg))];if(node.all)h+=prepSum(c,node,ST,PST);else h+='<div class="card blkq prepn"><p class="note">🏰 <b>'+(node.prep?esc(node.z)+' · 던전 준비':'던전 준비 퀘스트 '+pq.length+'개를 이 지역 단계에 넣었어요')+'</b> — '+esc(dn.join(' · '))+(node.prep?' 퀘스트를 받으러 들르는 곳이에요. 받기만 하고 하기·반납은 던전에서 해요.':'')+(pq.some(q=>!q.go)?' 먼저 해야 하는 앞 퀘스트도 같이 넣었어요.':'')+'</p></div>'}}
-  {const bk=blkOf(moved||node);if(bk.length)h+='<div class="card blkq"><p class="note">🔒 <b>앞 퀘스트를 먼저 끝내야 받을 수 있는 퀘스트 '+bk.length+'개</b> — 단계에서 뺐어요.</p><ul>'+bk.slice(0,6).map(x=>'<li><button class="lnk" data-a="qopen" data-k="'+x.q.id+'">「'+esc(x.q.nm)+'」</button>'+(x.need?' ← 먼저 <button class="lnk" data-a="qopen" data-k="'+x.need.id+'">「'+esc(x.need.n)+'」</button> <small class="mute">'+esc(x.need.z||'')+' · '+mTxt(x.need)+'</small>':'')+'</li>').join('')+'</ul></div>'}
+  h+=unkCard(moved||node);
+  h+=blkCard(moved||node);
   const s0=ST[0];const xpOf=s=>s.items.filter(i=>i.type==='turn').reduce((n,i)=>n+((RWD.get(i.q.id)||{}).xp||0),0);
   const xy=s=>s.xy?' '+s.xy[0].toFixed(0)+', '+s.xy[1].toFixed(0):'';
   h+='<button class="swrow" data-a="rmap"><span class="sw'+(recMapOn(c)?' on':'')+'"></span><b>지도 같이 보기</b><small>단계 순서를 지도에 길 따라</small></button>';
@@ -7127,10 +7177,10 @@ function recView(c){const L=c.lv;if(!QDB){qdbLoad();return ldNote('qdb','퀘스�
     h+='<div class="rmap">'+m+'<div class="rmapf"><span><i style="background:#ffd65a"></i>받기</span><span><i style="background:#ff9a4a"></i>하기</span><span><i style="background:#7ec8ff"></i>반납</span><button class="btn sm ghost" data-a="mmgo" data-k="'+ST[0].items[0].q.id+'">진짜 지도에서 크게 ›</button></div></div>'}
   if(recMapOn(c))h+='<!--/RM-->';
   h+='<div class="scroll2'+(PVE?' qw':'')+'">'+(PVE?'<span class="qwm t-'+s0.type+'"'+(s0.type==='do'?' style="background-image:url('+ICO('inv_sword_04')+')"':'')+'></span>':'')+'<div class="k">1단계 · 지금 할 일 · '+RST[s0.type][0]+'</div><h3>'+esc(s0.place)+'</h3><div class="wh">'+esc(s0.zone)+xy(s0)+' · '+s0.items.length+'개</div>';
-  {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오갈 때만 알려 주기 — 뭍 선착장은 잊혀진 해안 43, 43(조브린 팬대즐 옆). 예전엔 선착장 좌표가 틀렸고(31, 39) 섬 안에서도 매 단계 떴음 */
+  {/* 섬(배로 건너가는 곳) ↔ 뭍 사이를 오갈 때만 알려 주기 — 뭍 선착장은 잊혀진 해안 43, 43(조브린 팬대즐 옆) · 섬 선착장은 31, 39.5(QA 시트 11-25, 지도 자료 31.0, 39.5 ↔ 43.1, 42.8). 예전엔 섬 선착장 좌표를 뭍 것으로 적었고 섬 안에서도 매 단계 떴음 */
    /* 섬(사도르 섬: 페더문 요새·솔라살 폐허)은 좌표로 가림 — 반납 단계는 이름이 NPC라서 이름만으론 못 가림 */const fmXY=xy=>xy[0]<36&&xy[1]>33&&xy[1]<60;
    const fmi=s=>!!(s&&s.zone==='페랄라스'&&(s.xy?fmXY(s.xy):/페더문/.test(s.place||'')));const lp=c.lpos&&c.lpos.z==='페랄라스'&&c.lpos.xy?{zone:'페랄라스',xy:c.lpos.xy}:null;
-   const hit=fmi(s0)&&!(lp&&fmi(lp))?'페더문 요새는 섬이에요. 뭍 선착장(43, 43 · 조브린 팬대즐 옆)에서 배를 타고 건너요.':!fmi(s0)&&s0.zone==='페랄라스'&&lp&&fmi(lp)?'지금은 섬이에요. 페더문 요새 선착장에서 배를 타고 뭍(43, 43)으로 건너요.':!fmi(s0)&&fmi(ST[1])?'다음 단계는 섬(페더문 요새)이에요. 뭍 선착장(43, 43 · 조브린 팬대즐 옆)에서 배를 타요.':'';
+   const hit=fmi(s0)&&!(lp&&fmi(lp))?'페더문 요새는 섬이에요. 뭍 선착장(43, 43 · 조브린 팬대즐 옆)에서 배를 타고 섬 선착장(31, 39.5)으로 건너요.':!fmi(s0)&&s0.zone==='페랄라스'&&lp&&fmi(lp)?'지금은 섬이에요. 섬 선착장(31, 39.5)에서 배를 타고 뭍(43, 43)으로 건너요.':!fmi(s0)&&fmi(ST[1])?'다음 단계는 섬(페더문 요새)이에요. 뭍 선착장(43, 43 · 조브린 팬대즐 옆)에서 배를 타고 섬 선착장(31, 39.5)으로 가요.':'';
    if(hit)h+='<div class="isl">⛵ '+esc(hit)+'</div>';
    else if(PVE&&s0.trv&&s0.trv.t>=.5)h+='<div class="isl trvl">'+trvIco(trvMain(s0.trv))+'<span>가는 법 · '+esc(trvTxt(s0.trv,c))+'</span></div>';
    else{const bt=PVE?(c.lpos&&c.lpos.z&&c.lpos.z!==s0.zone?hopTip(c.lpos.z,s0.zone):'')||hopTip(s0.zone,ST[1]&&ST[1].zone):boatTip(s0.zone,ST[1]&&ST[1].zone);if(bt)h+='<div class="isl">⛵ '+esc(bt)+'</div>'}}
@@ -9029,6 +9079,11 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='fpk'){c.fpk=c.fpk||{};if(c.fpk[k])delete c.fpk[k];else c.fpk[k]=1;save();rerender(true);return}
   if(a==='lgv'){c.lgRoute=!c.lgRoute;save();rerender(true);return}
   if(a==='qlrm'){if(c.ql){const was=c.ql[+k];delete c.ql[+k];save();rerender(true);toastUndo('퀘스트창에서 뺐어요 (포기)',()=>{const cc=me();cc.ql=cc.ql||{};cc.ql[+k]=was;save();rerender(true)})}return}
+  /* 했는지 모르는 앞 퀘스트: 이미 했어요(끝냄 표시 · 되돌리기) · 나중에 · 다시 보기 */
+  if(a==='hitt'){c.hitT=k==='boss'?'boss':'mob';save();rerender(true);return}
+  if(a==='unkok'){c.mq=c.mq||{};const id=+k,was=c.mq[id];const X=QDB&&QDB.get(id);c.mq[id]=1;if(c.unkL)delete c.unkL[id];save();toastUndo('「'+((X&&X.n)||'')+'」 끝냄으로 표시 · 이어지는 퀘스트를 단계에 넣었어요',()=>{const cc=me();if(!cc)return;if(was)cc.mq[id]=was;else delete cc.mq[id];save();rerender(true)});rerender(true);return}
+  if(a==='unklt'){c.unkL=c.unkL||{};c.unkL[+k]=1;save();rerender(true);return}
+  if(a==='unkre'){delete c.unkL;save();rerender(true);return}
   if(a==='qldone'){c.mq=c.mq||{};c.mq[+k]=1;if(c.ql)delete c.ql[+k];save();toast('끝냄으로 표시하고 퀘스트창에서 뺐어요');rerender(true);return}
   if(a==='impgo'){const P=ui.imp;if(!P)return;const {n,extra}=impApply(c,P);if(ui.fsPickCode&&ui.impraw===ui.fsPickCode){c.fsT=ui.fsPickT;c.fsName=P.name}
     ui.impExtra=extra.join(' · ');ui.imp=null;ui.impraw='';ui.sheet=null;if(P.log.length){ui.tab='quest';ui.qmode='log'}const t0=Date.now();save();if(SAVE_ERR>=t0)toast('⚠ 저장 공간이 모자라 불러온 기록을 저장하지 못했어요 · 새로고침하면 사라져요');else toast('✓ 끝낸 퀘스트 '+P.done.length+'개를 불러왔어요 (새로 '+n+'개)'+(ui.impExtra?' · '+ui.impExtra:''));ui.impEq=null;ui.impSp=null;rerender(true);return}
