@@ -2477,3 +2477,8 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 /* 적중 상대 고르기 (2레벨 위 몹 / 레이드 보스) */
 .hct{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 2px;font-size:13px}
 .hct>span{color:var(--mute)}
+/* 장비 출처 필터가 6개(제작 포함)라 폰에서 「전체」가 잘렸음 — 좁으면 두 줄로 접고, 칸 사이 선은 1px 틈으로 */
+.gseg{flex-wrap:wrap;max-width:100%;gap:1px;background:var(--line)}
+.gseg button{flex:1 1 auto;background:#1b1610}
+.gseg button+button{border-left:0}
+@media(max-width:520px){.gseg:has(>button:nth-child(5)){display:flex}.gseg:has(>button:nth-child(5))>button{flex-basis:30%}}

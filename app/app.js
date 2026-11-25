@@ -1018,9 +1018,15 @@ function srcCat(s){if(!s||s.raid||s.pvp||s.ev)return '';if(s.k===0)return DG[s.d
   if(s.k===1){const m=(s.qn||'').match(/^(.+?) · 퀘스트 보상$/);if(m&&DGNM.has(m[1]))return 'dg';const q=srcQid(s);return q&&dqSet().has(q)?'dg':'q'}return ''}
 /* 얻는 곳이 「미공개」뿐인데 레벨도 능력치로 어림한 템(포에버 새 템 · 예: 화염 군주의 목장식 「11레벨」)은 언제 얻는지 몰라 추천하지 않음 */
 const lvUnknown=it=>it.est&&it.src.every(i=>!SRC[i]||/미공개/.test(SRC[i].label||''));
-function srcOk(it,mode,c){if(c&&questDoneOnly(it,c))return false;if(lvUnknown(it))return false;if(mode==='all')return true;
+/* 제작 출처로 얻을 수 있나: 착용 시 귀속(경매장에서 삼)·귀속 정보 없음은 그대로, 획득 시 귀속은 그 전문기술이 있어야(직접 만들어야만 얻음) */
+const myProf=(c,p)=>!!p&&!!c&&(((c.profs||[]).includes(p))||(c.profLv||{})[p]!=null);
+const crGet=(it,s,c)=>s&&s.k===4&&(bindOf(it)!=='p'||!c||myProf(c,craftProf(s)));
+const crOnlyNo=(it,c)=>c&&it.src.length>0&&it.src.every(i=>SRC[i]&&SRC[i].k===4)&&!it.src.some(i=>crGet(it,SRC[i],c));
+function srcOk(it,mode,c){if(c&&questDoneOnly(it,c))return false;if(lvUnknown(it))return false;
+  /* 전체: 예전엔 재봉술 없는 사제에게도 「신앙의 예복」(획득 시 귀속 제작템) 추천 — 만들 수 없는 제작템만 있는 템은 뺌 */if(mode==='all')return !crOnlyNo(it,c);
   if(mode==='q'||mode==='dg'){const S=c?srcLeft(it,c):it.src.map(i=>SRC[i]).filter(Boolean);return S.some(s=>srcCat(s)===mode)}
-  const k=srcKind(it,c);return k==='sure'||(mode==='rd'&&k==='raid')}
+  const k=srcKind(it,c);if(k==='sure'||(mode==='rd'&&k==='raid'))return true;
+  /* 제작 포함: 퀘스트+던전 + 얻을 수 있는 제작템 */return mode==='cr'&&it.src.some(i=>crGet(it,SRC[i],c))}
 /* Wowhead 포에버 20·30레벨 가이드에 나온 템 */
 function guideHas(c,id,L){const G=(typeof D_GUIDE!=='undefined'&&D_GUIDE[c.cls+'/'+c.spec])||null;if(!G)return false;L=L||c.lv;return (L<=27&&(G['20']||[]).includes(id))||(L>=22&&L<=40&&(G['30']||[]).includes(id))}
 /* 무기 숙련: 처음부터 아는 것 말고는 무기 전문가에게 배워야 함 (얼라이언스, 10실버) */
@@ -1037,7 +1043,7 @@ const guideTag=(it,c)=>guideHas(c,it.id)?' <span class="lkt gd" title="Wowhead W
 const clothNo=(c,it)=>it.cs==='4.1'&&it.sl!=='ba'&&(['warrior','rogue','hunter'].includes(c.cls)||/근접 딜|탱커/.test(ROLE[c.cls+'/'+c.spec]||''))&&!['priest','mage','warlock'].includes(c.cls);
 /* 📘 공략 추천 템도 고른 출처를 따름: 예전엔 퀘스트+던전·레이드에서도 가이드 템이면 제작·경매장 템(파수병의 가죽 투구 등)이 추천에 들어왔음 */
 /* 고른 출처로만 얻는 레벨이 더 늦으면 그 레벨부터 추천: 예) 불꽃의 판금 건틀릿은 제작 53레벨이지만 퀘스트 보상은 57레벨 → 「퀘스트+던전」에선 57부터 */
-function obOf(it,m){if(!it._sv||m==='all')return it.ob;if(!it.obm){const M={};for(const [s,v] of it._sv)for(const k of ['q','dg','ok','rd']){const hit=k==='ok'?srcSure(s)&&!s.raid&&!s.pvp&&!s.ev:k==='rd'?srcSure(s)&&!s.pvp&&!s.ev:srcCat(s)===k;if(hit)M[k]=Math.min(M[k]??99,k!=='q'&&it._rw!=null?Math.min(v,it._rw):v)}
+function obOf(it,m){if(!it._sv||m==='all')return it.ob;if(!it.obm){const M={};for(const [s,v] of it._sv)for(const k of ['q','dg','ok','rd','cr']){const hit=k==='ok'?srcSure(s)&&!s.raid&&!s.pvp&&!s.ev:k==='rd'?srcSure(s)&&!s.pvp&&!s.ev:k==='cr'?(srcSure(s)&&!s.raid&&!s.pvp&&!s.ev)||s.k===4:srcCat(s)===k;if(hit)M[k]=Math.min(M[k]??99,k!=='q'&&it._rw!=null?Math.min(v,it._rw):v)}
   it.obm={};for(const k in M)it.obm[k]=Math.max(it.ob,M[k])}return it.obm[m]||it.ob}
 function cands(c,slot,maxLv,mode){const w=wOf(c);return ITEMS.filter(it=>obOf(it,mode)<=maxLv&&usable(it,c)&&fits(it,slot,c,maxLv)&&!clothNo(c,it)&&(srcOk(it,mode,c)||ownedOf(c,it.id))&&it.ph!=='x').map(it=>({it,s:sc(it,slot,w,c),g:guideHas(c,it.id,maxLv)})).filter(x=>x.s>0).sort((a,b)=>(b.s*(b.g?1.04:1))-(a.s*(a.g?1.04:1)))}
 /* 「하나 고르기」 퀘스트: 이미 그 보상을 끼고 있거나 직접 다른 보상을 골랐으면(c.rwPick) 나머지 보상은 못 받음 — 장비 탭 목록(upgrades)·칸 비교·애드온 추천 코드(bestFor)가 같은 규칙.
@@ -2006,7 +2012,7 @@ function upRow(c,x){const cur=eqIt(c,x.slot);return '<div class="row tap" data-a
 
 /* ===================== 장비 (전투정보실 모양) ===================== */
 /* 추천 기준 칸 (장비 탭) */
-const IFIL=[['q','퀘스트만','던전 없이 퀘스트 보상만'],['dg','던전만','던전 보스·던전 퀘스트만'],['ok','퀘스트+던전','퀘스트·던전·상인 (기본)'],['rd','레이드','퀘스트·던전에 포에버 레이드(오닉시아·하이잘 정상) 템까지 (만렙)'],['all','전체','경매장·월드 드랍·명예 상인까지']];
+const IFIL=[['q','퀘스트만','던전 없이 퀘스트 보상만'],['dg','던전만','던전 보스·던전 퀘스트만'],['ok','퀘스트+던전','퀘스트·던전·상인 (기본)'],['cr','제작 포함','퀘스트+던전에 제작템까지 — 경매장에서 살 수 있는 것, 직접 만들어야 하는 건 내 전문기술일 때만'],['rd','레이드','퀘스트·던전에 포에버 레이드(오닉시아·하이잘 정상) 템까지 (만렙)'],['all','전체','경매장·제작·월드 드랍·명예 상인까지']];
 const DOLL_L=['head','neck','shoulder','back','chest','wrist'],DOLL_R=['hands','waist','legs','feet','ring1','ring2','trink1','trink2'],DOLL_B=['main','off','ranged'];
 const HEALER_NOTE={paladin:1,shaman:1,druid:1};
 function offLocked(c,s){return s==='off'&&(!!(eqIt(c,'main')&&eqIt(c,'main').sl==='2h')||wsetOf(c)==='2h'&&!eqIt(c,'off'))}
@@ -2131,7 +2137,7 @@ function slotGo(d){const c=me();if(!c)return;const dd=+d;ui.swd=dd>0?'l':'r';
   document.addEventListener('touchend',e=>{if(!on)return;on=false;const t=e.changedTouches[0];const dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.6)slotGo(dx<0?1:-1)},{passive:true})}
 /* 지금 낀 템은 출처 고르기(퀘스트만 등)와 상관없이 보임 — 고른 출처 밖 템이면 그렇다고 알려 줌 (「퀘스트만」인데 던전 템이 왜 나오냐) */
 function curSrcNote(c,cur){if(!cur||!cur.src||!cur.src.length||ui.ifil==='all'||srcOk(cur,ui.ifil,c))return '';const f=(IFIL.find(x=>x[0]===ui.ifil)||[])[1]||'';return '<p class="note mute">지금 낀 템이라 보여요 · '+esc(srcTxt(cur,1))+(f?' — 「'+f+'」 추천에는 안 들어가요':'')+'</p>'}
-function fltNone(cur){const f=(IFIL.find(x=>x[0]===ui.ifil)||[])[1];const t=ui.ifil==='q'?'퀘스트 보상 중엔 ':ui.ifil==='dg'?'던전 템 중엔 ':ui.ifil==='ok'?'퀘스트·던전 템 중엔 ':ui.ifil==='rd'?'레이드까지 봐도 ':'';return (cur?t+'지금보다 좋은 게 없어요 👍':t+'이 칸에 맞는 템이 없어요')+(f&&ui.ifil!=='all'?' · 위에서 출처를 넓혀 볼 수 있어요':'')}
+function fltNone(cur){const f=(IFIL.find(x=>x[0]===ui.ifil)||[])[1];const t=ui.ifil==='q'?'퀘스트 보상 중엔 ':ui.ifil==='dg'?'던전 템 중엔 ':ui.ifil==='ok'?'퀘스트·던전 템 중엔 ':ui.ifil==='rd'?'레이드까지 봐도 ':ui.ifil==='cr'?'제작템까지 봐도 ':'';return (cur?t+'지금보다 좋은 게 없어요 👍':t+'이 칸에 맞는 템이 없어요')+(f&&ui.ifil!=='all'?' · 위에서 출처를 넓혀 볼 수 있어요':'')}
 /* 성서·토템·우상 (BiS QA P1): 특정 주문만 세게 해 주는 효과만 있는 성물은 점수로 셀 수 없어 성물 칸 추천이 늘 비었음(신앙의 성서 23201 · 지탱의 토템 23200 · 회복의 우상 22398 점수 0)
    → 점수 없이 후보로만 보여 줌(효과 글·얻는 곳·끼기). 「좋아짐 +n」 같은 수치는 붙이지 않음 */
 const RELIC_CL={paladin:'성서',shaman:'토템',druid:'우상'};
