@@ -76,11 +76,11 @@ Q|whelgar-excavation|98823|horde|31|24|대지의 메아리||바샤나 룬토템 
 Q|whelgar-excavation|95663|horde|31|24|용아귀 소문||자루크 · 아라시 고원 74.5, 35.6|0||||
 Q|whelgar-excavation|95682|horde|31|24|용아귀 열기|발굴 현장 안에 있는 용아귀 군대를 물리친 후, 발견한 것을 가지고 밖에 있는 죽음추적자에게 가야 합니다.|죽음추적자 · 저습지 51.4, 59.2|1|271740,271732||1|
 B|city-of-dalaran|atrexis-the-grave-knight=무덤 기사 아트렉시스;lyn-the-ignored=외면받는 린;arcane-anomaly=비전 변형물;arcanic-enigma=신비한 수수께끼;unstable-sentinel=불안정한 파수꾼;mana-devourer=마나 포식자;fel-ancient=지옥의 고대정령;shade-of-the-archmage=대마법사의 망령
-Q|city-of-dalaran|92458|alliance|33|24|분열의 심장||Image of Archmage Modera · 알터랙 산맥 14.3, 59.6|1|279839,279840,279841||1|
-Q|city-of-dalaran|92457|alliance|33|24|비전에 굶주린 자들||Image of Archmage Modera · 알터랙 산맥 14.3, 59.6|1|279837,279838||1|
+Q|city-of-dalaran|92458|alliance|33|24|분열의 심장||Image of Archmage Modera · 입구 앞|1|279839,279840,279841||1|
+Q|city-of-dalaran|92457|alliance|33|24|비전에 굶주린 자들||Image of Archmage Modera · 입구 앞|1|279837,279838||1|
 Q|city-of-dalaran|92489|alliance|33|24|압도적인 힘||고위마술사 안드로매스 · 스톰윈드 48.7, 87.6|0|251962,279849||1|
 Q|city-of-dalaran|92456|alliance|33|24|녹빛 표본||샤이라미르 · 스톰윈드 31.5, 62.6|0|279835,279836||1|
-Q|city-of-dalaran|96984|horde|33|24|분열의 심장||Image of Archmage Modera · 알터랙 산맥 14.3, 59.6|1|279842,279843,279844||1|
+Q|city-of-dalaran|96984|horde|33|24|분열의 심장||Image of Archmage Modera · 입구 앞|1|279842,279843,279844||1|
 Q|city-of-dalaran|96986|horde|33|24|무덤 기사||멜리사라 · 힐스브래드 구릉지 62.6, 20.7|0|251963,251965||1|
 Q|city-of-dalaran|96988|horde|33|24|힘의 원천||박사 마틴 펠벤 · 언더시티 46.6, 74.1|0|279847,279848||1|
 Q|city-of-dalaran|96987|horde|33|24|기회주의 학습법||시작 · 던전 안|0|279845,279846||1|
@@ -123,7 +123,7 @@ Q|drowned-city|95799|alliance|40|30|탐험가 연맹에 전할 연구 결과|현
 Q|drowned-city|95798|alliance|40|30|그물처럼 엉킨 마법|이랄라이 우상을 달라란에 있는 수리수리 마순이에게 가져가야 합니다.|현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|0|279879,279878||1|
 Q|drowned-city|95788|alliance|40|30|가라앉은 도시의 마법|가라앉은 도시에 있는 트롤에게서 이랄라이 우상 5개를 수집해야 합니다.|현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|1||||
 Q|drowned-city|95787|alliance|40|30|다시 한번 물속으로|가죽과 목탄을 사용해 가라앉은 도시에서 발견된 서판의 탁본을 만들어야 합니다.|현자 딥스 · 힐스브래드 구릉지 50.6, 57.1|1||||
-Q|drowned-city|97130|alliance|40|34|고대 구루바시의 비밀|가라앉은 도시에서 고대 구루바시 우상을 회수해야 합니다.|시작 · 알터랙 산맥|0||||
+Q|drowned-city|97130|alliance|40|34|고대 구루바시의 비밀|가라앉은 도시에서 고대 구루바시 우상을 회수해야 합니다.|대마법사 티미어 · 알터랙 산맥 15.4, 74.0|0||||
 Q|drowned-city|95789|both|40|34|수상쩍은 소금선견자|가라앉은 도시의 소금선견자 해적에게서 부두가 깃든 유물 10개를 수집해야 합니다.|크라젝 · 가시덤불 골짜기 51.6, 26.8|0|279882,279930||1|
 Q|drowned-city|95791|both|40|34|소금선견자 대장|가라앉은 도시에서 소금선견자 검시관 3명과 대장 드레드라이즈를 처치해야 합니다.|크라젝 · 가시덤불 골짜기 51.6, 26.8|0|279883,279884||1|
 Q|drowned-city|95776|horde|38|30|착한 소금비늘은 죽은 소금비늘뿐...||사령관 아그로고쉬 · 가시덤불 골짜기 32.2, 28.8|0|279889,279888||1|
@@ -148,7 +148,7 @@ Q|kroldok-stronghold|94998|alliance|42|38|호기심을 부르는 장신구|유�
 Q|kroldok-stronghold|94997|alliance|42|38|지속되는 정수|저주받은 유품 가방을 파홀드 성채에 있는 애시 앰버홀에게 가져가야 합니다.|시작 · 강물터|1||||
 Q|kroldok-stronghold|94983|alliance|42|38|황혼의 기념품|크롤도크 보루 내 황혼의 망치단에게서 이교도 팔찌 8개를 수집해야 합니다.|시작 · 강물터|0||||
 Q|kroldok-stronghold|94984|alliance|44|39|황혼의 고서|크롤도크 보루에서 나르구르크를 처치하고 귀중한 정보를 확보해야 합니다.|시작 · 강물터|1|279854,279855||1|
-Q|kroldok-stronghold|96771|alliance|45|37|명가의 복수|크롤도크 보루로 이동해 잘판 문섀도를 처치해야 합니다.|시작 · 알터랙 산맥|0||||
+Q|kroldok-stronghold|96771|alliance|45|37|명가의 복수|크롤도크 보루로 이동해 잘판 문섀도를 처치해야 합니다.|라나스 나이트스트라이드 · 알터랙 산맥 17.9, 66.0|0||||
 Q|kroldok-stronghold|94968|horde|45|40|머그의 눈|크롤도크 보루에 침투한 뒤, 우두머리가 죽었다는 증거를 확보해 크롬로쉬에게 가야 합니다.|시작 · 강물터|0|279852,279853,279480||1|
 Q|kroldok-stronghold|94974|horde|41|38|핵심 재료|두꺼운 가죽 4개와 철 주괴 12개를 크레자 다크쏜에게 가져가야 합니다.|시작 · 강물터|1|267089|||
 Q|kroldok-stronghold|94973|horde|41|38|크롤도크 거푸집|로그마에서 거푸집에 관해 아는 사람을 찾아야 합니다.|아이템에서 시작|0||||
@@ -203,7 +203,7 @@ B|alcaz-prison|tidemistress-cazass=해일여제 카자스;overseer-wrex=감독�
 Q|alcaz-prison|95262|alliance|53|48|비밀 감옥|알카즈 감옥에 진입해 스톰윈드 국왕이 어떻게 됐는지 알아내야 합니다.|설리 맥클리어리 · 먼지진흙 습지대 63.4, 42.4|1||||
 Q|alcaz-prison|96381|alliance|53|48|약간의 지저분한 일|알카즈 감옥에 진입해 스트라샤즈 병사 15명과 스트라샤즈 요술사 8명을 처치하고 해일여제 카자스의 머리카락을 설리 맥클리어리에게 가져가야 합니다.|설리 맥클리어리 · 먼지진흙 습지대 63.4, 42.4|1|279826,279829,279825||1|
 Q|alcaz-prison|95264|alliance|53|48|쇼가 알아야 할 일|스톰윈드에 있는 마티아스 쇼에게 소식을 전해야 합니다.|설리 맥클리어리 · 먼지진흙 습지대 63.4, 42.4|1|279833,279831,279474||1|
-Q|alcaz-prison|96772|alliance|53|46|용의 일지|알카즈 감옥 심층부에서 자를라의 일지를 회수해야 합니다.|시작 · 알터랙 산맥|0||||
+Q|alcaz-prison|96772|alliance|53|46|용의 일지|알카즈 감옥 심층부에서 자를라의 일지를 회수해야 합니다.|대마법사 랜달록 · 알터랙 산맥 15.4, 73.8|0||||
 Q|alcaz-prison|96377|alliance|53|48|국가 기밀|스톰윈드에 있는 두소리안 랄과 대화해야 합니다.|칼잡이 렌직 · 스톰윈드 78.4, 71.0|1|279450|||
 Q|alcaz-prison|96335|both|53|48|쇠사슬에 묶인 남자|알카즈 감옥의 심문관에게서 알카즈 족쇄 열쇠를 회수해야 합니다.|시작 · 던전 안|0||||
 Q|alcaz-prison|96337|both|53|48|금보다 귀한 것|메이슨 코너리에게 받은 쪽지를 사용해 숨겨진 보물을 찾아내야 합니다.|아이템에서 시작|1||||
@@ -219,6 +219,16 @@ Q|temple-of-atal-hakkar|3447|both|51|46|돌무리의 비밀||마본 리벳시커
 Q|temple-of-atal-hakkar|1446|both|53|38|예언자 잠말란||추방된 아탈라이트롤 · 동부 내륙지 33.8, 75.2|0|11123,11124||1|
 Q|temple-of-atal-hakkar|3528|both|53|40|학카르의 화신||예킨야 · 타나리스 67.0, 22.4|1|10749,10750,10751||1|
 Q|temple-of-atal-hakkar|3373|both|55|48|에라니쿠스의 정수||에라니쿠스의 정수 · 던전 안|0|10455|||
+Q|temple-of-atal-hakkar|8236|both|52|50|하늘색 열쇠||대마법사 실렘 · 아즈샤라 29.3, 40.2|1|||1|
+Q|temple-of-atal-hakkar|9053|both|52|50|더욱 강력한 재료||토르와 패스파인더 · 운고로 분화구 71.6, 76.0|1|||1|
+Q|temple-of-atal-hakkar|8253|both|52|50|몰파즈 처치||대마법사 실렘 · 아즈샤라 29.3, 40.2|1|||1|
+Q|temple-of-atal-hakkar|8232|both|52|50|녹색 비룡 몰파즈||오그틴크 · 아즈샤라 42.4, 42.6|1|||1|
+Q|temple-of-atal-hakkar|8257|both|52|50|몰파즈의 피||오그틴크 · 아즈샤라 42.4, 42.6|1|||1|
+Q|temple-of-atal-hakkar|8418|alliance|52|50|퇴마석 만들기||사령관 아쉬람 발러피스트 · 서부 역병지대 42.7, 84.0|1|||1|
+Q|temple-of-atal-hakkar|8425|both|52|50|부두 깃털||호드 영웅의 넋 · 슬픔의 늪 34.3, 66.1|1|||1|
+Q|temple-of-atal-hakkar|8412|horde|52|50|정기의 토템||바람의감시자 바스라 · 알터랙 산맥 80.5, 66.9|1||||
+Q|temple-of-atal-hakkar|8413|horde|52|50|부두교 마법||바람의감시자 바스라 · 알터랙 산맥 80.5, 66.9|1|||1|
+Q|temple-of-atal-hakkar|8422|both|52|50|트롤의 깃털||임프시 · 악령의 숲 41.4, 45.0|1|||1|
 B|blackrock-depths|lord-roccor=불의군주 록코르;high-interrogator-gerstahn=대심문관 게르스탄;houndmaster-grebmar=사냥개조련사 그렙마르;theldren=텔드렌;anub-shiah=아눕쉬아;eviscerator=적출자;gorosh-the-dervish=광신자 고로쉬;grizzle=그리즐;hedrum-the-creeper=왕거미 헤드룸;ok-thor-the-breaker=파괴자 오크토르;pyromancer-loregrain=화염술사 로어그레인;warder-stilgiss=문지기 스틸기스;verek=베레크;watchman-doomgrip=보초 둠그립;fineous-darkvire=파이너스 다크바이어;lord-incendius=불의군주 인센디우스;bael-gar=밸가르;general-angerforge=사령관 앵거포지;golem-lord-argelmach=골렘 군주 아젤마크;hurley-blackbreath=헐레이 블랙브레스;phalanx=팔란스;ribbly-screwspigot=리블리 스크류스피곳;plugger-spazzring=플러거 스파즈링;panzor-the-invincible=무적의 판저;ambassador-flamelash=사자 화염채찍;doom-rel=운명의 문지기;magmus=마그무스;princess-moira-bronzebeard=공주 모이라 브론즈비어드;emperor-dagran-thaurissan=제왕 다그란 타우릿산
 Q|blackrock-depths|3801|both|52|48|검은무쇠단 유물||프랑클론 포지라이트 · 불타는 평원 29.0, 28.9|0|11000|||
 Q|blackrock-depths|3981|horde|52|48|사령관 고르샤크||명사수 갈라마브 · 황야의 땅 6.0, 47.7|1||||
@@ -268,13 +278,13 @@ Q|dire-maul-east|7441|both|58|54|푸실린과 노쇠한 아즈토르딘||아즈�
 Q|dire-maul-east|8967|both|60|58|군주 발타라크의 아뮬렛 왼쪽 조각||시작 · 검은바위 산|1||||
 Q|dire-maul-east|8990|both|60|58|군주 발타라크의 아뮬렛 오른쪽 조각||시작 · 검은바위 산|1||||
 B|blackmaw-hold|withermaw=마른아귀;impaan-the-imprisoner=간수 임판;bonesnout-the-unbroken=꺾이지 않는 해골주둥이;unbound-spirit=속박 풀린 영혼;elder-shaman-bloodmane=장로 주술사 핏빛갈기;blackmaw-behemoth=검은아귀 거수;varrox-bleakhoof=바록스 블릭후프
-Q|blackmaw-hold|92345|alliance|55|45|놀드랏실 아래|다르나서스의 세나리온 자치령에 있는 마스렌길 베어워커와 대화해야 합니다.|시작 · 아즈샤라|0||||
+Q|blackmaw-hold|92345|alliance|55|45|놀드랏실 아래|다르나서스의 세나리온 자치령에 있는 마스렌길 베어워커와 대화해야 합니다.|사령관 트루송 · 아즈샤라 11.8, 78.2|0||||
 Q|blackmaw-hold|92344|alliance|55|45|뿌리를 찾아서|검은아귀 요새에서 놀드랏실 뿌리 버섯 10개를 채집해 다르나서스에 있는 마스렌길 베어워커에게 전달해야 합니다.|마스렌길 베어워커 · 다르나서스 35.2, 8.0|1||||
-Q|blackmaw-hold|97173|alliance|59|52|검은아귀 마법|검은아귀 요새에서 검은아귀 의식 토템을 회수해야 합니다.|시작 · 알터랙 산맥|0||||
-Q|blackmaw-hold|92066|both|55|47|쌍둥이 곰|검은아귀 요새에서 우르속의 토템과 우르솔의 토템을 찾아야 합니다. 그런 다음 우르솔란에 있는 현자 노크에게 반환해야 합니다.|시작 · 아즈샤라|0|279891,279892||1|
-Q|blackmaw-hold|92069|both|58|45|찢는 발톱, 꿰뚫는 엄니|위대한 곰의 발톱과 굽히지 않는 자의 엄니를 아즈샤라에 있는 오그틴크에게 가져가야 합니다.|시작 · 아즈샤라|0|260213,260214,260215||1|
-Q|blackmaw-hold|97327|both|60|55|검은아귀 주머니|아즈샤라 엘다라스 폐허에 있는 에칼을 위해 검은아귀 요새에 진입해 검은아귀 주머니 5개를 회수해야 합니다.|시작 · 아즈샤라|0||||
-Q|blackmaw-hold|92346|horde|55|45|놀드랏실 아래|썬더 블러프 장로의 봉우리에서 나라 와일드메인과 대화해야 합니다.|시작 · 아즈샤라|0||||
+Q|blackmaw-hold|97173|alliance|59|52|검은아귀 마법|검은아귀 요새에서 검은아귀 의식 토템을 회수해야 합니다.|대마법사 티미어 · 알터랙 산맥 15.4, 74.0|0||||
+Q|blackmaw-hold|92066|both|55|47|쌍둥이 곰|검은아귀 요새에서 우르속의 토템과 우르솔의 토템을 찾아야 합니다. 그런 다음 우르솔란에 있는 현자 노크에게 반환해야 합니다.|Lorekeeper Nok · 아즈샤라 41.4, 20.0|0|279891,279892||1|
+Q|blackmaw-hold|92069|both|58|45|찢는 발톱, 꿰뚫는 엄니|위대한 곰의 발톱과 굽히지 않는 자의 엄니를 아즈샤라에 있는 오그틴크에게 가져가야 합니다.|오그틴크 · 아즈샤라 42.2, 42.6|0|260213,260214,260215||1|
+Q|blackmaw-hold|97327|both|60|55|검은아귀 주머니|아즈샤라 엘다라스 폐허에 있는 에칼을 위해 검은아귀 요새에 진입해 검은아귀 주머니 5개를 회수해야 합니다.|Ekkal · 아즈샤라 42.0, 38.8|0||||
+Q|blackmaw-hold|92346|horde|55|45|놀드랏실 아래|썬더 블러프 장로의 봉우리에서 나라 와일드메인과 대화해야 합니다.|제디가 · 아즈샤라 22.4, 51.4|0||||
 B|lower-blackrock-spire|highlord-omokk=대군주 오모크;spirestone-butcher=뾰족바위일족 학살자;spirestone-battle-lord=뾰족바위일족 전투대장;spirestone-lord-magus=뾰족바위일족 마법사장;burning-felguard=불타는 지옥군단병;shadow-hunter-vosh-gajin=어둠사냥꾼 보쉬가진;crystal-fang=수정 맹독거미;war-master-voone=대장군 부네;mor-grayhoof=모르 그레이후프;bannok-grimaxe=반노크 그림액스;mother-smolderweb=여왕 불그물거미;urok-doomhowl=우로크 둠하울;quartermaster-zigris=병참장교 지그리스;halycon=할리콘;gizrul-the-slavener=흉포한 기즈룰;ghok-bashguud=고크 배시구드;overlord-wyrmthalak=대군주 웜타라크
 Q|lower-blackrock-spire|4788|both|58|40|마지막 서판||발굴조사단장 아이언부트 · 타나리스 66.9, 24.0|1||||
 Q|lower-blackrock-spire|4701|alliance|59|55|검은늑대 위협의 근원 파괴||헬렌디스 리버혼 · 불타는 평원 85.8, 69.0|0|15824,15825,15827||1|

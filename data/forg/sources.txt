@@ -549,9 +549,9 @@
 0~검은바위 나락 · 불의군주 록코르~dg:blackrock-depths
 1~퀘스트 · 혼자서 가기 무서운 곳~/forever/quest/3962
 0~마라우돈 · 저주받은 셀레브라스~dg:maraudon
-1~퀘스트 · Destroy Morphaz~
-1~퀘스트 · Forging the Mightstone~
-1~퀘스트 · A Better Ingredient~
+1~퀘스트 · 몰파즈 처치~/forever/quest/8253
+1~퀘스트 · 퇴마석 만들기~/forever/quest/8418
+1~퀘스트 · 더욱 강력한 재료~/forever/quest/9053
 0~알카즈 감옥 · 감독관 렉스~dg:alcaz-prison
 0~알카즈 감옥 · 해일여제 카자스~dg:alcaz-prison
 1~퀘스트 · 뾰족부리 구출~/forever/quest/2994
@@ -593,14 +593,8 @@
 1~퀘스트 · Just Compensation~
 3~드랍 · 파이너스 다크바이어~
 3~드랍 · 그리즐~
-7~상인 · 모크바르~
-7~상인 · Deliana~
-5~상인 · 모크바르~
-5~상인 · Deliana~
-6~상인 · 모크바르~
-6~상인 · Deliana~
-8~상인 · 모크바르~
-8~상인 · Deliana~
+1~모크바르의 퀘스트~
+1~Deliana의 퀘스트~
 1~퀘스트 · 예언자 잠말란~/forever/quest/1446
 6~상인 · Zippie Fizzbolt~
 7~상인 · Zippie Fizzbolt~
@@ -945,7 +939,6 @@
 3~드랍 · 사령관 제란~
 3~드랍 · 병정 베크니스~
 1~퀘스트 · An Earnest Proposition~
-1~퀘스트 · 진지한 제안~/forever/quest/8908
 1~퀘스트 · 완벽한 독~/forever/quest/9023
 1~퀘스트 · Dreadnaught Breastplate~
 1~퀘스트 · Dreadnaught Legplates~
