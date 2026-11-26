@@ -3981,7 +3981,7 @@ Land Walker|평지거인
 Cliff Giant|절벽거인
 Shore Strider|성큼걸이 해안거인
 Deep Strider|성큼걸이 바다거인
-Wave Strider|성큼걸이 파도거인
+Wave Strider|변형된 성큼걸이 파도거인
 Northspring Harpy|바람계곡일족 하피
 Northspring Roguefeather|바람계곡일족 약탈자
 Northspring Slayer|바람계곡일족 암살자
@@ -7052,7 +7052,7 @@ Lord Vyletongue|군주 바일텅
 Meshlok the Harvester|정원사 메슬로크
 Zaetar's Spirit|재타르의 영혼
 Spirit of Gelk|겔크
-Spirit of Kolk|콜크
+Spirit of Kolk|콜크의 영혼
 Spirit of Magra|마그라
 Spirit of Maraudos|마라우도스의 영혼
 Spirit of Veng|벵의 영혼
@@ -9095,6 +9095,7 @@ Sulfuron Smuggler|설퍼론 밀수업자
 Blackrock Bootlegger|검은바위부족 밀조장이
 Orthas|오르타스
 Slack-Jawed Ghoul|벌린턱 구울
+Electromantic Resonance Transducer|전자기 공명 변환기
 Rotting Dwarf Corpse|썩어가는 드워프 시체
 Prince Halanox|공작 할라녹스
 Ekkal|에칼
@@ -9355,7 +9356,7 @@ Antelariaa Cloudgaze|안텔라리아 클라우드게이즈
 Orsaan Dalewind|오르산 데일윈드
 Alvarion Windfield|알바리온 윈드필드
 Iallion Featherfall|이알리온 페더폴
-Mazzogore|마조고어
+Mazzogore the Weak|마조고어
 Aleister|알레이스터
 Elaadrin Evengale|엘라드린 에벤게일
 Talaanis Shadowsong|탈라니스 섀도송
@@ -9466,12 +9467,12 @@ Karana|카라나
 Thisalee Crow|티살리 크로우
 Gimashi|기마쉬
 Veteran of the Third War|3차 대전쟁의 역전용사
+Tobin Wheeldon|토빈 휠돈
+Jaston Valarias|재스턴 발라리아스
 Rhylin Stonethorn|릴린 스톤쏜
 Blind Screecher|눈먼 비명꾼
 Jezerelle the Swaying|흔들리는 제저렐
 Swarming Imp|몰려드는 임프
-Tobin Wheeldon|토빈 휠돈
-Jaston Valarias|재스턴 발라리아스
 Legashi Slayer|레가쉬 학살자
 Liranne|리란
 Blackmaw Champion|검은아귀 용사
@@ -9649,6 +9650,7 @@ Furious Shadowforge Digger|분노한 어둠괴철로 채굴꾼
 Garyanne Fleezlebop|게리안 플리즐봅
 Teo Hammerstorm|테오 해머스톰
 Rog'mar Scout|로그마 정찰병
+Traveler's Sign|여행자의 표지판
 High Order Apprentice|고등 마법원 수습생
 Windshaper Novice Seer|바람구체자 수습 선견자
 Valreaa Valewind|발레아 베일윈드
@@ -9990,6 +9992,7 @@ Blackthorne Adept|검은가시 숙련병
 Dead Orc|죽은 오크
 Marn Euhorn|마른 유혼
 Aisarra Nightmeadow|아이사라 나이트메도우
+Unknown|무엇인가
 Earthseer Farsen|대지선견자 파르센
 Farsen's Totem|파르센의 토템
 Afadra Dunwall|아파드라 던월
@@ -10241,9 +10244,7 @@ Cloudrunner Matriarch|구름길잡이 어미
 Cloudrunner|구름길잡이
 Abbot Schuncke|수도원장 슝케
 Corporal Twohig|하사관 투히그
-Unknown|무엇인가
 Stormscale Beastmistress|폭풍비늘 야수조련사
-Plagued Cockroach|역병 걸린 바퀴벌레
 Undercity Cockroach|언더시티 바퀴벌레
 Valaquenia|발라퀘니아
 Aeigelyges|에이겔리게스
@@ -10448,6 +10449,7 @@ Ancelina|안셀리나
 Vela El'wyth|벨라 엘위스
 Kyle the Frenzied|광포한 카일
 Ahab Wheathoof|아합 윗후프
+SI:7 Agent|SI:7 요원
 Jamis Nulink|제이미스 널링크
 Haggard-Looking Man|초췌한 남자
 Gevreka|게브레카
@@ -10461,6 +10463,7 @@ Gray Fox|회색 여우
 Krazore|크라조어
 Jaekal Galeshot|재칼 게일샷
 Mattwyn "Q" Pons|매트윈 "Q" 폰스
+Amethryn|아메스린
 Deyrek Duke|데이렉 듀크
 Gelia Shardsong|젤리아 샤드송
 Rabid Forest Wolf|광포한 숲늑대
