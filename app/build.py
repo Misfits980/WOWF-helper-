@@ -958,6 +958,7 @@ if (Q / 'items-addon.jsonl').exists():
     _GSK = {'STRENGTH': 'str', 'AGILITY': 'agi', 'STAMINA': 'sta', 'INTELLECT': 'int', 'SPIRIT': 'spi'}
     _an = _aq = _as = _al = _ar = _anr = 0
     _ne = set()
+    _FST = []
     _LOC = {'INVTYPE_HEAD': 'he', 'INVTYPE_NECK': 'ne', 'INVTYPE_SHOULDER': 'sh', 'INVTYPE_CLOAK': 'ba', 'INVTYPE_CHEST': 'ch', 'INVTYPE_ROBE': 'ch', 'INVTYPE_WRIST': 'wr',
             'INVTYPE_HAND': 'ha', 'INVTYPE_WAIST': 'wa', 'INVTYPE_LEGS': 'le', 'INVTYPE_FEET': 'fe', 'INVTYPE_FINGER': 'fi', 'INVTYPE_TRINKET': 'tr', 'INVTYPE_2HWEAPON': '2h',
             'INVTYPE_WEAPON': '1h', 'INVTYPE_WEAPONMAINHAND': 'mh', 'INVTYPE_WEAPONOFFHAND': 'oh', 'INVTYPE_SHIELD': 'oh', 'INVTYPE_HOLDABLE': 'ho',
@@ -998,6 +999,12 @@ if (Q / 'items-addon.jsonl').exists():
                 _new = {k: v for k, v in _new.items() if k not in _SEC}
                 _new.update({k: v for k, v in _g.items() if k in _SEC})
         _gp = {_GSK[k]: v for k, v in (o_.get('gs') or {}).items() if k in _GSK}
+        # 포에버 장인 등급 제작 세트(숲지기 등 72개)는 게임 툴팁·캐시에 방어도만 있고 능력치가 없음 → forg에 능력치가 있으면 그 값을 남기고 D_FST로 표시(앱 「능력치는 forg 자료」)
+        #  예전엔 능력치 0이라 점수 0 → 「숲지기의 야성」 같은 세트가 후보에도 안 나왔음 (사용자 결정 2026-11-27: 게임에 없을 때만 forg 값)
+        if not _gp and any('장인 등급' in x for x in L_) and any(k in _cur for k in ('str', 'agi', 'sta', 'int', 'spi', 'sp', 'heal', 'ap')):
+            _FST.append(int(f[0]))
+            _gp = {k: _cur[k] for k in ('str', 'agi', 'sta', 'int', 'spi') if k in _cur}
+            _new.update({k: v for k, v in _cur.items() if k in _SEC})
         if (_gp or L_) and not any('무작위' in x for x in L_):  # 무작위 옵션 템(「…의 ○○」)은 기본 템에 주 능력치가 없음
             for k in ('str', 'agi', 'sta', 'int', 'spi'):
                 _new.pop(k, None)
@@ -1048,6 +1055,7 @@ if (Q / 'items-addon.jsonl').exists():
         if L_ and _ng >= _nw:
             f[6] = '1' if _hs(L_) else ''
         items[ix] = '|'.join(f)
+    print('장인 등급 능력치 forg 값으로', len(_FST))
     print('애드온이 게임에서 읽은 값으로 고침 · 이름', _an, '· 등급', _aq, '· 능력치', _as, '· 장착 자리', _al, '· 요구 레벨', _ar, '· 착용 레벨 제한 없음', _anr, '/', len(_AD))
     if _ne:
         items = [l_ for l_ in items if int(l_.split('|')[0]) not in _ne]
@@ -2086,6 +2094,7 @@ data = '\n'.join([
     'const D_VER=' + json.dumps(DVER) + ';',
     'const D_SRCREP=' + json.dumps(SRC_REP, ensure_ascii=False, separators=(',', ':')) + ';',
     'const D_IREP=' + json.dumps(ITEM_REP, ensure_ascii=False, separators=(',', ':')) + ';',
+    'const D_FST=' + json.dumps(sorted(set(globals().get('_FST', []))), separators=(',', ':')) + ';',
     'const D_UNIQ=' + json.dumps(ITEM_UNIQ, ensure_ascii=False, separators=(',', ':')) + ';',
     '/* 와포 도우미 자료 — forg.gg 공개 페이지에서 GitHub Actions로 모은 것 (tools/forg-*.mjs) */',
     'const D_ITEMS=' + js_str(ITEMS_TXT) + ';',

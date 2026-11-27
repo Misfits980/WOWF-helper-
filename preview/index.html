@@ -2492,6 +2492,21 @@ h4.pfg{margin:12px 0 4px;font-size:calc(13px*var(--fs,1));color:#e8c06a}h4.pfg s
 .gseg button{flex:1 1 auto;background:#1b1610}
 .gseg button+button{border-left:0}
 @media(max-width:520px){.gseg:has(>button:nth-child(5)){display:flex}.gseg:has(>button:nth-child(5))>button{flex-basis:30%}}
+/* 🧩 세트로 맞추면 (세트 비교) */
+.setcmp .scr{padding:8px 0;border-top:1px solid var(--line)}
+.setcmp .scr:first-of-type{border-top:0}
+.setcmp .scn{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.setcmp .scn small{flex:1 1 auto}
+.setcmp .scd{font-weight:700;font-size:calc(13px*var(--fs,1));white-space:nowrap}
+.setcmp .up{color:var(--good,#7fd16a)}.setcmp .dn{color:var(--bad,#e06a5a)}
+.setcmp .sck{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.setcmp .sck span{font-size:calc(12px*var(--fs,1));padding:2px 7px;border:1px solid var(--line);border-radius:8px;background:#1b1610}
+.setcmp .sck span.lim{opacity:.7;border-style:dashed}
+.setcmp .scp{margin-top:3px}
+.setcmp .scf{display:flex;flex-wrap:wrap;gap:3px 10px;margin-top:4px;font-size:calc(12px*var(--fs,1));line-height:1.4}
+.setcmp .scf .on{color:#d8cfb8}.setcmp .scf .es{color:#d8cfb8}.setcmp .scf .es i{color:var(--gold);font-style:normal}.setcmp .scf .no{color:#7d7466}
+.setcmp .scmore>summary{cursor:pointer;font-size:calc(13px*var(--fs,1));color:var(--gold);padding:6px 0}
+.setcmp .eq{color:#d8cfb8}
 
 /* ===================================================================
    와포 도우미 — 와우 게임 창 테마 (2026-11 대격변)
@@ -3722,8 +3737,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=db5c562d" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* vd3549b @11/25 19:25 */
+<script src="app-data.js?v=7dcca544" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* vec0323 @11/27 10:25 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3731,7 +3746,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/25 19:25';
+const BUILD='11/27 10:25';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -4931,6 +4946,7 @@ function itemTipHtml(c,it,slot){const st=it.st||{};const QC={p:'qp',c:'qc',u:'qu
   /* 게임 툴팁처럼 방어도 전체(bar). 없으면 예전 값(방패·추가 방어도), 그것도 없으면 어림(bare) */if(st.bar||st.armor)h+='<div class="tt-l">방어도 '+Math.round(st.bar||st.armor)+'</div>';else if(st.bare)h+='<div class="tt-l">방어도 약 '+Math.round(st.bare)+' (어림)</div>';
   TIP_BASE.forEach(k=>{if(st[k])h+='<div class="tt-l">'+(st[k]>0?'+':'')+Math.round(st[k])+' '+STAT_KO[k]+'</div>'});
   Object.keys(st).filter(k=>!TIP_BASE.includes(k)&&k!=='dps'&&k!=='armor'&&STAT_KO[k]&&!SHDUP(k,st)).forEach(k=>{h+='<div class="tt-g">착용 효과: '+STAT_KO[k].replace(/ %$/,'')+' '+(/%$/.test(STAT_KO[k])?st[k]+'%':'+'+Math.round(st[k]))+'</div>'});
+  if(fstOf(it))h+='<div class="tt-lv">능력치는 forg 자료예요 · 게임 툴팁엔 아직 방어도만 보여요</div>';
   if(it.eff){const L=effLines(it);h+=L.length?L.map(x=>'<div class="tt-g">'+esc(x)+'</div>').join('')+'<div class="tt-lv">위 효과는 점수에 안 들어가요</div>':'<div class="tt-g">착용 효과: 특수 효과 있음 (게임 툴팁 확인)</div>'}
   h+='<div class="tt-lv">'+(it.nr?'착용 레벨 제한 없음'+(it.ob>1?' · '+it.ob+'레벨쯤 얻음':''):it.lv>1?'최소 레벨 '+it.lv+(it.est?'?':''):'')+'</div>';
   if(cur){const d=diffHtml(it,cur,c);h+='<div class="tt-cmp"><div class="tt-ch">지금 낀 것과 비교 <small>'+esc(cur.nm)+'</small></div>'+(d||'<span class="dif">달라지는 능력치 없음</span>')+'</div>'}
@@ -5074,8 +5090,39 @@ let _SETS=null;function setsIdx(){if(_SETS)return _SETS;const byNm={};ITEMS.forE
 /* 세트 효과 점수: 낀 부위 수(부위 이름 기준, 같은 이름은 하나)만큼 켜진 효과의 능력치(build.py _setst가 효과 글에서 읽음)에 가중치를 곱해 더함.
    기술 강화·발동·몹 종류·저항 효과는 능력치가 없어 점수 밖. 칸 하나를 바꿀 때는 「그 칸에 이 템」과 「그 칸 비움」의 세트 점수 차를 그 템 점수에 더함 */
 const setOfIt=it=>it&&setsIdx().ofn[it.nm]||null;
+/* 능력치로 못 읽은 세트 효과 중 늘 쓸모 있는 것만 어림 (사용자 결정 2026-11-27 · 「≈」로 표시)
+   · 공격·시전 속도 N% → 물리: 치명타 1%와 같게 · 주문 딜: 주문 치명타 1%의 두 배(주문 치명타는 1.5배라 1% ≈ 피해 0.5%) · 치유: 주문 치명타와 같게
+   · 주문 시전 시 p% 확률로 마나 M 회복 → 2.5초에 한 번 시전으로 보고 5초당 마나 p×M×2
+   몹 종류·저항·기술 하나 강화·확률 모르는 발동·방어 발동은 그대로 점수 밖 */
+function setEst(t){let m=String(t||'').match(/공격 속도와 시전 속도가 ([\d.]+)%/);if(m)return {haste:+m[1]};m=String(t||'').match(/주문 시전 시 ([\d.]+)%의 확률로 (\d+)의 마나를 회복/);if(m)return {mp5:Math.round(+m[1]*+m[2]*2/10)/10};return null}
+const hasteW=w=>w.crit?w.crit:w.heal&&!w.sp?(w.scrit||0):2*(w.scrit||0);
+const setBonSt=b=>b[2]&&Object.keys(b[2]).length?b[2]:setEst(b[1]);
+function setBonV(b,w){const st=setBonSt(b);if(!st)return 0;const o=Object.assign({},st);let v=0;if(o.haste){v+=o.haste*hasteW(w);delete o.haste}return v+(Object.keys(o).length?sc({st:normST(o),sl:'',cs:''},'',w):0)}
 function setScoreEq(eq,w){const cnt=new Map();for(const id of Object.values(eq||{})){const it=IT.get(+id);const o=setOfIt(it);if(!o)continue;if(!cnt.has(o))cnt.set(o,new Set());cnt.get(o).add(it.nm)}
-  let s=0;cnt.forEach((nms,o)=>{for(const b of o.bon)if(b[2]&&nms.size>=b[0])s+=sc({st:normST(Object.assign({},b[2])),sl:'',cs:''},'',w)});return s}
+  let s=0;cnt.forEach((nms,o)=>{for(const b of o.bon)if(nms.size>=b[0])s+=setBonV(b,w)});return s}
+/* 🧩 세트로 맞추면 (사용자 요청 2026-11-27 「기원셋·야성셋은 왜 없지」): 지금 장비(빈 칸은 「추천으로 빈 칸 채우기」 결과) 기준으로
+   세트 조각을 손해 적은 순으로 끼워 2·3·4…조각일 때 전체 점수(세트 효과 포함) 차이. 장인 등급처럼 하나만 끼는 묶음은 「지금은 1개만」 */
+let _scm={k:'',v:null};function setCmpRows(c){const ck=[c.id,c.lv,c.cls,c.spec,c.race,ui.ifil||'ok',JSON.stringify(c.eq||{}),(c.profs||[]).join(),c.hitT||'',JSON.stringify(c.tal&&c.tal.r||'')].join('|');if(_scm.k===ck)return _scm.v;_scm={k:ck,v:setCmpRows0(c)};return _scm.v}
+function setCmpRows0(c){const L=c.lv||60;const w=wOf(c);const base=Object.assign({},c.eq||{});try{(fillPlan(c,true)||[]).forEach(([s,id])=>{if(!base[s])base[s]=id})}catch(e){}
+  const tot=eq=>eqScore(Object.assign({},c,{eq}));const b0=tot(base);const M=ui.ifil||'ok';const R=[];
+  for(const o of setsIdx().S){const ps=[...new Map(o.ps.filter(it=>it&&usable(it,c)&&(it.lv||1)<=L&&!clothNo(c,it)).map(it=>[it.nm,it])).values()];if(ps.length<2)continue;
+    const th=[...new Set(o.bon.map(b=>b[0]))].filter(n=>n>=2&&n<=ps.length).sort((a,b)=>a-b);if(!th.length)continue;
+    const opt=ps.map(it=>{const A=[];for(const [s] of SLOTS){if(!fits(it,s,c,L))continue;A.push({s,d:tot(Object.assign({},base,{[s]:it.id}))-b0})}A.sort((a,b)=>b.d-a.d);return A.length?{it,A}:null}).filter(Boolean).sort((a,b)=>b.A[0].d-a.A[0].d);
+    const pick=k=>{const used=new Set(),r=[];for(const x of opt){if(r.length>=k)break;const a=x.A.find(y=>!used.has(y.s));if(!a)continue;used.add(a.s);r.push({it:x.it,s:a.s})}return r};
+    const K=th.map(k=>{const r=pick(k);if(r.length<k)return null;const e=Object.assign({},base);r.forEach(x=>{e[x.s]=x.it.id});const ug={};r.forEach(x=>{const g=typeof D_UNIQ!=='undefined'&&D_UNIQ[x.it.id];if(g)ug[g]=(ug[g]||0)+1});
+      return {k,d:tot(e)-b0,r,lim:Object.values(ug).some(n=>n>1),out:r.some(x=>!srcOk(x.it,M,c)&&!ownedOf(c,x.it.id))}}).filter(Boolean);if(!K.length)continue;
+    const kinds=[...new Set(ps.map(it=>({sure:'퀘스트·던전',raid:'레이드',pvp:'PvP',ah:'제작·경매장',ev:'행사',world:'월드 드랍',soon:'나올 던전'})[srcKind(it,c)]||'얻는 곳 미공개'))];
+    const ok=K.filter(x=>!x.lim);R.push({o,ps,K,kinds,best:(ok.length?ok:K).reduce((a,b)=>b.d>a.d?b:a)})}
+  return R.sort((a,b)=>b.best.d-a.best.d)}
+function setCmpCard(c){if(!ui.setcmp)return '<details class="card fold setcmp" data-tg="setcmp"><summary>🧩 세트로 맞추면 <small class="mute">눌러서 비교</small></summary></details>';
+  const R=setCmpRows(c);const f=x=>(x>=0?'+':'−')+Math.abs(x).toFixed(x>-10&&x<10?1:0);const ud=d=>d>.05?'up':d<-.05?'dn':'eq';
+  const row=x=>{const o=x.o;const fx=o.bon.map(b=>{const st=b[2]&&Object.keys(b[2]).length;const es=!st&&setEst(b[1]);return '<span class="'+(st?'on':es?'es':'no')+'"><b>'+b[0]+'</b> '+esc(String(b[1]).replace(/합니다\.?$|됩니다\.?$/,'').slice(0,46))+(es?' <i>≈</i>':'')+'</span>'}).join('');
+    return '<div class="scr"><div class="scn"><b>'+esc(o.n)+'</b><small class="mute">'+x.ps.length+'조각 · '+esc(x.kinds.join('·'))+'</small><span class="scd '+ud(x.best.d)+'">'+x.best.k+'조각 '+f(x.best.d)+(x.best.lim?' <small>지금은 1개만</small>':x.best.out?' <small>필터 밖</small>':'')+'</span></div>'
+      +'<div class="sck">'+x.K.map(k=>'<span class="'+ud(k.d)+(k.lim?' lim':'')+'" title="'+esc(k.r.map(y=>SLOT_KO[y.s]+' '+y.it.nm).join(' · '))+'">'+k.k+'조각 <b>'+f(k.d)+'</b>'+(k.lim?' <small>지금은 1개만</small>':k.out?' <small>필터 밖</small>':'')+'</span>').join('')+'</div>'
+      +'<div class="scp"><small class="mute">손해 적은 순: '+x.best.r.map(y=>SLOT_KO[y.s]).join('·')+'</small></div><div class="scf">'+fx+'</div></div>'};
+  return '<details class="card fold setcmp" open data-tg="setcmp" data-full="1"><summary>🧩 세트로 맞추면 <small class="mute">'+(R.length?R.length+'세트 · 지금 장비와 비교':'비교할 세트 없음')+'</small></summary>'
+    +'<p class="note">지금 장비(빈 칸은 추천으로 채운 것)에서 세트 조각을 손해 적은 순으로 끼웠을 때 <b>전체 점수 차이</b>예요. 세트 효과 점수 포함 · <i>≈</i> 어림 · 흐린 효과는 점수 밖.</p>'
+    +(R.length?R.slice(0,6).map(row).join('')+(R.length>6?'<details class="scmore"><summary>세트 '+(R.length-6)+'개 더</summary>'+R.slice(6).map(row).join('')+'</details>':''):'<p class="note">이 직업·레벨에 낄 수 있는 세트 조각이 2개 넘는 세트가 없어요.</p>')+'</details>'}
 function setGain(c,it,slot,w){if(!c||!setOfIt(it))return 0;const e0=Object.assign({},c.eq||{});delete e0[slot];const e1=Object.assign({},e0,{[slot]:it.id});return setScoreEq(e1,w)-setScoreEq(e0,w)}
 const setOf=id=>setsIdx().of[id]||null;
 const ownSet=(c,it)=>!!it&&(Object.values(c.eq||{}).includes(it.id)||!!ownedOf(c,it.id));
@@ -5089,7 +5136,9 @@ function setCard(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>own
 function setFold(c){const {S}=setsIdx();const mine=S.filter(o=>o.ps.some(it=>ownSet(c,it)));if(!mine.length)return '';
   return '<details class="card fold setf"'+(ui.setf?' open':'')+' data-tg="setf"><summary>🧩 세트 장비 <small class="mute">'+mine.map(o=>o.ps.filter(it=>ownSet(c,it)).length+'/'+o.N).join(' · ')+'</small></summary>'+mine.map(o=>setHtml(c,o)).join('')+'</details>'}
 /* 「어디서 얻나요」 칸 (템 정보 창·비교 펼치기에서 같이 씀) */
-function srcParts(c,it){let h='';
+/* 장인 등급 제작 세트(숲지기 등): 게임 툴팁에 능력치가 없어 forg 값으로 점수를 냄 (build.py D_FST) */
+const fstOf=it=>!!it&&typeof D_FST!=='undefined'&&D_FST.includes(it.id);
+function srcParts(c,it){let h=fstOf(it)?'<p class="note">📋 능력치는 forg 자료로 셈했어요 — 게임 툴팁엔 아직 방어도만 보여요. 「장인 등급」은 지금 하나만 낄 수 있어요.</p>':'';
   const parts=[];const seen=new Set();
   const dq=findDgQuestByReward(it.id);
   if(dq){seen.add('dq');const q=dq.q,d=dq.d;parts.push('<div class="src"><b>📜 던전 퀘스트 보상</b><div class="nm">「'+esc(q.nm)+'」 <span class="lvb '+lvCls(q.lv,c.lv)+'">'+q.lv+'</span></div><div class="obj">'+esc(q.obj)+'</div><div class="sub">'+esc(startTxt(q.start))+' · '+q.min+'레벨부터'+(q.pre?' · 앞 퀘스트 먼저':'')+'</div><div class="sub">던전: '+esc(d.ko)+' ('+esc(d.loc)+' · 권장 '+d.lo+'–'+d.hi+')'+(q.boss.length?' · 목표: '+q.boss.map(x=>esc(x.replace(/^(\d+) /,'$1번 '))).join(', '):'')+'</div>'+(()=>{const t0=((QD.get(q.id)||{}).t||[]).find(t=>t&&t[2]);const w=qWhere(q.id,t0?t0[1]:'',t0?t0[2]:'');return w?'<div class="sub">📍 할 일 위치: '+esc(w)+'</div>':''})()+(q.choose&&q.rw.length>1?'<div class="sub">보상 '+q.rw.length+'개 중 하나를 골라요</div>':'')+'<div class="bkb"><button class="btn sm" data-a="qopen" data-k="'+q.id+'">퀘스트·위치 보기</button><button class="btn sm ghost" data-a="dgo" data-k="'+d.slug+'">던전 보기</button></div></div>')}
@@ -5812,7 +5861,7 @@ function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 
   const prioCard=(()=>{const P=prioLine(c);return '<div class="card prio"><div class="ph2"><b>📊 '+esc((CINFO[c.cls]||[])[0]||'')+' '+esc(sp?sp.name:'')+' 능력치 우선순위</b></div><div class="pl">'+P.map((x,i)=>'<span><i>'+(i+1)+'</i>'+esc(x)+'</span>').join('<em>›</em>')+'</div>'+(whyOf(c)?'<p class="note">'+esc(whyOf(c))+'</p>':'')+'<p class="mute src">기준: '+esc(c.gmode==='solo'&&W[c.cls][c.spec].heal&&SOLO[c.cls]?'사냥용 표(forg 기본표 바탕)':(WSRC[c.cls+'/'+c.spec]||'forg 기본표'))+' · forg.gg와 같은 공식</p></div>'})();
   if(gs==='up')h+=upAll(c,nowU,soonU,RL);
   if(gs!=='up')return h+'</div></div>';
-  h+=PV?setFold(c):setCard(c);
+  h+=(PV?setFold(c):setCard(c))+setCmpCard(c);
   h+='<details class="card fold statf"'+(ui.statf?' open':'')+' data-tg="statf"><summary>📊 내 능력치 · 점수 매기는 법</summary>'+prioCard;
   /* 능력치 전체 */
   const all=Object.keys(tot).sort((a,b)=>(w[b]||0)-(w[a]||0));
@@ -9473,7 +9522,7 @@ document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||e.rep
   if(e.key==='Escape'){if(ui.gfull){ui.gfull=false;rerender(true);return}if(ui.sheet){noteClean(c);ui.sheet=null;ui.delAsk=0;rerender(true);return}if(ui.amq&&ui.qmode==='atlas'&&!ui.amfull){ui.amq=null;rerender(true)}return}
   if(e.key==='?'){toast('단축키: 1~5 탭 이동 · / 퀘스트 찾기 · Esc 닫기');return}});
 /* 접는 칸 열림 상태 기억 (다시 그려도 그대로) */
-document.addEventListener('toggle',e=>{const t=e.target;if(t.dataset&&t.dataset.tg)ui[t.dataset.tg]=t.open},true);
+document.addEventListener('toggle',e=>{const t=e.target;if(t.dataset&&t.dataset.tg){ui[t.dataset.tg]=t.open;/* 세트 비교는 열 때 셈(무거워서) */if(t.dataset.tg==='setcmp'&&t.open&&!t.dataset.full)rerender(true)}},true);
 
 /* 추천 레벨업: 「다음 단계」 줄을 누르거나(폰) 올리면(PC) 지도에서 그 번호 핀이 빛나요 */
 function stGlow(n,on){const map=document.querySelector('.rmap');if(!map)return;const t=(ui._stp||{})[n]||String(n);

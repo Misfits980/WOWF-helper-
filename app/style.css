@@ -2482,3 +2482,18 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 .gseg button{flex:1 1 auto;background:#1b1610}
 .gseg button+button{border-left:0}
 @media(max-width:520px){.gseg:has(>button:nth-child(5)){display:flex}.gseg:has(>button:nth-child(5))>button{flex-basis:30%}}
+/* 🧩 세트로 맞추면 (세트 비교) */
+.setcmp .scr{padding:8px 0;border-top:1px solid var(--line)}
+.setcmp .scr:first-of-type{border-top:0}
+.setcmp .scn{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.setcmp .scn small{flex:1 1 auto}
+.setcmp .scd{font-weight:700;font-size:13px;white-space:nowrap}
+.setcmp .up{color:var(--good,#7fd16a)}.setcmp .dn{color:var(--bad,#e06a5a)}
+.setcmp .sck{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.setcmp .sck span{font-size:12px;padding:2px 7px;border:1px solid var(--line);border-radius:8px;background:#1b1610}
+.setcmp .sck span.lim{opacity:.7;border-style:dashed}
+.setcmp .scp{margin-top:3px}
+.setcmp .scf{display:flex;flex-wrap:wrap;gap:3px 10px;margin-top:4px;font-size:12px;line-height:1.4}
+.setcmp .scf .on{color:#d8cfb8}.setcmp .scf .es{color:#d8cfb8}.setcmp .scf .es i{color:var(--gold);font-style:normal}.setcmp .scf .no{color:#7d7466}
+.setcmp .scmore>summary{cursor:pointer;font-size:13px;color:var(--gold);padding:6px 0}
+.setcmp .eq{color:#d8cfb8}
