@@ -497,9 +497,9 @@
 5~상인 · Rettrick~
 0~크롤도크 보루 · 황혼의 사령관 자르모크~dg:kroldok-stronghold
 0~크롤도크 보루 · 조련사 아쉬카~dg:kroldok-stronghold
-7~상인 · Friz Frazzlespark~
-8~상인 · Friz Frazzlespark~
-6~상인 · Friz Frazzlespark~
+7~상인 · 프리즈 프래즐스파크~
+8~상인 · 프리즈 프래즐스파크~
+6~상인 · 프리즈 프래즐스파크~
 1~퀘스트 · 훌륭한 도서관의 친구~/forever/quest/82208
 0~크롤도크 보루 · 두목 투프~dg:kroldok-stronghold
 0~울다만 · 고대 바위 문지기~dg:uldaman
@@ -714,6 +714,7 @@
 1~검은바위 첨탑 하층 · 퀘스트 보상~dg:lower-blackrock-spire
 1~스칼로맨스 · 퀘스트 보상~dg:scholomance
 1~퀘스트 · 숨겨진 보물~/forever/quest/5942
+0~검은바위 첨탑 하층 · 대군주 웜타라크~dg:lower-blackrock-spire
 0~스칼로맨스 · 라스 프로스트위스퍼~dg:scholomance
 0~검은바위 첨탑 상층 · 화염고리 솔라카르~dg:upper-blackrock-spire
 0~스칼로맨스 · 잔다이스 바로브~dg:scholomance
@@ -746,7 +747,6 @@
 3~드랍 · 검은호위대 검제작자~
 0~검은아귀 요새 · 꺾이지 않는 해골주둥이~dg:blackmaw-hold
 0~검은아귀 요새 · 마른아귀~dg:blackmaw-hold
-0~검은바위 첨탑 하층 · 대군주 웜타라크~dg:lower-blackrock-spire
 0~검은바위 첨탑 하층 · 수정 맹독거미~dg:lower-blackrock-spire
 1~스트라솔름: 정문 · 퀘스트 보상~dg:stratholme-live
 0~스트라솔름: 정문 · 우체국장 말로운~dg:stratholme-live
