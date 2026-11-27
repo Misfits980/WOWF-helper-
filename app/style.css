@@ -2497,3 +2497,7 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 .setcmp .scf .on{color:#d8cfb8}.setcmp .scf .es{color:#d8cfb8}.setcmp .scf .es i{color:var(--gold);font-style:normal}.setcmp .scf .no{color:#7d7466}
 .setcmp .scmore>summary{cursor:pointer;font-size:13px;color:var(--gold);padding:6px 0}
 .setcmp .eq{color:#d8cfb8}
+/* 특성과 전문화가 다를 때 알림 */
+.specmis{border-color:#8a6d2f}
+.specmis p{margin:0 0 8px;font-size:14px;line-height:1.45}
+.specmis .smb{display:flex;flex-wrap:wrap;gap:6px}

@@ -93,9 +93,15 @@ function dpsW(it,slot,w){if(slot==='ranged')return it.cs==='2.19'?(w.dpsWand??0)
   return w.dpsMain??w.dps1h??(w.dps2h!=null?w.dps2h*.6:0)}
 function whyOf(c){if(c.gmode==='solo'&&SOLO[c.cls]&&(W[c.cls]||{})[c.spec]&&W[c.cls][c.spec].heal)return {priest:'사냥용: 마법봉 DPS와 주문력·지능·정신력을 봐요. 힐 템보다 딜 템이 위로 와요.',paladin:'사냥용: 양손 무기 DPS와 힘을 봐요. 신성 성기사도 레벨업은 근접으로 해요.',shaman:'사냥용: 무기 DPS·힘과 주문력을 함께 봐요.',druid:'사냥용: 주문력·지능을 봐요(조화처럼 사냥).'}[c.cls];const v=WHY[c.cls];return typeof v==='string'?v:(v&&v[c.spec])||''}
 function prioLine(c){const w=wOf(c);const nm=k=>k==='dps'?'무기 DPS':k==='rdps'?'원거리 DPS':/crit|hit|dodge|parry|blockp/.test(k)?STAT_KO[k].replace(' %',' %'):STAT_KO[k];
-  /* %·DPS는 1당 값이 커서, '장비 한 칸에서 흔히 붙는 양' 기준으로 줄 세움 */
-  const typ={crit:1,hit:1,scrit:1,shit:1,dodge:1,parry:1,blockp:1,dps:4,rdps:4,mp5:3};
-  return Object.entries(w).filter(([k,v])=>v>0&&(STAT_KO[k]||k==='rdps')&&k!=='armor').map(([k,v])=>[k,v*(typ[k]||5)]).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k])=>nm(k))}
+  /* '장비 한 칸에 흔히 붙는 양' × 1당 값으로 줄 세움 — 흔한 양은 내 레벨 −12~내 레벨 템에서 그 능력치가 붙은 값의 가운데(statTyp).
+     예전엔 %는 1, 나머지는 다 5로 쳐서 치유량(한 칸에 20~40)이 낮게 잡혀 수양 사제가 「치명타 % > 치유량」으로 보였음 (사용자 2026-11-27) */
+  /* 계열 주문력(화염·암흑 …)은 일반 주문력과 같은 양으로 — 한 칸에 붙는 양이 더 커서 「화염 주문력 > 주문력」으로 보였음(일반 주문력이 모든 주문에 붙어 더 좋음) */
+  const typ=prioTyp(c);
+  return Object.entries(w).filter(([k,v])=>v>0&&(STAT_KO[k]||k==='rdps')&&k!=='armor').map(([k,v])=>[k,v*typ(k)]).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k])=>nm(k))}
+function prioTyp(c){const T=statTyp(c);return k=>/^(crit|hit|scrit|shit|dodge|parry|blockp)$/.test(k)?1:k==='dps'||k==='rdps'?4:/^(fire|frost|shadow|arcane|nature|holy)$/.test(k)?(T.sp||5):(T[k]||5)}
+const _typ=new Map();function statTyp(c){const L=c.lv||60,key=Math.floor(L/3);if(_typ.has(key))return _typ.get(key);if(typeof ITEMS==='undefined')return {};
+  const A={};for(const it of ITEMS){const lv=it.lv||1;if(lv>L||lv<L-12||!it.st)continue;for(const k in it.st){const v=it.st[k];if(v>0)(A[k]=A[k]||[]).push(v)}}
+  const T={};for(const k in A){const a=A[k].sort((x,y)=>x-y);if(a.length>=5)T[k]=a[Math.floor(a.length/2)]}_typ.set(key,T);return T}
 
 /* ----- 아이템 ----- */
 const SRC=D_SRC.split('\n').filter(Boolean).map((l,i)=>{const [k,label,href,fl]=l.split('~');const o={k:+k,label,href:href||''};/* forg 출처 종류 6~9 = 상인 판매(얼라이언스·호드 상인 따로 · 평판 상인 · PvP 보상) → 상인(5)으로. 예전엔 「❓ 나오는 곳 몰라요」로 「퀘스트+던전」에서 빠졌음 (픽스 시직스·델리아나 상인 템, 감시관 인장) */if(o.k>=6&&o.k<=9&&/^(상인 · |평판 보상|PvP)/.test(label||''))o.k=5;if(fl==='r')o.raid=1;if(fl==='p')o.pvp=1;if(fl==='e')o.ev=1;/* 행사 때만 받는 보상(다크문 축제 상품권·카드, 구루바시 투기장) — build.py가 4번째 칸 e */if(typeof D_SRCREP!=='undefined'&&D_SRCREP[i])o.rp=D_SRCREP[i];/* 끝내려면 평판이 필요한 퀘스트 [세력, 단계] */
@@ -2073,6 +2079,13 @@ function hitCapHtml(c){if(isTank(c))return '';if(PV){const w0=wOf0(c);if(!((w0.h
 function statTotals(c,extra,minus,slotOf){const tot={};SLOTS.forEach(([s])=>{let it=eqIt(c,s);if(slotOf&&s===slotOf)it=extra;if(slotOf==='main'&&extra&&extra.sl==='2h'&&s==='off')it=null;if(it)for(const k in it.st){if(k==='dps'||k==='armor')continue;tot[k]=(tot[k]||0)+it.st[k]}});return tot}
 /* 이중 특성 (40레벨~): 둘째 특성으로 보기 · 두 특성 다 좋은 템 표시 */
 function dspOn(c){return (c.lv||1)>=40&&c.spec2&&c.spec2!==c.spec}
+/* 특성(게임·전투정보실·직접 고친 것)이 가리키는 전문화가 고른 전문화와 다르면 알림 — 예: 암흑 31점인데 「수양 · 힐」로 힐 장비를 추천 (사용자 2026-11-27)
+   이중 특성 둘째 칸과 같으면·드루이드 야성 고양이/곰끼리는 안 띄움. 「이대로 두기」는 그 특성 점수 그대로일 때만 숨김(c.specAck) */
+function specMisOf(c){const T=c.tal;const C=D_CLS[c.cls];if(!T||!T.r||T.cls!==c.cls||!C)return null;const R={};for(const k in T.r)if(C.talents[k])R[k]=T.r[k];/* 데이터가 바뀌어 없어진 특성 이름은 빼고 셈 */const tl=talTreePts(C,R);const asp=impSpec(c,{tl});
+  if(!asp||asp===c.spec||asp===c.spec2||(/^feral/.test(asp)&&/^feral/.test(c.spec||'')))return null;const sig=asp+':'+tl.join('/');if(c.specAck===sig)return null;
+  const S=C.specs.find(x=>x.id===asp),S0=C.specs.find(x=>x.id===c.spec);const i=tl.indexOf(Math.max(...tl));return {asp,sig,nm:S?S.name:asp,nm0:S0?S0.name:c.spec,pts:tl[i],tree:C.trees[i]}}
+function specMis(c){const m=specMisOf(c);if(!m)return '';
+  return '<div class="card specmis"><p>🔀 특성은 <b>'+esc(m.tree)+' '+m.pts+'점</b>인데 <b>'+esc(m.nm0)+'</b> 기준으로 추천하고 있어요.</p><div class="smb"><button class="btn sm" data-a="specfix" data-k="'+esc(m.asp)+'">'+esc(m.nm)+(w=>{const k=w.charCodeAt(w.length-1)-0xAC00;return k<0||k>=11172?'(으)로':k%28===0||k%28===8?'로':'으로'})(m.nm)+' 바꾸기</button><button class="btn sm ghost" data-a="specack" data-k="'+esc(m.sig)+'">이대로 두기</button></div></div>'}
 /* 특성 페이지 고칠 때: 둘째 특성을 보고 있으면 tal2 */
 const tpgK=c=>ui.dsp==='2'&&dspOn(c)?'tal2':'tal';
 /* 둘째 특성은 특성 페이지도 따로(tal2) — 예전엔 첫째 특성 페이지로 둘째 특성 점수(적중·쌍수·특성 반영)를 계산했음 */
@@ -2087,7 +2100,7 @@ const bothTag=it=>ui._both&&ui._both.has(it.id)?' <span class="lkt both" title="
 function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 끝낸 퀘스트 보상을 거름 (장비 탭에서 새로고침·바로가기로 바로 열 때도) → 다 받으면 qdbLoad가 다시 그림 */if(!QDB)qdbLoad();const L=c.lv,w=wOf(c);const C=CINFO[c.cls];const sp=specOf(c);
   {const oc=dspOther(c);ui._both=oc?new Set(SLOTS.flatMap(([s])=>offLocked(oc,s)?[]:bestFor(oc,s,L,ui.ifil||'ok').slice(0,6).map(x=>x.it.id))):null}
   const ups=new Set(SLOTS.map(x=>x[0]).filter(s=>!offLocked(c,s)&&bestFor(c,s,L,ui.ifil).length));
-  const tot=statTotals(c);const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]-a[1]).map(([k])=>k).slice(0,6);
+  const tot=statTotals(c);const ty=prioTyp(c);/* 우선순위 카드와 같은 순서(1당 값 × 한 칸에 흔히 붙는 양) — 1당 값만으로 세우면 수양 사제 칸 옆 목록이 「치명타 %」부터 나왔음 */const keys=Object.entries(w).filter(([k,v])=>STAT_KO[k]&&k!=='armor'&&k!=='dps'&&k!=='rdps'&&v>=.2).sort((a,b)=>b[1]*ty(b[0])-a[1]*ty(a[0])).map(([k])=>k).slice(0,6);
   const nEq=SLOTS.filter(([sl])=>eqIt(c,sl)).length,nAll=SLOTS.filter(([sl])=>!offLocked(c,sl)).length;
   const nowU=upgrades(c,L,ui.ifil),myS=Math.round(eqScore(c)),upS=Math.round(nowU.reduce((a,x)=>a+(x.g||0),0));
   /* 같은 「하나 고르기」 퀘스트 보상이 「지금」과 「곧」에 나뉘어 나오지 않게 */const p1Ex=U=>{const s=new Set();U.forEach(o=>{const q=pickOneQ(o.it);if(q)rwChoices(q).forEach(i=>{if(i!==o.it.id)s.add(i)})});return s};
@@ -2113,7 +2126,7 @@ function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 
   if(gs==='bag'){h+=bagView(c);return h+'</div></div>'}
   if(gs==='fr'){h+=frView(c);return h+'</div></div>'}
   if(gs==='up'||gs==='me'){const seg=(a,cur,opts)=>'<span class="gseg">'+opts.map(o=>'<button class="'+(cur===o[0]?'on':'')+'" data-a="'+a+'" data-k="'+o[0]+'" title="'+esc(o[2]||'')+'">'+gic(o[3])+'<span>'+o[1]+'</span></button>').join('')+'</span>';
-    h+='<div class="gopt">'+dspSeg(c)+seg('ifil',ui.ifil||'ok',IFIL)
+    h+=specMis(c)+'<div class="gopt">'+dspSeg(c)+seg('ifil',ui.ifil||'ok',IFIL)
       +(isTank(c)?seg('tmode',c.tmode||'bal',TMODE):(W[c.cls]||{})[c.spec]&&W[c.cls][c.spec].heal&&SOLO[c.cls]?seg('gmode',c.gmode||'heal',[['heal','힐','파티·던전','img/role-hl.png'],['solo','사냥','혼자 레벨업','img/role-dp.png']]):c.cls==='warrior'&&c.spec==='fury'?seg('wset',c.wset==='2h'?'2h':'dw',WSET):'')+'</div>'}
   if(gs==='up'&&ui.dsp==='2'&&!dspOn(me())&&(c.lv||1)>=40){h+=dspPick(c);return h+'</div></div>'}
   if(gs==='me')h+=slotPanel(c,ui.gslot);
@@ -2123,7 +2136,7 @@ function gear(c){/* 퀘스트 자료가 있어야 다른 직업·호드·이미 
   h+=(PV?setFold(c):setCard(c))+setCmpCard(c);
   h+='<details class="card fold statf"'+(ui.statf?' open':'')+' data-tg="statf"><summary>📊 내 능력치 · 점수 매기는 법</summary>'+prioCard;
   /* 능력치 전체 */
-  const all=Object.keys(tot).sort((a,b)=>(w[b]||0)-(w[a]||0));
+  const all=Object.keys(tot).sort((a,b)=>(w[b]||0)*ty(b)-(w[a]||0)*ty(a));/* 우선순위와 같은 순서 */
   h+='<div class="card"><h3>능력치 합계 (장비)</h3>'+(all.length?'<div class="stats">'+all.map(k=>'<div><span'+(w[k]?'':' class="mute"')+'>'+STAT_KO[k]+'</span><b>'+Math.round(tot[k])+'</b></div>').join('')+'</div>':'<p class="note">장비를 넣으면 합계가 나와요.</p>')
    +'<p class="note">중요한 순서 (위 우선순위와 같음): '+prioLine(c).map(esc).join(' > ')+'</p>'
    +(w.heal&&HEALER_NOTE[c.cls]?'<p class="note">💡 힐러는 레벨업 동안 방어도보다 <b>치유량·지능</b>이 중요해서 천·가죽 옷도 추천에 많이 나와요. 다른 직업과 겹치지 않게 파티에서 미리 얘기해 두세요.</p>':'')+'</div>';
@@ -5402,6 +5415,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
   if(a==='lgv'){c.lgRoute=!c.lgRoute;save();rerender(true);return}
   if(a==='qlrm'){if(c.ql){const was=c.ql[+k];delete c.ql[+k];save();rerender(true);toastUndo('퀘스트창에서 뺐어요 (포기)',()=>{const cc=me();cc.ql=cc.ql||{};cc.ql[+k]=was;save();rerender(true)})}return}
   /* 했는지 모르는 앞 퀘스트: 이미 했어요(끝냄 표시 · 되돌리기) · 나중에 · 다시 보기 */
+  if(a==='specfix'){const was=c.spec;const C=D_CLS[c.cls];if(!C||!C.specs.some(x=>x.id===k))return;c.spec=k;delete c.specAck;save();const S=C.specs.find(x=>x.id===k);toastUndo((S?S.name:k)+' 기준으로 추천해요',()=>{const cc=me();if(!cc)return;cc.spec=was;save();rerender(true)});rerender(true);return}
+  if(a==='specack'){c.specAck=k;save();rerender(true);return}
   if(a==='hitt'){c.hitT=k==='boss'?'boss':'mob';save();rerender(true);return}
   if(a==='unkok'){c.mq=c.mq||{};const id=+k,was=c.mq[id];const X=QDB&&QDB.get(id);c.mq[id]=1;if(c.unkL)delete c.unkL[id];save();toastUndo('「'+((X&&X.n)||'')+'」 끝냄으로 표시 · 이어지는 퀘스트를 단계에 넣었어요',()=>{const cc=me();if(!cc)return;if(was)cc.mq[id]=was;else delete cc.mq[id];save();rerender(true)});rerender(true);return}
   if(a==='unklt'){c.unkL=c.unkL||{};c.unkL[+k]=1;save();rerender(true);return}
