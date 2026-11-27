@@ -505,6 +505,9 @@ def _dq_names(ko):
     return [x for x in out if len(x) > 2]
 
 
+_DQCLS = []  # 직업을 QuestieDB requiredClasses로 채운 던전 퀘스트(빌드 기록용)
+
+
 def _dq_inside(base):
     """던전 퀘스트 나누기 자료 — f[15] 「던전 안에서 해야 함」('1'), f[16] 「어디서 받나」('i' = 이 던전 안 · '' = 밖)
     앱 dqList: 밖에서 받는데 앞 단계에 f[15]인 퀘스트가 있으면 「던전 끝나고 이어서」(첫 판 전엔 못 받음).
@@ -574,6 +577,11 @@ def _dq_inside(base):
             while len(f) < 18: f.append('')
             if qid in DQ_FIX['cls'] and f[14] in ('', '0'):
                 f[14] = str(DQ_FIX['cls'][qid])
+            # 직업 퀘스트: forg 던전 퀘스트 줄엔 직업이 비어 있어 QuestieDB requiredClasses로 (가라앉은 사원 「몰파즈 처치」 마법사 128 · 「부두 깃털」 전사 1 …)
+            #  예전엔 여덟 직업 퀘스트가 모든 직업에게 다 보였음 (사용자 2026-11-27)
+            if f[14] in ('', '0') and isinstance(X.get('cls'), int) and X.get('cls') > 0:
+                f[14] = str(X['cls'])
+                _DQCLS.append(qid)
             f[15] = '1' if ins else ''
             f[16] = sin
             f[17] = DQ_FIX['pre'].get(qid, '')

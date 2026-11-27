@@ -3737,8 +3737,8 @@ html.pdgo,html.pdgo *{cursor:grabbing!important}
 </style></head>
 <body><div id="app"><p class="boot">불러오는 중…</p></div>
 <script>var WFH_PV=1</script>
-<script src="app-data.js?v=7dcca544" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
-<script>/* vec0323 @11/27 10:25 */
+<script src="app-data.js?v=49259174" onerror="document.getElementById('app').innerHTML='<p class=boot>자료를 못 받았어요. 인터넷을 확인한 뒤 <button onclick=location.reload()>다시 열기</button></p>'"></script>
+<script>/* v4fc8c8 @11/27 20:59 */
 const SIM_KO={Moonkin:'조화 · 달빛야수',Bear:'야성 · 곰',Cat:'야성 · 표범',BM:'야수',"MM Weave":'사격',"SV Weave":'생존',Arcane:'비전',Fire:'화염',Default:'보호',"Shadow Testing":'암흑',"Asn Muti":'암살',"Combat SS":'전투',"Subtlety Hemo":'잠행',Testing:'정기',"SM/Ruin":'고통',"Demo (Shadow Brand)":'악마',Destro:'파괴',Arms:'무기',Fury:'분노',Protection:'방어'};
 /* 칸: PVE = 미리보기 주소(preview/) · QA = 실제 사이트의 시험용 칸(?qa) — 둘 다 실제 기록·기기 연동을 안 건드림(SBX) */
 const PVE=typeof WFH_PV!=='undefined'&&!!WFH_PV;
@@ -3746,7 +3746,7 @@ const QA=!PVE&&typeof location!=='undefined'&&/[?&]qa(=|&|$)/.test(location.sear
 const SBX=PVE||QA;
 /* 시험용 칸은 화면 설정(글씨 크기 등)도 따로 — 실제 앱 설정이 바뀌지 않게 */const LSK=k=>QA?'qa_'+k:k;
 const FS_KEY=LSK('wowf_fs'),FS_OPT=[[0.92,'작게'],[1,'보통'],[1.12,'크게'],[1.25,'아주 크게']];function fsGet(){try{return +localStorage.getItem(FS_KEY)||1}catch(e){return 1}}function fsApply(v){document.documentElement.style.setProperty('--fs',String(v));document.documentElement.classList.toggle('fsbig',v>1)}fsApply(fsGet());
-const BUILD='11/27 10:25';
+const BUILD='11/27 20:59';
 'use strict';
 /* ===================== 기본 자료 ===================== */
 const CL=['warrior','paladin','hunter','rogue','priest','shaman','mage','warlock','druid'];
@@ -7410,6 +7410,7 @@ function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
     const pc=preChain(q.id,c),pcl=pc.filter(i=>!mqDone(c,QDB.get(i))).length;
     const af=AFT.get(q),nx=dn?[]:nxtOf(q);
     const exo=dqExOther(d,q,c);const sk=!dn&&QX&&skOut(c,QX)&&!exOut(c,Object.assign({},QX,{sk:null}));const gone=!dn&&!lg&&!sk&&qGone(c,+q.id);const goneBc=gone&&QX&&QX.bc&&((c.ql||{})[QX.bc]||(QDB.get(QX.bc)&&mqDone(c,QDB.get(QX.bc))));/* 직업마다 다른 던전(발타라크 아뮬렛): 내 직업 것만 남았을 때 */const exCls=!exo.length&&q.cls&&dqExOther(d,q).length;
+    /* 직업 퀘스트는 줄 오른쪽 「○○ 직업」 표(qcls) — 가라앉은 사원 여덟 직업 퀘스트는 자료에 직업이 비어 표가 안 붙고 다 보였음(build.py가 QuestieDB로 채움) */
     const tags=(exCls?'<span class="tag aft">직업마다 가는 던전이 달라요 · '+esc(clsWa(c))+' 여기서 해요</span>':'')+(sk?'<span class="tag">'+esc(SKILL_KO[QX.sk[0]]||'전문기술')+' '+QX.sk[1]+' 필요</span>':'')+(gone?'<span class="tag aft">'+(exo.length?'다른 던전에서 이미 했어요 · '+(exo.length+1)+'곳 중 한 곳만':goneBc?'이제 못 받아요 · 이어지는 퀘스트를 이미 받았어요':'이제 못 받아요 · 같이 못 하는 퀘스트를 이미 했어요')+'</span>':exo.length?'<span class="tag aft">'+(exo.length+1)+'곳 중 한 곳만 해요 · 다른 곳: '+exo.map(esc).join(', ')+'</span>':'')+(af&&!dn?'<span class="tag aft">「'+esc(af.nm)+'」 퀘스트를 던전에서 끝내고 반납한 뒤 받아요'+(q.ind?' · 다시 들어가야 해요':'')+'</span>':'')+(nx.length?'<span class="tag aft">끝내면 이어서 「'+nx.map(f=>esc(f.nm)).join('」·「')+'」</span>':'')+(PV&&!dn&&dqRetIn(q,d)?'<span class="tag rin">던전 안에서 반납 · 나오기 전에</span>':'')+(pf&&!af?'<span class="tag pre">먼저 「'+esc(pf.n)+'」</span>':'')+chainTag(q.id,q)+(lock?'<span class="tag">'+mEff+'레벨부터'+(mDif?' (자료마다 '+Math.min(q.min,m2)+'·'+Math.max(q.min,m2)+')':'')+'</span>':'');
     const inside=dqIn(q)||/아이템/.test(q.start||'')||!q.start;
     /* 퀘스트 설명 자료(forg)가 없는 줄(새로 더한 검은아귀 퀘스트 등): 받는 곳 줄에 「NPC · 지역 좌표」를 바로 — 예전엔 「받는 곳: —」 다음 줄에 따로 나왔음 */const sGv=!(QD.get(q.id)||{}).g&&q.start&&/ · /.test(q.start)&&!/^시작 · /.test(q.start)&&!dqIn(q)?q.start:'';
@@ -7417,10 +7418,12 @@ function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
     const rwHtml=rw.length?'<div class="rgrid">'+rw.map(it=>'<button class="rt2" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="rn q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</div>':'';
     const body=(chainOf(q.id)||((QD.get(q.id)||{}).ch||[]).length>1?'':preChainBox(c,q.id))+parch(c,q.id,{nm:q.nm,obj:q.obj,place:inside?'던전 안에서 시작':'던전 외부 시작',tags,extra,rwHtml,done:dn,kind:'dq',ck:String(q.id),pre:q.pre,gv:sGv||(!(QD.get(q.id)||{}).g&&!q.start?'시작 아이템':'')});
     return qFold({key:'d'+q.id,done:dn,lock:lock||gone||sk,lv:q.lv,nm:q.nm,body,sub2:PVE?(af?'「'+af.nm+'」 반납 뒤 · '+gvLine(+q.id):inside?(q.boss.length?'던전 안에서 받아요 · '+q.boss.slice(0,2).map(b=>b.replace(/^(\d+) /,'$1번 ')).join(', '):'던전 안에서 받아요'):gvLine(+q.id)):'',side:(rw.some(it=>usable(it,c)&&((bestSlot(it,c)||{}).g||0)>.01)?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+(lg?'<span class="dqlg'+(lg===2?' rdy':'')+'">'+(lg===2?'🔔 반납 가능':'🎒 받음')+'</span>':'')+(dn&&(c.mq||{})[q.id]&&!(c.dq||{})[q.id]?'<span class="dqlg gm">🎮 게임에서 끝냄</span>':'')+(pc.length&&!dn&&!lg&&!gone?'<span class="pcw'+(pcl?'':' ok')+'">'+(pcl?'⚠️ 앞 연계 '+pcl+'개':'✓ 연계 끝')+'</span>':'')+(q.cls?'<span class="qcls">'+esc((CINFO[c.cls]||[''])[0])+' 직업</span>':'')})};/* 앱은 얼라이언스 전용이라 「얼라이언스」 표시는 뺌 */
+  /* 다른 직업 퀘스트는 목록·던전 준비·보상 추천에서 뺌(dqOf) — 몇 개 뺐는지만 */
+  const othN=d.q.filter(q=>q.side!=='horde'&&q.cls&&!(q.cls&(CLS_BIT[c.cls]||0))).length;const othP=othN?'<p class="note dqoth">다른 직업 퀘스트 '+othN+'개는 뺐어요 — 보상도 추천에 안 나와요.</p>':'';
   if(flat)return dqOf(c,d).map(row).join('');
-  if(PVE)return '<div class="dql3">'+[['1','밖에서 받기','들어가기 전에 받아 두세요',outQ,'o'],['2','던전 안에서 받기','안에서 받고 바로 해요',inQ,'i'],['3','나와서 이어 받기','앞 퀘스트를 반납해야 열려요 · 첫 판 전에는 못 받아요',aftQ,'a']].filter(x=>x[3].length).map(x=>'<div class="dql dql-'+x[4]+'"><div class="dqlh"><span class="n">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[3].length+'개 · '+x[2]+'</small></div>'+x[3].map(row).join('')+'</div>').join('')+'</div>';
+  if(PVE)return '<div class="dql3">'+[['1','밖에서 받기','들어가기 전에 받아 두세요',outQ,'o'],['2','던전 안에서 받기','안에서 받고 바로 해요',inQ,'i'],['3','나와서 이어 받기','앞 퀘스트를 반납해야 열려요 · 첫 판 전에는 못 받아요',aftQ,'a']].filter(x=>x[3].length).map(x=>'<div class="dql dql-'+x[4]+'"><div class="dqlh"><span class="n">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[3].length+'개 · '+x[2]+'</small></div>'+x[3].map(row).join('')+'</div>').join('')+'</div>'+othP;
   return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+outQ.map(row).join(''):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')
-   +(aftQ.length?'<h3>던전 끝나고 이어서</h3><p class="note dqaft">앞 퀘스트를 던전 안에서 끝내고 반납해야 받을 수 있어요. 첫 판 전에는 못 받아요.</p>'+aftQ.map(row).join(''):'')}
+   +(aftQ.length?'<h3>던전 끝나고 이어서</h3><p class="note dqaft">앞 퀘스트를 던전 안에서 끝내고 반납해야 받을 수 있어요. 첫 판 전에는 못 받아요.</p>'+aftQ.map(row).join(''):'')+othP}
 function startTxt(s,kind){if(!s)return '아이템을 주워서 시작';/* 「X · 던전 안」: 받는 곳 줄과 겹치지 않게 NPC면 「던전 안 X에게」, 물건이면 「던전 안에서 「X」(으)로」 */{const m=s.match(/^(.+) · 던전 안$/);if(m&&!/^시작$/.test(m[1])&&kind)return kind==='npc'?'던전 안 '+m[1]+'에게 받아요':'던전 안에서 「'+m[1]+'」'+(w=>{const k=w.charCodeAt(w.length-1)-0xAC00;return k<0||k>=11172?'(으)로':k%28===0||k%28===8?'로':'으로'})(m[1])+' 시작해요'}/* NPC·좌표 없이 물건 이름만 있는 받는 곳(「이해의 조약」) — 예전엔 「받는 곳: 이해의 조약」이라 NPC처럼 보였음 */if(s==='아이템에서 시작')return '아이템을 주워서 시작해요';if(!/ · /.test(s))return '「'+s+'」 아이템을 주워서 시작해요';if(/^시작 · 던전 안/.test(s))return '던전 안에서 받아요';const m=s.match(/^시작 (.+) · 던전 안$/);if(m)return '던전 안 '+m[1]+'에게 받아요';if(/^시작 · /.test(s))return s.replace(/^시작 · /,'')+'에서 시작';return '받는 곳: '+s}
 
 /* ===================== 던전 ===================== */
