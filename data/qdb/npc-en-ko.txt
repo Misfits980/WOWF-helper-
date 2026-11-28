@@ -1170,7 +1170,7 @@ Deathguard Morris|죽음경비병 모리스
 Deathguard Cyrus|죽음경비병 키루스
 Anduin Wrynn|안두인 린
 Highlord Bolvar Fordragon|대영주 볼바르 폴드라곤
-Lady Katrana Prestor|여군주 카트라나 프레스톨
+Lady Katrana Prestor|여군주 오닉시아
 Grand Admiral Jes-Tereth|총사령관 제스테레스
 Mithras Ironhill|미트라 아이언힐
 Caledra Dawnbreeze|칼레드라 다운브리즈
@@ -1273,7 +1273,7 @@ Pyrewood Watcher|장작나무 마을 파수병
 Moonrage Watcher|달의분노일족 정찰꾼
 Moonrage Sentry|달의분노일족 보초
 Pyrewood Sentry|장작나무 마을 보초
-Pyrewood Elder|장작나무 마을 장로
+Pyrewood Elder|달의분노일족 장로
 Moonrage Elder|달의분노일족 장로
 Kelstrum Stonebreaker|켈스트럼 스톤브레이커
 Naga Explorer|나가 탐험가
@@ -3981,7 +3981,7 @@ Land Walker|평지거인
 Cliff Giant|절벽거인
 Shore Strider|성큼걸이 해안거인
 Deep Strider|성큼걸이 바다거인
-Wave Strider|변형된 성큼걸이 파도거인
+Wave Strider|성큼걸이 파도거인
 Northspring Harpy|바람계곡일족 하피
 Northspring Roguefeather|바람계곡일족 약탈자
 Northspring Slayer|바람계곡일족 암살자
@@ -9006,14 +9006,21 @@ Arille Azuregaze|아릴 아주어게이즈
 Karandonna|카란도나
 Darahir|다라히르
 Applebough|왕사과
+"Techs" Rickard Rustbolt|"기술자" 리카드 러스트볼트
+Sai|사이
 Adamman the Trader|상인 아담만
+Shifty Vickers|책략가 빅커스
 Archivist Betha|기록관 베타
+Blazik Fireclaw|블라지크 파이어클로
 Archmage Timear|대마법사 티미어
 Archmage Alvareaux|대마법사 알바로
+"Dapper" Danik Blackshaft|"공병" 다니크 블랙섀프트
+Nixi Fireclaw|닉시 파이어클로
 Christi Stockton|크리스티 스톡톤
 Sandra Bartan|산드라 바르탄
 Afsaneh Asrar|아프사네 아스라르
 Isirami Fairwind|이시라미 페어윈드
+Galkara the Assassin|암살자 갈카라
 Dalaran Citizen|달라란 시민
 Alfred Copperworth|알프레드 코퍼워스
 Archmage Tenaj|대마법사 테나즈
@@ -9115,6 +9122,7 @@ Blackmaw Totemic|검은아귀 토템술사
 Blackmaw Pathfinder|검은아귀 길잡이
 Blackmaw Shaman|검은아귀 주술사
 Blackmaw Ursa|검은아귀 곰전사
+Timbermaw Ally|나무구렁일족
 Dockhand|부두 일꾼
 Commander Truesong|사령관 트루송
 Saria Fairmoon|사리아 페어문
@@ -9294,6 +9302,7 @@ Living Lightning|살아 있는 번개
 Wind Hollow|바람의 유령
 Strange Hermit|수상한 은둔자
 Ornery Galestrider|심술궂은 돌풍타조
+Josie|조시
 Tyrus Blackhorn|타이러스 블랙혼
 Illaya Amberwind|일라야 앰버윈드
 Rathiril Sunlance|라시릴 선랜스
@@ -9304,6 +9313,7 @@ Aedi Thriceforged|에디 스라이스포지드
 Highlands Bandit|고원 좀도둑
 Talia Softglen|탈리아 소프트글렌
 Lucian Trias|루시안 트리아스
+Lizi Silverstone|리지 실버스톤
 Blademaster Ren|검귀 렌
 Fevrath Skyhammer|페브라스 스카이해머
 Commander Cyclas|사령관 사이클라스
@@ -9356,8 +9366,10 @@ Antelariaa Cloudgaze|안텔라리아 클라우드게이즈
 Orsaan Dalewind|오르산 데일윈드
 Alvarion Windfield|알바리온 윈드필드
 Iallion Featherfall|이알리온 페더폴
-Mazzogore the Weak|마조고어
+Mazzogore|마조고어
 Aleister|알레이스터
+Miss Mojo|모조 양
+Twiggy|트위기
 Elaadrin Evengale|엘라드린 에벤게일
 Talaanis Shadowsong|탈라니스 섀도송
 Peacekeeper Elite|평화감시자 정예병
@@ -9365,6 +9377,7 @@ Xy'aaria Streamrunner|자아리아 스트림러너
 Daeann Steelwind|대안 스틸윈드
 Wind Sprite|바람의 요마
 Butterscotch|버터스카치
+Kocha|코차
 Al'Aketh Stormchaser|알아케스 폭풍추격자
 Al'Aketh Footsoldier|알아케스 보병
 Commander Belguilos|사령관 벨길로스
@@ -9554,6 +9567,7 @@ Halligan Turner|핼리건 터너
 Fernfeather|양치깃털
 Belann Windwood|벨란 윈드우드
 Contemplative Bandit|생각에 잠긴 도적
+Raylann|레일란
 Crate of Alchemy Goods|연금술용품 상자
 Crate of Blacksmithing Goods|대장기술용품 상자
 Crate of Enchanting Supplies|마법부여용품 상자
@@ -9665,6 +9679,7 @@ Deathguard Falgan|죽음경비병 팔간
 Ugkragg|우그크래그
 Steed|말
 Hastings|헤이스팅스
+Calliard|칼리아드
 Curious Crow|호기심 많은 까마귀
 Braldir Ashmantle|브랄디르 애시맨틀
 Admiral Lamora|제독 라모라
@@ -9784,6 +9799,7 @@ Renalard|레날라드
 Gul'gash|굴가쉬
 Mika Darby|미카 다비
 Mosh'gra|모쉬그라
+Ivory Galestrider|상아빛 돌풍타조
 Wheatley|휘틀리
 Martha Wellsworth|마사 웰스워스
 Paige Armstrong|페이지 암스트롱
@@ -10010,6 +10026,7 @@ Thylaen|사일렌
 Faladriaal Featherfall|팔라드리알 페더폴
 Knight Jaston Valarias|기사 재스턴 발라리아스
 Sergeant Tobin Wheeldon|하사관 토빈 휠돈
+Seasoned Adventurer|노련한 모험가
 Ajay Green|아제이 그린
 Genn Fairweather|겐 페어웨더
 Swift Umber Galestrider|날쌘 암갈색 돌풍타조
@@ -10024,8 +10041,10 @@ Eric Brighthammer|에릭 브라이트해머
 Enho Runehoof|엔호 룬후프
 Trigg Ironhand|트리그 아이언핸드
 Chagrak Hammerstrike|차그라크 해머스트라이크
+Shok'tara|쇼크타라
 Dendarro|덴다로
 Maruke|마루케
+Elderly War Kodo|늙은 전투 코도
 William Pickman|윌리엄 픽맨
 Escaped Sheep|도망친 양
 Lord Tomas|군주 토마스
@@ -10231,7 +10250,7 @@ Golm|골름
 Falfaan Halfwind|팔판 하프윈드
 Elaria Anvilwind|엘라리아 앤빌윈드
 Taliaa Brightsky|탈리아 브라이트스카이
-Renegade Fire Elemental|사로잡힌 불의 정령
+Captive Fire Elemental|사로잡힌 불의 정령
 Ergaan Eastwind|에르간 이스트윈드
 Wendigo Shaman|웬디고 주술사
 Elder Wendigo|장로 웬디고
@@ -10245,6 +10264,7 @@ Cloudrunner|구름길잡이
 Abbot Schuncke|수도원장 슝케
 Corporal Twohig|하사관 투히그
 Stormscale Beastmistress|폭풍비늘 야수조련사
+Plagued Cockroach|역병 걸린 바퀴벌레
 Undercity Cockroach|언더시티 바퀴벌레
 Valaquenia|발라퀘니아
 Aeigelyges|에이겔리게스
@@ -10343,13 +10363,16 @@ Bob McNaught|밥 맥노트
 Cordy|코디
 Xaya|자야
 Elderwild Alliance Defender|세월숲 얼라이언스 파수병
+Vengeful Guard|복수심에 불타는 경비병
 Ysa'bel Brightwind|이사벨 브라이트윈드
 La'tanja Brightgale|라탄자 브라이트게일
 Kae'la Brightsong|카엘라 브라이트송
 Magus Fansy Goodbringer|학자 팬시 굿브링어
 Bitty Frostflinger|비티 프로스트플링어
 Furious Astranaar Sentinel|분노한 아스트라나르 파수꾼
+Furious Auberdine Sentinel|분노한 아우버다인 파수꾼
 Furious Brave|분노한 용사
+Furious Dolanaar Sentinel|분노한 돌라나르 파수꾼
 Gadgetzan Enforcer|가젯잔 집행자
 Grom'gol Ravager|그롬골 약탈자
 Lakeshire Protector|레이크샤이어 수호병
@@ -10357,6 +10380,7 @@ Ratchet Enforcer|톱니항 집행자
 Revantusk Hunter|레반터스크 사냥꾼
 Enraged Rog'mar Grunt|격노한 로그마 그런트
 Enraged Stonard Grunt|격노한 스토나드 그런트
+Tarren Mill Elite|타렌 밀농장 정예병
 Mesa Brave|고원 용사
 Deathguard Veteran|죽음경비대 역전용사
 Arcane Sentry|비전 파수병
@@ -10482,6 +10506,7 @@ Ravaging Storm Elemental|성난 폭풍의 정령
 Ravaging Quake Elemental|성난 지진의 정령
 Ravaging Flood Elemental|성난 홍수의 정령
 Ravaging Drought Elemental|성난 가뭄의 정령
+Pumpkin|호박
 Hyjal Sentinel|하이잘 파수꾼
 Groundskeeper Lomar|관리인 로마르
 Sulhasa|술하사
@@ -10493,4 +10518,3 @@ Sabella No-Eyes|눈 없는 사벨라
 Tunnelweb Matriarch|땅굴그물 어미
 Old Rusthowl (하이잘 산)|늙은 녹슨울음
 Strashaz Enchantress|스트라샤즈 요술사
-Ironhide Ravasaur|무쇠가죽 라바사우루스

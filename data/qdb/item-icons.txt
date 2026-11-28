@@ -752,3 +752,4 @@
 22090|inv_gauntlets_19|
 22089|inv_chest_plate03|
 22093|inv_shoulder_10|
+252578|inv_boots_chain_13|
