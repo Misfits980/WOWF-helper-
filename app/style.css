@@ -2501,3 +2501,5 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 .specmis{border-color:#8a6d2f}
 .specmis p{margin:0 0 8px;font-size:14px;line-height:1.45}
 .specmis .smb{display:flex;flex-wrap:wrap;gap:6px}
+
+.scroll2 .ft .bk{flex:0 0 auto;padding:0 12px}.scroll2 .ft .bk~.q{flex:0 0 auto;padding:0 16px}/* 「↩ 이전」이 있을 땐 지도를 줄여 「다 했어요」가 한 줄에 들어가게 */.sidev .sdb .bk{padding:0 14px}
