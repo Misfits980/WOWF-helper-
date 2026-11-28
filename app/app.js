@@ -897,10 +897,12 @@ let chx=chainOf(id);
   if(XG&&/^장인의 계약서/.test(XG.n||''))h+='<p class="note"><b>하루 한 번</b> · 같은 계약서는 하루에 한 번, 다른 계약서는 같은 날 따로 낼 수 있어요 <small class="mute">(한국 서버 초기화 시각은 아직 확인 못 했어요)</small></p>'+writQuote(c,XG);
   /* 보상 */
   /* ★ 추천·좋아짐은 장비 탭과 같은 기준: 근접·탱커에게 천(clothNo)은 안 권함 — 예전엔 전사에게 「탄돌 교각」 천 바지가 ★였고 게임 「고를 템」 코드도 그걸 알려 줬음 */
-  const tile=(x,best)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use&&!clothNo(c,it)?bestSlot(it,c):null;
+  /* base.oth = 다른 직업 퀘스트(던전 퀘스트 맨 아래 접힌 칸): 내가 못 받으니 ★ 추천·좋아짐·고를 템 고르기 없이 보기만 */const OTH=!!base.oth;
+  const tile=(x,best)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use&&!clothNo(c,it)&&!OTH?bestSlot(it,c):null;
     return '<button class="rt2'+(best?' best':'')+(it&&!use?' no':'')+'" data-a="'+(it?'info':'')+'" data-k="'+x[0]+'"><span class="ic q-'+x[3]+'" style="background-image:url('+ICO(x[2])+')"></span><span class="rn q'+x[3]+'">'+esc(x[1])+(x[4]>1?' ×'+x[4]:'')+'</span>'+(best?'<span class="rb">★ 추천</span>':b&&b.g>.01?'<span class="rb s">좋아짐</span>':it&&!use?'<span class="rb nx">못 씀</span>':'')+'</button>'};
   if(R.ch||R.fx||R.xp||R.money||R.rep){h+='<h5>보상</h5>';
-    if(R.ch&&R.ch.length){let bi=-1,bg=.01;R.ch.forEach((x,i)=>{const it=IT.get(x[0]);if(it&&usable(it,c)&&!clothNo(c,it)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});
+    if(R.ch&&R.ch.length&&OTH)h+='<p>아래의 보상 중 한 가지를 선택할 수 있습니다:</p><div class="rgrid">'+R.ch.map(x=>tile(x,false)).join('')+'</div>';
+    else if(R.ch&&R.ch.length){let bi=-1,bg=.01;R.ch.forEach((x,i)=>{const it=IT.get(x[0]);if(it&&usable(it,c)&&!clothNo(c,it)){const b=bestSlot(it,c);if(b&&b.g>bg){bg=b.g;bi=i}}});
       /* 보상 카드를 누르면 그게 「고를 템」 (다시 누르면 앱 추천으로) · 템 정보는 오른쪽 ⓘ */
       const pk=(c.rwPick||{})[id];const cur=pk&&R.ch.some(x=>x[0]===pk)?pk:(bi>=0?R.ch[bi][0]:0);
       const ptile=(x,best,on)=>{const it=IT.get(x[0]);const use=it&&usable(it,c);const b=use&&!clothNo(c,it)?bestSlot(it,c):null;
@@ -3704,7 +3706,12 @@ function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
     const body=(chainOf(q.id)||((QD.get(q.id)||{}).ch||[]).length>1?'':preChainBox(c,q.id))+parch(c,q.id,{nm:q.nm,obj:q.obj,place:inside?'던전 안에서 시작':'던전 외부 시작',tags,extra,rwHtml,done:dn,kind:'dq',ck:String(q.id),pre:q.pre,gv:sGv||(!(QD.get(q.id)||{}).g&&!q.start?'시작 아이템':'')});
     return qFold({key:'d'+q.id,done:dn,lock:lock||gone||sk,lv:q.lv,nm:q.nm,body,sub2:PVE?(af?'「'+af.nm+'」 반납 뒤 · '+gvLine(+q.id):inside?(q.boss.length?'던전 안에서 받아요 · '+q.boss.slice(0,2).map(b=>b.replace(/^(\d+) /,'$1번 ')).join(', '):'던전 안에서 받아요'):gvLine(+q.id)):'',side:(rw.some(it=>usable(it,c)&&((bestSlot(it,c)||{}).g||0)>.01)?'<span class="qstar" title="나한테 좋은 장비 보상">⭐</span>':'')+(lg?'<span class="dqlg'+(lg===2?' rdy':'')+'">'+(lg===2?'🔔 반납 가능':'🎒 받음')+'</span>':'')+(dn&&(c.mq||{})[q.id]&&!(c.dq||{})[q.id]?'<span class="dqlg gm">🎮 게임에서 끝냄</span>':'')+(pc.length&&!dn&&!lg&&!gone?'<span class="pcw'+(pcl?'':' ok')+'">'+(pcl?'⚠️ 앞 연계 '+pcl+'개':'✓ 연계 끝')+'</span>':'')+(q.cls?'<span class="qcls">'+esc((CINFO[c.cls]||[''])[0])+' 직업</span>':'')})};/* 앱은 얼라이언스 전용이라 「얼라이언스」 표시는 뺌 */
   /* 다른 직업 퀘스트는 목록·던전 준비·보상 추천에서 뺌(dqOf) — 몇 개 뺐는지만 */
-  const othN=d.q.filter(q=>q.side!=='horde'&&q.cls&&!(q.cls&(CLS_BIT[c.cls]||0))).length;const othP=othN?'<p class="note dqoth">다른 직업 퀘스트 '+othN+'개는 뺐어요 — 보상도 추천에 안 나와요.</p>':'';
+  /* 다른 직업 퀘스트는 맨 아래 접힌 칸에만 — 볼 수는 있게 (사용자 2026-11-29: 「굳이 보여야 하나 싶지만 밑에 빼 두는 게 낫겠다」) · 끝냄 표시·⭐·던전 준비·추천엔 안 들어감 */
+  const oth=d.q.filter(q=>q.side!=='horde'&&q.cls&&!(q.cls&(CLS_BIT[c.cls]||0)));const ck=Object.keys(CLS_BIT);const cn=q=>ck.filter(k=>q.cls&CLS_BIT[k]).map(k=>(CINFO[k]||[k])[0]).join('·');const ci=q=>ck.findIndex(k=>q.cls&CLS_BIT[k]);
+  const othP=oth.length?'<details class="dqoth" data-tg="dqoth"'+(ui.dqoth?' open':'')+'><summary><b>다른 직업 퀘스트 '+oth.length+'개</b><small>내 직업이 아니라 못 받아요 · 보상도 추천에 안 나와요</small><span class="dqoc">⌄</span></summary>'
+    +oth.slice().sort((x,y)=>(ci(x)-ci(y))||((x.lv||0)-(y.lv||0))).map(q=>{const rw=q.rw.map(id=>IT.get(id)).filter(Boolean);const n=cn(q);const inside=dqIn(q)||!q.start;
+      const rwHtml=rw.length?'<div class="rgrid">'+rw.map(it=>'<button class="rt2" data-a="info" data-k="'+it.id+'">'+itIcon(it)+'<span class="rn q'+it.q+'">'+esc(it.nm)+'</span></button>').join('')+'</div>':'';
+      return qFold({key:'do'+q.id,lock:true,lv:q.lv,nm:q.nm,body:parch(c,q.id,{nm:q.nm,obj:q.obj,place:inside?'던전 안에서 시작':'던전 외부 시작',tags:'<span class="tag aft">'+esc(n)+' 전용 · '+esc(clsWa(c))+' 못 받아요</span>',extra:'',rwHtml,kind:'dq',ck:String(q.id),pre:q.pre,oth:1}),sub2:PVE?gvLine(+q.id):'',side:'<span class="qcls oth">'+esc(n)+'</span>'})}).join('')+'</details>':'';
   if(flat)return dqOf(c,d).map(row).join('');
   if(PVE)return '<div class="dql3">'+[['1','밖에서 받기','들어가기 전에 받아 두세요',outQ,'o'],['2','던전 안에서 받기','안에서 받고 바로 해요',inQ,'i'],['3','나와서 이어 받기','앞 퀘스트를 반납해야 열려요 · 첫 판 전에는 못 받아요',aftQ,'a']].filter(x=>x[3].length).map(x=>'<div class="dql dql-'+x[4]+'"><div class="dqlh"><span class="n">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[3].length+'개 · '+x[2]+'</small></div>'+(x[4]==='o'?dqZones(c,x[3],row):x[3].map(row).join(''))+'</div>').join('')+'</div>'+othP;
   return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+dqZones(c,outQ,row):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')

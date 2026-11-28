@@ -2508,3 +2508,9 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 .dqz{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 8px;margin:12px 2px 6px;padding-bottom:3px;border-bottom:1px solid rgba(201,160,74,.28)}.dqz:first-of-type{margin-top:4px}
 .dqz b{font-size:13.5px;color:#f0cf74}.dqz small{color:var(--mute);font-size:11.5px;min-width:0;overflow-wrap:anywhere}
 .dqz.cls{margin-top:16px}.dqz.cls b{color:#8fc7ff}
+/* 다른 직업 퀘스트 — 맨 아래 접힌 칸 */
+.dqoth{margin-top:14px;border-top:1px dashed rgba(201,160,74,.3);padding-top:4px}
+.dqoth>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 8px;padding:8px 2px;min-height:40px;box-sizing:border-box}.dqoth>summary::-webkit-details-marker{display:none}
+.dqoth>summary b{font-size:13.5px;color:#cdb98a}.dqoth>summary small{color:var(--mute);font-size:11.5px;flex:1 1 180px;min-width:0}
+.dqoth .dqoc{margin-left:auto;color:#e0c47a;font-size:18px;line-height:1;transition:transform .15s;align-self:center}.dqoth[open]>summary .dqoc{transform:rotate(180deg)}
+.dqoth .qf{opacity:.75}.qf .qs .qcls.oth{color:#cdb98a}
