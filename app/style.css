@@ -2503,3 +2503,8 @@ h4.pfg{margin:12px 0 4px;font-size:13px;color:#e8c06a}h4.pfg small{font-weight:4
 .specmis .smb{display:flex;flex-wrap:wrap;gap:6px}
 
 .scroll2 .ft .bk{flex:0 0 auto;padding:0 12px}.scroll2 .ft .bk~.q{flex:0 0 auto;padding:0 16px}/* 「↩ 이전」이 있을 땐 지도를 줄여 「다 했어요」가 한 줄에 들어가게 */.sidev .sdb .bk{padding:0 14px}
+
+/* 던전 가기 전에 받기 — 받는 곳별 묶음 · 직업 퀘스트 */
+.dqz{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 8px;margin:12px 2px 6px;padding-bottom:3px;border-bottom:1px solid rgba(201,160,74,.28)}.dqz:first-of-type{margin-top:4px}
+.dqz b{font-size:13.5px;color:#f0cf74}.dqz small{color:var(--mute);font-size:11.5px;min-width:0;overflow-wrap:anywhere}
+.dqz.cls{margin-top:16px}.dqz.cls b{color:#8fc7ff}

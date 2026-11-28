@@ -3675,6 +3675,18 @@ function dqExOther(d,q,c){const X=QDB&&QDB.get(+q.id);if(!X||!X.ex||!X.ex.length
 function clsWa(c){const n=(CINFO[c.cls]||[''])[0];if(!n)return '내 직업은';const k=n.charCodeAt(n.length-1)-0xAC00;return n+(k>=0&&k<11172&&k%28?'은':'는')}
 /* 반납하는 곳이 이 던전 안인 퀘스트(퀘스트 자료 r[1] = 던전 이름) — 나오기 전에 끝내야 함 */
 function dqRetIn(q,d){const o=QDB&&QDB.get(+q.id);return !!(o&&o.r&&d&&o.r[1]===d.ko)}
+/* 「던전 가기 전에 받기」를 받는 곳(지역)별로 묶고 직업 퀘스트는 맨 아래 따로 (사용자 2026-11-29: 직업퀘·일반퀘가 받는 곳 상관없이 레벨 순서도 없이 섞여 있었음)
+   지역 = 퀘스트 주는 NPC가 있는 곳(gvLine과 같은 자료). 퀘스트 많은 지역부터, 같으면 낮은 레벨부터 · 지역 안에선 같은 NPC끼리 */
+function dqZoneOf(q){const d=QD.get(+q.id)||{};const X=QDB&&QDB.get(+q.id);const g=d.g&&d.g[0]?d.g:(X&&X.g);let z=g&&g[1],n=g&&g[0];
+  if(!z){const m=(q.start||'').match(/^(.+?) · (.+?)(?: [\d.]+, [\d.]+)?$/);if(m){n=n||m[1];z=m[2]}}if(n&&latin(n)&&d.g){const k=npcKo(d,'g');if(k&&!latin(k))n=k}/* NPC 없이 물건 이름만(검은바위 첨탑 「블랙핸드의 명령서」): 물건으로 시작 */if(!z&&q.start&&!/ · /.test(q.start))return {z:'물건을 주워서 시작',n:q.start};return {z:z||'그 밖',n:n||''}}
+function dqZones(c,qs,row){if(!qs.length)return '';const cq=qs.filter(q=>q.cls),gq=qs.filter(q=>!q.cls);const M=new Map();
+  gq.forEach(q=>{const o=dqZoneOf(q);if(!M.has(o.z))M.set(o.z,[]);M.get(o.z).push([q,o.n])});
+  const nlv=a=>{const L={};a.forEach(([q,n])=>{L[n]=Math.min(L[n]??99,q.lv||0)});return L};
+  const srt=a=>{const L=nlv(a);return a.sort((x,y)=>(L[x[1]]-L[y[1]])||x[1].localeCompare(y[1])||((x[0].lv||0)-(y[0].lv||0)))};
+  const G=[...M.entries()].map(([z,a])=>[z,srt(a)]).sort((x,y)=>(y[1].length-x[1].length)||(Math.min(...x[1].map(r=>r[0].lv||0))-Math.min(...y[1].map(r=>r[0].lv||0))));
+  const hd=(t,n,cl,sub)=>'<div class="dqz'+(cl?' '+cl:'')+'"><b>'+esc(t)+'</b><small>'+n+'개'+(sub?' · '+esc(sub):'')+'</small></div>';
+  return G.map(([z,a])=>hd(z,a.length,'',[...new Set(a.map(r=>r[1]).filter(Boolean))].join(', '))+a.map(r=>row(r[0])).join('')).join('')
+   +(cq.length?hd(((CINFO[c.cls]||[''])[0]||'내')+' 직업 퀘스트',cq.length,'cls',[...new Set(cq.map(q=>dqZoneOf(q).z))].join(', '))+cq.slice().sort((x,y)=>(x.lv||0)-(y.lv||0)).map(row).join(''):'')}
 function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
   const outQ0=dqOf(c,d).filter(q=>!dqIn(q)&&q.start),inQ=dqOf(c,d).filter(q=>dqIn(q)||!q.start);
   const AFT=new Map(outQ0.map(q=>[q,dqAft(c,d,q)]).filter(x=>x[1]));const outQ=outQ0.filter(q=>!AFT.has(q)),aftQ=outQ0.filter(q=>AFT.has(q));
@@ -3694,8 +3706,8 @@ function dqList(c,d,flat){const L=c.lv;const dq=c.dq||{};
   /* 다른 직업 퀘스트는 목록·던전 준비·보상 추천에서 뺌(dqOf) — 몇 개 뺐는지만 */
   const othN=d.q.filter(q=>q.side!=='horde'&&q.cls&&!(q.cls&(CLS_BIT[c.cls]||0))).length;const othP=othN?'<p class="note dqoth">다른 직업 퀘스트 '+othN+'개는 뺐어요 — 보상도 추천에 안 나와요.</p>':'';
   if(flat)return dqOf(c,d).map(row).join('');
-  if(PVE)return '<div class="dql3">'+[['1','밖에서 받기','들어가기 전에 받아 두세요',outQ,'o'],['2','던전 안에서 받기','안에서 받고 바로 해요',inQ,'i'],['3','나와서 이어 받기','앞 퀘스트를 반납해야 열려요 · 첫 판 전에는 못 받아요',aftQ,'a']].filter(x=>x[3].length).map(x=>'<div class="dql dql-'+x[4]+'"><div class="dqlh"><span class="n">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[3].length+'개 · '+x[2]+'</small></div>'+x[3].map(row).join('')+'</div>').join('')+'</div>'+othP;
-  return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+outQ.map(row).join(''):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')
+  if(PVE)return '<div class="dql3">'+[['1','밖에서 받기','들어가기 전에 받아 두세요',outQ,'o'],['2','던전 안에서 받기','안에서 받고 바로 해요',inQ,'i'],['3','나와서 이어 받기','앞 퀘스트를 반납해야 열려요 · 첫 판 전에는 못 받아요',aftQ,'a']].filter(x=>x[3].length).map(x=>'<div class="dql dql-'+x[4]+'"><div class="dqlh"><span class="n">'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[3].length+'개 · '+x[2]+'</small></div>'+(x[4]==='o'?dqZones(c,x[3],row):x[3].map(row).join(''))+'</div>').join('')+'</div>'+othP;
+  return (outQ.length?'<h3>던전 가기 전에 받기</h3>'+dqZones(c,outQ,row):'')+(inQ.length?'<h3>던전 안에서 시작</h3>'+inQ.map(row).join(''):'')
    +(aftQ.length?'<h3>던전 끝나고 이어서</h3><p class="note dqaft">앞 퀘스트를 던전 안에서 끝내고 반납해야 받을 수 있어요. 첫 판 전에는 못 받아요.</p>'+aftQ.map(row).join(''):'')+othP}
 function startTxt(s,kind){if(!s)return '아이템을 주워서 시작';/* 「X · 던전 안」: 받는 곳 줄과 겹치지 않게 NPC면 「던전 안 X에게」, 물건이면 「던전 안에서 「X」(으)로」 */{const m=s.match(/^(.+) · 던전 안$/);if(m&&!/^시작$/.test(m[1])&&kind)return kind==='npc'?'던전 안 '+m[1]+'에게 받아요':'던전 안에서 「'+m[1]+'」'+(w=>{const k=w.charCodeAt(w.length-1)-0xAC00;return k<0||k>=11172?'(으)로':k%28===0||k%28===8?'로':'으로'})(m[1])+' 시작해요'}/* NPC·좌표 없이 물건 이름만 있는 받는 곳(「이해의 조약」) — 예전엔 「받는 곳: 이해의 조약」이라 NPC처럼 보였음 */if(s==='아이템에서 시작')return '아이템을 주워서 시작해요';if(!/ · /.test(s))return '「'+s+'」 아이템을 주워서 시작해요';if(/^시작 · 던전 안/.test(s))return '던전 안에서 받아요';const m=s.match(/^시작 (.+) · 던전 안$/);if(m)return '던전 안 '+m[1]+'에게 받아요';if(/^시작 · /.test(s))return s.replace(/^시작 · /,'')+'에서 시작';return '받는 곳: '+s}
 
